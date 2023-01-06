@@ -15,6 +15,7 @@ class Report_Parser:
         self.stats_dict['version'] = self.get_busco_version(self.file_data)
         self.stats_dict['lineage'] = self.get_lineage_dataset(self.file_data)
         self.stats_dict['created'] = self.get_creation_date(self.file_data)
+        self.stats_dict['augustus_species'] = self.get_augustus_species(self.file_data)
         self.stats_dict['mode'] = self.get_run_mode(self.file_data)
         self.stats_dict['predictor'] = self.get_gene_predictor(self.file_data)
         self.stats_dict['search_percentages'] = self.get_busco_percentages(
@@ -37,6 +38,14 @@ class Report_Parser:
         p = re.compile("The lineage dataset is: (.*)")
         result = p.search(data).group(1).split()[0]
         return result
+
+    def get_augustus_species(self, file_data):
+        list_of_lines = file_data.split('\n')
+        length_of_list = len(list_of_lines)
+        for index, line in enumerate(list_of_lines):
+            if index == length_of_list - 1:
+                augustus_species = list_of_lines[length_of_list - 2]
+                return augustus_species
 
     def get_creation_date(self, data):
         p = re.compile("The lineage dataset is: (.*)")
@@ -67,7 +76,7 @@ class Report_Parser:
         for index, line in enumerate(list_of_lines):
             if "Dependencies and versions" in line:
                 all_deps = "".join(
-                    list_of_lines[max(0, index + 1): len(list_of_lines)]).replace('\t', '\n').strip()
+                    list_of_lines[max(0, index + 1): len(list_of_lines)-2]).replace('\t', '\n').strip()
 
         dep_dict = {}
         for dep in all_deps.splitlines():
@@ -79,7 +88,7 @@ class Report_Parser:
 
         col_names = ["Dependency", "Version"]
         table = tabulate(df, headers=col_names,
-                         tablefmt="html", numalign="left", showindex=False)
+                            tablefmt="html", numalign="left", showindex=False)
         return table
 
     def get_busco_result_table(self, file_data):

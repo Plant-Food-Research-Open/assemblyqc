@@ -36,6 +36,7 @@ process create_report {
 
   script:
     """
+    echo ${params.augustus_species} >> $buscoOutput
     source "$launchDir/venv/bin/activate"
     cat $buscoOutput | report.py > report.html
     """ 

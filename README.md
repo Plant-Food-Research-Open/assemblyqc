@@ -6,31 +6,43 @@ Welcome to the Assembly QC report generator. This software is a Nextflow pipelin
 
 # Installation
 
-1. Copy the Github repository URL and run the following in your project folder:
+1. Copy the Github repository URL and run the following in your target folder:
 
 ```
 $ git clone https://github.com/PlantandFoodResearch/assembly_qc.git
 ```
 
-2. Create the Python virtual environment (venv) in the same directory:
+2. Navigate into the project
+
+```
+$ cd assembly_qc/
+```
+
+3. Create input_data folder
+
+```
+$ mkdir input_data
+```
+
+4. Create the Python virtual environment (venv):
 
 ```
 $ python3 -m venv venv
 ```
 
-3. Activate the Python virtual environment:
+5. Activate the Python virtual environment:
 
 ```
 $ source venv/bin/activate
 ```
 
-4. Download the Python dependencies:
+6. Download the Python dependencies:
 
 ```
 $ pip install -r requirements.txt
 ```
 
-5. Deactivate the virtual environment:
+7. Deactivate the virtual environment:
 
 ```
 $ deactivate
@@ -40,21 +52,18 @@ $ deactivate
 
 # Getting sample data
 
-In order to retrieve a sample of data to test the pipeline, SSH into PowerPlant and run the following bash script into your terminal:
+In order to retrieve dummy data to test the pipeline with, run the following:
 
 ```
-$ seqkit sample -p 0.05 /workspace/hraczw/github/Karaka-genomics/09.hifiasm_phasing/karaka_phasing.hic.hap1.p_ctg.fa > {path_to_your_project}/input_data/test_sample.fa
+$ cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_rs324p/v1/Nd324_canupilon_all.sorted.renamed.fasta \
+./input_data/test_data.fasta
 ```
 
-You may adjust the size of the sample by changing the number from '0.05' to your desired size. For example, running the following will give you a sample of 10%:
-
-```
-$ seqkit sample -p 0.10 ...
-```
+The data will now be in the input_data folder. It will be named test_data.fasta.
 
 <br>
 
-# Usage
+# Running the Pipeline
 
 1. Load the required Nextflow module:
 
@@ -68,13 +77,13 @@ $ ml nextflow/22.10.4
 $ nextflow main.nf
 ```
 
-The test data should take about 4-5 minutes to run. When the pipeline has finished running you will see the output of "Complete!" in the terminal along with the standard BUSCO output.
+The test data will take around 15 minutes to run. When the pipeline has finished running you will see the output of "Complete!" in the terminal along with the standard BUSCO output.
 
 You will now see a results folder which will contain a file named 'report.html' and can be opened in Live Server.
 
 ---
 
-Note: If you are using the sampled test data as shown in the previous section, it will be found in the input_data folder. If you are using your own data, please place it into the input_data folder. You will need to update the inputFilePath value in the nextflow.config file to match the path to the sample data. The nextflow.config file also contains the parameters for the BUSCO search which can be changed to suit the user.
+Note: If you are using your own data, please place it into the input_data folder. You will need to update the inputFilePath value in the nextflow.config file to match the path to your data. The nextflow.config file also contains the parameters for the BUSCO search which can be changed to suit the user.
 
 ---
 

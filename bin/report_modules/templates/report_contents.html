@@ -6,12 +6,12 @@
   <div class="software-type">BUSCO</div>
 </div>
 
-    <!-- <div class="lineage-wrapper">
-      <div class="lineage">
-        <span class="lineage-span">Lineage searched against:</span>
-        {{ lineage }}
-      </div>
-    </div> -->
+<div class="lineage-wrapper">
+  <div class="lineage">
+    <span class="lineage-span">Lineage searched against:</span>
+    {{ lineage }}
+  </div>
+</div>
 
 <div class="parameters-section">
   <div class="section-heading-wrapper">
@@ -37,8 +37,12 @@
             <td>{{ lineage }}</td>
           </tr>
           <tr>
-            <td style="text-align: left">created</td>
+            <td style="text-align: left">Lineage create on</td>
             <td>{{ created }}</td>
+          </tr>
+          <tr>
+            <td style="text-align: left">Augustus Species</td>
+            <td>{{ augustus_species }}</td>
           </tr>
           <tr>
             <td style="text-align: left">mode</td>
