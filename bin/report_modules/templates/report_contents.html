@@ -1,0 +1,88 @@
+<div class="report_header_wrapper">
+  <div class="report_header">Assembly QC Results</div>
+</div>
+
+<div class="software-type-wrapper">
+  <div class="software-type">BUSCO</div>
+</div>
+
+    <!-- <div class="lineage-wrapper">
+      <div class="lineage">
+        <span class="lineage-span">Lineage searched against:</span>
+        {{ lineage }}
+      </div>
+    </div> -->
+
+<div class="parameters-section">
+  <div class="section-heading-wrapper">
+    <div class="section-heading">Parameters and Dependencies</div>
+  </div>
+
+  <div class="table-outer">
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th style="text-align: left">Parameter</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="text-align: left">Version</td>
+            <td>{{ version }}</td>
+          </tr>
+          <tr>
+            <td style="text-align: left">Lineage</td>
+            <td>{{ lineage }}</td>
+          </tr>
+          <tr>
+            <td style="text-align: left">created</td>
+            <td>{{ created }}</td>
+          </tr>
+          <tr>
+            <td style="text-align: left">mode</td>
+            <td>{{ mode }}</td>
+          </tr>
+          <tr>
+            <td style="text-align: left">predictor</td>
+            <td>{{ predictor }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="table-outer">
+    <div class="table-wrapper">{{ dependencies }}</div>
+  </div>
+</div>
+
+<div class="results-section">
+  <div class="section-heading-wrapper">
+    <div class="section-heading">Results</div>
+  </div>
+
+  <div class="table-outer">
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th style="text-align: left">Event</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="text-align: left">Search Percentages</td>
+            <td>{{ search_percentages }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="table-outer">
+    <div class="table-wrapper">{{ results_table }}</div>
+  </div>
+</div>
