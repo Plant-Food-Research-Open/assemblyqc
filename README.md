@@ -8,7 +8,7 @@
   - [Installation](#installation)
   - [Getting sample data](#getting-sample-data)
   - [Running the Pipeline](#running-the-pipeline)
-- [Final notes](#final-notes)
+  - [Final notes](#final-notes)
 
 ## Introduction
 
@@ -95,6 +95,6 @@ After running the pipeline, if you wish to clean up the logs and work folder, yo
 $ ./cleanNXF.sh
 ```
 
-# Final notes
+## Final notes
 
 This tool is designed to make your life easier. If you have any suggestions for improvements please feel free to contact me to discuss!
