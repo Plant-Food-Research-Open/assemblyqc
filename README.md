@@ -79,11 +79,11 @@ $ nextflow main.nf
 
 The test data will take around 15 minutes to run. When the pipeline has finished running you will see the output of "Complete!" in the terminal along with the standard BUSCO output.
 
-You will now see a results folder which will contain a file named 'report.html' and can be opened in Live Server.
+You will now see a results folder which will contain a file named 'report.html' and can be opened in your browser.
 
 ---
 
-Note: If you are using your own data, please place it into the input_data folder. You will need to update the inputFilePath value in the nextflow.config file to match the path to your data. The nextflow.config file also contains the parameters for the BUSCO search which can be changed to suit the user.
+Note: If you are using your own data, please place it into the input_data folder. You will need to update the 'inputFilePath' value in the nextflow.config file to match the path to your data. The nextflow.config file also contains the parameters for the BUSCO search which can be changed to suit the user.
 
 ---
 
@@ -92,3 +92,9 @@ After running the pipeline, if you wish to clean up the logs and work folder, yo
 ```
 $ ./cleanNXF.sh
 ```
+
+<br>
+
+# Final notes
+
+This tool is designed to make your life easier. If you have any suggestions for improvements please feel free to contact me to discuss!
