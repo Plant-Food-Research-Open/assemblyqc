@@ -10,6 +10,7 @@ work/
 *.dot
 
 busco_downloads
+busco_outputs
 
 Results/
 results/

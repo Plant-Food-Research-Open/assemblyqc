@@ -13,5 +13,4 @@ class Report_Printer:
 
     def print_template(self, stats):
         template = self.env.get_template('base.html')
-        output = template.render(**stats)
-        print(output)
+        print(template.render(all_stats_dicts=stats))
