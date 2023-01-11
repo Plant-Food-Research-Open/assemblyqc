@@ -5,47 +5,56 @@ nextflow.enable.dsl=2
 process busco {
   container "quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0"
 
+  tag "${lineage_dataset}: ${input_file.name}"
+
   input:
-    path inputFile
+    path input_file
+    each lineage_dataset
   
   output:
-    path 'hap1/*hap1.txt'
+    path "hap1/short_summary.specific.${lineage_dataset}.hap1.txt"
 
   script: 
+  output_name = input_file.baseName
+
     """
     busco \
     -m ${params.mode} \
     -o hap1 \
-    -i $inputFile \
-    -l ${params.lineage_dataset} \
+    -i $input_file \
+    -l ${lineage_dataset} \
     --augustus_species ${params.augustus_species} \
     --update-data \
-    -c 8 \
+    -c 8 
+
+    echo "${params.augustus_species}" >> "hap1/short_summary.specific.${lineage_dataset}.hap1.txt"
     """
+
 }
 
-process create_report {
+process createReport {
 
   publishDir params.outdir.main, mode: 'copy'
 
-  input:
-    path buscoOutput
+  input: 
+    path "short_summary.*", stageAs: 'busco_outputs/*'
 
   output:
     path 'report.html'
 
   script:
     """
-    echo ${params.augustus_species} >> $buscoOutput
     source "$launchDir/venv/bin/activate"
-    cat $buscoOutput | report.py > report.html
+    report.py > report.html
     """ 
 }
 
 workflow {
-  Channel.fromPath(params.inputFilePath) 
-  | busco
-  | create_report
+  input_files = Channel.fromPath(params.input_files)
+  
+  busco( input_files, params.lineage_datasets )
+  | collect
+  | createReport
 }
 
 workflow.onComplete {

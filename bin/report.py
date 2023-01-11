@@ -3,9 +3,11 @@
 from report_modules.utils.report_utils import Report_Printer
 from report_modules.utils.parsing_utils import Report_Parser
 from pathlib import Path
+import os
 
-projectDir = "/".join(__file__.split("/")[0:-2])
-path = Path(f"{projectDir}/busco_outputs")
+
+dir = os.getcwdb().decode()
+path = Path(f"{dir}/busco_outputs")
 list_of_files = path.glob('*.txt')
 
 file_data_array = []
@@ -26,17 +28,3 @@ for index, file_data in enumerate(file_data_array):
 if __name__ == '__main__':
     report_printer = Report_Printer()
     report_template = report_printer.print_template(all_stats_dicts)
-
-
-
-
-
-
-# if __name__ == '__main__':
-#     parser = Report_Parser(file_data)
-#     stats_dict = parser.parse_report()
-
-#     report_printer = Report_Printer()
-#     report_printer.print_template(stats_dict)
-
-# use file inputs instead of stdin
