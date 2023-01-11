@@ -2,7 +2,7 @@
 
 nextflow.enable.dsl=2
 
-process busco {
+process BUSCO {
   container "quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0"
 
   tag "${lineage_dataset}: ${input_file.name}"
@@ -32,7 +32,7 @@ process busco {
 
 }
 
-process createReport {
+process CREATE_REPORT {
 
   publishDir params.outdir.main, mode: 'copy'
 
@@ -50,11 +50,11 @@ process createReport {
 }
 
 workflow {
-  input_files = Channel.fromPath(params.input_files)
+  ch_input_files = Channel.fromPath(params.input_files)
   
-  busco( input_files, params.lineage_datasets )
+  BUSCO( input_files, params.lineage_datasets )
   | collect
-  | createReport
+  | CREATE_REPORT
 }
 
 workflow.onComplete {

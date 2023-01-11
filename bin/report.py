@@ -11,9 +11,9 @@ path = Path(f"{dir}/busco_outputs")
 list_of_files = path.glob('*.txt')
 
 file_data_array = []
-for data in list_of_files:
+for file in list_of_files:
     file_data = ""
-    with open(data, 'r') as file:
+    with open(file, 'r') as file:
         lines = file.readlines()
         for line in lines:
             file_data += line
