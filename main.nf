@@ -52,7 +52,7 @@ process CREATE_REPORT {
 workflow {
   ch_input_files = Channel.fromPath(params.input_files)
   
-  BUSCO( input_files, params.lineage_datasets )
+  BUSCO( ch_input_files, params.lineage_datasets )
   | collect
   | CREATE_REPORT
 }

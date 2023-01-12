@@ -1,0 +1,12 @@
+<div class="tabs_wrapper">
+  <div class="tab">
+    {% set str_lin = 'lineage' %} {% for item in all_stats_dicts %}
+    <button
+      class="tablinks"
+      onclick="openTab(event, '{{ all_stats_dicts[item][str_lin] }}')"
+    >
+      {{ all_stats_dicts[item][str_lin] }}
+    </button>
+    {% endfor %}
+  </div>
+</div>
