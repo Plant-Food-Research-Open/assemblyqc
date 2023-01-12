@@ -85,7 +85,9 @@ You will now see a results folder which will contain a file named 'report.html' 
 
 ---
 
-:memo: Note: If you are using your own data, please place it into the input_data folder. You will need to update the inputFilePath value in the nextflow.config file to match the path to your data. The nextflow.config file also contains the parameters for the BUSCO search which can be changed to suit the user.
+:memo: Note: If you are using your own data, please place it into the input_data folder. You will need to update the "input_files" value in the nextflow.config file to match the path to your data.
+
+The nextflow.config file also contains the parameters for the BUSCO search which can be changed to suit the user. For example, if you wish to include multiple lineage datasets against which to test your data, simply add "YOUR_LINEAGE_DATASET" to the lineage_datasets parameter, separated by commas.
 
 ---
 
