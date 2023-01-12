@@ -4,3 +4,4 @@
 2. Removed intermediary outputDir
 3. Standardised naming conventions across the tool
 4. Updated README for new functionality
+5. Change report.html layout to tab view
