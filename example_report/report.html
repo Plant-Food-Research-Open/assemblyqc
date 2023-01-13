@@ -1,0 +1,451 @@
+<html>
+  <head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,700;1,900&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+      font-family: "Roboto", "san-serif";
+    }
+
+    .report_header_wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgb(0, 0, 0);
+      opacity: 75%;
+      width: 100%;
+      height: 52px;
+    }
+
+    .report_header {
+      font-weight: 600;
+      font-size: 24px;
+      vertical-align: middle;
+      color: white;
+    }
+
+    .software-type-wrapper {
+      width: 40%;
+      min-width: 700px;
+      margin: auto;
+    }
+
+    .software-type {
+      padding-top: 16px;
+      font-size: 24px;
+      font-weight: 500;
+    }
+
+    .lineage {
+      margin: 10px 0px;
+      font-size: 20px;
+      font-weight: 400;
+    }
+
+    .lineage-wrapper {
+      width: 40%;
+      min-width: 700px;
+
+      margin: auto;
+    }
+
+    .lineage-span {
+      font-weight: 500;
+    }
+
+    .results_wrapper {
+      padding: 8px 32px;
+    }
+
+    .parameters-section {
+      margin-bottom: 32px;
+    }
+
+    .results-section {
+      margin-bottom: 16px;
+    }
+
+    .table-wrapper {
+      width: 40%;
+      min-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 32px;
+    }
+
+    table {
+      border-collapse: collapse;
+      font-size: 0.9em;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+      width: 100%;
+      table-layout: fixed;
+    }
+
+    table thead tr {
+      background-color: rgb(0, 0, 0);
+      color: #ffffff;
+      text-align: left;
+      opacity: 75%;
+    }
+
+    th,
+    td {
+      padding: 12px 15px;
+      text-align: left;
+    }
+
+    table td:nth-child(1) {
+      text-transform: capitalize;
+      font-weight: 500;
+    }
+
+    th:hover {
+      cursor: pointer;
+    }
+
+    td:hover {
+      cursor: pointer;
+      background-color: rgb(200, 200, 200);
+      scale: 1.05;
+      transition: 0.15s;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid #dddddd;
+    }
+
+    tbody tr:nth-of-type(even) {
+      background-color: #f3f3f3;
+    }
+
+    .section-heading {
+      color: #777777;
+      padding: 16px 0px;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .section-heading-wrapper {
+      width: 40%;
+      min-width: 700px;
+      margin: auto;
+    }
+
+    .tab {
+      overflow: hidden;
+      border: 1px solid #ccc;
+      background-color: #f1f1f1;
+      align-items: center;
+      padding: 5px;
+      margin-top: 10px;
+    }
+
+    .tab button {
+      background-color: inherit;
+      float: left;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 14px 16px;
+      transition: 0.3s;
+      font-size: 17px;
+    }
+
+    .tab button:hover {
+      background-color: #ddd;
+    }
+
+    .tab button.active {
+      background-color: #ccc;
+    }
+
+    .tabcontent {
+      display: none;
+      padding: 6px 12px;
+      border: 1px solid #ccc;
+      border-top: none;
+    }
+
+    .tabs_wrapper {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media only screen and (max-width: 900px) {
+      .software-type {
+        text-align: center;
+      }
+    }
+  </style>
+  <title>Assembly QC Results</title>
+</head>
+
+<div class="report_header_wrapper">
+  <div class="report_header">Assembly QC Results</div>
+</div>
+  <body>
+    <div class="software-type-wrapper">
+      <div class="software-type">BUSCO</div>
+    </div>
+    <div class="lineage-wrapper">
+      <div class="lineage">
+        <span class="lineage-span">Lineage searched against:</span>
+      </div>
+    </div>
+    <div class="tabs_wrapper">
+  <div class="tab">
+       
+    <button
+      class="tablinks active "
+      onclick="openTab(event, 'fungi_odb10')"
+    >
+      fungi_odb10
+    </button>
+      
+    <button
+      class="tablinks inactive "
+      onclick="openTab(event, 'microsporidia_odb10')"
+    >
+      microsporidia_odb10
+    </button>
+     
+  </div>
+</div>   
+<div
+  id="fungi_odb10"
+  class="tabcontent"
+  style="display: block"
+>
+  <div class="results-section">
+    <div class="section-heading-wrapper">
+      <div class="section-heading">Results</div>
+    </div>
+
+    <div class="table-outer">
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th style="text-align: left">Event</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="text-align: left">Search Percentages</td>
+              <td>C:98.6%[S:97.9%,D:0.7%],F:0.3%,M:1.1%,n:758</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="table-outer">
+      <div class="table-wrapper">
+        <table>
+<thead>
+<tr><th>Event                              </th><th>Frequency  </th></tr>
+</thead>
+<tbody>
+<tr><td>Complete BUSCOs (C)                </td><td>747        </td></tr>
+<tr><td>Complete and single-copy BUSCOs (S)</td><td>742        </td></tr>
+<tr><td>Complete and duplicated BUSCOs (D) </td><td>5          </td></tr>
+<tr><td>Fragmented BUSCOs (F)              </td><td>2          </td></tr>
+<tr><td>Missing BUSCOs (M)                 </td><td>9          </td></tr>
+<tr><td>Total BUSCO groups searched        </td><td>758        </td></tr>
+</tbody>
+</table>
+      </div>
+    </div>
+  </div>
+
+  <div class="parameters-section">
+    <div class="section-heading-wrapper">
+      <div class="section-heading">Parameters and Dependencies</div>
+    </div>
+
+    <div class="table-outer">
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th style="text-align: left">Parameter</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="text-align: left">Version</td>
+              <td>5.2.2</td>
+            </tr>
+            <tr>
+              <td style="text-align: left">Lineage create on</td>
+              <td>2021-06-28</td>
+            </tr>
+            <tr>
+              <td style="text-align: left">Augustus Species</td>
+              <td>fumigatus</td>
+            </tr>
+            <tr>
+              <td style="text-align: left">mode</td>
+              <td>genome</td>
+            </tr>
+            <tr>
+              <td style="text-align: left">predictor</td>
+              <td>metaeuk</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="table-outer">
+      <div class="table-wrapper">
+        <table>
+<thead>
+<tr><th>Dependency  </th><th>Version  </th></tr>
+</thead>
+<tbody>
+<tr><td>hmmsearch   </td><td>3.1      </td></tr>
+<tr><td>metaeuk     </td><td>4.a0f584d</td></tr>
+</tbody>
+</table>
+      </div>
+    </div>
+  </div>
+</div>
+  
+<div
+  id="microsporidia_odb10"
+  class="tabcontent"
+  style="display: none"
+>
+  <div class="results-section">
+    <div class="section-heading-wrapper">
+      <div class="section-heading">Results</div>
+    </div>
+
+    <div class="table-outer">
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th style="text-align: left">Event</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="text-align: left">Search Percentages</td>
+              <td>C:36.1%[S:32.8%,D:3.3%],F:5.0%,M:58.9%,n:600</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="table-outer">
+      <div class="table-wrapper">
+        <table>
+<thead>
+<tr><th>Event                              </th><th>Frequency  </th></tr>
+</thead>
+<tbody>
+<tr><td>Complete BUSCOs (C)                </td><td>217        </td></tr>
+<tr><td>Complete and single-copy BUSCOs (S)</td><td>197        </td></tr>
+<tr><td>Complete and duplicated BUSCOs (D) </td><td>20         </td></tr>
+<tr><td>Fragmented BUSCOs (F)              </td><td>30         </td></tr>
+<tr><td>Missing BUSCOs (M)                 </td><td>353        </td></tr>
+<tr><td>Total BUSCO groups searched        </td><td>600        </td></tr>
+</tbody>
+</table>
+      </div>
+    </div>
+  </div>
+
+  <div class="parameters-section">
+    <div class="section-heading-wrapper">
+      <div class="section-heading">Parameters and Dependencies</div>
+    </div>
+
+    <div class="table-outer">
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th style="text-align: left">Parameter</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="text-align: left">Version</td>
+              <td>5.2.2</td>
+            </tr>
+            <tr>
+              <td style="text-align: left">Lineage create on</td>
+              <td>2020-08-05</td>
+            </tr>
+            <tr>
+              <td style="text-align: left">Augustus Species</td>
+              <td>fumigatus</td>
+            </tr>
+            <tr>
+              <td style="text-align: left">mode</td>
+              <td>genome</td>
+            </tr>
+            <tr>
+              <td style="text-align: left">predictor</td>
+              <td>metaeuk</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="table-outer">
+      <div class="table-wrapper">
+        <table>
+<thead>
+<tr><th>Dependency  </th><th>Version  </th></tr>
+</thead>
+<tbody>
+<tr><td>hmmsearch   </td><td>3.1      </td></tr>
+<tr><td>metaeuk     </td><td>4.a0f584d</td></tr>
+</tbody>
+</table>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+  </body>
+  <script>
+  function openTab(evt, lineage) {
+    var tabcontent = document.getElementsByClassName("tabcontent");
+    for (var i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+
+    var tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    document.getElementById(lineage).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
+</script>
+</html>

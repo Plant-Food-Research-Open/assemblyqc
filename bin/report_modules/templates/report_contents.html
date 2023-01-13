@@ -1,67 +1,10 @@
-{% for item in all_stats_dicts %}
-<div id="{{all_stats_dicts[item]['lineage']}}" class="tabcontent">
-  <div class="software-type-wrapper">
-    <div class="software-type">BUSCO</div>
-  </div>
-
-  <div class="lineage-wrapper">
-    <div class="lineage">
-      <span class="lineage-span">Lineage searched against:</span>
-      {{ all_stats_dicts[item]['lineage'] }}
-    </div>
-  </div>
-
-  <div class="parameters-section">
-    <div class="section-heading-wrapper">
-      <div class="section-heading">Parameters and Dependencies</div>
-    </div>
-
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th style="text-align: left">Parameter</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="text-align: left">Version</td>
-              <td>{{ all_stats_dicts[item]['version'] }}</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">Lineage</td>
-              <td>{{ all_stats_dicts[item]['lineage'] }}</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">Lineage create on</td>
-              <td>{{ all_stats_dicts[item]['created'] }}</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">Augustus Species</td>
-              <td>{{ all_stats_dicts[item]['augustus_species'] }}</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">mode</td>
-              <td>{{ all_stats_dicts[item]['mode'] }}</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">predictor</td>
-              <td>{{ all_stats_dicts[item]['predictor'] }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="table-outer">
-      <div class="table-wrapper">
-        {{ all_stats_dicts[item]['dependencies'] }}
-      </div>
-    </div>
-  </div>
-
+{% set vars = {'is_first': True} %} {% for item in all_stats_dicts %} {% set
+active_text = 'display: block' if vars.is_first else 'display: none' %}
+<div
+  id="{{all_stats_dicts[item]['lineage']}}"
+  class="tabcontent"
+  style="{{ active_text }}"
+>
   <div class="results-section">
     <div class="section-heading-wrapper">
       <div class="section-heading">Results</div>
@@ -92,5 +35,52 @@
       </div>
     </div>
   </div>
+
+  <div class="parameters-section">
+    <div class="section-heading-wrapper">
+      <div class="section-heading">Parameters and Dependencies</div>
+    </div>
+
+    <div class="table-outer">
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th style="text-align: left">Parameter</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="text-align: left">Version</td>
+              <td>{{ all_stats_dicts[item]['version'] }}</td>
+            </tr>
+            <tr>
+              <td style="text-align: left">Lineage create on</td>
+              <td>{{ all_stats_dicts[item]['created'] }}</td>
+            </tr>
+            <tr>
+              <td style="text-align: left">Augustus Species</td>
+              <td>{{ all_stats_dicts[item]['augustus_species'] }}</td>
+            </tr>
+            <tr>
+              <td style="text-align: left">mode</td>
+              <td>{{ all_stats_dicts[item]['mode'] }}</td>
+            </tr>
+            <tr>
+              <td style="text-align: left">predictor</td>
+              <td>{{ all_stats_dicts[item]['predictor'] }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="table-outer">
+      <div class="table-wrapper">
+        {{ all_stats_dicts[item]['dependencies'] }}
+      </div>
+    </div>
+  </div>
 </div>
-{% endfor %}
+{% if vars.update({'is_first': False}) %} {% endif %} {% endfor %}

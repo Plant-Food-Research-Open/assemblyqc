@@ -83,6 +83,8 @@ The test data will take around 15 minutes to run. When the pipeline has finished
 
 You will now see a results folder which will contain a file named 'report.html' and can be viewed on the [powerPlant storage server](https://storage.powerplant.pfr.co.nz).
 
+An example report.html file can be found in the [example_report](./example_report/) folder.
+
 ---
 
 :memo: Note: If you are using your own data, please place it into the input_data folder. You will need to update the "input_files" value in the nextflow.config file to match the path to your data.

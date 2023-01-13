@@ -9,8 +9,7 @@ nextflow
 work/
 *.dot
 
-busco_downloads
-busco_outputs
+busco_data
 
 Results/
 results/

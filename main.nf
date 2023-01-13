@@ -25,7 +25,8 @@ process BUSCO {
     -l ${lineage_dataset} \
     --augustus_species ${params.augustus_species} \
     --update-data \
-    -c 8 
+    --download_path "$launchDir/busco_data" \
+    -c ${task.cpus} 
 
     echo "${params.augustus_species}" >> "hap1/short_summary.specific.${lineage_dataset}.hap1.txt"
     """

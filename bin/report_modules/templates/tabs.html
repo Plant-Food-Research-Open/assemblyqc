@@ -1,12 +1,14 @@
 <div class="tabs_wrapper">
   <div class="tab">
-    {% set str_lin = 'lineage' %} {% for item in all_stats_dicts %}
+    {% set vars = {'is_first': True} %} {% set str_lin = 'lineage' %} {% for
+    item in all_stats_dicts %} {% set active_text = 'active' if vars.is_first
+    else 'inactive' %}
     <button
-      class="tablinks"
+      class="tablinks {{ active_text }} {{is_first}}"
       onclick="openTab(event, '{{ all_stats_dicts[item][str_lin] }}')"
     >
       {{ all_stats_dicts[item][str_lin] }}
     </button>
-    {% endfor %}
+    {% if vars.update({'is_first': False}) %} {% endif %} {% endfor %}
   </div>
 </div>
