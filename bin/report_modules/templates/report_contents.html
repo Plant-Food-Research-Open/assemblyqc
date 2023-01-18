@@ -1,7 +1,8 @@
-{% set vars = {'is_first': True} %} {% for item in all_stats_dicts %} {% set
-active_text = 'display: block' if vars.is_first else 'display: none' %}
+{% set vars = {'is_first': True} %} {% for item in
+range(all_stats_dicts["BUSCO"]|length) %} {% set active_text = 'display: block'
+if vars.is_first else 'display: none' %}
 <div
-  id="{{all_stats_dicts[item]['lineage']}}"
+  id="{{all_stats_dicts['BUSCO'][item]['lineage']}}"
   class="tabcontent"
   style="{{ active_text }}"
 >
@@ -22,7 +23,9 @@ active_text = 'display: block' if vars.is_first else 'display: none' %}
           <tbody>
             <tr>
               <td style="text-align: left">Search Percentages</td>
-              <td>{{ all_stats_dicts[item]['search_percentages'] }}</td>
+              <td>
+                {{ all_stats_dicts['BUSCO'][item]['search_percentages'] }}
+              </td>
             </tr>
           </tbody>
         </table>
@@ -31,7 +34,7 @@ active_text = 'display: block' if vars.is_first else 'display: none' %}
 
     <div class="table-outer">
       <div class="table-wrapper">
-        {{ all_stats_dicts[item]['results_table'] }}
+        {{ all_stats_dicts['BUSCO'][item]['results_table'] }}
       </div>
     </div>
   </div>
@@ -53,23 +56,23 @@ active_text = 'display: block' if vars.is_first else 'display: none' %}
           <tbody>
             <tr>
               <td style="text-align: left">Version</td>
-              <td>{{ all_stats_dicts[item]['version'] }}</td>
+              <td>{{ all_stats_dicts['BUSCO'][item]['version'] }}</td>
             </tr>
             <tr>
               <td style="text-align: left">Lineage create on</td>
-              <td>{{ all_stats_dicts[item]['created'] }}</td>
+              <td>{{ all_stats_dicts['BUSCO'][item]['created'] }}</td>
             </tr>
             <tr>
               <td style="text-align: left">Augustus Species</td>
-              <td>{{ all_stats_dicts[item]['augustus_species'] }}</td>
+              <td>{{ all_stats_dicts['BUSCO'][item]['augustus_species'] }}</td>
             </tr>
             <tr>
               <td style="text-align: left">mode</td>
-              <td>{{ all_stats_dicts[item]['mode'] }}</td>
+              <td>{{ all_stats_dicts['BUSCO'][item]['mode'] }}</td>
             </tr>
             <tr>
               <td style="text-align: left">predictor</td>
-              <td>{{ all_stats_dicts[item]['predictor'] }}</td>
+              <td>{{ all_stats_dicts['BUSCO'][item]['predictor'] }}</td>
             </tr>
           </tbody>
         </table>
@@ -78,7 +81,7 @@ active_text = 'display: block' if vars.is_first else 'display: none' %}
 
     <div class="table-outer">
       <div class="table-wrapper">
-        {{ all_stats_dicts[item]['dependencies'] }}
+        {{ all_stats_dicts['BUSCO'][item]['dependencies'] }}
       </div>
     </div>
   </div>
