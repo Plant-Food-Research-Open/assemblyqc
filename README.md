@@ -1,3 +1,5 @@
+# THIS IS A BAD CHANGE THAT SHOULD NOPT BE ACCEPTED
+
 # Assembly QC Report Generator
 
 ## Table of Contents
