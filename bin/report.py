@@ -10,7 +10,7 @@ import re
 def load_busco_data():
 
     dir = os.getcwdb().decode()
-    path = Path(f"{dir}/busco_outputs")
+    path = Path(f'{dir}/busco_outputs')
     list_of_files = path.glob('*.txt')
 
     data = {"BUSCO": []}
