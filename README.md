@@ -28,36 +28,12 @@ $ git clone https://github.com/PlantandFoodResearch/assembly_qc.git
 $ cd assembly_qc/
 ```
 
-3. Create the Python virtual environment using pfr-python3.9 (venv):
-
-```bash
-$ ml pfr-python3/3.9.13
-$ python3 -m venv venv
-```
-
-4. Activate the Python virtual environment:
-
-```bash
-$ source venv/bin/activate
-```
-
-5. Download the Python dependencies:
-
-```bash
-$ pip install -r requirements.txt
-```
-
-6. Deactivate the virtual environment:
-
-```bash
-$ deactivate
-```
-
 ## Getting sample data
 
 In order to retrieve dummy data to test the pipeline with, run the following:
 
 ```bash
+$ ml seqkit
 $ mkdir input_data
 $ cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_rs324p/v1/Nd324_canupilon_all.sorted.renamed.fasta \
 ./input_data/test_data.fasta
@@ -68,10 +44,12 @@ Two sets of data will now be in the input_data folder. They will be named test_d
 
 ## Running the Pipeline
 
-1. Load the required Nextflow module:
+1. Load the required modules:
 
 ```bash
-$ ml nextflow/22.10.4
+$ ml singularity
+$ ml conda
+$ ml nextflow
 ```
 
 2. Run the pipeline:
