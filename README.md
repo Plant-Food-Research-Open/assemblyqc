@@ -12,7 +12,7 @@
 
 ## Introduction
 
-Welcome to the Assembly QC report generator. This software is a Nextflow pipeline that can be used to perform BUSCO searches on fasta data and will generate an easy-to-read html report. This is a preliminary release, more capabilities will be added in the future.
+Welcome to the Assembly QC report generator. This software is a Nextflow pipeline that can be used to perform BUSCO searches on fasta data and will generate an easy-to-read html report. More capabilities will be added in the future.
 
 ## Installation
 
@@ -28,49 +28,28 @@ $ git clone https://github.com/PlantandFoodResearch/assembly_qc.git
 $ cd assembly_qc/
 ```
 
-3. Create the Python virtual environment using pfr-python3.9 (venv):
-
-```bash
-$ ml pfr-python3/3.9.13
-$ python3 -m venv venv
-```
-
-4. Activate the Python virtual environment:
-
-```bash
-$ source venv/bin/activate
-```
-
-5. Download the Python dependencies:
-
-```bash
-$ pip install -r requirements.txt
-```
-
-6. Deactivate the virtual environment:
-
-```bash
-$ deactivate
-```
-
 ## Getting sample data
 
 In order to retrieve dummy data to test the pipeline with, run the following:
 
 ```bash
+$ ml seqkit
 $ mkdir input_data
 $ cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_rs324p/v1/Nd324_canupilon_all.sorted.renamed.fasta \
 ./input_data/test_data.fasta
+$ seqkit sample -p 0.9 ./input_data/test_data.fasta > ./input_data/test_data2.fasta
 ```
 
-The data will now be in the input_data folder. It will be named test_data.fasta.
+Two sets of data will now be in the input_data folder. They will be named test_data.fasta and test_data2.fasta
 
 ## Running the Pipeline
 
-1. Load the required Nextflow module:
+1. Load the required modules:
 
 ```bash
-$ ml nextflow/22.10.4
+$ ml singularity
+$ ml conda
+$ ml nextflow
 ```
 
 2. Run the pipeline:
@@ -87,7 +66,7 @@ An example report.html file can be found in the [example_report](./example_repor
 
 ---
 
-:memo: Note: If you are using your own data, please place it into the input_data folder. You will need to update the "input_files" value in the nextflow.config file to match the path to your data.
+:memo: Note: If you are using your own data, please place it into the input_data folder. You will need to update the "input_files" value in the nextflow.config file to match the paths to your data. To include multiple input files, simply add ["NAME", "YOUR_INPUT_FILE"] to the input_files parameter, separated by commas. The "NAME" portion will be how BUSCO identifies your input file.
 
 The nextflow.config file also contains the parameters for the BUSCO search which can be changed to suit the user. For example, if you wish to include multiple lineage datasets against which to test your data, simply add "YOUR_LINEAGE_DATASET" to the lineage_datasets parameter, separated by commas.
 

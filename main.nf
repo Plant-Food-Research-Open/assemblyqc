@@ -8,11 +8,10 @@ process BUSCO {
   tag "${lineage_dataset}: ${input_file.name}"
 
   input:
-    path input_file
-    each lineage_dataset
+    tuple val (lineage_dataset), val(hap_name), path(input_file)
   
   output:
-    path "hap1/short_summary.specific.${lineage_dataset}.hap1.txt"
+    path "${hap_name}/short_summary.specific.${lineage_dataset}.${hap_name}.txt"
 
   script: 
   output_name = input_file.baseName
@@ -20,7 +19,7 @@ process BUSCO {
     """
     busco \
     -m ${params.mode} \
-    -o hap1 \
+    -o ${hap_name} \
     -i $input_file \
     -l ${lineage_dataset} \
     --augustus_species ${params.augustus_species} \
@@ -28,12 +27,14 @@ process BUSCO {
     --download_path "$launchDir/busco_data" \
     -c ${task.cpus} 
 
-    echo "${params.augustus_species}" >> "hap1/short_summary.specific.${lineage_dataset}.hap1.txt"
+    echo "${params.augustus_species}" >> "${hap_name}/short_summary.specific.${lineage_dataset}.${hap_name}.txt"
     """
 
 }
 
 process CREATE_REPORT {
+
+  conda 'environment.yml'
 
   publishDir params.outdir.main, mode: 'copy'
 
@@ -45,15 +46,14 @@ process CREATE_REPORT {
 
   script:
     """
-    source "$launchDir/venv/bin/activate"
     report.py > report.html
     """ 
 }
 
 workflow {
-  ch_input_files = Channel.fromPath(params.input_files)
-  
-  BUSCO( ch_input_files, params.lineage_datasets )
+  Channel.fromList(params.lineage_datasets)
+  .combine(Channel.fromList( params.input_files ))
+  | BUSCO
   | collect
   | CREATE_REPORT
 }
