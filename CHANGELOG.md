@@ -1,4 +1,4 @@
-# Version 0.3 ()
+# Version 0.3 (7cad22b)
 
 1. Added ability to run BUSCO for multiple haplotypes simultaneously
 2. Updated README for new functionality
