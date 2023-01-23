@@ -3,6 +3,7 @@
 1. Added ability to run BUSCO for multiple haplotypes simultaneously
 2. Updated README for new functionality
 3. Adjusted styling for easier comparisons between reports
+4. Incorporated conda instead of python venv
 
 # Version 0.2 (21c1be8)
 
