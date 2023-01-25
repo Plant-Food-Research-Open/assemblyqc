@@ -1,10 +1,8 @@
-{% set vars = {'is_first': True} %} {% for item in
-range(all_stats_dicts["BUSCO"]|length) %} {% set active_text = 'display: block'
-if vars.is_first else 'display: none' %}
+{% for item in range(all_stats_dicts["BUSCO"]|length) %}
 <div
   id="{{all_stats_dicts['BUSCO'][item]['lineage']}}"
   class="tabcontent"
-  style="{{ active_text }}"
+  style="display: none"
 >
   <div class="results-section">
     <div class="section-heading-wrapper">
@@ -86,4 +84,4 @@ if vars.is_first else 'display: none' %}
     </div>
   </div>
 </div>
-{% if vars.update({'is_first': False}) %} {% endif %} {% endfor %}
+{% endfor %}

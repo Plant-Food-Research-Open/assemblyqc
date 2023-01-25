@@ -9,7 +9,10 @@
         <span class="lineage-span">Haplotype: Lineage</span>
       </div>
     </div>
-    {% include 'tabs.html' %} {% include 'report_contents.html' %}
+    <div class="tabs_outer_wrapper">
+      <div class="tabs_wrapper">{% include 'tabs.html' %}</div>
+    </div>
+    {% include 'summary_contents.html' %} {% include 'report_contents.html' %}
   </body>
   {% include 'js.html' %}
 </html>

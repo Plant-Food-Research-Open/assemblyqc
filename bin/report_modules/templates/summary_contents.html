@@ -1,0 +1,34 @@
+<div id="summary" class="tabcontent" style="display: block">
+  <div class="results-section">
+    <div class="section-heading-wrapper">
+      <div class="section-heading">Summary</div>
+    </div>
+
+    <div class="table-outer">
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th style="text-align: left">Haplotype: Lineage</th>
+              <th>Percentages</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in range(all_stats_dicts["BUSCO"]|length) %}
+
+            <tr>
+              <td style="text-align: left">
+                {{ all_stats_dicts['BUSCO'][item]['hap'] }}: {{
+                all_stats_dicts['BUSCO'][item]['lineage'] }}
+              </td>
+              <td>
+                {{ all_stats_dicts['BUSCO'][item]['search_percentages'] }}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
