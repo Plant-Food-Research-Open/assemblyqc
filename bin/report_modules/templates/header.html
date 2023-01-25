@@ -148,10 +148,10 @@
       border: 1px solid gray;
       outline: none;
       cursor: pointer;
-      padding: 14px 16px;
+      padding: 16px 12px;
       margin: 2px;
       transition: 0.3s;
-      font-size: 15px;
+      font-size: 14px;
     }
 
     .tab button:hover {
@@ -169,9 +169,18 @@
       border-top: none;
     }
 
+    .tab {
+      text-overflow: clip;
+    }
+
+    .tabs_outer_wrapper {
+      width: 60%;
+      margin: auto;
+    }
+
     .tabs_wrapper {
       width: 100%;
-      margin: auto;
+      flex-wrap: wrap;
       display: flex;
       align-items: center;
       justify-content: center;
