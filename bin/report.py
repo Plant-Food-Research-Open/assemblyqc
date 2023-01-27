@@ -18,10 +18,10 @@ def load_busco_data():
     busco_plot_paths = path_to_plots.glob("*.png")
 
     for plot_path in busco_plot_paths:
-        binary_fc = open(plot_path, 'rb').read()
-        base64_utf8_str = base64.b64encode(binary_fc).decode('utf-8')
-        ext = str(plot_path).split('.')[-1]
-        busco_plot_url = f'data:image/{ext};base64,{base64_utf8_str}'
+        binary_fc = open(plot_path, "rb").read()
+        base64_utf8_str = base64.b64encode(binary_fc).decode("utf-8")
+        ext = str(plot_path).split(".")[-1]
+        busco_plot_url = f"data:image/{ext};base64,{base64_utf8_str}"
         # busco_plot_path = "/".join(str(plot_path).split("/")[2:])
 
     data = {"BUSCO": []}
@@ -34,12 +34,13 @@ def load_busco_data():
                 file_data += line
         parser = Report_Parser(file_data)
         file_tokens = re.findall(
-            r"short_summary.specific.([a-zA-Z0-9_]+).([a-zA-Z0-9]+)_([a-zA-Z0-9]+).txt",
+            r"short_summary.specific.([a-zA-Z0-9_]+).([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+).txt",
             os.path.basename(str(file)),
         )[0]
         stats = {
             "hap": file_tokens[1],
             "lineage": file_tokens[0],
+            "augustus_species": file_tokens[3],
             "busco_plot": busco_plot_url,
             **parser.parse_report(),
         }

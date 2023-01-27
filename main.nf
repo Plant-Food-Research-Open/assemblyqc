@@ -8,10 +8,10 @@ process BUSCO {
   tag "${lineage_dataset}: ${input_file.name}"
 
   input:
-    tuple val (lineage_dataset), val(hap_name), path(input_file)
+    tuple val (lineage_dataset), val(hap_name), path(input_file), val(augustus_species)
   
   output:
-    path "${hap_name}/short_summary.specific.${lineage_dataset}.${hap_name}_${lineage_split}.txt"
+    path "${hap_name}/short_summary.specific.${lineage_dataset}.${hap_name}_${lineage_split}_${augustus_species}.txt"
 
 
   script:
@@ -26,13 +26,13 @@ process BUSCO {
     -o ${hap_name} \
     -i $input_file \
     -l ${lineage_dataset} \
-    --augustus_species ${params.augustus_species} \
+    --augustus_species ${augustus_species} \
     --update-data \
     --download_path "${params.download_path}" \
     -c ${task.cpus} 
 
     echo "${params.augustus_species}" >> "${hap_name}/short_summary.specific.${lineage_dataset}.${hap_name}.txt"
-    mv "${hap_name}/short_summary.specific.${lineage_dataset}.${hap_name}.txt" "${hap_name}/short_summary.specific.${lineage_dataset}.${hap_name}_${lineage_split}.txt"
+    mv "${hap_name}/short_summary.specific.${lineage_dataset}.${hap_name}.txt" "${hap_name}/short_summary.specific.${lineage_dataset}.${hap_name}_${lineage_split}_${augustus_species}.txt"
     """
 }
 
@@ -74,8 +74,9 @@ process CREATE_REPORT {
 workflow {
   Channel.fromList(params.lineage_datasets)
   .combine(Channel.fromList( params.input_files ))
+  .combine(Channel.fromList( params.augustus_species ))
   .map {
-    return [it[0], it[1], file(it[2], checkIfExists: true)]
+    return [it[0], it[1], file(it[2], checkIfExists: true), it[3]]
   }
   | BUSCO
   | collect
