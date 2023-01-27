@@ -11,10 +11,14 @@ process BUSCO {
     tuple val (lineage_dataset), val(hap_name), path(input_file)
   
   output:
-    path "${hap_name}/short_summary.specific.${lineage_dataset}.${hap_name}.txt"
+    path "${hap_name}/short_summary.specific.${lineage_dataset}.${hap_name}_${lineage_split}.txt"
 
-  script: 
-  output_name = input_file.baseName
+
+  script:
+    lineage_to_split = "${lineage_dataset}";
+    parts = lineage_to_split.split("_");
+    lineage_split = parts[0];
+  
 
     """
     busco \
@@ -24,12 +28,28 @@ process BUSCO {
     -l ${lineage_dataset} \
     --augustus_species ${params.augustus_species} \
     --update-data \
-    --download_path "$launchDir/busco_data" \
+    --download_path "${params.download_path}" \
     -c ${task.cpus} 
 
     echo "${params.augustus_species}" >> "${hap_name}/short_summary.specific.${lineage_dataset}.${hap_name}.txt"
+    mv "${hap_name}/short_summary.specific.${lineage_dataset}.${hap_name}.txt" "${hap_name}/short_summary.specific.${lineage_dataset}.${hap_name}_${lineage_split}.txt"
     """
+}
 
+process CREATE_PLOT {
+
+  container "quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0"
+
+  input: 
+    path "short_summary.*", stageAs: 'busco_outputs/*'
+
+  output:
+    path 'busco_outputs/*.png'
+
+  script:
+    """
+    generate_plot.py -wd ./busco_outputs
+    """ 
 }
 
 process CREATE_REPORT {
@@ -38,8 +58,9 @@ process CREATE_REPORT {
 
   publishDir params.outdir.main, mode: 'copy'
 
-  input: 
+  input:
     path "short_summary.*", stageAs: 'busco_outputs/*'
+    path plot_png
 
   output:
     path 'report.html'
@@ -53,9 +74,17 @@ process CREATE_REPORT {
 workflow {
   Channel.fromList(params.lineage_datasets)
   .combine(Channel.fromList( params.input_files ))
+  .map {
+    return [it[0], it[1], file(it[2], checkIfExists: true)]
+  }
   | BUSCO
   | collect
-  | CREATE_REPORT
+  | set {ch_busco_summaries}
+  
+  CREATE_PLOT(ch_busco_summaries)
+  .set { ch_busco_plot }
+
+  CREATE_REPORT(ch_busco_summaries, ch_busco_plot)
 }
 
 workflow.onComplete {
