@@ -1,16 +1,13 @@
 <script>
-  function openTab(evt, lineage) {
-    var tabcontent = document.getElementsByClassName("tabcontent");
-    for (var i = 0; i < tabcontent.length; i++) {
-      tabcontent[i].style.display = "none";
+  function showContent() {
+    var content_blocks = document.getElementsByClassName("tabcontent");
+    for (var i = 0; i < content_blocks.length; i++) {
+      content_blocks[i].style.display = "none";
     }
 
-    var tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-      tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
+    var drop_down_list = document.getElementById("selector");
+    content_id = drop_down_list.options[drop_down_list.selectedIndex].value;
 
-    document.getElementById(lineage).style.display = "block";
-    evt.currentTarget.className += " active";
+    document.getElementById(content_id).style.display = "block";
   }
 </script>
