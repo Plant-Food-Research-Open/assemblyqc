@@ -49,18 +49,18 @@ Two sets of data will now be in the input_data folder. They will be named test_d
 1. Load the required modules:
 
 ```bash
-$ ml singularity
-$ ml conda
-$ ml nextflow
+$ apptainer/1.1
+$ ml conda/22.9.0
+$ ml nextflow/22.10.4
 ```
 
 2. Run the pipeline:
 
 ```bash
-$ nextflow main.nf
+$ nextflow main.nf -profile slurm
 ```
 
-The test data will take around 15 minutes to run. When the pipeline has finished running you will see the output of "Complete!" in the terminal along with the standard BUSCO output.
+The test data will take around 15 minutes to run. When the pipeline has finished running you will see the output of "Complete!" in the terminal.
 
 You will now see a results folder which will contain a file named 'report.html' and can be viewed on the [powerPlant storage server](https://storage.powerplant.pfr.co.nz).
 
@@ -68,9 +68,7 @@ An example report.html file can be found in the [example_report](./example_repor
 
 ---
 
-:memo: Note: If you are using your own data, please place it into the input_data folder. You will need to update the "input_files" value in the nextflow.config file to match the paths to your data. To include multiple input files, simply add ["NAME", "YOUR_INPUT_FILE"] to the input_files parameter, separated by commas. The "NAME" portion will be how BUSCO identifies your input file.
-
-The nextflow.config file also contains the parameters for the BUSCO search which can be changed to suit the user. For example, if you wish to include multiple lineage datasets against which to test your data, simply add "YOUR_LINEAGE_DATASET" to the lineage_datasets parameter, separated by commas.
+:memo: Note: If you are using your own data, uou will need to update the "haplotype_fasta" value in the nextflow.config file to match the paths to your data. To include multiple input files, simply add ["NAME", "YOUR_INPUT_FASTA"] to the haplotype_fasta parameter, separated by commas.
 
 ---
 
