@@ -19,7 +19,6 @@ results/
 
 *.sif
 
-*.fa
-*.fasta
-
 to-do-list.md
+
+test_data/

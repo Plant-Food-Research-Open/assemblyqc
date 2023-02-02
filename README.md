@@ -33,16 +33,14 @@ $ cd assembly_qc/
 In order to retrieve dummy data to test the pipeline with, run the following:
 
 ```bash
-$ ml seqkit
-$ mkdir input_data
+$ ml seqkit/0.7.0
+$ mkdir test_data
 $ cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_rs324p/v1/Nd324_canupilon_all.sorted.renamed.fasta \
-./input_data/test_data_original.fasta
-$ seqkit sample -p 0.5 ./input_data/test_data_original.fasta > ./input_data/test_data1.fasta
-$ seqkit sample -p 0.5 ./input_data/test_data_original.fasta > ./input_data/test_data2.fasta
-$ rm ./input_data/test_data_original.fasta
+./test_data/test_data_original.fasta
+$ seqkit sample -p 0.25 -s 33 ./test_data/test_data_original.fasta > ./test_data/test_data1.fasta
+$ seqkit sample -p 0.25 -s 49 ./test_data/test_data_original.fasta > ./test_data/test_data2.fasta
+$ rm ./test_data/test_data_original.fasta
 ```
-
-Two sets of data will now be in the input_data folder. They will be named test_data.fasta and test_data2.fasta
 
 ## Running the Pipeline
 
