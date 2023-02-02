@@ -71,21 +71,42 @@ process CREATE_REPORT {
     """ 
 }
 
-workflow {
-  Channel.fromList(params.lineage_datasets)
-  .combine(Channel.fromList( params.input_files ))
-  .combine(Channel.fromList( params.augustus_species ))
-  .map {
-    return [it[0], it[1], file(it[2], checkIfExists: true), it[3]]
-  }
-  | BUSCO
-  | collect
-  | set {ch_busco_summaries}
-  
-  CREATE_PLOT(ch_busco_summaries)
-  .set { ch_busco_plot }
+process TIDK {
 
-  CREATE_REPORT(ch_busco_summaries, ch_busco_plot)
+  conda 'environment_tidk.yml'
+
+  publishDir params.outdir.main, mode: 'copy'
+
+  input:
+    path input_file
+
+  output:
+    path 'test_dist.tsv'
+
+  script:
+    """
+    tidk find -f ${input_file} -c lepidoptera -o tidk_test
+    """
+}
+
+workflow {
+  // Channel.fromList(params.lineage_datasets)
+  // .combine(Channel.fromList( params.input_files ))
+  // .combine(Channel.fromList( params.augustus_species ))
+  // .map {
+  //   return [it[0], it[1], file(it[2], checkIfExists: true), it[3]]
+  // }
+  // | BUSCO
+  // | collect
+  // | set {ch_busco_summaries}
+  
+  // CREATE_PLOT(ch_busco_summaries)
+  // .set { ch_busco_plot }
+
+  // CREATE_REPORT(ch_busco_summaries, ch_busco_plot)
+
+  Channel.fromPath(params.tidk_input)
+  | TIDK
 }
 
 workflow.onComplete {
