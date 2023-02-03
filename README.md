@@ -8,6 +8,7 @@
   - [Installation](#installation)
   - [Getting sample data](#getting-sample-data)
   - [Running the Pipeline](#running-the-pipeline)
+  - [Software Versions](#software-versions)
   - [Final notes](#final-notes)
 
 ## Introduction
@@ -47,7 +48,7 @@ $ rm ./test_data/test_data_original.fasta
 1. Load the required modules:
 
 ```bash
-$ apptainer/1.1
+$ ml apptainer/1.1
 $ ml conda/22.9.0
 $ ml nextflow/22.10.4
 ```
@@ -75,6 +76,10 @@ After running the pipeline, if you wish to clean up the logs and work folder, yo
 ```bash
 $ ./cleanNXF.sh
 ```
+
+## Software Versions
+
+- BUSCO: quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0
 
 ## Final notes
 

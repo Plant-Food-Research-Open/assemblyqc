@@ -2,7 +2,9 @@ name: assembly-qc-pipeline-env
 channels:
   - defaults
   - conda-forge
+  - bioconda
 dependencies:
+  - tidk=0.2.1
   - python=3.11
   - pip
   - pip:

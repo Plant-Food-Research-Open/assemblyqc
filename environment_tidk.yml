@@ -1,9 +1,0 @@
-name: assembly-qc-pipeline-env
-channels:
-  - defaults
-  - bioconda
-dependencies:
-  - python=3.7
-  - pip
-  - pip:
-      - tidk==0.2.1
