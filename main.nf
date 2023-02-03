@@ -6,8 +6,8 @@ include { BUSCO } from './subworkflows/busco.nf'
 
 workflow {
     Channel.fromList(params.haplotype_fasta)
-    .combine(Channel.fromList(params.busco.augustus_species))
     .combine(Channel.fromList(params.busco.lineage_datasets))
+    .combine(Channel.fromList(params.busco.augustus_species))
     .map {
         return [it[0], file(it[1], checkIfExists: true), it[2], it[3]]
     }

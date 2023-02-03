@@ -1,9 +1,9 @@
 workflow BUSCO {
     take:
-        tuple_of_hap_file_species_lineage
+        tuple_of_hap_file_lineage_species
     
     main:
-        RUN_BUSCO(tuple_of_hap_file_species_lineage)
+        RUN_BUSCO(tuple_of_hap_file_lineage_species)
         | collect
         | set {ch_busco_summaries}
     
@@ -16,11 +16,11 @@ workflow BUSCO {
 }
 
 process RUN_BUSCO {
-    tag "${hap_name}: ${augustus_species}: ${lineage_dataset}"
+    tag "${hap_name}: ${lineage_dataset}: ${augustus_species}"
     container "quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0"
 
     input:
-        tuple val(hap_name), path(input_file), val(augustus_species), val(lineage_dataset)
+        tuple val(hap_name), path(input_file), val(lineage_dataset), val(augustus_species)
     
     output:
         path "${hap_name}/short_summary.specific.${lineage_dataset}.${hap_name}_${lineage_split}_${augustus_species}.txt"
