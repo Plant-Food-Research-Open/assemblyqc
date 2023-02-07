@@ -3,6 +3,7 @@
 nextflow.enable.dsl=2
 
 include { BUSCO } from './subworkflows/busco.nf'
+include { TIDK  } from './subworkflows/tidk.nf'
 
 workflow {
     Channel.fromList(params.haplotype_fasta)
@@ -13,10 +14,13 @@ workflow {
     }
     | BUSCO
 
-    CREATE_REPORT(BUSCO.out.busco_summaries, BUSCO.out.busco_plot)
+    Channel.fromList(params.haplotype_fasta)
+    .map {
+        return [it[0], file(it[1], checkIfExists: true)]
+    }
+    | TIDK
 
-    // Channel.fromPath(params.tidk_input)
-    // | TIDK
+    CREATE_REPORT(BUSCO.out.busco_summaries, BUSCO.out.busco_plot, TIDK.out.list_of_tidk_plots)
 }
 
 process CREATE_REPORT {
@@ -26,7 +30,8 @@ process CREATE_REPORT {
 
     input:
         path "short_summary.*", stageAs: 'busco_outputs/*'
-        path plot_png
+        path busco_plot_png, stageAs: 'busco_outputs/*'
+        path "*.tidk.plot.svg", stageAs: 'tidk_outputs/*'
 
     output:
         path 'report.html'
@@ -35,21 +40,4 @@ process CREATE_REPORT {
         """
         report.py > report.html
         """ 
-}
-
-process TIDK {
-    conda 'environment_tidk.yml'
-
-    publishDir params.outdir.main, mode: 'copy'
-
-    input:
-        path input_file
-
-    output:
-        path 'test_dist.tsv'
-
-    script:
-        """
-        tidk find -f ${input_file} -c lepidoptera -o tidk_test
-        """
 }

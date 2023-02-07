@@ -3,9 +3,9 @@ from pathlib import Path
 
 
 
-class Report_Printer:
+class ReportPrinter:
     def __init__(self):
-        projectDir = "/".join(__file__.split("/")[0:-2])
+        projectDir = "/".join(__file__.split("/")[0:-1])
         path = Path(f"{projectDir}/templates")
 
         self.file_loader = FileSystemLoader(path)

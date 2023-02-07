@@ -1,12 +1,13 @@
-import os
 import pandas as pd
 from tabulate import tabulate
 import re
-import textwrap
-from io import StringIO
+import os
+import re
+import base64
+from pathlib import Path
 
 
-class Report_Parser:
+class BuscoParser:
     def __init__(self, file_data):
         self.file_data = file_data
         self.stats_dict = {}
@@ -25,8 +26,6 @@ class Report_Parser:
 
         return self.stats_dict
 
-    # parsing functions
-    # ----------------------------------------------------------------------------------------
     def get_busco_version(self, data):
         p = re.compile("BUSCO version is: (.*)")
         result = p.search(data).group(1).strip()
@@ -36,14 +35,6 @@ class Report_Parser:
         p = re.compile("The lineage dataset is: (.*)")
         result = p.search(data).group(1).split()[0]
         return result
-
-    # def get_augustus_species(self, file_data):
-    #     list_of_lines = file_data.split("\n")
-    #     length_of_list = len(list_of_lines)
-    #     for index, line in enumerate(list_of_lines):
-    #         if index == length_of_list - 1:
-    #             augustus_species = list_of_lines[length_of_list - 2]
-    #             return augustus_species
 
     def get_creation_date(self, data):
         p = re.compile("The lineage dataset is: (.*)")
@@ -113,6 +104,40 @@ class Report_Parser:
         )
         return table
 
+def parse_busco_folder(folder_name = "busco_outputs"):
 
-# ----------------------------------------------------------------------------------------
-# end of parsing functions
+    dir = os.getcwdb().decode()
+    busco_folder_path = Path(f"{dir}/{folder_name}")
+    list_of_files = busco_folder_path.glob("*.txt")
+
+    busco_plot_paths = busco_folder_path.glob("*.png")
+
+    for plot_path in busco_plot_paths:
+        binary_fc = open(plot_path, "rb").read()
+        base64_utf8_str = base64.b64encode(binary_fc).decode("utf-8")
+        ext = str(plot_path).split(".")[-1]
+        busco_plot_url = f"data:image/{ext};base64,{base64_utf8_str}"
+
+    data = {"BUSCO": []}
+
+    for file in list_of_files:
+        file_data = ""
+        with open(file, "r") as file:
+            lines = file.readlines()
+            for line in lines:
+                file_data += line
+        parser = BuscoParser(file_data)
+        file_tokens = re.findall(
+            r"short_summary.specific.([a-zA-Z0-9_]+).([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+).txt",
+            os.path.basename(str(file)),
+        )[0]
+        stats = {
+            "hap": file_tokens[1],
+            "lineage": file_tokens[0],
+            "augustus_species": file_tokens[3],
+            "busco_plot": busco_plot_url,
+            **parser.parse_report(),
+        }
+        data["BUSCO"].append(stats)
+
+    return data

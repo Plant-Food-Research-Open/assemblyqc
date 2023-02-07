@@ -80,6 +80,7 @@ $ ./cleanNXF.sh
 ## Software Versions
 
 - BUSCO: quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0
+- tidk: 0.2.1
 
 ## Final notes
 

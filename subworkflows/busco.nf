@@ -1,3 +1,5 @@
+nextflow.enable.dsl=2
+
 workflow BUSCO {
     take:
         tuple_of_hap_file_lineage_species
@@ -20,7 +22,7 @@ process RUN_BUSCO {
     container "quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0"
 
     input:
-        tuple val(hap_name), path(input_file), val(lineage_dataset), val(augustus_species)
+        tuple val(hap_name), path(fasta_file), val(lineage_dataset), val(augustus_species)
     
     output:
         path "${hap_name}/short_summary.specific.${lineage_dataset}.${hap_name}_${lineage_split}_${augustus_species}.txt"
@@ -34,7 +36,7 @@ process RUN_BUSCO {
         busco \
         -m ${params.busco.mode} \
         -o ${hap_name} \
-        -i $input_file \
+        -i $fasta_file \
         -l ${lineage_dataset} \
         --augustus_species ${augustus_species} \
         --update-data \
