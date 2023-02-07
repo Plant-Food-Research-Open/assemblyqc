@@ -1,4 +1,5 @@
 <head>
+  <title>Assembly QC</title>
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -6,8 +7,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,700;1,900&display=swap"
-    rel="stylesheet"
-  />
+    rel="stylesheet" />
   <style>
     * {
       box-sizing: border-box;
@@ -16,21 +16,22 @@
       font-family: "Roboto", "san-serif";
     }
 
-    .report_header_wrapper {
+    .report-header-wrapper {
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: left;
       background-color: rgb(0, 0, 0);
       opacity: 75%;
       width: 100%;
       height: 52px;
     }
 
-    .report_header {
+    .report-header {
       font-weight: 600;
       font-size: 24px;
       vertical-align: middle;
       color: white;
+      padding-left: 14px;
     }
 
     .software-type-wrapper {
@@ -39,16 +40,6 @@
       margin: auto;
       text-align: center;
       margin-bottom: 20px;
-    }
-
-    .software-type {
-      padding-top: 16px;
-      font-size: 32px;
-      font-weight: 500;
-    }
-
-    .results_wrapper {
-      padding: 8px 32px;
     }
 
     .parameters-section {
@@ -137,7 +128,13 @@
       margin: auto;
     }
 
-    .tabcontent {
+    .tabcontent-BUSCO {
+      display: none;
+      padding: 6px 12px;
+      border-top: none;
+    }
+
+    .tabcontent-TIDK {
       display: none;
       padding: 6px 12px;
       border-top: none;
@@ -210,15 +207,44 @@
       margin-top: 20px;
     }
 
-    .image_wrapper {
+    .image-wrapper {
       display: flex;
       align-items: center;
       justify-content: center;
     }
-  </style>
-  <title>Assembly QC Results</title>
-</head>
 
-<div class="report_header_wrapper">
-  <div class="report_header">Assembly QC Results</div>
-</div>
+    .tab {
+      overflow: hidden;
+      border: 1px solid #ccc;
+      background-color: #f1f1f1;
+    }
+
+    .tab button {
+      background-color: inherit;
+      float: left;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 14px 16px;
+      transition: 0.3s;
+    }
+
+    .tab button:hover {
+      background-color: #ddd;
+    }
+
+    .tab button.active {
+      background-color: #ccc;
+    }
+
+    .tabcontent {
+      padding: 6px 12px;
+      border: 1px solid #ccc;
+      border-top: none;
+    }
+
+    .tablinks {
+      font-size: medium;
+    }
+  </style>
+</head>

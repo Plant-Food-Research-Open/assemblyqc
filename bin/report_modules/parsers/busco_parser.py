@@ -110,13 +110,12 @@ def parse_busco_folder(folder_name = "busco_outputs"):
     busco_folder_path = Path(f"{dir}/{folder_name}")
     list_of_files = busco_folder_path.glob("*.txt")
 
-    busco_plot_paths = busco_folder_path.glob("*.png")
+    plot_path = next(busco_folder_path.glob("*.png"))
 
-    for plot_path in busco_plot_paths:
-        binary_fc = open(plot_path, "rb").read()
-        base64_utf8_str = base64.b64encode(binary_fc).decode("utf-8")
-        ext = str(plot_path).split(".")[-1]
-        busco_plot_url = f"data:image/{ext};base64,{base64_utf8_str}"
+    binary_fc = open(plot_path, "rb").read()
+    base64_utf8_str = base64.b64encode(binary_fc).decode("utf-8")
+    ext = str(plot_path).split(".")[-1]
+    busco_plot_url = f"data:image/{ext};base64,{base64_utf8_str}"
 
     data = {"BUSCO": []}
 

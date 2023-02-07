@@ -1,0 +1,17 @@
+<html>
+{% include 'header.html' %}
+
+<body>
+    <div class="report-header-wrapper">
+        <div class="report-header">Assembly QC</div>
+    </div>
+    <div class="tab">
+        <button class="tablinks active" onclick="openTool(event, 'BUSCO')">BUSCO</button>
+        <button class="tablinks" onclick="openTool(event, 'TIDK')">TIDK</button>
+    </div>
+    {% include 'busco/busco.html' %}
+    {% include 'tidk/tidk.html' %}
+</body>
+{% include 'js.html' %}
+
+</html>

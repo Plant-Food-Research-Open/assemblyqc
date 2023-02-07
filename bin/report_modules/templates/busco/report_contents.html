@@ -1,9 +1,7 @@
 {% for item in range(all_stats_dicts["BUSCO"]|length) %}
 <div
   id="{{ all_stats_dicts['BUSCO'][item]['hap'] }}_{{ all_stats_dicts['BUSCO'][item]['lineage'] }}_{{ all_stats_dicts['BUSCO'][item]['augustus_species'] }}"
-  class="tabcontent"
-  style="display: none"
->
+  class="tabcontent-BUSCO" style="display: none">
   <div class="results-section">
     <div class="section-heading-wrapper">
       <div class="section-heading">Results</div>

@@ -1,0 +1,15 @@
+{% set vars = {'is_first': True} %}
+{% for item in range(all_stats_dicts["TIDK"]|length) %}
+{% set active_text = 'display: block' if vars.is_first else 'display: none' %}
+<div id="tabcontent_TIDK_{{ all_stats_dicts['TIDK'][item]['hap'] }}" class="tabcontent-TIDK" style="{{ active_text }}">
+    <div class="results-section">
+        <div class="section-heading-wrapper">
+            <div class="section-heading">{{ all_stats_dicts['TIDK'][item]['hap'] }}</div>
+        </div>
+    </div>
+    <div class="image-wrapper">
+        <img src="{{ all_stats_dicts['TIDK'][item]['tidk_plot'] }}" alt="" />
+    </div>
+</div>
+{% if vars.update({'is_first': False}) %} {% endif %}
+{% endfor %}
