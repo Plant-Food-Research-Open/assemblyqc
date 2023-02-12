@@ -15,6 +15,7 @@ workflow TIDK {
 }
 
 process SEARCH_REPEAT_SEQ {
+    label 'usesSingleCPU'
     tag "${hap_name}"
     conda 'environment.yml'
 
@@ -33,6 +34,7 @@ process SEARCH_REPEAT_SEQ {
 }
 
 process PLOT_REPEAT_SEQ {
+    label 'usesLowCPUMem'
     tag "${hap_name}"
     conda 'environment.yml'
 

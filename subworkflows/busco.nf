@@ -49,6 +49,7 @@ process RUN_BUSCO {
 }
 
 process CREATE_PLOT {
+    label 'usesLowCPUMem'
     container "quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0"
 
     input: 
