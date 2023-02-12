@@ -24,6 +24,7 @@ workflow {
 }
 
 process CREATE_REPORT {
+    label 'usesSingleCPU'
     conda 'environment.yml'
 
     publishDir params.outdir.main, mode: 'copy'
