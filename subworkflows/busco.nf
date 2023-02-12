@@ -18,6 +18,7 @@ workflow BUSCO {
 }
 
 process RUN_BUSCO {
+    label 'uses_high_cpu_mem'
     tag "${hap_name}: ${lineage_dataset}: ${augustus_species}"
     container "quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0"
 
@@ -49,7 +50,7 @@ process RUN_BUSCO {
 }
 
 process CREATE_PLOT {
-    label 'usesLowCPUMem'
+    label 'uses_low_cpu_mem'
     container "quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0"
 
     input: 

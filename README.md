@@ -9,6 +9,7 @@
   - [Getting sample data](#getting-sample-data)
   - [Running the Pipeline](#running-the-pipeline)
   - [Software Versions](#software-versions)
+  - [Pipeline Flowchart](#pipeline-flowchart)
   - [Final notes](#final-notes)
 
 ## Introduction
@@ -48,6 +49,7 @@ $ rm ./test_data/test_data_original.fasta
 1. Load the required modules:
 
 ```bash
+$ ml unload perl
 $ ml apptainer/1.1
 $ ml conda/22.9.0
 $ ml nextflow/22.10.4
@@ -81,6 +83,36 @@ $ ./cleanNXF.sh
 
 - BUSCO: quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0
 - tidk: 0.2.1
+- EDTA: quay.io/biocontainers/edta:2.1.0--hdfd78af_1
+
+## Pipeline Flowchart
+
+```mermaid
+flowchart TD
+    p5[Foreach Haplotype:Lineage:Augustus Species]
+    p6[BUSCO:RUN_BUSCO]
+    p7([collect])
+    p8[BUSCO:CREATE_PLOT]
+    p10[Foreach Haplotype]
+    p11[TIDK:SEARCH_REPEAT_SEQ]
+    p12[TIDK:PLOT_REPEAT_SEQ]
+    p13([collect])
+    p15[Foreach Haplotype]
+    p16[LAI:EDTA]
+    p17[CREATE_REPORT]
+    p18(( ))
+    p5 --> p6
+    p6 --> p7
+    p7 -->|busco_summaries| p8
+    p8 --> p17
+    p10 --> p11
+    p11 --> p12
+    p12 --> p13
+    p13 -->|list_of_tidk_plots| p17
+    p15 --> p16
+    p7 -->|busco_summaries| p17
+    p17 --> p18
+```
 
 ## Final notes
 

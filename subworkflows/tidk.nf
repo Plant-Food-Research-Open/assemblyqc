@@ -15,7 +15,7 @@ workflow TIDK {
 }
 
 process SEARCH_REPEAT_SEQ {
-    label 'usesSingleCPU'
+    label 'uses_low_cpu_mem'
     tag "${hap_name}"
     conda 'environment.yml'
 
@@ -29,12 +29,12 @@ process SEARCH_REPEAT_SEQ {
 
     script:
         """
-        tidk search --fasta "${fasta_file}" --string "${params.tidk.repeatSeq}" --output "${hap_name}.tidk.search" --dir tidk --extension "csv"
+        tidk search --fasta "${fasta_file}" --string "${params.tidk.repeat_seq}" --output "${hap_name}.tidk.search" --dir tidk --extension "csv"
         """
 }
 
 process PLOT_REPEAT_SEQ {
-    label 'usesLowCPUMem'
+    label 'uses_low_cpu_mem'
     tag "${hap_name}"
     conda 'environment.yml'
 

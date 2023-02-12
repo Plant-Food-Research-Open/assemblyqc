@@ -4,6 +4,7 @@ nextflow.enable.dsl=2
 
 include { BUSCO } from './subworkflows/busco.nf'
 include { TIDK  } from './subworkflows/tidk.nf'
+include { LAI   } from './subworkflows/lai.nf'
 
 workflow {
     Channel.fromList(params.haplotype_fasta)
@@ -20,11 +21,17 @@ workflow {
     }
     | TIDK
 
+    Channel.fromList(params.haplotype_fasta)
+    .map {
+        return [it[0], file(it[1], checkIfExists: true)]
+    }
+    | LAI
+
     CREATE_REPORT(BUSCO.out.busco_summaries, BUSCO.out.busco_plot, TIDK.out.list_of_tidk_plots)
 }
 
 process CREATE_REPORT {
-    label 'usesLowCPUMem'
+    label 'uses_low_cpu_mem'
     conda 'environment.yml'
 
     publishDir params.outdir.main, mode: 'copy'
