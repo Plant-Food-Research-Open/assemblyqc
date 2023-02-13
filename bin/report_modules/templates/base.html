@@ -8,9 +8,11 @@
     <div class="tab">
         <button class="tablinks active" onclick="openTool(event, 'BUSCO')">BUSCO</button>
         <button class="tablinks" onclick="openTool(event, 'TIDK')">TIDK</button>
+        <button class="tablinks" onclick="openTool(event, 'LAI')">LAI</button>
     </div>
     {% include 'busco/busco.html' %}
     {% include 'tidk/tidk.html' %}
+    {% include 'lai/lai.html' %}
 </body>
 {% include 'js.html' %}
 
