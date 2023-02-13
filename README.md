@@ -83,7 +83,8 @@ $ ./cleanNXF.sh
 
 - BUSCO: quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0
 - TIDK: 0.2.1
-- EDTA: quay.io/biocontainers/edta:2.1.0--hdfd78af_1
+- LAI: quay.io/biocontainers/ltr_retriever:2.9.0--hdfd78af_1
+  - EDTA: quay.io/biocontainers/edta:2.1.0--hdfd78af_1
 
 ## Pipeline Flowchart
 

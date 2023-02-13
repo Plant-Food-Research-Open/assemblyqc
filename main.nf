@@ -27,7 +27,12 @@ workflow {
     }
     | LAI
 
-    CREATE_REPORT(BUSCO.out.busco_summaries, BUSCO.out.busco_plot, TIDK.out.list_of_tidk_plots)
+    CREATE_REPORT(
+        BUSCO.out.busco_summaries,
+        BUSCO.out.busco_plot,
+        TIDK.out.list_of_tidk_plots,
+        LAI.out.list_of_lai_logs
+    )
 }
 
 process CREATE_REPORT {
@@ -37,9 +42,10 @@ process CREATE_REPORT {
     publishDir params.outdir.main, mode: 'copy'
 
     input:
-        path "short_summary.*", stageAs: 'busco_outputs/*'
+        path 'short_summary.*', stageAs: 'busco_outputs/*'
         path busco_plot_png, stageAs: 'busco_outputs/*'
-        path "*.tidk.plot.svg", stageAs: 'tidk_outputs/*'
+        path '*.tidk.plot.svg', stageAs: 'tidk_outputs/*'
+        path '*.LAI.log', stageAs: 'lai_outputs/*'
 
     output:
         path 'report.html'
