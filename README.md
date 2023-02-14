@@ -39,8 +39,8 @@ $ ml seqkit/0.7.0
 $ mkdir test_data
 $ cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_rs324p/v1/Nd324_canupilon_all.sorted.renamed.fasta \
 ./test_data/test_data_original.fasta
-$ seqkit sample -p 0.25 -s 33 ./test_data/test_data_original.fasta > ./test_data/test_data1.fasta
-$ seqkit sample -p 0.25 -s 49 ./test_data/test_data_original.fasta > ./test_data/test_data2.fasta
+$ seqkit sample -p 0.5 -s 33 ./test_data/test_data_original.fasta > ./test_data/test_data1.fasta
+$ seqkit sample -p 0.5 -s 49 ./test_data/test_data_original.fasta > ./test_data/test_data2.fasta
 $ rm ./test_data/test_data_original.fasta
 ```
 
@@ -49,7 +49,7 @@ $ rm ./test_data/test_data_original.fasta
 1. Load the required modules:
 
 ```bash
-$ ml unload perl
+$ ml purge
 $ ml apptainer/1.1
 $ ml conda/22.9.0
 $ ml nextflow/22.10.4

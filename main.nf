@@ -2,9 +2,11 @@
 
 nextflow.enable.dsl=2
 
-include { BUSCO } from './subworkflows/busco.nf'
-include { TIDK  } from './subworkflows/tidk.nf'
-include { LAI   } from './subworkflows/lai.nf'
+include { BUSCO             } from './subworkflows/busco.nf'
+include { TIDK              } from './subworkflows/tidk.nf'
+include { LAI               } from './subworkflows/lai.nf'
+
+include { CREATE_REPORT     } from './modules/create_report.nf'
 
 workflow {
     Channel.fromList(params.haplotype_fasta)
@@ -33,25 +35,4 @@ workflow {
         TIDK.out.list_of_tidk_plots,
         LAI.out.list_of_lai_logs
     )
-}
-
-process CREATE_REPORT {
-    label 'uses_low_cpu_mem'
-    conda 'environment.yml'
-
-    publishDir params.outdir.main, mode: 'copy'
-
-    input:
-        path 'short_summary.*', stageAs: 'busco_outputs/*'
-        path busco_plot_png, stageAs: 'busco_outputs/*'
-        path '*.tidk.plot.svg', stageAs: 'tidk_outputs/*'
-        path '*.LAI.log', stageAs: 'lai_outputs/*'
-
-    output:
-        path 'report.html'
-
-    script:
-        """
-        report.py > report.html
-        """ 
 }
