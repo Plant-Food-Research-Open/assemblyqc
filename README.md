@@ -102,10 +102,12 @@ flowchart TD
     p16[LAI:EDTA]
     p17[CREATE_REPORT]
     p18(( ))
+    p19[LAI:RUN_LAI]
+    p20([collect])
     p5 --> p6
     p6 --> p7
     p7 -->|busco_summaries| p8
-    p8 --> p17
+    p8 -->|busco_plot_png| p17
     p10 --> p11
     p11 --> p12
     p12 --> p13
@@ -113,6 +115,9 @@ flowchart TD
     p15 --> p16
     p7 -->|busco_summaries| p17
     p17 --> p18
+    p16 --> p19
+    p19 --> p20
+    p20 -->|list_of_lai_logs| p17
 ```
 
 ## Final notes
