@@ -5,16 +5,57 @@
 - [Assembly QC Report Generator](#assembly-qc-report-generator)
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
+  - [Pipeline Flowchart](#pipeline-flowchart)
+  - [Software Versions](#software-versions)
   - [Installation](#installation)
   - [Getting sample data](#getting-sample-data)
   - [Running the Pipeline](#running-the-pipeline)
-  - [Software Versions](#software-versions)
-  - [Pipeline Flowchart](#pipeline-flowchart)
   - [Final notes](#final-notes)
 
 ## Introduction
 
 Welcome to the Assembly QC report generator. This software is a Nextflow pipeline that can be used to perform BUSCO searches on fasta data and will generate an easy-to-read html report. More capabilities will be added in the future.
+
+## Pipeline Flowchart
+
+```mermaid
+flowchart TD
+    p5[Foreach Haplotype:Lineage:Augustus Species]
+    p6[BUSCO:RUN_BUSCO]
+    p7([collect])
+    p8[BUSCO:CREATE_PLOT]
+    p10[Foreach Haplotype]
+    p11[TIDK:SEARCH_REPEAT_SEQ]
+    p12[TIDK:PLOT_REPEAT_SEQ]
+    p13([collect])
+    p15[Foreach Haplotype]
+    p16[LAI:EDTA]
+    p17[CREATE_REPORT]
+    p18(( ))
+    p19[LAI:RUN_LAI]
+    p20([collect])
+    p5 --> p6
+    p6 --> p7
+    p7 -->|busco_summaries| p8
+    p8 -->|busco_plot_png| p17
+    p10 --> p11
+    p11 --> p12
+    p12 --> p13
+    p13 -->|list_of_tidk_plots| p17
+    p15 --> p16
+    p7 -->|busco_summaries| p17
+    p17 --> p18
+    p16 --> p19
+    p19 --> p20
+    p20 -->|list_of_lai_logs| p17
+```
+
+## Software Versions
+
+- BUSCO: quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0
+- TIDK: 0.2.1
+- LAI: quay.io/biocontainers/ltr_retriever:2.9.0--hdfd78af_1
+  - EDTA: quay.io/biocontainers/edta:2.1.0--hdfd78af_1
 
 ## Installation
 
@@ -39,8 +80,8 @@ $ ml seqkit/0.7.0
 $ mkdir test_data
 $ cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_rs324p/v1/Nd324_canupilon_all.sorted.renamed.fasta \
 ./test_data/test_data_original.fasta
-$ seqkit sample -p 0.5 -s 33 ./test_data/test_data_original.fasta > ./test_data/test_data1.fasta
-$ seqkit sample -p 0.5 -s 49 ./test_data/test_data_original.fasta > ./test_data/test_data2.fasta
+$ seqkit sample -p 0.9 -s 33 ./test_data/test_data_original.fasta > ./test_data/test_data1.fasta
+$ seqkit sample -p 0.9 -s 49 ./test_data/test_data_original.fasta > ./test_data/test_data2.fasta
 $ rm ./test_data/test_data_original.fasta
 ```
 
@@ -77,47 +118,6 @@ After running the pipeline, if you wish to clean up the logs and work folder, yo
 
 ```bash
 $ ./cleanNXF.sh
-```
-
-## Software Versions
-
-- BUSCO: quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0
-- TIDK: 0.2.1
-- LAI: quay.io/biocontainers/ltr_retriever:2.9.0--hdfd78af_1
-  - EDTA: quay.io/biocontainers/edta:2.1.0--hdfd78af_1
-
-## Pipeline Flowchart
-
-```mermaid
-flowchart TD
-    p5[Foreach Haplotype:Lineage:Augustus Species]
-    p6[BUSCO:RUN_BUSCO]
-    p7([collect])
-    p8[BUSCO:CREATE_PLOT]
-    p10[Foreach Haplotype]
-    p11[TIDK:SEARCH_REPEAT_SEQ]
-    p12[TIDK:PLOT_REPEAT_SEQ]
-    p13([collect])
-    p15[Foreach Haplotype]
-    p16[LAI:EDTA]
-    p17[CREATE_REPORT]
-    p18(( ))
-    p19[LAI:RUN_LAI]
-    p20([collect])
-    p5 --> p6
-    p6 --> p7
-    p7 -->|busco_summaries| p8
-    p8 -->|busco_plot_png| p17
-    p10 --> p11
-    p11 --> p12
-    p12 --> p13
-    p13 -->|list_of_tidk_plots| p17
-    p15 --> p16
-    p7 -->|busco_summaries| p17
-    p17 --> p18
-    p16 --> p19
-    p19 --> p20
-    p20 -->|list_of_lai_logs| p17
 ```
 
 ## Final notes
