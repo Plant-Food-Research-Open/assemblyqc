@@ -1,5 +1,9 @@
 # Change Log
 
+## Version 0.5 (ba3691f)
+
+1. Added TIDK
+
 ## Version 0.4 (bb6779c)
 
 1. Added ability run BUSCO for multiple augustus species simultaneously
