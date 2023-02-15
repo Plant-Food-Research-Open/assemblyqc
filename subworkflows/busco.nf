@@ -19,6 +19,7 @@ workflow BUSCO {
 
 process RUN_BUSCO {
     label 'uses_high_cpu_mem'
+    label 'takes_hours'
     tag "${hap_name}: ${lineage_dataset}: ${augustus_species}"
     container "quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0"
 

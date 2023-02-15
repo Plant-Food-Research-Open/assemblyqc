@@ -10,7 +10,12 @@
   - [Installation](#installation)
   - [Getting sample data](#getting-sample-data)
   - [Running the Pipeline](#running-the-pipeline)
-  - [Final notes](#final-notes)
+    - [Run Interactively](#run-interactively)
+    - [Post the NextFlow Process to Slurm](#post-the-nextflow-process-to-slurm)
+  - [Future Plans](#future-plans)
+    - [Tools](#tools)
+    - [User Feedback](#user-feedback)
+    - [Other Changes](#other-changes)
 
 ## Introduction
 
@@ -87,10 +92,12 @@ $ rm ./test_data/test_data_original.fasta
 
 ## Running the Pipeline
 
+### Run Interactively
+
 1. Load the required modules:
 
 ```bash
-$ ml purge
+$ ml unload perl
 $ ml apptainer/1.1
 $ ml conda/22.9.0
 $ ml nextflow/22.10.4
@@ -100,6 +107,37 @@ $ ml nextflow/22.10.4
 
 ```bash
 $ nextflow main.nf -profile slurm
+```
+
+### Post the NextFlow Process to Slurm
+
+The interactive session allows us to monitor the progress from the ssh session. However, a major disadvantage is that the NextFlow task is killed if the ssh session drops for reasons such as loss of internet connection. For log running jobs, it is a good idea to post the NexFlow task to Slurm.
+
+```bash
+cat << EOF > assembly_qc_slurm.sh
+#!/bin/bash -e
+
+
+#SBATCH --job-name asm_qc_${USER}
+#SBATCH --time=3-00:00:00
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=1
+#SBATCH --output asm_qc_${USER}.stdout
+#SBATCH --error asm_qc_${USER}".stderr
+#SBATCH --mem=1G
+
+ml unload perl
+ml apptainer/1.1
+ml conda/22.9.0
+ml nextflow/22.10.4
+
+srun nextflow main.nf -profile slurm -resume
+EOF
+
+chmod u+x ./assembly_qc_slurm.sh
+
+sbatch ./assembly_qc_slurm.sh
 ```
 
 The test data will take around 15 minutes to run. When the pipeline has finished running you will see the output of "Complete!" in the terminal.
@@ -120,6 +158,23 @@ After running the pipeline, if you wish to clean up the logs and work folder, yo
 $ ./cleanNXF.sh
 ```
 
-## Final notes
+## Future Plans
 
-This tool is designed to make your life easier. If you have any suggestions for improvements please feel free to contact me to discuss!
+### Tools
+
+- [ ] General Statistics -- [https://doi.org/10.1016/j.tig.2022.10.005](https://doi.org/10.1016/j.tig.2022.10.005), [https://github.com/KorfLab/Assemblathon](https://github.com/KorfLab/Assemblathon), Ross' version: /workspace/hrarnc/GitHub/Scriptomics/hrarnc/PerlScripts/Assembly/assemblathon_stats_v1.1.pl
+- [ ] Synteny Check
+- [ ] Contamination Check -- [https://doi.org/10.1186/s13059-022-02619-9](https://doi.org/10.1186/s13059-022-02619-9)
+
+### User Feedback
+
+- [x] Add links to BUSCO lineages and Augustus species.
+- [x] Add optional flag to all the tools.
+- [ ] Fix the BUSCO summary table and dropdown menu for long haplotype tags.
+- [ ] Sort sequences by size before feeding to TIDK.
+
+### Other Changes
+
+- [x] Added test data configuration for a whole genome.
+- [x] Added EDTA bypass to LAI.
+- [x] Added takes_hours label to BUSCO.

@@ -11,6 +11,7 @@ process CREATE_REPORT {
         path busco_plot_png, stageAs: 'busco_outputs/*'
         path '*.tidk.plot.svg', stageAs: 'tidk_outputs/*'
         path '*.LAI.log', stageAs: 'lai_outputs/*'
+        path '*.LAI.out', stageAs: 'lai_outputs/*'
 
     output:
         path 'report.html'

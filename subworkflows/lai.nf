@@ -3,15 +3,42 @@ nextflow.enable.dsl=2
 workflow LAI {
     take:
         tuple_of_hap_file
+        tuple_of_hap_pass_list
+        tuple_of_hap_out_file
     
-    main: 
-        EDTA(tuple_of_hap_file)
-        | RUN_LAI
-        | collect
-        | set { ch_list_of_lai_logs }
+    main:
+        if (params.lai.pass_list == null || params.lai.out_file == null) {
+            EDTA(tuple_of_hap_file)
+            | RUN_LAI
+            | collect
+            | set { ch_list_of_lai_data }
+        } else {
+            RUN_LAI(
+                tuple_of_hap_file[0],
+                tuple_of_hap_file[1],
+                Channel.empty(),
+                tuple_of_hap_pass_list[1],
+                tuple_of_hap_out_file[1]
+            )
+            | collect
+            | set { ch_list_of_lai_data }
+        }
+
+        ch_list_of_lai_data.map {
+            it[0]
+        }
+        .collect()
+        .set { ch_list_of_lai_logs }
+
+        ch_list_of_lai_data.map {
+            it[1]
+        }
+        .collect()
+        .set { ch_list_of_lai_outputs }
     
     emit:
-        list_of_lai_logs = ch_list_of_lai_logs
+        ch_list_of_lai_logs = ch_ch_list_of_lai_logs
+        list_of_lai_outputs = ch_list_of_lai_outputs
 }
 
 process EDTA {
@@ -45,7 +72,7 @@ process EDTA {
 
         fasta_file_var="$fasta_file"
         fasta_file_base_name="\${fasta_file_var%.*}"
-        edta_mod_str=\$(cat .command.log | grep "Trying to reformat seq IDs..." > \\dev\\null && echo ".mod" || echo "")
+        edta_mod_str=".mod"
         fasta_file_mod="\${fasta_file_var}\${edta_mod_str}"
         
         ln -s "\$fasta_file_mod" "\${fasta_file_base_name}.EDTA.fasta"
@@ -73,7 +100,7 @@ process RUN_LAI {
         path genome_out
     
     output:
-        path '*.LAI.log'
+        tuple path('*.LAI.log'), path('*.LAI.out') // reversed file name to avoid conflict 
     
     script:
         """
@@ -81,5 +108,11 @@ process RUN_LAI {
         -genome $genome_fasta \
         -intact $pass_list \
         -all $genome_out > "${hap_name}.LAI.log"
+
+        genome_file_name="$genome_fasta"
+        genome_file_base_name=\${genome_file_name%.*}
+        lai_output_file_name="\${genome_file_base_name}.out.LAI"
+        
+        [[ -f "\$lai_output_file_name" ]] && cat "\$lai_output_file_name" > "${hap_name}.LAI.out" || echo "LAI OUTPUT IS EMPTY" > "${hap_name}.LAI.out"
         """
 }

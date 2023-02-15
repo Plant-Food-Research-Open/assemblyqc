@@ -108,6 +108,10 @@ def parse_busco_folder(folder_name = "busco_outputs"):
 
     dir = os.getcwdb().decode()
     busco_folder_path = Path(f"{dir}/{folder_name}")
+
+    if not os.path.exists(busco_folder_path):
+        return {}
+
     list_of_files = busco_folder_path.glob("*.txt")
 
     plot_path = next(busco_folder_path.glob("*.png"))
@@ -127,7 +131,7 @@ def parse_busco_folder(folder_name = "busco_outputs"):
                 file_data += line
         parser = BuscoParser(file_data)
         file_tokens = re.findall(
-            r"short_summary.specific.([a-zA-Z0-9_]+).([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+).txt",
+            r"short_summary.specific.([\w]+).([\w]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+).txt",
             os.path.basename(str(file)),
         )[0]
         stats = {

@@ -31,6 +31,10 @@ def parse_lai_folder(folder_name = "lai_outputs"):
 
     dir = os.getcwdb().decode()
     lai_folder_path = Path(f"{dir}/{folder_name}")
+
+    if not os.path.exists(lai_folder_path):
+        return {}
+
     list_of_log_files = lai_folder_path.glob("*.LAI.log")
 
     data = {"LAI": []}
@@ -43,7 +47,7 @@ def parse_lai_folder(folder_name = "lai_outputs"):
                 file_data += line
         parser = LAIParser(file_data)
         file_tokens = re.findall(
-            r"([a-zA-Z0-9_]+).LAI.log",
+            r"([\w]+).LAI.log",
             os.path.basename(str(file)),
         )
         stats = {
