@@ -1,5 +1,9 @@
 # Change Log
 
+## Version 0.5.1 (6edac99)
+
+1. Changed report parsers to allow alphanumeric ([a-zA-Z0-9_]) characters in the haplotype names.
+
 ## Version 0.5 (ba3691f)
 
 1. Added TIDK

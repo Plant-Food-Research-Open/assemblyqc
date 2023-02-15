@@ -19,7 +19,7 @@ def parse_tidk_folder(folder_name = "tidk_outputs"):
         plot_url = f"data:image/{ext}+xml;base64,{base64_utf8_str}"
 
         file_tokens = re.findall(
-            r"([a-zA-Z0-9_]+).tidk.plot.svg",
+            r"([\w]+).tidk.plot.svg",
             os.path.basename(str(plot_path)),
         )[0]
         
