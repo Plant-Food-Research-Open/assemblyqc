@@ -19,11 +19,9 @@ workflow {
         }
         | BUSCO
 
-        ch_busco_summaries = BUSCO.out.busco_summaries
-        ch_busco_plot = BUSCO.out.busco_plot
+        ch_busco_outputs = BUSCO.out.busco_outputs
     } else {
-        ch_busco_summaries = Channel.of([])
-        ch_busco_plot = Channel.of([])
+        ch_busco_outputs = Channel.of([])
     }
 
     
@@ -75,19 +73,15 @@ workflow {
             ch_tuple_of_hap_out_file_for_lai
         )
 
-        ch_list_of_lai_logs = LAI.out.list_of_lai_logs
         ch_list_of_lai_outputs = LAI.out.list_of_lai_outputs
     } else {
-        ch_list_of_lai_logs    = Channel.of([])
         ch_list_of_lai_outputs = Channel.of([])
     }
 
     // CREATE REPORT
     CREATE_REPORT(
-        ch_busco_summaries,
-        ch_busco_plot,
+        ch_busco_outputs,
         ch_list_of_tidk_plots,
-        ch_list_of_lai_logs,
         ch_list_of_lai_outputs
     )
 }

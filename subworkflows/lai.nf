@@ -11,7 +11,7 @@ workflow LAI {
             EDTA(tuple_of_hap_file)
             | RUN_LAI
             | collect
-            | set { ch_list_of_lai_data }
+            | set { ch_list_of_lai_outputs }
         } else {
             RUN_LAI(
                 tuple_of_hap_file[0],
@@ -21,23 +21,10 @@ workflow LAI {
                 tuple_of_hap_out_file[1]
             )
             | collect
-            | set { ch_list_of_lai_data }
+            | set { ch_list_of_lai_outputs }
         }
-
-        ch_list_of_lai_data.map {
-            it[0]
-        }
-        .collect()
-        .set { ch_list_of_lai_logs }
-
-        ch_list_of_lai_data.map {
-            it[1]
-        }
-        .collect()
-        .set { ch_list_of_lai_outputs }
     
     emit:
-        ch_list_of_lai_logs = ch_ch_list_of_lai_logs
         list_of_lai_outputs = ch_list_of_lai_outputs
 }
 

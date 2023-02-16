@@ -59,6 +59,7 @@ flowchart TD
 
 - BUSCO: quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0
 - TIDK: 0.2.1
+  - SEQKIT: quay.io/biocontainers/seqkit:2.3.1--h9ee0642_0
 - LAI: quay.io/biocontainers/ltr_retriever:2.9.0--hdfd78af_1
   - EDTA: quay.io/biocontainers/edta:2.1.0--hdfd78af_1
 
@@ -85,8 +86,8 @@ $ ml seqkit/0.7.0
 $ mkdir test_data
 $ cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_rs324p/v1/Nd324_canupilon_all.sorted.renamed.fasta \
 ./test_data/test_data_original.fasta
-$ seqkit sample -p 0.9 -s 33 ./test_data/test_data_original.fasta > ./test_data/test_data1.fasta
-$ seqkit sample -p 0.9 -s 49 ./test_data/test_data_original.fasta > ./test_data/test_data2.fasta
+$ seqkit sample -p 0.25 -s 33 ./test_data/test_data_original.fasta > ./test_data/test_data1.fasta
+$ seqkit sample -p 0.25 -s 49 ./test_data/test_data_original.fasta > ./test_data/test_data2.fasta
 $ rm ./test_data/test_data_original.fasta
 ```
 
@@ -170,8 +171,9 @@ $ ./cleanNXF.sh
 
 - [x] Add links to BUSCO lineages and Augustus species.
 - [x] Add optional flag to all the tools.
+- [x] Sort sequences by size before feeding to TIDK.
 - [ ] Fix the BUSCO summary table and dropdown menu for long haplotype tags.
-- [ ] Sort sequences by size before feeding to TIDK.
+- [ ] Pull html formatting out of BUSCO/dependencies and results_table so that the machine reading of report.json is straight forward.
 
 ### Other Changes
 

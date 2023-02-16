@@ -7,14 +7,13 @@ process CREATE_REPORT {
     publishDir params.outdir.main, mode: 'copy'
 
     input:
-        path 'short_summary.*', stageAs: 'busco_outputs/*'
-        path busco_plot_png, stageAs: 'busco_outputs/*'
-        path '*.tidk.plot.svg', stageAs: 'tidk_outputs/*'
-        path '*.LAI.log', stageAs: 'lai_outputs/*'
-        path '*.LAI.out', stageAs: 'lai_outputs/*'
+        path busco_outputs, stageAs: 'busco_outputs/*'
+        path tidk_plots, stageAs: 'tidk_outputs/*'
+        path lai_outputs, stageAs: 'lai_outputs/*'
 
     output:
         path 'report.html'
+        path 'report.json'
 
     script:
         """

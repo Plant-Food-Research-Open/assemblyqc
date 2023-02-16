@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import json
+
 from report_modules.parsers.busco_parser import parse_busco_folder
 from report_modules.parsers.tidk_parser import parse_tidk_folder
 from report_modules.parsers.lai_parser import parse_lai_folder
@@ -14,3 +16,6 @@ if __name__ == "__main__":
 
     report_printer = ReportPrinter()
     report_template = report_printer.print_template(data_from_tools)
+
+    with open("report.json", "w") as fp:
+        json.dump(data_from_tools , fp)
