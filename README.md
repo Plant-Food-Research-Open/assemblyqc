@@ -174,6 +174,7 @@ $ ./cleanNXF.sh
 - [x] Sort sequences by size before feeding to TIDK.
 - [ ] Fix the BUSCO summary table and dropdown menu for long haplotype tags.
 - [ ] Pull html formatting out of BUSCO/dependencies and results_table so that the machine reading of report.json is straight forward.
+- [ ] Add both a priori and a posteriori TIDK sequence options. See differences across https://github.com/tolkit/a-telomeric-repeat-database and http://telomerase.asu.edu/sequences_telomere.html
 
 ### Other Changes
 

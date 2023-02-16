@@ -2,24 +2,24 @@ nextflow.enable.dsl=2
 
 workflow LAI {
     take:
-        tuple_of_hap_file
-        tuple_of_hap_pass_list
-        tuple_of_hap_out_file
+        tuple_of_hap_genome_pass_out
     
     main:
         if (params.lai.pass_list == null || params.lai.out_file == null) {
-            EDTA(tuple_of_hap_file)
+            tuple_of_hap_genome_pass_out
+            | map {
+                return [it[0], it[1]]
+            }
+            | EDTA
+            | map {
+                return [it[0], it[1], it[3], it[4]]
+            }
             | RUN_LAI
             | collect
             | set { ch_list_of_lai_outputs }
         } else {
-            RUN_LAI(
-                tuple_of_hap_file[0],
-                tuple_of_hap_file[1],
-                Channel.empty(),
-                tuple_of_hap_pass_list[1],
-                tuple_of_hap_out_file[1]
-            )
+            tuple_of_hap_genome_pass_out
+            | RUN_LAI
             | collect
             | set { ch_list_of_lai_outputs }
         }
@@ -40,11 +40,7 @@ process EDTA {
         tuple val(hap_name), path(fasta_file)
     
     output:
-        val hap_name, emit: hap_name
-        path '*.EDTA.fasta', emit: genome_fasta
-        path '*.EDTA.TEanno.gff3', emit: te_anno_gff3
-        path '*.EDTA.pass.list', emit: pass_list
-        path '*.EDTA.out', emit: genome_out
+        tuple val(hap_name), path('*.EDTA.fasta'), path('*.EDTA.TEanno.gff3'), path('*.EDTA.pass.list'), path('*.EDTA.out')
     
     script:
         """
@@ -75,16 +71,14 @@ process EDTA {
 }
 
 process RUN_LAI {
-    label 'uses_low_cpu_mem'
+    label 'uses_high_cpu_mem'
     tag "${hap_name}"
     container 'quay.io/biocontainers/ltr_retriever:2.9.0--hdfd78af_1'
+
+    publishDir "${params.outdir.main}/lai", mode: 'copy'
     
     input:
-        val hap_name
-        path genome_fasta
-        path te_anno_gff3
-        path pass_list
-        path genome_out
+        tuple val(hap_name), path(genome_fasta), path(pass_list), path(genome_out)
     
     output:
         tuple path('*.LAI.log'), path('*.LAI.out') // reversed file name to avoid conflict 
@@ -92,6 +86,7 @@ process RUN_LAI {
     script:
         """
         LAI \
+        -t ${task.cpus} \
         -genome $genome_fasta \
         -intact $pass_list \
         -all $genome_out > "${hap_name}.LAI.log"
