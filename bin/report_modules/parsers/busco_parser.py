@@ -108,6 +108,10 @@ def parse_busco_folder(folder_name = "busco_outputs"):
 
     dir = os.getcwdb().decode()
     busco_folder_path = Path(f"{dir}/{folder_name}")
+
+    if not os.path.exists(busco_folder_path):
+        return {}
+
     list_of_files = busco_folder_path.glob("*.txt")
 
     plot_path = next(busco_folder_path.glob("*.png"))

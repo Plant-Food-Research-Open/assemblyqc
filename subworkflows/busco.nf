@@ -11,15 +11,23 @@ workflow BUSCO {
     
         CREATE_PLOT(ch_busco_summaries)
         .set { ch_busco_plot }
+
+        ch_busco_summaries
+        .mix(ch_busco_plot)
+        .collect()
+        .set { ch_busco_outputs }
     
     emit:
-        busco_summaries   = ch_busco_summaries
-        busco_plot        = ch_busco_plot
+        busco_outputs   = ch_busco_outputs
 }
 
 process RUN_BUSCO {
+    label 'uses_high_cpu_mem'
+    label 'takes_hours'
     tag "${hap_name}: ${lineage_dataset}: ${augustus_species}"
     container "quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0"
+
+    publishDir "${params.outdir.main}/busco_outputs", mode: 'copy'
 
     input:
         tuple val(hap_name), path(fasta_file), val(lineage_dataset), val(augustus_species)
@@ -49,7 +57,10 @@ process RUN_BUSCO {
 }
 
 process CREATE_PLOT {
+    label 'uses_low_cpu_mem'
     container "quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0"
+
+    publishDir params.outdir.main, mode: 'copy'
 
     input: 
         path "short_summary.*", stageAs: 'busco_outputs/*'

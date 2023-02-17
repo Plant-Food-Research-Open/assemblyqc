@@ -22,3 +22,7 @@ results/
 to-do-list.md
 
 test_data/
+test_data_conf/
+
+*.stdout
+*.stderr

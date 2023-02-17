@@ -8,6 +8,10 @@ def parse_tidk_folder(folder_name = "tidk_outputs"):
 
     dir = os.getcwdb().decode()
     tidk_folder_path = Path(f"{dir}/{folder_name}")
+
+    if not os.path.exists(tidk_folder_path):
+        return {}
+
     list_of_plot_files = tidk_folder_path.glob("*.svg")
 
     data = {"TIDK": []}

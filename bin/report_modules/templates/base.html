@@ -5,12 +5,14 @@
     <div class="report-header-wrapper">
         <div class="report-header">Assembly QC</div>
     </div>
-    <div class="tab">
-        <button class="tablinks active" onclick="openTool(event, 'BUSCO')">BUSCO</button>
-        <button class="tablinks" onclick="openTool(event, 'TIDK')">TIDK</button>
+    <div class="tab" id="topNavBarButtons">
+        {% if 'BUSCO' in all_stats_dicts %}<button class="tablinks active" onclick="openTool(event, 'BUSCO')">BUSCO</button>{% endif %}
+        {% if 'TIDK' in all_stats_dicts %}<button class="tablinks" onclick="openTool(event, 'TIDK')">TIDK</button>{% endif %}
+        {% if 'LAI' in all_stats_dicts %}<button class="tablinks" onclick="openTool(event, 'LAI')">LAI</button>{% endif %}
     </div>
-    {% include 'busco/busco.html' %}
-    {% include 'tidk/tidk.html' %}
+    {% if 'BUSCO' in all_stats_dicts %}{% include 'busco/busco.html' %}{% endif %}
+    {% if 'TIDK' in all_stats_dicts %}{% include 'tidk/tidk.html' %}{% endif %}
+    {% if 'LAI' in all_stats_dicts %}{% include 'lai/lai.html' %}{% endif %}
 </body>
 {% include 'js.html' %}
 
