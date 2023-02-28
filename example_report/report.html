@@ -8,7 +8,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,700;1,900&display=swap"
-    rel="stylesheet" />
+    rel="stylesheet"
+  />
   <style>
     * {
       box-sizing: border-box;
@@ -36,7 +37,7 @@
     }
 
     .software-type-wrapper {
-      width: 60%;
+      width: 80%;
       min-width: 700px;
       margin: auto;
       text-align: center;
@@ -64,7 +65,7 @@
     }
 
     .table-wrapper {
-      width: 60%;
+      width: 80%;
       min-width: 700px;
       margin-left: auto;
       margin-right: auto;
@@ -90,6 +91,7 @@
     td {
       padding: 12px 15px;
       text-align: left;
+      overflow-wrap: break-word;
     }
 
     table td:nth-child(1) {
@@ -124,7 +126,7 @@
     }
 
     .section-heading-wrapper {
-      width: 60%;
+      width: 80%;
       min-width: 700px;
       margin: auto;
     }
@@ -143,7 +145,7 @@
 
     .dropdown select {
       background: transparent;
-      width: 500px;
+      width: 100%;
       height: 40px;
       padding: 2px;
       font-family: Arial, Helvetica, sans-serif;
@@ -176,7 +178,7 @@
     .dropdown {
       height: 40px;
       margin: auto;
-      width: 500px;
+      width: 60%;
       overflow: hidden;
       background: no-repeat right #e7e7e7;
     }
@@ -204,7 +206,7 @@
     }
 
     img {
-      max-width: 60%;
+      max-width: 70%;
       margin-top: 20px;
     }
 
@@ -215,6 +217,7 @@
     }
 
     .tab {
+      margin-bottom: 10px;
       overflow: hidden;
       border: 1px solid #ccc;
       background-color: #f1f1f1;
@@ -254,11 +257,12 @@
     <div class="report-header-wrapper">
         <div class="report-header">Assembly QC</div>
     </div>
-    <div class="tab">
+    <div class="tab" id="topNavBarButtons">
         <button class="tablinks active" onclick="openTool(event, 'BUSCO')">BUSCO</button>
         <button class="tablinks" onclick="openTool(event, 'TIDK')">TIDK</button>
+        
     </div>
-    <div id="BUSCO" class="tabcontent">
+    <div id="BUSCO" class="tabcontent" style="display: none">
     <div class="dropdown">
   <div class="dropdown_content">
     <select id="selector_BUSCO" onchange="showContent('BUSCO')">
@@ -1334,6 +1338,7 @@
 
 
 </div>
+    
 </body>
 <script>
     function showContent(ofTool) {
@@ -1344,7 +1349,6 @@
 
         const drop_down_list = document.getElementById(`selector_${ofTool}`);
         content_id = drop_down_list.options[drop_down_list.selectedIndex].value;
-        console.log(content_id);
 
         document.getElementById(content_id).style.display = "block";
     }
@@ -1365,6 +1369,35 @@
         document.getElementById(toolName).style.display = "block";
         evt.currentTarget.className += " active";
     }
+
+    function openToolManually(target, toolName) {
+        let i, tabcontent, tablinks;
+
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        document.getElementById(toolName).style.display = "block";
+        target.classList.add("active")
+    }
+
+    window.addEventListener('DOMContentLoaded', event => {
+
+        const topNavBarButtons = document.getElementById("topNavBarButtons");
+
+        if (topNavBarButtons.children.length < 1) {
+            return;
+        }
+
+        const firstChild = topNavBarButtons.children[0];
+        openToolManually(firstChild, firstChild.innerHTML);
+    });
 </script>
 
 </html>

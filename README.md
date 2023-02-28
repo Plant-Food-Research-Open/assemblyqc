@@ -112,7 +112,7 @@ $ nextflow main.nf -profile slurm
 
 ### Post the NextFlow Process to Slurm
 
-The interactive session allows us to monitor the progress from the ssh session. However, a major disadvantage is that the NextFlow task is killed if the ssh session drops for reasons such as loss of internet connection. For log running jobs, it is a good idea to post the NexFlow task to Slurm.
+The interactive session allows us to monitor the progress from the ssh session. However, a major disadvantage is that the NextFlow task is killed if the ssh session drops for reasons such as loss of internet connection. For log running jobs, it is a good idea to post the NextFlow task to Slurm.
 
 ```bash
 cat << EOF > assembly_qc_slurm.sh
@@ -165,15 +165,18 @@ $ ./cleanNXF.sh
 
 - [ ] General Statistics -- [https://doi.org/10.1016/j.tig.2022.10.005](https://doi.org/10.1016/j.tig.2022.10.005), [https://github.com/KorfLab/Assemblathon](https://github.com/KorfLab/Assemblathon), Ross' version: /workspace/hrarnc/GitHub/Scriptomics/hrarnc/PerlScripts/Assembly/assemblathon_stats_v1.1.pl
 - [ ] Synteny Check
-- [ ] Contamination Check -- [https://doi.org/10.1186/s13059-022-02619-9](https://doi.org/10.1186/s13059-022-02619-9)
+- [ ] Contamination Check -- [https://doi.org/10.1186/s13059-022-02619-9](https://doi.org/10.1186/s13059-022-02619-9)(most important)
 
 ### User Feedback
 
 - [x] Add links to BUSCO lineages and Augustus species.
 - [x] Add optional flag to all the tools.
 - [x] Sort sequences by size before feeding to TIDK.
-- [ ] Fix the BUSCO summary table and dropdown menu for long haplotype tags.
+- [x] Fix the BUSCO summary table and dropdown menu for long haplotype tags. Text wrapping in table tabs
 - [ ] Pull html formatting out of BUSCO/dependencies and results_table so that the machine reading of report.json is straight forward.
+- [ ] TIDK fix scale (chen)
+- [ ] CL options e.g for busco_lineage for non-devs
+- [ ] Contamination first before running other checks
 
 ### Other Changes
 
