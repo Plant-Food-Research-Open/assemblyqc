@@ -183,9 +183,10 @@ def parse_busco_folder(folder_name="busco_outputs"):
             "hap": file_tokens[1],
             "lineage": file_tokens[0],
             "augustus_species": file_tokens[3],
-            "busco_plot": busco_plot_url,
             **parser.parse_report(),
         }
         data["BUSCO"].append(stats)
+    
+    data["BUSCO"][0]["busco_plot"] = busco_plot_url
 
     return data

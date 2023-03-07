@@ -15,7 +15,6 @@
   - [Future Plans](#future-plans)
     - [Tools](#tools)
     - [User Feedback](#user-feedback)
-    - [Other Changes](#other-changes)
 
 ## Introduction
 
@@ -29,30 +28,39 @@ flowchart TD
     p6[BUSCO:RUN_BUSCO]
     p7([collect])
     p8[BUSCO:CREATE_PLOT]
-    p10[Foreach Haplotype]
-    p11[TIDK:SEARCH_REPEAT_SEQ]
-    p12[TIDK:PLOT_REPEAT_SEQ]
-    p13([collect])
-    p15[Foreach Haplotype]
-    p16[LAI:EDTA]
-    p17[CREATE_REPORT]
-    p18(( ))
-    p19[LAI:RUN_LAI]
-    p20([collect])
+    p9([mix])
+    p10([collect])
+    p12[Foreach Haplotype]
+    p13[TIDK:SORT_BY_SEQ_LENGTH]
+    p14[TIDK:SEARCH_REPEAT_SEQ]
+    p15[TIDK:PLOT_REPEAT_SEQ]
+    p16([collect])
+    p24[Foreach Haplotype]
+    p26[LAI:EDTA]
+    p28[LAI:RUN_LAI]
+    p29([collect])
+    p30[CREATE_REPORT]
+    p31(( ))
+    p32(( ))
     p5 --> p6
     p6 --> p7
-    p7 -->|busco_summaries| p8
-    p8 -->|busco_plot_png| p17
-    p10 --> p11
-    p11 --> p12
+    p7 -->|busco summaries| p8
+    p8 --> p9
+    p7 -->|busco summaries| p9
+    p9 --> p10
+    p10 -->|list of busco outputs| p30
     p12 --> p13
-    p13 -->|list_of_tidk_plots| p17
+    p13 --> p14
+    p14 --> p15
     p15 --> p16
-    p7 -->|busco_summaries| p17
-    p17 --> p18
-    p16 --> p19
-    p19 --> p20
-    p20 -->|list_of_lai_logs| p17
+    p16 -->|list of tidk outputs| p30
+    p24 --> p26
+    p24 -->|if pass list and out file| p28
+    p26 --> p28
+    p28 --> p29
+    p29 -->|list of lai outputs| p30
+    p30 -->|report.html| p32
+    p30 -->|report.json| p31
 ```
 
 ## Software Versions
@@ -165,21 +173,13 @@ $ ./cleanNXF.sh
 
 - [ ] General Statistics -- [https://doi.org/10.1016/j.tig.2022.10.005](https://doi.org/10.1016/j.tig.2022.10.005), [https://github.com/KorfLab/Assemblathon](https://github.com/KorfLab/Assemblathon), Ross' version: /workspace/hrarnc/GitHub/Scriptomics/hrarnc/PerlScripts/Assembly/assemblathon_stats_v1.1.pl
 - [ ] Synteny Check
-- [ ] Contamination Check -- [https://doi.org/10.1186/s13059-022-02619-9](https://doi.org/10.1186/s13059-022-02619-9)(most important)
+- [ ] Contamination Check -- [https://doi.org/10.1186/s13059-022-02619-9](https://doi.org/10.1186/s13059-022-02619-9)
+- [ ] Add both a priori and a posteriori TIDK sequence options. See differences across https://github.com/tolkit/a-telomeric-repeat-database and http://telomerase.asu.edu/sequences_telomere.html
 
 ### User Feedback
 
-- [x] Add links to BUSCO lineages and Augustus species.
-- [x] Add optional flag to all the tools.
-- [x] Sort sequences by size before feeding to TIDK.
-- [x] Fix the BUSCO summary table and dropdown menu for long haplotype tags. Text wrapping in table tabs
-- [ ] Pull html formatting out of BUSCO/dependencies and results_table so that the machine reading of report.json is straight forward.
+- [x] Fix the BUSCO summary table and dropdown menu for long haplotype tags.
+- [x] Pull html formatting out of BUSCO/dependencies and results_table so that the machine reading of report.json is straight forward.
 - [ ] TIDK fix scale (chen)
 - [ ] CL options e.g for busco_lineage for non-devs
 - [ ] Contamination first before running other checks
-
-### Other Changes
-
-- [x] Added test data configuration for a whole genome.
-- [x] Added EDTA bypass to LAI.
-- [x] Added takes_hours label to BUSCO.

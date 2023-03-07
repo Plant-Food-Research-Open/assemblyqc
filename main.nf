@@ -40,38 +40,47 @@ workflow {
 
     
     // LAI
-    if (!params.lai.skip) {
-        Channel.fromList(params.haplotype_fasta)
-        .map {
-            return [it[0], file(it[1], checkIfExists: true)]
-        }
-        .set { ch_tuple_of_hap_file_for_lai }
-        
+    if (!params.lai.skip) {    
         if (params.lai.pass_list == null || params.lai.out_file == null) {
-            Channel.of([])
-            .set { ch_tuple_of_hap_pass_list_for_lai }
-
-            Channel.of([])
-            .set { ch_tuple_of_hap_out_file_for_lai }
+            Channel.fromList(params.haplotype_fasta)
+            .map {
+                return [it[0], file(it[1], checkIfExists: true)]
+            }
+            .join(
+                Channel.fromList(params.haplotype_fasta)
+                .map {
+                    return [it[0], null]
+                }
+            )
+            .join(
+                Channel.fromList(params.haplotype_fasta)
+                .map {
+                    return [it[0], null]
+                }
+            )
+            .set { ch_tuple_of_hap_genome_pass_out }
         } else {
-            Channel.fromList(params.lai.pass_list)
+            Channel.fromList(params.haplotype_fasta)
             .map {
                 return [it[0], file(it[1], checkIfExists: true)]
             }
-            .set { ch_tuple_of_hap_pass_list_for_lai }
-
-            Channel.fromList(params.lai.out_file)
-            .map {
-                return [it[0], file(it[1], checkIfExists: true)]
-            }
-            .set { ch_tuple_of_hap_out_file_for_lai }
+            .join(
+                Channel.fromList(params.lai.pass_list)
+                .map {
+                    return [it[0], file(it[1], checkIfExists: true)]
+                }
+            )
+            .join(
+                Channel.fromList(params.lai.out_file)
+                .map {
+                    return [it[0], file(it[1], checkIfExists: true)]
+                }
+            )
+            .set { ch_tuple_of_hap_genome_pass_out }
         }
 
-        LAI(
-            ch_tuple_of_hap_file_for_lai,
-            ch_tuple_of_hap_pass_list_for_lai,
-            ch_tuple_of_hap_out_file_for_lai
-        )
+        ch_tuple_of_hap_genome_pass_out
+        | LAI
 
         ch_list_of_lai_outputs = LAI.out.list_of_lai_outputs
     } else {
