@@ -24,6 +24,13 @@ class BuscoParser:
         self.stats_dict["dependencies"] = self.get_deps_and_versions(self.file_data)
         self.stats_dict["results_table"] = self.get_busco_result_table(self.file_data)
 
+        # include busco results dictionary for use in json dump
+        self.stats_dict["results_dict"] = self.get_busco_result_dict(self.file_data)
+        # include dependencies dictionary for use in json dump
+        self.stats_dict["dependencies_dict"] = self.get_deps_and_versions_dict(
+            self.file_data
+        )
+
         return self.stats_dict
 
     def get_busco_version(self, data):
@@ -83,6 +90,25 @@ class BuscoParser:
         )
         return table
 
+    # get dependencies dictionary instead of table to use in json dump
+    def get_deps_and_versions_dict(self, file_data):
+        list_of_lines = file_data.split("\n")
+        for index, line in enumerate(list_of_lines):
+            if "Dependencies and versions" in line:
+                all_deps = (
+                    "".join(list_of_lines[max(0, index + 1) : len(list_of_lines) - 2])
+                    .replace("\t", "\n")
+                    .strip()
+                )
+
+        dep_dict = {}
+        for dep in all_deps.splitlines():
+            dependency = dep.split(":")[0]
+            version = dep.split(":")[1].strip()
+            dep_dict[f"{dependency}"] = f"{version}"
+
+        return dep_dict
+
     def get_busco_result_table(self, file_data):
         list_of_lines = file_data.split("\n")
         for index, line in enumerate(list_of_lines):
@@ -104,7 +130,26 @@ class BuscoParser:
         )
         return table
 
-def parse_busco_folder(folder_name = "busco_outputs"):
+    # get results dictionary instead of table to use in json dump
+    def get_busco_result_dict(self, file_data):
+        list_of_lines = file_data.split("\n")
+        for index, line in enumerate(list_of_lines):
+            if "Dependencies and versions" in line:
+                dev_dep_index = index
+
+        results_dict = {}
+        for index, line in enumerate(list_of_lines):
+            if "C:" in line:
+                for i in range(index + 1, dev_dep_index - 1):
+                    number = list_of_lines[i].split("\t")[1]
+                    descr = list_of_lines[i].split("\t")[2]
+
+                    results_dict[f"{descr}"] = f"{number}"
+
+        return results_dict
+
+
+def parse_busco_folder(folder_name="busco_outputs"):
 
     dir = os.getcwdb().decode()
     busco_folder_path = Path(f"{dir}/{folder_name}")
@@ -138,9 +183,10 @@ def parse_busco_folder(folder_name = "busco_outputs"):
             "hap": file_tokens[1],
             "lineage": file_tokens[0],
             "augustus_species": file_tokens[3],
-            "busco_plot": busco_plot_url,
             **parser.parse_report(),
         }
         data["BUSCO"].append(stats)
+    
+    data["BUSCO"][0]["busco_plot"] = busco_plot_url
 
     return data

@@ -63,7 +63,6 @@ flowchart TD
     p30 -->|report.json| p31
 ```
 
-
 ## Software Versions
 
 - BUSCO: quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0
@@ -121,7 +120,7 @@ $ nextflow main.nf -profile slurm
 
 ### Post the NextFlow Process to Slurm
 
-The interactive session allows us to monitor the progress from the ssh session. However, a major disadvantage is that the NextFlow task is killed if the ssh session drops for reasons such as loss of internet connection. For log running jobs, it is a good idea to post the NexFlow task to Slurm.
+The interactive session allows us to monitor the progress from the ssh session. However, a major disadvantage is that the NextFlow task is killed if the ssh session drops for reasons such as loss of internet connection. For log running jobs, it is a good idea to post the NextFlow task to Slurm.
 
 ```bash
 cat << EOF > assembly_qc_slurm.sh
@@ -179,5 +178,8 @@ $ ./cleanNXF.sh
 
 ### User Feedback
 
-- [ ] Fix the BUSCO summary table and dropdown menu for long haplotype tags.
-- [ ] Pull html formatting out of BUSCO/dependencies and results_table so that the machine reading of report.json is straight forward.
+- [x] Fix the BUSCO summary table and dropdown menu for long haplotype tags.
+- [x] Pull html formatting out of BUSCO/dependencies and results_table so that the machine reading of report.json is straight forward.
+- [ ] TIDK fix scale (chen)
+- [ ] CL options e.g for busco_lineage for non-devs
+- [ ] Contamination first before running other checks

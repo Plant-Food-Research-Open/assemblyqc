@@ -1,5 +1,11 @@
 # Change Log
 
+## Version 0.6.1 (8-Mar-2023)
+
+1. Included results_dict and dependencies dict (without html formatting) to json.
+2. Removed completed items in readme.
+3. Fixed json dump repeating image url.
+
 ## Version 0.6 (17-Feb-2023)
 
 1. Added LAI.
