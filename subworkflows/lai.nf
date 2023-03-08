@@ -5,23 +5,27 @@ workflow LAI {
         tuple_of_hap_genome_pass_out
     
     main:
-        if (params.lai.pass_list == null || params.lai.out_file == null) {
-            tuple_of_hap_genome_pass_out
-            | map {
-                return [it[0], it[1]]
+        if (!params.lai.skip) {
+            if (params.lai.pass_list == null || params.lai.out_file == null) {
+                tuple_of_hap_genome_pass_out
+                | map {
+                    return [it[0], it[1]]
+                }
+                | EDTA
+                | map {
+                    return [it[0], it[1], it[3], it[4]]
+                }
+                | RUN_LAI
+                | collect
+                | set { ch_list_of_lai_outputs }
+            } else {
+                tuple_of_hap_genome_pass_out
+                | RUN_LAI
+                | collect
+                | set { ch_list_of_lai_outputs }
             }
-            | EDTA
-            | map {
-                return [it[0], it[1], it[3], it[4]]
-            }
-            | RUN_LAI
-            | collect
-            | set { ch_list_of_lai_outputs }
         } else {
-            tuple_of_hap_genome_pass_out
-            | RUN_LAI
-            | collect
-            | set { ch_list_of_lai_outputs }
+            ch_list_of_lai_outputs = Channel.of([])
         }
     
     emit:
@@ -51,7 +55,7 @@ process EDTA {
         --anno 1 \
         --force 1 \
         --species "others" \
-        --threads ${task.cpus}
+        --threads ${task.cpus * params.ht_factor}
 
         fasta_file_var="$fasta_file"
         fasta_file_base_name="\${fasta_file_var%.*}"
@@ -86,7 +90,7 @@ process RUN_LAI {
     script:
         """
         LAI \
-        -t ${task.cpus} \
+        -t ${task.cpus * params.ht_factor} \
         -genome $genome_fasta \
         -intact $pass_list \
         -all $genome_out > "${hap_name}.LAI.log"

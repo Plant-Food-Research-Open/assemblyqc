@@ -5,20 +5,24 @@ workflow BUSCO {
         tuple_of_hap_file_lineage_species
     
     main:
-        RUN_BUSCO(tuple_of_hap_file_lineage_species)
-        | collect
-        | set {ch_busco_summaries}
-    
-        CREATE_PLOT(ch_busco_summaries)
-        .set { ch_busco_plot }
+        if (!params.busco.skip) {
+            RUN_BUSCO(tuple_of_hap_file_lineage_species)
+            | collect
+            | set {ch_busco_summaries}
+        
+            CREATE_PLOT(ch_busco_summaries)
+            .set { ch_busco_plot }
 
-        ch_busco_summaries
-        .mix(ch_busco_plot)
-        .collect()
-        .set { ch_busco_outputs }
+            ch_busco_summaries
+            .mix(ch_busco_plot)
+            .collect()
+            .set { ch_outputs }
+        } else {
+            ch_outputs = Channel.of([])
+        }
     
     emit:
-        busco_outputs   = ch_busco_outputs
+        outputs = ch_outputs
 }
 
 process RUN_BUSCO {
@@ -27,7 +31,7 @@ process RUN_BUSCO {
     tag "${hap_name}: ${lineage_dataset}: ${augustus_species}"
     container "quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0"
 
-    publishDir "${params.outdir.main}/busco_outputs", mode: 'copy'
+    publishDir "${params.outdir.main}/busco", mode: 'copy'
 
     input:
         tuple val(hap_name), path(fasta_file), val(lineage_dataset), val(augustus_species)
@@ -49,7 +53,7 @@ process RUN_BUSCO {
         --augustus_species ${augustus_species} \
         --update-data \
         --download_path "${params.busco.download_path}" \
-        -c ${task.cpus} 
+        -c ${task.cpus * params.ht_factor}
 
         echo "${augustus_species}" >> "${hap_name}/short_summary.specific.${lineage_dataset}.${hap_name}.txt"
         mv "${hap_name}/short_summary.specific.${lineage_dataset}.${hap_name}.txt" "${hap_name}/short_summary.specific.${lineage_dataset}.${hap_name}_${lineage_split}_${augustus_species}.txt"

@@ -5,11 +5,16 @@ workflow TIDK {
         tuple_of_hap_file
     
     main:
-        SORT_BY_SEQ_LENGTH(tuple_of_hap_file)
-        | SEARCH_REPEAT_SEQ
-        | PLOT_REPEAT_SEQ
-        | collect
-        | set { ch_list_of_tidk_plots }
+        if (!params.tidk.skip) {
+            SORT_BY_SEQ_LENGTH(tuple_of_hap_file)
+            | SEARCH_REPEAT_SEQ
+            | PLOT_REPEAT_SEQ
+            | collect
+            | set { ch_list_of_tidk_plots }
+        }
+        else {
+            ch_list_of_tidk_plots = Channel.of([])
+        }
     
     emit:
         list_of_tidk_plots = ch_list_of_tidk_plots
