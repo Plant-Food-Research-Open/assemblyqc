@@ -42,25 +42,36 @@ flowchart TD
     p30[CREATE_REPORT]
     p31(( ))
     p32(( ))
+    
+    p33[Foreach Haplotype]
+    p34[KRAKEN2:SETUP_KRAKEN2_DB]
+    p35[KRAKEN2:RUN_KRAKEN2]
+    p36[KRAKEN2:KRONA_PLOT]
+    
     p5 --> p6
     p6 --> p7
     p7 -->|busco summaries| p8
     p8 --> p9
     p7 -->|busco summaries| p9
     p9 --> p10
-    p10 -->|list of busco outputs| p30
+    p10 -->|list of outputs| p30
     p12 --> p13
     p13 --> p14
     p14 --> p15
     p15 --> p16
-    p16 -->|list of tidk outputs| p30
+    p16 -->|list of outputs| p30
     p24 --> p26
     p24 -->|if pass list and out file| p28
     p26 --> p28
     p28 --> p29
-    p29 -->|list of lai outputs| p30
+    p29 -->|list of outputs| p30
     p30 -->|report.html| p32
     p30 -->|report.json| p31
+
+    p33 --> p35
+    p34 -->|download if doesn't exist| p35
+    p35 --> p36
+    p36 -->|list_of_outputs| p30
 ```
 
 ## Software Versions
@@ -70,6 +81,8 @@ flowchart TD
   - SEQKIT: quay.io/biocontainers/seqkit:2.3.1--h9ee0642_0
 - LAI: quay.io/biocontainers/ltr_retriever:2.9.0--hdfd78af_1
   - EDTA: quay.io/biocontainers/edta:2.1.0--hdfd78af_1
+- KRAKEN2: quay.io/biocontainers/kraken2:2.1.2--pl5321h9f5acd7_2
+  - KRONA: docker://nanozoo/krona:2.7.1--e7615f7
 
 ## Installation
 
@@ -173,7 +186,7 @@ $ ./cleanNXF.sh
 
 - [ ] General Statistics -- [https://doi.org/10.1016/j.tig.2022.10.005](https://doi.org/10.1016/j.tig.2022.10.005), [https://github.com/KorfLab/Assemblathon](https://github.com/KorfLab/Assemblathon), Ross' version: /workspace/hrarnc/GitHub/Scriptomics/hrarnc/PerlScripts/Assembly/assemblathon_stats_v1.1.pl
 - [ ] Synteny Check
-- [ ] Contamination Check -- [https://doi.org/10.1186/s13059-022-02619-9](https://doi.org/10.1186/s13059-022-02619-9)
+- [ ] Contamination Check -- [https://doi.org/10.1186/s13059-022-02619-9](https://doi.org/10.1186/s13059-022-02619-9). Added kraken2.
 - [ ] Add both a priori and a posteriori TIDK sequence options. See differences across https://github.com/tolkit/a-telomeric-repeat-database and http://telomerase.asu.edu/sequences_telomere.html
 
 ### User Feedback
