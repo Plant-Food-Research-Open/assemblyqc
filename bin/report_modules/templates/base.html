@@ -9,10 +9,12 @@
         {% if 'BUSCO' in all_stats_dicts %}<button class="tablinks active" onclick="openTool(event, 'BUSCO')">BUSCO</button>{% endif %}
         {% if 'TIDK' in all_stats_dicts %}<button class="tablinks" onclick="openTool(event, 'TIDK')">TIDK</button>{% endif %}
         {% if 'LAI' in all_stats_dicts %}<button class="tablinks" onclick="openTool(event, 'LAI')">LAI</button>{% endif %}
+        {% if 'KRAKEN2' in all_stats_dicts %}<button class="tablinks" onclick="openTool(event, 'KRAKEN2')">KRAKEN2</button>{% endif %}
     </div>
     {% if 'BUSCO' in all_stats_dicts %}{% include 'busco/busco.html' %}{% endif %}
     {% if 'TIDK' in all_stats_dicts %}{% include 'tidk/tidk.html' %}{% endif %}
     {% if 'LAI' in all_stats_dicts %}{% include 'lai/lai.html' %}{% endif %}
+    {% if 'KRAKEN2' in all_stats_dicts %}{% include 'kraken2/kraken2.html' %}{% endif %}
 </body>
 {% include 'js.html' %}
 

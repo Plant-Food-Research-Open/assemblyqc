@@ -22,12 +22,12 @@ workflow BUSCO {
         }
     
     emit:
-        outputs = ch_outputs
+        list_of_outputs = ch_outputs
 }
 
 process RUN_BUSCO {
     label 'uses_high_cpu_mem'
-    label 'takes_hours'
+    label 'takes_eight_hours'
     tag "${hap_name}: ${lineage_dataset}: ${augustus_species}"
     container "quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0"
 

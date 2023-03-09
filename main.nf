@@ -78,8 +78,9 @@ workflow {
 
     // CREATE REPORT
     CREATE_REPORT(
-        BUSCO.out.outputs,
-        TIDK.out.list_of_tidk_plots,
-        LAI.out.list_of_lai_outputs
+        BUSCO.out.list_of_outputs,
+        TIDK.out.list_of_plots,
+        LAI.out.list_of_outputs,
+        KRAKEN2.out.list_of_outputs
     )
 }

@@ -10,6 +10,7 @@ process CREATE_REPORT {
         path busco_outputs, stageAs: 'busco_outputs/*'
         path tidk_plots, stageAs: 'tidk_outputs/*'
         path lai_outputs, stageAs: 'lai_outputs/*'
+        path kraken2_outputs, stageAs: 'kraken2_outputs/*'
 
     output:
         path 'report.html'

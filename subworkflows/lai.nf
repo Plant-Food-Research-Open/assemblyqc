@@ -29,12 +29,12 @@ workflow LAI {
         }
     
     emit:
-        list_of_lai_outputs = ch_list_of_lai_outputs
+        list_of_outputs = ch_list_of_lai_outputs
 }
 
 process EDTA {
     label 'uses_high_cpu_mem'
-    label 'takes_days'
+    label 'takes_three_days'
     tag "${hap_name}"
     container 'quay.io/biocontainers/edta:2.1.0--hdfd78af_1'
 

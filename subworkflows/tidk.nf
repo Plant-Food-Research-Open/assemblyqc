@@ -17,7 +17,7 @@ workflow TIDK {
         }
     
     emit:
-        list_of_tidk_plots = ch_list_of_tidk_plots
+        list_of_plots = ch_list_of_tidk_plots
 }
 
 process SORT_BY_SEQ_LENGTH {

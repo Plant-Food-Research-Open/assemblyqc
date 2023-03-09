@@ -26,3 +26,5 @@ test_data_conf/
 
 *.stdout
 *.stderr
+
+kraken2db/
