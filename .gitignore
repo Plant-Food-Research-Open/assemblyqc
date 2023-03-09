@@ -28,3 +28,5 @@ test_data_conf/
 *.stderr
 
 kraken2db/
+
+ncbi_fcs_adaptor_scripts/

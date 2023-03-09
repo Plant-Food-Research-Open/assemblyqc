@@ -6,10 +6,19 @@ include { BUSCO                 } from './subworkflows/busco.nf'
 include { TIDK                  } from './subworkflows/tidk.nf'
 include { LAI                   } from './subworkflows/lai.nf'
 include { KRAKEN2               } from './subworkflows/kraken2.nf'
+include { NCBI_FCS_ADAPTOR      } from './subworkflows/ncbi_fcs_adaptor.nf'
 
 include { CREATE_REPORT         } from './modules/create_report.nf'
 
 workflow {
+
+    // NCBI-FCS-ADAPTOR
+    Channel.fromList(params.haplotype_fasta)
+    .map {
+        return [it[0], file(it[1], checkIfExists: true)]
+    }
+    | NCBI_FCS_ADAPTOR
+    | view
     
     // BUSCO
     Channel.fromList(params.haplotype_fasta)
