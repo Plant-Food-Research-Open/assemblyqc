@@ -46,6 +46,8 @@ flowchart LR
 
 ## Software Versions
 
+- NCBI-FCS-ADAPTOR: 0.4
+  - Tini: 0.19.0 - git.de40ad0
 - BUSCO: quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0
 - TIDK: quay.io/biocontainers/tidk:0.2.31--h87f3376_0
   - SEQKIT: quay.io/biocontainers/seqkit:2.3.1--h9ee0642_0
