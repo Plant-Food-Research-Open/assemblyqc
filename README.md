@@ -23,61 +23,31 @@ Welcome to the Assembly QC report generator. This software is a Nextflow pipelin
 ## Pipeline Flowchart
 
 ```mermaid
-flowchart TD
-    p5[Foreach Haplotype:Lineage:Augustus Species]
-    p6[BUSCO:RUN_BUSCO]
-    p7([collect])
-    p8[BUSCO:CREATE_PLOT]
-    p9([mix])
-    p10([collect])
-    p12[Foreach Haplotype]
-    p13[TIDK:SORT_BY_SEQ_LENGTH]
-    p14[TIDK:SEARCH_REPEAT_SEQ]
-    p15[TIDK:PLOT_REPEAT_SEQ]
-    p16([collect])
-    p24[Foreach Haplotype]
-    p26[LAI:EDTA]
-    p28[LAI:RUN_LAI]
-    p29([collect])
-    p30[CREATE_REPORT]
-    p31(( ))
-    p32(( ))
-    
-    p33[Foreach Haplotype]
-    p34[KRAKEN2:SETUP_KRAKEN2_DB]
-    p35[KRAKEN2:RUN_KRAKEN2]
-    p36[KRAKEN2:KRONA_PLOT]
-    
-    p5 --> p6
-    p6 --> p7
-    p7 -->|busco summaries| p8
-    p8 --> p9
-    p7 -->|busco summaries| p9
-    p9 --> p10
-    p10 -->|list of outputs| p30
-    p12 --> p13
-    p13 --> p14
-    p14 --> p15
-    p15 --> p16
-    p16 -->|list of outputs| p30
-    p24 --> p26
-    p24 -->|if pass list and out file| p28
-    p26 --> p28
-    p28 --> p29
-    p29 -->|list of outputs| p30
-    p30 -->|report.html| p32
-    p30 -->|report.json| p31
+flowchart LR
+  forEachHap[Foreach\nHaplotype] --> ncbiFCS{NCBI FCS Adaptor\nCheck}
+  ncbiFCS --> |Contaminated|Skip[Skip]
+  ncbiFCS --> |Clean|Run
 
-    p33 --> p35
-    p34 -->|download if doesn't exist| p35
-    p35 --> p36
-    p36 -->|list_of_outputs| p30
+  Skip --> Report
+  
+  Run --> BUSCO
+  Run --> TIDK
+  Run --> EDTA
+  EDTA --> LAI
+  Run --> |Pass list and out file\nprovided|LAI
+  Run --> KRAKEN2
+
+
+  BUSCO --> Report
+  TIDK --> Report
+  LAI --> Report
+  KRAKEN2 --> Report
 ```
 
 ## Software Versions
 
 - BUSCO: quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0
-- TIDK: 0.2.1
+- TIDK: quay.io/biocontainers/tidk:0.2.31--h87f3376_0
   - SEQKIT: quay.io/biocontainers/seqkit:2.3.1--h9ee0642_0
 - LAI: quay.io/biocontainers/ltr_retriever:2.9.0--hdfd78af_1
   - EDTA: quay.io/biocontainers/edta:2.1.0--hdfd78af_1

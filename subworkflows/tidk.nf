@@ -40,7 +40,7 @@ process SORT_BY_SEQ_LENGTH {
 process SEARCH_REPEAT_SEQ {
     label 'uses_low_cpu_mem'
     tag "${hap_name}"
-    conda 'environment.yml'
+    container "quay.io/biocontainers/tidk:0.2.31--h87f3376_0" 
 
     publishDir params.outdir.main, mode: 'copy'
 
@@ -48,29 +48,29 @@ process SEARCH_REPEAT_SEQ {
         tuple val(hap_name), path(fasta_file)
 
     output:
-        tuple val(hap_name), path("tidk/${hap_name}.tidk.search*.csv")
+        tuple val(hap_name), path("tidk/${hap_name}.tidk.search*.tsv")
 
     script:
         """
-        tidk search --fasta "${fasta_file}" --string "${params.tidk.repeat_seq}" --output "${hap_name}.tidk.search" --dir tidk --extension "csv"
+        tidk search --string "${params.tidk.repeat_seq}" --output "${hap_name}.tidk.search" --dir tidk --extension "tsv" "${fasta_file}"
         """
 }
 
 process PLOT_REPEAT_SEQ {
     label 'uses_low_cpu_mem'
     tag "${hap_name}"
-    conda 'environment.yml'
+    container "quay.io/biocontainers/tidk:0.2.31--h87f3376_0" 
 
     publishDir "${params.outdir.main}/tidk", mode: 'copy'
 
     input:
-        tuple val(hap_name), path(csv_file)
+        tuple val(hap_name), path(tsv_file)
 
     output:
         path "${hap_name}.tidk.plot.svg"
 
     script:
         """
-        tidk plot --csv "$csv_file" --output "${hap_name}.tidk.plot"
+        tidk plot --tsv "$tsv_file" --output "${hap_name}.tidk.plot"
         """
 }

@@ -131,6 +131,17 @@
       margin: auto;
     }
 
+    .section-para {
+      padding: 16px 0px;
+      font-size: 20px;
+    }
+
+    .section-para-wrapper {
+      width: 80%;
+      min-width: 700px;
+      margin: auto;
+    }
+
     .tabcontent-BUSCO {
       display: none;
       padding: 6px 12px;
@@ -138,6 +149,12 @@
     }
 
     .tabcontent-TIDK {
+      display: none;
+      padding: 6px 12px;
+      border-top: none;
+    }
+
+    .tabcontent-NCBI_FCS_ADAPTOR {
       display: none;
       padding: 6px 12px;
       border-top: none;
@@ -262,11 +279,58 @@
         <div class="report-header">Assembly QC</div>
     </div>
     <div class="tab" id="topNavBarButtons">
+        <button class="tablinks active" onclick="openTool(event, 'NCBI_FCS_ADAPTOR')">NCBI FCS ADAPTOR</button>
         <button class="tablinks active" onclick="openTool(event, 'BUSCO')">BUSCO</button>
         <button class="tablinks" onclick="openTool(event, 'TIDK')">TIDK</button>
         <button class="tablinks" onclick="openTool(event, 'LAI')">LAI</button>
         <button class="tablinks" onclick="openTool(event, 'KRAKEN2')">KRAKEN2</button>
     </div>
+    <div id="NCBI_FCS_ADAPTOR" class="tabcontent" style="display: none">
+    <div class="dropdown">
+  <div class="dropdown_content">
+      <select id="selector_NCBI_FCS_ADAPTOR" onchange="showContent('NCBI_FCS_ADAPTOR')">
+              
+             
+            <option value="tabcontent_NCBI_FCS_ADAPTOR_hap1">
+                hap1
+                
+            <option value="tabcontent_NCBI_FCS_ADAPTOR_hap2">
+                hap2
+                
+      </select>
+  </div>
+</div>
+    
+
+
+<div id="tabcontent_NCBI_FCS_ADAPTOR_hap1"
+    class="tabcontent-NCBI_FCS_ADAPTOR" style="display: block">
+    <div class="results-section">
+        <div class="section-heading-wrapper">
+            <div class="section-heading">hap1</div>
+        </div>
+    </div>
+    
+    <div class="section-para-wrapper"><p class="section-para">No contamination detected.</p></div>
+    
+</div>
+
+
+
+<div id="tabcontent_NCBI_FCS_ADAPTOR_hap2"
+    class="tabcontent-NCBI_FCS_ADAPTOR" style="display: none">
+    <div class="results-section">
+        <div class="section-heading-wrapper">
+            <div class="section-heading">hap2</div>
+        </div>
+    </div>
+    
+    <div class="section-para-wrapper"><p class="section-para">No contamination detected.</p></div>
+    
+</div>
+
+
+</div>
     <div id="BUSCO" class="tabcontent" style="display: none">
     <div class="dropdown">
   <div class="dropdown_content">
@@ -466,38 +530,37 @@
   </div>
 </div>
     
-<div
-  id="hap1_microsporidia_odb10_fumigatus"
-  class="tabcontent-BUSCO" style="display: none">
-  <div class="results-section">
-    <div class="section-heading-wrapper">
-      <div class="section-heading">Results</div>
-    </div>
+<div id="hap1_microsporidia_odb10_fumigatus"
+    class="tabcontent-BUSCO" style="display: none">
+    <div class="results-section">
+        <div class="section-heading-wrapper">
+            <div class="section-heading">Results</div>
+        </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th style="text-align: left">Event</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="text-align: left">Search Percentages</td>
-              <td>
-                C:5.5%[S:5.3%,D:0.2%],F:0.7%,M:93.8%,n:600
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="text-align: left">Event</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left">Search Percentages</td>
+                            <td>
+                                C:5.5%[S:5.3%,D:0.2%],F:0.7%,M:93.8%,n:600
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
 <thead>
 <tr><th>Event                              </th><th>Frequency  </th></tr>
 </thead>
@@ -510,53 +573,53 @@
 <tr><td>Total BUSCO groups searched        </td><td>600        </td></tr>
 </tbody>
 </table>
-      </div>
-    </div>
-  </div>
-
-  <div class="parameters-section">
-    <div class="section-heading-wrapper">
-      <div class="section-heading">Parameters and Dependencies</div>
+            </div>
+        </div>
     </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th style="text-align: left">Parameter</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="text-align: left">Version</td>
-              <td>5.2.2</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">Lineage create on</td>
-              <td>2020-08-05</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">Augustus Species</td>
-              <td>fumigatus</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">mode</td>
-              <td>genome</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">predictor</td>
-              <td>metaeuk</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <div class="parameters-section">
+        <div class="section-heading-wrapper">
+            <div class="section-heading">Parameters and Dependencies</div>
+        </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="text-align: left">Parameter</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left">Version</td>
+                            <td>5.2.2</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">Lineage create on</td>
+                            <td>2020-08-05</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">Augustus Species</td>
+                            <td>fumigatus</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">mode</td>
+                            <td>genome</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">predictor</td>
+                            <td>metaeuk</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
 <thead>
 <tr><th>Dependency  </th><th>Version  </th></tr>
 </thead>
@@ -565,43 +628,42 @@
 <tr><td>metaeuk     </td><td>4.a0f584d</td></tr>
 </tbody>
 </table>
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
-<div
-  id="hap2_microsporidia_odb10_nidulans"
-  class="tabcontent-BUSCO" style="display: none">
-  <div class="results-section">
-    <div class="section-heading-wrapper">
-      <div class="section-heading">Results</div>
-    </div>
+<div id="hap2_microsporidia_odb10_nidulans"
+    class="tabcontent-BUSCO" style="display: none">
+    <div class="results-section">
+        <div class="section-heading-wrapper">
+            <div class="section-heading">Results</div>
+        </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th style="text-align: left">Event</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="text-align: left">Search Percentages</td>
-              <td>
-                C:11.8%[S:11.5%,D:0.3%],F:1.2%,M:87.0%,n:600
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="text-align: left">Event</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left">Search Percentages</td>
+                            <td>
+                                C:11.8%[S:11.5%,D:0.3%],F:1.2%,M:87.0%,n:600
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
 <thead>
 <tr><th>Event                              </th><th>Frequency  </th></tr>
 </thead>
@@ -614,53 +676,53 @@
 <tr><td>Total BUSCO groups searched        </td><td>600        </td></tr>
 </tbody>
 </table>
-      </div>
-    </div>
-  </div>
-
-  <div class="parameters-section">
-    <div class="section-heading-wrapper">
-      <div class="section-heading">Parameters and Dependencies</div>
+            </div>
+        </div>
     </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th style="text-align: left">Parameter</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="text-align: left">Version</td>
-              <td>5.2.2</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">Lineage create on</td>
-              <td>2020-08-05</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">Augustus Species</td>
-              <td>nidulans</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">mode</td>
-              <td>genome</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">predictor</td>
-              <td>metaeuk</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <div class="parameters-section">
+        <div class="section-heading-wrapper">
+            <div class="section-heading">Parameters and Dependencies</div>
+        </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="text-align: left">Parameter</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left">Version</td>
+                            <td>5.2.2</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">Lineage create on</td>
+                            <td>2020-08-05</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">Augustus Species</td>
+                            <td>nidulans</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">mode</td>
+                            <td>genome</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">predictor</td>
+                            <td>metaeuk</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
 <thead>
 <tr><th>Dependency  </th><th>Version  </th></tr>
 </thead>
@@ -669,43 +731,42 @@
 <tr><td>metaeuk     </td><td>4.a0f584d</td></tr>
 </tbody>
 </table>
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
-<div
-  id="hap2_microsporidia_odb10_fumigatus"
-  class="tabcontent-BUSCO" style="display: none">
-  <div class="results-section">
-    <div class="section-heading-wrapper">
-      <div class="section-heading">Results</div>
-    </div>
+<div id="hap2_microsporidia_odb10_fumigatus"
+    class="tabcontent-BUSCO" style="display: none">
+    <div class="results-section">
+        <div class="section-heading-wrapper">
+            <div class="section-heading">Results</div>
+        </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th style="text-align: left">Event</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="text-align: left">Search Percentages</td>
-              <td>
-                C:11.8%[S:11.5%,D:0.3%],F:1.2%,M:87.0%,n:600
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="text-align: left">Event</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left">Search Percentages</td>
+                            <td>
+                                C:11.8%[S:11.5%,D:0.3%],F:1.2%,M:87.0%,n:600
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
 <thead>
 <tr><th>Event                              </th><th>Frequency  </th></tr>
 </thead>
@@ -718,53 +779,53 @@
 <tr><td>Total BUSCO groups searched        </td><td>600        </td></tr>
 </tbody>
 </table>
-      </div>
-    </div>
-  </div>
-
-  <div class="parameters-section">
-    <div class="section-heading-wrapper">
-      <div class="section-heading">Parameters and Dependencies</div>
+            </div>
+        </div>
     </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th style="text-align: left">Parameter</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="text-align: left">Version</td>
-              <td>5.2.2</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">Lineage create on</td>
-              <td>2020-08-05</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">Augustus Species</td>
-              <td>fumigatus</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">mode</td>
-              <td>genome</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">predictor</td>
-              <td>metaeuk</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <div class="parameters-section">
+        <div class="section-heading-wrapper">
+            <div class="section-heading">Parameters and Dependencies</div>
+        </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="text-align: left">Parameter</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left">Version</td>
+                            <td>5.2.2</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">Lineage create on</td>
+                            <td>2020-08-05</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">Augustus Species</td>
+                            <td>fumigatus</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">mode</td>
+                            <td>genome</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">predictor</td>
+                            <td>metaeuk</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
 <thead>
 <tr><th>Dependency  </th><th>Version  </th></tr>
 </thead>
@@ -773,43 +834,42 @@
 <tr><td>metaeuk     </td><td>4.a0f584d</td></tr>
 </tbody>
 </table>
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
-<div
-  id="hap2_fungi_odb10_nidulans"
-  class="tabcontent-BUSCO" style="display: none">
-  <div class="results-section">
-    <div class="section-heading-wrapper">
-      <div class="section-heading">Results</div>
-    </div>
+<div id="hap2_fungi_odb10_nidulans"
+    class="tabcontent-BUSCO" style="display: none">
+    <div class="results-section">
+        <div class="section-heading-wrapper">
+            <div class="section-heading">Results</div>
+        </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th style="text-align: left">Event</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="text-align: left">Search Percentages</td>
-              <td>
-                C:29.8%[S:29.7%,D:0.1%],F:0.7%,M:69.5%,n:758
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="text-align: left">Event</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left">Search Percentages</td>
+                            <td>
+                                C:29.8%[S:29.7%,D:0.1%],F:0.7%,M:69.5%,n:758
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
 <thead>
 <tr><th>Event                              </th><th>Frequency  </th></tr>
 </thead>
@@ -822,53 +882,53 @@
 <tr><td>Total BUSCO groups searched        </td><td>758        </td></tr>
 </tbody>
 </table>
-      </div>
-    </div>
-  </div>
-
-  <div class="parameters-section">
-    <div class="section-heading-wrapper">
-      <div class="section-heading">Parameters and Dependencies</div>
+            </div>
+        </div>
     </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th style="text-align: left">Parameter</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="text-align: left">Version</td>
-              <td>5.2.2</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">Lineage create on</td>
-              <td>2021-06-28</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">Augustus Species</td>
-              <td>nidulans</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">mode</td>
-              <td>genome</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">predictor</td>
-              <td>metaeuk</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <div class="parameters-section">
+        <div class="section-heading-wrapper">
+            <div class="section-heading">Parameters and Dependencies</div>
+        </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="text-align: left">Parameter</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left">Version</td>
+                            <td>5.2.2</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">Lineage create on</td>
+                            <td>2021-06-28</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">Augustus Species</td>
+                            <td>nidulans</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">mode</td>
+                            <td>genome</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">predictor</td>
+                            <td>metaeuk</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
 <thead>
 <tr><th>Dependency  </th><th>Version  </th></tr>
 </thead>
@@ -877,43 +937,42 @@
 <tr><td>metaeuk     </td><td>4.a0f584d</td></tr>
 </tbody>
 </table>
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
-<div
-  id="hap1_fungi_odb10_nidulans"
-  class="tabcontent-BUSCO" style="display: none">
-  <div class="results-section">
-    <div class="section-heading-wrapper">
-      <div class="section-heading">Results</div>
-    </div>
+<div id="hap1_fungi_odb10_nidulans"
+    class="tabcontent-BUSCO" style="display: none">
+    <div class="results-section">
+        <div class="section-heading-wrapper">
+            <div class="section-heading">Results</div>
+        </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th style="text-align: left">Event</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="text-align: left">Search Percentages</td>
-              <td>
-                C:12.5%[S:12.5%,D:0.0%],F:1.2%,M:86.3%,n:758
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="text-align: left">Event</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left">Search Percentages</td>
+                            <td>
+                                C:12.5%[S:12.5%,D:0.0%],F:1.2%,M:86.3%,n:758
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
 <thead>
 <tr><th>Event                              </th><th>Frequency  </th></tr>
 </thead>
@@ -926,53 +985,53 @@
 <tr><td>Total BUSCO groups searched        </td><td>758        </td></tr>
 </tbody>
 </table>
-      </div>
-    </div>
-  </div>
-
-  <div class="parameters-section">
-    <div class="section-heading-wrapper">
-      <div class="section-heading">Parameters and Dependencies</div>
+            </div>
+        </div>
     </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th style="text-align: left">Parameter</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="text-align: left">Version</td>
-              <td>5.2.2</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">Lineage create on</td>
-              <td>2021-06-28</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">Augustus Species</td>
-              <td>nidulans</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">mode</td>
-              <td>genome</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">predictor</td>
-              <td>metaeuk</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <div class="parameters-section">
+        <div class="section-heading-wrapper">
+            <div class="section-heading">Parameters and Dependencies</div>
+        </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="text-align: left">Parameter</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left">Version</td>
+                            <td>5.2.2</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">Lineage create on</td>
+                            <td>2021-06-28</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">Augustus Species</td>
+                            <td>nidulans</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">mode</td>
+                            <td>genome</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">predictor</td>
+                            <td>metaeuk</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
 <thead>
 <tr><th>Dependency  </th><th>Version  </th></tr>
 </thead>
@@ -981,43 +1040,42 @@
 <tr><td>metaeuk     </td><td>4.a0f584d</td></tr>
 </tbody>
 </table>
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
-<div
-  id="hap1_fungi_odb10_fumigatus"
-  class="tabcontent-BUSCO" style="display: none">
-  <div class="results-section">
-    <div class="section-heading-wrapper">
-      <div class="section-heading">Results</div>
-    </div>
+<div id="hap1_fungi_odb10_fumigatus"
+    class="tabcontent-BUSCO" style="display: none">
+    <div class="results-section">
+        <div class="section-heading-wrapper">
+            <div class="section-heading">Results</div>
+        </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th style="text-align: left">Event</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="text-align: left">Search Percentages</td>
-              <td>
-                C:12.5%[S:12.5%,D:0.0%],F:1.2%,M:86.3%,n:758
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="text-align: left">Event</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left">Search Percentages</td>
+                            <td>
+                                C:12.5%[S:12.5%,D:0.0%],F:1.2%,M:86.3%,n:758
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
 <thead>
 <tr><th>Event                              </th><th>Frequency  </th></tr>
 </thead>
@@ -1030,53 +1088,53 @@
 <tr><td>Total BUSCO groups searched        </td><td>758        </td></tr>
 </tbody>
 </table>
-      </div>
-    </div>
-  </div>
-
-  <div class="parameters-section">
-    <div class="section-heading-wrapper">
-      <div class="section-heading">Parameters and Dependencies</div>
+            </div>
+        </div>
     </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th style="text-align: left">Parameter</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="text-align: left">Version</td>
-              <td>5.2.2</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">Lineage create on</td>
-              <td>2021-06-28</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">Augustus Species</td>
-              <td>fumigatus</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">mode</td>
-              <td>genome</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">predictor</td>
-              <td>metaeuk</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <div class="parameters-section">
+        <div class="section-heading-wrapper">
+            <div class="section-heading">Parameters and Dependencies</div>
+        </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="text-align: left">Parameter</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left">Version</td>
+                            <td>5.2.2</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">Lineage create on</td>
+                            <td>2021-06-28</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">Augustus Species</td>
+                            <td>fumigatus</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">mode</td>
+                            <td>genome</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">predictor</td>
+                            <td>metaeuk</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
 <thead>
 <tr><th>Dependency  </th><th>Version  </th></tr>
 </thead>
@@ -1085,43 +1143,42 @@
 <tr><td>metaeuk     </td><td>4.a0f584d</td></tr>
 </tbody>
 </table>
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
-<div
-  id="hap1_microsporidia_odb10_nidulans"
-  class="tabcontent-BUSCO" style="display: none">
-  <div class="results-section">
-    <div class="section-heading-wrapper">
-      <div class="section-heading">Results</div>
-    </div>
+<div id="hap1_microsporidia_odb10_nidulans"
+    class="tabcontent-BUSCO" style="display: none">
+    <div class="results-section">
+        <div class="section-heading-wrapper">
+            <div class="section-heading">Results</div>
+        </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th style="text-align: left">Event</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="text-align: left">Search Percentages</td>
-              <td>
-                C:5.5%[S:5.3%,D:0.2%],F:0.7%,M:93.8%,n:600
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="text-align: left">Event</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left">Search Percentages</td>
+                            <td>
+                                C:5.5%[S:5.3%,D:0.2%],F:0.7%,M:93.8%,n:600
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
 <thead>
 <tr><th>Event                              </th><th>Frequency  </th></tr>
 </thead>
@@ -1134,53 +1191,53 @@
 <tr><td>Total BUSCO groups searched        </td><td>600        </td></tr>
 </tbody>
 </table>
-      </div>
-    </div>
-  </div>
-
-  <div class="parameters-section">
-    <div class="section-heading-wrapper">
-      <div class="section-heading">Parameters and Dependencies</div>
+            </div>
+        </div>
     </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th style="text-align: left">Parameter</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="text-align: left">Version</td>
-              <td>5.2.2</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">Lineage create on</td>
-              <td>2020-08-05</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">Augustus Species</td>
-              <td>nidulans</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">mode</td>
-              <td>genome</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">predictor</td>
-              <td>metaeuk</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <div class="parameters-section">
+        <div class="section-heading-wrapper">
+            <div class="section-heading">Parameters and Dependencies</div>
+        </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="text-align: left">Parameter</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left">Version</td>
+                            <td>5.2.2</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">Lineage create on</td>
+                            <td>2020-08-05</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">Augustus Species</td>
+                            <td>nidulans</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">mode</td>
+                            <td>genome</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">predictor</td>
+                            <td>metaeuk</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
 <thead>
 <tr><th>Dependency  </th><th>Version  </th></tr>
 </thead>
@@ -1189,43 +1246,42 @@
 <tr><td>metaeuk     </td><td>4.a0f584d</td></tr>
 </tbody>
 </table>
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
-<div
-  id="hap2_fungi_odb10_fumigatus"
-  class="tabcontent-BUSCO" style="display: none">
-  <div class="results-section">
-    <div class="section-heading-wrapper">
-      <div class="section-heading">Results</div>
-    </div>
+<div id="hap2_fungi_odb10_fumigatus"
+    class="tabcontent-BUSCO" style="display: none">
+    <div class="results-section">
+        <div class="section-heading-wrapper">
+            <div class="section-heading">Results</div>
+        </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th style="text-align: left">Event</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="text-align: left">Search Percentages</td>
-              <td>
-                C:29.8%[S:29.7%,D:0.1%],F:0.7%,M:69.5%,n:758
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="text-align: left">Event</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left">Search Percentages</td>
+                            <td>
+                                C:29.8%[S:29.7%,D:0.1%],F:0.7%,M:69.5%,n:758
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
 <thead>
 <tr><th>Event                              </th><th>Frequency  </th></tr>
 </thead>
@@ -1238,53 +1294,53 @@
 <tr><td>Total BUSCO groups searched        </td><td>758        </td></tr>
 </tbody>
 </table>
-      </div>
-    </div>
-  </div>
-
-  <div class="parameters-section">
-    <div class="section-heading-wrapper">
-      <div class="section-heading">Parameters and Dependencies</div>
+            </div>
+        </div>
     </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th style="text-align: left">Parameter</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="text-align: left">Version</td>
-              <td>5.2.2</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">Lineage create on</td>
-              <td>2021-06-28</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">Augustus Species</td>
-              <td>fumigatus</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">mode</td>
-              <td>genome</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">predictor</td>
-              <td>metaeuk</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <div class="parameters-section">
+        <div class="section-heading-wrapper">
+            <div class="section-heading">Parameters and Dependencies</div>
+        </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="text-align: left">Parameter</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left">Version</td>
+                            <td>5.2.2</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">Lineage create on</td>
+                            <td>2021-06-28</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">Augustus Species</td>
+                            <td>fumigatus</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">mode</td>
+                            <td>genome</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">predictor</td>
+                            <td>metaeuk</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
 <thead>
 <tr><th>Dependency  </th><th>Version  </th></tr>
 </thead>
@@ -1293,9 +1349,9 @@
 <tr><td>metaeuk     </td><td>4.a0f584d</td></tr>
 </tbody>
 </table>
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 </div>
@@ -1494,7 +1550,7 @@
         }
 
         const firstChild = topNavBarButtons.children[0];
-        openToolManually(firstChild, firstChild.innerHTML);
+        openToolManually(firstChild, firstChild.innerHTML.replaceAll(" ", "_"));
     });
 </script>
 

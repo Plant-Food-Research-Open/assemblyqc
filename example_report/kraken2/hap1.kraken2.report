@@ -1,0 +1,22 @@
+100.00	3	0	R	1	root
+100.00	3	0	R1	131567	  cellular organisms
+100.00	3	0	D	2759	    Eukaryota
+100.00	3	0	D1	33154	      Opisthokonta
+100.00	3	0	K	4751	        Fungi
+100.00	3	0	K1	451864	          Dikarya
+100.00	3	0	P	4890	            Ascomycota
+100.00	3	0	P1	716545	              saccharomyceta
+100.00	3	0	P2	147538	                Pezizomycotina
+100.00	3	0	P3	716546	                  leotiomyceta
+100.00	3	0	P4	715989	                    sordariomyceta
+100.00	3	0	C	147550	                      Sordariomycetes
+100.00	3	0	C1	222543	                        Hypocreomycetidae
+100.00	3	0	O	5125	                          Hypocreales
+ 66.67	2	0	F	110618	                            Nectriaceae
+ 66.67	2	0	G	5506	                              Fusarium
+ 33.33	1	0	G1	569360	                                Fusarium sambucinum species complex
+ 33.33	1	1	S	36050	                                  Fusarium poae
+ 33.33	1	1	S	1042133	                                Fusarium musae
+ 33.33	1	0	F	474942	                            Ophiocordycipitaceae
+ 33.33	1	0	G	98402	                              Drechmeria
+ 33.33	1	1	S	98403	                                Drechmeria coniospora
