@@ -7,6 +7,7 @@ process CREATE_REPORT {
     publishDir params.outdir.main, mode: 'copy'
 
     input:
+        path ncbi_fcs_adaptor_reports, stageAs: 'ncbi_fcs_adaptor_reports/*'
         path busco_outputs, stageAs: 'busco_outputs/*'
         path tidk_plots, stageAs: 'tidk_outputs/*'
         path lai_outputs, stageAs: 'lai_outputs/*'

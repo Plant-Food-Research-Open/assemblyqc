@@ -18,10 +18,11 @@ workflow {
         return [it[0], file(it[1], checkIfExists: true)]
     }
     | NCBI_FCS_ADAPTOR
-    | view
+    
     
     // BUSCO
-    Channel.fromList(params.haplotype_fasta)
+    NCBI_FCS_ADAPTOR.out.clean_hap
+    .join(Channel.fromList(params.haplotype_fasta))
     .combine(Channel.fromList(params.busco.lineage_datasets))
     .combine(Channel.fromList(params.busco.augustus_species))
     .map {
@@ -30,7 +31,8 @@ workflow {
     | BUSCO
     
     // TIDK
-    Channel.fromList(params.haplotype_fasta)
+    NCBI_FCS_ADAPTOR.out.clean_hap
+    .join(Channel.fromList(params.haplotype_fasta))
     .map {
         return [it[0], file(it[1], checkIfExists: true)]
     }
@@ -38,25 +40,29 @@ workflow {
     
     // LAI
     if (params.lai.pass_list == null || params.lai.out_file == null) {
-        Channel.fromList(params.haplotype_fasta)
+        NCBI_FCS_ADAPTOR.out.clean_hap
+        .join(Channel.fromList(params.haplotype_fasta))
         .map {
             return [it[0], file(it[1], checkIfExists: true)]
         }
         .join(
-            Channel.fromList(params.haplotype_fasta)
+            NCBI_FCS_ADAPTOR.out.clean_hap
+            .join(Channel.fromList(params.haplotype_fasta))
             .map {
                 return [it[0], null]
             }
         )
         .join(
-            Channel.fromList(params.haplotype_fasta)
+            NCBI_FCS_ADAPTOR.out.clean_hap
+            .join(Channel.fromList(params.haplotype_fasta))
             .map {
                 return [it[0], null]
             }
         )
         .set { ch_tuple_of_hap_genome_pass_out }
     } else {
-        Channel.fromList(params.haplotype_fasta)
+        NCBI_FCS_ADAPTOR.out.clean_hap
+        .join(Channel.fromList(params.haplotype_fasta))
         .map {
             return [it[0], file(it[1], checkIfExists: true)]
         }
@@ -79,7 +85,8 @@ workflow {
     | LAI
 
     // KRAKEN2
-    Channel.fromList(params.haplotype_fasta)
+    NCBI_FCS_ADAPTOR.out.clean_hap
+    .join(Channel.fromList(params.haplotype_fasta))
     .map {
         return [it[0], file(it[1], checkIfExists: true)]
     }
@@ -87,9 +94,10 @@ workflow {
 
     // CREATE REPORT
     CREATE_REPORT(
-        BUSCO.out.list_of_outputs,
-        TIDK.out.list_of_plots,
-        LAI.out.list_of_outputs,
-        KRAKEN2.out.list_of_outputs
+        NCBI_FCS_ADAPTOR.out.reports,
+        BUSCO.out.list_of_outputs.ifEmpty([]),
+        TIDK.out.list_of_plots.ifEmpty([]),
+        LAI.out.list_of_outputs.ifEmpty([]),
+        KRAKEN2.out.list_of_outputs.ifEmpty([])
     )
 }

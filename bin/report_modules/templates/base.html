@@ -6,11 +6,13 @@
         <div class="report-header">Assembly QC</div>
     </div>
     <div class="tab" id="topNavBarButtons">
+        {% if 'NCBI_FCS_ADAPTOR' in all_stats_dicts %}<button class="tablinks active" onclick="openTool(event, 'NCBI_FCS_ADAPTOR')">NCBI FCS ADAPTOR</button>{% endif %}
         {% if 'BUSCO' in all_stats_dicts %}<button class="tablinks active" onclick="openTool(event, 'BUSCO')">BUSCO</button>{% endif %}
         {% if 'TIDK' in all_stats_dicts %}<button class="tablinks" onclick="openTool(event, 'TIDK')">TIDK</button>{% endif %}
         {% if 'LAI' in all_stats_dicts %}<button class="tablinks" onclick="openTool(event, 'LAI')">LAI</button>{% endif %}
         {% if 'KRAKEN2' in all_stats_dicts %}<button class="tablinks" onclick="openTool(event, 'KRAKEN2')">KRAKEN2</button>{% endif %}
     </div>
+    {% if 'NCBI_FCS_ADAPTOR' in all_stats_dicts %}{% include 'ncbi_fcs_adaptor/ncbi_fcs_adaptor.html' %}{% endif %}
     {% if 'BUSCO' in all_stats_dicts %}{% include 'busco/busco.html' %}{% endif %}
     {% if 'TIDK' in all_stats_dicts %}{% include 'tidk/tidk.html' %}{% endif %}
     {% if 'LAI' in all_stats_dicts %}{% include 'lai/lai.html' %}{% endif %}

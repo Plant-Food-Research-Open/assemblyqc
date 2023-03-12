@@ -7,18 +7,59 @@ workflow NCBI_FCS_ADAPTOR {
     main:
         if (!params.ncbi_fcs_adaptor.skip) {
 
-            ch_setup_output = SETUP_FCS_ADAPTOR_SCRIPTS()
+            ch_setup_output         = SETUP_FCS_ADAPTOR_SCRIPTS()
+            ch_report               = RUN_NCBI_FCS_ADAPTOR(ch_setup_output, tuple_of_hap_file)
+            
+            ch_did_find_adaptors    = CHECK_ADAPTOR_CONTAMINATION(ch_report)
 
-            RUN_NCBI_FCS_ADAPTOR(ch_setup_output, tuple_of_hap_file)
-            | CHECK_ADAPTOR_CONTAMINATION
-            | collect
-            | set { ch_did_find_adaptors }
+            ch_report
+            .map {
+                it[1]
+            }
+            .collect()
+            .set { ch_all_reports }
+
+            ch_did_find_adaptors
+            .branch {
+                contaminated: it =~ /CHECK_ADAPTOR_CONTAMINATION:CONTAMINATED/
+                clean: it =~ /CHECK_ADAPTOR_CONTAMINATION:CLEAN/
+            }
+            .set { ch_branch }
+
+            ch_branch
+            .contaminated
+            .map {
+                statusTokens = "$it".tokenize(':')
+                hapName = statusTokens[2]
+
+"""
+Adaptor contamination detected in ${hapName}.
+See the report for further details.
+"""
+            }
+            .view()
+
+            ch_branch
+            .clean
+            .map {
+                statusTokens = "$it".tokenize(':')
+                hap_name = statusTokens[2]
+            }
+            .set { ch_clean_hap }
         } else {
-            ch_did_find_adaptors = Channel.of("CHECK_ADAPTOR_CONTAMINATION:SKIPPED")
+            tuple_of_hap_file
+            .map {
+                hapName = it[0]
+                return hapName
+            }
+            .set { ch_clean_hap }
+
+            ch_all_reports          = Channel.of([])
         }
     
     emit:
-        did_find_adaptors = ch_did_find_adaptors
+        clean_hap                   = ch_clean_hap
+        reports                     = ch_all_reports
 }
 
 process SETUP_FCS_ADAPTOR_SCRIPTS {
@@ -101,6 +142,6 @@ process CHECK_ADAPTOR_CONTAMINATION {
     script:
         """
             num_lines=\$(cat $report_tsv | wc -l)
-            [[ \$num_lines -gt 1 ]] && echo -n "CHECK_ADAPTOR_CONTAMINATION:hap2_fcs_adaptor_report.tsv:CONTAMINATED" || echo -n "CHECK_ADAPTOR_CONTAMINATION:hap2_fcs_adaptor_report.tsv:CLEAN"
+            [[ \$num_lines -gt 1 ]] && echo -n "CHECK_ADAPTOR_CONTAMINATION:CONTAMINATED:$hap_name" || echo -n "CHECK_ADAPTOR_CONTAMINATION:CLEAN:$hap_name"
         """
 }
