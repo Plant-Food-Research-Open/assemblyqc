@@ -9,6 +9,7 @@ include { KRAKEN2               } from './subworkflows/kraken2.nf'
 include { NCBI_FCS_ADAPTOR      } from './subworkflows/ncbi_fcs_adaptor.nf'
 
 include { CREATE_REPORT         } from './modules/create_report.nf'
+include { GENERAL_STATS         } from './modules/general_stats.nf'
 
 workflow {
 
@@ -18,6 +19,17 @@ workflow {
         return [it[0], file(it[1], checkIfExists: true)]
     }
     | NCBI_FCS_ADAPTOR
+
+
+    // GENERAL_STATS
+    NCBI_FCS_ADAPTOR.out.clean_hap
+    .join(Channel.fromList(params.haplotype_fasta))
+    .map {
+        return [it[0], file(it[1], checkIfExists: true)]
+    }
+    | GENERAL_STATS
+    | collect
+    | set { ch_general_stats }
     
     
     // BUSCO
@@ -95,6 +107,7 @@ workflow {
     // CREATE REPORT
     CREATE_REPORT(
         NCBI_FCS_ADAPTOR.out.reports,
+        ch_general_stats,
         BUSCO.out.list_of_outputs.ifEmpty([]),
         TIDK.out.list_of_plots.ifEmpty([]),
         LAI.out.list_of_outputs.ifEmpty([]),
