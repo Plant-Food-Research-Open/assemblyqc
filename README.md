@@ -6,12 +6,12 @@
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
   - [Pipeline Flowchart](#pipeline-flowchart)
-  - [Software Versions](#software-versions)
   - [Installation](#installation)
   - [Getting sample data](#getting-sample-data)
   - [Running the Pipeline](#running-the-pipeline)
     - [Run Interactively](#run-interactively)
     - [Post the NextFlow Process to Slurm](#post-the-nextflow-process-to-slurm)
+  - [Software Versions](#software-versions)
   - [Future Plans](#future-plans)
     - [Tools](#tools)
     - [User Feedback](#user-feedback)
@@ -45,19 +45,6 @@ flowchart LR
   KRAKEN2 --> Report
   ASS_STATS --> Report
 ```
-
-## Software Versions
-
-- NCBI-FCS-ADAPTOR: 0.4
-  - Tini: 0.19.0 - git.de40ad0
-- ASSEMBLATHON_STATS: [160b94c/assemblathon_stats.pl](https://github.com/KorfLab/Assemblathon/blob/160b94c1d225d8b16625d0513ccb3dd73b456f74/assemblathon_stats.pl)
-- BUSCO: quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0
-- TIDK: quay.io/biocontainers/tidk:0.2.31--h87f3376_0
-  - SEQKIT: quay.io/biocontainers/seqkit:2.3.1--h9ee0642_0
-- LAI: quay.io/biocontainers/ltr_retriever:2.9.0--hdfd78af_1
-  - EDTA: quay.io/biocontainers/edta:2.1.0--hdfd78af_1
-- KRAKEN2: quay.io/biocontainers/kraken2:2.1.2--pl5321h9f5acd7_2
-  - KRONA: docker://nanozoo/krona:2.7.1--e7615f7
 
 ## Installation
 
@@ -154,6 +141,19 @@ After running the pipeline, if you wish to clean up the logs and work folder, yo
 ```bash
 $ ./cleanNXF.sh
 ```
+
+## Software Versions
+
+- NCBI-FCS-ADAPTOR: 0.4
+  - Tini: 0.19.0 - git.de40ad0
+- ASSEMBLATHON_STATS: [160b94c/assemblathon_stats.pl](https://github.com/KorfLab/Assemblathon/blob/160b94c1d225d8b16625d0513ccb3dd73b456f74/assemblathon_stats.pl)
+- BUSCO: quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0
+- TIDK: quay.io/biocontainers/tidk:0.2.31--h87f3376_0
+  - SEQKIT: quay.io/biocontainers/seqkit:2.3.1--h9ee0642_0
+- LAI: quay.io/biocontainers/ltr_retriever:2.9.0--hdfd78af_1
+  - EDTA: quay.io/biocontainers/edta:2.1.0--hdfd78af_1
+- KRAKEN2: quay.io/biocontainers/kraken2:2.1.2--pl5321h9f5acd7_2
+  - KRONA: docker://nanozoo/krona:2.7.1--e7615f7
 
 ## Future Plans
 
