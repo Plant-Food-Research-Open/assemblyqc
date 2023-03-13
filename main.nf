@@ -9,7 +9,7 @@ include { KRAKEN2               } from './subworkflows/kraken2.nf'
 include { NCBI_FCS_ADAPTOR      } from './subworkflows/ncbi_fcs_adaptor.nf'
 
 include { CREATE_REPORT         } from './modules/create_report.nf'
-include { GENERAL_STATS         } from './modules/general_stats.nf'
+include { ASSEMBLATHON_STATS    } from './modules/assemblathon_stats.nf'
 
 workflow {
 
@@ -21,13 +21,13 @@ workflow {
     | NCBI_FCS_ADAPTOR
 
 
-    // GENERAL_STATS
+    // ASSEMBLATHON_STATS
     NCBI_FCS_ADAPTOR.out.clean_hap
     .join(Channel.fromList(params.haplotype_fasta))
     .map {
         return [it[0], file(it[1], checkIfExists: true)]
     }
-    | GENERAL_STATS
+    | ASSEMBLATHON_STATS
     | collect
     | set { ch_general_stats }
     

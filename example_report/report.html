@@ -280,6 +280,7 @@
     </div>
     <div class="tab" id="topNavBarButtons">
         <button class="tablinks active" onclick="openTool(event, 'NCBI_FCS_ADAPTOR')">NCBI FCS ADAPTOR</button>
+        <button class="tablinks active" onclick="openTool(event, 'ASSEMBLATHON_STATS')">ASSEMBLATHON STATS</button>
         <button class="tablinks active" onclick="openTool(event, 'BUSCO')">BUSCO</button>
         <button class="tablinks" onclick="openTool(event, 'TIDK')">TIDK</button>
         <button class="tablinks" onclick="openTool(event, 'LAI')">LAI</button>
@@ -289,7 +290,6 @@
     <div class="dropdown">
   <div class="dropdown_content">
       <select id="selector_NCBI_FCS_ADAPTOR" onchange="showContent('NCBI_FCS_ADAPTOR')">
-              
              
             <option value="tabcontent_NCBI_FCS_ADAPTOR_hap1">
                 hap1
@@ -327,6 +327,183 @@
     
     <div class="section-para-wrapper"><p class="section-para">No contamination detected.</p></div>
     
+</div>
+
+
+</div>
+    <div id="ASSEMBLATHON_STATS" class="tabcontent" style="display: none">
+    <div class="dropdown">
+  <div class="dropdown_content">
+      <select id="selector_ASSEMBLATHON_STATS" onchange="showContent('ASSEMBLATHON_STATS')">
+             
+            <option value="tabcontent_ASSEMBLATHON_STATS_hap1">
+                hap1
+                
+            <option value="tabcontent_ASSEMBLATHON_STATS_hap2">
+                hap2
+                
+      </select>
+  </div>
+</div>
+    
+
+
+<div id="tabcontent_ASSEMBLATHON_STATS_hap1"
+    class="tabcontent-ASSEMBLATHON_STATS" style="display: block">
+    <div class="results-section">
+        <div class="section-heading-wrapper">
+            <div class="section-heading">hap1</div>
+        </div>
+    </div>
+    <div class="table-outer">
+        <div class="table-wrapper">
+            <table>
+<thead>
+<tr><th>Stat                                                        </th><th>Value           </th></tr>
+</thead>
+<tbody>
+<tr><td>Assembly                                                    </td><td>test_data1.fasta</td></tr>
+<tr><td>Number of scaffolds                                         </td><td>3               </td></tr>
+<tr><td>Total size of scaffolds                                     </td><td>6015476         </td></tr>
+<tr><td>Longest scaffold                                            </td><td>5973221         </td></tr>
+<tr><td>Shortest scaffold                                           </td><td>1481            </td></tr>
+<tr><td>Number of scaffolds &gt; 1K nt                                 </td><td>3               </td></tr>
+<tr><td>Percentage of scaffolds &gt; 1K nt                             </td><td>100.0           </td></tr>
+<tr><td>Number of scaffolds &gt; 10K nt                                </td><td>2               </td></tr>
+<tr><td>Percentage of scaffolds &gt; 10K nt                            </td><td>66.7            </td></tr>
+<tr><td>Number of scaffolds &gt; 100K nt                               </td><td>1               </td></tr>
+<tr><td>Percentage of scaffolds &gt; 100K nt                           </td><td>33.3            </td></tr>
+<tr><td>Number of scaffolds &gt; 1M nt                                 </td><td>1               </td></tr>
+<tr><td>Percentage of scaffolds &gt; 1M nt                             </td><td>33.3            </td></tr>
+<tr><td>Number of scaffolds &gt; 10M nt                                </td><td>0               </td></tr>
+<tr><td>Percentage of scaffolds &gt; 10M nt                            </td><td>0.0             </td></tr>
+<tr><td>Mean scaffold size                                          </td><td>2005159         </td></tr>
+<tr><td>Median scaffold size                                        </td><td>40774           </td></tr>
+<tr><td>N50 scaffold length                                         </td><td>5973221         </td></tr>
+<tr><td>L50 scaffold count                                          </td><td>1               </td></tr>
+<tr><td>scaffold %A                                                 </td><td>24.14           </td></tr>
+<tr><td>scaffold %C                                                 </td><td>25.77           </td></tr>
+<tr><td>scaffold %G                                                 </td><td>25.93           </td></tr>
+<tr><td>scaffold %T                                                 </td><td>24.16           </td></tr>
+<tr><td>scaffold %N                                                 </td><td>0.0             </td></tr>
+<tr><td>scaffold %non-ACGTN                                         </td><td>0.0             </td></tr>
+<tr><td>Number of scaffold non-ACGTN nt                             </td><td>0               </td></tr>
+<tr><td>Percentage of assembly in scaffolded contigs                </td><td>0.0             </td></tr>
+<tr><td>Percentage of assembly in unscaffolded contigs              </td><td>100.0           </td></tr>
+<tr><td>Average number of contigs per scaffold                      </td><td>1.0             </td></tr>
+<tr><td>Average length of break (&gt;25 Ns) between contigs in scaffold</td><td>0               </td></tr>
+<tr><td>Number of contigs                                           </td><td>3               </td></tr>
+<tr><td>Number of contigs in scaffolds                              </td><td>0               </td></tr>
+<tr><td>Number of contigs not in scaffolds                          </td><td>3               </td></tr>
+<tr><td>Total size of contigs                                       </td><td>6015476         </td></tr>
+<tr><td>Longest contig                                              </td><td>5973221         </td></tr>
+<tr><td>Shortest contig                                             </td><td>1481            </td></tr>
+<tr><td>Number of contigs &gt; 1K nt                                   </td><td>3               </td></tr>
+<tr><td>Percentage of contigs &gt; 1K nt                               </td><td>100.0           </td></tr>
+<tr><td>Number of contigs &gt; 10K nt                                  </td><td>2               </td></tr>
+<tr><td>Percentage of contigs &gt; 10K nt                              </td><td>66.7            </td></tr>
+<tr><td>Number of contigs &gt; 100K nt                                 </td><td>1               </td></tr>
+<tr><td>Percentage of contigs &gt; 100K nt                             </td><td>33.3            </td></tr>
+<tr><td>Number of contigs &gt; 1M nt                                   </td><td>1               </td></tr>
+<tr><td>Percentage of contigs &gt; 1M nt                               </td><td>33.3            </td></tr>
+<tr><td>Number of contigs &gt; 10M nt                                  </td><td>0               </td></tr>
+<tr><td>Percentage of contigs &gt; 10M nt                              </td><td>0.0             </td></tr>
+<tr><td>Mean contig size                                            </td><td>2005159         </td></tr>
+<tr><td>Median contig size                                          </td><td>40774           </td></tr>
+<tr><td>N50 contig length                                           </td><td>5973221         </td></tr>
+<tr><td>L50 contig count                                            </td><td>1               </td></tr>
+<tr><td>contig %A                                                   </td><td>24.14           </td></tr>
+<tr><td>contig %C                                                   </td><td>25.77           </td></tr>
+<tr><td>contig %G                                                   </td><td>25.93           </td></tr>
+<tr><td>contig %T                                                   </td><td>24.16           </td></tr>
+<tr><td>contig %N                                                   </td><td>0.0             </td></tr>
+<tr><td>contig %non-ACGTN                                           </td><td>0.0             </td></tr>
+<tr><td>Number of contig non-ACGTN nt                               </td><td>0               </td></tr>
+<tr><td>Unnamed: 57                                                 </td><td>nan             </td></tr>
+</tbody>
+</table>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="tabcontent_ASSEMBLATHON_STATS_hap2"
+    class="tabcontent-ASSEMBLATHON_STATS" style="display: none">
+    <div class="results-section">
+        <div class="section-heading-wrapper">
+            <div class="section-heading">hap2</div>
+        </div>
+    </div>
+    <div class="table-outer">
+        <div class="table-wrapper">
+            <table>
+<thead>
+<tr><th>Stat                                                        </th><th>Value           </th></tr>
+</thead>
+<tbody>
+<tr><td>Assembly                                                    </td><td>test_data2.fasta</td></tr>
+<tr><td>Number of scaffolds                                         </td><td>9               </td></tr>
+<tr><td>Total size of scaffolds                                     </td><td>11175264        </td></tr>
+<tr><td>Longest scaffold                                            </td><td>6151774         </td></tr>
+<tr><td>Shortest scaffold                                           </td><td>1547            </td></tr>
+<tr><td>Number of scaffolds &gt; 1K nt                                 </td><td>9               </td></tr>
+<tr><td>Percentage of scaffolds &gt; 1K nt                             </td><td>100.0           </td></tr>
+<tr><td>Number of scaffolds &gt; 10K nt                                </td><td>7               </td></tr>
+<tr><td>Percentage of scaffolds &gt; 10K nt                            </td><td>77.8            </td></tr>
+<tr><td>Number of scaffolds &gt; 100K nt                               </td><td>2               </td></tr>
+<tr><td>Percentage of scaffolds &gt; 100K nt                           </td><td>22.2            </td></tr>
+<tr><td>Number of scaffolds &gt; 1M nt                                 </td><td>2               </td></tr>
+<tr><td>Percentage of scaffolds &gt; 1M nt                             </td><td>22.2            </td></tr>
+<tr><td>Number of scaffolds &gt; 10M nt                                </td><td>0               </td></tr>
+<tr><td>Percentage of scaffolds &gt; 10M nt                            </td><td>0.0             </td></tr>
+<tr><td>Mean scaffold size                                          </td><td>1241696         </td></tr>
+<tr><td>Median scaffold size                                        </td><td>32639           </td></tr>
+<tr><td>N50 scaffold length                                         </td><td>6151774         </td></tr>
+<tr><td>L50 scaffold count                                          </td><td>1               </td></tr>
+<tr><td>scaffold %A                                                 </td><td>24.12           </td></tr>
+<tr><td>scaffold %C                                                 </td><td>25.94           </td></tr>
+<tr><td>scaffold %G                                                 </td><td>25.9            </td></tr>
+<tr><td>scaffold %T                                                 </td><td>24.04           </td></tr>
+<tr><td>scaffold %N                                                 </td><td>0.0             </td></tr>
+<tr><td>scaffold %non-ACGTN                                         </td><td>0.0             </td></tr>
+<tr><td>Number of scaffold non-ACGTN nt                             </td><td>0               </td></tr>
+<tr><td>Percentage of assembly in scaffolded contigs                </td><td>0.0             </td></tr>
+<tr><td>Percentage of assembly in unscaffolded contigs              </td><td>100.0           </td></tr>
+<tr><td>Average number of contigs per scaffold                      </td><td>1.0             </td></tr>
+<tr><td>Average length of break (&gt;25 Ns) between contigs in scaffold</td><td>0               </td></tr>
+<tr><td>Number of contigs                                           </td><td>9               </td></tr>
+<tr><td>Number of contigs in scaffolds                              </td><td>0               </td></tr>
+<tr><td>Number of contigs not in scaffolds                          </td><td>9               </td></tr>
+<tr><td>Total size of contigs                                       </td><td>11175264        </td></tr>
+<tr><td>Longest contig                                              </td><td>6151774         </td></tr>
+<tr><td>Shortest contig                                             </td><td>1547            </td></tr>
+<tr><td>Number of contigs &gt; 1K nt                                   </td><td>9               </td></tr>
+<tr><td>Percentage of contigs &gt; 1K nt                               </td><td>100.0           </td></tr>
+<tr><td>Number of contigs &gt; 10K nt                                  </td><td>7               </td></tr>
+<tr><td>Percentage of contigs &gt; 10K nt                              </td><td>77.8            </td></tr>
+<tr><td>Number of contigs &gt; 100K nt                                 </td><td>2               </td></tr>
+<tr><td>Percentage of contigs &gt; 100K nt                             </td><td>22.2            </td></tr>
+<tr><td>Number of contigs &gt; 1M nt                                   </td><td>2               </td></tr>
+<tr><td>Percentage of contigs &gt; 1M nt                               </td><td>22.2            </td></tr>
+<tr><td>Number of contigs &gt; 10M nt                                  </td><td>0               </td></tr>
+<tr><td>Percentage of contigs &gt; 10M nt                              </td><td>0.0             </td></tr>
+<tr><td>Mean contig size                                            </td><td>1241696         </td></tr>
+<tr><td>Median contig size                                          </td><td>32639           </td></tr>
+<tr><td>N50 contig length                                           </td><td>6151774         </td></tr>
+<tr><td>L50 contig count                                            </td><td>1               </td></tr>
+<tr><td>contig %A                                                   </td><td>24.12           </td></tr>
+<tr><td>contig %C                                                   </td><td>25.94           </td></tr>
+<tr><td>contig %G                                                   </td><td>25.9            </td></tr>
+<tr><td>contig %T                                                   </td><td>24.04           </td></tr>
+<tr><td>contig %N                                                   </td><td>0.0             </td></tr>
+<tr><td>contig %non-ACGTN                                           </td><td>0.0             </td></tr>
+<tr><td>Number of contig non-ACGTN nt                               </td><td>0               </td></tr>
+<tr><td>Unnamed: 57                                                 </td><td>nan             </td></tr>
+</tbody>
+</table>
+        </div>
+    </div>
 </div>
 
 

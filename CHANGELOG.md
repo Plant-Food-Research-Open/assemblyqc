@@ -3,9 +3,10 @@
 ## Version 0.7 (13-Mar-2023)
 
 1. Added Kraken2 and NCBI FCS Adaptor tools.
-2. Simplified pipeline flow chart.
-3. Simplified conda environment.
-4. TIDK process now uses a container instead of conda.
+2. Added Assemblathon stats.
+3. Simplified pipeline flow chart.
+4. Simplified conda environment.
+5. TIDK process now uses a container instead of conda.
 
 ## Version 0.6.1 (8-Mar-2023)
 

@@ -1,11 +1,11 @@
 nextflow.enable.dsl=2
 
 
-process GENERAL_STATS {
+process ASSEMBLATHON_STATS {
     label 'uses_low_cpu_mem'
     tag "${hap_name}"
 
-    publishDir "${params.outdir.main}/general_stats", mode: 'copy'
+    publishDir "${params.outdir.main}/assemblathon_stats", mode: 'copy'
 
     input:
         tuple val(hap_name), path(fasta_file)

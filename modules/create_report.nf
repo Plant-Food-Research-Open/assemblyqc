@@ -8,7 +8,7 @@ process CREATE_REPORT {
 
     input:
         path ncbi_fcs_adaptor_reports, stageAs: 'ncbi_fcs_adaptor_reports/*'
-        path general_stats, stageAs: 'general_stats/*'
+        path assemblathon_stats, stageAs: 'assemblathon_stats/*'
         path busco_outputs, stageAs: 'busco_outputs/*'
         path tidk_plots, stageAs: 'tidk_outputs/*'
         path lai_outputs, stageAs: 'lai_outputs/*'
