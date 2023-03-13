@@ -20,6 +20,7 @@ def parse_assemblathon_stats_folder(folder_name = "assemblathon_stats"):
     for report_path in list_of_report_files:
 
         report_table = pd.read_csv(report_path)
+        report_table.drop(list(report_table.filter(regex = '^Unnamed:')), axis = 1, inplace = True)
 
         stat_names = report_table.columns.values.tolist()
         stat_values = report_table.iloc[0].values.tolist()
