@@ -10,8 +10,19 @@ include { NCBI_FCS_ADAPTOR      } from './subworkflows/ncbi_fcs_adaptor.nf'
 
 include { CREATE_REPORT         } from './modules/create_report.nf'
 include { ASSEMBLATHON_STATS    } from './modules/assemblathon_stats.nf'
+include { GENOMETOOLS_GT_STAT   } from './modules/genometools_gt_stat.nf'
 
 workflow {
+
+    // GENOMETOOLS_GT_STAT
+    Channel.fromList(params.haplotype_gff3)
+    .map {
+        return [it[0], file(it[1], checkIfExists: true)]
+    }
+    | GENOMETOOLS_GT_STAT
+    | collect
+    | set { ch_genometools_gt_stats }
+
 
     // NCBI-FCS-ADAPTOR
     Channel.fromList(params.haplotype_fasta)
@@ -108,6 +119,7 @@ workflow {
     CREATE_REPORT(
         NCBI_FCS_ADAPTOR.out.reports,
         ch_general_stats,
+        ch_genometools_gt_stats.ifEmpty([]),
         BUSCO.out.list_of_outputs.ifEmpty([]),
         TIDK.out.list_of_plots.ifEmpty([]),
         LAI.out.list_of_outputs.ifEmpty([]),

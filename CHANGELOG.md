@@ -1,12 +1,13 @@
 # Change Log
 
-## Version 0.7 (13-Mar-2023)
+## Version 0.7 (14-Mar-2023)
 
 1. Added Kraken2 and NCBI FCS Adaptor tools.
 2. Added Assemblathon stats.
-3. Simplified pipeline flow chart.
-4. Simplified conda environment.
-5. TIDK process now uses a container instead of conda.
+3. Added `Genometools gt stat` statistics for gff3 files.
+4. Simplified pipeline flow chart.
+5. Simplified conda environment.
+6. TIDK process now uses a container instead of conda.
 
 ## Version 0.6.1 (8-Mar-2023)
 

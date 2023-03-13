@@ -72,6 +72,8 @@ $ cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_
 $ seqkit sample -p 0.25 -s 33 ./test_data/test_data_original.fasta > ./test_data/test_data1.fasta
 $ seqkit sample -p 0.25 -s 49 ./test_data/test_data_original.fasta > ./test_data/test_data2.fasta
 $ rm ./test_data/test_data_original.fasta
+$ cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_rs324p/v1/augustus.hints.fixed.gff3 ./test_data/test_data1.gff3
+$ cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_rs324p/v1/augustus.hints.fixed.gff3 ./test_data/test_data2.gff3
 ```
 
 ## Running the Pipeline
@@ -147,6 +149,7 @@ $ ./cleanNXF.sh
 - NCBI-FCS-ADAPTOR: 0.4
   - Tini: 0.19.0 - git.de40ad0
 - ASSEMBLATHON_STATS: [160b94c/assemblathon_stats.pl](https://github.com/KorfLab/Assemblathon/blob/160b94c1d225d8b16625d0513ccb3dd73b456f74/assemblathon_stats.pl)
+- GENOMETOOLS_GT_STAT: quay.io/biocontainers/genometools-genometools:1.6.2--py310he7ef181_3
 - BUSCO: quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0
 - TIDK: quay.io/biocontainers/tidk:0.2.31--h87f3376_0
   - SEQKIT: quay.io/biocontainers/seqkit:2.3.1--h9ee0642_0
@@ -159,15 +162,15 @@ $ ./cleanNXF.sh
 
 ### Tools
 
-- [ ] General Statistics -- [https://doi.org/10.1016/j.tig.2022.10.005](https://doi.org/10.1016/j.tig.2022.10.005), [https://github.com/KorfLab/Assemblathon](https://github.com/KorfLab/Assemblathon), Ross' version: /workspace/hrarnc/GitHub/Scriptomics/hrarnc/PerlScripts/Assembly/assemblathon_stats_v1.1.pl
+- [x] General Statistics -- [https://doi.org/10.1016/j.tig.2022.10.005](https://doi.org/10.1016/j.tig.2022.10.005), [https://github.com/KorfLab/Assemblathon](https://github.com/KorfLab/Assemblathon), Ross' version: /workspace/hrarnc/GitHub/Scriptomics/hrarnc/PerlScripts/Assembly/assemblathon_stats_v1.1.pl
 - [ ] Synteny Check
-- [ ] Contamination Check -- [https://doi.org/10.1186/s13059-022-02619-9](https://doi.org/10.1186/s13059-022-02619-9). Added kraken2.
+- [x] Contamination Check -- [https://doi.org/10.1186/s13059-022-02619-9](https://doi.org/10.1186/s13059-022-02619-9). Added kraken2.
 - [ ] Add both a priori and a posteriori TIDK sequence options. See differences across https://github.com/tolkit/a-telomeric-repeat-database and http://telomerase.asu.edu/sequences_telomere.html
 
 ### User Feedback
 
 - [x] Fix the BUSCO summary table and dropdown menu for long haplotype tags.
 - [x] Pull html formatting out of BUSCO/dependencies and results_table so that the machine reading of report.json is straight forward.
+- [x] Contamination first before running other checks
 - [ ] TIDK fix scale (chen)
 - [ ] CL options e.g for busco_lineage for non-devs
-- [ ] Contamination first before running other checks
