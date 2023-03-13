@@ -21,6 +21,8 @@ if __name__ == "__main__":
     data_from_tools = {**data_from_tools, **parse_lai_folder()}
     data_from_tools = {**data_from_tools, **parse_kraken2_folder()}
 
+    data_from_tools = {**data_from_tools, **{"VERSIONS": {"ASSEMBLATHON_STATS": "160b94c", "BUSCO": "5.2.2", "KRAKEN2": "2.1.2", "LAI": "2.9.0", "NCBI_FCS_ADAPTOR": "0.4", "TIDK": "0.2.31"}}}
+
     report_printer = ReportPrinter()
     report_template = report_printer.print_template(data_from_tools)
 

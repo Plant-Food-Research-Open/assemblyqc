@@ -132,8 +132,8 @@
     }
 
     .section-para {
-      padding: 16px 0px;
-      font-size: 20px;
+      padding: 6px 0px;
+      font-size: 16px;
     }
 
     .section-para-wrapper {
@@ -269,6 +269,12 @@
         <button class="tablinks" onclick="openTool(event, 'KRAKEN2')">KRAKEN2</button>
     </div>
     <div id="NCBI_FCS_ADAPTOR" class="tabcontent" style="display: none">
+    <div class="section-para-wrapper">
+        <p class="section-para">FCS-adaptor detects adaptor and vector contamination in genome sequences.</p>
+        <b class="section-para">Reference:</b>
+        <p class="section-para"><a href="https://github.com/ncbi/fcs" target="_blank">https://github.com/ncbi/fcs</a></p>
+        <b class="section-para">Version: 0.4</b>
+    </div>
     <div class="dropdown">
   <div class="dropdown_content">
       <select id="selector_NCBI_FCS_ADAPTOR" onchange="showContent('NCBI_FCS_ADAPTOR')">
@@ -314,6 +320,12 @@
 
 </div>
     <div id="ASSEMBLATHON_STATS" class="tabcontent" style="display: none">
+    <div class="section-para-wrapper">
+        <p class="section-para">A script to calculate a basic set of metrics from a genome assembly.</p>
+        <b class="section-para">Reference:</b>
+        <p class="section-para"><a href="https://github.com/KorfLab/Assemblathon" target="_blank">https://github.com/KorfLab/Assemblathon</a></p>
+        <b class="section-para">Version: 160b94c</b>
+    </div>
     <div class="dropdown">
   <div class="dropdown_content">
       <select id="selector_ASSEMBLATHON_STATS" onchange="showContent('ASSEMBLATHON_STATS')">
@@ -489,6 +501,17 @@
 
 </div>
     <div id="BUSCO" class="tabcontent" style="display: none">
+    <div class="section-para-wrapper">
+        <p class="section-para">BUSCO estimates the completeness and redundancy of processed genomic data based on universal single-copy orthologs.</p>
+        <b class="section-para">Reference:</b>
+        <p class="section-para">
+            Manni M., Berkeley M.R., Seppey M., Simao F.A., Zdobnov E.M. 2021. BUSCO update: novel and streamlined
+            workflows along with broader and deeper phylogenetic coverage for scoring of eukaryotic, prokaryotic, and
+            viral genomes. arXiv:2106.11799 [q-bio] [Internet]. Available from:
+            <a href="http://arxiv.org/abs/2106.11799" target="_blank">http://arxiv.org/abs/2106.11799</a>
+        </p>
+        <b class="section-para">Version: 5.2.2</b>
+    </div>
     <div class="dropdown">
   <div class="dropdown_content">
     <select id="selector_BUSCO" onchange="showContent('BUSCO')">
@@ -1513,6 +1536,16 @@
 
 </div>
     <div id="TIDK" class="tabcontent" style="display: none">
+    <div class="section-para-wrapper">
+        <p class="section-para">A toolkit to identify and visualise telomeric repeats for the Darwin Tree of Life
+            genomes.
+        </p>
+        <b class="section-para">Reference:</b>
+        <p class="section-para">
+            <a href="https://github.com/tolkit/telomeric-identifier" target="_blank">https://github.com/tolkit/telomeric-identifier</a>
+        </p>
+        <b class="section-para">Version: 0.2.31</b>
+    </div>
     <div class="dropdown">
     <div class="dropdown_content">
         <select id="selector_TIDK" onchange="showContent('TIDK')">
@@ -1557,6 +1590,19 @@
 
 </div>
     <div id="LAI" class="tabcontent" style="display: none">
+    <div class="section-para-wrapper">
+        <p class="section-para">LTR Assembly Index (LAI) is a reference-free genome metric
+            that evaluates assembly continuity using LTR-RTs. LTR retrotransposons (LTR-RTs) are the predominant
+            interspersed repeat that is poorly assembled in draft genomes. Correcting for LTR-RT amplification dynamics,
+            LAI is independent of genome size, genomic LTR-RT content, and gene space evaluation metrics such as BUSCO.</p>
+        <b class="section-para">Reference:</b>
+        <p class="section-para">
+            Shujun Ou, Jinfeng Chen, Ning Jiang, Assessing genome assembly quality using the LTR Assembly Index (LAI),
+            Nucleic Acids Research, Volume 46, Issue 21, 30 November 2018, Page e126, <a
+                href="https://doi.org/10.1093/nar/gky730" target="_blank">https://doi.org/10.1093/nar/gky730</a>
+        </p>
+        <b class="section-para">Version: 2.9.0</b>
+    </div>
     <div class="dropdown">
   <div class="dropdown_content">
     <select id="selector_LAI" onchange="showContent('LAI')">
@@ -1607,6 +1653,14 @@
 </div>
 </div>
     <div id="KRAKEN2" class="tabcontent" style="display: none">
+    <div class="section-para-wrapper">
+        <p class="section-para">Kraken2 assigns taxonomic labels to sequencing reads for metagenomics projects. It can also be used to detect contamination in genome assemblies.</p>
+        <b class="section-para">Reference:</b>
+        <p class="section-para">
+            Wood, D.E., Lu, J. & Langmead, B. Improved metagenomic analysis with Kraken 2. Genome Biol 20, 257 (2019). <a href="https://doi.org/10.1186/s13059-019-1891-0" target="_blank">https://doi.org/10.1186/s13059-019-1891-0</a>
+        </p>
+        <b class="section-para">Version: 2.1.2</b>
+    </div>
     <div class="dropdown">
     <div class="dropdown_content">
         <select id="selector_KRAKEN2" onchange="showContent('KRAKEN2')">
