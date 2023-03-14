@@ -5,9 +5,10 @@
 1. Added Kraken2 and NCBI FCS Adaptor tools.
 2. Added Assemblathon stats.
 3. Added `Genometools gt stat` statistics for gff3 files.
-4. Simplified pipeline flow chart.
-5. Simplified conda environment.
-6. TIDK process now uses a container instead of conda.
+4. Added both a priori and a posteriori sequence search in TIDK.
+5. Simplified pipeline flow chart.
+6. Simplified conda environment.
+7. TIDK process now uses a container instead of conda.
 
 ## Version 0.6.1 (8-Mar-2023)
 
