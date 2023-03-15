@@ -26,11 +26,10 @@ if vars.is_first else 'display: none' %}
       </p>
     </div>
     {% else %}
+    <div class="image-wrapper">
+      <img src="{{ all_stats_dicts['TIDK'][item]['tidk_plot'] }}" alt="" />
+    </div>
+    {% endif %}
   </div>
-
-  <div class="image-wrapper">
-    <img src="{{ all_stats_dicts['TIDK'][item]['tidk_plot'] }}" alt="" />
-  </div>
-  {% endif %}
 </div>
 {% if vars.update({'is_first': False}) %} {% endif %} {% endfor %}
