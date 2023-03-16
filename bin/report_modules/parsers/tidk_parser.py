@@ -16,6 +16,12 @@ def parse_tidk_folder(folder_name="tidk_outputs"):
 
     data = {"TIDK": []}
 
+    # get the aprior_sequence file
+    apriori_sequence_file_name = "a_priori.sequence"
+    with open(f"{dir}/{folder_name}/{apriori_sequence_file_name}", "r") as file:
+        lines = file.readlines()
+        apriori_sequence = lines[0].strip()
+
     for plot_path in list_of_plot_files:
         binary_fc = open(plot_path, "rb").read()
         base64_utf8_str = base64.b64encode(binary_fc).decode("utf-8")
@@ -46,6 +52,8 @@ def parse_tidk_folder(folder_name="tidk_outputs"):
                 "hap": file_tokens[0],
                 "hap_display": display_name,
                 "sequence": sequence,
+                "is_a_priori": "priori" in display_name,
+                "apriori_sequence": apriori_sequence,
                 "has_sequence": sequence != "",
                 "tidk_plot": plot_url,
                 "tidk_plot_empty": file_tokens[1] != "",

@@ -19,6 +19,13 @@ if vars.is_first else 'display: none' %}
         <b>{{ all_stats_dicts['TIDK'][item]['sequence'] }}</b>
       </p>
     </div>
+    {% endif %} {% if all_stats_dicts['TIDK'][item]['is_a_priori'] %}
+    <div class="section-para-wrapper">
+      <p class="section-para">
+        Searched sequence:
+        <b>{{ all_stats_dicts['TIDK'][item]['apriori_sequence'] }}</b>
+      </p>
+    </div>
     {% endif %} {% if all_stats_dicts['TIDK'][item]['tidk_plot_empty'] %}
     <div class="section-para-wrapper">
       <p class="section-para">

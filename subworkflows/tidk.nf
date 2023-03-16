@@ -6,6 +6,9 @@ workflow TIDK {
     
     main:
         if (!params.tidk.skip) {
+            GET_APRIORI_SEQUENCE()
+            .set { ch_apriori_sequence }
+            
             SORT_BY_SEQ_LENGTH(tuple_of_hap_file)
             .set { ch_sorted_hap_file }
 
@@ -35,6 +38,7 @@ workflow TIDK {
                     it[1]
                 }
             )
+            .mix(ch_apriori_sequence)
             .collect()
             .set { ch_list_of_tidk_plots }
         }
@@ -44,6 +48,18 @@ workflow TIDK {
     
     emit:
         list_of_plots = ch_list_of_tidk_plots
+}
+
+process GET_APRIORI_SEQUENCE {
+    publishDir params.outdir.main, mode: 'copy'
+
+    output:
+        path("a_priori.sequence")
+
+    script:
+        """
+        echo "${params.tidk.repeat_seq}" >> a_priori.sequence
+        """
 }
 
 process SORT_BY_SEQ_LENGTH {
