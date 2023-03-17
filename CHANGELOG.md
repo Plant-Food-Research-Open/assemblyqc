@@ -4,6 +4,7 @@
 
 1. Fixed a bug in the slurm job submission script.
 2. Fixed a bug in the ASSEMBLATHON_STATS module.
+3. Fixed a bug in SETUP_KRAKEN2_DB module.
 
 ## Version 0.7 (17-Mar-2023)
 

@@ -39,6 +39,9 @@ process SETUP_KRAKEN2_DB {
             else
                 mkdir -p "${params.kraken2.download_path}"
                 cd "${params.kraken2.download_path}"
+
+                ls | grep "tar.gz" | xargs rm
+
                 wget ${params.kraken2.db_url}
                 tar -xf "\$kraken_db_tar_name"
                 rm "\$kraken_db_tar_name"
