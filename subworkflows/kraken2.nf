@@ -31,24 +31,24 @@ process SETUP_KRAKEN2_DB {
     script:
         """
             kraken_db_tar_name=\$(basename ${params.kraken2.db_url})
-            kraken_db_file_name="hash.k2d"
-            kraken_db_file_path="${params.kraken2.download_path}/\${kraken_db_file_name}"
-            if [[ -e \$kraken_db_file_path ]]
+
+            mkdir -p "${params.kraken2.download_path}"
+            cd "${params.kraken2.download_path}"
+            
+            if [[ -e hash.k2d && -e taxo.k2d && -e seqid2taxid.map && -e opts.k2d ]]
             then
                 echo -n "SETUP_KRAKEN2_DB:PASS:kraken2db already available"
             else
-                mkdir -p "${params.kraken2.download_path}"
-                cd "${params.kraken2.download_path}"
-
-                ls | grep "tar.gz" | xargs rm
+                ls | xargs rm
 
                 wget ${params.kraken2.db_url}
                 tar -xf "\$kraken_db_tar_name"
                 rm "\$kraken_db_tar_name"
-                cd -
 
                 echo -n "SETUP_KRAKEN2_DB:PASS:Downloaded and extracted kraken2db"
             fi
+
+            cd -
         """
 }
 

@@ -51,7 +51,6 @@ workflow TIDK {
 }
 
 process GET_APRIORI_SEQUENCE {
-    publishDir params.outdir.main, mode: 'copy'
 
     output:
         path("a_priori.sequence")
@@ -128,7 +127,7 @@ process EXPLORE_REPEAT_SEQ {
     tag "${hap_name}"
     container "quay.io/biocontainers/tidk:0.2.31--h87f3376_0"
 
-    publishDir params.outdir.main, mode: 'copy'
+    publishDir "${params.outdir.main}/tidk", mode: 'copy'
 
     input:
         tuple val(hap_name), path(fasta_file)
