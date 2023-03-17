@@ -16,11 +16,11 @@ def parse_tidk_folder(folder_name="tidk_outputs"):
 
     data = {"TIDK": []}
 
-    # get the aprior_sequence file
-    apriori_sequence_file_name = "a_priori.sequence"
-    with open(f"{dir}/{folder_name}/{apriori_sequence_file_name}", "r") as file:
+    # get the a_prior_sequence file
+    a_priori_sequence_file_name = "a_priori.sequence"
+    with open(f"{dir}/{folder_name}/{a_priori_sequence_file_name}", "r") as file:
         lines = file.readlines()
-        apriori_sequence = lines[0].strip()
+        a_priori_sequence = lines[0].strip()
 
     for plot_path in list_of_plot_files:
         binary_fc = open(plot_path, "rb").read()
@@ -33,18 +33,19 @@ def parse_tidk_folder(folder_name="tidk_outputs"):
             os.path.basename(str(plot_path)),
         )[0]
 
-        if "_searched" in file_tokens[0]:
-            hap_number = file_tokens[0].replace("_searched", "")
-            sequence_file_name = f"{hap_number}.sequence"
+        if "_a_posteriori" in file_tokens[0]:
+            hap_str_literal = file_tokens[0].replace("_a_posteriori", "")
+            sequence_file_name = f"{hap_str_literal}.a_posteriori.sequence"
 
             with open(f"{dir}/{folder_name}/{sequence_file_name}", "r") as file:
                 lines = file.readlines()
                 sequence = "" if len(lines) < 1 else lines[0].strip()
 
-            display_name = f"{hap_number}: a posteriori sequence"
+            display_name = f"{hap_str_literal}: a posteriori sequence"
 
         else:
-            display_name = f"{file_tokens[0]}: a priori sequence"
+            hap_str_literal = file_tokens[0].replace("_a_priori", "")
+            display_name = f"{hap_str_literal}: a priori sequence"
             sequence = ""
 
         data["TIDK"].append(
@@ -52,8 +53,8 @@ def parse_tidk_folder(folder_name="tidk_outputs"):
                 "hap": file_tokens[0],
                 "hap_display": display_name,
                 "sequence": sequence,
-                "is_a_priori": "priori" in display_name,
-                "apriori_sequence": apriori_sequence,
+                "is_a_priori": "a priori" in display_name,
+                "a_priori_sequence": a_priori_sequence,
                 "has_sequence": sequence != "",
                 "tidk_plot": plot_url,
                 "tidk_plot_empty": file_tokens[1] != "",
