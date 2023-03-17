@@ -17,6 +17,8 @@ process ASSEMBLATHON_STATS {
         """
         ln -s "${params.general_stats.falite_path}" FAlite.pm
         assemblathon_stats.pl -csv "${fasta_file}"
-        mv \$(basename "${fasta_file}" .fasta).csv  "${hap_name}_stats.csv"
+
+        csv_file_name=\$(ls | grep "csv")
+        mv \$csv_file_name "${hap_name}_stats.csv"
         """ 
 }

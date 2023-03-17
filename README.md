@@ -110,7 +110,7 @@ cat << EOF > assembly_qc_slurm.sh
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --output asm_qc_${USER}.stdout
-#SBATCH --error asm_qc_${USER}".stderr
+#SBATCH --error asm_qc_${USER}.stderr
 #SBATCH --mem=1G
 
 ml unload perl

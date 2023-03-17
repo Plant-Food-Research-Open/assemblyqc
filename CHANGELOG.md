@@ -1,5 +1,10 @@
 # Change Log
 
+## Version 0.7.1 (17-Mar-2023)
+
+1. Fixed a bug in the slurm job submission script.
+2. Fixed a bug in the ASSEMBLATHON_STATS module.
+
 ## Version 0.7 (17-Mar-2023)
 
 1. Added Kraken2 and NCBI FCS Adaptor tools.
