@@ -1,6 +1,6 @@
 # Change Log
 
-## Version 0.7 (14-Mar-2023)
+## Version 0.7 (17-Mar-2023)
 
 1. Added Kraken2 and NCBI FCS Adaptor tools.
 2. Added Assemblathon stats.
@@ -8,7 +8,8 @@
 4. Added both a priori and a posteriori sequence search in TIDK.
 5. Simplified pipeline flow chart.
 6. Simplified conda environment.
-7. TIDK process now uses a container instead of conda.
+7. Fixed css styling browser conflicts
+8. TIDK process now uses a container instead of conda.
 
 ## Version 0.6.1 (8-Mar-2023)
 
