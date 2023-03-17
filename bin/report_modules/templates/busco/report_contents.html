@@ -1,85 +1,84 @@
 {% for item in range(all_stats_dicts["BUSCO"]|length) %}
-<div
-  id="{{ all_stats_dicts['BUSCO'][item]['hap'] }}_{{ all_stats_dicts['BUSCO'][item]['lineage'] }}_{{ all_stats_dicts['BUSCO'][item]['augustus_species'] }}"
-  class="tabcontent-BUSCO" style="display: none">
-  <div class="results-section">
-    <div class="section-heading-wrapper">
-      <div class="section-heading">Results</div>
+<div id="{{ all_stats_dicts['BUSCO'][item]['hap'] }}_{{ all_stats_dicts['BUSCO'][item]['lineage'] }}_{{ all_stats_dicts['BUSCO'][item]['augustus_species'] }}"
+    class="tabcontent-BUSCO" style="display: none">
+    <div class="results-section">
+        <div class="section-heading-wrapper">
+            <div class="section-heading">Results</div>
+        </div>
+
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="text-align: left">Event</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left">Search Percentages</td>
+                            <td>
+                                {{ all_stats_dicts['BUSCO'][item]['search_percentages'] }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="table-outer">
+            <div class="table-wrapper">
+                {{ all_stats_dicts['BUSCO'][item]['results_table'] }}
+            </div>
+        </div>
     </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th style="text-align: left">Event</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="text-align: left">Search Percentages</td>
-              <td>
-                {{ all_stats_dicts['BUSCO'][item]['search_percentages'] }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <div class="parameters-section">
+        <div class="section-heading-wrapper">
+            <div class="section-heading">Parameters and Dependencies</div>
+        </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        {{ all_stats_dicts['BUSCO'][item]['results_table'] }}
-      </div>
-    </div>
-  </div>
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="text-align: left">Parameter</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left">Version</td>
+                            <td>{{ all_stats_dicts['BUSCO'][item]['version'] }}</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">Lineage create on</td>
+                            <td>{{ all_stats_dicts['BUSCO'][item]['created'] }}</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">Augustus Species</td>
+                            <td>{{ all_stats_dicts['BUSCO'][item]['augustus_species'] }}</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">mode</td>
+                            <td>{{ all_stats_dicts['BUSCO'][item]['mode'] }}</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">predictor</td>
+                            <td>{{ all_stats_dicts['BUSCO'][item]['predictor'] }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-  <div class="parameters-section">
-    <div class="section-heading-wrapper">
-      <div class="section-heading">Parameters and Dependencies</div>
+        <div class="table-outer">
+            <div class="table-wrapper">
+                {{ all_stats_dicts['BUSCO'][item]['dependencies'] }}
+            </div>
+        </div>
     </div>
-
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th style="text-align: left">Parameter</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="text-align: left">Version</td>
-              <td>{{ all_stats_dicts['BUSCO'][item]['version'] }}</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">Lineage create on</td>
-              <td>{{ all_stats_dicts['BUSCO'][item]['created'] }}</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">Augustus Species</td>
-              <td>{{ all_stats_dicts['BUSCO'][item]['augustus_species'] }}</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">mode</td>
-              <td>{{ all_stats_dicts['BUSCO'][item]['mode'] }}</td>
-            </tr>
-            <tr>
-              <td style="text-align: left">predictor</td>
-              <td>{{ all_stats_dicts['BUSCO'][item]['predictor'] }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="table-outer">
-      <div class="table-wrapper">
-        {{ all_stats_dicts['BUSCO'][item]['dependencies'] }}
-      </div>
-    </div>
-  </div>
 </div>
 {% endfor %}

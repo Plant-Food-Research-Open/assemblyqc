@@ -6,12 +6,12 @@
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
   - [Pipeline Flowchart](#pipeline-flowchart)
-  - [Software Versions](#software-versions)
   - [Installation](#installation)
   - [Getting sample data](#getting-sample-data)
   - [Running the Pipeline](#running-the-pipeline)
     - [Run Interactively](#run-interactively)
     - [Post the NextFlow Process to Slurm](#post-the-nextflow-process-to-slurm)
+  - [Software Versions](#software-versions)
   - [Future Plans](#future-plans)
     - [Tools](#tools)
     - [User Feedback](#user-feedback)
@@ -23,53 +23,28 @@ Welcome to the Assembly QC report generator. This software is a Nextflow pipelin
 ## Pipeline Flowchart
 
 ```mermaid
-flowchart TD
-    p5[Foreach Haplotype:Lineage:Augustus Species]
-    p6[BUSCO:RUN_BUSCO]
-    p7([collect])
-    p8[BUSCO:CREATE_PLOT]
-    p9([mix])
-    p10([collect])
-    p12[Foreach Haplotype]
-    p13[TIDK:SORT_BY_SEQ_LENGTH]
-    p14[TIDK:SEARCH_REPEAT_SEQ]
-    p15[TIDK:PLOT_REPEAT_SEQ]
-    p16([collect])
-    p24[Foreach Haplotype]
-    p26[LAI:EDTA]
-    p28[LAI:RUN_LAI]
-    p29([collect])
-    p30[CREATE_REPORT]
-    p31(( ))
-    p32(( ))
-    p5 --> p6
-    p6 --> p7
-    p7 -->|busco summaries| p8
-    p8 --> p9
-    p7 -->|busco summaries| p9
-    p9 --> p10
-    p10 -->|list of busco outputs| p30
-    p12 --> p13
-    p13 --> p14
-    p14 --> p15
-    p15 --> p16
-    p16 -->|list of tidk outputs| p30
-    p24 --> p26
-    p24 -->|if pass list and out file| p28
-    p26 --> p28
-    p28 --> p29
-    p29 -->|list of lai outputs| p30
-    p30 -->|report.html| p32
-    p30 -->|report.json| p31
+flowchart LR
+  forEachHap[Foreach\nHaplotype] --> ncbiFCS{NCBI FCS Adaptor\nCheck}
+  ncbiFCS --> |Contaminated|Skip[Skip]
+  ncbiFCS --> |Clean|Run
+
+  Skip --> Report
+  
+  Run --> BUSCO
+  Run --> TIDK
+  Run --> EDTA
+  EDTA --> LAI
+  Run --> |Pass list and out file\nprovided|LAI
+  Run --> KRAKEN2
+  Run --> ASS_STATS[ASSEMBLATHON_STATS]
+
+
+  BUSCO --> Report
+  TIDK --> Report
+  LAI --> Report
+  KRAKEN2 --> Report
+  ASS_STATS --> Report
 ```
-
-## Software Versions
-
-- BUSCO: quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0
-- TIDK: 0.2.1
-  - SEQKIT: quay.io/biocontainers/seqkit:2.3.1--h9ee0642_0
-- LAI: quay.io/biocontainers/ltr_retriever:2.9.0--hdfd78af_1
-  - EDTA: quay.io/biocontainers/edta:2.1.0--hdfd78af_1
 
 ## Installation
 
@@ -97,6 +72,8 @@ $ cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_
 $ seqkit sample -p 0.25 -s 33 ./test_data/test_data_original.fasta > ./test_data/test_data1.fasta
 $ seqkit sample -p 0.25 -s 49 ./test_data/test_data_original.fasta > ./test_data/test_data2.fasta
 $ rm ./test_data/test_data_original.fasta
+$ cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_rs324p/v1/augustus.hints.fixed.gff3 ./test_data/test_data1.gff3
+$ cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_rs324p/v1/augustus.hints.fixed.gff3 ./test_data/test_data2.gff3
 ```
 
 ## Running the Pipeline
@@ -167,19 +144,33 @@ After running the pipeline, if you wish to clean up the logs and work folder, yo
 $ ./cleanNXF.sh
 ```
 
+## Software Versions
+
+- NCBI-FCS-ADAPTOR: 0.4
+  - Tini: 0.19.0 - git.de40ad0
+- ASSEMBLATHON_STATS: [160b94c/assemblathon_stats.pl](https://github.com/KorfLab/Assemblathon/blob/160b94c1d225d8b16625d0513ccb3dd73b456f74/assemblathon_stats.pl)
+- GENOMETOOLS_GT_STAT: quay.io/biocontainers/genometools-genometools:1.6.2--py310he7ef181_3
+- BUSCO: quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0
+- TIDK: quay.io/biocontainers/tidk:0.2.31--h87f3376_0
+  - SEQKIT: quay.io/biocontainers/seqkit:2.3.1--h9ee0642_0
+- LAI: quay.io/biocontainers/ltr_retriever:2.9.0--hdfd78af_1
+  - EDTA: quay.io/biocontainers/edta:2.1.0--hdfd78af_1
+- KRAKEN2: quay.io/biocontainers/kraken2:2.1.2--pl5321h9f5acd7_2
+  - KRONA: docker://nanozoo/krona:2.7.1--e7615f7
+
 ## Future Plans
 
 ### Tools
 
-- [ ] General Statistics -- [https://doi.org/10.1016/j.tig.2022.10.005](https://doi.org/10.1016/j.tig.2022.10.005), [https://github.com/KorfLab/Assemblathon](https://github.com/KorfLab/Assemblathon), Ross' version: /workspace/hrarnc/GitHub/Scriptomics/hrarnc/PerlScripts/Assembly/assemblathon_stats_v1.1.pl
+- [x] General Statistics -- [https://doi.org/10.1016/j.tig.2022.10.005](https://doi.org/10.1016/j.tig.2022.10.005), [https://github.com/KorfLab/Assemblathon](https://github.com/KorfLab/Assemblathon), Ross' version: /workspace/hrarnc/GitHub/Scriptomics/hrarnc/PerlScripts/Assembly/assemblathon_stats_v1.1.pl
+- [x] Contamination Check -- [https://doi.org/10.1186/s13059-022-02619-9](https://doi.org/10.1186/s13059-022-02619-9). Added kraken2.
+- [x] Add both a priori and a posteriori TIDK sequence options. See differences across https://github.com/tolkit/a-telomeric-repeat-database and http://telomerase.asu.edu/sequences_telomere.html
 - [ ] Synteny Check
-- [ ] Contamination Check -- [https://doi.org/10.1186/s13059-022-02619-9](https://doi.org/10.1186/s13059-022-02619-9)
-- [ ] Add both a priori and a posteriori TIDK sequence options. See differences across https://github.com/tolkit/a-telomeric-repeat-database and http://telomerase.asu.edu/sequences_telomere.html
 
 ### User Feedback
 
 - [x] Fix the BUSCO summary table and dropdown menu for long haplotype tags.
 - [x] Pull html formatting out of BUSCO/dependencies and results_table so that the machine reading of report.json is straight forward.
+- [x] Contamination first before running other checks
 - [ ] TIDK fix scale (chen)
 - [ ] CL options e.g for busco_lineage for non-devs
-- [ ] Contamination first before running other checks

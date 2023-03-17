@@ -1,0 +1,15 @@
+<div id="GENOMETOOLS_GT_STAT" class="tabcontent" style="display: none">
+    <div class="section-para-wrapper">
+        <p class="section-para">A tool to calculate a basic set of statistics about features contained in GFF3 files.
+        </p>
+        <b class="section-para">Reference:</b>
+        <p class="section-para">
+            Gremme G, Steinbiss S, Kurtz S. GenomeTools: a comprehensive software library for efficient processing of
+            structured genome annotations. IEEE/ACM Trans Comput Biol Bioinform. 2013 May-Jun;10(3):645-56. doi:
+            <a href="https://doi.org/10.1109/TCBB.2013.68" target="_blank">10.1109/TCBB.2013.68</a>. PMID: 24091398.
+        </p>
+        <b class="section-para">Version: {{ all_stats_dicts['VERSIONS']['GENOMETOOLS_GT_STAT'] }}</b>
+    </div>
+    {% include 'genometools_gt_stat/dropdown.html' %}
+    {% include 'genometools_gt_stat/report_contents.html' %}
+</div>

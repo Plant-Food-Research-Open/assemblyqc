@@ -54,6 +54,6 @@
         }
 
         const firstChild = topNavBarButtons.children[0];
-        openToolManually(firstChild, firstChild.innerHTML);
+        openToolManually(firstChild, firstChild.innerHTML.replaceAll(" ", "_"));
     });
 </script>

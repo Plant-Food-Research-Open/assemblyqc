@@ -26,3 +26,7 @@ test_data_conf/
 
 *.stdout
 *.stderr
+
+kraken2db/
+
+ncbi_fcs_adaptor_scripts/

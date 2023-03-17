@@ -7,9 +7,13 @@ process CREATE_REPORT {
     publishDir params.outdir.main, mode: 'copy'
 
     input:
+        path ncbi_fcs_adaptor_reports, stageAs: 'ncbi_fcs_adaptor_reports/*'
+        path assemblathon_stats, stageAs: 'assemblathon_stats/*'
+        path genometools_gt_stats, stageAs: 'genometools_gt_stat/*'
         path busco_outputs, stageAs: 'busco_outputs/*'
         path tidk_plots, stageAs: 'tidk_outputs/*'
         path lai_outputs, stageAs: 'lai_outputs/*'
+        path kraken2_outputs, stageAs: 'kraken2_outputs/*'
 
     output:
         path 'report.html'
