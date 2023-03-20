@@ -6,6 +6,7 @@
 2. Fixed a bug in the ASSEMBLATHON_STATS module.
 3. Fixed a bug in SETUP_KRAKEN2_DB module.
 4. Now using uniform naming in the TIDK sub-workflow.
+5. Max time for LAI now set to 2 hours.
 
 ## Version 0.7 (17-Mar-2023)
 
