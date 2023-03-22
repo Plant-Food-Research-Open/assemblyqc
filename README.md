@@ -37,6 +37,7 @@ flowchart LR
   Run --> |Pass list and out file\nprovided|LAI
   Run --> KRAKEN2
   Run --> ASS_STATS[ASSEMBLATHON_STATS]
+  Run --> GFF_STATS[GENOMETOOLS_GT_STAT]
 
 
   BUSCO --> Report
@@ -44,6 +45,7 @@ flowchart LR
   LAI --> Report
   KRAKEN2 --> Report
   ASS_STATS --> Report
+  GFF_STATS --> Report
 ```
 
 ## Installation
