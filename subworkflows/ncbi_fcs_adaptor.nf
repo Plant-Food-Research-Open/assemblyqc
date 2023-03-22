@@ -88,8 +88,6 @@ process SETUP_FCS_ADAPTOR_SCRIPTS {
                 
                 curl -LO \$ncbi_fcs_adaptor_bash_url
                 curl \$ncbi_fcs_adaptor_sif_url -Lo \$ncbi_fcs_adaptor_sif_file
-
-                chmod u+x \$ncbi_fcs_adaptor_bash_file
                 
                 cd -
 
@@ -117,6 +115,9 @@ process RUN_NCBI_FCS_ADAPTOR {
             ln -s "${params.ncbi_fcs_adaptor.download_path}/fcs-adaptor.sif" "fcs-adaptor.sif"
 
             mkdir "${hap_name}_outputdir"
+
+            chmod 777 ./run_fcsadaptor.sh
+            chmod 777 ./fcs-adaptor.sif
             
             ./run_fcsadaptor.sh \
             --fasta-input "./${fasta_file}" \
