@@ -1,6 +1,6 @@
 # Change Log
 
-## Version 0.7.1 (17-Mar-2023)
+## Version 0.7.1 (23-Mar-2023)
 
 1. Fixed a bug in the slurm job submission script.
 2. Fixed a bug in the ASSEMBLATHON_STATS module.
