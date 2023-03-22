@@ -39,7 +39,7 @@ process SETUP_KRAKEN2_DB {
             then
                 echo -n "SETUP_KRAKEN2_DB:PASS:kraken2db already available"
             else
-                ls | xargs rm
+                ls | xargs rm -f
 
                 wget ${params.kraken2.db_url}
                 tar -xf "\$kraken_db_tar_name"
