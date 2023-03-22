@@ -23,7 +23,7 @@ if __name__ == "__main__":
     data_from_tools = {**data_from_tools, **parse_lai_folder()}
     data_from_tools = {**data_from_tools, **parse_kraken2_folder()}
 
-    data_from_tools = {**data_from_tools, **{"VERSIONS": {"SELF":"v0.7.1", "NCBI_FCS_ADAPTOR": "0.4", "ASSEMBLATHON_STATS": "160b94c", "GENOMETOOLS_GT_STAT": "1.6.2", "BUSCO": "5.2.2", "TIDK": "0.2.31", "LAI": "2.9.0", "KRAKEN2": "2.1.2"}}}
+    data_from_tools = {**data_from_tools, **{"VERSIONS": {"SELF":"v0.7.2", "NCBI_FCS_ADAPTOR": "0.4", "ASSEMBLATHON_STATS": "160b94c", "GENOMETOOLS_GT_STAT": "1.6.2", "BUSCO": "5.2.2", "TIDK": "0.2.31", "LAI": "2.9.0", "KRAKEN2": "2.1.2"}}}
 
     report_printer = ReportPrinter()
     report_template = report_printer.print_template(data_from_tools)

@@ -1,5 +1,12 @@
 # Change Log
 
+## Version 0.7.2 (23-Mar-2023)
+
+1. Fixed a potential bug in ncbi fcs adaptor.
+2. Fixed rm -f bug in KRAKEN2.
+3. Added additional info for LAI
+4. Fixed a few typos in the config file.
+
 ## Version 0.7.1 (23-Mar-2023)
 
 1. Fixed a bug in the slurm job submission script.
