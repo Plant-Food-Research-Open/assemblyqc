@@ -1,0 +1,43 @@
+<div id="summary_BUSCO" class="tabcontent-BUSCO" style="display: block">
+  <div class="results-section">
+    <div class="section-heading-wrapper">
+      <div class="section-heading">Summary</div>
+    </div>
+
+    <div class="table-outer">
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th width="10%" style="text-align: left">Haplotype</th>
+              <th width="20%" style="text-align: left">Lineage</th>
+              <th width="20%" style="text-align: left">Augustus Species</th>
+              <th>Percentages</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in range(all_stats_dicts["BUSCO"]|length) %}
+            <tr>
+              <td style="text-align: left; font-size: 16px">
+                {{ all_stats_dicts['BUSCO'][item]['hap'] }}
+              </td>
+              <td style="text-align: left; font-size: 16px">
+                {{ all_stats_dicts['BUSCO'][item]['lineage'] }}
+              </td>
+              <td style="text-align: left; font-size: 16px">
+                {{ all_stats_dicts['BUSCO'][item]['augustus_species'] }}
+              </td>
+              <td>
+                {{ all_stats_dicts['BUSCO'][item]['search_percentages'] }}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="image-wrapper">
+    <img src="{{ all_stats_dicts['BUSCO'][0]['busco_plot'] }}" alt="" />
+  </div>
+</div>

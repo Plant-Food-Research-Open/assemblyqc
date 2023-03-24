@@ -1,0 +1,52 @@
+ 33.33	3	3	U	0	unclassified
+ 66.67	6	0	R	1	root
+ 66.67	6	0	R1	131567	  cellular organisms
+ 66.67	6	1	D	2759	    Eukaryota
+ 55.56	5	0	D1	33154	      Opisthokonta
+ 44.44	4	0	K	4751	        Fungi
+ 44.44	4	0	K1	451864	          Dikarya
+ 44.44	4	0	P	4890	            Ascomycota
+ 44.44	4	0	P1	716545	              saccharomyceta
+ 44.44	4	0	P2	147538	                Pezizomycotina
+ 44.44	4	0	P3	716546	                  leotiomyceta
+ 44.44	4	0	P4	715989	                    sordariomyceta
+ 44.44	4	0	C	147550	                      Sordariomycetes
+ 44.44	4	0	C1	222543	                        Hypocreomycetidae
+ 44.44	4	0	O	5125	                          Hypocreales
+ 44.44	4	0	F	110618	                            Nectriaceae
+ 44.44	4	0	G	5506	                              Fusarium
+ 33.33	3	1	G1	569360	                                Fusarium sambucinum species complex
+ 11.11	1	0	S	5518	                                  Fusarium graminearum
+ 11.11	1	1	S1	229533	                                    Fusarium graminearum PH-1
+ 11.11	1	1	S	36050	                                  Fusarium poae
+ 11.11	1	0	G1	171627	                                Fusarium fujikuroi species complex
+ 11.11	1	0	S	117187	                                  Fusarium verticillioides
+ 11.11	1	1	S1	334819	                                    Fusarium verticillioides 7600
+ 11.11	1	0	K	33208	        Metazoa
+ 11.11	1	0	K1	6072	          Eumetazoa
+ 11.11	1	0	K2	33213	            Bilateria
+ 11.11	1	0	K3	33511	              Deuterostomia
+ 11.11	1	0	P	7711	                Chordata
+ 11.11	1	0	P1	89593	                  Craniata
+ 11.11	1	0	P2	7742	                    Vertebrata
+ 11.11	1	0	P3	7776	                      Gnathostomata
+ 11.11	1	0	P4	117570	                        Teleostomi
+ 11.11	1	0	P5	117571	                          Euteleostomi
+ 11.11	1	0	P6	8287	                            Sarcopterygii
+ 11.11	1	0	P7	1338369	                              Dipnotetrapodomorpha
+ 11.11	1	0	P8	32523	                                Tetrapoda
+ 11.11	1	0	P9	32524	                                  Amniota
+ 11.11	1	0	C	40674	                                    Mammalia
+ 11.11	1	0	C1	32525	                                      Theria
+ 11.11	1	0	C2	9347	                                        Eutheria
+ 11.11	1	0	C3	1437010	                                          Boreoeutheria
+ 11.11	1	0	C4	314146	                                            Euarchontoglires
+ 11.11	1	0	O	9443	                                              Primates
+ 11.11	1	0	O1	376913	                                                Haplorrhini
+ 11.11	1	0	O2	314293	                                                  Simiiformes
+ 11.11	1	0	O3	9526	                                                    Catarrhini
+ 11.11	1	0	O4	314295	                                                      Hominoidea
+ 11.11	1	0	F	9604	                                                        Hominidae
+ 11.11	1	0	F1	207598	                                                          Homininae
+ 11.11	1	0	G	9605	                                                            Homo
+ 11.11	1	1	S	9606	                                                              Homo sapiens

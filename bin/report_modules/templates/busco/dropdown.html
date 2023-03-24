@@ -1,0 +1,17 @@
+<div class="dropdown">
+  <div class="dropdown_content">
+    <select id="selector_BUSCO" onchange="showContent('BUSCO')">
+      <option value="summary_BUSCO">Summary</option>
+      {% set str_busco = 'BUSCO' %} {% set str_augustus = 'augustus_species' %}
+      {% set str_lin = 'lineage' %} {% set str_hap = 'hap' %} {% for item in
+      range(all_stats_dicts["BUSCO"]|length) %}
+      <option
+        value="{{all_stats_dicts['BUSCO'][item]['hap']}}_{{all_stats_dicts['BUSCO'][item]['lineage']}}_{{all_stats_dicts['BUSCO'][item]['augustus_species']}}">
+        {{ all_stats_dicts['BUSCO'][item][str_hap] }} : {{
+        all_stats_dicts['BUSCO'][item][str_lin] }} : {{
+        all_stats_dicts['BUSCO'][item][str_augustus] }}
+      </option>
+      {% endfor %}
+    </select>
+  </div>
+</div>

@@ -9,7 +9,7 @@ nextflow
 work/
 *.dot
 
-busco_downloads
+busco_data
 
 Results/
 results/
@@ -19,5 +19,14 @@ results/
 
 *.sif
 
-*.fa
-*.fasta
+to-do-list.md
+
+test_data/
+test_data_conf/
+
+*.stdout
+*.stderr
+
+kraken2db/
+
+ncbi_fcs_adaptor_scripts/

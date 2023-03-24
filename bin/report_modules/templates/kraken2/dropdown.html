@@ -1,0 +1,11 @@
+<div class="dropdown">
+    <div class="dropdown_content">
+        <select id="selector_KRAKEN2" onchange="showContent('KRAKEN2')">
+            {% set str_kraken2 = 'KRAKEN2' %}
+            {% set str_hap = 'hap' %} {% for item in range(all_stats_dicts["KRAKEN2"]|length) %}
+            <option value="tabcontent_KRAKEN2_{{all_stats_dicts['KRAKEN2'][item]['hap']}}">
+                {{ all_stats_dicts['KRAKEN2'][item][str_hap] }}
+                {% endfor %}
+        </select>
+    </div>
+</div>

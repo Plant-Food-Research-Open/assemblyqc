@@ -3,9 +3,9 @@ from pathlib import Path
 
 
 
-class Report_Printer:
+class ReportPrinter:
     def __init__(self):
-        projectDir = "/".join(__file__.split("/")[0:-2])
+        projectDir = "/".join(__file__.split("/")[0:-1])
         path = Path(f"{projectDir}/templates")
 
         self.file_loader = FileSystemLoader(path)
@@ -13,5 +13,4 @@ class Report_Printer:
 
     def print_template(self, stats):
         template = self.env.get_template('base.html')
-        output = template.render(**stats)
-        print(output)
+        print(template.render(all_stats_dicts=stats))
