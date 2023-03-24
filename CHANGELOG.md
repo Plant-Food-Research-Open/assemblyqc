@@ -1,6 +1,6 @@
 # Change Log
 
-## Version 0.7.2 (23-Mar-2023)
+## Version 0.7.2 (24-Mar-2023)
 
 1. Fixed a potential bug in ncbi fcs adaptor.
 2. Fixed rm -f bug in KRAKEN2.
