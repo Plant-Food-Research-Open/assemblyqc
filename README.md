@@ -78,6 +78,17 @@ $ cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_
 $ cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_rs324p/v1/augustus.hints.fixed.gff3 ./test_data/test_data2.gff3
 ```
 
+## To run the QC pipeline on a new genome
+
+Edit nextflow.config and modify the parameters accordingly:
+* haplotype_fasta
+* haplotype_gff3
+* lineage_datasets
+* augustus_species
+* repeat_seq
+* outdir
+
+
 ## Running the Pipeline
 
 ### Run Interactively
