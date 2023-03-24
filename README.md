@@ -8,6 +8,7 @@
   - [Pipeline Flowchart](#pipeline-flowchart)
   - [Installation](#installation)
   - [Getting sample data](#getting-sample-data)
+  - [To run the QC pipeline on a new genome](#To-run-the-QC-pipeline-on-a-new-genome)
   - [Running the Pipeline](#running-the-pipeline)
     - [Run Interactively](#run-interactively)
     - [Post the NextFlow Process to Slurm](#post-the-nextflow-process-to-slurm)
