@@ -8,6 +8,7 @@
   - [Pipeline Flowchart](#pipeline-flowchart)
   - [Installation](#installation)
   - [Getting sample data](#getting-sample-data)
+  - [To run the QC pipeline on a new genome](#To-run-the-QC-pipeline-on-a-new-genome)
   - [Running the Pipeline](#running-the-pipeline)
     - [Run Interactively](#run-interactively)
     - [Post the NextFlow Process to Slurm](#post-the-nextflow-process-to-slurm)
@@ -77,6 +78,17 @@ $ rm ./test_data/test_data_original.fasta
 $ cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_rs324p/v1/augustus.hints.fixed.gff3 ./test_data/test_data1.gff3
 $ cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_rs324p/v1/augustus.hints.fixed.gff3 ./test_data/test_data2.gff3
 ```
+
+## To run the QC pipeline on a new genome
+
+Edit nextflow.config and modify the parameters accordingly:
+* haplotype_fasta
+* haplotype_gff3
+* lineage_datasets
+* augustus_species
+* repeat_seq
+* outdir
+
 
 ## Running the Pipeline
 
