@@ -23,7 +23,7 @@ workflow KRAKEN2 {
 
 process SETUP_KRAKEN2_DB {
     label 'uses_low_cpu_mem'
-    label 'takes_two_hours'
+    label 'takes_eight_hours'
 
     output:
         stdout
