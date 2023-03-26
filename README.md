@@ -7,11 +7,11 @@
   - [Introduction](#introduction)
   - [Pipeline Flowchart](#pipeline-flowchart)
   - [Installation](#installation)
-  - [Getting sample data](#getting-sample-data)
-  - [To run the QC pipeline on a new genome](#To-run-the-QC-pipeline-on-a-new-genome)
   - [Running the Pipeline](#running-the-pipeline)
     - [Run Interactively](#run-interactively)
     - [Post the NextFlow Process to Slurm](#post-the-nextflow-process-to-slurm)
+    - [Post-run clean-up](#post-run-clean-up)
+  - [Getting sample data](#getting-sample-data)
   - [Software Versions](#software-versions)
   - [Future Plans](#future-plans)
     - [Tools](#tools)
@@ -63,38 +63,20 @@ $ git clone https://github.com/PlantandFoodResearch/assembly_qc.git
 $ cd assembly_qc/
 ```
 
-## Getting sample data
-
-In order to retrieve dummy data to test the pipeline with, run the following:
-
-```bash
-$ ml seqkit/0.7.0
-$ mkdir test_data
-$ cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_rs324p/v1/Nd324_canupilon_all.sorted.renamed.fasta \
-./test_data/test_data_original.fasta
-$ seqkit sample -p 0.25 -s 33 ./test_data/test_data_original.fasta > ./test_data/test_data1.fasta
-$ seqkit sample -p 0.25 -s 49 ./test_data/test_data_original.fasta > ./test_data/test_data2.fasta
-$ rm ./test_data/test_data_original.fasta
-$ cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_rs324p/v1/augustus.hints.fixed.gff3 ./test_data/test_data1.gff3
-$ cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_rs324p/v1/augustus.hints.fixed.gff3 ./test_data/test_data2.gff3
-```
-
-## To run the QC pipeline on a new genome
-
-Edit nextflow.config and modify the parameters accordingly:
-* haplotype_fasta
-* haplotype_gff3
-* lineage_datasets
-* augustus_species
-* repeat_seq
-* outdir
-
-
 ## Running the Pipeline
+
+To run the pipeline on a new genome, edit the nextflow.config. The following parameters must be checked and modified accordingly:
+
+- haplotype_fasta
+- haplotype_gff3
+- ncbi_fcs_adaptor::empire
+- busco::lineage_datasets
+- busco::augustus_species
+- tidk::repeat_seq
 
 ### Run Interactively
 
-1. Load the required modules:
+- Load the required modules:
 
 ```bash
 $ ml unload perl
@@ -103,7 +85,7 @@ $ ml conda/22.9.0
 $ ml nextflow/22.10.4
 ```
 
-2. Run the pipeline:
+- Run the pipeline:
 
 ```bash
 $ nextflow main.nf -profile slurm
@@ -140,23 +122,35 @@ chmod u+x ./assembly_qc_slurm.sh
 sbatch ./assembly_qc_slurm.sh
 ```
 
-The test data will take around 15 minutes to run. When the pipeline has finished running you will see the output of "Complete!" in the terminal.
+You will now see a results folder which will contain a file named 'report.html' and can be viewed on the [powerPlant storage server](https://storage.powerplant.pfr.co.nz). An example report.html file can be found in the [example_report](./example_report/) folder.
 
-You will now see a results folder which will contain a file named 'report.html' and can be viewed on the [powerPlant storage server](https://storage.powerplant.pfr.co.nz).
-
-An example report.html file can be found in the [example_report](./example_report/) folder.
-
----
-
-:memo: Note: If you are using your own data, you will need to update the "haplotype_fasta" value in the nextflow.config file to match the paths to your data. To include multiple input files, simply add ["NAME", "YOUR_INPUT_FASTA"] to the haplotype_fasta parameter, separated by commas.
-
----
+### Post-run clean-up
 
 After running the pipeline, if you wish to clean up the logs and work folder, you can run the following:
 
 ```bash
 $ ./cleanNXF.sh
 ```
+
+The work folder contains intermediary files produced by the pipeline tools.
+
+## Getting sample data
+
+In order to retrieve dummy data to test the pipeline with, run the following:
+
+```bash
+$ ml seqkit/0.7.0
+$ mkdir test_data
+$ cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_rs324p/v1/Nd324_canupilon_all.sorted.renamed.fasta \
+./test_data/test_data_original.fasta
+$ seqkit sample -p 0.25 -s 33 ./test_data/test_data_original.fasta > ./test_data/test_data1.fasta
+$ seqkit sample -p 0.25 -s 49 ./test_data/test_data_original.fasta > ./test_data/test_data2.fasta
+$ rm ./test_data/test_data_original.fasta
+$ cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_rs324p/v1/augustus.hints.fixed.gff3 ./test_data/test_data1.gff3
+$ cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_rs324p/v1/augustus.hints.fixed.gff3 ./test_data/test_data2.gff3
+```
+
+The test data will take around 15 minutes to run.
 
 ## Software Versions
 
