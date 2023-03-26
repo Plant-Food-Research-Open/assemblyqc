@@ -30,6 +30,7 @@ process RUN_BUSCO {
     label 'takes_eight_hours'
     tag "${hap_name}: ${lineage_dataset}: ${augustus_species}"
     container "quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0"
+    containerOptions "-B ${params.busco.download_path}:${params.busco.download_path}"
 
     publishDir "${params.outdir.main}/busco", mode: 'copy'
 
