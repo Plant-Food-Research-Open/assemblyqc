@@ -68,13 +68,13 @@ process CREATE_PLOT {
     publishDir params.outdir.main, mode: 'copy'
 
     input: 
-        path "short_summary.*", stageAs: 'busco_outputs/*'
+        path "short_summary.*", stageAs: 'busco/*'
 
     output:
-        path 'busco_outputs/*.png'
+        path 'busco/*.png'
 
     script:
         """
-        generate_plot.py -wd ./busco_outputs
+        generate_plot.py -wd ./busco
         """ 
 }

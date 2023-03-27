@@ -7,6 +7,10 @@ include { TIDK                  } from './subworkflows/tidk.nf'
 include { LAI                   } from './subworkflows/lai.nf'
 include { KRAKEN2               } from './subworkflows/kraken2.nf'
 include { NCBI_FCS_ADAPTOR      } from './subworkflows/ncbi_fcs_adaptor.nf'
+include { HIC_PREPROCESS        } from './subworkflows/hic_preprocess.nf'
+include { HIC_CONTACT_MAP       } from './subworkflows/hic_contact_map.nf'
+
+
 
 include { CREATE_REPORT         } from './modules/create_report.nf'
 include { ASSEMBLATHON_STATS    } from './modules/assemblathon_stats.nf'
@@ -31,14 +35,16 @@ workflow {
     }
     | NCBI_FCS_ADAPTOR
 
-
-    // ASSEMBLATHON_STATS
     NCBI_FCS_ADAPTOR.out.clean_hap
     .join(Channel.fromList(params.haplotype_fasta))
     .map {
         return [it[0], file(it[1], checkIfExists: true)]
     }
-    | ASSEMBLATHON_STATS
+    | set {ch_clean_haplotype_fasta}
+
+
+    // ASSEMBLATHON_STATS
+    ASSEMBLATHON_STATS(ch_clean_haplotype_fasta)
     | collect
     | set { ch_general_stats }
     
@@ -54,41 +60,26 @@ workflow {
     | BUSCO
     
     // TIDK
-    NCBI_FCS_ADAPTOR.out.clean_hap
-    .join(Channel.fromList(params.haplotype_fasta))
-    .map {
-        return [it[0], file(it[1], checkIfExists: true)]
-    }
-    | TIDK
+    TIDK(ch_clean_haplotype_fasta)
     
     // LAI
     if (params.lai.pass_list == null || params.lai.out_file == null) {
-        NCBI_FCS_ADAPTOR.out.clean_hap
-        .join(Channel.fromList(params.haplotype_fasta))
-        .map {
-            return [it[0], file(it[1], checkIfExists: true)]
-        }
+        ch_clean_haplotype_fasta
         .join(
-            NCBI_FCS_ADAPTOR.out.clean_hap
-            .join(Channel.fromList(params.haplotype_fasta))
+            ch_clean_haplotype_fasta
             .map {
                 return [it[0], null]
             }
         )
         .join(
-            NCBI_FCS_ADAPTOR.out.clean_hap
-            .join(Channel.fromList(params.haplotype_fasta))
+            ch_clean_haplotype_fasta
             .map {
                 return [it[0], null]
             }
         )
-        .set { ch_tuple_of_hap_genome_pass_out }
+        .set { ch_hap_genome_pass_out }
     } else {
-        NCBI_FCS_ADAPTOR.out.clean_hap
-        .join(Channel.fromList(params.haplotype_fasta))
-        .map {
-            return [it[0], file(it[1], checkIfExists: true)]
-        }
+        ch_clean_haplotype_fasta
         .join(
             Channel.fromList(params.lai.pass_list)
             .map {
@@ -101,19 +92,22 @@ workflow {
                 return [it[0], file(it[1], checkIfExists: true)]
             }
         )
-        .set { ch_tuple_of_hap_genome_pass_out }
+        .set { ch_hap_genome_pass_out }
     }
 
-    ch_tuple_of_hap_genome_pass_out
-    | LAI
+    LAI(ch_hap_genome_pass_out)
 
     // KRAKEN2
-    NCBI_FCS_ADAPTOR.out.clean_hap
-    .join(Channel.fromList(params.haplotype_fasta))
-    .map {
-        return [it[0], file(it[1], checkIfExists: true)]
-    }
-    | KRAKEN2
+    KRAKEN2(ch_clean_haplotype_fasta)
+
+    // HIC_CONTACT_MAP
+    Channel.fromFilePairs(params.hic.paired_reads, checkIfExists: true)
+    | HIC_PREPROCESS
+    | set { ch_cleaned_paired_reads }
+
+    ch_clean_haplotype_fasta
+    .combine(ch_cleaned_paired_reads)
+    | HIC_CONTACT_MAP
 
     // CREATE REPORT
     CREATE_REPORT(
