@@ -75,6 +75,8 @@ To run the pipeline on a new genome, edit the nextflow.config. The following par
 - busco::lineage_datasets
 - busco::augustus_species
 - tidk::repeat_seq
+- hic::reads_folder
+- hic::paired_reads
 
 ### Run Interactively
 

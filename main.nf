@@ -101,8 +101,13 @@ workflow {
     KRAKEN2(ch_clean_haplotype_fasta)
 
     // HIC_CONTACT_MAP
-    Channel.fromFilePairs(params.hic.paired_reads, checkIfExists: true)
-    | HIC_PREPROCESS
+    if(!params.hic.skip) {
+        ch_paired_reads = Channel.fromFilePairs(params.hic.paired_reads, checkIfExists: true)
+    } else {
+        ch_paired_reads = Channel.empty()
+    }
+    
+    HIC_PREPROCESS(ch_paired_reads)
     | set { ch_cleaned_paired_reads }
 
     ch_clean_haplotype_fasta
