@@ -39,6 +39,7 @@ flowchart LR
   Run --> KRAKEN2
   Run --> ASS_STATS[ASSEMBLATHON_STATS]
   Run --> GFF_STATS[GENOMETOOLS_GT_STAT]
+  Run --> HIC_CONTACT_MAP
 
 
   BUSCO --> Report
@@ -47,6 +48,7 @@ flowchart LR
   KRAKEN2 --> Report
   ASS_STATS --> Report
   GFF_STATS --> Report
+  HIC_CONTACT_MAP --> Report
 ```
 
 ## Installation
@@ -165,6 +167,16 @@ The test data will take around 15 minutes to run.
   - EDTA: quay.io/biocontainers/edta:2.1.0--hdfd78af_1
 - KRAKEN2: quay.io/biocontainers/kraken2:2.1.2--pl5321h9f5acd7_2
   - KRONA: docker://nanozoo/krona:2.7.1--e7615f7
+- HIC_CONTACT_MAP
+  - FASTP: quay.io/biocontainers/fastp:0.23.2--h5f740d0_3
+  - FAST_QC: quay.io/biocontainers/fastqc:0.11.9--hdfd78af_1
+  - RUN_ASSEMBLY_VISUALIZER: docker://gallvp/3d-dna:63029aa
+  - HIC_QC: docker://gallvp/hic_qc:6881c33
+  - JUICEBOX_SCRIPTS: docker://gallvp/juicebox_scripts:a7ae991
+  - BWA: bwa: quay.io/biocontainers/bwa:0.7.17--hed695b0_7
+  - MATLOCK: quay.io/biocontainers/matlock:20181227--h4b03ef3_3
+  - SAMBLASTER: quay.io/biocontainers/samblaster:0.1.20--h9f5acd7_2
+  - SAMTOOLS: quay.io/biocontainers/samtools:1.16.1--h6899075_1
 
 ## Future Plans
 
