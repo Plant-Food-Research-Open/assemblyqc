@@ -168,6 +168,7 @@ The test data will take around 15 minutes to run.
 - KRAKEN2: quay.io/biocontainers/kraken2:2.1.2--pl5321h9f5acd7_2
   - KRONA: docker://nanozoo/krona:2.7.1--e7615f7
 - HIC_CONTACT_MAP
+  - JUICEBOX.JS: 2.2.3
   - FASTP: quay.io/biocontainers/fastp:0.23.2--h5f740d0_3
   - FAST_QC: quay.io/biocontainers/fastqc:0.11.9--hdfd78af_1
   - RUN_ASSEMBLY_VISUALIZER: docker://gallvp/3d-dna:63029aa

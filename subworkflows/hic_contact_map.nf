@@ -34,5 +34,35 @@ workflow HIC_CONTACT_MAP {
             ALIGN_READS_TO_FASTA(ch_cleaned_paired_reads, ch_assembly_path)
             HIC_QC(ALIGN_READS_TO_FASTA.out.alignment_bam)
             CREATE_HIC_FILE(ch_assembly_path, ALIGN_READS_TO_FASTA.out.alignment_bam, ch_hap_prefix)
+            | set { ch_hic_file }
+            
+            results_folder = file("${params.outdir.main}", checkIfExists: false)
+            HIC2_HTML(ch_hic_file, results_folder)
+            | collect
+            | set { ch_list_of_html_files }
+        } else {
+            ch_list_of_html_files = Channel.of([])
         }
+
+    emit:
+        list_of_html_files = ch_list_of_html_files
+}
+
+process HIC2_HTML {
+    
+    conda 'environment.yml'
+    publishDir "${params.outdir.main}/hic", mode: 'copy'
+
+    input:
+        path hic_file
+        val results_folder
+
+    output:
+        path "*.html"
+
+    script:
+        """
+        file_name="$hic_file"
+        hic2html.py "$params.hic.storage_server" "$results_folder" "$hic_file" > "\${file_name%.*}.html"
+        """
 }

@@ -22,7 +22,6 @@ workflow KRAKEN2 {
 }
 
 process SETUP_KRAKEN2_DB {
-    label 'uses_low_cpu_mem'
     label 'takes_eight_hours'
 
     output:
@@ -81,7 +80,6 @@ process RUN_KRAKEN2 {
 }
 
 process KRONA_PLOT {
-    label 'uses_low_cpu_mem'
     tag "${hap_name}"
     container "docker://nanozoo/krona:2.7.1--e7615f7"
 

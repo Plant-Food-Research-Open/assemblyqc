@@ -117,6 +117,7 @@ workflow {
         BUSCO.out.list_of_outputs.ifEmpty([]),
         TIDK.out.list_of_plots.ifEmpty([]),
         LAI.out.list_of_outputs.ifEmpty([]),
-        KRAKEN2.out.list_of_outputs.ifEmpty([])
+        KRAKEN2.out.list_of_outputs.ifEmpty([]),
+        HIC_CONTACT_MAP.out.list_of_html_files.ifEmpty([])
     )
 }

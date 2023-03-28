@@ -30,12 +30,14 @@ def make_bedpe_cols(assembly_file_pd):
 
     return pd
 
+
 def print_bed_pe_file(bed_pe_df):
     df = bed_pe_df
     print("chr1\tx1\tx2\tchr2\ty1\ty2\tname\tscore\tstrand1\tstrand2\tcolor")
     for index, row in df.iterrows():
-        print(f"assembly\t{row['start_index']}\t{row['end_index']}\tassembly\t{row['start_index']}\t{row['end_index']}\t{row['name'].replace('>', '')}\t.\t.\t.\t0,0,255")
-
+        print(
+            f"assembly\t{row['start_index']}\t{row['end_index']}\tassembly\t{row['start_index']}\t{row['end_index']}\t{row['name'].replace('>', '')}\t.\t.\t.\t0,0,255"
+        )
 
 
 if __name__ == "__main__":

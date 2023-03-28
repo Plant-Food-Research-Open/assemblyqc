@@ -63,7 +63,6 @@ See the report for further details.
 }
 
 process SETUP_FCS_ADAPTOR_SCRIPTS {
-    label 'uses_low_cpu_mem'
 
     output:
         stdout
@@ -98,7 +97,6 @@ process SETUP_FCS_ADAPTOR_SCRIPTS {
 
 process RUN_NCBI_FCS_ADAPTOR {
     tag "${hap_name}"
-    label 'uses_low_cpu_mem'
 
     publishDir "${params.outdir.main}/ncbi_fcs_adaptor", mode: 'copy'
 
@@ -132,7 +130,6 @@ process RUN_NCBI_FCS_ADAPTOR {
 
 process CHECK_ADAPTOR_CONTAMINATION {
     tag "${hap_name}"
-    label 'uses_low_cpu_mem'
 
     input:
         tuple val(hap_name), path(report_tsv)

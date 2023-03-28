@@ -1,9 +1,9 @@
-
 import os
 from pathlib import Path
 import re
 
-def parse_hic_folder(folder_name = "hic_outputs"):
+
+def parse_hic_folder(folder_name="hic_outputs"):
 
     dir = os.getcwdb().decode()
     hic_folder_path = Path(f"{dir}/{folder_name}")
@@ -11,7 +11,7 @@ def parse_hic_folder(folder_name = "hic_outputs"):
     if not os.path.exists(hic_folder_path):
         return {}
 
-    list_of_hic_files = hic_folder_path.glob("*.hic")
+    list_of_hic_files = hic_folder_path.glob("*.html")
 
     data = {"HIC": []}
 
@@ -19,13 +19,15 @@ def parse_hic_folder(folder_name = "hic_outputs"):
         hic_file_name = os.path.basename(str(hic_path))
 
         file_tokens = re.findall(
-            r"([\w]+).hic",
+            r"([\w]+).html",
             hic_file_name,
         )[0]
-        
-        data["HIC"].append({
-            "hap": file_tokens,
-            "hic_file_name": hic_file_name,
-        })
+
+        data["HIC"].append(
+            {
+                "hap": file_tokens,
+                "hic_html_file_name": hic_file_name,
+            }
+        )
 
     return data

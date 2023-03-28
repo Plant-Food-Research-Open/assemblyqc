@@ -1,0 +1,86 @@
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>HiC Contact Map</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/juicebox.js@2.2.3/dist/css/juicebox.css">
+    <script src="https://cdn.jsdelivr.net/npm/juicebox.js@2.2.3/dist/juicebox.min.js"></script>
+    <style>
+        .app-container-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stats-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;
+            min-width: 90px;
+            margin: 8px;
+        }
+
+        button:hover {
+            background-color: #ddd;
+        }
+
+        button.active {
+            background-color: rgb(168, 168, 168);
+        }
+
+        .scaffold-heading {
+            font-size: 24px;
+            margin: 8px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container-wrapper">
+        <div id="app-container"></div>
+    </div>
+</body>
+<script>
+    const container = document.getElementById("app-container");
+    const config = {
+        syncDatasets: false,
+        browsers: [
+            {
+                backgroundColor: "255,255,255",
+                url: "HIC_FILE_URL",
+                name: "HIC_FILE_NAME",
+                state: "1,1,1,0,0,1,BALANCED",
+                tracks: [
+                    {
+                        name: "Scaffolds",
+                        url: "BEDPE_FILE_URL",
+                    },
+                ],
+            },
+        ],
+    };
+    juicebox.init(container, config).then(function (hicBrowser) { });
+</script>
+
+</html>

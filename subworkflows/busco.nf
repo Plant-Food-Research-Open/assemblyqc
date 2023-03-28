@@ -62,7 +62,6 @@ process RUN_BUSCO {
 }
 
 process CREATE_PLOT {
-    label 'uses_low_cpu_mem'
     container "quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0"
 
     publishDir params.outdir.main, mode: 'copy'

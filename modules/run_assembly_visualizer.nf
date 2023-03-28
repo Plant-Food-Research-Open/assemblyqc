@@ -18,7 +18,7 @@ process RUN_ASSEMBLY_VISUALIZER {
         // -p true/false    Use GNU Parallel to speed up computation (default is true).
         """
         file_name="${assembly_agp}"
-        /usr/src/3d-dna/visualize/run-assembly-visualizer.sh $assembly_agp $bam_txt > visualizer.log 2>&1
+        /usr/src/3d-dna/visualize/run-assembly-visualizer.sh $assembly_agp $bam_txt
         mv "\${file_name%.*}.hic" "${hap_tag}.hic"
         """
 }

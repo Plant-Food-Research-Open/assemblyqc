@@ -1,9 +1,9 @@
-
 import os
 from pathlib import Path
 import re
 
-def parse_kraken2_folder(folder_name = "kraken2_outputs"):
+
+def parse_kraken2_folder(folder_name="kraken2_outputs"):
 
     dir = os.getcwdb().decode()
     kraken2_folder_path = Path(f"{dir}/{folder_name}")
@@ -22,10 +22,12 @@ def parse_kraken2_folder(folder_name = "kraken2_outputs"):
             r"([\w]+).kraken2.krona.html",
             html_file_name,
         )[0]
-        
-        data["KRAKEN2"].append({
-            "hap": file_tokens,
-            "krona_html_file_name": html_file_name,
-        })
+
+        data["KRAKEN2"].append(
+            {
+                "hap": file_tokens,
+                "krona_html_file_name": html_file_name,
+            }
+        )
 
     return data

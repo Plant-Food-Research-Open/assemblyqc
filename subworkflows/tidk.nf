@@ -62,7 +62,6 @@ process GET_APRIORI_SEQUENCE {
 }
 
 process SORT_BY_SEQ_LENGTH {
-    label 'uses_low_cpu_mem'
     tag "${hap_name}"
     container "quay.io/biocontainers/seqkit:2.3.1--h9ee0642_0" 
 
@@ -79,7 +78,6 @@ process SORT_BY_SEQ_LENGTH {
 }
 
 process SEARCH_A_PRIORI_REPEAT_SEQ {
-    label 'uses_low_cpu_mem'
     tag "${hap_name}"
     container "quay.io/biocontainers/tidk:0.2.31--h87f3376_0" 
 
@@ -98,7 +96,6 @@ process SEARCH_A_PRIORI_REPEAT_SEQ {
 }
 
 process EXPLORE_REPEAT_SEQ {
-    label 'uses_low_cpu_mem'
     tag "${hap_name}"
     container "quay.io/biocontainers/tidk:0.2.31--h87f3376_0"
 
@@ -118,7 +115,6 @@ process EXPLORE_REPEAT_SEQ {
 }
 
 process SEARCH_A_POSTERIORI_REPEAT_SEQ {
-    label 'uses_low_cpu_mem'
     tag "${hap_name}"
     container "quay.io/biocontainers/tidk:0.2.31--h87f3376_0"
 
@@ -143,7 +139,6 @@ process SEARCH_A_POSTERIORI_REPEAT_SEQ {
 }
 
 process PLOT_A_PRIORI_REPEAT_SEQ {
-    label 'uses_low_cpu_mem'
     tag "${hap_name}"
     container "quay.io/biocontainers/tidk:0.2.31--h87f3376_0" 
 
@@ -162,7 +157,6 @@ process PLOT_A_PRIORI_REPEAT_SEQ {
 }
 
 process PLOT_A_POSTERIORI_REPEAT_SEQ {
-    label 'uses_low_cpu_mem'
     tag "${hap_name}"
     container "quay.io/biocontainers/tidk:0.2.31--h87f3376_0"
 

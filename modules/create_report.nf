@@ -1,7 +1,6 @@
 nextflow.enable.dsl=2
 
 process CREATE_REPORT {
-    label 'uses_low_cpu_mem'
     conda 'environment.yml'
 
     publishDir params.outdir.main, mode: 'copy'
@@ -14,6 +13,7 @@ process CREATE_REPORT {
         path tidk_plots, stageAs: 'tidk_outputs/*'
         path lai_outputs, stageAs: 'lai_outputs/*'
         path kraken2_outputs, stageAs: 'kraken2_outputs/*'
+        path hic_outputs, stageAs: 'hic_outputs/*'
 
     output:
         path 'report.html'

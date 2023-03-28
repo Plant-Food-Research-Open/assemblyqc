@@ -2,7 +2,6 @@ nextflow.enable.dsl=2
 
 
 process ASSEMBLATHON_STATS {
-    label 'uses_low_cpu_mem'
     tag "${hap_name}"
 
     publishDir "${params.outdir.main}/assemblathon_stats", mode: 'copy'

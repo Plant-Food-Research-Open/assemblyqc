@@ -186,7 +186,7 @@ def parse_busco_folder(folder_name="busco_outputs"):
             **parser.parse_report(),
         }
         data["BUSCO"].append(stats)
-    
+
     data["BUSCO"][0]["busco_plot"] = busco_plot_url
 
     return data
