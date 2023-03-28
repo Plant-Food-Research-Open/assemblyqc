@@ -9,7 +9,7 @@ process HIC_QC {
         path hic_bam
 
     output:
-        path '*.html'
+        path '*.pdf'
 
     script:
         """
