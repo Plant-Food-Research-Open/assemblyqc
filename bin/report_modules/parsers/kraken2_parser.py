@@ -1,7 +1,6 @@
 
 import os
 from pathlib import Path
-import base64
 import re
 
 def parse_kraken2_folder(folder_name = "kraken2_outputs"):
