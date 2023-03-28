@@ -1,5 +1,11 @@
 # Change Log
 
+## Version 0.8 (29-Mar-2023)
+
+1. Now using system-wide DBs for BUSCO and KRAKEN2.
+2. Added HiC Contact Map module.
+3. Further simplified and annotated the config file.
+
 ## Version 0.7.2 (24-Mar-2023)
 
 1. Fixed a potential bug in ncbi fcs adaptor.
