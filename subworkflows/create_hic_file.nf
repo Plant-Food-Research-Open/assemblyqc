@@ -14,7 +14,7 @@ workflow CREATE_HIC_FILE {
 
     main:
         ch_agp_file                     = MAKE_AGP_FROM_FASTA(assembly_fasta)
-        ch_assembly_file                = AGP2_ASSEMBLY(ch_agp_file)
+        ch_assembly_file                = AGP2_ASSEMBLY(ch_agp_file, hap_tag)
         ch_txt_file                     = MATLOCK_BAM2_JUICER(bam_file)
         ch_hic_file                     = RUN_ASSEMBLY_VISUALIZER(ch_assembly_file, ch_txt_file, hap_tag)
         ch_bedpe_file                   = ASSEMBLY2_BEDPE(ch_assembly_file, hap_tag)
