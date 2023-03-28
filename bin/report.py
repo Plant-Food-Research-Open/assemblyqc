@@ -33,7 +33,7 @@ if __name__ == "__main__":
         **data_from_tools,
         **{
             "VERSIONS": {
-                "SELF": "v0.7.2",
+                "SELF": "v0.8",
                 "NCBI_FCS_ADAPTOR": "0.4",
                 "ASSEMBLATHON_STATS": "160b94c",
                 "GENOMETOOLS_GT_STAT": "1.6.2",
