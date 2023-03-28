@@ -25,7 +25,7 @@ Welcome to the Assembly QC report generator. This software is a Nextflow pipelin
 
 ```mermaid
 flowchart LR
-  forEachHap[Foreach\nHaplotype] --> ncbiFCS{NCBI FCS Adaptor\nCheck}
+  forEachHap[Foreach\nGenome] --> ncbiFCS{NCBI FCS Adaptor\nCheck}
   ncbiFCS --> |Contaminated|Skip[Skip]
   ncbiFCS --> |Clean|Run
 
@@ -69,8 +69,8 @@ $ cd assembly_qc/
 
 To run the pipeline on a new genome, edit the nextflow.config. The following parameters must be checked and modified accordingly:
 
-- haplotype_fasta
-- haplotype_gff3
+- genome_fasta
+- genome_gff3
 - ncbi_fcs_adaptor::empire
 - busco::lineage_datasets
 - busco::augustus_species
@@ -126,7 +126,7 @@ chmod u+x ./assembly_qc_slurm.sh
 sbatch ./assembly_qc_slurm.sh
 ```
 
-You will now see a results folder which will contain a file named 'report.html' and can be viewed on the [powerPlant storage server](https://storage.powerplant.pfr.co.nz). An example report.html file can be found in the [example_report](./example_report/) folder.
+You will now see a results folder which will contain a file named 'report.html' and can be viewed on the [powerPlant storage server](https://storage.powerplant.pfr.co.nz).
 
 ### Post-run clean-up
 
@@ -185,15 +185,8 @@ The test data will take around 15 minutes to run.
 
 ### Tools
 
-- [x] General Statistics -- [https://doi.org/10.1016/j.tig.2022.10.005](https://doi.org/10.1016/j.tig.2022.10.005), [https://github.com/KorfLab/Assemblathon](https://github.com/KorfLab/Assemblathon), Ross' version: /workspace/hrarnc/GitHub/Scriptomics/hrarnc/PerlScripts/Assembly/assemblathon_stats_v1.1.pl
-- [x] Contamination Check -- [https://doi.org/10.1186/s13059-022-02619-9](https://doi.org/10.1186/s13059-022-02619-9). Added kraken2.
-- [x] Add both a priori and a posteriori TIDK sequence options. See differences across https://github.com/tolkit/a-telomeric-repeat-database and http://telomerase.asu.edu/sequences_telomere.html
 - [ ] Synteny Check
 
 ### User Feedback
 
-- [x] Fix the BUSCO summary table and dropdown menu for long haplotype tags.
-- [x] Pull html formatting out of BUSCO/dependencies and results_table so that the machine reading of report.json is straight forward.
-- [x] Contamination first before running other checks
 - [ ] TIDK fix scale (chen)
-- [ ] CL options e.g for busco_lineage for non-devs

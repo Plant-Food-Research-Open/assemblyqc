@@ -19,7 +19,7 @@ include { GENOMETOOLS_GT_STAT   } from './modules/genometools_gt_stat.nf'
 workflow {
 
     // GENOMETOOLS_GT_STAT
-    Channel.fromList(params.haplotype_gff3)
+    Channel.fromList(params.genome_gff3)
     .map {
         return [it[0], file(it[1], checkIfExists: true)]
     }
@@ -29,29 +29,29 @@ workflow {
 
 
     // NCBI-FCS-ADAPTOR
-    Channel.fromList(params.haplotype_fasta)
+    Channel.fromList(params.genome_fasta)
     .map {
         return [it[0], file(it[1], checkIfExists: true)]
     }
     | NCBI_FCS_ADAPTOR
 
     NCBI_FCS_ADAPTOR.out.clean_hap
-    .join(Channel.fromList(params.haplotype_fasta))
+    .join(Channel.fromList(params.genome_fasta))
     .map {
         return [it[0], file(it[1], checkIfExists: true)]
     }
-    | set {ch_clean_haplotype_fasta}
+    | set {ch_clean_genome_fasta}
 
 
     // ASSEMBLATHON_STATS
-    ASSEMBLATHON_STATS(ch_clean_haplotype_fasta)
+    ASSEMBLATHON_STATS(ch_clean_genome_fasta)
     | collect
     | set { ch_general_stats }
     
     
     // BUSCO
     NCBI_FCS_ADAPTOR.out.clean_hap
-    .join(Channel.fromList(params.haplotype_fasta))
+    .join(Channel.fromList(params.genome_fasta))
     .combine(Channel.fromList(params.busco.lineage_datasets))
     .combine(Channel.fromList(params.busco.augustus_species))
     .map {
@@ -60,26 +60,26 @@ workflow {
     | BUSCO
     
     // TIDK
-    TIDK(ch_clean_haplotype_fasta)
+    TIDK(ch_clean_genome_fasta)
     
     // LAI
     if (params.lai.pass_list == null || params.lai.out_file == null) {
-        ch_clean_haplotype_fasta
+        ch_clean_genome_fasta
         .join(
-            ch_clean_haplotype_fasta
+            ch_clean_genome_fasta
             .map {
                 return [it[0], null]
             }
         )
         .join(
-            ch_clean_haplotype_fasta
+            ch_clean_genome_fasta
             .map {
                 return [it[0], null]
             }
         )
         .set { ch_hap_genome_pass_out }
     } else {
-        ch_clean_haplotype_fasta
+        ch_clean_genome_fasta
         .join(
             Channel.fromList(params.lai.pass_list)
             .map {
@@ -98,7 +98,7 @@ workflow {
     LAI(ch_hap_genome_pass_out)
 
     // KRAKEN2
-    KRAKEN2(ch_clean_haplotype_fasta)
+    KRAKEN2(ch_clean_genome_fasta)
 
     // HIC_CONTACT_MAP
     if(!params.hic.skip) {
@@ -110,7 +110,7 @@ workflow {
     HIC_PREPROCESS(ch_paired_reads)
     | set { ch_cleaned_paired_reads }
 
-    ch_clean_haplotype_fasta
+    ch_clean_genome_fasta
     .combine(ch_cleaned_paired_reads)
     | HIC_CONTACT_MAP
 
