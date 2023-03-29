@@ -76,7 +76,7 @@ process EDTA {
 
 process RUN_LAI {
     label 'uses_high_cpu_mem'
-    label 'takes_two_hours'
+    label 'takes_three_days'
     tag "${hap_name}"
     container 'quay.io/biocontainers/ltr_retriever:2.9.0--hdfd78af_1'
 

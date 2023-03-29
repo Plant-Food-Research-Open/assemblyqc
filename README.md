@@ -8,8 +8,8 @@
   - [Pipeline Flowchart](#pipeline-flowchart)
   - [Installation](#installation)
   - [Running the Pipeline](#running-the-pipeline)
-    - [Run Interactively](#run-interactively)
     - [Post the NextFlow Process to Slurm](#post-the-nextflow-process-to-slurm)
+    - [Run Interactively](#run-interactively)
     - [Post-run clean-up](#post-run-clean-up)
   - [Getting sample data](#getting-sample-data)
   - [Software Versions](#software-versions)
@@ -78,26 +78,7 @@ To run the pipeline on a new genome, edit the nextflow.config. The following par
 - hic::reads_folder
 - hic::paired_reads
 
-### Run Interactively
-
-- Load the required modules:
-
-```bash
-$ ml unload perl
-$ ml apptainer/1.1
-$ ml conda/22.9.0
-$ ml nextflow/22.10.4
-```
-
-- Run the pipeline:
-
-```bash
-$ nextflow main.nf -profile slurm
-```
-
 ### Post the NextFlow Process to Slurm
-
-The interactive session allows us to monitor the progress from the ssh session. However, a major disadvantage is that the NextFlow task is killed if the ssh session drops for reasons such as loss of internet connection. For log running jobs, it is a good idea to post the NextFlow task to Slurm.
 
 ```bash
 cat << EOF > assembly_qc_slurm.sh
@@ -105,7 +86,7 @@ cat << EOF > assembly_qc_slurm.sh
 
 
 #SBATCH --job-name asm_qc_${USER}
-#SBATCH --time=3-00:00:00
+#SBATCH --time=6-00:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
@@ -127,6 +108,23 @@ sbatch ./assembly_qc_slurm.sh
 ```
 
 You will now see a results folder which will contain a file named 'report.html' and can be viewed on the [powerPlant storage server](https://storage.powerplant.pfr.co.nz).
+
+### Run Interactively
+
+- Load the required modules:
+
+```bash
+$ ml unload perl
+$ ml apptainer/1.1
+$ ml conda/22.9.0
+$ ml nextflow/22.10.4
+```
+
+- Run the pipeline:
+
+```bash
+$ nextflow main.nf -profile slurm
+```
 
 ### Post-run clean-up
 
