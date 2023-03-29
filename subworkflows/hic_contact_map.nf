@@ -36,8 +36,11 @@ workflow HIC_CONTACT_MAP {
             CREATE_HIC_FILE(ch_assembly_path, ALIGN_READS_TO_FASTA.out.alignment_bam, ch_hap_prefix)
             | set { ch_hic_file }
             
-            results_folder = file("${params.outdir.main}", checkIfExists: false)
-            HIC2_HTML(ch_hic_file, results_folder)
+            results_folder = Channel.of(file("${params.outdir.main}", checkIfExists: false))
+
+            ch_hic_file
+            .combine(results_folder)
+            | HIC2_HTML
             | collect
             | set { ch_list_of_html_files }
         } else {
@@ -54,8 +57,7 @@ process HIC2_HTML {
     publishDir "${params.outdir.main}/hic", mode: 'copy'
 
     input:
-        path hic_file
-        val results_folder
+        tuple path(hic_file), val(results_folder)
 
     output:
         path "*.html"
