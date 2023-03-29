@@ -157,7 +157,6 @@ The test data will take around 15 minutes to run.
 ## Software Versions
 
 - NCBI-FCS-ADAPTOR: 0.4
-  - Tini: 0.19.0 - git.de40ad0
 - ASSEMBLATHON_STATS: [160b94c/assemblathon_stats.pl](https://github.com/KorfLab/Assemblathon/blob/160b94c1d225d8b16625d0513ccb3dd73b456f74/assemblathon_stats.pl)
 - GENOMETOOLS_GT_STAT: quay.io/biocontainers/genometools-genometools:1.6.2--py310he7ef181_3
 - BUSCO: quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0

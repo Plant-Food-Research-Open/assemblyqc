@@ -69,8 +69,8 @@ process SETUP_FCS_ADAPTOR_SCRIPTS {
     
     script:
         """
-            ncbi_fcs_adaptor_bash_url="https://github.com/ncbi/fcs/raw/main/dist/run_fcsadaptor.sh"
-            ncbi_fcs_adaptor_sif_url="https://ftp.ncbi.nlm.nih.gov/genomes/TOOLS/FCS/releases/latest/fcs-adaptor.sif"
+            ncbi_fcs_adaptor_bash_url="https://raw.githubusercontent.com/ncbi/fcs/v${params.ncbi_fcs_adaptor.ver}/dist/run_fcsadaptor.sh"
+            ncbi_fcs_adaptor_sif_url="https://ftp.ncbi.nlm.nih.gov/genomes/TOOLS/FCS/releases/${params.ncbi_fcs_adaptor.ver}/fcs-adaptor.sif"
             
             ncbi_fcs_adaptor_bash_file=\$(basename \$ncbi_fcs_adaptor_bash_url)
             ncbi_fcs_adaptor_sif_file=\$(basename \$ncbi_fcs_adaptor_sif_url)
@@ -82,8 +82,8 @@ process SETUP_FCS_ADAPTOR_SCRIPTS {
             then
                 echo -n "SETUP_FCS_ADAPTOR_SCRIPTS:PASS:NCBI FCS Adaptor scripts already available"
             else
-                mkdir -p "${params.ncbi_fcs_adaptor.download_path}"
-                cd "${params.ncbi_fcs_adaptor.download_path}"
+                mkdir -p ${params.ncbi_fcs_adaptor.download_path}
+                cd ${params.ncbi_fcs_adaptor.download_path}
                 
                 curl -LO \$ncbi_fcs_adaptor_bash_url
                 curl \$ncbi_fcs_adaptor_sif_url -Lo \$ncbi_fcs_adaptor_sif_file
@@ -109,8 +109,8 @@ process RUN_NCBI_FCS_ADAPTOR {
 
     script:
         """
-            ln -s "${params.ncbi_fcs_adaptor.download_path}/run_fcsadaptor.sh" "run_fcsadaptor.sh"
-            ln -s "${params.ncbi_fcs_adaptor.download_path}/fcs-adaptor.sif" "fcs-adaptor.sif"
+            ln -s ${params.ncbi_fcs_adaptor.download_path}/run_fcsadaptor.sh run_fcsadaptor.sh
+            ln -s ${params.ncbi_fcs_adaptor.download_path}/fcs-adaptor.sif fcs-adaptor.sif
 
             mkdir "${hap_name}_outputdir"
 
