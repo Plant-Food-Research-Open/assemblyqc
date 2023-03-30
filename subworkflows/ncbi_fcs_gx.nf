@@ -42,8 +42,8 @@ process SETUP_SCRIPTS {
             ncbi_fcs_gx_py_file=\$(basename \$ncbi_fcs_gx_py_url)
             ncbi_fcs_gx_sif_file=\$(basename \$ncbi_fcs_gx_sif_url)
 
-            ncbi_fcs_gx_py_file_path="${params.ncbi_fcs_gx.download_path}/\${ncbi_fcs_gx_py_file}"
-            ncbi_fcs_gx_sif_file_path="${params.ncbi_fcs_gx.download_path}/\${ncbi_fcs_gx_sif_file}"
+            ncbi_fcs_gx_py_file_path=${params.ncbi_fcs_gx.download_path}/\${ncbi_fcs_gx_py_file}
+            ncbi_fcs_gx_sif_file_path=${params.ncbi_fcs_gx.download_path}/\${ncbi_fcs_gx_sif_file}
 
             if [[ -e \$ncbi_fcs_gx_py_file_path ]] && [[ -e \$ncbi_fcs_gx_sif_file_path ]]
             then

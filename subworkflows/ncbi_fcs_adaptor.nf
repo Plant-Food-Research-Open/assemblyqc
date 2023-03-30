@@ -75,8 +75,8 @@ process SETUP_SCRIPTS {
             ncbi_fcs_adaptor_bash_file=\$(basename \$ncbi_fcs_adaptor_bash_url)
             ncbi_fcs_adaptor_sif_file=\$(basename \$ncbi_fcs_adaptor_sif_url)
 
-            ncbi_fcs_adaptor_bash_file_path="${params.ncbi_fcs_adaptor.download_path}/\${ncbi_fcs_adaptor_bash_file}"
-            ncbi_fcs_adaptor_sif_file_path="${params.ncbi_fcs_adaptor.download_path}/\${ncbi_fcs_adaptor_sif_file}"
+            ncbi_fcs_adaptor_bash_file_path=${params.ncbi_fcs_adaptor.download_path}/\${ncbi_fcs_adaptor_bash_file}
+            ncbi_fcs_adaptor_sif_file_path=${params.ncbi_fcs_adaptor.download_path}/\${ncbi_fcs_adaptor_sif_file}
 
             if [[ -e \$ncbi_fcs_adaptor_bash_file_path ]] && [[ -e \$ncbi_fcs_adaptor_sif_file_path ]]
             then
