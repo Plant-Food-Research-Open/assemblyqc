@@ -3,6 +3,7 @@
 import json
 
 from report_modules.parsers.ncbi_fcs_adaptor_parser import parse_ncbi_fcs_adaptor_folder
+from report_modules.parsers.ncbi_fcs_gx_parser import parse_ncbi_fcs_gx_folder
 from report_modules.parsers.assemblathon_stats_parser import (
     parse_assemblathon_stats_folder,
 )
@@ -28,12 +29,13 @@ if __name__ == "__main__":
     data_from_tools = {**data_from_tools, **parse_lai_folder()}
     data_from_tools = {**data_from_tools, **parse_kraken2_folder()}
     data_from_tools = {**data_from_tools, **parse_hic_folder()}
+    data_from_tools = {**data_from_tools, **parse_ncbi_fcs_gx_folder()}
 
     data_from_tools = {
         **data_from_tools,
         **{
             "VERSIONS": {
-                "SELF": "v0.8",
+                "SELF": "v0.9",
                 "NCBI_FCS_ADAPTOR": "0.4",
                 "ASSEMBLATHON_STATS": "160b94c",
                 "GENOMETOOLS_GT_STAT": "1.6.2",
@@ -42,6 +44,7 @@ if __name__ == "__main__":
                 "LAI": "2.9.0",
                 "KRAKEN2": "2.1.2",
                 "HIC": "2.2.3",
+                "NCBI_FCS_GX": "0.4",
             }
         },
     }
