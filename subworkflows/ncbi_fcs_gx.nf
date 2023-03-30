@@ -111,7 +111,7 @@ process SCREEN_SAMPLES {
 
     label 'uses_high_cpu_mem'
     label 'uses_512_gb_mem'
-    label 'takes_three_days'
+    label 'takes_four_hours'
 
     conda 'environment.yml'
 

@@ -182,7 +182,7 @@ The test data will take around 15 minutes to run.
 
 ### Tools
 
-- [ ] Synteny Check
+- [ ] Synteny Check --> [https://github.com/hewm2008/NGenomeSyn](https://github.com/hewm2008/NGenomeSyn)
 
 ### User Feedback
 
