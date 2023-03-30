@@ -25,9 +25,12 @@ Welcome to the Assembly QC report generator. This software is a Nextflow pipelin
 
 ```mermaid
 flowchart LR
-  forEachHap[Foreach\nGenome] --> ncbiFCS{NCBI FCS Adaptor\nCheck}
+  forEachHap[Foreach\nGenome] --> ncbiFCS{NCBI FCS Adaptor}
   ncbiFCS --> |Contaminated|Skip[Skip]
-  ncbiFCS --> |Clean|Run
+  ncbiFCS --> |Clean|ncbiGX{NCBI FCS GX}
+
+  ncbiGX --> |Contaminated|Skip[Skip]
+  ncbiGX --> |Clean|Run
 
   Skip --> Report
   
@@ -72,6 +75,7 @@ To run the pipeline on a new genome, edit the nextflow.config. The following par
 - genome_fasta
 - genome_gff3
 - ncbi_fcs_adaptor::empire
+- ncbi_fcs_gx::tax_id
 - busco::lineage_datasets
 - busco::augustus_species
 - tidk::repeat_seq
