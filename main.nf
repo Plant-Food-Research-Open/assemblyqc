@@ -7,6 +7,7 @@ include { TIDK                  } from './subworkflows/tidk.nf'
 include { LAI                   } from './subworkflows/lai.nf'
 include { KRAKEN2               } from './subworkflows/kraken2.nf'
 include { NCBI_FCS_ADAPTOR      } from './subworkflows/ncbi_fcs_adaptor.nf'
+include { NCBI_FCS_GX           } from './subworkflows/ncbi_fcs_gx.nf'
 include { HIC_PREPROCESS        } from './subworkflows/hic_preprocess.nf'
 include { HIC_CONTACT_MAP       } from './subworkflows/hic_contact_map.nf'
 
@@ -100,6 +101,9 @@ workflow {
     // KRAKEN2
     KRAKEN2(ch_clean_genome_fasta)
 
+    // NCBI-FCS-GX
+    NCBI_FCS_GX(ch_clean_genome_fasta)
+
     // HIC_CONTACT_MAP
     if(!params.hic.skip) {
         ch_paired_reads = Channel.fromFilePairs(params.hic.paired_reads, checkIfExists: true)
@@ -123,6 +127,7 @@ workflow {
         TIDK.out.list_of_plots.ifEmpty([]),
         LAI.out.list_of_outputs.ifEmpty([]),
         KRAKEN2.out.list_of_outputs.ifEmpty([]),
+        NCBI_FCS_GX.out.fcs_gx_reports.ifEmpty([]),
         HIC_CONTACT_MAP.out.list_of_html_files.ifEmpty([])
     )
 }

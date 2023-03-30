@@ -7,10 +7,10 @@ workflow NCBI_FCS_ADAPTOR {
     main:
         if (!params.ncbi_fcs_adaptor.skip) {
 
-            ch_setup_output         = SETUP_FCS_ADAPTOR_SCRIPTS()
-            ch_report               = RUN_NCBI_FCS_ADAPTOR(ch_setup_output, tuple_of_hap_file)
+            ch_setup_output         = SETUP_SCRIPTS()
+            ch_report               = SCREEN_SAMPLE(ch_setup_output, tuple_of_hap_file)
             
-            ch_did_find_adaptors    = CHECK_ADAPTOR_CONTAMINATION(ch_report)
+            ch_did_find_adaptors    = CHECK_CONTAMINATION(ch_report)
 
             ch_report
             .map {
@@ -62,7 +62,7 @@ See the report for further details.
         reports                     = ch_all_reports
 }
 
-process SETUP_FCS_ADAPTOR_SCRIPTS {
+process SETUP_SCRIPTS {
 
     output:
         stdout
@@ -95,7 +95,7 @@ process SETUP_FCS_ADAPTOR_SCRIPTS {
         """
 }
 
-process RUN_NCBI_FCS_ADAPTOR {
+process SCREEN_SAMPLE {
     tag "${hap_name}"
 
     publishDir "${params.outdir.main}/ncbi_fcs_adaptor", mode: 'copy'
@@ -128,7 +128,7 @@ process RUN_NCBI_FCS_ADAPTOR {
         """
 }
 
-process CHECK_ADAPTOR_CONTAMINATION {
+process CHECK_CONTAMINATION {
     tag "${hap_name}"
 
     input:

@@ -13,6 +13,7 @@ process CREATE_REPORT {
         path tidk_plots, stageAs: 'tidk_outputs/*'
         path lai_outputs, stageAs: 'lai_outputs/*'
         path kraken2_outputs, stageAs: 'kraken2_outputs/*'
+        path fcs_gx_reports, stageAs: 'fcs_gx_reports/*'
         path hic_outputs, stageAs: 'hic_outputs/*'
 
     output:
