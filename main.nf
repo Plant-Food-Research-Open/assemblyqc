@@ -44,6 +44,10 @@ workflow {
     | set {ch_clean_genome_fasta}
 
 
+    // NCBI-FCS-GX
+    NCBI_FCS_GX(ch_clean_genome_fasta)
+
+
     // ASSEMBLATHON_STATS
     ASSEMBLATHON_STATS(ch_clean_genome_fasta)
     | collect
@@ -101,9 +105,6 @@ workflow {
     // KRAKEN2
     KRAKEN2(ch_clean_genome_fasta)
 
-    // NCBI-FCS-GX
-    NCBI_FCS_GX(ch_clean_genome_fasta)
-
     // HIC_CONTACT_MAP
     if(!params.hic.skip) {
         ch_paired_reads = Channel.fromFilePairs(params.hic.paired_reads, checkIfExists: true)
@@ -120,14 +121,14 @@ workflow {
 
     // CREATE REPORT
     CREATE_REPORT(
-        NCBI_FCS_ADAPTOR.out.reports,
-        ch_general_stats,
+        NCBI_FCS_ADAPTOR.out.reports.ifEmpty([]),
+        NCBI_FCS_GX.out.fcs_gx_reports.ifEmpty([]),
+        ch_general_stats.ifEmpty([]),
         ch_genometools_gt_stats.ifEmpty([]),
         BUSCO.out.list_of_outputs.ifEmpty([]),
         TIDK.out.list_of_plots.ifEmpty([]),
         LAI.out.list_of_outputs.ifEmpty([]),
         KRAKEN2.out.list_of_outputs.ifEmpty([]),
-        NCBI_FCS_GX.out.fcs_gx_reports.ifEmpty([]),
         HIC_CONTACT_MAP.out.list_of_html_files.ifEmpty([])
     )
 }

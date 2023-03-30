@@ -22,6 +22,7 @@ if __name__ == "__main__":
     data_from_tools = {}
 
     data_from_tools = {**data_from_tools, **parse_ncbi_fcs_adaptor_folder()}
+    data_from_tools = {**data_from_tools, **parse_ncbi_fcs_gx_folder()}
     data_from_tools = {**data_from_tools, **parse_assemblathon_stats_folder()}
     data_from_tools = {**data_from_tools, **parse_genometools_gt_stat_folder()}
     data_from_tools = {**data_from_tools, **parse_busco_folder()}
@@ -29,7 +30,6 @@ if __name__ == "__main__":
     data_from_tools = {**data_from_tools, **parse_lai_folder()}
     data_from_tools = {**data_from_tools, **parse_kraken2_folder()}
     data_from_tools = {**data_from_tools, **parse_hic_folder()}
-    data_from_tools = {**data_from_tools, **parse_ncbi_fcs_gx_folder()}
 
     data_from_tools = {
         **data_from_tools,
@@ -37,6 +37,7 @@ if __name__ == "__main__":
             "VERSIONS": {
                 "SELF": "v0.9",
                 "NCBI_FCS_ADAPTOR": "0.4",
+                "NCBI_FCS_GX": "0.4",
                 "ASSEMBLATHON_STATS": "160b94c",
                 "GENOMETOOLS_GT_STAT": "1.6.2",
                 "BUSCO": "5.2.2",
@@ -44,7 +45,6 @@ if __name__ == "__main__":
                 "LAI": "2.9.0",
                 "KRAKEN2": "2.1.2",
                 "HIC": "2.2.3",
-                "NCBI_FCS_GX": "0.4",
             }
         },
     }
