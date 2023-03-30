@@ -109,6 +109,10 @@ process SETUP_SAMPLE {
 
 process SCREEN_SAMPLES {
 
+    label 'uses_high_cpu_mem'
+    label 'uses_512_gb_mem'
+    label 'takes_three_days'
+
     conda 'environment.yml'
 
     publishDir "${params.outdir.main}/ncbi_fcs_gx", mode: 'copy'
