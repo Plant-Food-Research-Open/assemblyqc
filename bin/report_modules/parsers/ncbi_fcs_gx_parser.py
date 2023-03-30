@@ -23,6 +23,9 @@ def parse_ncbi_fcs_gx_folder(folder_name="fcs_gx_reports"):
         with open(report_path, "r") as f:
             meta_data = json.loads(f.readline()[2:-1])
 
+        asserted_div = meta_data[1]["run-info"]["asserted-div"]
+        inferred_primary_divs = meta_data[1]["run-info"]["inferred-primary-divs"]
+
         report_table = pd.read_csv(report_path, sep="\t", skiprows=1)
 
         file_tokens = re.findall(
@@ -43,6 +46,9 @@ def parse_ncbi_fcs_gx_folder(folder_name="fcs_gx_reports"):
                     showindex=False,
                 ),
                 "report_meta_data": meta_data,
+                "is_wrong_div": False
+                if asserted_div in inferred_primary_divs
+                else True,
             }
         )
 

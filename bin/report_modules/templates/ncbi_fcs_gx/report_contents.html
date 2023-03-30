@@ -1,8 +1,8 @@
 {% set vars = {'is_first': True} %}
 {% for item in range(all_stats_dicts["NCBI_FCS_GX"]|length) %}
 {% set active_text = 'display: block' if vars.is_first else 'display: none' %}
-<div id="tabcontent_NCBI_FCS_GX_{{ all_stats_dicts['NCBI_FCS_GX'][item]['hap'] }}"
-    class="tabcontent-NCBI_FCS_GX" style="{{ active_text }}">
+<div id="tabcontent_NCBI_FCS_GX_{{ all_stats_dicts['NCBI_FCS_GX'][item]['hap'] }}" class="tabcontent-NCBI_FCS_GX"
+    style="{{ active_text }}">
     <div class="results-section">
         <div class="section-heading-wrapper">
             <div class="section-heading">{{ all_stats_dicts['NCBI_FCS_GX'][item]['hap'] }}</div>
@@ -15,7 +15,18 @@
         </div>
     </div>
     {% else %}
-    <div class="section-para-wrapper"><p class="section-para">No contamination detected.</p></div>
+    <div class="section-para-wrapper">
+        <p class="section-para">No contamination detected.</p>
+    </div>
+    {% endif %}
+    {%if all_stats_dicts['NCBI_FCS_GX'][item]['is_wrong_div'] %}
+    <div class="section-para-wrapper">
+        <p class="section-para"><b>Warning: </b>Asserted div ({{
+            all_stats_dicts['NCBI_FCS_GX'][item]['report_meta_data'][1]["run-info"]["asserted-div"] }}) is not
+            present in the inferred div(s) ({{
+            all_stats_dicts['NCBI_FCS_GX'][item]['report_meta_data'][1]["run-info"]["inferred-primary-divs"] }}). Either
+            the tax ID is incorrect or the sample is predominantly contamination.</p>
+    </div>
     {% endif %}
 </div>
 {% if vars.update({'is_first': False}) %} {% endif %}
