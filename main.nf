@@ -63,9 +63,8 @@ workflow {
     NCBI_FCS_GX.out.clean_hap
     .join(Channel.fromList(params.genome_fasta))
     .combine(Channel.fromList(params.busco.lineage_datasets))
-    .combine(Channel.fromList(params.busco.augustus_species))
     .map {
-        return [it[0], file(it[1], checkIfExists: true), it[2], it[3]]
+        return [it[0], file(it[1], checkIfExists: true), it[2]]
     }
     | BUSCO
     

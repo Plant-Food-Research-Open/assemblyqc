@@ -1,5 +1,5 @@
 {% for item in range(all_stats_dicts["BUSCO"]|length) %}
-<div id="{{ all_stats_dicts['BUSCO'][item]['hap'] }}_{{ all_stats_dicts['BUSCO'][item]['lineage'] }}_{{ all_stats_dicts['BUSCO'][item]['augustus_species'] }}"
+<div id="{{ all_stats_dicts['BUSCO'][item]['hap'] }}_{{ all_stats_dicts['BUSCO'][item]['lineage'] }}"
     class="tabcontent-BUSCO" style="display: none">
     <div class="results-section">
         <div class="section-heading-wrapper">
@@ -56,10 +56,6 @@
                         <tr>
                             <td style="text-align: left">Lineage create on</td>
                             <td>{{ all_stats_dicts['BUSCO'][item]['created'] }}</td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: left">Augustus Species</td>
-                            <td>{{ all_stats_dicts['BUSCO'][item]['augustus_species'] }}</td>
                         </tr>
                         <tr>
                             <td style="text-align: left">mode</td>

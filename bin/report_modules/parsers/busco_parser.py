@@ -176,13 +176,12 @@ def parse_busco_folder(folder_name="busco_outputs"):
                 file_data += line
         parser = BuscoParser(file_data)
         file_tokens = re.findall(
-            r"short_summary.specific.([\w]+).([\w]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+).txt",
+            r"short_summary.specific.([\w]+).([\w]+)_([a-zA-Z0-9]+).txt",
             os.path.basename(str(file)),
         )[0]
         stats = {
             "hap": file_tokens[1],
             "lineage": file_tokens[0],
-            "augustus_species": file_tokens[3],
             **parser.parse_report(),
         }
         data["BUSCO"].append(stats)

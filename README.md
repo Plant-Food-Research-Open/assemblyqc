@@ -77,7 +77,6 @@ To run the pipeline on a new genome, edit the nextflow.config. The following par
 - ncbi_fcs_adaptor::empire
 - ncbi_fcs_gx::tax_id
 - busco::lineage_datasets
-- busco::augustus_species
 - tidk::repeat_seq
 - hic::reads_folder
 - hic::paired_reads

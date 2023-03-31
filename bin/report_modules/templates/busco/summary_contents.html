@@ -11,7 +11,6 @@
             <tr>
               <th width="10%" style="text-align: left">Genome</th>
               <th width="20%" style="text-align: left">Lineage</th>
-              <th width="20%" style="text-align: left">Augustus Species</th>
               <th>Percentages</th>
             </tr>
           </thead>
@@ -23,9 +22,6 @@
               </td>
               <td style="text-align: left; font-size: 16px">
                 {{ all_stats_dicts['BUSCO'][item]['lineage'] }}
-              </td>
-              <td style="text-align: left; font-size: 16px">
-                {{ all_stats_dicts['BUSCO'][item]['augustus_species'] }}
               </td>
               <td>
                 {{ all_stats_dicts['BUSCO'][item]['search_percentages'] }}
