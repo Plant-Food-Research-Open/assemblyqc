@@ -12,6 +12,7 @@
     - [Run Interactively](#run-interactively)
     - [Post-run clean-up](#post-run-clean-up)
   - [Getting sample data](#getting-sample-data)
+  - [Known Issues](#known-issues)
   - [Software Versions](#software-versions)
   - [Future Plans](#future-plans)
     - [Tools](#tools)
@@ -156,6 +157,10 @@ $ cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_
 ```
 
 The test data will take around 15 minutes to run.
+
+## Known Issues
+
+- On its first run, the pipeline has to download a lot many software containers. This download may fail. If it happens, resume the pipeline again and it should be able to download the required containers.
 
 ## Software Versions
 
