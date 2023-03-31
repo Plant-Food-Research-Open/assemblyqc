@@ -1,5 +1,12 @@
 # Change Log
 
+## Version 0.9 (31-Mar-2023)
+
+1. Added NCBI FCS GX module.
+2. Added additional annotation to config file.
+3. Removed unnecessary species argument in BUSCO module.
+4. Moved NCBI FCS Adaptor/GX scripts to user home directory for sharing across pipeline downloads to different directories.
+
 ## Version 0.8 (29-Mar-2023)
 
 1. Now using system-wide DBs for BUSCO and KRAKEN2.
