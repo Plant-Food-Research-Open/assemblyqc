@@ -21,12 +21,51 @@ workflow NCBI_FCS_GX {
             .out
             .fcs_gx_reports
             .set { ch_fcs_gx_reports }
+
+            // Clean/contaminated branching
+            ch_fcs_gx_reports
+            | flatten
+            | CHECK_CONTAMINATION
+            | branch {
+                contaminated: it =~ /CHECK_GX_CONTAMINATION:CONTAMINATED/
+                clean: it =~ /CHECK_GX_CONTAMINATION:CLEAN/
+            }
+            | set { ch_branch }
+
+            ch_branch
+            .contaminated
+            .map {
+                statusTokens = "$it".tokenize(':')
+                hapName = statusTokens[2]
+
+"""
+Foreign organism contamination detected in ${hapName}.
+See the report for further details.
+"""
+            }
+            .view()
+
+            ch_branch
+            .clean
+            .map {
+                statusTokens = "$it".tokenize(':')
+                hap_name = statusTokens[2]
+            }
+            .set { ch_clean_hap }
         } else {
+            tuple_of_hap_file
+            .map {
+                hapName = it[0]
+                return hapName
+            }
+            .set { ch_clean_hap }
+
             ch_fcs_gx_reports = Channel.of([])
         }
     
     emit:
-        fcs_gx_reports = ch_fcs_gx_reports
+        clean_hap           = ch_clean_hap
+        fcs_gx_reports      = ch_fcs_gx_reports
 }
 
 process SETUP_SCRIPTS {
@@ -140,5 +179,22 @@ process SCREEN_SAMPLES {
             mv "\${sample_fasta%.fasta}.${params.ncbi_fcs_gx.tax_id}.fcs_gx_report.txt" "\${sample_tag}.fcs_gx_report.txt"
             mv "\${sample_fasta%.fasta}.${params.ncbi_fcs_gx.tax_id}.taxonomy.rpt" "\${sample_tag}.taxonomy.rpt"
         done
+        """
+}
+
+process CHECK_CONTAMINATION {
+    tag "${hap_name}"
+
+    input:
+        path report_file
+    
+    output:
+        stdout
+    
+    script:
+        """
+        hap_name=\$(echo "$report_file" | sed 's/.fcs_gx_report.txt//g')
+        num_lines=\$(cat $report_file | wc -l)
+        [[ \$num_lines -gt 2 ]] && echo -n "CHECK_GX_CONTAMINATION:CONTAMINATED:\$hap_name" || echo -n "CHECK_GX_CONTAMINATION:CLEAN:\$hap_name"
         """
 }

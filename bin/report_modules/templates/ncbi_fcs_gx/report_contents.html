@@ -9,6 +9,7 @@
         </div>
     </div>
     {%if all_stats_dicts['NCBI_FCS_GX'][item]['did_detect_contamination'] %}
+    <div class="section-para-wrapper"><p class="section-para">Contamination detected. Subsequent pipeline modules are skipped.</p></div>
     <div class="table-outer">
         <div class="table-wrapper">
             {{ all_stats_dicts['NCBI_FCS_GX'][item]['report_table_html'] }}

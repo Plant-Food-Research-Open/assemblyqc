@@ -11,8 +11,6 @@ include { NCBI_FCS_GX           } from './subworkflows/ncbi_fcs_gx.nf'
 include { HIC_PREPROCESS        } from './subworkflows/hic_preprocess.nf'
 include { HIC_CONTACT_MAP       } from './subworkflows/hic_contact_map.nf'
 
-
-
 include { CREATE_REPORT         } from './modules/create_report.nf'
 include { ASSEMBLATHON_STATS    } from './modules/assemblathon_stats.nf'
 include { GENOMETOOLS_GT_STAT   } from './modules/genometools_gt_stat.nf'
@@ -41,11 +39,18 @@ workflow {
     .map {
         return [it[0], file(it[1], checkIfExists: true)]
     }
-    | set {ch_clean_genome_fasta}
+    | set {ch_adaptor_clean_genome_fasta}
 
 
     // NCBI-FCS-GX
-    NCBI_FCS_GX(ch_clean_genome_fasta)
+    NCBI_FCS_GX(ch_adaptor_clean_genome_fasta)
+
+    NCBI_FCS_GX.out.clean_hap
+    .join(Channel.fromList(params.genome_fasta))
+    .map {
+        return [it[0], file(it[1], checkIfExists: true)]
+    }
+    | set {ch_clean_genome_fasta}
 
 
     // ASSEMBLATHON_STATS
@@ -55,7 +60,7 @@ workflow {
     
     
     // BUSCO
-    NCBI_FCS_ADAPTOR.out.clean_hap
+    NCBI_FCS_GX.out.clean_hap
     .join(Channel.fromList(params.genome_fasta))
     .combine(Channel.fromList(params.busco.lineage_datasets))
     .combine(Channel.fromList(params.busco.augustus_species))

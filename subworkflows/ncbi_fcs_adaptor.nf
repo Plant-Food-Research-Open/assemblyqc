@@ -9,8 +9,6 @@ workflow NCBI_FCS_ADAPTOR {
 
             ch_setup_output         = SETUP_SCRIPTS()
             ch_report               = SCREEN_SAMPLE(ch_setup_output, tuple_of_hap_file)
-            
-            ch_did_find_adaptors    = CHECK_CONTAMINATION(ch_report)
 
             ch_report
             .map {
@@ -19,12 +17,13 @@ workflow NCBI_FCS_ADAPTOR {
             .collect()
             .set { ch_all_reports }
 
-            ch_did_find_adaptors
-            .branch {
+            // Clean/contaminated branching
+            CHECK_CONTAMINATION(ch_report)
+            | branch {
                 contaminated: it =~ /CHECK_ADAPTOR_CONTAMINATION:CONTAMINATED/
                 clean: it =~ /CHECK_ADAPTOR_CONTAMINATION:CLEAN/
             }
-            .set { ch_branch }
+            | set { ch_branch }
 
             ch_branch
             .contaminated

@@ -60,5 +60,8 @@ def parse_tidk_folder(folder_name="tidk_outputs"):
                 "tidk_plot_empty": file_tokens[1] != "",
             }
         )
+    
+    if len(data["TIDK"]) < 1:
+        return {}
 
     return data
