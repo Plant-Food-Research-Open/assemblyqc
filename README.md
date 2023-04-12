@@ -44,6 +44,7 @@ flowchart LR
   Run --> ASS_STATS[ASSEMBLATHON_STATS]
   Run --> GFF_STATS[GENOMETOOLS_GT_STAT]
   Run --> HIC_CONTACT_MAP
+  Run --> SYNTENY
 
 
   BUSCO --> Report
@@ -53,6 +54,7 @@ flowchart LR
   ASS_STATS --> Report
   GFF_STATS --> Report
   HIC_CONTACT_MAP --> Report
+  SYNTENY --> Report
 ```
 
 ## Installation
@@ -60,13 +62,13 @@ flowchart LR
 1. Copy the Github repository URL and run the following in your target folder:
 
 ```bash
-$ git clone https://github.com/PlantandFoodResearch/assembly_qc.git
+git clone https://github.com/PlantandFoodResearch/assembly_qc.git
 ```
 
 2. Navigate into the project
 
 ```bash
-$ cd assembly_qc/
+cd assembly_qc/
 ```
 
 ## Running the Pipeline
@@ -103,6 +105,8 @@ ml apptainer/1.1
 ml conda/22.9.0
 ml nextflow/22.10.4
 
+export NXF_CONDA_CACHEDIR=$(realpath ~/.conda)
+
 srun nextflow main.nf -profile slurm -resume
 EOF
 
@@ -118,16 +122,22 @@ You will now see a results folder which will contain a file named 'report.html' 
 - Load the required modules:
 
 ```bash
-$ ml unload perl
-$ ml apptainer/1.1
-$ ml conda/22.9.0
-$ ml nextflow/22.10.4
+ml unload perl
+ml apptainer/1.1
+ml conda/22.9.0
+ml nextflow/22.10.4
+```
+
+- Set Conda cache directory:
+
+```bash
+export NXF_CONDA_CACHEDIR=$(realpath ~/.conda)
 ```
 
 - Run the pipeline:
 
 ```bash
-$ nextflow main.nf -profile slurm
+nextflow main.nf -profile slurm -resume
 ```
 
 ### Post-run clean-up
@@ -135,7 +145,7 @@ $ nextflow main.nf -profile slurm
 After running the pipeline, if you wish to clean up the logs and work folder, you can run the following:
 
 ```bash
-$ ./cleanNXF.sh
+./cleanNXF.sh
 ```
 
 The work folder contains intermediary files produced by the pipeline tools.
@@ -145,15 +155,21 @@ The work folder contains intermediary files produced by the pipeline tools.
 In order to retrieve dummy data to test the pipeline with, run the following:
 
 ```bash
-$ ml seqkit/0.7.0
-$ mkdir test_data
-$ cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_rs324p/v1/Nd324_canupilon_all.sorted.renamed.fasta \
+ml seqkit/0.7.0
+mkdir test_data
+cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_rs324p/v1/Nd324_canupilon_all.sorted.renamed.fasta \
 ./test_data/test_data_original.fasta
-$ seqkit sample -p 0.8 -s 33 ./test_data/test_data_original.fasta > ./test_data/test_data1.fasta
-$ seqkit sample -p 0.8 -s 49 ./test_data/test_data_original.fasta > ./test_data/test_data2.fasta
-$ rm ./test_data/test_data_original.fasta
-$ cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_rs324p/v1/augustus.hints.fixed.gff3 ./test_data/test_data1.gff3
-$ cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_rs324p/v1/augustus.hints.fixed.gff3 ./test_data/test_data2.gff3
+seqkit sample -p 0.8 -s 33 ./test_data/test_data_original.fasta > ./test_data/test_data1.fasta
+seqkit sample -p 0.8 -s 49 ./test_data/test_data_original.fasta > ./test_data/test_data2.fasta
+seqkit sample -p 0.5 -s 22 ./test_data/test_data_original.fasta > ./test_data/test_data3.fasta
+seqkit sample -p 0.5 -s 33 ./test_data/test_data_original.fasta > ./test_data/test_data4.fasta
+rm ./test_data/test_data_original.fasta
+cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_rs324p/v1/augustus.hints.fixed.gff3 ./test_data/test_data1.gff3
+cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_rs324p/v1/augustus.hints.fixed.gff3 ./test_data/test_data2.gff3
+cat ./test_data/test_data1.fasta | grep ">*chr" | head -3 | sed 's/>//g' > ./test_data/test_data1.seq.list
+cat ./test_data/test_data2.fasta | grep ">*chr" | tail -2 | sed 's/>//g' > ./test_data/test_data2.seq.list
+cat ./test_data/test_data3.fasta | grep ">*chr" | head -5 | tail -2 | sed 's/>//g' > ./test_data/test_data3.seq.list
+cat ./test_data/test_data4.fasta | grep ">*chr" | tail -3 | sed 's/>//g' > ./test_data/test_data4.seq.list
 ```
 
 The test data will take around 15 minutes to run.
@@ -165,6 +181,7 @@ The test data will take around 15 minutes to run.
 ## Software Versions
 
 - NCBI-FCS-ADAPTOR: 0.4
+- NCBI-FCS-GX: 0.4
 - ASSEMBLATHON_STATS: [160b94c/assemblathon_stats.pl](https://github.com/KorfLab/Assemblathon/blob/160b94c1d225d8b16625d0513ccb3dd73b456f74/assemblathon_stats.pl)
 - GENOMETOOLS_GT_STAT: quay.io/biocontainers/genometools-genometools:1.6.2--py310he7ef181_3
 - BUSCO: quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0

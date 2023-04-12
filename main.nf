@@ -10,6 +10,7 @@ include { NCBI_FCS_ADAPTOR      } from './subworkflows/ncbi_fcs_adaptor.nf'
 include { NCBI_FCS_GX           } from './subworkflows/ncbi_fcs_gx.nf'
 include { HIC_PREPROCESS        } from './subworkflows/hic_preprocess.nf'
 include { HIC_CONTACT_MAP       } from './subworkflows/hic_contact_map.nf'
+include { SYNTENY               } from './subworkflows/synteny.nf'
 
 include { CREATE_REPORT         } from './modules/create_report.nf'
 include { ASSEMBLATHON_STATS    } from './modules/assemblathon_stats.nf'
@@ -122,6 +123,32 @@ workflow {
     ch_clean_genome_fasta
     .combine(ch_cleaned_paired_reads)
     | HIC_CONTACT_MAP
+
+    // SYNTENY
+    if(!params.synteny.skip) {
+        ch_clean_genome_fasta
+        .join(
+            Channel.fromList(params.synteny.genome_seq_order)
+            .map {
+                return [it[0], file(it[1], checkIfExists: true)]
+            }
+        )
+        .set { ch_clean_genome_fasta_seq_list }
+
+        Channel.fromList(params.synteny.with_genomes)
+        .map {
+            return [it[0], file(it[1], checkIfExists: true), file(it[2], checkIfExists: true)]
+        }
+        .set { ch_with_genomes }
+    } else {
+        Channel.empty()
+        .set { ch_clean_genome_fasta_seq_list }
+
+        Channel.empty()
+        .set { ch_with_genomes }
+    }
+
+    SYNTENY(ch_clean_genome_fasta_seq_list, ch_with_genomes)
 
     // CREATE REPORT
     CREATE_REPORT(
