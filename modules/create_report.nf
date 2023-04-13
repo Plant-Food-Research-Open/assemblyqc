@@ -15,6 +15,7 @@ process CREATE_REPORT {
         path lai_outputs, stageAs: 'lai_outputs/*'
         path kraken2_outputs, stageAs: 'kraken2_outputs/*'
         path hic_outputs, stageAs: 'hic_outputs/*'
+        path circos_outputs, stageAs: 'circos_outputs/*'
 
     output:
         path 'report.html'

@@ -15,6 +15,7 @@
         {% if 'LAI' in all_stats_dicts %}<button class="tablinks" onclick="openTool(event, 'LAI')">LAI</button>{% endif %}
         {% if 'KRAKEN2' in all_stats_dicts %}<button class="tablinks" onclick="openTool(event, 'KRAKEN2')">KRAKEN2</button>{% endif %}
         {% if 'HIC' in all_stats_dicts %}<button class="tablinks" onclick="openTool(event, 'HIC')">HIC</button>{% endif %}
+        {% if 'CIRCOS' in all_stats_dicts %}<button class="tablinks" onclick="openTool(event, 'CIRCOS')">CIRCOS</button>{% endif %}
     </div>
     {% if 'NCBI_FCS_ADAPTOR' in all_stats_dicts %}{% include 'ncbi_fcs_adaptor/ncbi_fcs_adaptor.html' %}{% endif %}
     {% if 'NCBI_FCS_GX' in all_stats_dicts %}{% include 'ncbi_fcs_gx/ncbi_fcs_gx.html' %}{% endif %}
@@ -25,6 +26,7 @@
     {% if 'LAI' in all_stats_dicts %}{% include 'lai/lai.html' %}{% endif %}
     {% if 'KRAKEN2' in all_stats_dicts %}{% include 'kraken2/kraken2.html' %}{% endif %}
     {% if 'HIC' in all_stats_dicts %}{% include 'hic/hic.html' %}{% endif %}
+    {% if 'CIRCOS' in all_stats_dicts %}{% include 'circos/circos.html' %}{% endif %}
 </body>
 {% include 'js.html' %}
 

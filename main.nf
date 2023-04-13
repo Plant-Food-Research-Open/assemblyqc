@@ -135,7 +135,7 @@ workflow {
         )
         .set { ch_clean_genome_fasta_seq_list }
 
-        Channel.fromList(params.synteny.with_genomes)
+        Channel.fromList(params.synteny.xref_genomes)
         .map {
             return [it[0], file(it[1], checkIfExists: true), file(it[2], checkIfExists: true)]
         }
@@ -160,6 +160,7 @@ workflow {
         TIDK.out.list_of_plots.ifEmpty([]),
         LAI.out.list_of_outputs.ifEmpty([]),
         KRAKEN2.out.list_of_outputs.ifEmpty([]),
-        HIC_CONTACT_MAP.out.list_of_html_files.ifEmpty([])
+        HIC_CONTACT_MAP.out.list_of_html_files.ifEmpty([]),
+        SYNTENY.out.list_of_circos_plots.ifEmpty([])
     )
 }

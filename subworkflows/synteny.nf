@@ -58,14 +58,18 @@ workflow SYNTENY {
             }
             | CIRCOS
 
-            ch_list_of_synteny_plots = Channel.of([])
+            CIRCOS
+            .out
+            .svg_file
+            .collect()
+            .set{ ch_list_of_circos_plots }
         }
         else {
-            ch_list_of_synteny_plots = Channel.of([])
+            ch_list_of_circos_plots = Channel.of([])
         }
     
     emit:
-        list_of_synteny_plots = ch_list_of_synteny_plots
+        list_of_circos_plots = ch_list_of_circos_plots
 }
 
 def getUniqueWithinCombinations(inputArray) {
@@ -246,7 +250,8 @@ process CIRCOS {
         tuple val(target_on_ref), path(links_file), path(bundle_file), val(karyotype)
     
     output:
-        tuple val(target_on_ref), path("*.svg"), path("*.png")
+        path "*.svg", emit: svg_file
+        path "*.png", emit: png_file
     
     script:
         """
@@ -331,28 +336,3 @@ EOF
         mv circos.png "\${target_tag}.on.\${ref_tag}.png"
         """
 }
-
-// show_ticks                  = yes
-//         show_tick_labels            = yes
-
-//         <ticks>
-//             radius                  = 1r
-//             color                   = black
-//             thickness               = 2p
-//             multiplier              = 1e-6
-//             format                  = %d
-
-//             <tick>
-//                 spacing             = 5u
-//                 size                = 10p
-//             </tick>
-
-//             <tick>
-//                 spacing             = 25u
-//                 size                = 15p
-//                 show_label          = yes
-//                 label_size          = 20p
-//                 label_offset        = 10p
-//                 format              = %d
-//             </tick>
-//         </ticks>
