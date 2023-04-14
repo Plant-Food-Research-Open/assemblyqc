@@ -166,10 +166,10 @@ seqkit sample -p 0.5 -s 33 ./test_data/test_data_original.fasta > ./test_data/te
 rm ./test_data/test_data_original.fasta
 cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_rs324p/v1/augustus.hints.fixed.gff3 ./test_data/test_data1.gff3
 cp /output/genomic/fairGenomes/Fungus/Neonectria/ditissima/sex_na/1x/assembly_rs324p/v1/augustus.hints.fixed.gff3 ./test_data/test_data2.gff3
-cat ./test_data/test_data1.fasta | grep ">*chr" | head -3 | sed 's/>//g' > ./test_data/test_data1.seq.list
-cat ./test_data/test_data2.fasta | grep ">*chr" | tail -2 | sed 's/>//g' > ./test_data/test_data2.seq.list
-cat ./test_data/test_data3.fasta | grep ">*chr" | head -5 | tail -2 | sed 's/>//g' > ./test_data/test_data3.seq.list
-cat ./test_data/test_data4.fasta | grep ">*chr" | tail -3 | sed 's/>//g' > ./test_data/test_data4.seq.list
+cat ./test_data/test_data1.fasta | grep ">*chr" | head -3 | sed 's/>//g' | awk '{print $1, "h1_"NR}' OFS="\t" > ./test_data/test_data1.seq.list
+cat ./test_data/test_data2.fasta | grep ">*chr" | tail -2 | sed 's/>//g' | awk '{print $1, "h2_"NR}' OFS="\t" >  ./test_data/test_data2.seq.list
+cat ./test_data/test_data3.fasta | grep ">*chr" | head -5 | tail -2 | sed 's/>//g' | awk '{print $1, "GA_"NR}' OFS="\t" >  ./test_data/test_data3.seq.list
+cat ./test_data/test_data4.fasta | grep ">*chr" | tail -3 | sed 's/>//g' | awk '{print $1, "GB_"NR}' OFS="\t" >  ./test_data/test_data4.seq.list
 ```
 
 The test data will take around 15 minutes to run.

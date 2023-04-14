@@ -11,7 +11,7 @@ def parse_circos_folder(folder_name="circos_outputs"):
     if not os.path.exists(circos_folder_path):
         return {}
 
-    list_of_plot_files = circos_folder_path.glob("*.svg")
+    list_of_plot_files = circos_folder_path.glob("*.png")
 
     data = {"CIRCOS": []}
 
@@ -22,13 +22,13 @@ def parse_circos_folder(folder_name="circos_outputs"):
         plot_url = f"data:image/{ext}+xml;base64,{base64_utf8_str}"
 
         file_tokens = re.findall(
-            r"([\w]+).on.([\w]+).svg",
+            r"([\w]+).on.([\w]+).([\w]+).png",
             os.path.basename(str(plot_path)),
         )[0]
 
         data["CIRCOS"].append(
             {
-                "tag.on.tag": f"{file_tokens[0]} : {file_tokens[1]}",
+                "tag.on.tag": f"{file_tokens[0]} : {file_tokens[1]} : {file_tokens[2]}",
                 "circos_plot": plot_url,
             }
         )

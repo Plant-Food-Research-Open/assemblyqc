@@ -8,7 +8,6 @@ workflow SYNTENY {
     main:
         if (!params.synteny.skip) {
         
-            // Combinations
             tuple_of_hap_genome_seq_list
             | map {
                 [it]
@@ -19,48 +18,49 @@ workflow SYNTENY {
             }
             | flatten
             | buffer(size:6)
-            | set { ch_within_combinations }
-
-            tuple_of_hap_genome_seq_list
-            | combine(
-                tuple_of_tag_file
+            | mix(
+                tuple_of_hap_genome_seq_list
+                | combine(
+                    tuple_of_tag_file
+                )
             )
-            | set { ch_with_genome_combinations }
-
-            ch_within_combinations
-            .mix(ch_with_genome_combinations)
-            | FILTER_SORT_FASTA
-            | PREFIX_FASTA_IDS
-            
-            MUMMER(
-                PREFIX_FASTA_IDS.out.tags_fasta_files
-            )
+            | map { validateSeqLists(it) }
+            | take (1)
+            | FILTER_SORT_RELABEL_FASTA
+            | MUMMER
             | DNADIFF
             | CIRCOS_BUNDLE_LINKS
-            | set { ch_circos_bundle_links }
-            
-            GENERATE_KARYOTYPE(
-                PREFIX_FASTA_IDS.out.tags_len_files
-            )
+            | ADD_COLOUR_TO_BUNDLE_LINKS
+            | SPLIT_BUNDLE_FILE_BY_TARGET_SEQS
             | map {
-                appendTags(it[0], it[1].splitText(by: 2))
+                flattenSplitBundles(it)
             }
             | flatten
-            | buffer(size:2)
-            | set { ch_karyotype }
+            | buffer(size:3)
+            | set { ch_circos_split_bundle_links }
 
-            ch_circos_bundle_links
-            .cross(
-                ch_karyotype
+            GET_FASTA_LEN(
+                FILTER_SORT_RELABEL_FASTA.out.tags_fasta_files
+            )
+            | cross(
+                ch_circos_split_bundle_links
             )
             | map {
-                [it[0][0], it[0][1], it[0][2], it[1][1]] // [tag.on.tag2, links, bundles, karyotype]
+                [it[0][0], it[1][1], it[1][2], it[0][1], it[0][2]] // [tag.on.tag, seq_tag, split_bundle_file, target_seq_len, ref_seq_len]
             }
+            | GENERATE_KARYOTYPE
+            | join(
+                ch_circos_split_bundle_links
+                | map {
+                    ["${it[0]}.${it[1]}", it[2]]
+                }
+            )
+            | take(1)
             | CIRCOS
 
             CIRCOS
             .out
-            .svg_file
+            .png_file
             .collect()
             .set{ ch_list_of_circos_plots }
         }
@@ -95,6 +95,38 @@ def getUniqueWithinCombinations(inputArray) {
     return outputList
 }
 
+def validateSeqLists(inputArray) {
+
+    file1 = inputArray[2]
+    file2 = inputArray[5]
+
+    def lines1 = file(file1).readLines()
+    def lines2 = file(file2).readLines()
+
+    lines1.each { line ->
+        def columns = line.split()
+        if (columns.size() != 2) {
+            throw new Exception("Error: Sequence file ${file1.getName()} does not have exactly two columns.")
+        }
+    }
+
+    lines2.each { line ->
+        def columns = line.split()
+        if (columns.size() != 2) {
+            throw new Exception("Error: Sequence file ${file2.getName()} does not have exactly two columns.")
+        }
+    }
+    
+    def outputLines = lines1 + lines2
+    
+    def secondColumn = outputLines.collect { it.split()[1] }
+    if (secondColumn.size() != secondColumn.unique().size()) {
+        throw new Exception("Error: Duplicate sequence labels detected in second column for pair: ${file1.getName()}, ${file2.getName()}")
+    }
+    
+    return inputArray
+}
+
 def appendTags(tag, valuesArray) {
     if (valuesArray.size() <= 1) {
         return []
@@ -108,7 +140,23 @@ def appendTags(tag, valuesArray) {
     return outputList
 }
 
-process FILTER_SORT_FASTA {
+def flattenSplitBundles(inputArray) {
+    def tag_on_tag = inputArray[0]
+    def files = inputArray[1]
+    return files.collect { [tag_on_tag, extractBundleTag(it), it] }
+}
+
+def extractBundleTag(filePath) {
+   def regex = /.*\.(\w+)\.split\.bundle\.txt/
+   def matcher = filePath =~ regex
+   if (matcher.matches()) {
+      return matcher.group(1)
+   } else {
+      throw new Exception("Error: Failed to parse the sequence tag from file name: ${filePath.getName()}")
+   }
+}
+
+process FILTER_SORT_RELABEL_FASTA {
     tag "${target}:${reference}"
     container "quay.io/biocontainers/samtools:1.16.1--h6899075_1"
 
@@ -116,44 +164,45 @@ process FILTER_SORT_FASTA {
         tuple val(target), path(target_fasta), path(target_seq_list), val(reference), path(ref_fasta), path(ref_seq_list)
     
     output:        
-        tuple val(target), val(reference), path("filtered.ordered.target.fasta"), path("filtered.ordered.ref.fasta")
+        tuple val(target), val(reference), path("filtered.ordered.target.fasta"), path("filtered.ordered.ref.fasta"), emit: tags_fasta_files
     
     script:
         """
-        num_target_seq=\$(cat $target_seq_list | wc -l)
-        num_ref_seq=\$(cat $ref_seq_list | wc -l)
-        min_n=\$((\$num_target_seq>\$num_ref_seq ? \$num_ref_seq : \$num_target_seq))
+        samtools faidx $target_fasta \$(awk '{print \$1}' $target_seq_list) > filtered.ordered.target.fasta
+        samtools faidx $ref_fasta \$(awk '{print \$1}' $ref_seq_list) > filtered.ordered.ref.fasta
 
-        head -\$min_n $target_seq_list > target.seq.list
-        head -\$min_n $ref_seq_list > reference.seq.list
+        while read -r id label; do
+            if grep -q "\$id" "filtered.ordered.target.fasta"; then
+                sed -i "s/\$id/\$label/g" "filtered.ordered.target.fasta"
+            fi
+        done < "$target_seq_list"
 
-        samtools faidx $target_fasta \$(cat target.seq.list) > filtered.ordered.target.fasta
-        samtools faidx $ref_fasta \$(cat reference.seq.list) > filtered.ordered.ref.fasta
+        while read -r id label; do
+            if grep -q "\$id" "filtered.ordered.ref.fasta"; then
+                sed -i "s/\$id/\$label/g" "filtered.ordered.ref.fasta"
+            fi
+        done < "$ref_seq_list"
         """
 }
 
-process PREFIX_FASTA_IDS {
-    tag "${target}:${reference}"
+process GET_FASTA_LEN {
+    tag "${target}.on.${reference}"
     container "quay.io/biocontainers/seqkit:2.3.1--h9ee0642_0"
     
     input:        
         tuple val(target), val(reference), path(filtered_ordered_target_fasta), path(filtered_ordered_ref_fasta)
     
     output:
-        tuple val(target), val(reference), path("prefixed.filtered.ordered.target.fasta"), path("prefixed.filtered.ordered.ref.fasta"), emit: tags_fasta_files
-        tuple val(target), val(reference), path("target.seq.lengths"), path("ref.seq.lengths"), emit: tags_len_files
+        tuple val("${target}.on.${reference}"), path("target.seq.lengths"), path("ref.seq.lengths"), emit: tags_len_files
     
     script:
         """
-        cat $filtered_ordered_target_fasta | seqkit replace -p ^ -r "${target}_" > prefixed.filtered.ordered.target.fasta
-        cat $filtered_ordered_ref_fasta | seqkit replace -p ^ -r "${reference}_" > prefixed.filtered.ordered.ref.fasta
-
-        awk '/^>/ {if (seqlen){print seqlen}; printf \$1" " ;seqlen=0;next; } { seqlen += length(\$0)}END{print seqlen}' prefixed.filtered.ordered.target.fasta \
+        awk '/^>/ {if (seqlen){print seqlen}; printf \$1" " ;seqlen=0;next; } { seqlen += length(\$0)}END{print seqlen}' $filtered_ordered_target_fasta \
         | sed 's/>//1' \
         | awk '{print \$1, \$2}' OFS='\\t' \
         > target.seq.lengths
 
-        awk '/^>/ {if (seqlen){print seqlen}; printf \$1" " ;seqlen=0;next; } { seqlen += length(\$0)}END{print seqlen}' prefixed.filtered.ordered.ref.fasta \
+        awk '/^>/ {if (seqlen){print seqlen}; printf \$1" " ;seqlen=0;next; } { seqlen += length(\$0)}END{print seqlen}' $filtered_ordered_ref_fasta \
         | sed 's/>//1' \
         | awk '{print \$1, \$2}' OFS='\\t' \
         > ref.seq.lengths
@@ -206,14 +255,13 @@ process DNADIFF {
 
 process CIRCOS_BUNDLE_LINKS {
     tag "${target_on_ref}"
-    container "docker://gallvp/circos-tools:0.23-1" 
-    publishDir "${params.outdir.main}/synteny/bundlelinks", mode: 'copy'
+    container "docker://gallvp/circos-tools:0.23-1"
 
     input:
         tuple val(target_on_ref), path(coords_file), path(report_file)
     
     output:
-        tuple val(target_on_ref), path("*.1coords.links.txt"), path("*.1coords.bundle.txt")
+        tuple val(target_on_ref), path("*.1coords.bundle.txt")
     
     script:
         """
@@ -223,31 +271,84 @@ process CIRCOS_BUNDLE_LINKS {
         -links "${target_on_ref}.1coords.links.txt" \
         1>"${target_on_ref}.1coords.bundle.txt" \
         2>bundlelinks.err
+
+        add_color_2_circos_bundle_file.pl \
+        -i="${target_on_ref}.1coords.bundle.txt" \
+        -o="${target_on_ref}.1coords.bundle.coloured.txt"
+        """
+}
+
+process ADD_COLOUR_TO_BUNDLE_LINKS {
+    tag "${target_on_ref}"
+    publishDir "${params.outdir.main}/synteny/bundlelinks", mode: 'copy'
+
+    input:
+        tuple val(target_on_ref), path(bundle_links)
+    
+    output:
+        tuple val(target_on_ref), path("*.1coords.bundle.coloured.txt")
+    
+    script:
+        """
+        add_color_2_circos_bundle_file.pl \
+        -i="${bundle_links}" \
+        -o="${target_on_ref}.1coords.bundle.coloured.txt"
+        """
+}
+
+process SPLIT_BUNDLE_FILE_BY_TARGET_SEQS {
+    tag "${target_on_ref}"
+
+    input:
+        tuple val(target_on_ref), path(coloured_bundle_links)
+    
+    output:
+        tuple val(target_on_ref), path("*.split.bundle.txt")
+    
+    script:
+        """
+        target_seqs=(\$(awk '{print \$4}' $coloured_bundle_links | sort | uniq))
+
+        for i in "\${!target_seqs[@]}"
+        do
+            target_seq=\${target_seqs[\$i]}
+            awk -v seq="\$target_seq" '\$4==seq {print \$0}' $coloured_bundle_links > "${target_on_ref}.\${target_seq}.split.bundle.txt"
+        done
         """
 }
 
 process GENERATE_KARYOTYPE {
-    tag "${target}.on.${reference}"
+    tag "${target_on_ref}.${seq_tag}"
 
     input:
-        tuple val(target), val(reference), path(target_seq_len), path(ref_seq_len)
+        tuple val(target_on_ref), val(seq_tag), path(split_bundle_file), path(target_seq_len), path(ref_seq_len)
     
     output:
-        tuple val("${target}.on.${reference}"), path("*.karyotype")
+        tuple val("${target_on_ref}.${seq_tag}"), path("*.karyotype")
     
     script:
         """
-        paste -d "\\n" $target_seq_len $ref_seq_len > merged.seq.lengths
-        cat merged.seq.lengths | awk '{print "chr -",\$1,\$1,"0",\$2-1,(NR%2==1?"red":"blue")}' OFS="\t" > "${target}.on.${reference}.karyotype"
+        ref_seqs=(\$(awk '{print \$1}' $split_bundle_file | sort | uniq))
+        tmp_file=\$(mktemp)
+        printf '%s\\n' "\${ref_seqs[@]}" > "\$tmp_file"
+        grep "$seq_tag" $target_seq_len > filtered.target.seq.len
+        grep -f "\$tmp_file" $ref_seq_len > filtered.ref.seq.len
+
+        paste -d "\\n" filtered.target.seq.len filtered.ref.seq.len > merged.seq.lengths
+        sed -i '/^\$/d' merged.seq.lengths
+        cat merged.seq.lengths | awk '{print "chr -",\$1,\$1,"0",\$2-1,(\$1=="$seq_tag"?"red":"blue")}' OFS="\t" > "${target_on_ref}.${seq_tag}.karyotype"
+
+        rm "\$tmp_file"
         """
 }
 
 process CIRCOS {
+    tag "${target_on_ref_seq}"
     container "docker://gallvp/circos-tools:0.23-1" 
     publishDir "${params.outdir.main}/synteny", mode: 'copy'
 
     input:
-        tuple val(target_on_ref), path(links_file), path(bundle_file), val(karyotype)
+        tuple val(target_on_ref_seq), val(karyotype), path(bundle_file)
     
     output:
         path "*.svg", emit: svg_file
@@ -255,21 +356,18 @@ process CIRCOS {
     
     script:
         """
-        cat $bundle_file | awk '{print \$1,\$2,\$3,\$4,\$5,\$6}' OFS="\\t" > bundled.links.tsv
-        echo -n "$karyotype" | tee karyotype.tsv
-        target_tag=\$(cat karyotype.tsv | awk 'NR==1 {print \$3}')
-        ref_tag=\$(cat karyotype.tsv | awk 'NR==2 {print \$3}')
+        cat $bundle_file | awk '{print \$1,\$2,\$3,\$4,\$5,\$6,\$7}' OFS="\\t" > bundled.links.tsv
 
         cat <<- EOF > circos.conf
         # circos.conf
-        karyotype = karyotype.tsv
+        karyotype = $karyotype
 
         <ideogram>
             <spacing>
                 default             = 0.005r
             </spacing>
 
-            radius                  = 0.90r
+            radius                  = 0.8r
             thickness               = 25p
             fill                    = yes
             stroke_thickness        = 0
@@ -332,7 +430,7 @@ EOF
 
         circos
 
-        mv circos.svg "\${target_tag}.on.\${ref_tag}.svg"
-        mv circos.png "\${target_tag}.on.\${ref_tag}.png"
+        mv circos.svg "${target_on_ref_seq}.svg"
+        mv circos.png "${target_on_ref_seq}.png"
         """
 }
