@@ -12,7 +12,7 @@ workflow NCBI_FCS_ADAPTOR {
 
             ch_report
             .map {
-                it[1]
+                it[1] // report file path
             }
             .collect()
             .set { ch_all_reports }
@@ -48,8 +48,7 @@ See the report for further details.
         } else {
             tuple_of_hap_file
             .map {
-                hapName = it[0]
-                return hapName
+                it[0] // tag
             }
             .set { ch_clean_hap }
 

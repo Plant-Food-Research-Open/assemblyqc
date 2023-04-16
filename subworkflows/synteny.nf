@@ -25,7 +25,6 @@ workflow SYNTENY {
                 )
             )
             | map { validateSeqLists(it) }
-            | take (1)
             | FILTER_SORT_RELABEL_FASTA
             | MUMMER
             | DNADIFF
@@ -52,10 +51,9 @@ workflow SYNTENY {
             | join(
                 ch_circos_split_bundle_links
                 | map {
-                    ["${it[0]}.${it[1]}", it[2]]
+                    ["${it[0]}.${it[1]}", it[2]] // [tag.on.tag.seq_tag, split_bundle_file]
                 }
             )
-            | take(1)
             | CIRCOS
 
             CIRCOS

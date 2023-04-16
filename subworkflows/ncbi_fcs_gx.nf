@@ -55,8 +55,7 @@ See the report for further details.
         } else {
             tuple_of_hap_file
             .map {
-                hapName = it[0]
-                return hapName
+                it[0]
             }
             .set { ch_clean_hap }
 

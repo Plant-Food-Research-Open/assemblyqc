@@ -35,7 +35,7 @@ workflow TIDK {
             .mix(
                 ch_explored_repeat_seq
                 .map {
-                    it[1]
+                    it[1] // a_posteriori sequence
                 }
             )
             .mix(ch_apriori_sequence)

@@ -21,7 +21,7 @@ workflow {
     // GENOMETOOLS_GT_STAT
     Channel.fromList(params.genome_gff3)
     .map {
-        return [it[0], file(it[1], checkIfExists: true)]
+        return [it[0], file(it[1], checkIfExists: true)] // [tag, genome gff3 path]
     }
     | GENOMETOOLS_GT_STAT
     | collect
@@ -31,14 +31,14 @@ workflow {
     // NCBI-FCS-ADAPTOR
     Channel.fromList(params.genome_fasta)
     .map {
-        return [it[0], file(it[1], checkIfExists: true)]
+        return [it[0], file(it[1], checkIfExists: true)] // [tag, genome fasta path]
     }
     | NCBI_FCS_ADAPTOR
 
     NCBI_FCS_ADAPTOR.out.clean_hap
     .join(Channel.fromList(params.genome_fasta))
     .map {
-        return [it[0], file(it[1], checkIfExists: true)]
+        return [it[0], file(it[1], checkIfExists: true)] // [tag, genome fasta path]
     }
     | set {ch_adaptor_clean_genome_fasta}
 
@@ -49,7 +49,7 @@ workflow {
     NCBI_FCS_GX.out.clean_hap
     .join(Channel.fromList(params.genome_fasta))
     .map {
-        return [it[0], file(it[1], checkIfExists: true)]
+        return [it[0], file(it[1], checkIfExists: true)] // [tag, genome fasta path]
     }
     | set {ch_clean_genome_fasta}
 
@@ -65,7 +65,7 @@ workflow {
     .join(Channel.fromList(params.genome_fasta))
     .combine(Channel.fromList(params.busco.lineage_datasets))
     .map {
-        return [it[0], file(it[1], checkIfExists: true), it[2]]
+        return [it[0], file(it[1], checkIfExists: true), it[2]] // [tag, genome fasta path, busco lineage]
     }
     | BUSCO
     
@@ -78,13 +78,13 @@ workflow {
         .join(
             ch_clean_genome_fasta
             .map {
-                return [it[0], null]
+                return [it[0], null] // [tag, null]
             }
         )
         .join(
             ch_clean_genome_fasta
             .map {
-                return [it[0], null]
+                return [it[0], null] // [tag, null]
             }
         )
         .set { ch_hap_genome_pass_out }
@@ -93,13 +93,13 @@ workflow {
         .join(
             Channel.fromList(params.lai.pass_list)
             .map {
-                return [it[0], file(it[1], checkIfExists: true)]
+                return [it[0], file(it[1], checkIfExists: true)] // [tag, pass list path]
             }
         )
         .join(
             Channel.fromList(params.lai.out_file)
             .map {
-                return [it[0], file(it[1], checkIfExists: true)]
+                return [it[0], file(it[1], checkIfExists: true)] // [tag, out file path]
             }
         )
         .set { ch_hap_genome_pass_out }
@@ -130,14 +130,14 @@ workflow {
         .join(
             Channel.fromList(params.synteny.genome_seq_order)
             .map {
-                return [it[0], file(it[1], checkIfExists: true)]
+                return [it[0], file(it[1], checkIfExists: true)] // [tag, genome seq list path]
             }
         )
         .set { ch_clean_genome_fasta_seq_list }
 
         Channel.fromList(params.synteny.xref_genomes)
         .map {
-            return [it[0], file(it[1], checkIfExists: true), file(it[2], checkIfExists: true)]
+            return [it[0], file(it[1], checkIfExists: true), file(it[2], checkIfExists: true)] // [tag, xref genome fasta file path, seq list path]
         }
         .set { ch_with_genomes }
     } else {

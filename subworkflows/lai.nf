@@ -9,11 +9,11 @@ workflow LAI {
             if (params.lai.pass_list == null || params.lai.out_file == null) {
                 tuple_of_hap_genome_pass_out
                 | map {
-                    return [it[0], it[1]]
+                    return [it[0], it[1]] // [tag, genome fasta file path]
                 }
                 | EDTA
                 | map {
-                    return [it[0], it[1], it[3], it[4]]
+                    return [it[0], it[1], it[3], it[4]] // [tag, genome fasta file path, pass list path, out file path]
                 }
                 | RUN_LAI
                 | collect

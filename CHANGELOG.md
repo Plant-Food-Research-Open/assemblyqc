@@ -1,5 +1,9 @@
 # Change Log
 
+## Version 0.10 (17-April-2023)
+
+1. Added Synteny Analysis.
+
 ## Version 0.9 (31-Mar-2023)
 
 1. Added NCBI FCS GX module.

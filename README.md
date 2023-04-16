@@ -14,9 +14,7 @@
   - [Getting sample data](#getting-sample-data)
   - [Known Issues](#known-issues)
   - [Software Versions](#software-versions)
-  - [Future Plans](#future-plans)
-    - [Tools](#tools)
-    - [User Feedback](#user-feedback)
+  - [Future Tools](#future-tools)
 
 ## Introduction
 
@@ -202,13 +200,14 @@ The test data will take around 15 minutes to run.
   - MATLOCK: quay.io/biocontainers/matlock:20181227--h4b03ef3_3
   - SAMBLASTER: quay.io/biocontainers/samblaster:0.1.20--h9f5acd7_2
   - SAMTOOLS: quay.io/biocontainers/samtools:1.16.1--h6899075_1
+- SYNTENY
+  - CIRCOS: docker://gallvp/circos-tools:0.23-1
+  - MUMMER: docker://staphb/mummer:4.0.0
+  - SEQKIT: quay.io/biocontainers/seqkit:2.3.1--h9ee0642_0
+  - SAMTOOLS: quay.io/biocontainers/samtools:1.16.1--h6899075_1
 
-## Future Plans
+## Future Tools
 
-### Tools
-
-- [ ] Synteny Check --> [https://github.com/hewm2008/NGenomeSyn](https://github.com/hewm2008/NGenomeSyn)
-
-### User Feedback
-
-- [ ] TIDK fix scale (chen)
+- [ ] SubPhaser: [https://github.com/zhangrengang/SubPhaser](https://github.com/zhangrengang/SubPhaser)
+- [ ] Merqury: [https://github.com/marbl/merqury](https://github.com/marbl/merqury)
+- [ ] findZX: [https://github.com/hsigeman/findZX](https://github.com/hsigeman/findZX)
