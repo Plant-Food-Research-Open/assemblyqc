@@ -1,8 +1,8 @@
-# Assembly QC Report Generator
+# AssemblyQC
 
 ## Table of Contents
 
-- [Assembly QC Report Generator](#assembly-qc-report-generator)
+- [AssemblyQC](#assemblyqc)
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
   - [Pipeline Flowchart](#pipeline-flowchart)
@@ -18,7 +18,7 @@
 
 ## Introduction
 
-Welcome to the Assembly QC report generator. This software is a Nextflow pipeline that can be used to perform BUSCO searches on fasta data and will generate an easy-to-read html report. More capabilities will be added in the future.
+Welcome to AssemblyQC. This Nextflow pipeline evaluates assembly quality with well established tools and presents the results in a unified html report. The tools are shown in the [Pipeline Flowchart](#pipeline-flowchart) and their version are listed under [Software Versions](#software-versions).
 
 ## Pipeline Flowchart
 
