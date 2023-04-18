@@ -1,8 +1,10 @@
 # Change Log
 
-## Version 0.10 (17-April-2023)
+## Version 0.10 (18-April-2023)
 
 1. Added Synteny Analysis.
+2. Added "-q" and "-qq" option to LAI.
+3. Now copying the *.TElib.fa file from EDTA work dir to the results folder.
 
 ## Version 0.9 (31-Mar-2023)
 

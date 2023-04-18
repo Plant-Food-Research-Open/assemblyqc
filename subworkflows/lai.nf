@@ -44,7 +44,7 @@ process EDTA {
         tuple val(hap_name), path(fasta_file)
     
     output:
-        tuple val(hap_name), path('*.EDTA.fasta'), path('*.EDTA.TEanno.gff3'), path('*.EDTA.pass.list'), path('*.EDTA.out')
+        tuple val(hap_name), path('*.EDTA.fasta'), path('*.EDTA.TEanno.gff3'), path('*.EDTA.pass.list'), path('*.EDTA.out'), path('*.EDTA.TElib.fa')
     
     script:
         """
@@ -90,7 +90,7 @@ process RUN_LAI {
     
     script:
         """
-        LAI \
+        LAI ${params.lai.mode} \
         -t ${task.cpus * params.ht_factor} \
         -genome $genome_fasta \
         -intact $pass_list \

@@ -312,6 +312,8 @@ process SPLIT_BUNDLE_FILE_BY_TARGET_SEQS {
             target_seq=\${target_seqs[\$i]}
             awk -v seq="\$target_seq" '\$4==seq {print \$0}' $coloured_bundle_links > "${target_on_ref}.\${target_seq}.split.bundle.txt"
         done
+
+        cat $coloured_bundle_links > "${target_on_ref}.all.split.bundle.txt"
         """
 }
 
@@ -329,12 +331,20 @@ process GENERATE_KARYOTYPE {
         ref_seqs=(\$(awk '{print \$1}' $split_bundle_file | sort | uniq))
         tmp_file=\$(mktemp)
         printf '%s\\n' "\${ref_seqs[@]}" > "\$tmp_file"
-        grep "$seq_tag" $target_seq_len > filtered.target.seq.len
-        grep -f "\$tmp_file" $ref_seq_len > filtered.ref.seq.len
 
-        paste -d "\\n" filtered.target.seq.len filtered.ref.seq.len > merged.seq.lengths
+        if [[ $seq_tag = "all" ]];then
+            cat $target_seq_len > filtered.target.seq.len
+        else
+            grep "$seq_tag" $target_seq_len > filtered.target.seq.len
+        fi
+        cat filtered.target.seq.len | awk '{print \$1,\$2,"red"}' OFS="\t" > colored.filtered.target.seq.len
+
+        grep -f "\$tmp_file" $ref_seq_len > filtered.ref.seq.len
+        cat filtered.ref.seq.len | awk '{print \$1,\$2,"blue"}' OFS="\t" > colored.filtered.ref.seq.len
+
+        paste -d "\\n" colored.filtered.target.seq.len colored.filtered.ref.seq.len > merged.seq.lengths
         sed -i '/^\$/d' merged.seq.lengths
-        cat merged.seq.lengths | awk '{print "chr -",\$1,\$1,"0",\$2-1,(\$1=="$seq_tag"?"red":"blue")}' OFS="\t" > "${target_on_ref}.${seq_tag}.karyotype"
+        cat merged.seq.lengths | awk '{print "chr -",\$1,\$1,"0",\$2-1,\$3}' OFS="\t" > "${target_on_ref}.${seq_tag}.karyotype"
 
         rm "\$tmp_file"
         """
