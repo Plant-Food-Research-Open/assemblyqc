@@ -23,6 +23,7 @@ workflow HIC_PREPROCESS {
 process FASTP {
 
     label "uses_four_cpus"
+    label "takes_four_hours"
     tag "$sample_id"
     container "quay.io/biocontainers/fastp:0.23.2--h5f740d0_3"
 
