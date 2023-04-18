@@ -40,7 +40,7 @@ if __name__ == "__main__":
                 "SELF": "v0.10",
                 "NCBI_FCS_ADAPTOR": "0.4",
                 "NCBI_FCS_GX": "0.4",
-                "ASSEMBLATHON_STATS": "160b94c",
+                "ASSEMBLATHON_STATS": "github/PlantandFoodResearch/assemblathon2-analysis/a93cba2",
                 "GENOMETOOLS_GT_STAT": "1.6.2",
                 "BUSCO": "5.2.2",
                 "TIDK": "0.2.31",

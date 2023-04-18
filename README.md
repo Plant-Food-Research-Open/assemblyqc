@@ -180,7 +180,7 @@ The test data will take around 15 minutes to run.
 
 - NCBI-FCS-ADAPTOR: 0.4
 - NCBI-FCS-GX: 0.4
-- ASSEMBLATHON_STATS: [160b94c/assemblathon_stats.pl](https://github.com/KorfLab/Assemblathon/blob/160b94c1d225d8b16625d0513ccb3dd73b456f74/assemblathon_stats.pl)
+- ASSEMBLATHON_STATS: Included in `./bin` from [github/PlantandFoodResearch/assemblathon2-analysis/a93cba2](https://github.com/PlantandFoodResearch/assemblathon2-analysis/blob/a93cba25d847434f7eadc04e63b58c567c46a56d/assemblathon_stats.pl)
 - GENOMETOOLS_GT_STAT: quay.io/biocontainers/genometools-genometools:1.6.2--py310he7ef181_3
 - BUSCO: quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0
 - TIDK: quay.io/biocontainers/tidk:0.2.31--h87f3376_0
