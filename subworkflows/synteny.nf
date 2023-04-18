@@ -241,13 +241,19 @@ process DNADIFF {
         tuple val(target_on_ref), path(dnadiff_file)
     
     output:
-        tuple val(target_on_ref), path("*.1coords"), path("*.report")
+        tuple val(target_on_ref), path("*.xcoords"), path("*.report")
     
     script:
         """
         dnadiff \
         -p $target_on_ref \
         -d $dnadiff_file
+
+        if [[ "${params.synteny.many_to_many_align}" = "1" ]];then
+            cat "${target_on_ref}.mcoords" > "${target_on_ref}.m.xcoords"
+        else
+            cat "${target_on_ref}.1coords" > "${target_on_ref}.1.xcoords"
+        fi
         """
 }
 
@@ -259,20 +265,16 @@ process CIRCOS_BUNDLE_LINKS {
         tuple val(target_on_ref), path(coords_file), path(report_file)
     
     output:
-        tuple val(target_on_ref), path("*.1coords.bundle.txt")
+        tuple val(target_on_ref), path("*.xcoords.bundle.txt")
     
     script:
         """
-        cat $coords_file | awk '{print \$12,\$1,\$2,\$13,\$3,\$4}' OFS="\\t" > "${target_on_ref}.1coords.links.txt"
+        cat $coords_file | awk '{print \$12,\$1,\$2,\$13,\$3,\$4}' OFS="\\t" > "\$(basename $coords_file).links.txt"
 
         /usr/share/circos/tools/bundlelinks/bin/bundlelinks \
-        -links "${target_on_ref}.1coords.links.txt" \
-        1>"${target_on_ref}.1coords.bundle.txt" \
+        -links "\$(basename $coords_file).links.txt" \
+        1>"\$(basename $coords_file).bundle.txt" \
         2>bundlelinks.err
-
-        add_color_2_circos_bundle_file.pl \
-        -i="${target_on_ref}.1coords.bundle.txt" \
-        -o="${target_on_ref}.1coords.bundle.coloured.txt"
         """
 }
 
@@ -284,13 +286,13 @@ process ADD_COLOUR_TO_BUNDLE_LINKS {
         tuple val(target_on_ref), path(bundle_links)
     
     output:
-        tuple val(target_on_ref), path("*.1coords.bundle.coloured.txt")
+        tuple val(target_on_ref), path("*.xcoords.bundle.coloured.txt")
     
     script:
         """
         add_color_2_circos_bundle_file.pl \
         -i="${bundle_links}" \
-        -o="${target_on_ref}.1coords.bundle.coloured.txt"
+        -o="\$(basename $bundle_links .bundle.txt).bundle.coloured.txt"
         """
 }
 
