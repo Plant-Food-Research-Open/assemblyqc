@@ -9,6 +9,7 @@
 5. Now using 4-hour time limit for FASTP and FASTQC.
 6. Added references for all the tools in the README.
 7. Now the conda environment is saved in the users home directory so that it can be shared across pipeline runs.
+8. Updated Juicebox.js to 2.4.1.
 
 ## Version 0.9 (31-Mar-2023)
 
