@@ -3,11 +3,12 @@
 ## Version 0.10 (18-April-2023)
 
 1. Added Synteny Analysis.
-2. Added "-q" and "-qq" option to LAI.
+2. Added "-q" and "-qq" option to LAI. "-qq" is the default.
 3. Now copying the *.TElib.fa file from EDTA work dir to the results folder.
 4. Fixed the n_limit bug in assamblathon_stats.pl.
 5. Now using 4-hour time limit for FASTP.
 6. Added references for all the tools in the README.
+7. Now the conda environment is saved in the users home directory so that it can be shared across pipeline runs.
 
 ## Version 0.9 (31-Mar-2023)
 
