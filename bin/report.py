@@ -50,6 +50,7 @@ if __name__ == "__main__":
             "KRAKEN2": "2.1.2",
             "HIC": "2.2.3",
             "CIRCOS": "0.23-1",
+            "MUMMER": "4.0.0",
         },
         "CONSTANTS": constants_dict,
     }
