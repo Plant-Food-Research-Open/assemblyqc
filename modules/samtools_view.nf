@@ -15,7 +15,7 @@ process SAMTOOLS_VIEW {
         """
         file_name="${marked_sam}"
         samtools view \
-        --threads $task.cpus \
+        --threads ${task.cpus * params.ht_factor} \
         -S \
         -b \
         -h \

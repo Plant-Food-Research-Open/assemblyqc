@@ -41,7 +41,7 @@ process FASTP {
         -O "\$(basename ${reads[1]} .fastq.gz).fastp.fastq.gz" \
         --qualified_quality_phred 20 \
         --length_required 50 \
-        --thread $task.cpus
+        --thread ${task.cpus * params.ht_factor}
         """
 }
 
@@ -63,7 +63,7 @@ process FAST_QC {
     script:
         """
         fastqc ${raw_reads} ${clean_reads} \
-        -t $task.cpus \
+        -t ${task.cpus * params.ht_factor} \
         --nogroup
         """
 }

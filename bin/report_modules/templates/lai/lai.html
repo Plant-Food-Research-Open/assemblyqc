@@ -12,6 +12,11 @@
                 href="https://doi.org/10.1093/nar/gky730" target="_blank">https://doi.org/10.1093/nar/gky730</a>
         </p>
         <p class="section-para"><b>Version: {{ all_stats_dicts['VERSIONS']['LAI'] }}</b></p>
+        {% if all_stats_dicts['CONSTANTS']['LAI_MODE'] == '-qq' %}
+        <p class="section-para"><b>Warning:</b></p>
+        <p class="section-para">The LAI mode is set to '-qq' and, therefore, the RAW LAI can only be used for
+            intra-specific comparisons.</p>
+        {% endif %}
     </div>
     {% include 'lai/dropdown.html' %}
     {% include 'lai/summary_contents.html' %}

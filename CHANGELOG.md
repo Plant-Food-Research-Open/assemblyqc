@@ -11,6 +11,7 @@
 7. Now the conda environment is saved in the users home directory so that it can be shared across pipeline runs.
 8. Updated Juicebox.js to 2.4.1.
 9. Allowed 8 hours for BWA MEM.
+10. Fixed a bug in LAI where the output was not parsed correctly due to file name mismatch.
 
 ## Version 0.9 (31-Mar-2023)
 

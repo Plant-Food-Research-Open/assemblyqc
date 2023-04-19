@@ -17,6 +17,6 @@ process BWA_INDEX_AND_MEM {
     script:
         """
         bwa index ${assembly}
-        bwa mem -5SP ${assembly} ${clean_reads[0]} ${clean_reads[1]} -o "${assembly}.sam" -t $task.cpus
+        bwa mem -5SP ${assembly} ${clean_reads[0]} ${clean_reads[1]} -o "${assembly}.sam" -t ${task.cpus * params.ht_factor}
         """
 }

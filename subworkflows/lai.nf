@@ -76,7 +76,9 @@ process EDTA {
 
 process RUN_LAI {
     label 'uses_high_cpu_mem'
-    label 'takes_six_days'
+    if (params.lai.mode != "-qq") {
+        label 'takes_six_days'
+    }
     tag "${hap_name}"
     container 'quay.io/biocontainers/ltr_retriever:2.9.0--hdfd78af_1'
 
@@ -96,10 +98,7 @@ process RUN_LAI {
         -intact $pass_list \
         -all $genome_out > "${hap_name}.LAI.log"
 
-        genome_file_name="$genome_fasta"
-        genome_file_base_name=\${genome_file_name%.*}
-        lai_output_file_name="\${genome_file_base_name}.out.LAI"
-        
+        lai_output_file_name="\$(basename $pass_list .pass.list).out.LAI"
         [[ -f "\$lai_output_file_name" ]] && cat "\$lai_output_file_name" > "${hap_name}.LAI.out" || echo "LAI OUTPUT IS EMPTY" > "${hap_name}.LAI.out"
         """
 }

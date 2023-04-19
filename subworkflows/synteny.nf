@@ -225,7 +225,7 @@ process MUMMER {
         """
         nucmer \
         --mum \
-        -t ${task.cpus} \
+        -t ${task.cpus * params.ht_factor} \
         -p "${target}.on.${reference}" \
         $ref_fasta \
         $target_fasta

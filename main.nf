@@ -164,7 +164,8 @@ workflow {
         SYNTENY.out.list_of_circos_plots.ifEmpty([]),
         Channel.of("""
         {
-            "ASSEMBLATHON_STATS_N_LIMIT": "${params.assamblathon_stats.n_limit}"
+            "ASSEMBLATHON_STATS_N_LIMIT": "${params.assamblathon_stats.n_limit}",
+            "LAI_MODE": "${params.lai.mode}"
         }
         """)
     )
