@@ -74,12 +74,16 @@ To run the pipeline on a new genome, edit the nextflow.config. The following par
 
 - genome_fasta
 - genome_gff3
+- assamblathon_stats::n_limit
 - ncbi_fcs_adaptor::empire
 - ncbi_fcs_gx::tax_id
 - busco::lineage_datasets
 - tidk::repeat_seq
 - hic::reads_folder
 - hic::paired_reads
+- synteny::many_to_many_align
+- synteny::genome_seq_order
+- synteny::xref_genomes
 
 ### Post the NextFlow Process to Slurm
 
@@ -241,3 +245,4 @@ The test data will take around 15 minutes to run.
 - [ ] SubPhaser: [https://github.com/zhangrengang/SubPhaser](https://github.com/zhangrengang/SubPhaser)
 - [ ] Merqury: [https://github.com/marbl/merqury](https://github.com/marbl/merqury)
 - [ ] findZX: [https://github.com/hsigeman/findZX](https://github.com/hsigeman/findZX)
+- [ ] NGenomeSyn: <https://github.com/hewm2008/NGenomeSyn>; Consensus vs Haplotypes
