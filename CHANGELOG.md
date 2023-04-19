@@ -5,6 +5,9 @@
 1. Added Synteny Analysis.
 2. Added "-q" and "-qq" option to LAI.
 3. Now copying the *.TElib.fa file from EDTA work dir to the results folder.
+4. Fixed the n_limit bug in assamblathon_stats.pl.
+5. Now using 4-hour time limit for FASTP.
+6. Added references for all the tools in the README.
 
 ## Version 0.9 (31-Mar-2023)
 
