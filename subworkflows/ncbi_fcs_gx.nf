@@ -131,6 +131,7 @@ process VERIFY_DB {
 }
 
 process SETUP_SAMPLE {
+    tag "${hap_name}"
 
     input:
         tuple val(hap_name), path(fasta_file)
