@@ -1,9 +1,9 @@
 nextflow.enable.dsl=2
 
 process BWA_INDEX_AND_MEM {
-    
     tag "$sample_id"
     label 'uses_high_cpu_mem'
+    label 'takes_eight_hours'
     container "quay.io/biocontainers/bwa:0.7.17--hed695b0_7"
 
     input:

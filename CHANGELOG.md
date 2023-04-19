@@ -1,6 +1,6 @@
 # Change Log
 
-## Version 0.10 (19-April-2023)
+## Version 0.10 (20-April-2023)
 
 1. Added Synteny Analysis.
 2. Added "-q" and "-qq" option to LAI. "-qq" is the default.
@@ -10,6 +10,7 @@
 6. Added references for all the tools in the README.
 7. Now the conda environment is saved in the users home directory so that it can be shared across pipeline runs.
 8. Updated Juicebox.js to 2.4.1.
+9. Allowed 8 hours for BWA MEM.
 
 ## Version 0.9 (31-Mar-2023)
 
