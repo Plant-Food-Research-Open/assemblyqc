@@ -21,7 +21,6 @@ workflow HIC_PREPROCESS {
 }
 
 process FASTP {
-
     label "uses_four_cpus"
     label "takes_four_hours"
     tag "$sample_id"
@@ -48,8 +47,8 @@ process FASTP {
 
 
 process FAST_QC {
-
     label 'uses_four_cpus'
+    label "takes_four_hours"
     tag "$sample_id"
     publishDir "${params.outdir.main}/hic/fastqc", mode:'copy'
     container "quay.io/biocontainers/fastqc:0.11.9--hdfd78af_1"
