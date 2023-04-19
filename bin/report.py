@@ -20,6 +20,9 @@ from report_modules.report_printer import ReportPrinter
 
 
 if __name__ == "__main__":
+    with open("constants.json", "r") as f:
+        constants_dict = json.load(f)
+
     data_from_tools = {}
 
     data_from_tools = {**data_from_tools, **parse_ncbi_fcs_adaptor_folder()}
@@ -35,21 +38,20 @@ if __name__ == "__main__":
 
     data_from_tools = {
         **data_from_tools,
-        **{
-            "VERSIONS": {
-                "SELF": "v0.10",
-                "NCBI_FCS_ADAPTOR": "0.4",
-                "NCBI_FCS_GX": "0.4",
-                "ASSEMBLATHON_STATS": "github/PlantandFoodResearch/assemblathon2-analysis/a93cba2",
-                "GENOMETOOLS_GT_STAT": "1.6.2",
-                "BUSCO": "5.2.2",
-                "TIDK": "0.2.31",
-                "LAI": "2.9.0",
-                "KRAKEN2": "2.1.2",
-                "HIC": "2.2.3",
-                "CIRCOS": "0.23-1"
-            }
+        "VERSIONS": {
+            "SELF": "v0.10",
+            "NCBI_FCS_ADAPTOR": "0.4",
+            "NCBI_FCS_GX": "0.4",
+            "ASSEMBLATHON_STATS": "github/PlantandFoodResearch/assemblathon2-analysis/a93cba2",
+            "GENOMETOOLS_GT_STAT": "1.6.2",
+            "BUSCO": "5.2.2",
+            "TIDK": "0.2.31",
+            "LAI": "2.9.0",
+            "KRAKEN2": "2.1.2",
+            "HIC": "2.2.3",
+            "CIRCOS": "0.23-1",
         },
+        "CONSTANTS": constants_dict,
     }
 
     report_printer = ReportPrinter()

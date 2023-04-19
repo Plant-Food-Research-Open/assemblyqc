@@ -3,14 +3,15 @@
         <p class="section-para">LTR Assembly Index (LAI) is a reference-free genome metric
             that evaluates assembly continuity using LTR-RTs. LTR retrotransposons (LTR-RTs) are the predominant
             interspersed repeat that is poorly assembled in draft genomes. Correcting for LTR-RT amplification dynamics,
-            LAI is independent of genome size, genomic LTR-RT content, and gene space evaluation metrics such as BUSCO.</p>
-        <b class="section-para">Reference:</b>
+            LAI is independent of genome size, genomic LTR-RT content, and gene space evaluation metrics such as BUSCO.
+        </p>
+        <p class="section-para"><b>Reference:</b></p>
         <p class="section-para">
             Shujun Ou, Jinfeng Chen, Ning Jiang, Assessing genome assembly quality using the LTR Assembly Index (LAI),
             Nucleic Acids Research, Volume 46, Issue 21, 30 November 2018, Page e126, <a
                 href="https://doi.org/10.1093/nar/gky730" target="_blank">https://doi.org/10.1093/nar/gky730</a>
         </p>
-        <b class="section-para">Version: {{ all_stats_dicts['VERSIONS']['LAI'] }}</b>
+        <p class="section-para"><b>Version: {{ all_stats_dicts['VERSIONS']['LAI'] }}</b></p>
     </div>
     {% include 'lai/dropdown.html' %}
     {% include 'lai/summary_contents.html' %}

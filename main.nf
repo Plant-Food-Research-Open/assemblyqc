@@ -161,6 +161,11 @@ workflow {
         LAI.out.list_of_outputs.ifEmpty([]),
         KRAKEN2.out.list_of_outputs.ifEmpty([]),
         HIC_CONTACT_MAP.out.list_of_html_files.ifEmpty([]),
-        SYNTENY.out.list_of_circos_plots.ifEmpty([])
+        SYNTENY.out.list_of_circos_plots.ifEmpty([]),
+        Channel.of("""
+        {
+            "ASSEMBLATHON_STATS_N_LIMIT": "${params.assamblathon_stats.n_limit}"
+        }
+        """)
     )
 }

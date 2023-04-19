@@ -16,6 +16,7 @@ process CREATE_REPORT {
         path kraken2_outputs, stageAs: 'kraken2_outputs/*'
         path hic_outputs, stageAs: 'hic_outputs/*'
         path circos_outputs, stageAs: 'circos_outputs/*'
+        val constants_json
 
     output:
         path 'report.html'
@@ -23,6 +24,7 @@ process CREATE_REPORT {
 
     script:
         """
+        echo -n '$constants_json' > constants.json
         report.py > report.html
         """ 
 }
