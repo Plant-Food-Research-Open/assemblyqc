@@ -75,8 +75,8 @@ process EDTA {
 }
 
 process RUN_LAI {
-    label 'uses_high_cpu_mem'
     if (params.lai.mode != "-qq") {
+        label 'uses_high_cpu_mem'
         label 'takes_six_days'
     }
     tag "${hap_name}"
