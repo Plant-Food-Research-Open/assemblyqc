@@ -1,5 +1,9 @@
 # Change Log
 
+## Version 0.10.1 (21-April-2023)
+
+1. Fixed a bug in the TIDK module which resulted in genome fasta file emptying in some cases.
+
 ## Version 0.10 (20-April-2023)
 
 1. Added Synteny Analysis.

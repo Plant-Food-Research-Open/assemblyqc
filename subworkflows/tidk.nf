@@ -73,7 +73,7 @@ process SORT_BY_SEQ_LENGTH {
     
     script:
         """
-        cat $fasta_file | seqkit sort --quiet --reverse --by-length > "${hap_name}.fasta"
+        cat $fasta_file | seqkit sort --quiet --reverse --by-length > "${hap_name}.seqkit.sort.fasta"
         """
 }
 
