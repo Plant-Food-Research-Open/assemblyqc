@@ -5,7 +5,7 @@
 - [AssemblyQC](#assemblyqc)
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
-  - [Contributos](#contributos)
+  - [Contributors](#contributors)
   - [Pipeline Flowchart](#pipeline-flowchart)
   - [Installation](#installation)
   - [Running the Pipeline](#running-the-pipeline)
@@ -21,9 +21,16 @@
 
 Welcome to AssemblyQC. This Nextflow pipeline evaluates assembly quality with well established tools and presents the results in a unified html report. The tools are shown in the [Pipeline Flowchart](#pipeline-flowchart) and their version are listed under [Software Versions & References](#software-versions--references).
 
-## Contributos
+## Contributors
 
-Cecilia Deng (@CeciliaDeng), Chen Wu (@christinawu2008), Jason Shiller (@jasonshiller), Ken Smith (@hzlnutspread), Marcus Davy (@mdavy86), Ross Crowhurst (@rosscrowhurst), Susan Thomson (@cflsjt), Usman Rashid (@GallVp)
+- Cecilia Deng [@CeciliaDeng](https://github.com/CeciliaDeng)
+- Chen Wu [@christinawu2008](https://github.com/christinawu2008)
+- Jason Shiller [@jasonshiller](https://github.com/jasonshiller)
+- Ken Smith [@hzlnutspread](https://github.com/hzlnutspread)
+- Marcus Davy [@mdavy86](https://github.com/mdavy86)
+- Ross Crowhurst [@rosscrowhurst](https://github.com/rosscrowhurst)
+- Susan Thomson [@cflsjt](https://github.com/cflsjt)
+- Usman Rashid [@GallVp](https://github.com/GallVp)
 
 ## Pipeline Flowchart
 
