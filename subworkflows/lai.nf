@@ -85,7 +85,7 @@ process RUN_LAI {
     publishDir "${params.outdir.main}/lai", mode: 'copy'
     
     input:
-        tuple val(hap_name), path(genome_fasta), path(pass_list), path(genome_out)
+        tuple val(hap_name), path(fasta_file), path(pass_list), path(genome_out)
     
     output:
         tuple path('*.LAI.log'), path('*.LAI.out') // reversed file name to avoid conflict 
@@ -94,7 +94,7 @@ process RUN_LAI {
         """
         LAI ${params.lai.mode} \
         -t ${task.cpus * params.ht_factor} \
-        -genome $genome_fasta \
+        -genome $fasta_file \
         -intact $pass_list \
         -all $genome_out > "${hap_name}.LAI.log"
 

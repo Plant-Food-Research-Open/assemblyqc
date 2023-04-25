@@ -29,67 +29,67 @@ workflow {
 
 
     // NCBI-FCS-ADAPTOR
-    Channel.fromList(params.genome_fasta)
+    Channel.fromList(params.target_assemblies)
     .map {
-        return [it[0], file(it[1], checkIfExists: true)] // [tag, genome fasta path]
+        return [it[0], file(it[1], checkIfExists: true)] // [tag, assembly fasta path]
     }
     | NCBI_FCS_ADAPTOR
 
     NCBI_FCS_ADAPTOR.out.clean_hap
-    .join(Channel.fromList(params.genome_fasta))
+    .join(Channel.fromList(params.target_assemblies))
     .map {
-        return [it[0], file(it[1], checkIfExists: true)] // [tag, genome fasta path]
+        return [it[0], file(it[1], checkIfExists: true)] // [tag, assembly fasta path]
     }
-    | set {ch_adaptor_clean_genome_fasta}
+    | set {ch_adaptor_clean_target_assemblies}
 
 
     // NCBI-FCS-GX
-    NCBI_FCS_GX(ch_adaptor_clean_genome_fasta)
+    NCBI_FCS_GX(ch_adaptor_clean_target_assemblies)
 
     NCBI_FCS_GX.out.clean_hap
-    .join(Channel.fromList(params.genome_fasta))
+    .join(Channel.fromList(params.target_assemblies))
     .map {
-        return [it[0], file(it[1], checkIfExists: true)] // [tag, genome fasta path]
+        return [it[0], file(it[1], checkIfExists: true)] // [tag, assembly fasta path]
     }
-    | set {ch_clean_genome_fasta}
+    | set {ch_clean_target_assemblies}
 
 
     // ASSEMBLATHON_STATS
-    ASSEMBLATHON_STATS(ch_clean_genome_fasta)
+    ASSEMBLATHON_STATS(ch_clean_target_assemblies)
     | collect
     | set { ch_general_stats }
     
     
     // BUSCO
     NCBI_FCS_GX.out.clean_hap
-    .join(Channel.fromList(params.genome_fasta))
+    .join(Channel.fromList(params.target_assemblies))
     .combine(Channel.fromList(params.busco.lineage_datasets))
     .map {
-        return [it[0], file(it[1], checkIfExists: true), it[2]] // [tag, genome fasta path, busco lineage]
+        return [it[0], file(it[1], checkIfExists: true), it[2]] // [tag, assembly fasta path, busco lineage]
     }
     | BUSCO
     
     // TIDK
-    TIDK(ch_clean_genome_fasta)
+    TIDK(ch_clean_target_assemblies)
     
     // LAI
     if (params.lai.pass_list == null || params.lai.out_file == null) {
-        ch_clean_genome_fasta
+        ch_clean_target_assemblies
         .join(
-            ch_clean_genome_fasta
+            ch_clean_target_assemblies
             .map {
                 return [it[0], null] // [tag, null]
             }
         )
         .join(
-            ch_clean_genome_fasta
+            ch_clean_target_assemblies
             .map {
                 return [it[0], null] // [tag, null]
             }
         )
         .set { ch_hap_genome_pass_out }
     } else {
-        ch_clean_genome_fasta
+        ch_clean_target_assemblies
         .join(
             Channel.fromList(params.lai.pass_list)
             .map {
@@ -108,7 +108,7 @@ workflow {
     LAI(ch_hap_genome_pass_out)
 
     // KRAKEN2
-    KRAKEN2(ch_clean_genome_fasta)
+    KRAKEN2(ch_clean_target_assemblies)
 
     // HIC_CONTACT_MAP
     if(!params.hic.skip) {
@@ -120,20 +120,20 @@ workflow {
     HIC_PREPROCESS(ch_paired_reads)
     | set { ch_cleaned_paired_reads }
 
-    ch_clean_genome_fasta
+    ch_clean_target_assemblies
     .combine(ch_cleaned_paired_reads)
     | HIC_CONTACT_MAP
 
     // SYNTENY
     if(!params.synteny.skip) {
-        ch_clean_genome_fasta
+        ch_clean_target_assemblies
         .join(
-            Channel.fromList(params.synteny.genome_seq_order)
+            Channel.fromList(params.synteny.genome_seq_list)
             .map {
                 return [it[0], file(it[1], checkIfExists: true)] // [tag, genome seq list path]
             }
         )
-        .set { ch_clean_genome_fasta_seq_list }
+        .set { ch_clean_target_assemblies_seq_list }
 
         Channel.fromList(params.synteny.xref_genomes)
         .map {
@@ -142,13 +142,13 @@ workflow {
         .set { ch_with_genomes }
     } else {
         Channel.empty()
-        .set { ch_clean_genome_fasta_seq_list }
+        .set { ch_clean_target_assemblies_seq_list }
 
         Channel.empty()
         .set { ch_with_genomes }
     }
 
-    SYNTENY(ch_clean_genome_fasta_seq_list, ch_with_genomes)
+    SYNTENY(ch_clean_target_assemblies_seq_list, ch_with_genomes)
 
     // CREATE REPORT
     CREATE_REPORT(

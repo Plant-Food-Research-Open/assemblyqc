@@ -77,7 +77,7 @@ cd assembly_qc/
 
 To run the pipeline on a new genome, edit the nextflow.config. The following parameters must be checked and modified accordingly:
 
-- genome_fasta
+- target_assemblies
 - genome_gff3
 - assamblathon_stats::n_limit
 - ncbi_fcs_adaptor::empire
@@ -87,7 +87,7 @@ To run the pipeline on a new genome, edit the nextflow.config. The following par
 - hic::reads_folder
 - hic::paired_reads
 - synteny::many_to_many_align
-- synteny::genome_seq_order
+- synteny::genome_seq_list
 - synteny::xref_genomes
 
 ### Post the NextFlow Process to Slurm
