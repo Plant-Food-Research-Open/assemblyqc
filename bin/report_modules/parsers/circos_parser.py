@@ -11,7 +11,7 @@ def parse_circos_folder(folder_name="circos_outputs"):
     if not os.path.exists(circos_folder_path):
         return {}
 
-    list_of_plot_files = circos_folder_path.glob("*.png")
+    list_of_plot_files = sorted([item for item in circos_folder_path.glob("*.png")])
 
     data = {"CIRCOS": []}
 

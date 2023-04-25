@@ -1,8 +1,14 @@
 # Change Log
 
-## Version 0.10.1 (21-April-2023)
+## Version 0.10.1 (26-April-2023)
 
 1. Fixed a bug in the TIDK module which resulted in genome fasta file emptying in some cases.
+2. Added a contributors section to README.md
+3. Generalized and simplified configuration parameters and annotations.
+4. Fixed a bug in synteny analysis where `between_target_asm` flag had no effect.
+5. Updated Juicebox.js to 2.4.3 so that HIC module works behind a VPN.
+6. Sorted the list of synteny plots.
+7. Removed auto-capitalization of text in the first column of report tables.
 
 ## Version 0.10 (20-April-2023)
 

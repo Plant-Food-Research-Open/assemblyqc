@@ -69,7 +69,7 @@ process SORT_BY_SEQ_LENGTH {
         tuple val(hap_name), path(fasta_file)
     
     output:
-        tuple val(hap_name), path("${hap_name}.fasta")
+        tuple val(hap_name), path("${hap_name}.seqkit.sort.fasta")
     
     script:
         """
