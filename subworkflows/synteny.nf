@@ -2,26 +2,33 @@ nextflow.enable.dsl=2
 
 workflow SYNTENY {
     take:
-        tuple_of_hap_genome_seq_list
-        tuple_of_tag_file
+        tuple_of_tag_fasta_seq_list
+        tuple_of_tag_xref_fasta_seq_list
     
     main:
-        if (!params.synteny.skip) {
+        if(!params.synteny.skip) {
         
-            tuple_of_hap_genome_seq_list
-            | map {
-                [it]
+            if(params.synteny.between_target_asm) {
+                tuple_of_tag_fasta_seq_list
+                | map {
+                    [it]
+                }
+                | collect
+                | map {
+                    getUniqueWithinCombinations(it)
+                }
+                | flatten
+                | buffer(size:6)
+                | set { ch_between_target_asm_combinations }
+            } else {
+                ch_between_target_asm_combinations = Channel.empty()
             }
-            | collect
-            | map {
-                getUniqueWithinCombinations(it)
-            }
-            | flatten
-            | buffer(size:6)
+            
+            ch_between_target_asm_combinations
             | mix(
-                tuple_of_hap_genome_seq_list
+                tuple_of_tag_fasta_seq_list
                 | combine(
-                    tuple_of_tag_file
+                    tuple_of_tag_xref_fasta_seq_list
                 )
             )
             | map { validateSeqLists(it) }
