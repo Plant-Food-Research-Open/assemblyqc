@@ -25,18 +25,28 @@ workflow SYNTENY {
             }
             
             ch_between_target_asm_combinations
-            | mix(
+            .mix(
                 tuple_of_tag_fasta_seq_list
                 | combine(
                     tuple_of_tag_xref_fasta_seq_list
                 )
             )
-            | map { validateSeqLists(it) }
-            | FILTER_SORT_RELABEL_FASTA
+            .map { validateSeqLists(it) }
+            .tap { ch_full_tap_from_all_combinations }
+            .map {
+                ["${it[0]}.on.${it[3]}", it[2], it[5]] // [target.on.reference, target_seq_list, ref_seq_list]    
+            }
+            .set { ch_seq_lists }
+            
+            
+            ch_full_tap_from_all_combinations
+            | FILTER_SORT_FASTA
             | MUMMER
             | DNADIFF
             | CIRCOS_BUNDLE_LINKS
             | ADD_COLOUR_TO_BUNDLE_LINKS
+            | join(ch_seq_lists)
+            | RELABEL_BUNDLE_LINKS
             | SPLIT_BUNDLE_FILE_BY_TARGET_SEQS
             | map {
                 flattenSplitBundles(it)
@@ -46,28 +56,32 @@ workflow SYNTENY {
             | set { ch_circos_split_bundle_links }
 
             GET_FASTA_LEN(
-                FILTER_SORT_RELABEL_FASTA.out.tags_fasta_files
+                FILTER_SORT_FASTA.out.tags_fasta_files
             )
+            | join(ch_seq_lists)
+            | RELABEL_FASTA_LEN
             | cross(
                 ch_circos_split_bundle_links
             )
             | map {
-                [it[0][0], it[1][1], it[1][2], it[0][1], it[0][2]] // [tag.on.tag, seq_tag, split_bundle_file, target_seq_len, ref_seq_len]
+                [it[0][0], it[1][1], it[1][2], it[0][1], it[0][2]] // [target.on.reference, seq_tag, split_bundle_file, target_seq_len, ref_seq_len]
             }
             | GENERATE_KARYOTYPE
             | join(
                 ch_circos_split_bundle_links
                 | map {
-                    ["${it[0]}.${it[1]}", it[2]] // [tag.on.tag.seq_tag, split_bundle_file]
+                    ["${it[0]}.${it[1]}", it[2]] // [target.on.reference.seq_tag, split_bundle_file]
                 }
             )
             | CIRCOS
 
-            CIRCOS
-            .out
-            .png_file
-            .collect()
-            .set{ ch_list_of_circos_plots }
+            // CIRCOS
+            // .out
+            // .png_file
+            // .collect()
+            // .set{ ch_list_of_circos_plots }
+
+            ch_list_of_circos_plots = Channel.of([])
         }
         else {
             ch_list_of_circos_plots = Channel.of([])
@@ -161,7 +175,7 @@ def extractBundleTag(filePath) {
    }
 }
 
-process FILTER_SORT_RELABEL_FASTA {
+process FILTER_SORT_FASTA {
     tag "${target}:${reference}"
     container "quay.io/biocontainers/samtools:1.16.1--h6899075_1"
 
@@ -175,24 +189,12 @@ process FILTER_SORT_RELABEL_FASTA {
         """
         samtools faidx $target_fasta \$(awk '{print \$1}' $target_seq_list) > filtered.ordered.target.fasta
         samtools faidx $ref_fasta \$(awk '{print \$1}' $ref_seq_list) > filtered.ordered.ref.fasta
-
-        while read -r id label; do
-            if grep -q "\$id" "filtered.ordered.target.fasta"; then
-                sed -i "s/\$id/\$label/g" "filtered.ordered.target.fasta"
-            fi
-        done < "$target_seq_list"
-
-        while read -r id label; do
-            if grep -q "\$id" "filtered.ordered.ref.fasta"; then
-                sed -i "s/\$id/\$label/g" "filtered.ordered.ref.fasta"
-            fi
-        done < "$ref_seq_list"
         """
 }
 
 process GET_FASTA_LEN {
     tag "${target}.on.${reference}"
-    container "quay.io/biocontainers/seqkit:2.3.1--h9ee0642_0"
+    container "quay.io/biocontainers/samtools:1.16.1--h6899075_1"
     
     input:        
         tuple val(target), val(reference), path(filtered_ordered_target_fasta), path(filtered_ordered_ref_fasta)
@@ -202,15 +204,11 @@ process GET_FASTA_LEN {
     
     script:
         """
-        awk '/^>/ {if (seqlen){print seqlen}; printf \$1" " ;seqlen=0;next; } { seqlen += length(\$0)}END{print seqlen}' $filtered_ordered_target_fasta \
-        | sed 's/>//1' \
-        | awk '{print \$1, \$2}' OFS='\\t' \
-        > target.seq.lengths
+        samtools faidx $filtered_ordered_target_fasta
+        samtools faidx $filtered_ordered_ref_fasta
 
-        awk '/^>/ {if (seqlen){print seqlen}; printf \$1" " ;seqlen=0;next; } { seqlen += length(\$0)}END{print seqlen}' $filtered_ordered_ref_fasta \
-        | sed 's/>//1' \
-        | awk '{print \$1, \$2}' OFS='\\t' \
-        > ref.seq.lengths
+        cat "${filtered_ordered_target_fasta}.fai" | awk '{print \$1, \$2}' OFS="\\t" > target.seq.lengths
+        cat "${filtered_ordered_ref_fasta}.fai" | awk '{print \$1, \$2}' OFS="\\t" > ref.seq.lengths
         """
 }
 
@@ -293,13 +291,77 @@ process ADD_COLOUR_TO_BUNDLE_LINKS {
         tuple val(target_on_ref), path(bundle_links)
     
     output:
-        tuple val(target_on_ref), path("*.xcoords.bundle.coloured.txt")
+        tuple val(target_on_ref), path("*.xcoords.bundle.coloured.txt"), emit: coloured_bundle_links
     
     script:
         """
         add_color_2_circos_bundle_file.pl \
         -i="${bundle_links}" \
         -o="\$(basename $bundle_links .bundle.txt).bundle.coloured.txt"
+        """
+}
+
+process RELABEL_BUNDLE_LINKS {
+    tag "${target_on_ref}"
+    conda 'environment.yml'
+    
+    input:
+        tuple val(target_on_ref), path(coloured_bundle_links), path(target_seq_list), path(ref_seq_list)
+    
+    output:
+        tuple val(target_on_ref), path("*.xcoords.bundle.coloured.relabeled.txt"), emit: relabeled_coloured_bundle_links
+    
+    script:
+        """
+        #!/usr/bin/env python
+
+        import pandas as pd
+        import os
+
+        subs_target_seq = pd.read_csv('$target_seq_list', sep='\\t', header=None)
+        subs_target_seq_dict = dict(zip(subs_target_seq.iloc[:, 0], subs_target_seq.iloc[:, 1]))
+
+        subs_ref_seq = pd.read_csv('$ref_seq_list', sep='\\t', header=None)
+        subs_ref_seq_dict = dict(zip(subs_ref_seq.iloc[:, 0], subs_ref_seq.iloc[:, 1]))
+        
+        df = pd.read_csv('$coloured_bundle_links', sep=' ', header=None)
+        
+        df.iloc[:, 3] = df.iloc[:, 3].replace(subs_target_seq_dict, regex=False)
+        df.iloc[:, 0] = df.iloc[:, 0].replace(subs_ref_seq_dict, regex=False)
+        
+        df.to_csv(".".join("$coloured_bundle_links".split(".")[0:-1]) + ".relabeled.txt", sep=' ', index=False, header=None)
+        """
+}
+
+process RELABEL_FASTA_LEN {
+    tag "${target_on_ref}"
+    conda 'environment.yml'
+    
+    input:
+        tuple val(target_on_ref), path(target_seq_lengths), path(ref_seq_lengths), path(target_seq_list), path(ref_seq_list)
+    
+    output:
+        tuple val(target_on_ref), path("relabeld.target.seq.lengths"), path("relabeld.ref.seq.lengths"), emit: relabeled_seq_lengths
+    
+    script:
+        """
+        #!/usr/bin/env python
+
+        import pandas as pd
+
+        subs_target_seq = pd.read_csv('$target_seq_list', sep='\\t', header=None)
+        subs_target_seq_dict = dict(zip(subs_target_seq.iloc[:, 0], subs_target_seq.iloc[:, 1]))
+
+        subs_ref_seq = pd.read_csv('$ref_seq_list', sep='\\t', header=None)
+        subs_ref_seq_dict = dict(zip(subs_ref_seq.iloc[:, 0], subs_ref_seq.iloc[:, 1]))
+        
+        df_target_seq_lengths = pd.read_csv('$target_seq_lengths', sep='\\t', header=None)
+        df_target_seq_lengths.iloc[:, 0] = df_target_seq_lengths.iloc[:, 0].replace(subs_target_seq_dict, regex=False)
+        df_target_seq_lengths.to_csv("relabeld.target.seq.lengths", sep='\\t', index=False, header=None)
+
+        df_ref_seq_lengths = pd.read_csv('$ref_seq_lengths', sep='\\t', header=None)
+        df_ref_seq_lengths.iloc[:, 0] = df_ref_seq_lengths.iloc[:, 0].replace(subs_ref_seq_dict, regex=False)
+        df_ref_seq_lengths.to_csv("relabeld.ref.seq.lengths", sep='\\t', index=False, header=None)
         """
 }
 
@@ -344,11 +406,11 @@ process GENERATE_KARYOTYPE {
         if [[ $seq_tag = "all" ]];then
             cat $target_seq_len > filtered.target.seq.len
         else
-            grep "$seq_tag" $target_seq_len > filtered.target.seq.len
+            grep -w "$seq_tag" $target_seq_len > filtered.target.seq.len
         fi
         cat filtered.target.seq.len | awk '{print \$1,\$2,"red"}' OFS="\t" > colored.filtered.target.seq.len
 
-        grep -f "\$tmp_file" $ref_seq_len > filtered.ref.seq.len
+        grep -w -f "\$tmp_file" $ref_seq_len > filtered.ref.seq.len
         cat filtered.ref.seq.len | awk '{print \$1,\$2,"blue"}' OFS="\t" > colored.filtered.ref.seq.len
 
         paste -d "\\n" colored.filtered.target.seq.len colored.filtered.ref.seq.len > merged.seq.lengths
