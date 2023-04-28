@@ -73,15 +73,16 @@ workflow SYNTENY {
                     ["${it[0]}.${it[1]}", it[2]] // [target.on.reference.seq_tag, split_bundle_file]
                 }
             )
+            | map {
+                failIfNumberOfLinksTooLarge(it, 20000)
+            }
             | CIRCOS
 
-            // CIRCOS
-            // .out
-            // .png_file
-            // .collect()
-            // .set{ ch_list_of_circos_plots }
-
-            ch_list_of_circos_plots = Channel.of([])
+            CIRCOS
+            .out
+            .png_file
+            .collect()
+            .set{ ch_list_of_circos_plots }
         }
         else {
             ch_list_of_circos_plots = Channel.of([])
@@ -160,9 +161,14 @@ def appendTags(tag, valuesArray) {
 }
 
 def flattenSplitBundles(inputArray) {
-    def tag_on_tag = inputArray[0]
+    def target_on_ref = inputArray[0]
     def files = inputArray[1]
-    return files.collect { [tag_on_tag, extractBundleTag(it), it] }
+
+    if(files in ArrayList) {
+        return files.collect { [target_on_ref, extractBundleTag(it), it] }
+    } else {
+        return [files].collect { [target_on_ref, extractBundleTag(it), it] }
+    }
 }
 
 def extractBundleTag(filePath) {
@@ -173,6 +179,22 @@ def extractBundleTag(filePath) {
    } else {
       throw new Exception("Error: Failed to parse the sequence tag from file name: ${filePath.getName()}")
    }
+}
+
+def failIfNumberOfLinksTooLarge(inputTuple, maxLinks) {
+
+    filePath = inputTuple[2]
+
+    def lineCount = 0
+    file(filePath).eachLine {
+        lineCount++
+        if (lineCount > maxLinks) {
+            throw new RuntimeException("Link count exceeded ${maxLinks} for ${filePath}." +
+            " Try to shrink the number of links by increasing the max_gap and min_bundle_size options in the config file.")
+        }
+    }
+
+    return inputTuple
 }
 
 process FILTER_SORT_FASTA {
@@ -217,8 +239,7 @@ process MUMMER {
     label 'uses_high_cpu_mem'
     label 'uses_64_gb_mem'
     label 'takes_four_hours'
-    container "docker://staphb/mummer:4.0.0" 
-    publishDir "${params.outdir.main}/synteny/nucmer", mode: 'copy'
+    container "docker://staphb/mummer:4.0.0"
 
     input:
         tuple val(target), val(reference), path(target_fasta), path(ref_fasta)
@@ -239,8 +260,7 @@ process MUMMER {
 
 process DNADIFF {
     tag "${target_on_ref}"
-    container "docker://staphb/mummer:4.0.0" 
-    publishDir "${params.outdir.main}/synteny/dnadiff", mode: 'copy'
+    container "docker://staphb/mummer:4.0.0"
 
     input:
         tuple val(target_on_ref), path(dnadiff_file)
@@ -278,6 +298,8 @@ process CIRCOS_BUNDLE_LINKS {
 
         /usr/share/circos/tools/bundlelinks/bin/bundlelinks \
         -links "\$(basename $coords_file).links.txt" \
+        -max_gap "${params.synteny.max_gap}" \
+        -min_bundle_size "${params.synteny.min_bundle_size}" \
         1>"\$(basename $coords_file).bundle.txt" \
         2>bundlelinks.err
         """
@@ -285,7 +307,6 @@ process CIRCOS_BUNDLE_LINKS {
 
 process ADD_COLOUR_TO_BUNDLE_LINKS {
     tag "${target_on_ref}"
-    publishDir "${params.outdir.main}/synteny/bundlelinks", mode: 'copy'
 
     input:
         tuple val(target_on_ref), path(bundle_links)
@@ -316,7 +337,9 @@ process RELABEL_BUNDLE_LINKS {
         #!/usr/bin/env python
 
         import pandas as pd
-        import os
+        import sys
+
+        output_file_name = ".".join("$coloured_bundle_links".split(".")[0:-1]) + ".relabeled.txt"
 
         subs_target_seq = pd.read_csv('$target_seq_list', sep='\\t', header=None)
         subs_target_seq_dict = dict(zip(subs_target_seq.iloc[:, 0], subs_target_seq.iloc[:, 1]))
@@ -325,11 +348,16 @@ process RELABEL_BUNDLE_LINKS {
         subs_ref_seq_dict = dict(zip(subs_ref_seq.iloc[:, 0], subs_ref_seq.iloc[:, 1]))
         
         df = pd.read_csv('$coloured_bundle_links', sep=' ', header=None)
+
+        if df.empty:
+            with open(output_file_name, 'w') as f:
+                f.write('')
+            sys.exit(0)
         
         df.iloc[:, 3] = df.iloc[:, 3].replace(subs_target_seq_dict, regex=False)
         df.iloc[:, 0] = df.iloc[:, 0].replace(subs_ref_seq_dict, regex=False)
         
-        df.to_csv(".".join("$coloured_bundle_links".split(".")[0:-1]) + ".relabeled.txt", sep=' ', index=False, header=None)
+        df.to_csv(output_file_name, sep=' ', index=False, header=None)
         """
 }
 
@@ -376,13 +404,15 @@ process SPLIT_BUNDLE_FILE_BY_TARGET_SEQS {
     
     script:
         """
-        target_seqs=(\$(awk '{print \$4}' $coloured_bundle_links | sort | uniq))
-
-        for i in "\${!target_seqs[@]}"
-        do
-            target_seq=\${target_seqs[\$i]}
-            awk -v seq="\$target_seq" '\$4==seq {print \$0}' $coloured_bundle_links > "${target_on_ref}.\${target_seq}.split.bundle.txt"
-        done
+        if [[ "${params.synteny.plot_1_vs_all}" = "1" ]];then
+            target_seqs=(\$(awk '{print \$4}' $coloured_bundle_links | sort | uniq))
+            
+            for i in "\${!target_seqs[@]}"
+            do
+                target_seq=\${target_seqs[\$i]}
+                awk -v seq="\$target_seq" '\$4==seq {print \$0}' $coloured_bundle_links > "${target_on_ref}.\${target_seq}.split.bundle.txt"
+            done
+        fi
 
         cat $coloured_bundle_links > "${target_on_ref}.all.split.bundle.txt"
         """
@@ -424,18 +454,62 @@ process GENERATE_KARYOTYPE {
 process CIRCOS {
     tag "${target_on_ref_seq}"
     container "docker://gallvp/circos-tools:0.23-1" 
-    publishDir "${params.outdir.main}/synteny", mode: 'copy'
+    publishDir "${params.outdir.main}/synteny/${target_on_ref_seq}", mode: 'copy'
 
     input:
-        tuple val(target_on_ref_seq), val(karyotype), path(bundle_file)
+        tuple val(target_on_ref_seq), path(karyotype), path(bundle_file)
     
     output:
         path "*.svg", emit: svg_file
         path "*.png", emit: png_file
+        path "bundled.links.tsv", emit: bundled_links_tsv
+        path "circos.conf", emit: circos_conf
+        path "karyotype.tsv", emit: karyotype_tsv
     
     script:
         """
+        cat $karyotype > "karyotype.tsv"
         cat $bundle_file | awk '{print \$1,\$2,\$3,\$4,\$5,\$6,\$7}' OFS="\\t" > bundled.links.tsv
+
+        num_sequences=\$(cat $karyotype | wc -l)
+        if (( \$num_sequences <= 10 )); then
+            label_font_size=50
+        elif (( \$num_sequences <= 30 )); then
+            label_font_size=30
+        else
+            label_font_size=15
+        fi
+
+        if (( \$num_sequences <= 10 )); then
+            ticks_config="<ticks>
+            radius                      = dims(ideogram,radius_outer)
+            orientation                 = out
+            label_multiplier            = 1e-6
+            color                       = black
+            thickness                   = 5p
+            label_offset                = 5p
+            <tick>
+                spacing                 = 0.5u
+                size                    = 10p
+                show_label              = yes
+                label_size              = 20p
+                format                  = %.1f
+            </tick>
+            <tick>
+                spacing                 = 1.0u
+                size                    = 15p
+                show_label              = yes
+                label_size              = 30p
+                format                  = %.1f
+            </tick>
+            </ticks>"
+            
+            label_offset=" + 100p"
+        else
+            ticks_config=""
+            
+            label_offset=" + 25p"
+        fi
 
         cat <<- EOF > circos.conf
         # circos.conf
@@ -452,9 +526,9 @@ process CIRCOS {
             stroke_thickness        = 0
 
             show_label              = yes
-            label_font              = default 
-            label_radius            = dims(ideogram,radius_outer) + 100p
-            label_size              = 50
+            label_font              = default
+            label_radius            = dims(ideogram,radius_outer)\$label_offset
+            label_size              = \$label_font_size
             label_parallel          = yes
         </ideogram>
 
@@ -477,28 +551,8 @@ process CIRCOS {
         show_tick_labels            = yes
         chromosomes_units           = 1000000
         chromosomes_display_default = yes
-        <ticks>
-        radius                      = dims(ideogram,radius_outer)
-        orientation                 = out
-        label_multiplier            = 1e-6
-        color                       = black
-        thickness                   = 5p
-        label_offset                = 5p
-        <tick>
-            spacing                 = 0.5u
-            size                    = 10p
-            show_label              = yes
-            label_size              = 20p
-            format                  = %.1f
-        </tick>
-        <tick>
-            spacing                 = 1.0u
-            size                    = 15p
-            show_label              = yes
-            label_size              = 30p
-            format                  = %.1f
-        </tick>
-        </ticks>
+        
+        \$ticks_config
         
         <image>
             <<include /usr/share/circos/etc/image.conf>>

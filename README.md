@@ -86,7 +86,6 @@ To run the pipeline on a new genome, edit the nextflow.config. The following par
 - tidk::repeat_seq
 - hic::reads_folder
 - hic::paired_reads
-- synteny::many_to_many_align
 - synteny::genome_seq_list
 - synteny::xref_genomes
 

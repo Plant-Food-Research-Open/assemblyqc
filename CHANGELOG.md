@@ -10,6 +10,9 @@
 6. Sorted the list of synteny plots.
 7. Removed auto-capitalization of text in the first column of report tables.
 8. Fixed a bug in the synteny module which resulted in incorrect inclusion of target sequences in 1-vs-all synteny maps.
+9. In the synteny plot, label font size and ticks are now responsive to the number of sequences.
+10. Added the `plot_1_vs_all` option in the synteny module.
+11. Added `max_gap` and `min_bundle_size` options to the synteny module.
 
 ## Version 0.10 (20-April-2023)
 
