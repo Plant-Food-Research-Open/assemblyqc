@@ -338,6 +338,7 @@ process RELABEL_BUNDLE_LINKS {
 
         import pandas as pd
         import sys
+        import os
 
         output_file_name = ".".join("$coloured_bundle_links".split(".")[0:-1]) + ".relabeled.txt"
 
@@ -347,12 +348,12 @@ process RELABEL_BUNDLE_LINKS {
         subs_ref_seq = pd.read_csv('$ref_seq_list', sep='\\t', header=None)
         subs_ref_seq_dict = dict(zip(subs_ref_seq.iloc[:, 0], subs_ref_seq.iloc[:, 1]))
         
-        df = pd.read_csv('$coloured_bundle_links', sep=' ', header=None)
-
-        if df.empty:
+        if os.path.getsize('$coloured_bundle_links') == 0:
             with open(output_file_name, 'w') as f:
                 f.write('')
             sys.exit(0)
+        else:
+            df = pd.read_csv('$coloured_bundle_links', sep=' ', header=None)
         
         df.iloc[:, 3] = df.iloc[:, 3].replace(subs_target_seq_dict, regex=False)
         df.iloc[:, 0] = df.iloc[:, 0].replace(subs_ref_seq_dict, regex=False)
@@ -430,6 +431,12 @@ process GENERATE_KARYOTYPE {
     script:
         """
         ref_seqs=(\$(awk '{print \$1}' $split_bundle_file | sort | uniq))
+
+        if [ \${#ref_seqs[@]} -eq 0 ]; then
+            touch "${target_on_ref}.${seq_tag}.karyotype"
+            exit 0
+        fi
+
         tmp_file=\$(mktemp)
         printf '%s\\n' "\${ref_seqs[@]}" > "\$tmp_file"
 
@@ -438,14 +445,14 @@ process GENERATE_KARYOTYPE {
         else
             grep -w "$seq_tag" $target_seq_len > filtered.target.seq.len
         fi
-        cat filtered.target.seq.len | awk '{print \$1,\$2,"red"}' OFS="\t" > colored.filtered.target.seq.len
+        cat filtered.target.seq.len | awk '{print \$1,\$2,"red"}' OFS="\\t" > colored.filtered.target.seq.len
 
         grep -w -f "\$tmp_file" $ref_seq_len > filtered.ref.seq.len
-        cat filtered.ref.seq.len | awk '{print \$1,\$2,"blue"}' OFS="\t" > colored.filtered.ref.seq.len
+        cat filtered.ref.seq.len | awk '{print \$1,\$2,"blue"}' OFS="\\t" > colored.filtered.ref.seq.len
 
         paste -d "\\n" colored.filtered.target.seq.len colored.filtered.ref.seq.len > merged.seq.lengths
         sed -i '/^\$/d' merged.seq.lengths
-        cat merged.seq.lengths | awk '{print "chr -",\$1,\$1,"0",\$2-1,\$3}' OFS="\t" > "${target_on_ref}.${seq_tag}.karyotype"
+        cat merged.seq.lengths | awk '{print "chr -",\$1,\$1,"0",\$2-1,\$3}' OFS="\\t" > "${target_on_ref}.${seq_tag}.karyotype"
 
         rm "\$tmp_file"
         """
@@ -468,6 +475,7 @@ process CIRCOS {
     
     script:
         """
+
         cat $karyotype > "karyotype.tsv"
         cat $bundle_file | awk '{print \$1,\$2,\$3,\$4,\$5,\$6,\$7}' OFS="\\t" > bundled.links.tsv
 
@@ -560,6 +568,12 @@ process CIRCOS {
         <<include /usr/share/circos/etc/colors_fonts_patterns.conf>>
         <<include /usr/share/circos/etc/housekeeping.conf>>
 EOF
+
+        if [ ! -s $karyotype ]; then
+            touch "${target_on_ref_seq}.svg"
+            touch "${target_on_ref_seq}.png"
+            exit 0
+        fi
 
         circos
 
