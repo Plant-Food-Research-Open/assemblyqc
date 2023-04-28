@@ -473,7 +473,7 @@ process CIRCOS {
 
         num_sequences=\$(cat $karyotype | wc -l)
         if (( \$num_sequences <= 10 )); then
-            label_font_size=50
+            label_font_size=40
         elif (( \$num_sequences <= 30 )); then
             label_font_size=30
         else
@@ -504,7 +504,7 @@ process CIRCOS {
             </tick>
             </ticks>"
             
-            label_offset=" + 100p"
+            label_offset=" + 120p"
         else
             ticks_config=""
             
