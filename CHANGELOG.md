@@ -1,6 +1,6 @@
 # Change Log
 
-## Version 0.10.1 (27-April-2023)
+## Version 0.10.1 (28-April-2023)
 
 1. Fixed a bug in the TIDK module which resulted in genome fasta file emptying in some cases.
 2. Added a contributors section to README.md
