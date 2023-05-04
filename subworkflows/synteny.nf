@@ -309,6 +309,7 @@ process CIRCOS_BUNDLE_LINKS {
 
 process ADD_COLOUR_TO_BUNDLE_LINKS {
     tag "${target_on_ref}"
+    conda 'environment.yml'
 
     input:
         tuple val(target_on_ref), path(bundle_links)
@@ -318,9 +319,15 @@ process ADD_COLOUR_TO_BUNDLE_LINKS {
     
     script:
         """
-        add_color_2_circos_bundle_file.pl \
-        -i="${bundle_links}" \
-        -o="\$(basename $bundle_links .bundle.txt).bundle.coloured.txt"
+        if [[ "${params.synteny.color_by_contig}" = "1" ]];then
+            color_circos_bundles_by_contig.py \
+            "${bundle_links}" \
+            > "\$(basename $bundle_links .bundle.txt).bundle.coloured.txt"
+        else
+            add_color_2_circos_bundle_file.pl \
+            -i="${bundle_links}" \
+            -o="\$(basename $bundle_links .bundle.txt).bundle.coloured.txt"
+        fi
         """
 }
 
@@ -447,10 +454,10 @@ process GENERATE_KARYOTYPE {
         else
             grep -w "$seq_tag" $target_seq_len > filtered.target.seq.len
         fi
-        cat filtered.target.seq.len | awk '{print \$1,\$2,"red"}' OFS="\\t" > colored.filtered.target.seq.len
+        cat filtered.target.seq.len | awk '{print \$1,\$2,"grey"}' OFS="\\t" > colored.filtered.target.seq.len
 
         grep -w -f "\$tmp_file" $ref_seq_len > filtered.ref.seq.len
-        cat filtered.ref.seq.len | awk '{print \$1,\$2,"blue"}' OFS="\\t" > colored.filtered.ref.seq.len
+        cat filtered.ref.seq.len | awk '{print \$1,\$2,"black"}' OFS="\\t" > colored.filtered.ref.seq.len
 
         cat colored.filtered.ref.seq.len | sort -k1V > merged.seq.lengths
         cat colored.filtered.target.seq.len | sort -k1Vr >> merged.seq.lengths

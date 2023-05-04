@@ -3,7 +3,8 @@
 ## Version 0.10.2 (04-May-2023)
 
 1. Allowed 2 hours for DNADIFF and CIRCOS_BUNDLE_LINKS modules.
-2. Chromosomes are now ordered by number on the synteny plot.
+2. Contigs are now ordered by number on the synteny plot.
+3. Added `color_by_contig` option to the synteny module along with a maximum contrast color generator.
 
 ## Version 0.10.1 (28-April-2023)
 
