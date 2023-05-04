@@ -1,5 +1,9 @@
 # Change Log
 
+## Version 0.10.2 (04-May-2023)
+
+1. Allowed 2 hours for DNADIFF and CIRCOS_BUNDLE_LINKS modules.
+
 ## Version 0.10.1 (28-April-2023)
 
 1. Fixed a bug in the TIDK module which resulted in genome fasta file emptying in some cases.

@@ -260,6 +260,7 @@ process MUMMER {
 
 process DNADIFF {
     tag "${target_on_ref}"
+    label 'takes_two_hours'
     container "docker://staphb/mummer:4.0.0"
 
     input:
@@ -284,6 +285,7 @@ process DNADIFF {
 
 process CIRCOS_BUNDLE_LINKS {
     tag "${target_on_ref}"
+    label 'takes_two_hours'
     container "docker://gallvp/circos-tools:0.23-1"
 
     input:

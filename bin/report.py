@@ -39,7 +39,7 @@ if __name__ == "__main__":
     data_from_tools = {
         **data_from_tools,
         "VERSIONS": {
-            "SELF": "v0.10.1",
+            "SELF": "v0.10.2",
             "NCBI_FCS_ADAPTOR": "0.4",
             "NCBI_FCS_GX": "0.4",
             "ASSEMBLATHON_STATS": "github/PlantandFoodResearch/assemblathon2-analysis/a93cba2",
