@@ -452,9 +452,13 @@ process GENERATE_KARYOTYPE {
         grep -w -f "\$tmp_file" $ref_seq_len > filtered.ref.seq.len
         cat filtered.ref.seq.len | awk '{print \$1,\$2,"blue"}' OFS="\\t" > colored.filtered.ref.seq.len
 
-        paste -d "\\n" colored.filtered.target.seq.len colored.filtered.ref.seq.len > merged.seq.lengths
+        cat colored.filtered.ref.seq.len | sort -k1V > merged.seq.lengths
+        cat colored.filtered.target.seq.len | sort -k1Vr >> merged.seq.lengths
         sed -i '/^\$/d' merged.seq.lengths
-        cat merged.seq.lengths | awk '{print "chr -",\$1,\$1,"0",\$2-1,\$3}' OFS="\\t" > "${target_on_ref}.${seq_tag}.karyotype"
+        
+        cat merged.seq.lengths \
+        | awk '{print "chr -",\$1,\$1,"0",\$2-1,\$3}' OFS="\\t" \
+        > "${target_on_ref}.${seq_tag}.karyotype"
 
         rm "\$tmp_file"
         """
