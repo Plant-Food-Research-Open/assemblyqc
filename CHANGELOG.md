@@ -3,6 +3,8 @@
 ## Version 0.10.3 (08-May-2023)
 
 1. Improved annotation of the config file.
+2. Now using natural sort in the synteny color generator so that chr10's color is assigned after chr9's color.
+3. Removed global variable definitions in the synteny module in the hope of improving resumability of the pipeline.
 
 ## Version 0.10.2 (04-May-2023)
 

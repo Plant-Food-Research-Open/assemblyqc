@@ -117,8 +117,8 @@ def getUniqueWithinCombinations(inputArray) {
 
 def validateSeqLists(inputArray) {
 
-    file1 = inputArray[2]
-    file2 = inputArray[5]
+    def file1 = inputArray[2]
+    def file2 = inputArray[5]
 
     def lines1 = file(file1).readLines()
     def lines2 = file(file2).readLines()
@@ -183,7 +183,7 @@ def extractBundleTag(filePath) {
 
 def failIfNumberOfLinksTooLarge(inputTuple, maxLinks) {
 
-    filePath = inputTuple[2]
+    def filePath = inputTuple[2]
 
     def lineCount = 0
     file(filePath).eachLine {

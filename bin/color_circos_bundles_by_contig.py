@@ -1,8 +1,14 @@
 #!/usr/bin/env python
 
 import sys
+import re
 
 bundled_links_file_name = sys.argv[1]
+
+
+def natural_key(string):
+    """Return a list of keys that sort naturally."""
+    return [int(s) if s.isdigit() else s for s in re.split(r"(\d+)", string)]
 
 
 def hsv2rgb(h, s, v):
@@ -57,7 +63,7 @@ def generate_colors_by_ids(bundle_file_lines):
     )  # index 3: Target ids
     num_unique_ids = len(unique_ids)
     colors = generate_colors(num_unique_ids)
-    return dict(zip(sorted(unique_ids), colors))
+    return dict(zip(sorted(unique_ids, key=natural_key), colors))
 
 
 if __name__ == "__main__":
