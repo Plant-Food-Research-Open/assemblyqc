@@ -29,7 +29,7 @@ Welcome to AssemblyQC. This Nextflow pipeline evaluates assembly quality with we
 
 ```mermaid
 flowchart LR
-  forEachHap[Foreach\nGenome] --> ncbiFCS{NCBI FCS Adaptor}
+  forEachHap[Foreach\nAssembly] --> ncbiFCS{NCBI FCS Adaptor}
   ncbiFCS --> |Contaminated|Skip[Skip]
   ncbiFCS --> |Clean|ncbiGX{NCBI FCS GX}
 
@@ -75,10 +75,10 @@ cd assembly_qc/
 
 ## Running the Pipeline
 
-To run the pipeline on a new genome, edit the nextflow.config. The following parameters must be checked and modified accordingly:
+To run the pipeline on a new assembly, edit the nextflow.config. The following parameters must be checked and modified accordingly:
 
 - target_assemblies
-- genome_gff3
+- assembly_gff3
 - assamblathon_stats::n_limit
 - ncbi_fcs_adaptor::empire
 - ncbi_fcs_gx::tax_id
@@ -86,8 +86,8 @@ To run the pipeline on a new genome, edit the nextflow.config. The following par
 - tidk::repeat_seq
 - hic::reads_folder
 - hic::paired_reads
-- synteny::genome_seq_list
-- synteny::xref_genomes
+- synteny::assembly_seq_list
+- synteny::xref_assemblies
 
 ### Post the NextFlow Process to Slurm
 

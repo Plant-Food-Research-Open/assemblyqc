@@ -1,5 +1,9 @@
 # Change Log
 
+## Version 0.10.3 (08-May-2023)
+
+1. Improved annotation of the config file.
+
 ## Version 0.10.2 (04-May-2023)
 
 1. Allowed 2 hours for DNADIFF and CIRCOS_BUNDLE_LINKS modules.

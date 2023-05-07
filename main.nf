@@ -19,9 +19,9 @@ include { GENOMETOOLS_GT_STAT   } from './modules/genometools_gt_stat.nf'
 workflow {
 
     // GENOMETOOLS_GT_STAT
-    Channel.fromList(params.genome_gff3)
+    Channel.fromList(params.assembly_gff3)
     .map {
-        return [it[0], file(it[1], checkIfExists: true)] // [tag, genome gff3 path]
+        return [it[0], file(it[1], checkIfExists: true)] // [tag, assembly gff3 path]
     }
     | GENOMETOOLS_GT_STAT
     | collect
@@ -87,7 +87,7 @@ workflow {
                 return [it[0], null] // [tag, null]
             }
         )
-        .set { ch_hap_genome_pass_out }
+        .set { ch_hap_assembly_pass_out }
     } else {
         ch_clean_target_assemblies
         .join(
@@ -102,10 +102,10 @@ workflow {
                 return [it[0], file(it[1], checkIfExists: true)] // [tag, out file path]
             }
         )
-        .set { ch_hap_genome_pass_out }
+        .set { ch_hap_assembly_pass_out }
     }
 
-    LAI(ch_hap_genome_pass_out)
+    LAI(ch_hap_assembly_pass_out)
 
     // KRAKEN2
     KRAKEN2(ch_clean_target_assemblies)
@@ -128,27 +128,27 @@ workflow {
     if(!params.synteny.skip) {
         ch_clean_target_assemblies
         .join(
-            Channel.fromList(params.synteny.genome_seq_list)
+            Channel.fromList(params.synteny.assembly_seq_list)
             .map {
-                return [it[0], file(it[1], checkIfExists: true)] // [tag, genome seq list path]
+                return [it[0], file(it[1], checkIfExists: true)] // [tag, assembly seq list path]
             }
         )
         .set { ch_clean_target_assemblies_seq_list }
 
-        Channel.fromList(params.synteny.xref_genomes)
+        Channel.fromList(params.synteny.xref_assemblies)
         .map {
-            return [it[0], file(it[1], checkIfExists: true), file(it[2], checkIfExists: true)] // [tag, xref genome fasta file path, seq list path]
+            return [it[0], file(it[1], checkIfExists: true), file(it[2], checkIfExists: true)] // [tag, xref assembly fasta file path, seq list path]
         }
-        .set { ch_with_genomes }
+        .set { ch_with_assemblies }
     } else {
         Channel.empty()
         .set { ch_clean_target_assemblies_seq_list }
 
         Channel.empty()
-        .set { ch_with_genomes }
+        .set { ch_with_assemblies }
     }
 
-    SYNTENY(ch_clean_target_assemblies_seq_list, ch_with_genomes)
+    SYNTENY(ch_clean_target_assemblies_seq_list, ch_with_assemblies)
 
     // CREATE REPORT
     CREATE_REPORT(
