@@ -7,6 +7,7 @@
 3. Removed global variable definitions in the synteny module in the hope of improving resume-ability.
 4. Now all the processes have unique tags. This ensures traceability and resume-ability.
 5. CRITICAL: Fixed a bug in the HIC module due to which the pipeline failed to resume properly in some cases. This bug may have also caused mislabelling of the output hic file such that `hap1.hic` may be labelled as `hap2.hic` and vice versa.
+6. Added GPLv3 license.
 
 ## Version 0.10.2 (04-May-2023)
 
