@@ -8,17 +8,27 @@ include { RUN_ASSEMBLY_VISUALIZER   } from '../modules/run_assembly_visualizer.n
 
 workflow CREATE_HIC_FILE {
     take:
-        assembly_fasta
-        bam_file
-        hap_tag
+        create_hic_file_inputs // [sample_id.on.tag, assembly_fasta, alignment_bam]
 
     main:
-        ch_agp_file                     = MAKE_AGP_FROM_FASTA(assembly_fasta)
-        ch_assembly_file                = AGP2_ASSEMBLY(ch_agp_file, hap_tag)
-        ch_txt_file                     = MATLOCK_BAM2_JUICER(bam_file)
-        ch_hic_file                     = RUN_ASSEMBLY_VISUALIZER(ch_assembly_file, ch_txt_file, hap_tag)
-        ch_bedpe_file                   = ASSEMBLY2_BEDPE(ch_assembly_file, hap_tag)
+        create_hic_file_inputs
+        | map {
+            [it[0], it[1]] // [sample_id.on.tag, assembly_fasta]
+        }
+        | MAKE_AGP_FROM_FASTA
+        | AGP2_ASSEMBLY
+        | ASSEMBLY2_BEDPE
+
+        create_hic_file_inputs
+        | map {
+            [it[0], it[2]] // [sample_id.on.tag, alignment_bam]
+        }
+        | MATLOCK_BAM2_JUICER
+
+        AGP2_ASSEMBLY.out.agp_assembly_file
+        | join(MATLOCK_BAM2_JUICER.out.sorted_links_txt_file) // [sample_id.on.tag, agp_assembly_file, sorted_links_txt_file]
+        | RUN_ASSEMBLY_VISUALIZER
 
     emit:
-        hic_file                        = ch_hic_file
+        hic_file = RUN_ASSEMBLY_VISUALIZER.out.hic_file // [sample_id_on_tag, hic_file]
 }

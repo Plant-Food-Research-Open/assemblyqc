@@ -21,9 +21,9 @@ workflow HIC_PREPROCESS {
 }
 
 process FASTP {
+    tag "$sample_id"
     label "uses_four_cpus"
     label "takes_four_hours"
-    tag "$sample_id"
     container "quay.io/biocontainers/fastp:0.23.2--h5f740d0_3"
 
     input: 
@@ -47,9 +47,9 @@ process FASTP {
 
 
 process FAST_QC {
+    tag "$sample_id"
     label 'uses_four_cpus'
     label "takes_four_hours"
-    tag "$sample_id"
     publishDir "${params.outdir.main}/hic/fastqc", mode:'copy'
     container "quay.io/biocontainers/fastqc:0.11.9--hdfd78af_1"
 

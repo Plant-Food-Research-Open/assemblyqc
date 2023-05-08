@@ -1,14 +1,15 @@
 nextflow.enable.dsl=2
 
 process MATLOCK_BAM2_JUICER {
+    tag "$sample_id_on_tag"
 
     container "quay.io/biocontainers/matlock:20181227--h4b03ef3_3"
 
     input:
-        path hic_bam_scaffolds
+        tuple val(sample_id_on_tag), path(hic_bam_scaffolds)
 
     output:
-        path '*sorted.links.txt'
+        tuple val(sample_id_on_tag), path("*sorted.links.txt"), emit: sorted_links_txt_file
 
     script:
         """

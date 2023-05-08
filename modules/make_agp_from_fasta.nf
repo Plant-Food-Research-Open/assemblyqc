@@ -1,18 +1,19 @@
 nextflow.enable.dsl=2
 
 process MAKE_AGP_FROM_FASTA {
+    tag "$sample_id_on_tag"
 
     container "docker://gallvp/juicebox_scripts:a7ae991"
     
     input:
-        path fasta_file
+        tuple val(sample_id_on_tag), path(assembly_fasta)
 
     output:
-        path '*.agp'
+        tuple val(sample_id_on_tag), path("*.agp"), emit: agp_file
 
     script:
         """
-        file_name="$fasta_file"
-        makeAgpFromFasta.py $fasta_file "\${file_name%%.*}.agp"
+        file_name="$assembly_fasta"
+        makeAgpFromFasta.py $assembly_fasta "\${file_name%%.*}.agp"
         """
 }

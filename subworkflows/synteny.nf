@@ -198,7 +198,7 @@ def failIfNumberOfLinksTooLarge(inputTuple, maxLinks) {
 }
 
 process FILTER_SORT_FASTA {
-    tag "${target}:${reference}"
+    tag "${target}.on.${reference}"
     container "quay.io/biocontainers/samtools:1.16.1--h6899075_1"
 
     input:

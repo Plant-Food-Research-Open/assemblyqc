@@ -4,7 +4,9 @@
 
 1. Improved annotation of the config file.
 2. Now using natural sort in the synteny color generator so that chr10's color is assigned after chr9's color.
-3. Removed global variable definitions in the synteny module in the hope of improving resumability of the pipeline.
+3. Removed global variable definitions in the synteny module in the hope of improving resume-ability.
+4. Now all the processes have unique tags. This ensures traceability and resume-ability.
+5. CRITICAL: Fixed a bug in the HIC module due to which the pipeline failed to resume properly in some cases. This bug may have also caused mislabelling of the output hic file such that `hap1.hic` may be labelled as `hap2.hic` and vice versa.
 
 ## Version 0.10.2 (04-May-2023)
 

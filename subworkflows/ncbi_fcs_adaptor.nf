@@ -61,6 +61,7 @@ See the report for further details.
 }
 
 process SETUP_SCRIPTS {
+    tag "setup"
 
     output:
         stdout

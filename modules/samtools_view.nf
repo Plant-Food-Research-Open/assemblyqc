@@ -1,15 +1,16 @@
 nextflow.enable.dsl=2
 
 process SAMTOOLS_VIEW {
+    tag "$sample_id_on_tag"
 
     label 'uses_high_cpu_mem'
     container "quay.io/biocontainers/samtools:1.16.1--h6899075_1"
 
     input:
-        path marked_sam
+        tuple val(sample_id_on_tag), path(marked_sam)
 
     output:
-        path '*.bam', emit: dedup_bam
+        tuple val(sample_id_on_tag), path("*_dedup.bam"), emit: dedup_bam
 
     script:
         """

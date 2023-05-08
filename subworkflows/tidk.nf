@@ -51,6 +51,7 @@ workflow TIDK {
 }
 
 process GET_APRIORI_SEQUENCE {
+    tag "setup"
 
     output:
         path("a_priori.sequence")

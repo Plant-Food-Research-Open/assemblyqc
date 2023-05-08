@@ -121,7 +121,7 @@ workflow {
     | set { ch_cleaned_paired_reads }
 
     ch_clean_target_assemblies
-    .combine(ch_cleaned_paired_reads)
+    .combine(ch_cleaned_paired_reads) // [tag, assembly_fasta, sample_id, [R1, R2]]
     | HIC_CONTACT_MAP
 
     // SYNTENY

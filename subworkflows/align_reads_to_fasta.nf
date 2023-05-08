@@ -6,15 +6,13 @@ include { SAMTOOLS_VIEW         } from '../modules/samtools_view.nf'
 
 workflow ALIGN_READS_TO_FASTA {
     take:
-        paired_reads
-        fasta_file
+        align_reads_to_fasta_input // [tag, assembly_fasta, sample_id, [R1, R2]]
     
     main:
-        BWA_INDEX_AND_MEM(paired_reads, fasta_file)
-        SAMBLASTER(BWA_INDEX_AND_MEM.out.bwa_mem_sam_file)
-        SAMTOOLS_VIEW(SAMBLASTER.out.marked_byread_sam)
+        BWA_INDEX_AND_MEM(align_reads_to_fasta_input)
+        | SAMBLASTER
+        | SAMTOOLS_VIEW // [sample_id_on_tag, dedup_bam]
 
     emit:
         alignment_bam               = SAMTOOLS_VIEW.out.dedup_bam
-        bwa_index_files             = BWA_INDEX_AND_MEM.out.bwa_index_files
 }

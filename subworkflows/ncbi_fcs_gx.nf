@@ -25,6 +25,11 @@ workflow NCBI_FCS_GX {
             // Clean/contaminated branching
             ch_fcs_gx_reports
             | flatten
+            | map {
+                def parts = it.getName().split("\\.")
+                def tag = parts[0]
+                [tag, it]
+            }
             | CHECK_CONTAMINATION
             | branch {
                 contaminated: it =~ /CHECK_GX_CONTAMINATION:CONTAMINATED/
@@ -68,6 +73,7 @@ See the report for further details.
 }
 
 process SETUP_SCRIPTS {
+    tag "setup"
 
     output:
         stdout
@@ -101,6 +107,7 @@ process SETUP_SCRIPTS {
 }
 
 process VERIFY_DB {
+    tag "setup"
 
     conda 'environment.yml'
 
@@ -147,6 +154,7 @@ process SETUP_SAMPLE {
 
 
 process SCREEN_SAMPLES {
+    tag "all samples"
 
     label 'uses_high_cpu_mem'
     label 'uses_512_gb_mem'
@@ -186,7 +194,7 @@ process CHECK_CONTAMINATION {
     tag "${hap_name}"
 
     input:
-        path report_file
+        tuple val(hap_name), path(report_file)
     
     output:
         stdout

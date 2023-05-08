@@ -26,9 +26,9 @@ workflow BUSCO {
 }
 
 process RUN_BUSCO {
+    tag "${hap_name}:${lineage_dataset}"
     label 'uses_high_cpu_mem'
     label 'takes_eight_hours'
-    tag "${hap_name}: ${lineage_dataset}"
     container "quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0"
     containerOptions "-B ${params.busco.download_path}:${params.busco.download_path}"
 
@@ -60,6 +60,7 @@ process RUN_BUSCO {
 }
 
 process CREATE_PLOT {
+    tag "all summaries"
     container "quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0"
 
     publishDir params.outdir.main, mode: 'copy'

@@ -22,6 +22,7 @@ workflow KRAKEN2 {
 }
 
 process SETUP_KRAKEN2_DB {
+    tag "setup"
     label 'takes_eight_hours'
 
     output:
@@ -52,9 +53,9 @@ process SETUP_KRAKEN2_DB {
 }
 
 process RUN_KRAKEN2 {
+    tag "${hap_name}"
     label 'uses_high_cpu_mem'
     label 'uses_150_gb_mem'
-    tag "${hap_name}"
     container "quay.io/biocontainers/kraken2:2.1.2--pl5321h9f5acd7_2"
     containerOptions "-B ${params.kraken2.download_path}:${params.kraken2.download_path}"
 

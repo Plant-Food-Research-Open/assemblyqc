@@ -1,19 +1,20 @@
 nextflow.enable.dsl=2
 
 process AGP2_ASSEMBLY {
+    tag "$sample_id_on_tag"
 
     container "docker://gallvp/juicebox_scripts:a7ae991"
     publishDir "${params.outdir.main}/hic/assembly", mode:'copy'
 
     input:
-        path agp_file
-        val hap_tag
+        tuple val(sample_id_on_tag), path(agp_file)
 
     output:
-        path '*.agp.assembly'
+        tuple val(sample_id_on_tag), path("*.agp.assembly"), emit: agp_assembly_file
 
     script:
         """
-        agp2assembly.py $agp_file "${hap_tag}.agp.assembly"
+        assembly_tag=\$(echo $sample_id_on_tag | sed 's/.*\\.on\\.//g')
+        agp2assembly.py $agp_file "\${assembly_tag}.agp.assembly"
         """
 }

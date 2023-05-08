@@ -33,9 +33,9 @@ workflow LAI {
 }
 
 process EDTA {
+    tag "${hap_name}"
     label 'uses_high_cpu_mem'
     label 'takes_six_days'
-    tag "${hap_name}"
     container 'quay.io/biocontainers/edta:2.1.0--hdfd78af_1'
 
     publishDir "${params.outdir.main}/edta", mode: 'copy'
@@ -75,11 +75,11 @@ process EDTA {
 }
 
 process RUN_LAI {
+    tag "${hap_name}"
     if (params.lai.mode != "-qq") {
         label 'uses_high_cpu_mem'
         label 'takes_six_days'
     }
-    tag "${hap_name}"
     container 'quay.io/biocontainers/ltr_retriever:2.9.0--hdfd78af_1'
 
     publishDir "${params.outdir.main}/lai", mode: 'copy'

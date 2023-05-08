@@ -7,23 +7,24 @@ include { HIC_QC                } from '../modules/hic_qc.nf'
 
 workflow HIC_CONTACT_MAP {
     take:
-        hap_genome_sample_cleaned_paired_reads
+        hic_contact_map_inputs // [tag, assembly_fasta, sample_id, [R1, R2]]
     
     main:
         if (!params.hic.skip) {
 
-            hap_genome_sample_cleaned_paired_reads
-            | multiMap {
-                ch_cleaned_paired_reads:    [it[2], it[3]]
-                ch_assembly_path:           it[1]
-                ch_hap_prefix:              it[0]
+            hic_contact_map_inputs
+            | map {
+                ["${it[2]}.on.${it[0]}", it[1]] // [sample_id.on.tag, assembly_fasta]
             }
-            | set { ch_mm }
+            | set { ch_assembly_fasta }
 
 
-            ALIGN_READS_TO_FASTA(ch_mm.ch_cleaned_paired_reads, ch_mm.ch_assembly_path)
-            HIC_QC(ALIGN_READS_TO_FASTA.out.alignment_bam)
-            CREATE_HIC_FILE(ch_mm.ch_assembly_path, ALIGN_READS_TO_FASTA.out.alignment_bam, ch_mm.ch_hap_prefix)
+            ALIGN_READS_TO_FASTA(hic_contact_map_inputs)
+            | HIC_QC
+
+            ch_assembly_fasta
+            | join(ALIGN_READS_TO_FASTA.out.alignment_bam) // [sample_id.on.tag, assembly_fasta, alignment_bam]
+            | CREATE_HIC_FILE
             | HIC2_HTML
             | collect
             | set { ch_list_of_html_files }
@@ -36,12 +37,12 @@ workflow HIC_CONTACT_MAP {
 }
 
 process HIC2_HTML {
-    
+    tag "$sample_id_on_tag"
     conda 'environment.yml'
     publishDir "${params.outdir.main}/hic", mode: 'copy'
 
     input:
-        path hic_file
+        tuple val(sample_id_on_tag), path(hic_file)
 
     output:
         path "*.html"

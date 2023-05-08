@@ -1,6 +1,7 @@
 nextflow.enable.dsl=2
 
 process CREATE_REPORT {
+    tag "all modules"
     conda 'environment.yml'
 
     publishDir params.outdir.main, mode: 'copy'
