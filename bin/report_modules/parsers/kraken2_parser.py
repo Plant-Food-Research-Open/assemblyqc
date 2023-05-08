@@ -2,9 +2,10 @@ import os
 from pathlib import Path
 import re
 
+from report_modules.parsers.parsing_commons import sort_list_of_results
+
 
 def parse_kraken2_folder(folder_name="kraken2_outputs"):
-
     dir = os.getcwdb().decode()
     kraken2_folder_path = Path(f"{dir}/{folder_name}")
 
@@ -30,4 +31,4 @@ def parse_kraken2_folder(folder_name="kraken2_outputs"):
             }
         )
 
-    return data
+    return {"KRAKEN2": sort_list_of_results(data["KRAKEN2"], "hap")}

@@ -4,9 +4,10 @@ import pandas as pd
 from tabulate import tabulate
 import re
 
+from report_modules.parsers.parsing_commons import sort_list_of_results
+
 
 def parse_ncbi_fcs_adaptor_folder(folder_name="ncbi_fcs_adaptor_reports"):
-
     dir = os.getcwdb().decode()
     reports_folder_path = Path(f"{dir}/{folder_name}")
 
@@ -18,7 +19,6 @@ def parse_ncbi_fcs_adaptor_folder(folder_name="ncbi_fcs_adaptor_reports"):
     data = {"NCBI_FCS_ADAPTOR": []}
 
     for report_path in list_of_report_files:
-
         report_table = pd.read_csv(report_path, sep="\t")
 
         file_tokens = re.findall(
@@ -41,4 +41,4 @@ def parse_ncbi_fcs_adaptor_folder(folder_name="ncbi_fcs_adaptor_reports"):
             }
         )
 
-    return data
+    return {"NCBI_FCS_ADAPTOR": sort_list_of_results(data["NCBI_FCS_ADAPTOR"], "hap")}

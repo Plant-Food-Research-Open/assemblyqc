@@ -6,6 +6,8 @@ import re
 import base64
 from pathlib import Path
 
+from report_modules.parsers.parsing_commons import sort_list_of_results
+
 
 class BuscoParser:
     def __init__(self, file_data):
@@ -150,7 +152,6 @@ class BuscoParser:
 
 
 def parse_busco_folder(folder_name="busco_outputs"):
-
     dir = os.getcwdb().decode()
     busco_folder_path = Path(f"{dir}/{folder_name}")
 
@@ -186,6 +187,7 @@ def parse_busco_folder(folder_name="busco_outputs"):
         }
         data["BUSCO"].append(stats)
 
+    data["BUSCO"] = sort_list_of_results(data["BUSCO"], "hap")
     data["BUSCO"][0]["busco_plot"] = busco_plot_url
 
     return data

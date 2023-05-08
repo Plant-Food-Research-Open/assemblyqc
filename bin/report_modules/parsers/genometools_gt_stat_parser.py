@@ -4,9 +4,10 @@ import pandas as pd
 from tabulate import tabulate
 import re
 
+from report_modules.parsers.parsing_commons import sort_list_of_results
+
 
 def parse_genometools_gt_stat_folder(folder_name="genometools_gt_stat"):
-
     dir = os.getcwdb().decode()
     reports_folder_path = Path(f"{dir}/{folder_name}")
 
@@ -18,7 +19,6 @@ def parse_genometools_gt_stat_folder(folder_name="genometools_gt_stat"):
     data = {"GENOMETOOLS_GT_STAT": []}
 
     for report_path in list_of_report_files:
-
         report_table = pd.read_csv(report_path)
 
         stat_names = report_table.iloc[:, 0].values.tolist()
@@ -45,4 +45,6 @@ def parse_genometools_gt_stat_folder(folder_name="genometools_gt_stat"):
             }
         )
 
-    return data
+    return {
+        "GENOMETOOLS_GT_STAT": sort_list_of_results(data["GENOMETOOLS_GT_STAT"], "hap")
+    }

@@ -5,9 +5,10 @@ from tabulate import tabulate
 import re
 import json
 
+from report_modules.parsers.parsing_commons import sort_list_of_results
+
 
 def parse_ncbi_fcs_gx_folder(folder_name="fcs_gx_reports"):
-
     dir = os.getcwdb().decode()
     reports_folder_path = Path(f"{dir}/{folder_name}")
 
@@ -19,7 +20,6 @@ def parse_ncbi_fcs_gx_folder(folder_name="fcs_gx_reports"):
     data = {"NCBI_FCS_GX": []}
 
     for report_path in list_of_report_files:
-
         with open(report_path, "r") as f:
             meta_data = json.loads(f.readline()[2:-1])
 
@@ -52,4 +52,4 @@ def parse_ncbi_fcs_gx_folder(folder_name="fcs_gx_reports"):
             }
         )
 
-    return data
+    return {"NCBI_FCS_GX": sort_list_of_results(data["NCBI_FCS_GX"], "hap")}

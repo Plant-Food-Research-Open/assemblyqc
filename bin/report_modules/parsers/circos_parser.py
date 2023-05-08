@@ -3,6 +3,8 @@ from pathlib import Path
 import base64
 import re
 
+from report_modules.parsers.parsing_commons import sort_list_of_results
+
 
 def parse_circos_folder(folder_name="circos_outputs"):
     dir = os.getcwdb().decode()
@@ -11,7 +13,7 @@ def parse_circos_folder(folder_name="circos_outputs"):
     if not os.path.exists(circos_folder_path):
         return {}
 
-    list_of_plot_files = sorted([item for item in circos_folder_path.glob("*.png")])
+    list_of_plot_files = [item for item in circos_folder_path.glob("*.png")]
 
     data = {"CIRCOS": []}
 
@@ -47,4 +49,4 @@ def parse_circos_folder(folder_name="circos_outputs"):
     if len(data["CIRCOS"]) < 1:
         return {}
 
-    return data
+    return {"CIRCOS": sort_list_of_results(data["CIRCOS"], "tag.on.tag")}

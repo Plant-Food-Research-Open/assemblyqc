@@ -2,6 +2,8 @@ import os
 from pathlib import Path
 import re
 
+from report_modules.parsers.parsing_commons import sort_list_of_results
+
 
 class LAIParser:
     def __init__(self, log_file_data, out_file_data):
@@ -52,7 +54,6 @@ class LAIParser:
 
 
 def parse_lai_folder(folder_name="lai_outputs"):
-
     dir = os.getcwdb().decode()
     lai_folder_path = Path(f"{dir}/{folder_name}")
 
@@ -90,4 +91,6 @@ def parse_lai_folder(folder_name="lai_outputs"):
         }
         data["LAI"].append(stats)
 
-    return data
+    return {
+        "LAI": sort_list_of_results(data["LAI"], "hap")
+    }
