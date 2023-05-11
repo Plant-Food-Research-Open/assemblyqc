@@ -1,5 +1,9 @@
 # Change Log
 
+## Version 0.10.4 (11-May-2023)
+
+1. Moved the main workflow into `workflows/assembly_qc.nf` so that it can be imported by other NextFlow pipelines.
+
 ## Version 0.10.3 (08-May-2023)
 
 1. Improved annotation of the config file.
