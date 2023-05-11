@@ -3,6 +3,7 @@
 ## Version 0.10.4 (11-May-2023)
 
 1. Moved the main workflow into `workflows/assembly_qc.nf` so that it can be imported by other NextFlow pipelines.
+2. Fixed a bug in synteny due to which the pipeline did not resume properly sometimes.
 
 ## Version 0.10.3 (08-May-2023)
 

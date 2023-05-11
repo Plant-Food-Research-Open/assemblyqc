@@ -97,6 +97,8 @@ def getUniqueWithinCombinations(inputArray) {
         return []
     }
 
+    inputArray.sort { a, b -> a[0].compareTo(b[0]) }
+
     def outputList = []
 
     for (int i = 0; i < inputArray.size() - 1; i++) {
