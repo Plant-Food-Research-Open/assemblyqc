@@ -1,5 +1,61 @@
 # Change Log
 
+## Version 0.10.3 (08-May-2023)
+
+1. Improved annotation of the config file.
+2. Now using natural sort in the synteny color generator so that chr10's color is assigned after chr9's color.
+3. Removed global variable definitions in the synteny module in the hope of improving resume-ability.
+4. Now all the processes have unique tags. This ensures traceability and resume-ability.
+5. CRITICAL: Fixed a bug in the HIC module due to which the pipeline failed to resume properly in some cases. This bug may have also caused mislabelling of the output hic file such that `hap1.hic` may be labelled as `hap2.hic` and vice versa.
+6. Added GPLv3 license.
+7. Now assembly tags in the dropdown menus of the report are in natural sort order.
+
+## Version 0.10.2 (04-May-2023)
+
+1. Allowed 2 hours for DNADIFF and CIRCOS_BUNDLE_LINKS modules.
+2. Contigs are now ordered by number on the synteny plot.
+3. Added `color_by_contig` option to the synteny module along with a maximum contrast color generator.
+
+## Version 0.10.1 (28-April-2023)
+
+1. Fixed a bug in the TIDK module which resulted in genome fasta file emptying in some cases.
+2. Added a contributors section to README.md
+3. Generalized and simplified configuration parameters and annotations.
+4. Fixed a bug in synteny analysis where `between_target_asm` flag had no effect.
+5. Updated Juicebox.js to 2.4.3 so that HIC module works behind a VPN.
+6. Sorted the list of synteny plots.
+7. Removed auto-capitalization of text in the first column of report tables.
+8. Fixed a bug in the synteny module which resulted in incorrect inclusion of target sequences in 1-vs-all synteny maps.
+9. In the synteny plot, label font size and ticks are now responsive to the number of sequences.
+10. Added the `plot_1_vs_all` option in the synteny module.
+11. Added `max_gap` and `min_bundle_size` options to the synteny module.
+
+## Version 0.10 (20-April-2023)
+
+1. Added Synteny Analysis.
+2. Added "-q" and "-qq" option to LAI. "-qq" is the default.
+3. Now copying the *.TElib.fa file from EDTA work dir to the results folder.
+4. Fixed the n_limit bug in assamblathon_stats.pl.
+5. Now using 4-hour time limit for FASTP and FASTQC.
+6. Added references for all the tools in the README.
+7. Now the conda environment is saved in the users home directory so that it can be shared across pipeline runs.
+8. Updated Juicebox.js to 2.4.1.
+9. Allowed 8 hours for BWA MEM.
+10. Fixed a bug in LAI where the output was not parsed correctly due to file name mismatch.
+
+## Version 0.9 (31-Mar-2023)
+
+1. Added NCBI FCS GX module.
+2. Added additional annotation to config file.
+3. Removed unnecessary species argument in BUSCO module.
+4. Moved NCBI FCS Adaptor/GX scripts to user home directory for sharing across pipeline downloads to different directories.
+
+## Version 0.8 (29-Mar-2023)
+
+1. Now using system-wide DBs for BUSCO and KRAKEN2.
+2. Added HiC Contact Map module.
+3. Further simplified and annotated the config file.
+
 ## Version 0.7.2 (24-Mar-2023)
 
 1. Fixed a potential bug in ncbi fcs adaptor.

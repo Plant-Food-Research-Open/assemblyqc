@@ -9,8 +9,7 @@ nextflow
 work/
 *.dot
 
-busco_data
-
+test_data/
 Results/
 results/
 
@@ -19,14 +18,6 @@ results/
 
 *.sif
 
-to-do-list.md
-
-test_data/
-test_data_conf/
-
+assembly_qc_slurm.sh
 *.stdout
 *.stderr
-
-kraken2db/
-
-ncbi_fcs_adaptor_scripts/

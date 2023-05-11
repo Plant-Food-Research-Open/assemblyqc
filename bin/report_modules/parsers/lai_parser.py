@@ -1,7 +1,9 @@
-
 import os
 from pathlib import Path
 import re
+
+from report_modules.parsers.parsing_commons import sort_list_of_results
+
 
 class LAIParser:
     def __init__(self, log_file_data, out_file_data):
@@ -32,9 +34,9 @@ class LAIParser:
         match_results = p.findall(self.log_file_data)
         if len(match_results) < 1:
             return None
-        
+
         return ". ".join([m.strip() for m in match_results])
-    
+
     def get_lai_stats(self):
         p = re.compile(r"whole_genome(.*)")
         match_results = p.findall(self.out_file_data)
@@ -45,13 +47,13 @@ class LAIParser:
 
         if len(raw_stats) != 6:
             return "Error parsing the LAI.out file"
-        
+
         stats_str = f"Intact: {raw_stats[2]}, Total: {raw_stats[3]}, Raw LAI: {raw_stats[4]}, LAI: {raw_stats[5]}"
-        
+
         return stats_str
 
-def parse_lai_folder(folder_name = "lai_outputs"):
 
+def parse_lai_folder(folder_name="lai_outputs"):
     dir = os.getcwdb().decode()
     lai_folder_path = Path(f"{dir}/{folder_name}")
 
@@ -68,7 +70,7 @@ def parse_lai_folder(folder_name = "lai_outputs"):
             lines = file.readlines()
             for line in lines:
                 log_file_data += line
-        
+
         file_tokens = re.findall(
             r"([\w]+).LAI.log",
             os.path.basename(str(file)),
@@ -81,8 +83,7 @@ def parse_lai_folder(folder_name = "lai_outputs"):
             lines = out_file.readlines()
             for line in lines:
                 out_file_data += line
-                
-                
+
         parser = LAIParser(log_file_data, out_file_data)
         stats = {
             "hap": hap_name,
@@ -90,4 +91,6 @@ def parse_lai_folder(folder_name = "lai_outputs"):
         }
         data["LAI"].append(stats)
 
-    return data
+    return {
+        "LAI": sort_list_of_results(data["LAI"], "hap")
+    }

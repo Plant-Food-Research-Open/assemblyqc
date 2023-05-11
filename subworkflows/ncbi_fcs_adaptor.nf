@@ -7,24 +7,23 @@ workflow NCBI_FCS_ADAPTOR {
     main:
         if (!params.ncbi_fcs_adaptor.skip) {
 
-            ch_setup_output         = SETUP_FCS_ADAPTOR_SCRIPTS()
-            ch_report               = RUN_NCBI_FCS_ADAPTOR(ch_setup_output, tuple_of_hap_file)
-            
-            ch_did_find_adaptors    = CHECK_ADAPTOR_CONTAMINATION(ch_report)
+            ch_setup_output         = SETUP_SCRIPTS()
+            ch_report               = SCREEN_SAMPLE(ch_setup_output, tuple_of_hap_file)
 
             ch_report
             .map {
-                it[1]
+                it[1] // report file path
             }
             .collect()
             .set { ch_all_reports }
 
-            ch_did_find_adaptors
-            .branch {
+            // Clean/contaminated branching
+            CHECK_CONTAMINATION(ch_report)
+            | branch {
                 contaminated: it =~ /CHECK_ADAPTOR_CONTAMINATION:CONTAMINATED/
                 clean: it =~ /CHECK_ADAPTOR_CONTAMINATION:CLEAN/
             }
-            .set { ch_branch }
+            | set { ch_branch }
 
             ch_branch
             .contaminated
@@ -49,8 +48,7 @@ See the report for further details.
         } else {
             tuple_of_hap_file
             .map {
-                hapName = it[0]
-                return hapName
+                it[0] // tag
             }
             .set { ch_clean_hap }
 
@@ -62,29 +60,29 @@ See the report for further details.
         reports                     = ch_all_reports
 }
 
-process SETUP_FCS_ADAPTOR_SCRIPTS {
-    label 'uses_low_cpu_mem'
+process SETUP_SCRIPTS {
+    tag "setup"
 
     output:
         stdout
     
     script:
         """
-            ncbi_fcs_adaptor_bash_url="https://github.com/ncbi/fcs/raw/main/dist/run_fcsadaptor.sh"
-            ncbi_fcs_adaptor_sif_url="https://ftp.ncbi.nlm.nih.gov/genomes/TOOLS/FCS/releases/latest/fcs-adaptor.sif"
+            ncbi_fcs_adaptor_bash_url="https://raw.githubusercontent.com/ncbi/fcs/v${params.ncbi_fcs_adaptor.ver}/dist/run_fcsadaptor.sh"
+            ncbi_fcs_adaptor_sif_url="https://ftp.ncbi.nlm.nih.gov/genomes/TOOLS/FCS/releases/${params.ncbi_fcs_adaptor.ver}/fcs-adaptor.sif"
             
             ncbi_fcs_adaptor_bash_file=\$(basename \$ncbi_fcs_adaptor_bash_url)
             ncbi_fcs_adaptor_sif_file=\$(basename \$ncbi_fcs_adaptor_sif_url)
 
-            ncbi_fcs_adaptor_bash_file_path="${params.ncbi_fcs_adaptor.download_path}/\${ncbi_fcs_adaptor_bash_file}"
-            ncbi_fcs_adaptor_sif_file_path="${params.ncbi_fcs_adaptor.download_path}/\${ncbi_fcs_adaptor_sif_file}"
+            ncbi_fcs_adaptor_bash_file_path=${params.ncbi_fcs_adaptor.download_path}/\${ncbi_fcs_adaptor_bash_file}
+            ncbi_fcs_adaptor_sif_file_path=${params.ncbi_fcs_adaptor.download_path}/\${ncbi_fcs_adaptor_sif_file}
 
             if [[ -e \$ncbi_fcs_adaptor_bash_file_path ]] && [[ -e \$ncbi_fcs_adaptor_sif_file_path ]]
             then
                 echo -n "SETUP_FCS_ADAPTOR_SCRIPTS:PASS:NCBI FCS Adaptor scripts already available"
             else
-                mkdir -p "${params.ncbi_fcs_adaptor.download_path}"
-                cd "${params.ncbi_fcs_adaptor.download_path}"
+                mkdir -p ${params.ncbi_fcs_adaptor.download_path}
+                cd ${params.ncbi_fcs_adaptor.download_path}
                 
                 curl -LO \$ncbi_fcs_adaptor_bash_url
                 curl \$ncbi_fcs_adaptor_sif_url -Lo \$ncbi_fcs_adaptor_sif_file
@@ -96,9 +94,8 @@ process SETUP_FCS_ADAPTOR_SCRIPTS {
         """
 }
 
-process RUN_NCBI_FCS_ADAPTOR {
+process SCREEN_SAMPLE {
     tag "${hap_name}"
-    label 'uses_low_cpu_mem'
 
     publishDir "${params.outdir.main}/ncbi_fcs_adaptor", mode: 'copy'
 
@@ -111,8 +108,8 @@ process RUN_NCBI_FCS_ADAPTOR {
 
     script:
         """
-            ln -s "${params.ncbi_fcs_adaptor.download_path}/run_fcsadaptor.sh" "run_fcsadaptor.sh"
-            ln -s "${params.ncbi_fcs_adaptor.download_path}/fcs-adaptor.sif" "fcs-adaptor.sif"
+            ln -s ${params.ncbi_fcs_adaptor.download_path}/run_fcsadaptor.sh run_fcsadaptor.sh
+            ln -s ${params.ncbi_fcs_adaptor.download_path}/fcs-adaptor.sif fcs-adaptor.sif
 
             mkdir "${hap_name}_outputdir"
 
@@ -130,9 +127,8 @@ process RUN_NCBI_FCS_ADAPTOR {
         """
 }
 
-process CHECK_ADAPTOR_CONTAMINATION {
+process CHECK_CONTAMINATION {
     tag "${hap_name}"
-    label 'uses_low_cpu_mem'
 
     input:
         tuple val(hap_name), path(report_tsv)

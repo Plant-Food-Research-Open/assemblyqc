@@ -3,9 +3,10 @@ from pathlib import Path
 import base64
 import re
 
+from report_modules.parsers.parsing_commons import sort_list_of_results
+
 
 def parse_tidk_folder(folder_name="tidk_outputs"):
-
     dir = os.getcwdb().decode()
     tidk_folder_path = Path(f"{dir}/{folder_name}")
 
@@ -61,4 +62,7 @@ def parse_tidk_folder(folder_name="tidk_outputs"):
             }
         )
 
-    return data
+    if len(data["TIDK"]) < 1:
+        return {}
+
+    return {"TIDK": sort_list_of_results(data["TIDK"], "hap")}

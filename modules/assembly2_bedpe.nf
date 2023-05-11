@@ -1,0 +1,20 @@
+nextflow.enable.dsl=2
+
+process ASSEMBLY2_BEDPE {
+    tag "$sample_id_on_tag"
+
+    conda 'environment.yml'
+    publishDir "${params.outdir.main}/hic/bedpe", mode:'copy'
+
+    input:
+        tuple val(sample_id_on_tag), path(agp_assembly_file)
+
+    output:
+        tuple val(sample_id_on_tag), path("*.assembly.bedpe"), emit: agp_assembly_bedpe_file
+
+    script:
+        """
+        assembly_tag=\$(echo $sample_id_on_tag | sed 's/.*\\.on\\.//g')
+        assembly2bedpe.py $agp_assembly_file > "\${assembly_tag}.assembly.bedpe"
+        """
+}

@@ -22,8 +22,8 @@ workflow KRAKEN2 {
 }
 
 process SETUP_KRAKEN2_DB {
-    label 'uses_low_cpu_mem'
-    label 'takes_two_hours'
+    tag "setup"
+    label 'takes_eight_hours'
 
     output:
         stdout
@@ -53,9 +53,9 @@ process SETUP_KRAKEN2_DB {
 }
 
 process RUN_KRAKEN2 {
-    label 'uses_high_cpu_mem'
-    label 'uses_16_gb_mem'
     tag "${hap_name}"
+    label 'uses_high_cpu_mem'
+    label 'uses_150_gb_mem'
     container "quay.io/biocontainers/kraken2:2.1.2--pl5321h9f5acd7_2"
     containerOptions "-B ${params.kraken2.download_path}:${params.kraken2.download_path}"
 
@@ -81,7 +81,6 @@ process RUN_KRAKEN2 {
 }
 
 process KRONA_PLOT {
-    label 'uses_low_cpu_mem'
     tag "${hap_name}"
     container "docker://nanozoo/krona:2.7.1--e7615f7"
 

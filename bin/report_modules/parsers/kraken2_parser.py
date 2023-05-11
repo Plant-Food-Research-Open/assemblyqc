@@ -1,11 +1,11 @@
-
 import os
 from pathlib import Path
-import base64
 import re
 
-def parse_kraken2_folder(folder_name = "kraken2_outputs"):
+from report_modules.parsers.parsing_commons import sort_list_of_results
 
+
+def parse_kraken2_folder(folder_name="kraken2_outputs"):
     dir = os.getcwdb().decode()
     kraken2_folder_path = Path(f"{dir}/{folder_name}")
 
@@ -23,10 +23,12 @@ def parse_kraken2_folder(folder_name = "kraken2_outputs"):
             r"([\w]+).kraken2.krona.html",
             html_file_name,
         )[0]
-        
-        data["KRAKEN2"].append({
-            "hap": file_tokens,
-            "krona_html_file_name": html_file_name,
-        })
 
-    return data
+        data["KRAKEN2"].append(
+            {
+                "hap": file_tokens,
+                "krona_html_file_name": html_file_name,
+            }
+        )
+
+    return {"KRAKEN2": sort_list_of_results(data["KRAKEN2"], "hap")}
