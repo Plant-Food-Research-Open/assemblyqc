@@ -10,7 +10,7 @@
 
 use strict;
 use warnings;
-use FAlite;
+use FAlite_943e0fb;
 use Getopt::Long;
 use List::Util qw(sum max min);
 
@@ -118,7 +118,7 @@ sub process_FASTA{
 		open($input, "<", "$seqs") or die "Can't open $seqs\n";
 	}
 
-	my $fasta = new FAlite(\*$input);
+	my $fasta = new FAlite_943e0fb(\*$input);
 
 	# want to keep track of various contig + scaffold counts
 	my $seq_count = 0;

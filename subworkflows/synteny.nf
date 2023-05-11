@@ -322,11 +322,11 @@ process ADD_COLOUR_TO_BUNDLE_LINKS {
     script:
         """
         if [[ "${params.synteny.color_by_contig}" = "1" ]];then
-            color_circos_bundles_by_contig.py \
+            color_circos_bundles_by_contig_943e0fb.py \
             "${bundle_links}" \
             > "\$(basename $bundle_links .bundle.txt).bundle.coloured.txt"
         else
-            add_color_2_circos_bundle_file.pl \
+            add_color_2_circos_bundle_file_943e0fb.pl \
             -i="${bundle_links}" \
             -o="\$(basename $bundle_links .bundle.txt).bundle.coloured.txt"
         fi

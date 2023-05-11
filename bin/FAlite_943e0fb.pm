@@ -1,15 +1,15 @@
-package FAlite;
+package FAlite_943e0fb;
 use strict;
 sub new {
 	my ($class, $fh) = @_;
 	if (ref $fh !~ /GLOB/)
-		{die ref $fh, "\n", "FAlite ERROR: expect a GLOB reference\n"}
+		{die ref $fh, "\n", "FAlite_943e0fb ERROR: expect a GLOB reference\n"}
 	my $this = bless {};
 	$this->{FH} = $fh;
 	while(<$fh>) {last if $_ =~ /\S/} # not supposed to have blanks, but...
 	my $firstline = $_;
-	if (not defined $firstline) {warn "FAlite: Empty\n"; return $this}
-	if ($firstline !~ /^>/) {warn "FAlite: Not FASTA formatted\n"; return $this}
+	if (not defined $firstline) {warn "FAlite_943e0fb: Empty\n"; return $this}
+	if ($firstline !~ /^>/) {warn "FAlite_943e0fb: Not FASTA formatted\n"; return $this}
 	$this->{LASTLINE} = $firstline;
 	chomp $this->{LASTLINE};
 	return $this;
@@ -32,11 +32,11 @@ sub nextEntry {
 	}
 	return 0 if $lines_read == 0;
 	chomp @seq;
-	my $entry = FAlite::Entry::new($def, \@seq);
+	my $entry = FAlite_943e0fb::Entry::new($def, \@seq);
 	return $entry;
 }
 
-package FAlite::Entry;
+package FAlite_943e0fb::Entry;
 use overload '""' => 'all';
 sub new {
 	my ($def, $seqarry) = @_;
@@ -56,12 +56,12 @@ __END__
 
 =head1 NAME
 
-FAlite;
+FAlite_943e0fb;
 
 =head1 SYNOPSIS
 
- use FAlite;
- my $fasta = new FAlite(\*STDIN);
+ use FAlite_943e0fb;
+ my $fasta = new FAlite_943e0fb(\*STDIN);
  while(my $entry = $fasta->nextEntry) {
      $entry->def;
      $entry->seq;
@@ -69,7 +69,7 @@ FAlite;
 
 =head1 DESCRIPTION
 
-FAlite is a package for parsing FASTA files and databases. The FASTA format is
+FAlite_943e0fb is a package for parsing FASTA files and databases. The FASTA format is
 widely used in bioinformatics. It consists of a definition line followed by
 sequence with an arbitrary number of lines and line lengths.
 
@@ -89,9 +89,9 @@ A FASTA database looks like this:
 
 =head2 Object
 
-FAlite has two kinds of objects, the file and the entry.
+FAlite_943e0fb has two kinds of objects, the file and the entry.
 
- my $fasta_file = new FAlite(\*STDIN); # or any other filehandle
+ my $fasta_file = new FAlite_943e0fb(\*STDIN); # or any other filehandle
  $entry = $fasta_file->nextEntry; # single fasta fle
  while(my $entry = $fasta_file->nextEntry) {
      # canonical form of use for fasta database

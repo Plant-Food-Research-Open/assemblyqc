@@ -15,6 +15,6 @@ process ASSEMBLY2_BEDPE {
     script:
         """
         assembly_tag=\$(echo $sample_id_on_tag | sed 's/.*\\.on\\.//g')
-        assembly2bedpe.py $agp_assembly_file > "\${assembly_tag}.assembly.bedpe"
+        assembly_2_bedpe_943e0fb.py $agp_assembly_file > "\${assembly_tag}.assembly.bedpe"
         """
 }

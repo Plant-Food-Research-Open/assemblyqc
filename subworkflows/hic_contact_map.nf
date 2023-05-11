@@ -51,6 +51,6 @@ process HIC2_HTML {
         results_folder = file("${params.outdir.main}", checkIfExists: false)
         """
         file_name="$hic_file"
-        hic2html.py "$params.hic.storage_server" "$results_folder" "$hic_file" > "\${file_name%.*}.html"
+        hic_2_html_943e0fb.py "$params.hic.storage_server" "$results_folder" "$hic_file" > "\${file_name%.*}.html"
         """
 }
