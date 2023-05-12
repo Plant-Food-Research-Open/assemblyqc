@@ -5,6 +5,7 @@
 1. Moved the main workflow into `workflows/assembly_qc.nf` so that it can be imported by other NextFlow pipelines.
 2. Fixed a bug in synteny due to which the pipeline did not resume properly sometimes.
 3. The included binaries now have unique versions to avoid collision with binaries with same names already present on local PATH.
+4. Now using a unique name for the conda environment to have better interoperability across pipelines.
 
 ## Version 0.10.3 (08-May-2023)
 

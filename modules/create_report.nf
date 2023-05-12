@@ -2,7 +2,7 @@ nextflow.enable.dsl=2
 
 process CREATE_REPORT {
     tag "all modules"
-    conda 'environment.yml'
+    conda 'assembly-qc-conda-env.yml'
 
     publishDir params.outdir.main, mode: 'copy'
 

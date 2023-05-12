@@ -109,7 +109,7 @@ process SETUP_SCRIPTS {
 process VERIFY_DB {
     tag "setup"
 
-    conda 'environment.yml'
+    conda 'assembly-qc-conda-env.yml'
 
     input:
         val setup_out
@@ -160,7 +160,7 @@ process SCREEN_SAMPLES {
     label 'uses_512_gb_mem'
     label 'takes_four_hours'
 
-    conda 'environment.yml'
+    conda 'assembly-qc-conda-env.yml'
 
     publishDir "${params.outdir.main}/ncbi_fcs_gx", mode: 'copy'
 

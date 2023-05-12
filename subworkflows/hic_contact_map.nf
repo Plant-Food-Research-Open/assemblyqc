@@ -38,7 +38,7 @@ workflow HIC_CONTACT_MAP {
 
 process HIC2_HTML {
     tag "$sample_id_on_tag"
-    conda 'environment.yml'
+    conda 'assembly-qc-conda-env.yml'
     publishDir "${params.outdir.main}/hic", mode: 'copy'
 
     input:
