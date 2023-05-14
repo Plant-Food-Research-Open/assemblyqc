@@ -6,6 +6,7 @@
 2. Fixed a bug in synteny due to which the pipeline did not resume properly sometimes.
 3. The included binaries now have unique versions to avoid collision with binaries with same names already present on local PATH.
 4. Now using a unique name for the conda environment to have better interoperability across pipelines.
+5. Merged configuration files for compiled and max_resources.
 
 ## Version 0.10.3 (08-May-2023)
 
