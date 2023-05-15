@@ -111,6 +111,7 @@ ml conda/22.9.0
 ml nextflow/22.10.4
 
 export NXF_CONDA_CACHEDIR=$(realpath ~/.conda)
+[ -d "/workspace/$USER" ] && export TMPDIR="/workspace/$USER/tmp" || export TMPDIR=$(realpath ~/tmp)
 
 srun nextflow main.nf -profile slurm -resume
 EOF
@@ -133,10 +134,11 @@ ml conda/22.9.0
 ml nextflow/22.10.4
 ```
 
-- Set Conda cache directory:
+- Set Conda cache and temporary directories:
 
 ```bash
 export NXF_CONDA_CACHEDIR=$(realpath ~/.conda)
+[ -d "/workspace/$USER" ] && export TMPDIR="/workspace/$USER/tmp" || export TMPDIR=$(realpath ~/tmp)
 ```
 
 - Run the pipeline:
