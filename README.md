@@ -83,10 +83,9 @@ Create a genome.list file for each genome fasta file with two columns:
 * Sequence ID in the fasta file
 * Simplified seqID to display in the synteny plot(s)
 
-3. Setup input files, QC steps to run or skip, and output folder in nextflow.config
+3. Setup input genome files, QC steps to run or skip, and the output folder in <b>nextflow.config</b>
 
-
-To run the pipeline on a new assembly, edit the nextflow.config. The following parameters must be checked and modified accordingly:
+The following parameters must be checked and modified accordingly:
 
 - target_assemblies
 - assembly_gff3
