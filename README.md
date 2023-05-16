@@ -73,7 +73,18 @@ git clone https://github.com/PlantandFoodResearch/assembly_qc.git
 cd assembly_qc/
 ```
 
-## Running the Pipeline
+## Running the Pipeline: Quick instruction
+
+1. Prepare genome fasta file(s)
+
+2. Prepare genome list file(s)
+
+Create a genome.list file for each genome fasta file with two columns:
+* Sequence ID in the fasta file
+* Simplified seqID to display in the synteny plot(s)
+
+3. Setup input files, QC steps to run or skip, and output folder in nextflow.config
+
 
 To run the pipeline on a new assembly, edit the nextflow.config. The following parameters must be checked and modified accordingly:
 
@@ -88,6 +99,11 @@ To run the pipeline on a new assembly, edit the nextflow.config. The following p
 - hic::paired_reads
 - synteny::assembly_seq_list
 - synteny::xref_assemblies
+
+
+4. Run the workflow (or submit the workflow to a job scheduler like slurm)
+
+## Run the assembly QC pipeline
 
 ### Post the NextFlow Process to Slurm
 
