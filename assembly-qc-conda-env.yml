@@ -1,4 +1,4 @@
-name: assembly-qc-pipeline-env
+name: assembly-qc-conda-env
 channels:
   - defaults
   - conda-forge

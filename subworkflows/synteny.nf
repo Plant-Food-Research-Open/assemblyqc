@@ -97,6 +97,8 @@ def getUniqueWithinCombinations(inputArray) {
         return []
     }
 
+    inputArray.sort { a, b -> a[0].compareTo(b[0]) }
+
     def outputList = []
 
     for (int i = 0; i < inputArray.size() - 1; i++) {
@@ -309,7 +311,7 @@ process CIRCOS_BUNDLE_LINKS {
 
 process ADD_COLOUR_TO_BUNDLE_LINKS {
     tag "${target_on_ref}"
-    conda 'environment.yml'
+    conda 'assembly-qc-conda-env.yml'
 
     input:
         tuple val(target_on_ref), path(bundle_links)
@@ -320,11 +322,11 @@ process ADD_COLOUR_TO_BUNDLE_LINKS {
     script:
         """
         if [[ "${params.synteny.color_by_contig}" = "1" ]];then
-            color_circos_bundles_by_contig.py \
+            color_circos_bundles_by_contig_943e0fb.py \
             "${bundle_links}" \
             > "\$(basename $bundle_links .bundle.txt).bundle.coloured.txt"
         else
-            add_color_2_circos_bundle_file.pl \
+            add_color_2_circos_bundle_file_943e0fb.pl \
             -i="${bundle_links}" \
             -o="\$(basename $bundle_links .bundle.txt).bundle.coloured.txt"
         fi
@@ -333,7 +335,7 @@ process ADD_COLOUR_TO_BUNDLE_LINKS {
 
 process RELABEL_BUNDLE_LINKS {
     tag "${target_on_ref}"
-    conda 'environment.yml'
+    conda 'assembly-qc-conda-env.yml'
     
     input:
         tuple val(target_on_ref), path(coloured_bundle_links), path(target_seq_list), path(ref_seq_list)
@@ -373,7 +375,7 @@ process RELABEL_BUNDLE_LINKS {
 
 process RELABEL_FASTA_LEN {
     tag "${target_on_ref}"
-    conda 'environment.yml'
+    conda 'assembly-qc-conda-env.yml'
     
     input:
         tuple val(target_on_ref), path(target_seq_lengths), path(ref_seq_lengths), path(target_seq_list), path(ref_seq_list)

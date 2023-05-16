@@ -14,9 +14,9 @@ process ASSEMBLATHON_STATS {
 
     script:
         """
-        ln -s "${params.general_stats.falite_path}" FAlite.pm
-        
-        assemblathon_stats.pl \
+        falite_path="\$(find \$(echo \$PATH | tr ':' ' ') -name FAlite_943e0fb.pm)"
+        ln -s "\$falite_path" FAlite_943e0fb.pm
+        assemblathon_stats_943e0fb.pl \
         -n ${params.assamblathon_stats.n_limit} \
         -csv \
         "${fasta_file}"

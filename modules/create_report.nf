@@ -2,7 +2,7 @@ nextflow.enable.dsl=2
 
 process CREATE_REPORT {
     tag "all modules"
-    conda 'environment.yml'
+    conda 'assembly-qc-conda-env.yml'
 
     publishDir params.outdir.main, mode: 'copy'
 
@@ -26,6 +26,6 @@ process CREATE_REPORT {
     script:
         """
         echo -n '$constants_json' > constants.json
-        report.py > report.html
+        assembly_qc_report_943e0fb.py > report.html
         """ 
 }
