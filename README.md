@@ -8,7 +8,7 @@
   - [Contributors](#contributors)
   - [Pipeline Flowchart](#pipeline-flowchart)
   - [Installation](#installation)
-  - [Running the genome QC analysis: Quick instruction](#Running-the-genome-QC-analysis:-Quick-instruction)
+  - [Running the genome QC analysis: Quick instruction](#running-the-genome-qc-analysis:-quick-instruction)
   - [Running the Pipeline](#running-the-pipeline)
     - [Post the NextFlow Process to Slurm](#post-the-nextflow-process-to-slurm)
     - [Run Interactively](#run-interactively)
