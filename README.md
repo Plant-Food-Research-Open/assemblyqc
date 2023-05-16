@@ -8,6 +8,7 @@
   - [Contributors](#contributors)
   - [Pipeline Flowchart](#pipeline-flowchart)
   - [Installation](#installation)
+  - [Running the genome QC analysis: Quick instruction](#Running-the-genome-QC-analysis:-Quick-instruction)
   - [Running the Pipeline](#running-the-pipeline)
     - [Post the NextFlow Process to Slurm](#post-the-nextflow-process-to-slurm)
     - [Run Interactively](#run-interactively)
@@ -73,7 +74,7 @@ git clone https://github.com/PlantandFoodResearch/assembly_qc.git
 cd assembly_qc/
 ```
 
-## Running the Pipeline: Quick instruction
+## Running the genome QC analysis: Quick instruction
 
 1. Prepare genome fasta file(s)
 
