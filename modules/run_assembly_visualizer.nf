@@ -6,6 +6,7 @@ process RUN_ASSEMBLY_VISUALIZER {
     label 'uses_high_cpu_mem'
     publishDir "${params.outdir.main}/hic", mode:'copy'
     container "gallvp/3d-dna:63029aa"
+    containerOptions "-B $TMPDIR:$TMPDIR"
 
     input:
         tuple val(sample_id_on_tag), path(agp_assembly_file), path(sorted_links_txt_file)

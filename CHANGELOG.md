@@ -1,5 +1,9 @@
 # Change Log
 
+## Version 0.10.5 (17-May-2023)
+
+1. CRITICAL: Fixed a bug in RUN_ASSEMBLY_VISUALIZER introduced by the specification of the temporary directory in version 0.10.4.
+
 ## Version 0.10.4 (16-May-2023)
 
 1. Moved the main workflow into `workflows/assembly_qc.nf` so that it can be imported by other NextFlow pipelines.
