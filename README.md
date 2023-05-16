@@ -8,7 +8,6 @@
   - [Contributors](#contributors)
   - [Pipeline Flowchart](#pipeline-flowchart)
   - [Installation](#installation)
-  - [Running the genome QC analysis: Quick instruction](#running-the-genome-qc-analysis:-quick-instruction)
   - [Running the Pipeline](#running-the-pipeline)
     - [Post the NextFlow Process to Slurm](#post-the-nextflow-process-to-slurm)
     - [Run Interactively](#run-interactively)
@@ -74,19 +73,9 @@ git clone https://github.com/PlantandFoodResearch/assembly_qc.git
 cd assembly_qc/
 ```
 
-## Running the genome QC analysis: Quick instruction
+## Running the Pipeline
 
-1. Prepare genome fasta file(s)
-
-2. Prepare genome list file(s)
-
-Create a genome.list file for each genome fasta file with two columns:
-* Sequence ID in the fasta file
-* Simplified seqID to display in the synteny plot(s)
-
-3. Setup input genome files, QC steps to run or skip, and the output folder in <b>nextflow.config</b>
-
-The following parameters must be checked and modified accordingly:
+To run the pipeline on an assembly, first edit the nextflow.config. The following parameters must be checked and modified accordingly:
 
 - target_assemblies
 - assembly_gff3
@@ -100,10 +89,7 @@ The following parameters must be checked and modified accordingly:
 - synteny::assembly_seq_list
 - synteny::xref_assemblies
 
-
-4. Run the workflow (or submit the workflow to a job scheduler like slurm)
-
-## Run the assembly QC pipeline
+Then, preferably, the pipeline should be posted to Slurm for execution. For debugging purposes, the pipeline can also be executed interactively.
 
 ### Post the NextFlow Process to Slurm
 
