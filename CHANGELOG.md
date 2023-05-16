@@ -2,7 +2,7 @@
 
 ## Version 0.10.5 (17-May-2023)
 
-1. CRITICAL: Fixed a bug in RUN_ASSEMBLY_VISUALIZER introduced by the specification of the temporary directory in version 0.10.4.
+1. CRITICAL: Fixed a bug in RUN_ASSEMBLY_VISUALIZER, HIC_QC introduced by the specification of the temporary directory in version 0.10.4.
 
 ## Version 0.10.4 (16-May-2023)
 
