@@ -8,6 +8,7 @@
 4. Now using a unique name for the conda environment to have better interoperability across pipelines.
 5. Merged configuration files for compiled and max_resources.
 6. CRITICAL: Now explicitly setting the temporary directory to avoid "No space left" errors. This problem may have affected container build and NCBI FCS Adaptor/GX modules in the past.
+7. Now reporting max_gap and min_bundle size in the report for improved readability.
 
 ## Version 0.10.3 (08-May-2023)
 

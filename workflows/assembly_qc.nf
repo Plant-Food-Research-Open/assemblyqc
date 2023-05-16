@@ -163,7 +163,9 @@ workflow ASSEMBLY_QC {
         Channel.of("""
         {
             "ASSEMBLATHON_STATS_N_LIMIT": "${params.assamblathon_stats.n_limit}",
-            "LAI_MODE": "${params.lai.mode}"
+            "LAI_MODE": "${params.lai.mode}",
+            "SYNTENY_MAP_GAP": "${params.synteny.max_gap}",
+            "SYNTENY_MIN_BUNDLE_SIZE": "${params.synteny.min_bundle_size}"
         }
         """)
     )

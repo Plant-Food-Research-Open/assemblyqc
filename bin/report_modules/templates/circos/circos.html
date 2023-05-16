@@ -16,6 +16,10 @@
         </p>
         <p class="section-para"><b>Version: {{ all_stats_dicts['VERSIONS']['CIRCOS'] }} (CIRCOS), {{
                 all_stats_dicts['VERSIONS']['MUMMER'] }} (MUMMER)</b></p>
+        <p class="section-para"><b>Notes:</b></p>
+        <p class="section-para">Alignments within a distance of {{ all_stats_dicts['CONSTANTS']['SYNTENY_MAP_GAP'] }}bp
+            have been bundled together. After bundling, any bundle smaller than {{
+            all_stats_dicts['CONSTANTS']['SYNTENY_MIN_BUNDLE_SIZE'] }}bp has been filtered out.</p>
     </div>
     {% include 'circos/dropdown.html' %}
     {% include 'circos/report_contents.html' %}
