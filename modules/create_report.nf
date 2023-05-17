@@ -2,7 +2,7 @@ nextflow.enable.dsl=2
 
 process CREATE_REPORT {
     tag "all modules"
-    conda 'assembly-qc-conda-env.yml'
+    container "docker://gallvp/python3npkgs:v0.1"
 
     publishDir params.outdir.main, mode: 'copy'
 

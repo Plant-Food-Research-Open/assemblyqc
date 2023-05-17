@@ -75,7 +75,7 @@ cd assembly_qc/
 
 ## Running the Pipeline
 
-To run the pipeline on an assembly, first edit the nextflow.config. The following parameters must be checked and modified accordingly:
+See the [tutorials](./docs/tutorials.md) for detailed instructions on how to use the pipeline. To run the pipeline on an assembly, first edit the nextflow.config. The following parameters must be checked and modified accordingly:
 
 - target_assemblies
 - assembly_gff3
@@ -108,11 +108,10 @@ cat << EOF > assembly_qc_slurm.sh
 #SBATCH --mem=1G
 
 ml unload perl
+ml Python/3.10.4-GCCcore-11.2.0-bare
 ml apptainer/1.1
-ml conda/22.9.0
 ml nextflow/22.10.4
 
-export NXF_CONDA_CACHEDIR=$(realpath ~/.conda)
 [ -d "/workspace/$USER" ] && export TMPDIR="/workspace/$USER/tmp" || export TMPDIR=$(realpath ~/tmp)
 
 srun nextflow main.nf -profile slurm -resume
@@ -131,15 +130,14 @@ You will now see a results folder which will contain a file named 'report.html' 
 
 ```bash
 ml unload perl
+ml Python/3.10.4-GCCcore-11.2.0-bare
 ml apptainer/1.1
-ml conda/22.9.0
 ml nextflow/22.10.4
 ```
 
-- Set Conda cache and temporary directories:
+- Set the temporary directory:
 
 ```bash
-export NXF_CONDA_CACHEDIR=$(realpath ~/.conda)
 [ -d "/workspace/$USER" ] && export TMPDIR="/workspace/$USER/tmp" || export TMPDIR=$(realpath ~/tmp)
 ```
 

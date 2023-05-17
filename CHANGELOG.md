@@ -4,6 +4,8 @@
 
 1. CRITICAL: Fixed a bug in RUN_ASSEMBLY_VISUALIZER, HIC_QC introduced by the specification of the temporary directory in version 0.10.4.
 2. MATLOCK_BAM2_JUICER now has two hours time limit.
+3. Removed dependency on conda. Instead the pipeline now requires vanilla python > 3.7. No specific python packages are required.
+4. Started adding detailed tutorials.
 
 ## Version 0.10.4 (16-May-2023)
 
