@@ -3,6 +3,7 @@
 ## Version 0.10.5 (17-May-2023)
 
 1. CRITICAL: Fixed a bug in RUN_ASSEMBLY_VISUALIZER, HIC_QC introduced by the specification of the temporary directory in version 0.10.4.
+2. MATLOCK_BAM2_JUICER now has two hours time limit.
 
 ## Version 0.10.4 (16-May-2023)
 
