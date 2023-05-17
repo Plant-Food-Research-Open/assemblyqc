@@ -9,7 +9,7 @@ workflow TIDK {
             GET_APRIORI_SEQUENCE()
             .set { ch_apriori_sequence }
             
-            SORT_BY_SEQ_LENGTH(tuple_of_hap_file)
+            SORT_AND_FILTER_BY_SEQ_LENGTH(tuple_of_hap_file)
             .set { ch_sorted_hap_file }
 
             EXPLORE_REPEAT_SEQ(tuple_of_hap_file)
@@ -62,7 +62,7 @@ process GET_APRIORI_SEQUENCE {
         """
 }
 
-process SORT_BY_SEQ_LENGTH {
+process SORT_AND_FILTER_BY_SEQ_LENGTH {
     tag "${hap_name}"
     container "quay.io/biocontainers/seqkit:2.3.1--h9ee0642_0" 
 
@@ -74,7 +74,15 @@ process SORT_BY_SEQ_LENGTH {
     
     script:
         """
-        cat $fasta_file | seqkit sort --quiet --reverse --by-length > "${hap_name}.seqkit.sort.fasta"
+        if [[ "${params.tidk.filter_by_size}" = "1" ]];then
+            seqkit seq -m ${params.tidk.filter_size_bp} $fasta_file > filtered.file.fasta
+        else
+            cat $fasta_file > filtered.file.fasta
+        fi
+        
+        cat filtered.file.fasta \
+        | seqkit sort --quiet --reverse --by-length \
+        > "${hap_name}.seqkit.sort.fasta"
         """
 }
 

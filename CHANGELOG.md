@@ -6,6 +6,7 @@
 2. MATLOCK_BAM2_JUICER now has two hours time limit.
 3. Removed dependency on conda. Instead the pipeline now requires vanilla python > 3.7. No specific python packages are required.
 4. Started adding detailed tutorials.
+5. Now TIDK supports a filter by size parameter to filter out small contigs from it output. By default this filter is turned off.
 
 ## Version 0.10.4 (16-May-2023)
 
