@@ -1,5 +1,10 @@
 # Change Log
 
+## Version 0.11 (23-May-2023)
+
+1. CRITICAL: Fixed a bug in LAI::EDTA which prevented it from renaming fasta ids in case they were longer than 13 characters.
+2. Increased resources for the nextflow process so that it can run child processes effectively.
+
 ## Version 0.10.5 (19-May-2023)
 
 1. CRITICAL: Fixed a bug in RUN_ASSEMBLY_VISUALIZER, HIC_QC introduced by the specification of the temporary directory in version 0.10.4.

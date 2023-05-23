@@ -11,6 +11,7 @@ workflow LAI {
                 | map {
                     return [it[0], it[1]] // [tag, genome fasta file path]
                 }
+                | SHORTEN_SEQ_IDS_IF_REQ
                 | EDTA
                 | map {
                     return [it[0], it[1], it[3], it[4]] // [tag, genome fasta file path, pass list path, out file path]
@@ -30,6 +31,46 @@ workflow LAI {
     
     emit:
         list_of_outputs = ch_list_of_lai_outputs
+}
+
+process SHORTEN_SEQ_IDS_IF_REQ {
+    tag "${hap_name}"
+    
+    input:
+        tuple val(hap_name), path(fasta_file)
+    
+    output:
+        tuple val(hap_name), path("*.renamed.ids.fasta")
+    
+    script:
+        """
+        cat $fasta_file | grep -o '^>[^ ]*' | sed 's/>//1' > input_file_ids.txt
+        shorten_fasta_ids_ba0fcb9.py input_file_ids.txt > short_ids.tsv
+
+        fasta_file_bash_var="$fasta_file"
+        output_file="\${fasta_file_bash_var%%.*}.renamed.ids.fasta"
+
+        if [[ "\$(cat short_ids.tsv)" =~ "IDs have acceptable length and character" ]];
+        then
+            echo "IDs have acceptable length and character"
+            cat "$fasta_file" > "\$output_file"
+            exit 0
+        fi
+
+        declare -A substitution_mapping
+        while IFS=\$'\\t' read -r fasta_id substitute_id; do
+            substitution_mapping["\$fasta_id"]="\$substitute_id"
+        done < short_ids.tsv
+
+        while IFS= read -r line; do
+            if [[ \$line =~ ^\\>([^[:space:]]+)(.*) ]]; then
+                fasta_id="\${BASH_REMATCH[1]}"
+                echo ">\${substitution_mapping["\$fasta_id"]}\${BASH_REMATCH[2]}" >> "\$output_file"
+            else
+                echo "\$line" >> "\$output_file"
+            fi
+        done < "$fasta_file"
+        """
 }
 
 process EDTA {
