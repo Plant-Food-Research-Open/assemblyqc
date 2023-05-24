@@ -112,7 +112,9 @@ ml Python/3.10.4-GCCcore-11.2.0-bare
 ml apptainer/1.1
 ml nextflow/22.10.4
 
-[ -d "/workspace/$USER" ] && export TMPDIR="/workspace/$USER/tmp" || export TMPDIR=$(realpath ~/tmp)
+export TMPDIR="/workspace/$USER/tmp"
+export NXF_SINGULARITY_CACHEDIR="/workspace/assembly_qc/singularity"
+export NXF_APPTAINER_CACHEDIR="/workspace/assembly_qc/singularity"
 
 srun nextflow main.nf -profile slurm -resume
 EOF
@@ -135,10 +137,12 @@ ml apptainer/1.1
 ml nextflow/22.10.4
 ```
 
-- Set the temporary directory:
+- Set the temporary and singularity/apptainer cache directories:
 
 ```bash
-[ -d "/workspace/$USER" ] && export TMPDIR="/workspace/$USER/tmp" || export TMPDIR=$(realpath ~/tmp)
+export TMPDIR="/workspace/$USER/tmp"
+export NXF_SINGULARITY_CACHEDIR="/workspace/assembly_qc/singularity"
+export NXF_APPTAINER_CACHEDIR="/workspace/assembly_qc/singularity"
 ```
 
 - Run the pipeline:
