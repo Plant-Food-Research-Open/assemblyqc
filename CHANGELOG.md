@@ -1,10 +1,13 @@
 # Change Log
 
-## Version 0.10.6 (24-May-2023)
+## Version 0.10.6 (25-May-2023)
 
 1. CRITICAL: Fixed a bug in LAI::EDTA which prevented it from renaming fasta ids in case they were longer than 13 characters.
 2. Increased resources for the nextflow process so that it can run child processes effectively.
 3. Now using a central location for assembly_qc singularity containers (/workspace/assembly_qc/singularity) so that individual users don't have to download these containers.
+4. Now using nf-core's convention for resource allocation and error strategy.
+5. Removed the option to enable hyper-threading.
+6. BREAKING: Merged the max_resources config file into the main config file. Slight modifications are required when using the same config file across versions.
 
 ## Version 0.10.5 (19-May-2023)
 

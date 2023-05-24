@@ -2,8 +2,8 @@ nextflow.enable.dsl=2
 
 process RUN_ASSEMBLY_VISUALIZER {
     tag "$sample_id_on_tag"
-
-    label 'uses_high_cpu_mem'
+    label "process_medium"
+    
     publishDir "${params.outdir.main}/hic", mode:'copy'
     container "gallvp/3d-dna:63029aa"
     containerOptions "-B $TMPDIR:$TMPDIR"

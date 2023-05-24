@@ -3,6 +3,7 @@ nextflow.enable.dsl=2
 
 process ASSEMBLATHON_STATS {
     tag "${hap_name}"
+    label "process_single"
 
     publishDir "${params.outdir.main}/assemblathon_stats", mode: 'copy'
 

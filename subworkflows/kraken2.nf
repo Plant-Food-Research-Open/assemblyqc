@@ -23,7 +23,8 @@ workflow KRAKEN2 {
 
 process SETUP_KRAKEN2_DB {
     tag "setup"
-    label 'takes_eight_hours'
+    label "process_single"
+    label "process_long"
 
     output:
         stdout
@@ -54,11 +55,11 @@ process SETUP_KRAKEN2_DB {
 
 process RUN_KRAKEN2 {
     tag "${hap_name}"
-    label 'uses_high_cpu_mem'
-    label 'uses_150_gb_mem'
+    label "process_high"
+    label "process_high_memory"
+    
     container "quay.io/biocontainers/kraken2:2.1.2--pl5321h9f5acd7_2"
     containerOptions "-B ${params.kraken2.download_path}:${params.kraken2.download_path}"
-
     publishDir "${params.outdir.main}/kraken2", mode: 'copy'
 
     input:
@@ -75,15 +76,16 @@ process RUN_KRAKEN2 {
         --report "${hap_name}.kraken2.report" \
         --use-names \
         --db ${params.kraken2.download_path} \
-        --threads ${task.cpus * params.ht_factor} \
+        --threads ${task.cpus} \
         $fasta_file > kraken2.log
         """
 }
 
 process KRONA_PLOT {
     tag "${hap_name}"
+    label "process_single"
+    
     container "docker://nanozoo/krona:2.7.1--e7615f7"
-
     publishDir "${params.outdir.main}/kraken2", mode: 'copy'
 
     input:

@@ -2,6 +2,7 @@ nextflow.enable.dsl=2
 
 process SAMBLASTER {
     tag "$sample_id_on_tag"
+    label "process_single"
     
     container "quay.io/biocontainers/samblaster:0.1.20--h9f5acd7_2"
 

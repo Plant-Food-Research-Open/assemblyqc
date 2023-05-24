@@ -74,6 +74,7 @@ See the report for further details.
 
 process SETUP_SCRIPTS {
     tag "setup"
+    label "process_single"
 
     output:
         stdout
@@ -108,6 +109,7 @@ process SETUP_SCRIPTS {
 
 process VERIFY_DB {
     tag "setup"
+    label "process_single"
 
     input:
         val setup_out
@@ -137,6 +139,7 @@ process VERIFY_DB {
 
 process SETUP_SAMPLE {
     tag "${hap_name}"
+    label "process_single"
 
     input:
         tuple val(hap_name), path(fasta_file)
@@ -153,10 +156,9 @@ process SETUP_SAMPLE {
 
 process SCREEN_SAMPLES {
     tag "all samples"
-
-    label 'uses_high_cpu_mem'
-    label 'uses_512_gb_mem'
-    label 'takes_four_hours'
+    label "process_high"
+    label "process_long"
+    label "process_very_high_memory"
 
     publishDir "${params.outdir.main}/ncbi_fcs_gx", mode: 'copy'
 
@@ -188,6 +190,7 @@ process SCREEN_SAMPLES {
 
 process CHECK_CONTAMINATION {
     tag "${hap_name}"
+    label "process_single"
 
     input:
         tuple val(hap_name), path(report_file)

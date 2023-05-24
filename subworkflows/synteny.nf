@@ -201,6 +201,8 @@ def failIfNumberOfLinksTooLarge(inputTuple, maxLinks) {
 
 process FILTER_SORT_FASTA {
     tag "${target}.on.${reference}"
+    label "process_single"
+    
     container "quay.io/biocontainers/samtools:1.16.1--h6899075_1"
 
     input:
@@ -218,6 +220,8 @@ process FILTER_SORT_FASTA {
 
 process GET_FASTA_LEN {
     tag "${target}.on.${reference}"
+    label "process_single"
+    
     container "quay.io/biocontainers/samtools:1.16.1--h6899075_1"
     
     input:        
@@ -238,9 +242,9 @@ process GET_FASTA_LEN {
 
 process MUMMER {
     tag "${target}.on.${reference}"
-    label 'uses_high_cpu_mem'
-    label 'uses_64_gb_mem'
-    label 'takes_four_hours'
+    label "process_high"
+    label "process_long"
+    
     container "docker://staphb/mummer:4.0.0"
 
     input:
@@ -253,7 +257,7 @@ process MUMMER {
         """
         nucmer \
         --mum \
-        -t ${task.cpus * params.ht_factor} \
+        -t ${task.cpus} \
         -p "${target}.on.${reference}" \
         $ref_fasta \
         $target_fasta
@@ -262,7 +266,8 @@ process MUMMER {
 
 process DNADIFF {
     tag "${target_on_ref}"
-    label 'takes_two_hours'
+    label "process_single"
+    
     container "docker://staphb/mummer:4.0.0"
 
     input:
@@ -287,7 +292,8 @@ process DNADIFF {
 
 process CIRCOS_BUNDLE_LINKS {
     tag "${target_on_ref}"
-    label 'takes_two_hours'
+    label "process_single"
+    
     container "docker://gallvp/circos-tools:0.23-1"
 
     input:
@@ -311,6 +317,8 @@ process CIRCOS_BUNDLE_LINKS {
 
 process ADD_COLOUR_TO_BUNDLE_LINKS {
     tag "${target_on_ref}"
+    label "process_single"
+    
     container "docker://gallvp/python3npkgs:v0.1"
 
     input:
@@ -335,6 +343,8 @@ process ADD_COLOUR_TO_BUNDLE_LINKS {
 
 process RELABEL_BUNDLE_LINKS {
     tag "${target_on_ref}"
+    label "process_single"
+    
     container "docker://gallvp/python3npkgs:v0.1"
     
     input:
@@ -375,6 +385,8 @@ process RELABEL_BUNDLE_LINKS {
 
 process RELABEL_FASTA_LEN {
     tag "${target_on_ref}"
+    label "process_single"
+    
     container "docker://gallvp/python3npkgs:v0.1"
     
     input:
@@ -407,6 +419,7 @@ process RELABEL_FASTA_LEN {
 
 process SPLIT_BUNDLE_FILE_BY_TARGET_SEQS {
     tag "${target_on_ref}"
+    label "process_single"
 
     input:
         tuple val(target_on_ref), path(coloured_bundle_links)
@@ -432,6 +445,7 @@ process SPLIT_BUNDLE_FILE_BY_TARGET_SEQS {
 
 process GENERATE_KARYOTYPE {
     tag "${target_on_ref}.${seq_tag}"
+    label "process_single"
 
     input:
         tuple val(target_on_ref), val(seq_tag), path(split_bundle_file), path(target_seq_len), path(ref_seq_len)
@@ -475,6 +489,8 @@ process GENERATE_KARYOTYPE {
 
 process CIRCOS {
     tag "${target_on_ref_seq}"
+    label "process_single"
+    
     container "docker://gallvp/circos-tools:0.23-1" 
     publishDir "${params.outdir.main}/synteny/${target_on_ref_seq}", mode: 'copy'
 

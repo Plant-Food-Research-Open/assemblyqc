@@ -2,6 +2,7 @@ nextflow.enable.dsl=2
 
 process ASSEMBLY2_BEDPE {
     tag "$sample_id_on_tag"
+    label "process_single"
 
     container "docker://gallvp/python3npkgs:v0.1"
     publishDir "${params.outdir.main}/hic/bedpe", mode:'copy'

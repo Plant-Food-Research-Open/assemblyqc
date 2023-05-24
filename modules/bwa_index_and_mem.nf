@@ -2,8 +2,8 @@ nextflow.enable.dsl=2
 
 process BWA_INDEX_AND_MEM {
     tag "${sample_id}.on.${assembly_tag}"
-    label 'uses_high_cpu_mem'
-    label 'takes_eight_hours'
+    label "process_high"
+    label "process_long"
     container "quay.io/biocontainers/bwa:0.7.17--hed695b0_7"
 
     input:
@@ -15,6 +15,6 @@ process BWA_INDEX_AND_MEM {
     script:
         """
         bwa index ${assembly_fasta}
-        bwa mem -5SP ${assembly_fasta} ${clean_reads[0]} ${clean_reads[1]} -o "${sample_id}.on.${assembly_tag}.sam" -t ${task.cpus * params.ht_factor}
+        bwa mem -5SP ${assembly_fasta} ${clean_reads[0]} ${clean_reads[1]} -o "${sample_id}.on.${assembly_tag}.sam" -t ${task.cpus}
         """
 }

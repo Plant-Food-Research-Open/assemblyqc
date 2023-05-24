@@ -52,6 +52,7 @@ workflow TIDK {
 
 process GET_APRIORI_SEQUENCE {
     tag "setup"
+    label "process_single"
 
     output:
         path("a_priori.sequence")
@@ -64,6 +65,8 @@ process GET_APRIORI_SEQUENCE {
 
 process SORT_AND_FILTER_BY_SEQ_LENGTH {
     tag "${hap_name}"
+    label "process_single"
+    
     container "quay.io/biocontainers/seqkit:2.3.1--h9ee0642_0" 
 
     input:
@@ -88,8 +91,9 @@ process SORT_AND_FILTER_BY_SEQ_LENGTH {
 
 process SEARCH_A_PRIORI_REPEAT_SEQ {
     tag "${hap_name}"
-    container "quay.io/biocontainers/tidk:0.2.31--h87f3376_0" 
+    label "process_single"
 
+    container "quay.io/biocontainers/tidk:0.2.31--h87f3376_0" 
     publishDir params.outdir.main, mode: 'copy'
 
     input:
@@ -106,8 +110,9 @@ process SEARCH_A_PRIORI_REPEAT_SEQ {
 
 process EXPLORE_REPEAT_SEQ {
     tag "${hap_name}"
+    label "process_single"
+    
     container "quay.io/biocontainers/tidk:0.2.31--h87f3376_0"
-
     publishDir "${params.outdir.main}/tidk", mode: 'copy'
 
     input:
@@ -125,8 +130,9 @@ process EXPLORE_REPEAT_SEQ {
 
 process SEARCH_A_POSTERIORI_REPEAT_SEQ {
     tag "${hap_name}"
+    label "process_single"
+    
     container "quay.io/biocontainers/tidk:0.2.31--h87f3376_0"
-
     publishDir params.outdir.main, mode: 'copy'
 
     input:
@@ -149,8 +155,9 @@ process SEARCH_A_POSTERIORI_REPEAT_SEQ {
 
 process PLOT_A_PRIORI_REPEAT_SEQ {
     tag "${hap_name}"
+    label "process_single"
+    
     container "quay.io/biocontainers/tidk:0.2.31--h87f3376_0" 
-
     publishDir "${params.outdir.main}/tidk", mode: 'copy'
 
     input:
@@ -167,8 +174,9 @@ process PLOT_A_PRIORI_REPEAT_SEQ {
 
 process PLOT_A_POSTERIORI_REPEAT_SEQ {
     tag "${hap_name}"
+    label "process_single"
+    
     container "quay.io/biocontainers/tidk:0.2.31--h87f3376_0"
-
     publishDir "${params.outdir.main}/tidk", mode: 'copy'
 
     input:

@@ -35,6 +35,7 @@ workflow LAI {
 
 process SHORTEN_SEQ_IDS_IF_REQ {
     tag "${hap_name}"
+    label "process_single"
     
     input:
         tuple val(hap_name), path(fasta_file)
@@ -75,10 +76,10 @@ process SHORTEN_SEQ_IDS_IF_REQ {
 
 process EDTA {
     tag "${hap_name}"
-    label 'uses_high_cpu_mem'
-    label 'takes_six_days'
+    label "process_high"
+    label "process_week_long"
+    
     container 'quay.io/biocontainers/edta:2.1.0--hdfd78af_1'
-
     publishDir "${params.outdir.main}/edta", mode: 'copy'
 
     input:
@@ -96,7 +97,7 @@ process EDTA {
         --anno 1 \
         --force 1 \
         --species "others" \
-        --threads ${task.cpus * params.ht_factor}
+        --threads ${task.cpus}
 
         fasta_file_var="$fasta_file"
         fasta_file_base_name="\${fasta_file_var%.*}"
@@ -118,11 +119,13 @@ process EDTA {
 process RUN_LAI {
     tag "${hap_name}"
     if (params.lai.mode != "-qq") {
-        label 'uses_high_cpu_mem'
-        label 'takes_six_days'
+        label "process_high"
+        label "process_week_long"
+    } else {
+        label "process_single"
     }
+    
     container 'quay.io/biocontainers/ltr_retriever:2.9.0--hdfd78af_1'
-
     publishDir "${params.outdir.main}/lai", mode: 'copy'
     
     input:
@@ -134,7 +137,7 @@ process RUN_LAI {
     script:
         """
         LAI ${params.lai.mode} \
-        -t ${task.cpus * params.ht_factor} \
+        -t ${task.cpus} \
         -genome $fasta_file \
         -intact $pass_list \
         -all $genome_out > "${hap_name}.LAI.log"

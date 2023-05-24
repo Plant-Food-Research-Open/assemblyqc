@@ -22,8 +22,8 @@ workflow HIC_PREPROCESS {
 
 process FASTP {
     tag "$sample_id"
-    label "uses_four_cpus"
-    label "takes_four_hours"
+    label "process_medium"
+    
     container "quay.io/biocontainers/fastp:0.23.2--h5f740d0_3"
 
     input: 
@@ -41,15 +41,15 @@ process FASTP {
         -O "\$(basename ${reads[1]} .fastq.gz).fastp.fastq.gz" \
         --qualified_quality_phred 20 \
         --length_required 50 \
-        --thread ${task.cpus * params.ht_factor}
+        --thread ${task.cpus}
         """
 }
 
 
 process FAST_QC {
     tag "$sample_id"
-    label 'uses_four_cpus'
-    label "takes_four_hours"
+    label "process_medium"
+    
     publishDir "${params.outdir.main}/hic/fastqc", mode:'copy'
     container "quay.io/biocontainers/fastqc:0.11.9--hdfd78af_1"
 
@@ -63,7 +63,7 @@ process FAST_QC {
     script:
         """
         fastqc ${raw_reads} ${clean_reads} \
-        -t ${task.cpus * params.ht_factor} \
+        -t ${task.cpus} \
         --nogroup
         """
 }

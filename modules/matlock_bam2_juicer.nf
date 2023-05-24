@@ -2,7 +2,7 @@ nextflow.enable.dsl=2
 
 process MATLOCK_BAM2_JUICER {
     tag "$sample_id_on_tag"
-    label "takes_two_hours"
+    label "process_single"
 
     container "quay.io/biocontainers/matlock:20181227--h4b03ef3_3"
 

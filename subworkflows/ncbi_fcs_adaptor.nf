@@ -62,6 +62,7 @@ See the report for further details.
 
 process SETUP_SCRIPTS {
     tag "setup"
+    label "process_single"
 
     output:
         stdout
@@ -96,6 +97,7 @@ process SETUP_SCRIPTS {
 
 process SCREEN_SAMPLE {
     tag "${hap_name}"
+    label "process_single"
 
     publishDir "${params.outdir.main}/ncbi_fcs_adaptor", mode: 'copy'
 
@@ -129,6 +131,7 @@ process SCREEN_SAMPLE {
 
 process CHECK_CONTAMINATION {
     tag "${hap_name}"
+    label "process_single"
 
     input:
         tuple val(hap_name), path(report_tsv)

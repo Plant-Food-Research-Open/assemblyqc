@@ -2,8 +2,8 @@ nextflow.enable.dsl=2
 
 process SAMTOOLS_VIEW {
     tag "$sample_id_on_tag"
-
-    label 'uses_high_cpu_mem'
+    label "process_high"
+    
     container "quay.io/biocontainers/samtools:1.16.1--h6899075_1"
 
     input:
@@ -16,7 +16,7 @@ process SAMTOOLS_VIEW {
         """
         file_name="${marked_sam}"
         samtools view \
-        --threads ${task.cpus * params.ht_factor} \
+        --threads ${task.cpus} \
         -S \
         -b \
         -h \

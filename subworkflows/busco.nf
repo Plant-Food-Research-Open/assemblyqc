@@ -27,8 +27,9 @@ workflow BUSCO {
 
 process RUN_BUSCO {
     tag "${hap_name}:${lineage_dataset}"
-    label 'uses_high_cpu_mem'
-    label 'takes_eight_hours'
+    label "process_high"
+    label "process_long"
+    
     container "quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0"
     containerOptions "-B ${params.busco.download_path}:${params.busco.download_path}"
 
@@ -53,7 +54,7 @@ process RUN_BUSCO {
         -l ${lineage_dataset} \
         --update-data \
         --download_path "${params.busco.download_path}" \
-        -c ${task.cpus * params.ht_factor}
+        -c ${task.cpus}
 
         mv "${hap_name}/short_summary.specific.${lineage_dataset}.${hap_name}.txt" "${hap_name}/short_summary.specific.${lineage_dataset}.${hap_name}_${lineage_split}.txt"
         """
@@ -61,8 +62,9 @@ process RUN_BUSCO {
 
 process CREATE_PLOT {
     tag "all summaries"
+    label "process_single"
+    
     container "quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0"
-
     publishDir params.outdir.main, mode: 'copy'
 
     input: 

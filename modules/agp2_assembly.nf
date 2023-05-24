@@ -2,6 +2,7 @@ nextflow.enable.dsl=2
 
 process AGP2_ASSEMBLY {
     tag "$sample_id_on_tag"
+    label "process_single"
 
     container "docker://gallvp/juicebox_scripts:a7ae991"
     publishDir "${params.outdir.main}/hic/assembly", mode:'copy'
