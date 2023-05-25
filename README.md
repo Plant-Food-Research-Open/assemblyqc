@@ -113,8 +113,6 @@ ml apptainer/1.1
 ml nextflow/22.10.4
 
 export TMPDIR="/workspace/$USER/tmp"
-export NXF_SINGULARITY_CACHEDIR="/workspace/assembly_qc/singularity"
-export NXF_APPTAINER_CACHEDIR="/workspace/assembly_qc/singularity"
 
 srun nextflow main.nf -profile slurm -resume
 EOF
@@ -137,12 +135,10 @@ ml apptainer/1.1
 ml nextflow/22.10.4
 ```
 
-- Set the temporary and singularity/apptainer cache directories:
+- Set the temporary directory:
 
 ```bash
 export TMPDIR="/workspace/$USER/tmp"
-export NXF_SINGULARITY_CACHEDIR="/workspace/assembly_qc/singularity"
-export NXF_APPTAINER_CACHEDIR="/workspace/assembly_qc/singularity"
 ```
 
 - Run the pipeline:

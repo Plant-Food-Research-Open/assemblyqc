@@ -89,7 +89,7 @@ if __name__ == "__main__":
         input_ids = [l.strip() for l in id_lines]
 
     if not do_ids_need_to_change(input_ids):
-        print("IDs have acceptable length and character")
+        print("IDs have acceptable length and character. No change required.")
         exit(0)
 
     new_ids = shorten_ids(input_ids, extract_common_patterns(input_ids))

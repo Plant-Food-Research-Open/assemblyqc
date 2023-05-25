@@ -12,9 +12,17 @@ workflow LAI {
                     return [it[0], it[1]] // [tag, genome fasta file path]
                 }
                 | SHORTEN_SEQ_IDS_IF_REQ
-                | EDTA
                 | map {
-                    return [it[0], it[1], it[3], it[4]] // [tag, genome fasta file path, pass list path, out file path]
+                    [it[0], it[1]] // [tag, path for the genome fasta file with renamed ids]
+                }
+                | set { ch_tag_enamed_ids_fasta }
+                
+                EDTA(ch_tag_enamed_ids_fasta)
+                | join(
+                    ch_tag_enamed_ids_fasta
+                )
+                | map {
+                    [it[0], it[6], it[3], it[4]] // [tag, path for the genome fasta file with renamed ids, pass list, out file]
                 }
                 | RUN_LAI
                 | collect
@@ -36,24 +44,26 @@ workflow LAI {
 process SHORTEN_SEQ_IDS_IF_REQ {
     tag "${hap_name}"
     label "process_single"
+
+    publishDir "${params.outdir.main}/edta", mode: 'copy', pattern: '*.renamed.ids.tsv'
     
     input:
         tuple val(hap_name), path(fasta_file)
     
     output:
-        tuple val(hap_name), path("*.renamed.ids.fasta")
+        tuple val(hap_name), path("*.renamed.ids.fa"), path("*.renamed.ids.tsv")
     
     script:
         """
-        cat $fasta_file | grep -o '^>[^ ]*' | sed 's/>//1' > input_file_ids.txt
-        shorten_fasta_ids_ba0fcb9.py input_file_ids.txt > short_ids.tsv
-
         fasta_file_bash_var="$fasta_file"
-        output_file="\${fasta_file_bash_var%%.*}.renamed.ids.fasta"
+        renamed_ids_file_name="\${fasta_file_bash_var%.*}.renamed.ids.tsv"
+        output_file="\${fasta_file_bash_var%.*}.renamed.ids.fa"
 
-        if [[ "\$(cat short_ids.tsv)" =~ "IDs have acceptable length and character" ]];
+        cat $fasta_file | grep -o '^>[^ ]*' | sed 's/>//1' > input_file_ids.txt
+        shorten_fasta_ids_ba0fcb9.py input_file_ids.txt > "\$renamed_ids_file_name"
+
+        if [[ "\$(cat \$renamed_ids_file_name)" =~ "IDs have acceptable length and character. No change required." ]];
         then
-            echo "IDs have acceptable length and character"
             cat "$fasta_file" > "\$output_file"
             exit 0
         fi
@@ -61,7 +71,7 @@ process SHORTEN_SEQ_IDS_IF_REQ {
         declare -A substitution_mapping
         while IFS=\$'\\t' read -r fasta_id substitute_id; do
             substitution_mapping["\$fasta_id"]="\$substitute_id"
-        done < short_ids.tsv
+        done < "\$renamed_ids_file_name"
 
         while IFS= read -r line; do
             if [[ \$line =~ ^\\>([^[:space:]]+)(.*) ]]; then
@@ -80,13 +90,19 @@ process EDTA {
     label "process_week_long"
     
     container 'quay.io/biocontainers/edta:2.1.0--hdfd78af_1'
+    containerOptions "-B $TMPDIR:$TMPDIR"
     publishDir "${params.outdir.main}/edta", mode: 'copy'
 
     input:
         tuple val(hap_name), path(fasta_file)
     
     output:
-        tuple val(hap_name), path('*.EDTA.fasta'), path('*.EDTA.TEanno.gff3'), path('*.EDTA.pass.list'), path('*.EDTA.out'), path('*.EDTA.TElib.fa')
+        tuple val(hap_name),
+        path('*.EDTA.TEanno.gff3'),
+        path('*.EDTA.intact.gff3'),
+        path('*.EDTA.pass.list'),
+        path('*.EDTA.out'),
+        path('*.EDTA.TElib.fa'), emit: edta_outputs
     
     script:
         """
@@ -99,20 +115,15 @@ process EDTA {
         --species "others" \
         --threads ${task.cpus}
 
-        fasta_file_var="$fasta_file"
-        fasta_file_base_name="\${fasta_file_var%.*}"
-        edta_mod_str=".mod"
-        fasta_file_mod="\${fasta_file_var}\${edta_mod_str}"
-        
-        ln -s "\$fasta_file_mod" "\${fasta_file_base_name}.EDTA.fasta"
+        fasta_file_mod="${fasta_file}.mod"
         
         [[ -f "./\${fasta_file_mod}.EDTA.raw/LTR/\${fasta_file_mod}.pass.list" ]] \
         && echo "EDTA pass list detected" \
         || echo "EDTA PASS LIST IS EMPTY" > "./\${fasta_file_mod}.EDTA.raw/LTR/\${fasta_file_mod}.pass.list"
         
-        ln -s "./\${fasta_file_mod}.EDTA.raw/LTR/\${fasta_file_mod}.pass.list" "\${fasta_file_base_name}.EDTA.pass.list"
+        ln -s "./\${fasta_file_mod}.EDTA.raw/LTR/\${fasta_file_mod}.pass.list" "\${fasta_file_mod}.EDTA.pass.list"
         
-        ln -s "./\${fasta_file_mod}.EDTA.anno/\${fasta_file_mod}.out" "\${fasta_file_base_name}.EDTA.out"
+        ln -s "./\${fasta_file_mod}.EDTA.anno/\${fasta_file_mod}.out" "\${fasta_file_mod}.EDTA.out"
         """
 }
 
