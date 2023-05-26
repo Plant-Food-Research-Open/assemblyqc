@@ -65,7 +65,7 @@ When downloading these containers, the pipeline can fail due to connection issue
 
 ## Step 4: Running the Pipeline
 
-The next two sections explain how to run the pipeline on Slurm, a single machine or other executors.
+The next sections explain how to run the pipeline on Slurm, a single machine or other executors.
 
 ### Running on Slurm
 
@@ -105,6 +105,14 @@ The next 4 lines starting with ml specify the environment modules used by the pi
 The `export TMPDIR` directory specifies the location of the temporary directory. Once again, this is system specific and should be specified by referring to the system manuals.
 
 The last line executes the pipeline implemented in the `main.nf` file with profile slurm and `-resume` flag.
+
+After creating the slurm submission script, add execution permission and submit to slurm as follows:
+
+```bash
+chmod u+x ./assembly_qc_slurm.sh
+
+sbatch ./assembly_qc_slurm.sh
+```
 
 ### Running on a Single Machine
 
