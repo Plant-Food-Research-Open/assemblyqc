@@ -1,29 +1,20 @@
 # AssemblyQC
 
-## Table of Contents
-
 - [AssemblyQC](#assemblyqc)
-  - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
-  - [Contributors](#contributors)
   - [Pipeline Flowchart](#pipeline-flowchart)
-  - [Installation](#installation)
   - [Running the Pipeline](#running-the-pipeline)
     - [Post the NextFlow Process to Slurm](#post-the-nextflow-process-to-slurm)
-    - [Run Interactively](#run-interactively)
     - [Post-run clean-up](#post-run-clean-up)
   - [Getting sample data](#getting-sample-data)
   - [Known Issues](#known-issues)
   - [Software Versions \& References](#software-versions--references)
+  - [Contributors](#contributors)
   - [Future Tools](#future-tools)
 
 ## Introduction
 
-Welcome to AssemblyQC. This Nextflow pipeline evaluates assembly quality with well established tools and presents the results in a unified html report. The tools are shown in the [Pipeline Flowchart](#pipeline-flowchart) and their version are listed under [Software Versions & References](#software-versions--references).
-
-## Contributors
-
-- Cecilia Deng [@CeciliaDeng](https://github.com/CeciliaDeng), Chen Wu [@christinawu2008](https://github.com/christinawu2008), Jason Shiller [@jasonshiller](https://github.com/jasonshiller), Ken Smith [@hzlnutspread](https://github.com/hzlnutspread), Marcus Davy [@mdavy86](https://github.com/mdavy86), Ross Crowhurst [@rosscrowhurst](https://github.com/rosscrowhurst), Susan Thomson [@cflsjt](https://github.com/cflsjt), Usman Rashid [@GallVp](https://github.com/GallVp)
+AssemblyQC is a Nextflow pipeline which evaluates assembly quality with well established tools and presents the results in a unified html report. The tools are shown in the [Pipeline Flowchart](#pipeline-flowchart) and their version are listed under [Software Versions & References](#software-versions--references).
 
 ## Pipeline Flowchart
 
@@ -59,20 +50,6 @@ flowchart LR
   SYNTENY --> Report
 ```
 
-## Installation
-
-1. Copy the Github repository URL and run the following in your target folder:
-
-```bash
-git clone https://github.com/PlantandFoodResearch/assembly_qc.git
-```
-
-2. Navigate into the project
-
-```bash
-cd assembly_qc/
-```
-
 ## Running the Pipeline
 
 See the [tutorials](./docs/tutorials.md) for detailed instructions on how to use the pipeline. To run the pipeline on an assembly, first edit the nextflow.config. The following parameters must be checked and modified accordingly:
@@ -89,7 +66,7 @@ See the [tutorials](./docs/tutorials.md) for detailed instructions on how to use
 - synteny::assembly_seq_list
 - synteny::xref_assemblies
 
-Then, preferably, the pipeline should be posted to Slurm for execution. For debugging purposes, the pipeline can also be executed interactively.
+Then, the pipeline should be posted to Slurm for execution.
 
 ### Post the NextFlow Process to Slurm
 
@@ -122,30 +99,7 @@ chmod u+x ./assembly_qc_slurm.sh
 sbatch ./assembly_qc_slurm.sh
 ```
 
-You will now see a results folder which will contain a file named 'report.html' and can be viewed on the [powerPlant storage server](https://storage.powerplant.pfr.co.nz).
-
-### Run Interactively
-
-- Load the required modules:
-
-```bash
-ml unload perl
-ml Python/3.10.4-GCCcore-11.2.0-bare
-ml apptainer/1.1
-ml nextflow/22.10.4
-```
-
-- Set the temporary directory:
-
-```bash
-export TMPDIR="/workspace/$USER/tmp"
-```
-
-- Run the pipeline:
-
-```bash
-nextflow main.nf -profile slurm -resume
-```
+You will now see a results folder which will contain a file named 'report.html' and can be viewed on the [powerPlant storage server](https://storage.powerplant.pfr.co.nz). The 'report.html' is a standalone file for all the modules except HiC and Kraken2. Thus, if you move the report to another folder, make sure to also move the 'hic' folder and the 'kraken2' folder with it.
 
 ### Post-run clean-up
 
@@ -178,8 +132,6 @@ cat ./test_data/test_data2.fasta | grep ">*chr" | tail -2 | sed 's/>//g' | awk '
 cat ./test_data/test_data3.fasta | grep ">*chr" | head -5 | tail -2 | sed 's/>//g' | awk '{print $1, "GA_"NR}' OFS="\t" >  ./test_data/test_data3.seq.list
 cat ./test_data/test_data4.fasta | grep ">*chr" | tail -3 | sed 's/>//g' | awk '{print $1, "GB_"NR}' OFS="\t" >  ./test_data/test_data4.seq.list
 ```
-
-The test data will take around 15 minutes to run.
 
 ## Known Issues
 
@@ -243,6 +195,10 @@ The test data will take around 15 minutes to run.
     > Marçais G, Delcher AL, Phillippy AM, Coston R, Salzberg SL, Zimin A. MUMmer4: A fast and versatile genome alignment system. PLoS Comput Biol. 2018 Jan 26;14(1):e1005944. doi: <https://doi.org/10.1371/journal.pcbi.1005944>. PMID: 29373581; PMCID: PMC5802927.
   - SAMTOOLS (1.16.1)
     > Petr Danecek, James K Bonfield, Jennifer Liddle, John Marshall, Valeriu Ohan, Martin O Pollard, Andrew Whitwham, Thomas Keane, Shane A McCarthy, Robert M Davies, Heng Li, Twelve years of SAMtools and BCFtools, GigaScience, Volume 10, Issue 2, February 2021, giab008, <https://doi.org/10.1093/gigascience/giab008>
+
+## Contributors
+
+- Cecilia Deng [@CeciliaDeng](https://github.com/CeciliaDeng), Chen Wu [@christinawu2008](https://github.com/christinawu2008), Jason Shiller [@jasonshiller](https://github.com/jasonshiller), Ken Smith [@hzlnutspread](https://github.com/hzlnutspread), Marcus Davy [@mdavy86](https://github.com/mdavy86), Ross Crowhurst [@rosscrowhurst](https://github.com/rosscrowhurst), Susan Thomson [@cflsjt](https://github.com/cflsjt), Usman Rashid [@GallVp](https://github.com/GallVp)
 
 ## Future Tools
 

@@ -1,5 +1,11 @@
 # Change Log
 
+## Version 0.10.7 (26-May-2023)
+
+1. CRITICAL: Fixed a bug in LAI::EDTA which prevented it from renaming fasta ids in case they were longer than 13 characters.
+2. Now the HiC module does not require the storage_server parameter and the HiC contact map does not disappear when the report is moved across folders.
+3. Further developed the tutorials section.
+
 ## Version 0.10.6 (25-May-2023)
 
 1. CRITICAL: Fixed a bug in LAI::EDTA which prevented it from renaming fasta ids in case they were longer than 13 characters.

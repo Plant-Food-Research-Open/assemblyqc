@@ -59,8 +59,8 @@ process SHORTEN_SEQ_IDS_IF_REQ {
         renamed_ids_file_name="\${fasta_file_bash_var%.*}.renamed.ids.tsv"
         output_file="\${fasta_file_bash_var%.*}.renamed.ids.fa"
 
-        cat $fasta_file | grep -o '^>[^ ]*' | sed 's/>//1' > input_file_ids.txt
-        shorten_fasta_ids_ba0fcb9.py input_file_ids.txt > "\$renamed_ids_file_name"
+        cat $fasta_file | grep -o '^>[^[:space:]]*' | sed 's/>//1' > input_file_ids.txt
+        shorten_fasta_ids_fc62f04.py input_file_ids.txt > "\$renamed_ids_file_name"
 
         if [[ "\$(cat \$renamed_ids_file_name)" =~ "IDs have acceptable length and character. No change required." ]];
         then
