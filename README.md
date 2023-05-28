@@ -136,6 +136,7 @@ cat ./test_data/test_data4.fasta | grep ">*chr" | tail -3 | sed 's/>//g' | awk '
 ## Known Issues
 
 - On its first run, the pipeline has to download a lot many software containers. This download may fail. If it happens, resume the pipeline again and it should be able to download the required containers.
+- The pipeline may fail more frequently at building singularity containers when the temporary directory is not the system "/tmp" directory.
 
 ## Software Versions & References
 
