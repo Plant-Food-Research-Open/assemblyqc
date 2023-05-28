@@ -3,8 +3,42 @@
 import re
 import sys
 
-# The input file is a single column file with 1 id per row
-input_file = sys.argv[1]
+from Bio import SeqIO
+
+# The input fasta file path
+fasta_file_path = sys.argv[1]
+
+# The prefix for output files: prefix.renamed.ids.fa, prefix.renamed.ids.tsv
+output_files_prefix = sys.argv[2]
+
+# In the case where IDs have acceptable character and no change is needed, the output is stdout:
+# "IDs have acceptable length and character. No change required."
+
+
+def extract_fasta_ids(fasta_file_path):
+    fasta_file_obj = SeqIO.parse(fasta_file_path, "fasta")
+
+    ids = []
+    for record in fasta_file_obj:
+        ids.append(record.id)
+    return ids
+
+
+def write_fasta_with_new_ids(fasta_file_path, id_mapping, file_prefix):
+    old_fasta_file_obj = SeqIO.parse(fasta_file_path, "fasta")
+    id_map = dict(id_mapping)
+
+    replaced_records = []
+    for record in old_fasta_file_obj:
+        old_id = record.id
+
+        new_id = id_map[old_id]
+        record.id = new_id
+        record.description = ""
+
+        replaced_records.append(record)
+
+    SeqIO.write(replaced_records, f"{file_prefix}.renamed.ids.fa", "fasta")
 
 
 def do_id_need_to_change(id):
@@ -101,9 +135,7 @@ def fail_if_new_ids_not_valid(ids):
 
 
 if __name__ == "__main__":
-    with open(input_file, "r") as f:
-        id_lines = f.readlines()
-        input_ids = [l.strip() for l in id_lines]
+    input_ids = extract_fasta_ids(fasta_file_path)
 
     if not do_ids_need_to_change(input_ids):
         print("IDs have acceptable length and character. No change required.")
@@ -112,5 +144,10 @@ if __name__ == "__main__":
     new_ids = shorten_ids(input_ids, extract_common_patterns(input_ids))
     fail_if_new_ids_not_valid(new_ids)
 
-    for new_id, input_id in zip(new_ids, input_ids):
-        print(f"{input_id}\t{new_id}")
+    with open(f"{output_files_prefix}.renamed.ids.tsv", "w") as f:
+        for input_id, new_id in zip(input_ids, new_ids):
+            f.write(f"{input_id}\t{new_id}\n")
+
+    write_fasta_with_new_ids(
+        fasta_file_path, zip(input_ids, new_ids), output_files_prefix
+    )

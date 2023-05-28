@@ -40,7 +40,7 @@ process HIC2_HTML {
     tag "$sample_id_on_tag"
     label "process_single"
     
-    container "docker://gallvp/python3npkgs:v0.1"
+    container "docker://gallvp/python3npkgs:v0.2"
     publishDir "${params.outdir.main}/hic", mode: 'copy'
 
     input:

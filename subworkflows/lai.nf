@@ -45,6 +45,7 @@ process SHORTEN_SEQ_IDS_IF_REQ {
     tag "${hap_name}"
     label "process_single"
 
+    container "docker://gallvp/python3npkgs:v0.2"
     publishDir "${params.outdir.main}/edta", mode: 'copy', pattern: '*.renamed.ids.tsv'
     
     input:
@@ -56,31 +57,15 @@ process SHORTEN_SEQ_IDS_IF_REQ {
     script:
         """
         fasta_file_bash_var="$fasta_file"
-        renamed_ids_file_name="\${fasta_file_bash_var%.*}.renamed.ids.tsv"
-        output_file="\${fasta_file_bash_var%.*}.renamed.ids.fa"
+        output_prefix="\${fasta_file_bash_var%.*}"
 
-        cat $fasta_file | grep -o '^>[^[:space:]]*' | sed 's/>//1' > input_file_ids.txt
-        shorten_fasta_ids_fc62f04.py input_file_ids.txt > "\$renamed_ids_file_name"
+        status=\$(shorten_fasta_ids_43fbc70.py "$fasta_file" "\$output_prefix")
 
-        if [[ "\$(cat \$renamed_ids_file_name)" =~ "IDs have acceptable length and character. No change required." ]];
+        if [[ "\$status" =~ "IDs have acceptable length and character. No change required." ]];
         then
-            cat "$fasta_file" > "\$output_file"
-            exit 0
+            echo "\$status" > "\${output_files_prefix}.renamed.ids.tsv"
+            ln -s "$fasta_file" "\${output_files_prefix}.renamed.ids.fa"
         fi
-
-        declare -A substitution_mapping
-        while IFS=\$'\\t' read -r fasta_id substitute_id; do
-            substitution_mapping["\$fasta_id"]="\$substitute_id"
-        done < "\$renamed_ids_file_name"
-
-        while IFS= read -r line; do
-            if [[ \$line =~ ^\\>([^[:space:]]+)(.*) ]]; then
-                fasta_id="\${BASH_REMATCH[1]}"
-                echo ">\${substitution_mapping["\$fasta_id"]}\${BASH_REMATCH[2]}" >> "\$output_file"
-            else
-                echo "\$line" >> "\$output_file"
-            fi
-        done < "$fasta_file"
         """
 }
 
