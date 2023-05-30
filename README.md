@@ -144,12 +144,22 @@ cat ./test_data/test_data4.fasta.gz | gzip -cdf | grep ">*chr" | tail -3 | sed '
 
 ## Software Versions & References
 
+- FASTA_VALIDATE
+  > <https://github.com/GallVp/fasta_validator>
+  >
+  > Forked from: <https://github.com/linsalrob/fasta_validator>
+  >
+  > Edwards, R.A. 2019. fasta_validate: a fast and efficient fasta validator written in pure C. doi: <https://doi.org/10.5281/zenodo.2532044>
+- GT_GFF3VALIDATOR
+  > G. Gremme, S. Steinbiss and S. Kurtz, "GenomeTools: A Comprehensive Software Library for Efficient Processing of Structured Genome Annotations," in IEEE/ACM Transactions on Computational Biology and Bioinformatics, vol. 10, no. 3, pp. 645-656, May 2013, doi: <https://doi.org/10.1109/TCBB.2013.68>.
 - NCBI-FCS-ADAPTOR (0.4)
   > <https://github.com/ncbi/fcs>
 - NCBI-FCS-GX (0.4)
   > <https://github.com/ncbi/fcs>
 - ASSEMBLATHON_STATS
   > [github/PlantandFoodResearch/assemblathon2-analysis/a93cba2](https://github.com/PlantandFoodResearch/assemblathon2-analysis/blob/a93cba25d847434f7eadc04e63b58c567c46a56d/assemblathon_stats.pl)
+  >
+  > Forked from: <https://github.com/ucdavis-bioinformatics/assemblathon2-analysis>
 - GENOMETOOLS_GT_STAT (1.6.2):
   > G. Gremme, S. Steinbiss and S. Kurtz, "GenomeTools: A Comprehensive Software Library for Efficient Processing of Structured Genome Annotations," in IEEE/ACM Transactions on Computational Biology and Bioinformatics, vol. 10, no. 3, pp. 645-656, May 2013, doi: <https://doi.org/10.1109/TCBB.2013.68>.
 - BUSCO (5.2.2)
