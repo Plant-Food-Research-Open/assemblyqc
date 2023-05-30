@@ -1,5 +1,6 @@
 nextflow.enable.dsl=2
 
+include { VALIDATE_FASTA        } from '../subworkflows/validate_fasta.nf'
 include { BUSCO                 } from '../subworkflows/busco.nf'
 include { TIDK                  } from '../subworkflows/tidk.nf'
 include { LAI                   } from '../subworkflows/lai.nf'
@@ -16,9 +17,16 @@ include { GENOMETOOLS_GT_STAT   } from '../modules/genometools_gt_stat.nf'
 
 workflow ASSEMBLY_QC {
 
+    // VALIDATE_FASTA
+    Channel.fromList(params.target_assemblies)
+    | map {
+        return [it[0], file(it[1], checkIfExists: true)] // [tag, assembly fasta path]
+    }
+    | VALIDATE_FASTA
+
     // GENOMETOOLS_GT_STAT
     Channel.fromList(params.assembly_gff3)
-    .map {
+    | map {
         return [it[0], file(it[1], checkIfExists: true)] // [tag, assembly gff3 path]
     }
     | GENOMETOOLS_GT_STAT
@@ -28,7 +36,7 @@ workflow ASSEMBLY_QC {
 
     // NCBI-FCS-ADAPTOR & NCBI-FCS-GX
     Channel.fromList(params.target_assemblies)
-    .map {
+    | map {
         return [it[0], file(it[1], checkIfExists: true)] // [tag, assembly fasta path]
     }
     | (NCBI_FCS_ADAPTOR & NCBI_FCS_GX)
