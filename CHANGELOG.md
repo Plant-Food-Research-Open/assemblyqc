@@ -1,6 +1,6 @@
 # Change Log
 
-## Version 0.10.7 (30-May-2023)
+## Version 0.10.8 (30-May-2023)
 
 1. Now NCBI FCS Adaptor and NCBI FCS GX both run in parallel so that both contamination checks are part of the final report even if there is adaptor contamination.
 
