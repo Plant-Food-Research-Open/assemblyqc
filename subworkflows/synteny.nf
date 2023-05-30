@@ -214,7 +214,10 @@ process FILTER_SORT_FASTA {
     script:
         """
         samtools faidx $target_fasta \$(awk '{print \$1}' $target_seq_list) > filtered.ordered.target.fasta
-        samtools faidx $ref_fasta \$(awk '{print \$1}' $ref_seq_list) > filtered.ordered.ref.fasta
+
+        mkfifo ref_fasta_uncompressed
+        gzip -cdf $ref_fasta > ref_fasta_uncompressed &
+        samtools faidx ref_fasta_uncompressed \$(awk '{print \$1}' $ref_seq_list) > filtered.ordered.ref.fasta
         """
 }
 

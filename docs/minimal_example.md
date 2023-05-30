@@ -24,20 +24,20 @@ The pipeline can QC multiple assemblies in parallel. All these assemblies should
 
 ### Fasta Files
 
-The pipeline configuration is stored in the 'nextflow.config' file. In this file, add the fasta files to the `target_assemblies` variable under the `params` score. Here is an example:
+The pipeline configuration is stored in the 'nextflow.config' file. In this file, add the fasta files (fasta, fasta.gz) to the `target_assemblies` variable under the `params` score. Here is an example:
 
 ```groovy
 target_assemblies = [
-    ["assembly1", "./test_data/test_data1.fasta"],
+    ["assembly1", "./test_data/test_data1.fasta.gz"],
     ["assembly2", "./test_data/test_data2.fasta"]
 ]
 ```
 
-Notice that `target_assemblies` is a list of lists. Each sublist represents an assembly. Each sublist must have two members. First, a unique tag that represents the assembly. This tag is used by the pipeline to identify this assembly across QC modules. This tag should only consist of alphanumeric characters (A-Za-z0-9_). Second, the path to the fasta file. This path can be absolute or relative.
+Notice that `target_assemblies` is a list of lists. Each sublist represents an assembly. Each sublist must have two members. First, a unique tag that represents the assembly. This tag is used by the pipeline to identify this assembly across QC modules. This tag should only consist of alphanumeric characters (A-Za-z0-9_). Second, the path to the fasta file (fasta, fasta.gz). This path can be absolute or relative.
 
 ### Gene Annotations (Optional)
 
-If one or more of these assemblies have gene annotation files, these files should be in gff3 format. These files are specified in the `assembly_gff3` parameter. The rules for specifying the ggf3 files are same as those for the fasta files. Here is an example:
+If one or more of these assemblies have gene annotation files, these files should be in gff3 format (gff3, gff3.gz). These files are specified in the `assembly_gff3` parameter. The rules for specifying the ggf3 files are same as those for the fasta files. Here is an example:
 
 ```groovy
 target_assemblies = [

@@ -17,9 +17,7 @@ workflow VALIDATE_FASTA {
             def status      = literals[2]
 
             if(status != "VALID") {
-                log.error(
-                    "$it".strip()
-                )
+                log.error("FASTA file for ${literals[1]} failed the validation check with following errors:\n$it")
                 System.exit(1)
             }
             

@@ -1,5 +1,10 @@
 # Change Log
 
+## Version 0.11 (31-May-2023)
+
+1. Added validation for fasta and gff3 files.
+2. Added support for compressed files (fasta.gz, gff3.gz).
+
 ## Version 0.10.8 (30-May-2023)
 
 1. Now NCBI FCS Adaptor and NCBI FCS GX both run in parallel so that both contamination checks are part of the final report even if there is adaptor contamination.

@@ -1,6 +1,7 @@
 nextflow.enable.dsl=2
 
 include { VALIDATE_FASTA        } from '../subworkflows/validate_fasta.nf'
+include { VALIDATE_GFF3         } from '../subworkflows/validate_gff3.nf'
 include { BUSCO                 } from '../subworkflows/busco.nf'
 include { TIDK                  } from '../subworkflows/tidk.nf'
 include { LAI                   } from '../subworkflows/lai.nf'
@@ -24,10 +25,20 @@ workflow ASSEMBLY_QC {
     }
     | VALIDATE_FASTA
 
-    // GENOMETOOLS_GT_STAT
+    // VALIDATE_GFF3
     Channel.fromList(params.assembly_gff3)
     | map {
         return [it[0], file(it[1], checkIfExists: true)] // [tag, assembly gff3 path]
+    }
+    | VALIDATE_GFF3
+
+
+    // GENOMETOOLS_GT_STAT
+    VALIDATE_GFF3
+    .out
+    .tuple_tag_is_valid_gff3
+    | map {
+        return [it[0], file(it[2], checkIfExists: true)] // [tag, valid gff3 path]
     }
     | GENOMETOOLS_GT_STAT
     | collect
@@ -35,26 +46,32 @@ workflow ASSEMBLY_QC {
 
 
     // NCBI-FCS-ADAPTOR & NCBI-FCS-GX
-    Channel.fromList(params.target_assemblies)
+    VALIDATE_FASTA
+    .out
+    .tuple_tag_is_valid_fasta
     | map {
-        return [it[0], file(it[1], checkIfExists: true)] // [tag, assembly fasta path]
+        return [it[0], file(it[2], checkIfExists: true)] // [tag, valid fasta path]
     }
     | (NCBI_FCS_ADAPTOR & NCBI_FCS_GX)
 
     NCBI_FCS_ADAPTOR
     .out
     .is_clean_status
-    .join(
+    | join(
         NCBI_FCS_GX
         .out
         .is_clean_status
     )
     | filter {
-        it[1] && it[2] // NCBI_FCS_ADAPTOR and NCBI_FCS_GX report clean files
+        it[1] && it[2] // NCBI_FCS_ADAPTOR and NCBI_FCS_GX both report no contamination
     }
-    | join(Channel.fromList(params.target_assemblies))
+    | join(
+        VALIDATE_FASTA
+        .out
+        .tuple_tag_is_valid_fasta
+    )
     | map {
-        return [it[0], file(it[3], checkIfExists: true)] // [tag, assembly fasta path]
+        return [it[0], file(it[4], checkIfExists: true)] // [tag, valid fasta path]
     }
     | set { ch_clean_target_assemblies }
 
