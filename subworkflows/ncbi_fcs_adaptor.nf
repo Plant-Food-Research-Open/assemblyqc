@@ -2,13 +2,15 @@ nextflow.enable.dsl=2
 
 workflow NCBI_FCS_ADAPTOR {
     take:
-        tuple_of_hap_file
+        tuple_of_tag_file
     
     main:
         if (!params.ncbi_fcs_adaptor.skip) {
 
             ch_setup_output         = SETUP_SCRIPTS()
-            ch_report               = SCREEN_SAMPLE(ch_setup_output, tuple_of_hap_file)
+
+            SCREEN_SAMPLE(ch_setup_output, tuple_of_tag_file)
+            | set { ch_report }
 
             ch_report
             .map {
@@ -17,46 +19,43 @@ workflow NCBI_FCS_ADAPTOR {
             .collect()
             .set { ch_all_reports }
 
-            // Clean/contaminated branching
-            CHECK_CONTAMINATION(ch_report)
-            | branch {
-                contaminated: it =~ /CHECK_ADAPTOR_CONTAMINATION:CONTAMINATED/
-                clean: it =~ /CHECK_ADAPTOR_CONTAMINATION:CLEAN/
-            }
-            | set { ch_branch }
+            ch_report
+            | CHECK_CONTAMINATION
+            | map {
+                def itTokes = "$it".tokenize(':')
+                def status = itTokes[1]
+                def tag = itTokes[2]
 
-            ch_branch
-            .contaminated
-            .map {
-                statusTokens = "$it".tokenize(':')
-                hapName = statusTokens[2]
+                def isClean = status == "CLEAN"
 
-"""
-Adaptor contamination detected in ${hapName}.
-See the report for further details.
-"""
+                [tag, isClean]
             }
-            .view()
+            | set { ch_tuple_tag_is_clean } // [tag, is_clean flag]
 
-            ch_branch
-            .clean
-            .map {
-                statusTokens = "$it".tokenize(':')
-                hap_name = statusTokens[2]
+            ch_tuple_tag_is_clean
+            | map {
+                def tag = it[0]
+                def isClean = it[1]
+
+                if (!isClean) {
+                    log.warn("""
+                    Adaptor contamination detected in ${tag}.
+                    See the report for further details.
+                    """.stripIndent())
+                }
             }
-            .set { ch_clean_hap }
         } else {
-            tuple_of_hap_file
+            tuple_of_tag_file
             .map {
-                it[0] // tag
+                [it[0], true] // [tag, true]
             }
-            .set { ch_clean_hap }
+            .set { ch_tuple_tag_is_clean }
 
             ch_all_reports          = Channel.of([])
         }
     
     emit:
-        clean_hap                   = ch_clean_hap
+        is_clean_status             = ch_tuple_tag_is_clean
         reports                     = ch_all_reports
 }
 

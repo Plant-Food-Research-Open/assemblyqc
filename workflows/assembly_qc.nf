@@ -26,30 +26,29 @@ workflow ASSEMBLY_QC {
     | set { ch_genometools_gt_stats }
 
 
-    // NCBI-FCS-ADAPTOR
+    // NCBI-FCS-ADAPTOR & NCBI-FCS-GX
     Channel.fromList(params.target_assemblies)
     .map {
         return [it[0], file(it[1], checkIfExists: true)] // [tag, assembly fasta path]
     }
-    | NCBI_FCS_ADAPTOR
+    | (NCBI_FCS_ADAPTOR & NCBI_FCS_GX)
 
-    NCBI_FCS_ADAPTOR.out.clean_hap
-    .join(Channel.fromList(params.target_assemblies))
-    .map {
-        return [it[0], file(it[1], checkIfExists: true)] // [tag, assembly fasta path]
+    NCBI_FCS_ADAPTOR
+    .out
+    .is_clean_status
+    .join(
+        NCBI_FCS_GX
+        .out
+        .is_clean_status
+    )
+    | filter {
+        it[1] && it[2] // NCBI_FCS_ADAPTOR and NCBI_FCS_GX report clean files
     }
-    | set {ch_adaptor_clean_target_assemblies}
-
-
-    // NCBI-FCS-GX
-    NCBI_FCS_GX(ch_adaptor_clean_target_assemblies)
-
-    NCBI_FCS_GX.out.clean_hap
-    .join(Channel.fromList(params.target_assemblies))
-    .map {
-        return [it[0], file(it[1], checkIfExists: true)] // [tag, assembly fasta path]
+    | join(Channel.fromList(params.target_assemblies))
+    | map {
+        return [it[0], file(it[3], checkIfExists: true)] // [tag, assembly fasta path]
     }
-    | set {ch_clean_target_assemblies}
+    | set { ch_clean_target_assemblies }
 
 
     // ASSEMBLATHON_STATS
@@ -59,10 +58,9 @@ workflow ASSEMBLY_QC {
     
     
     // BUSCO
-    NCBI_FCS_GX.out.clean_hap
-    .join(Channel.fromList(params.target_assemblies))
-    .combine(Channel.fromList(params.busco.lineage_datasets))
-    .map {
+    ch_clean_target_assemblies
+    | combine(Channel.fromList(params.busco.lineage_datasets))
+    | map {
         return [it[0], file(it[1], checkIfExists: true), it[2]] // [tag, assembly fasta path, busco lineage]
     }
     | BUSCO

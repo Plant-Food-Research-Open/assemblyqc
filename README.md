@@ -20,14 +20,15 @@ AssemblyQC is a Nextflow pipeline which evaluates assembly quality with well est
 
 ```mermaid
 flowchart LR
-  forEachHap[Foreach\nAssembly] --> ncbiFCS{NCBI FCS Adaptor}
-  ncbiFCS --> |Contaminated|Skip[Skip]
-  ncbiFCS --> |Clean|ncbiGX{NCBI FCS GX}
+  forEachTag(Foreach\nAssembly) --> ncbiFCS[NCBI FCS\nADAPTOR]
+  ncbiFCS --> Check{Check}
 
-  ncbiGX --> |Contaminated|Skip[Skip]
-  ncbiGX --> |Clean|Run
+  forEachTag --> ncbiGX[NCBI FCS GX]
+  ncbiGX --> Check
+  Check --> |Clean|Run(Run)
 
-  Skip --> Report
+  Check --> |Contamination|Skip(Skip All)
+  Skip --> REPORT
   
   Run --> BUSCO
   Run --> TIDK
@@ -35,19 +36,19 @@ flowchart LR
   EDTA --> LAI
   Run --> |Pass list and out file\nprovided|LAI
   Run --> KRAKEN2
-  Run --> ASS_STATS[ASSEMBLATHON_STATS]
-  Run --> GFF_STATS[GENOMETOOLS_GT_STAT]
-  Run --> HIC_CONTACT_MAP
+  Run --> ASS_STATS[ASSEMBLATHON STATS]
+  Run --> GFF_STATS[GENOMETOOLS GT STAT]
+  Run --> HIC_CONTACT_MAP[HIC CONTACT MAP]
   Run --> SYNTENY
 
-  BUSCO --> Report
-  TIDK --> Report
-  LAI --> Report
-  KRAKEN2 --> Report
-  ASS_STATS --> Report
-  GFF_STATS --> Report
-  HIC_CONTACT_MAP --> Report
-  SYNTENY --> Report
+  BUSCO --> REPORT
+  TIDK --> REPORT
+  LAI --> REPORT
+  KRAKEN2 --> REPORT
+  ASS_STATS --> REPORT
+  GFF_STATS --> REPORT
+  HIC_CONTACT_MAP --> REPORT
+  SYNTENY --> REPORT
 ```
 
 ## Running the Pipeline

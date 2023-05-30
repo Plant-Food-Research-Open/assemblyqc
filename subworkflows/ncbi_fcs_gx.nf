@@ -2,7 +2,7 @@ nextflow.enable.dsl=2
 
 workflow NCBI_FCS_GX {
     take:
-        tuple_of_hap_file
+        tuple_of_tag_file
     
     main:
         if (!params.ncbi_fcs_gx.skip) {
@@ -10,7 +10,7 @@ workflow NCBI_FCS_GX {
             | VERIFY_DB
             | set {ch_db_verification}
 
-            tuple_of_hap_file
+            tuple_of_tag_file
             | SETUP_SAMPLE
             | collect
             | set {ch_all_samples}
@@ -31,44 +31,41 @@ workflow NCBI_FCS_GX {
                 [tag, it]
             }
             | CHECK_CONTAMINATION
-            | branch {
-                contaminated: it =~ /CHECK_GX_CONTAMINATION:CONTAMINATED/
-                clean: it =~ /CHECK_GX_CONTAMINATION:CLEAN/
-            }
-            | set { ch_branch }
+            | map {
+                def itTokes = "$it".tokenize(':')
+                def status = itTokes[1]
+                def tag = itTokes[2]
 
-            ch_branch
-            .contaminated
-            .map {
-                statusTokens = "$it".tokenize(':')
-                hapName = statusTokens[2]
+                def isClean = status == "CLEAN"
 
-"""
-Foreign organism contamination detected in ${hapName}.
-See the report for further details.
-"""
+                [tag, isClean]
             }
-            .view()
+            | set { ch_tuple_tag_is_clean } // [tag, is_clean flag]
+            
+            ch_tuple_tag_is_clean
+            | map {
+                def tag = it[0]
+                def isClean = it[1]
 
-            ch_branch
-            .clean
-            .map {
-                statusTokens = "$it".tokenize(':')
-                hap_name = statusTokens[2]
+                if (!isClean) {
+                    log.warn("""
+                    Foreign organism contamination detected in ${tag}.
+                    See the report for further details.
+                    """.stripIndent())
+                }
             }
-            .set { ch_clean_hap }
         } else {
-            tuple_of_hap_file
+            tuple_of_tag_file
             .map {
-                it[0]
+                [it[0], true] // [tag, true]
             }
-            .set { ch_clean_hap }
+            .set { ch_tuple_tag_is_clean }
 
             ch_fcs_gx_reports = Channel.of([])
         }
     
     emit:
-        clean_hap           = ch_clean_hap
+        is_clean_status     = ch_tuple_tag_is_clean
         fcs_gx_reports      = ch_fcs_gx_reports
 }
 
