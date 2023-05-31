@@ -61,7 +61,7 @@ process FORMAT_GFF3 {
         """
         output_file_name="\$(basename $gff3_file .uncomp.gff3).gt.gff3"
         
-        gt gff3 -sortlines -tidy -retainids "$gff3_file" \
+        gt gff3 -tidy -retainids "$gff3_file" \
         > "\$output_file_name"
         """
 }

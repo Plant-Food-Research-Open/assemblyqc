@@ -15,6 +15,8 @@ include { SYNTENY               } from '../subworkflows/synteny.nf'
 include { CREATE_REPORT         } from '../modules/create_report.nf'
 include { ASSEMBLATHON_STATS    } from '../modules/assemblathon_stats.nf'
 include { GENOMETOOLS_GT_STAT   } from '../modules/genometools_gt_stat.nf'
+include { BIOCODE_GFF3_STATS    } from '../modules/biocode_gff3_stats.nf'
+
 
 workflow ASSEMBLY_QC {
 
@@ -43,6 +45,17 @@ workflow ASSEMBLY_QC {
     | GENOMETOOLS_GT_STAT
     | collect
     | set { ch_genometools_gt_stats }
+
+
+    // BIOCODE_GFF3_STATS
+    VALIDATE_GFF3
+    .out
+    .tuple_tag_is_valid_gff3
+    | map {
+        return [it[0], file(it[2], checkIfExists: true)] // [tag, valid gff3 path]
+    }
+    | BIOCODE_GFF3_STATS
+    | view
 
 
     // NCBI-FCS-ADAPTOR & NCBI-FCS-GX

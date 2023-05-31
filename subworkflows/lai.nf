@@ -116,7 +116,6 @@ process RUN_LAI {
     tag "${hap_name}"
     if (params.lai.mode != "-qq") {
         label "process_high"
-        label "process_week_long"
     } else {
         label "process_single"
     }
