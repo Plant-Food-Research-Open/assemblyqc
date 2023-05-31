@@ -12,23 +12,13 @@ workflow VALIDATE_FASTA {
         ch_tuple_tag_extracted_file
         | RUN_VALIDATOR
         | map {
-            def firstLine   = it.split("\n")[0]
-            def literals    = firstLine.split(":")
-            def status      = literals[2]
+            def literals = it.split(":")
 
-            if(status != "VALID") {
-                log.error("FASTA file for ${literals[1]} failed the validation check with following errors:\n$it")
-                System.exit(1)
-            }
-            
-            [literals[1], status == "VALID"] // [tag, is_valid flag]
+            [literals[1], literals[2] == "VALID"] // [tag, is_valid flag]
         }
         | join(
             ch_tuple_tag_extracted_file
         )
-        | collect // Wait for all samples
-        | flatten
-        | buffer(size: 3)
         | set { ch_tuple_tag_is_valid_fasta }
     
     emit:
@@ -68,11 +58,12 @@ process RUN_VALIDATOR {
 
     script:
         """
-        fasta_validate -v $fasta_file \
-        >/dev/null 2>error.txt \
-        && result="VALIDATE_FASTA:$tag_label:VALID" \
-        || result="VALIDATE_FASTA:$tag_label:INVALID\\n\$(cat error.txt)"
+        fasta_validate -v $fasta_file >/dev/null
+
+        # If invalid, the above command will fail and
+        # the NXF error startegy will kick in.
+        # Otherwise, pass the is_valid status to stdout
         
-        echo -e \$result
+        echo -n "VALIDATE_FASTA:$tag_label:VALID"
         """
 }

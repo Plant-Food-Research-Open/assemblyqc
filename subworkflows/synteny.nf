@@ -23,12 +23,25 @@ workflow SYNTENY {
             } else {
                 ch_between_target_asm_combinations = Channel.empty()
             }
+
+            tuple_of_tag_xref_fasta_seq_list
+            | map {
+                [it[0], it[1]] // [tag, xref fasta file path]
+            }
+            | EXTRACT_IF_NEEDED
+            | join(
+                tuple_of_tag_xref_fasta_seq_list
+            )
+            | map {
+                [it[0], it[1], it[3]] // [tag, uncompressed xref fasta file path, seq list]
+            }
+            | set { ch_tuple_tag_xref_uncompressed_fasta_seq_list }
             
             ch_between_target_asm_combinations
             .mix(
                 tuple_of_tag_fasta_seq_list
                 | combine(
-                    tuple_of_tag_xref_fasta_seq_list
+                    ch_tuple_tag_xref_uncompressed_fasta_seq_list
                 )
             )
             .map { validateSeqLists(it) }
@@ -199,6 +212,25 @@ def failIfNumberOfLinksTooLarge(inputTuple, maxLinks) {
     return inputTuple
 }
 
+process EXTRACT_IF_NEEDED {
+    tag "${tag_label}"
+    label "process_single"
+
+    input:
+        tuple val(tag_label), path(fasta_file)
+    
+    output:
+        tuple val(tag_label), path("*.uncomp.fsa")
+
+    script:
+        """
+        input_file_name_var="$fasta_file"
+        output_file_name="\${input_file_name_var%.*}.uncomp.fsa"
+        
+        gzip -cdf $fasta_file > \$output_file_name
+        """
+}
+
 process FILTER_SORT_FASTA {
     tag "${target}.on.${reference}"
     label "process_single"
@@ -214,10 +246,7 @@ process FILTER_SORT_FASTA {
     script:
         """
         samtools faidx $target_fasta \$(awk '{print \$1}' $target_seq_list) > filtered.ordered.target.fasta
-
-        mkfifo ref_fasta_uncompressed
-        gzip -cdf $ref_fasta > ref_fasta_uncompressed &
-        samtools faidx ref_fasta_uncompressed \$(awk '{print \$1}' $ref_seq_list) > filtered.ordered.ref.fasta
+        samtools faidx $ref_fasta \$(awk '{print \$1}' $ref_seq_list) > filtered.ordered.ref.fasta
         """
 }
 
