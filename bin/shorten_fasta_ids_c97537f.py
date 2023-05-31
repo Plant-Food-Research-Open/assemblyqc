@@ -125,7 +125,7 @@ def generate_hash(string):
 
     hash_object = hashlib.sha1(string.encode())
     full_hash = hash_object.hexdigest()
-    short_hash = full_hash[:6]
+    short_hash = full_hash[:10]
     return short_hash
 
 

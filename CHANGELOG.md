@@ -1,5 +1,9 @@
 # Change Log
 
+## Version 0.10.9 (01-Jun-2023)
+
+1. CRITICAL: Fixed a bug in LAI::EDTA which prevented it from renaming fasta ids in case they were longer than 13 characters.
+
 ## Version 0.10.8 (30-May-2023)
 
 1. Now NCBI FCS Adaptor and NCBI FCS GX both run in parallel so that both contamination checks are part of the final report even if there is adaptor contamination.
