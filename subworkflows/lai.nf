@@ -59,13 +59,7 @@ process SHORTEN_SEQ_IDS_IF_REQ {
         fasta_file_bash_var="$fasta_file"
         output_prefix="\${fasta_file_bash_var%.*}"
 
-        status=\$(shorten_fasta_ids_c97537f.py "$fasta_file" "\$output_prefix")
-
-        if [[ "\$status" =~ "IDs have acceptable length and character. No change required." ]];
-        then
-            echo "\$status" > "\${output_prefix}.renamed.ids.tsv"
-            ln -s "$fasta_file" "\${output_prefix}.renamed.ids.fa"
-        fi
+        shorten_fasta_ids_c97537f.py "$fasta_file" "\$output_prefix"
         """
 }
 
