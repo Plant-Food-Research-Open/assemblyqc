@@ -45,7 +45,7 @@ process SHORTEN_SEQ_IDS_IF_REQ {
     tag "${hap_name}"
     label "process_single"
 
-    container "docker://gallvp/python3npkgs:v0.2"
+    container "docker://gallvp/python3npkgs:v0.3"
     publishDir "${params.outdir.main}/edta", mode: 'copy', pattern: '*.renamed.ids.tsv'
     
     input:

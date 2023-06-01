@@ -55,7 +55,8 @@ workflow ASSEMBLY_QC {
         return [it[0], file(it[2], checkIfExists: true)] // [tag, valid gff3 path]
     }
     | BIOCODE_GFF3_STATS
-    | view
+    | collect
+    | set { ch_biocode_gff3_stats }
 
 
     // NCBI-FCS-ADAPTOR & NCBI-FCS-GX
@@ -190,6 +191,7 @@ workflow ASSEMBLY_QC {
         NCBI_FCS_GX.out.fcs_gx_reports.ifEmpty([]),
         ch_general_stats.ifEmpty([]),
         ch_genometools_gt_stats.ifEmpty([]),
+        ch_biocode_gff3_stats.ifEmpty([]),
         BUSCO.out.list_of_outputs.ifEmpty([]),
         TIDK.out.list_of_plots.ifEmpty([]),
         LAI.out.list_of_outputs.ifEmpty([]),

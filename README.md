@@ -32,23 +32,25 @@ flowchart LR
   Check --> |Contamination|Skip(Skip All)
   Skip --> REPORT
   
+  Run --> ASS_STATS[ASSEMBLATHON STATS]
+  Run --> GFF_STATS[GENOMETOOLS GT STAT]
+  Run --> GFF_STATS_II[BIOCODE GFF3 STATS]
   Run --> BUSCO
   Run --> TIDK
   Run --> EDTA
   EDTA --> LAI
   Run --> |Pass list and out file\nprovided|LAI
   Run --> KRAKEN2
-  Run --> ASS_STATS[ASSEMBLATHON STATS]
-  Run --> GFF_STATS[GENOMETOOLS GT STAT]
   Run --> HIC_CONTACT_MAP[HIC CONTACT MAP]
   Run --> SYNTENY
 
+  ASS_STATS --> REPORT
+  GFF_STATS --> REPORT
+  GFF_STATS_II --> REPORT
   BUSCO --> REPORT
   TIDK --> REPORT
   LAI --> REPORT
   KRAKEN2 --> REPORT
-  ASS_STATS --> REPORT
-  GFF_STATS --> REPORT
   HIC_CONTACT_MAP --> REPORT
   SYNTENY --> REPORT
 ```
@@ -162,6 +164,8 @@ cat ./test_data/test_data4.fasta.gz | gzip -cdf | grep ">*chr" | tail -3 | sed '
   > Forked from: <https://github.com/ucdavis-bioinformatics/assemblathon2-analysis>
 - GENOMETOOLS_GT_STAT (1.6.2):
   > G. Gremme, S. Steinbiss and S. Kurtz, "GenomeTools: A Comprehensive Software Library for Efficient Processing of Structured Genome Annotations," in IEEE/ACM Transactions on Computational Biology and Bioinformatics, vol. 10, no. 3, pp. 645-656, May 2013, doi: <https://doi.org/10.1109/TCBB.2013.68>.
+- BIOCODE_GFF3_STATS (0.10.0)
+  > <https://github.com/jorvis/biocode>
 - BUSCO (5.2.2)
   > Mosè Manni, Matthew R Berkeley, Mathieu Seppey, Felipe A Simão, Evgeny M Zdobnov, BUSCO Update: Novel and Streamlined Workflows along with Broader and Deeper Phylogenetic Coverage for Scoring of Eukaryotic, Prokaryotic, and Viral Genomes, Molecular Biology and Evolution, Volume 38, Issue 10, October 2021, Pages 4647–4654, <https://doi.org/10.1093/molbev/msab199>
 - TIDK (0.2.31)

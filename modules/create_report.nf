@@ -4,7 +4,7 @@ process CREATE_REPORT {
     tag "all modules"
     label "process_single"
     
-    container "docker://gallvp/python3npkgs:v0.2"
+    container "docker://gallvp/python3npkgs:v0.3"
     publishDir params.outdir.main, mode: 'copy'
 
     input:
@@ -12,6 +12,7 @@ process CREATE_REPORT {
         path fcs_gx_reports, stageAs: 'fcs_gx_reports/*'
         path assemblathon_stats, stageAs: 'assemblathon_stats/*'
         path genometools_gt_stats, stageAs: 'genometools_gt_stat/*'
+        path biocode_gff3_stats, stageAs: 'biocode_gff3_stats/*'
         path busco_outputs, stageAs: 'busco_outputs/*'
         path tidk_plots, stageAs: 'tidk_outputs/*'
         path lai_outputs, stageAs: 'lai_outputs/*'

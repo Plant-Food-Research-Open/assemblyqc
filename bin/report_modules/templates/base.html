@@ -10,6 +10,7 @@
         {% if 'NCBI_FCS_GX' in all_stats_dicts %}<button class="tablinks" onclick="openTool(event, 'NCBI_FCS_GX')">NCBI FCS GX</button>{% endif %}
         {% if 'ASSEMBLATHON_STATS' in all_stats_dicts %}<button class="tablinks active" onclick="openTool(event, 'ASSEMBLATHON_STATS')">ASSEMBLATHON STATS</button>{% endif %}
         {% if 'GENOMETOOLS_GT_STAT' in all_stats_dicts %}<button class="tablinks active" onclick="openTool(event, 'GENOMETOOLS_GT_STAT')">GENOMETOOLS GT STAT</button>{% endif %}
+        {% if 'BIOCODE_GFF3_STATS' in all_stats_dicts %}<button class="tablinks active" onclick="openTool(event, 'BIOCODE_GFF3_STATS')">BIOCODE GFF3 STATS</button>{% endif %}
         {% if 'BUSCO' in all_stats_dicts %}<button class="tablinks active" onclick="openTool(event, 'BUSCO')">BUSCO</button>{% endif %}
         {% if 'TIDK' in all_stats_dicts %}<button class="tablinks" onclick="openTool(event, 'TIDK')">TIDK</button>{% endif %}
         {% if 'LAI' in all_stats_dicts %}<button class="tablinks" onclick="openTool(event, 'LAI')">LAI</button>{% endif %}
@@ -21,6 +22,7 @@
     {% if 'NCBI_FCS_GX' in all_stats_dicts %}{% include 'ncbi_fcs_gx/ncbi_fcs_gx.html' %}{% endif %}
     {% if 'ASSEMBLATHON_STATS' in all_stats_dicts %}{% include 'assemblathon_stats/assemblathon_stats.html' %}{% endif %}
     {% if 'GENOMETOOLS_GT_STAT' in all_stats_dicts %}{% include 'genometools_gt_stat/genometools_gt_stat.html' %}{% endif %}
+    {% if 'BIOCODE_GFF3_STATS' in all_stats_dicts %}{% include 'biocode_gff3_stats/biocode_gff3_stats.html' %}{% endif %}
     {% if 'BUSCO' in all_stats_dicts %}{% include 'busco/busco.html' %}{% endif %}
     {% if 'TIDK' in all_stats_dicts %}{% include 'tidk/tidk.html' %}{% endif %}
     {% if 'LAI' in all_stats_dicts %}{% include 'lai/lai.html' %}{% endif %}
