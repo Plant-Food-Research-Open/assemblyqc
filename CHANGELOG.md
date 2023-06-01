@@ -1,9 +1,13 @@
 # Change Log
 
-## Version 0.11 (31-May-2023)
+## Version 0.11 (01-Jun-2023)
 
 1. Added validation for fasta and gff3 files.
 2. Added support for compressed files (fasta.gz, gff3.gz).
+
+## Version 0.10.9 (01-Jun-2023)
+
+1. CRITICAL: Fixed a bug in LAI::EDTA which prevented it from renaming fasta ids in case they were longer than 13 characters.
 
 ## Version 0.10.8 (30-May-2023)
 

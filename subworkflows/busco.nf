@@ -28,7 +28,6 @@ workflow BUSCO {
 process RUN_BUSCO {
     tag "${hap_name}:${lineage_dataset}"
     label "process_high"
-    label "process_long"
     
     container "quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0"
     containerOptions "-B ${params.busco.download_path}:${params.busco.download_path}"

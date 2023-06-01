@@ -41,6 +41,17 @@ def write_fasta_with_new_ids(fasta_file_path, id_mapping, file_prefix):
     SeqIO.write(replaced_records, f"{file_prefix}.renamed.ids.fa", "fasta")
 
 
+def write_fasta_without_comments(fasta_file_path, file_prefix):
+    old_fasta_file_obj = SeqIO.parse(fasta_file_path, "fasta")
+
+    replaced_records = []
+    for record in old_fasta_file_obj:
+        record.description = ""
+        replaced_records.append(record)
+
+    SeqIO.write(replaced_records, f"{file_prefix}.renamed.ids.fa", "fasta")
+
+
 def do_id_need_to_change(id):
     if len(id) > 13 or not re.match(r"^[a-zA-Z0-9_]+$", id):
         return True
@@ -139,6 +150,12 @@ if __name__ == "__main__":
 
     if not do_ids_need_to_change(input_ids):
         print("IDs have acceptable length and character. No change required.")
+        
+        with open(f"{output_files_prefix}.renamed.ids.tsv", "w") as f:
+            f.write("IDs have acceptable length and character. No change required.")
+        
+        write_fasta_without_comments(fasta_file_path, output_files_prefix)
+
         exit(0)
 
     new_ids = shorten_ids(input_ids, extract_common_patterns(input_ids))

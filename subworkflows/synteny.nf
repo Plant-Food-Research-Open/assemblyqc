@@ -275,7 +275,6 @@ process GET_FASTA_LEN {
 process MUMMER {
     tag "${target}.on.${reference}"
     label "process_high"
-    label "process_long"
     
     container "docker://staphb/mummer:4.0.0"
 
