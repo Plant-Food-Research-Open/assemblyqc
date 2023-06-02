@@ -4,6 +4,7 @@
 
 1. Added validation for fasta and gff3 files.
 2. Added support for compressed files (fasta.gz, gff3.gz).
+3. Added BIOCODE GFF3 STATS.
 
 ## Version 0.10.9 (01-Jun-2023)
 
