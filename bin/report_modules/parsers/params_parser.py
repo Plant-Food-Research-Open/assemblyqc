@@ -11,10 +11,10 @@ def parse_params_dict(json_dict):
             continue
 
         if not isinstance(value, dict):
-            param_names.append(key)
+            param_names.append(f"● {key}")
             param_values.append(value)
         else:
-            param_names.append(f"==> {key}")
+            param_names.append(f"● {key}")
 
             if "skip" in value.keys():
                 if value["skip"] == 1:
@@ -26,7 +26,13 @@ def parse_params_dict(json_dict):
             for sub_key, sub_value in value.items():
                 if sub_key == "skip":
                     continue
-                param_names.append(f"{sub_key}")
+
+                param_names.append(f"○ {sub_key}")
+
+                if key == "lai" and sub_key == "mode" and sub_value == "":
+                    param_values.append('"" (standard)')
+                    continue
+
                 param_values.append(sub_value)
 
     df = pd.DataFrame({"Parameter": param_names, "Value": param_values})
