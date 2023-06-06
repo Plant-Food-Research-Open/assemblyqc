@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import json
-from tabulate import tabulate
 
 from report_modules.parsers.ncbi_fcs_adaptor_parser import parse_ncbi_fcs_adaptor_folder
 from report_modules.parsers.ncbi_fcs_gx_parser import parse_ncbi_fcs_gx_folder
@@ -23,20 +22,8 @@ from report_modules.parsers.circos_parser import parse_circos_folder
 from report_modules.report_printer import ReportPrinter
 from report_modules.parsers.params_parser import parse_params_json
 
-
 if __name__ == "__main__":
-    with open("params_json.json", "r") as f:
-        params_dict = json.load(f)
-        params_df = parse_params_json(params_dict)
-        params_table = tabulate(
-            params_df,
-            headers=["Parameter", "Value"],
-            tablefmt="html",
-            numalign="left",
-            showindex=False,
-        ).replace(
-            "<th>Parameter", '<th width="20%" style="text-align: left">Parameter', 1
-        )
+    params_dict, params_table = parse_params_json()
 
     data_from_tools = {}
 
