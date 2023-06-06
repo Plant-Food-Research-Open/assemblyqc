@@ -9,6 +9,7 @@
 5. Now using standard mode as default for LAI.
 6. Added information regarding LAI:EDTA time requirements for various genome sizes.
 7. Added information regarding influence of LAI:EDTA:is_sensitive flag on LAI scores.
+8. Added a params summary page.
 
 ## Version 0.10.9 (01-Jun-2023)
 

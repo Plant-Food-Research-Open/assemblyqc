@@ -105,7 +105,9 @@ def parse_biocode_gff3_stats_folder(folder_name="biocode_gff3_stats"):
     for report_path in list_of_report_files:
         file_lines = read_file_lines(report_path)
         general_stats_table, cds_stats_table = parse_gff3_statistics(file_lines)
-        create_bar_graph(cds_stats_table, f"${os.path.basename(report_path)}.png")
+        
+        plot_path = f"./{folder_name}/{os.path.basename(report_path)}.png"
+        create_bar_graph(cds_stats_table, plot_path)
 
         general_stats_metric = general_stats_table.iloc[:, 0].values.tolist()
         general_stats_values = general_stats_table.iloc[:, 1].values.tolist()
@@ -124,9 +126,9 @@ def parse_biocode_gff3_stats_folder(folder_name="biocode_gff3_stats"):
             )
         }
 
-        plot_path = f"${os.path.basename(report_path)}.png"
         with open(plot_path, "rb") as f:
             binary_fc = f.read()
+        
         base64_utf8_str = base64.b64encode(binary_fc).decode("utf-8")
         ext = str(plot_path).split(".")[-1]
         plot_url = f"data:image/{ext}+xml;base64,{base64_utf8_str}"

@@ -1,6 +1,7 @@
 nextflow.enable.dsl=2
 
-include {validateParams         } from '../modules/validate_params.nf'
+include {validateParams         } from '../modules/utils.nf'
+include {jsonifyParams          } from '../modules/utils.nf'
 
 include { VALIDATE_FASTA        } from '../subworkflows/validate_fasta.nf'
 include { VALIDATE_GFF3         } from '../subworkflows/validate_gff3.nf'
@@ -20,6 +21,7 @@ include { GENOMETOOLS_GT_STAT   } from '../modules/genometools_gt_stat.nf'
 include { BIOCODE_GFF3_STATS    } from '../modules/biocode_gff3_stats.nf'
 
 validateParams(params)
+def paramsAsJSON = jsonifyParams(params)
 
 workflow ASSEMBLY_QC {
 
@@ -188,13 +190,6 @@ workflow ASSEMBLY_QC {
         KRAKEN2.out.list_of_outputs.ifEmpty([]),
         HIC_CONTACT_MAP.out.list_of_html_files.ifEmpty([]),
         SYNTENY.out.list_of_circos_plots.ifEmpty([]),
-        Channel.of("""
-        {
-            "ASSEMBLATHON_STATS_N_LIMIT": "${params.assamblathon_stats.n_limit}",
-            "LAI_MODE": "${params.lai.mode}",
-            "SYNTENY_MAP_GAP": "${params.synteny.max_gap}",
-            "SYNTENY_MIN_BUNDLE_SIZE": "${params.synteny.min_bundle_size}"
-        }
-        """)
+        Channel.of("$paramsAsJSON")
     )
 }

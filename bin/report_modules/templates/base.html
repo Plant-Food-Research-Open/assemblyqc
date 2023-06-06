@@ -6,6 +6,7 @@
         <div class="report-header">Assembly QC {{ all_stats_dicts['VERSIONS']['SELF'] }}</div>
     </div>
     <div class="tab" id="topNavBarButtons">
+        <button class="tablinks active" onclick="openTool(event, 'PARAMS')">PARAMS</button>
         {% if 'NCBI_FCS_ADAPTOR' in all_stats_dicts %}<button class="tablinks active" onclick="openTool(event, 'NCBI_FCS_ADAPTOR')">NCBI FCS ADAPTOR</button>{% endif %}
         {% if 'NCBI_FCS_GX' in all_stats_dicts %}<button class="tablinks" onclick="openTool(event, 'NCBI_FCS_GX')">NCBI FCS GX</button>{% endif %}
         {% if 'ASSEMBLATHON_STATS' in all_stats_dicts %}<button class="tablinks active" onclick="openTool(event, 'ASSEMBLATHON_STATS')">ASSEMBLATHON STATS</button>{% endif %}
@@ -18,6 +19,7 @@
         {% if 'HIC' in all_stats_dicts %}<button class="tablinks" onclick="openTool(event, 'HIC')">HIC</button>{% endif %}
         {% if 'CIRCOS' in all_stats_dicts %}<button class="tablinks" onclick="openTool(event, 'CIRCOS')">CIRCOS</button>{% endif %}
     </div>
+    {% include 'params/params.html' %}
     {% if 'NCBI_FCS_ADAPTOR' in all_stats_dicts %}{% include 'ncbi_fcs_adaptor/ncbi_fcs_adaptor.html' %}{% endif %}
     {% if 'NCBI_FCS_GX' in all_stats_dicts %}{% include 'ncbi_fcs_gx/ncbi_fcs_gx.html' %}{% endif %}
     {% if 'ASSEMBLATHON_STATS' in all_stats_dicts %}{% include 'assemblathon_stats/assemblathon_stats.html' %}{% endif %}

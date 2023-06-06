@@ -1,5 +1,11 @@
 nextflow.enable.dsl=2
 
+import groovy.json.JsonOutput
+
+def jsonifyParams(params) {
+    return JsonOutput.toJson(params)
+}
+
 def validateParams(params) {
     validateGff3FastaCorrespondence(params)
 }
