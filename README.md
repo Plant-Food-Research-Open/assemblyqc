@@ -140,6 +140,10 @@ In order to retrieve dummy data to test the pipeline with, run the following:
   > Edwards, R.A. 2019. fasta_validate: a fast and efficient fasta validator written in pure C. doi: <https://doi.org/10.5281/zenodo.2532044>
 - GT_GFF3VALIDATOR
   > G. Gremme, S. Steinbiss and S. Kurtz, "GenomeTools: A Comprehensive Software Library for Efficient Processing of Structured Genome Annotations," in IEEE/ACM Transactions on Computational Biology and Bioinformatics, vol. 10, no. 3, pp. 645-656, May 2013, doi: <https://doi.org/10.1109/TCBB.2013.68>.
+  
+  GT_GFF3VALIDATOR workflow also employs:
+  - SAMTOOLS (1.16.1)
+    > Petr Danecek, James K Bonfield, Jennifer Liddle, John Marshall, Valeriu Ohan, Martin O Pollard, Andrew Whitwham, Thomas Keane, Shane A McCarthy, Robert M Davies, Heng Li, Twelve years of SAMtools and BCFtools, GigaScience, Volume 10, Issue 2, February 2021, giab008, <https://doi.org/10.1093/gigascience/giab008>
 - NCBI-FCS-ADAPTOR (0.4)
   > <https://github.com/ncbi/fcs>
 - NCBI-FCS-GX (0.4)
