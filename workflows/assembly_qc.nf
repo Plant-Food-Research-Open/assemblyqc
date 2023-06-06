@@ -1,5 +1,7 @@
 nextflow.enable.dsl=2
 
+include {validateParams         } from '../modules/validate_params.nf'
+
 include { VALIDATE_FASTA        } from '../subworkflows/validate_fasta.nf'
 include { VALIDATE_GFF3         } from '../subworkflows/validate_gff3.nf'
 include { BUSCO                 } from '../subworkflows/busco.nf'
@@ -17,6 +19,7 @@ include { ASSEMBLATHON_STATS    } from '../modules/assemblathon_stats.nf'
 include { GENOMETOOLS_GT_STAT   } from '../modules/genometools_gt_stat.nf'
 include { BIOCODE_GFF3_STATS    } from '../modules/biocode_gff3_stats.nf'
 
+validateParams(params)
 
 workflow ASSEMBLY_QC {
 
@@ -26,46 +29,35 @@ workflow ASSEMBLY_QC {
         return [it[0], file(it[1], checkIfExists: true)] // [tag, assembly fasta path]
     }
     | VALIDATE_FASTA
+    | set { ch_tag_valid_fasta }
 
     // VALIDATE_GFF3
     Channel.fromList(params.assembly_gff3)
     | map {
         return [it[0], file(it[1], checkIfExists: true)] // [tag, assembly gff3 path]
     }
-    | VALIDATE_GFF3
+    | set { ch_tag_gff3_file }
+    
+    VALIDATE_GFF3(ch_tag_gff3_file, ch_tag_valid_fasta)
+    | set { ch_tag_valid_gff3 }
 
 
     // GENOMETOOLS_GT_STAT
-    VALIDATE_GFF3
-    .out
-    .tuple_tag_is_valid_gff3
-    | map {
-        return [it[0], file(it[2], checkIfExists: true)] // [tag, valid gff3 path]
-    }
+    ch_tag_valid_gff3
     | GENOMETOOLS_GT_STAT
     | collect
     | set { ch_genometools_gt_stats }
 
 
     // BIOCODE_GFF3_STATS
-    VALIDATE_GFF3
-    .out
-    .tuple_tag_is_valid_gff3
-    | map {
-        return [it[0], file(it[2], checkIfExists: true)] // [tag, valid gff3 path]
-    }
+    ch_tag_valid_gff3
     | BIOCODE_GFF3_STATS
     | collect
     | set { ch_biocode_gff3_stats }
 
 
     // NCBI-FCS-ADAPTOR & NCBI-FCS-GX
-    VALIDATE_FASTA
-    .out
-    .tuple_tag_is_valid_fasta
-    | map {
-        return [it[0], file(it[2], checkIfExists: true)] // [tag, valid fasta path]
-    }
+    ch_tag_valid_fasta
     | (NCBI_FCS_ADAPTOR & NCBI_FCS_GX)
 
     NCBI_FCS_ADAPTOR
@@ -80,12 +72,10 @@ workflow ASSEMBLY_QC {
         it[1] && it[2] // NCBI_FCS_ADAPTOR and NCBI_FCS_GX both report no contamination
     }
     | join(
-        VALIDATE_FASTA
-        .out
-        .tuple_tag_is_valid_fasta
+        ch_tag_valid_fasta
     )
     | map {
-        return [it[0], file(it[4], checkIfExists: true)] // [tag, valid fasta path]
+        return [it[0], it[3]] // [tag, valid fasta path]
     }
     | set { ch_clean_target_assemblies }
 

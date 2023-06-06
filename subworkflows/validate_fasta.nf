@@ -14,15 +14,15 @@ workflow VALIDATE_FASTA {
         | map {
             def literals = it.split(":")
 
-            [literals[1], literals[2] == "VALID"] // [tag, is_valid flag]
+            [literals[1]] // [tag]
         }
         | join(
             ch_tuple_tag_extracted_file
         )
-        | set { ch_tuple_tag_is_valid_fasta }
+        | set { ch_tuple_tag_valid_fasta }
     
     emit:
-        tuple_tag_is_valid_fasta = ch_tuple_tag_is_valid_fasta
+        tuple_tag_valid_fasta = ch_tuple_tag_valid_fasta
 }
 
 process EXTRACT_IF_NEEDED {

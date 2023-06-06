@@ -1,10 +1,14 @@
 # Change Log
 
-## Version 0.11 (01-Jun-2023)
+## Version 0.11 (06-Jun-2023)
 
 1. Added validation for fasta and gff3 files.
 2. Added support for compressed files (fasta.gz, gff3.gz).
 3. Added BIOCODE GFF3 STATS.
+4. Added correspondence checks between gff3 and fasta files.
+5. Now using standard mode as default for LAI.
+6. Added information regarding LAI:EDTA time requirements for various genome sizes.
+7. Added information regarding influence of LAI:EDTA:is_sensitive flag on LAI scores.
 
 ## Version 0.10.9 (01-Jun-2023)
 
