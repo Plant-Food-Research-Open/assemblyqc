@@ -1,6 +1,5 @@
 .DS_Store
 
-venv
 *.pyc
 __pycahce__
 
@@ -9,7 +8,6 @@ nextflow
 work/
 *.dot
 
-test_data/
 Results/
 results/
 
