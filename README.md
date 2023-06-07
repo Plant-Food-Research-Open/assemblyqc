@@ -137,6 +137,8 @@ You will now see a results folder which will contain a file named 'report.html' 
   > <https://github.com/ncbi/fcs>
 - NCBI-FCS-GX (0.4)
   > <https://github.com/ncbi/fcs>
+  >
+  > Alexander Astashyn, Eric S Tvedte, Deacon Sweeney, Victor Sapojnikov, Nathan Bouk, Victor Joukov, Eyal Mozes, Pooja K Strope, Pape M Sylla, Lukas Wagner, Shelby L Bidwell, Karen Clark, Emily W Davis, Brian Smith-White, Wratko Hlavina, Kim D Pruitt, Valerie A Schneider, Terence D Murphy bioRxiv 2023.06.02.543519; doi: <https://doi.org/10.1101/2023.06.02.543519>
 - ASSEMBLATHON_STATS
   > [github/PlantandFoodResearch/assemblathon2-analysis/a93cba2](https://github.com/PlantandFoodResearch/assemblathon2-analysis/blob/a93cba25d847434f7eadc04e63b58c567c46a56d/assemblathon_stats.pl)
   >

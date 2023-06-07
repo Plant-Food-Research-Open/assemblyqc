@@ -1,6 +1,6 @@
 # Change Log
 
-## Version 0.11 (07-Jun-2023)
+## Version 0.11 (08-Jun-2023)
 
 1. Added validation for fasta and gff3 files.
 2. Added support for compressed files (fasta.gz, gff3.gz).
@@ -11,6 +11,7 @@
 7. Added information regarding influence of LAI:EDTA:is_sensitive flag on LAI scores.
 8. Added a params summary page.
 9. Now the default config file (nextflow.config) is designed to run out-of-the-box at PFR. There is no need to do any setup.
+10. "report" is now the default results folder.
 
 ## Version 0.10.9 (01-Jun-2023)
 

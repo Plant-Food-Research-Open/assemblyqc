@@ -50,7 +50,6 @@ process HIC2_HTML {
         path "*.html"
 
     script:
-        results_folder = file("${params.outdir.main}", checkIfExists: false)
         """
         file_name="$hic_file"
         hic_2_html_fc62f04.py "$hic_file" > "\${file_name%.*}.html"
