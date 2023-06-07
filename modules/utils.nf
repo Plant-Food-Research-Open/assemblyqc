@@ -7,7 +7,33 @@ def jsonifyParams(params) {
 }
 
 def validateParams(params) {
+    validateFastaTags(params)
+    validateGff3Tags(params)
     validateGff3FastaCorrespondence(params)
+}
+
+def validateFastaTags(params) {
+    def listOfFastaTuples   = params["target_assemblies"]
+
+    def fastaTags = listOfFastaTuples.collect { it[0] }
+
+    fastaTags.each {
+        if (!(it =~ /^\w+$/)) {
+            error "Error: $it is not a valid tag in target_assemblies"
+        }
+    }
+}
+
+def validateGff3Tags(params) {
+    def listOfGff3Tuples   = params["assembly_gff3"]
+
+    def gff3Tags = listOfGff3Tuples.collect { it[0] }
+
+    gff3Tags.each {
+        if (!(it =~ /^\w+$/)) {
+            error "Error: $it is not a valid tag in assembly_gff3"
+        }
+    }
 }
 
 def validateGff3FastaCorrespondence(params) {
@@ -30,9 +56,9 @@ def validateGff3FastaCorrespondence(params) {
     def fastaTags = listOfFastaTuples.collect { it[0] }
     def gff3Tags = listOfGff3Tuples.collect { it[0] }
 
-    if (!gff3Tags.every { fastaTags.contains(it) }) {
-        error 'Error: Not every gff3 tag in assembly_gff3 has a corresponding fasta tag in target_assemblies'
+    gff3Tags.each {
+        if(!fastaTags.contains(it)) {
+            error "Error: $it in assembly_gff3 does not have a corresponding tag in target_assemblies"
+        }
     }
-
-    return
 }

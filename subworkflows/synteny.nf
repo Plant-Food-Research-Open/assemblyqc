@@ -44,7 +44,6 @@ workflow SYNTENY {
                     ch_tuple_tag_xref_uncompressed_fasta_seq_list
                 )
             )
-            .map { validateSeqLists(it) }
             .tap { ch_full_tap_from_all_combinations }
             .map {
                 ["${it[0]}.on.${it[3]}", it[2], it[5]] // [target.on.reference, target_seq_list, ref_seq_list]    
@@ -53,8 +52,12 @@ workflow SYNTENY {
             
             
             ch_full_tap_from_all_combinations
-            | FILTER_SORT_FASTA
-            | MUMMER
+            | FILTER_SORT_FASTA_AND_VALIDATE_SEQ_LISTS
+            | (MUMMER & GET_FASTA_LEN)
+            
+            MUMMER
+            .out
+            .tag_delta_file
             | DNADIFF
             | CIRCOS_BUNDLE_LINKS
             | ADD_COLOUR_TO_BUNDLE_LINKS
@@ -68,9 +71,9 @@ workflow SYNTENY {
             | buffer(size:3)
             | set { ch_circos_split_bundle_links }
 
-            GET_FASTA_LEN(
-                FILTER_SORT_FASTA.out.tags_fasta_files
-            )
+            GET_FASTA_LEN
+            .out
+            .tag_len_files
             | join(ch_seq_lists)
             | RELABEL_FASTA_LEN
             | cross(
@@ -86,16 +89,13 @@ workflow SYNTENY {
                     ["${it[0]}.${it[1]}", it[2]] // [target.on.reference.seq_tag, split_bundle_file]
                 }
             )
-            | map {
-                failIfNumberOfLinksTooLarge(it, 20000)
-            }
             | CIRCOS
 
             CIRCOS
             .out
             .png_file
-            .collect()
-            .set{ ch_list_of_circos_plots }
+            | collect
+            | set{ ch_list_of_circos_plots }
         }
         else {
             ch_list_of_circos_plots = Channel.of([])
@@ -130,38 +130,6 @@ def getUniqueWithinCombinations(inputArray) {
     return outputList
 }
 
-def validateSeqLists(inputArray) {
-
-    def file1 = inputArray[2]
-    def file2 = inputArray[5]
-
-    def lines1 = file(file1).readLines()
-    def lines2 = file(file2).readLines()
-
-    lines1.each { line ->
-        def columns = line.split()
-        if (columns.size() != 2) {
-            throw new Exception("Error: Sequence file ${file1.getName()} does not have exactly two columns.")
-        }
-    }
-
-    lines2.each { line ->
-        def columns = line.split()
-        if (columns.size() != 2) {
-            throw new Exception("Error: Sequence file ${file2.getName()} does not have exactly two columns.")
-        }
-    }
-    
-    def outputLines = lines1 + lines2
-    
-    def secondColumn = outputLines.collect { it.split()[1] }
-    if (secondColumn.size() != secondColumn.unique().size()) {
-        throw new Exception("Error: Duplicate sequence labels detected in second column for pair: ${file1.getName()}, ${file2.getName()}")
-    }
-    
-    return inputArray
-}
-
 def appendTags(tag, valuesArray) {
     if (valuesArray.size() <= 1) {
         return []
@@ -187,29 +155,14 @@ def flattenSplitBundles(inputArray) {
 }
 
 def extractBundleTag(filePath) {
-   def regex = /.*\.(\w+)\.split\.bundle\.txt/
-   def matcher = filePath =~ regex
-   if (matcher.matches()) {
-      return matcher.group(1)
-   } else {
-      throw new Exception("Error: Failed to parse the sequence tag from file name: ${filePath.getName()}")
-   }
-}
-
-def failIfNumberOfLinksTooLarge(inputTuple, maxLinks) {
-
-    def filePath = inputTuple[2]
-
-    def lineCount = 0
-    file(filePath).eachLine {
-        lineCount++
-        if (lineCount > maxLinks) {
-            throw new RuntimeException("Link count exceeded ${maxLinks} for ${filePath}." +
-            " Try to shrink the number of links by increasing the max_gap and min_bundle_size options in the config file.")
-        }
+    def regex = /.*\.(\w+)\.split\.bundle\.txt/
+    def matcher = filePath =~ regex
+    if (matcher.matches()) {
+        return matcher.group(1)
+    } else {
+        // This branch should never be executed if all the upstream logic is implemented correctly.
+        error "Error: Failed to parse the sequence tag from file name: ${filePath.getName()}"
     }
-
-    return inputTuple
 }
 
 process EXTRACT_IF_NEEDED {
@@ -231,7 +184,7 @@ process EXTRACT_IF_NEEDED {
         """
 }
 
-process FILTER_SORT_FASTA {
+process FILTER_SORT_FASTA_AND_VALIDATE_SEQ_LISTS {
     tag "${target}.on.${reference}"
     label "process_single"
     
@@ -245,6 +198,7 @@ process FILTER_SORT_FASTA {
     
     script:
         """
+        validate_seq_lists_1d50376.sh "$target_seq_list" "$ref_seq_list"
         samtools faidx $target_fasta \$(awk '{print \$1}' $target_seq_list) > filtered.ordered.target.fasta
         samtools faidx $ref_fasta \$(awk '{print \$1}' $ref_seq_list) > filtered.ordered.ref.fasta
         """
@@ -260,7 +214,7 @@ process GET_FASTA_LEN {
         tuple val(target), val(reference), path(filtered_ordered_target_fasta), path(filtered_ordered_ref_fasta)
     
     output:
-        tuple val("${target}.on.${reference}"), path("target.seq.lengths"), path("ref.seq.lengths"), emit: tags_len_files
+        tuple val("${target}.on.${reference}"), path("target.seq.lengths"), path("ref.seq.lengths"), emit: tag_len_files
     
     script:
         """
@@ -282,7 +236,7 @@ process MUMMER {
         tuple val(target), val(reference), path(target_fasta), path(ref_fasta)
     
     output:
-        tuple val("${target}.on.${reference}"), path("*.delta")
+        tuple val("${target}.on.${reference}"), path("*.delta"), emit: tag_delta_file
     
     script:
         """
@@ -537,6 +491,14 @@ process CIRCOS {
     
     script:
         """
+
+        links_count=\$(wc -l < "$bundle_file")
+        max_links=20000
+        if [ "\$links_count" -gt "\$max_links" ]; then
+            echo "Link count exceeded \$max_links for ${bundle_file}."
+            echo "Try to shrink the number of links by increasing the max_gap and min_bundle_size options in the config file."
+            exit 1
+        fi
 
         cat $karyotype > "karyotype.tsv"
         cat $bundle_file | awk '{print \$1,\$2,\$3,\$4,\$5,\$6,\$7}' OFS="\\t" > bundled.links.tsv
