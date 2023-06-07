@@ -10,6 +10,7 @@
 6. Added information regarding LAI:EDTA time requirements for various genome sizes.
 7. Added information regarding influence of LAI:EDTA:is_sensitive flag on LAI scores.
 8. Added a params summary page.
+9. Now the default config file (nextflow.config) is designed to run out-of-the-box at PFR. There is no need to setup test data.
 
 ## Version 0.10.9 (01-Jun-2023)
 

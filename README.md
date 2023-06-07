@@ -6,11 +6,9 @@
   - [Running the Pipeline](#running-the-pipeline)
     - [Post the NextFlow Process to Slurm](#post-the-nextflow-process-to-slurm)
     - [Post-run clean-up](#post-run-clean-up)
-  - [Getting sample data](#getting-sample-data)
   - [Known Issues](#known-issues)
   - [Software Versions \& References](#software-versions--references)
   - [Contributors](#contributors)
-  - [Future Tools](#future-tools)
 
 ## Introduction
 
@@ -117,14 +115,6 @@ After running the pipeline, if you wish to clean up the logs and work folder, yo
 
 The work folder contains intermediary files produced by the pipeline tools.
 
-## Getting sample data
-
-In order to retrieve dummy data to test the pipeline with, run the following:
-
-```bash
-./bin/retrieve_test_data_3031aca.sh
-```
-
 ## Known Issues
 
 - On its first run, the pipeline has to download a lot many software containers. This download may fail. If it happens, resume the pipeline again and it should be able to download the required containers.
@@ -208,10 +198,3 @@ In order to retrieve dummy data to test the pipeline with, run the following:
 ## Contributors
 
 Cecilia Deng [@CeciliaDeng](https://github.com/CeciliaDeng), Chen Wu [@christinawu2008](https://github.com/christinawu2008), Jason Shiller [@jasonshiller](https://github.com/jasonshiller), Ken Smith [@hzlnutspread](https://github.com/hzlnutspread), Marcus Davy [@mdavy86](https://github.com/mdavy86), Ross Crowhurst [@rosscrowhurst](https://github.com/rosscrowhurst), Susan Thomson [@cflsjt](https://github.com/cflsjt), Usman Rashid [@GallVp](https://github.com/GallVp)
-
-## Future Tools
-
-- [ ] SubPhaser: [https://github.com/zhangrengang/SubPhaser](https://github.com/zhangrengang/SubPhaser)
-- [ ] Merqury: [https://github.com/marbl/merqury](https://github.com/marbl/merqury)
-- [ ] findZX: [https://github.com/hsigeman/findZX](https://github.com/hsigeman/findZX)
-- [ ] NGenomeSyn: <https://github.com/hewm2008/NGenomeSyn>; Consensus vs Haplotypes
