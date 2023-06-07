@@ -64,6 +64,7 @@ See the [tutorials](./docs/tutorials.md) for detailed instructions on how to use
 - ncbi_fcs_adaptor::empire
 - ncbi_fcs_gx::tax_id
 - busco::lineage_datasets
+- busco::mode
 - tidk::repeat_seq
 - hic::reads_folder
 - hic::paired_reads
@@ -107,13 +108,11 @@ You will now see a results folder which will contain a file named 'report.html' 
 
 ### Post-run clean-up
 
-After running the pipeline, if you wish to clean up the logs and work folder, you can run the following:
+"work" folder contains intermediary files produced by the pipeline tools. After running the pipeline, if you wish to clean up the logs and "work" folder, run the following command:
 
 ```bash
 ./cleanNXF.sh
 ```
-
-The work folder contains intermediary files produced by the pipeline tools.
 
 ## Known Issues
 
