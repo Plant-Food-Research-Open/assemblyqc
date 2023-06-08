@@ -1,5 +1,7 @@
 nextflow.enable.dsl=2
 
+include { GZIP_FASTA } from '../modules/gzip_fasta'
+
 workflow SYNTENY {
     take:
         tuple_of_tag_fasta_seq_list
@@ -28,7 +30,7 @@ workflow SYNTENY {
             | map {
                 [it[0], it[1]] // [tag, xref fasta file path]
             }
-            | EXTRACT_IF_NEEDED
+            | GZIP_FASTA
             | join(
                 tuple_of_tag_xref_fasta_seq_list
             )
@@ -163,25 +165,6 @@ def extractBundleTag(filePath) {
         // This branch should never be executed if all the upstream logic is implemented correctly.
         error "Error: Failed to parse the sequence tag from file name: ${filePath.getName()}"
     }
-}
-
-process EXTRACT_IF_NEEDED {
-    tag "${tag_label}"
-    label "process_single"
-
-    input:
-        tuple val(tag_label), path(fasta_file)
-    
-    output:
-        tuple val(tag_label), path("*.uncomp.fsa")
-
-    script:
-        """
-        input_file_name_var="$fasta_file"
-        output_file_name="\${input_file_name_var%.*}.uncomp.fsa"
-        
-        gzip -cdf $fasta_file > \$output_file_name
-        """
 }
 
 process FILTER_SORT_FASTA_AND_VALIDATE_SEQ_LISTS {

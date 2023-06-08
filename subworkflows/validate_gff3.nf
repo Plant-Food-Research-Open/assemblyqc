@@ -7,7 +7,7 @@ workflow VALIDATE_GFF3 {
     
     main:
         tuple_of_tag_gff3_file
-        | EXTRACT_IF_NEEDED
+        | GZIP_GFF3
         | FORMAT_GFF3
         | set { ch_tuple_tag_extracted_file }
         
@@ -44,7 +44,7 @@ workflow VALIDATE_GFF3 {
         tuple_tag_valid_gff3 = ch_tuple_tag_valid_gff3
 }
 
-process EXTRACT_IF_NEEDED {
+process GZIP_GFF3 {
     tag "${tag_label}"
     label "process_single"
 
@@ -52,12 +52,12 @@ process EXTRACT_IF_NEEDED {
         tuple val(tag_label), path(gff3_file)
     
     output:
-        tuple val(tag_label), path("*.uncomp.gff3")
+        tuple val(tag_label), path("*.gzip.gff3")
 
     script:
         """
-        input_file_name_var="$gff3_file"
-        output_file_name="\${input_file_name_var%.*}.uncomp.gff3"
+        input_file_name_var="\$(basename $gff3_file .gz)"
+        output_file_name="\${input_file_name_var%.*}.gzip.gff3"
         
         gzip -cdf "$gff3_file" > "\$output_file_name"
         """
@@ -77,7 +77,7 @@ process FORMAT_GFF3 {
 
     script:
         """
-        output_file_name="\$(basename $gff3_file .uncomp.gff3).gt.gff3"
+        output_file_name="\$(basename $gff3_file .gzip.gff3).gt.gff3"
         
         gt gff3 -tidy -retainids "$gff3_file" \
         > "\$output_file_name"

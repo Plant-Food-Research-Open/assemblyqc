@@ -1,12 +1,14 @@
 nextflow.enable.dsl=2
 
+include { GZIP_FASTA } from '../modules/gzip_fasta'
+
 workflow VALIDATE_FASTA {
     take:
         tuple_of_tag_file
     
     main:
         tuple_of_tag_file
-        | EXTRACT_IF_NEEDED
+        | GZIP_FASTA
         | set { ch_tuple_tag_extracted_file }
         
         ch_tuple_tag_extracted_file
@@ -23,25 +25,6 @@ workflow VALIDATE_FASTA {
     
     emit:
         tuple_tag_valid_fasta = ch_tuple_tag_valid_fasta
-}
-
-process EXTRACT_IF_NEEDED {
-    tag "${tag_label}"
-    label "process_single"
-
-    input:
-        tuple val(tag_label), path(fasta_file)
-    
-    output:
-        tuple val(tag_label), path("*.uncomp.fsa")
-
-    script:
-        """
-        input_file_name_var="$fasta_file"
-        output_file_name="\${input_file_name_var%.*}.uncomp.fsa"
-        
-        gzip -cdf $fasta_file > \$output_file_name
-        """
 }
 
 process RUN_VALIDATOR {

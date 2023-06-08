@@ -4,8 +4,9 @@
   - [Introduction](#introduction)
   - [Pipeline Flowchart](#pipeline-flowchart)
   - [Running the Pipeline](#running-the-pipeline)
-    - [Post the NextFlow Process to Slurm](#post-the-nextflow-process-to-slurm)
+    - [Quick Start for Plant \& Food Research Users](#quick-start-for-plant--food-research-users)
     - [Post-run clean-up](#post-run-clean-up)
+  - [AssemblyQC Report](#assemblyqc-report)
   - [Known Issues](#known-issues)
   - [Software Versions \& References](#software-versions--references)
   - [Contributors](#contributors)
@@ -56,7 +57,11 @@ flowchart LR
 
 ## Running the Pipeline
 
-See the [tutorials](./docs/tutorials.md) for detailed instructions on how to use the pipeline. To run the pipeline on an assembly, first edit the nextflow.config. The following parameters must be checked and modified accordingly:
+See the [tutorials](./docs/tutorials.md) for detailed instructions on how to use the pipeline.
+
+### Quick Start for Plant & Food Research Users
+
+To run the pipeline, first edit the nextflow.config. The following parameters must be checked and modified accordingly:
 
 - target_assemblies
 - assembly_gff3
@@ -71,9 +76,7 @@ See the [tutorials](./docs/tutorials.md) for detailed instructions on how to use
 - synteny::assembly_seq_list
 - synteny::xref_assemblies
 
-Then, the pipeline should be posted to Slurm for execution.
-
-### Post the NextFlow Process to Slurm
+Then, the pipeline should be posted to Slurm for execution with following commands:
 
 ```bash
 cat << EOF > assembly_qc_slurm.sh
@@ -104,15 +107,17 @@ chmod u+x ./assembly_qc_slurm.sh
 sbatch ./assembly_qc_slurm.sh
 ```
 
-You will now see a results folder which will contain a file named 'report.html' and can be viewed on the [powerPlant storage server](https://storage.powerplant.pfr.co.nz). The 'report.html' is a standalone file for all the modules except HiC and Kraken2. Thus, if you move the report to another folder, make sure to also move the 'hic' folder and the 'kraken2' folder with it.
-
 ### Post-run clean-up
 
-"work" folder contains intermediary files produced by the pipeline tools. After running the pipeline, if you wish to clean up the logs and "work" folder, run the following command:
+The intermediary files produced by the pipeline are stored in the "work" folder. After running the pipeline, if you wish to clean up the logs and "work" folder, run the following command:
 
 ```bash
 ./cleanNXF.sh
 ```
+
+## AssemblyQC Report
+
+Once the pipeline has finished execution, the results folder specified in the config file should contain a file named 'report.html'. The 'report.html' is a standalone file for all the modules except HiC and Kraken2. Thus, if you move the report to another folder, make sure to also move the 'hic' folder and the 'kraken2' folder with it.
 
 ## Known Issues
 
