@@ -64,7 +64,7 @@ For this minimal example, let's set all the skip flags to 1.
 
 ## Step 3: Setting Max. Resources
 
-The resources needed for the various modules in the pipeline are dynamically allocated using resources classes defined in the './conf/base.config' file. Instead of tweaking these classes, the user can conveniently cap the maximum allowed resources by changing the `max_cpus`, `max_memory` and `max_time` variables in the 'nextflow.config' file. For this minimal example, we should cap the maximum time to 1 hour as each module in this example can be executed within an hour.
+The resources needed for the various modules in the pipeline are dynamically allocated using resources classes defined in the 'conf/base.config' file. Instead of tweaking these classes, the user can conveniently cap the maximum allowed resources by changing the `max_cpus`, `max_memory` and `max_time` variables in the 'nextflow.config' file. For this minimal example, we should cap the maximum time to 1 hour as each module in this example can be executed within an hour.
 
 ```groovy
 max_time = 1.hour
@@ -183,7 +183,7 @@ Notice that the `-profile` parameter is now set to `local` in the NextFlow execu
 
 ### Running on Executors other than Slurm
 
-To execute the pipeline on a executor other than Slurm, you will first have to create a profile for the target executor. See the existing profiles in the './conf/base.config' file. Detailed documentation is available in NextFlow [docs](https://www.nextflow.io/docs/latest/executor.html) and nf-core [docs](https://nf-co.re/docs/usage/tutorials/step_by_step_institutional_profile).
+To execute the pipeline on a executor other than Slurm, you will first have to create a profile for the target executor. See the existing profiles in the 'conf/base.config' file. Detailed documentation is available in NextFlow [docs](https://www.nextflow.io/docs/latest/executor.html) and nf-core [docs](https://nf-co.re/docs/usage/tutorials/step_by_step_institutional_profile).
 
 ## AssemblyQC Report
 

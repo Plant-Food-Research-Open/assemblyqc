@@ -139,7 +139,11 @@ workflow ASSEMBLY_QC {
 
     // HIC_CONTACT_MAP
     if(!params.hic.skip) {
-        ch_paired_reads = Channel.fromFilePairs(params.hic.paired_reads, checkIfExists: true)
+        if ("${params.hic.paired_reads}".find(/.*[\/].*\.(fastq|fq)\.gz/)) {
+            ch_paired_reads = Channel.fromFilePairs(params.hic.paired_reads, checkIfExists: true)
+        } else {
+            ch_paired_reads = Channel.fromSRA(params.hic.paired_reads)
+        }
     } else {
         ch_paired_reads = Channel.empty()
     }

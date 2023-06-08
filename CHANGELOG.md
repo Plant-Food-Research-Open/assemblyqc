@@ -12,7 +12,7 @@
 8. Added a params summary page.
 9. Now the default config file (nextflow.config) is designed to run out-of-the-box at PFR. There is no need to do any setup.
 10. "report" is now the default results folder.
-11. Added documentation and a configuration file for a minimal example based on publicly accessible data from NCBI.
+11. Added documentation and configuration files for examples based on publicly accessible data from NCBI.
 
 ## Version 0.10.9 (01-Jun-2023)
 
