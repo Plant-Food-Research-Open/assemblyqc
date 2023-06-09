@@ -19,7 +19,7 @@ def validateParams(params) {
 def validateFastaTags(params) {
     def listOfFastaTuples   = params["target_assemblies"]
 
-    if (isNotListOfLists(listOfFastaTuples, subSize: 2)) {
+    if (isNotListOfLists(listOfFastaTuples, 2)) {
         error 'Error: target_assemblies must be a list of sublists, with each sublist containing 2 elements'
     }
 
@@ -30,12 +30,24 @@ def validateFastaTags(params) {
             error "Error: $it is not a valid tag in target_assemblies"
         }
     }
+
+    if (fastaTags.size() != (fastaTags as Set).size()) {
+        error "All the tags in target_assemblies should be unique"
+    }
 }
 
 def validateGff3Tags(params) {
     def listOfGff3Tuples   = params["assembly_gff3"]
 
-    if (isNotListOfLists(listOfGff3Tuples, subSize: 2)) {
+    if (listOfGff3Tuples == null) {
+        return
+    }
+
+    if (listOfGff3Tuples.isEmpty()) {
+        return
+    }
+
+    if (isNotListOfLists(listOfGff3Tuples, 2)) {
         error 'Error: assembly_gff3 must be a list of sublists, with each sublist containing 2 elements'
     }
 
@@ -52,14 +64,6 @@ def validateGff3FastaCorrespondence(params) {
     
     def listOfGff3Tuples    = params["assembly_gff3"]
     def listOfFastaTuples   = params["target_assemblies"]
-
-    if (listOfGff3Tuples == null) {
-        return
-    }
-
-    if (listOfGff3Tuples.isEmpty()) {
-        return
-    }
 
     def fastaTags = listOfFastaTuples.collect { it[0] }
     def gff3Tags = listOfGff3Tuples.collect { it[0] }
@@ -98,12 +102,12 @@ def validateLAIParameters(params) {
         return
     }
 
-    if (isNotListOfLists(listOfPassLists, subSize: 2)) {
-        error 'Error: lai::pass_list must be a list of sublists, with each sublist containing 2 elements'
+    if (isNotListOfLists(listOfPassLists, 2)) {
+        error 'Error: lai::pass_list must be null or a list of sublists, with each sublist containing 2 elements'
     }
 
-    if (isNotListOfLists(listOfOutFiles, subSize: 2)) {
-        error 'Error: lai::out_file must be a list of sublists, with each sublist containing 2 elements'
+    if (isNotListOfLists(listOfOutFiles, 2)) {
+        error 'Error: lai::out_file must be null or a list of sublists, with each sublist containing 2 elements'
     }
 
     if (listOfPassLists.size() != listOfOutFiles.size()) {
@@ -131,7 +135,7 @@ def validateSyntenyParameters(params) {
     def listOfFastaTuples       = params["target_assemblies"]
     def listOfTargetSeqLists    = params["synteny"]["assembly_seq_list"]
 
-    if (isNotListOfLists(listOfTargetSeqLists, subSize: 2)) {
+    if (isNotListOfLists(listOfTargetSeqLists, 2)) {
         error 'Error: synteny::assembly_seq_list must be a list of sublists, with each sublist containing 2 elements'
     }
 
@@ -160,17 +164,29 @@ def validateSyntenyParameters(params) {
         return
     }
 
-    if (isNotListOfLists(listOfXRefAssemblies, subSize: 3)) {
+    if (isNotListOfLists(listOfXRefAssemblies, 3)) {
         error 'Error: synteny::xref_assemblies must be a list of sublists, with each sublist containing 3 elements'
     }
 
+    def xrefTags = listOfXRefAssemblies.collect { it[0] }
+    
+    xrefTags.each {
+        if (!(it =~ /^\w+$/)) {
+            error "Error: $it is not a valid tag in synteny::xref_assemblies"
+        }
+    }
+
+    if (xrefTags.size() != (xrefTags as Set).size()) {
+        error "All the tags in synteny::xref_assemblies should be unique"
+    }
+
     listOfXRefAssemblies.each {
-        validateSeqList(it[1])
+        validateSeqList(it[2])
     }
 }
 
-def isNotListOfLists(thisOne, subSize) {
-    return (!(thisOne instanceof List) || thisOne.any { !(it instanceof List) || it.size() != subSize })
+def isNotListOfLists(thisOne, subListSize) {
+    return (!(thisOne instanceof List) || thisOne.isEmpty() || thisOne.any { !(it instanceof List) || it.size() != subListSize })
 }
 
 def validateSeqList(seqListPath) {
