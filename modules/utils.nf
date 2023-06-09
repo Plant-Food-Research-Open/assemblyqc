@@ -180,6 +180,12 @@ def validateSyntenyParameters(params) {
         error "All the tags in synteny::xref_assemblies should be unique"
     }
 
+    xrefTags.each {
+        if (fastaTags.contains(it)) {
+            error "Error: Tag $it in synteny::xref_assemblies is already included in target_assemblies"
+        }
+    }
+
     listOfXRefAssemblies.each {
         validateSeqList(it[2])
     }
