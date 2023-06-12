@@ -64,11 +64,13 @@ This minimal example sets all the skip flags to 1.
 
 ## Step 3: Setting Max. Resources
 
-The resources needed for the various modules in the pipeline are dynamically allocated using resource-classes defined in the 'conf/base.config' file. Instead of tweaking these classes, the user can conveniently cap the maximum allowed resources by changing the `max_cpus`, `max_memory` and `max_time` variables in the 'nextflow.config' file. These maximum values apply to each process in the pipeline. The pipeline executes multiple processes in parallel. Therefore, the total execution time is not equal to the sum of time taken by each process. More on this later. This example caps the maximum time to 1 hour as each module in this example can be executed within an hour.
+The resources needed for the various modules in the pipeline are dynamically allocated using resource-classes defined in the 'conf/base.config' file. Instead of tweaking these classes, the user can conveniently cap the maximum allowed resources by changing the `max_cpus`, `max_memory` and `max_time` variables in the 'nextflow.config' file. This example caps the maximum time to 1 hour as each module in this example can be executed within an hour.
 
 ```groovy
 max_time = 1.hour
 ```
+
+> 💡 **Note**: Maximum values defined by `max_cpus`, `max_memory` and `max_time` apply to each process in the pipeline. The pipeline executes multiple processes in parallel. Therefore, the total execution time is not equal to the sum of time taken by each process. Rather, the total time is determined by adding up the time taken by processes which run one after the other. An estimate of the total time maybe needed if the pipeline is submitted to an executor such as Slurm. This topic is covered later in this document.
 
 ## Step 4: Setting the Singularity Cache Directory
 
@@ -153,13 +155,13 @@ srun nextflow main.nf -profile slurm -resume
 EOF
 ```
 
-The overall time is specified as 1 hour. This is the time for which the NextFlow process is allowed to run. All the modules in this minimal example can be completed within 1 hour.
+The overall time is specified as 1 hour. This is the time for which the NextFlow process is allowed to run by Slurm. This is an estimate of the total execution time and is based on the assumption that the parallel execution of all the processes in this minimal example can be completed within 1 hour.
 
-Similarly, the script specifies the number of CPUs and memory required for running NextFLow. Once again, these resources are only for running NextFlow and not the individual modules. Therefore, 2 CPUs with 4 GBs of memory is adequate.
+Similarly, the script specifies the number of CPUs and memory required for running NextFLow. These resources are only for running NextFlow and not the individual modules. Therefore, 2 CPUs with 4 GBs of memory is adequate.
 
 The next 4 lines starting with ml specify the environment modules used by the pipeline. These names of these modules are system dependent. Refer to your system manuals to find out the modules which satisfy the requirements listed in [Step 0: System Prerequisites](#step-0-system-prerequisites).
 
-The `export TMPDIR` directory specifies the location of the temporary directory. Once again, this is system specific and should be specified by referring to the system manuals.
+The `export TMPDIR` directory specifies the location of the temporary directory. This is system specific and should be specified by referring to the system manuals.
 
 The last line executes the pipeline implemented in the `main.nf` file with profile slurm and `-resume` flag.
 
@@ -173,7 +175,7 @@ sbatch ./assembly_qc_slurm.sh
 
 ### Running on a Single Machine
 
-To run the pipeline on a single machine, make sure that the maximum resources specified by `max_cpus` and `max_memory` variables in the 'nextflow.config' file are suitable for your machine. Moreover, the minimum software required [Step 0: System Prerequisites](#step-0-system-prerequisites) should be installed on the machine. Finally, the pipeline can be executed with the following command.
+To run the pipeline on a single machine, make sure that the maximum resources specified by `max_cpus` and `max_memory` variables in the 'nextflow.config' file are suitable for your machine. Moreover, the minimum software required [Step 0: System Prerequisites](#step-0-system-prerequisites) should be available on the machine. Finally, the pipeline can be executed with the following command.
 
 ```bash
 nextflow main.nf -profile local -resume
