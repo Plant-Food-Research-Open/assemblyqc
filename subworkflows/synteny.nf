@@ -235,6 +235,7 @@ process MUMMER {
 process DNADIFF {
     tag "${target_on_ref}"
     label "process_single"
+    label "process_week_long"
     
     container "docker://staphb/mummer:4.0.0"
 

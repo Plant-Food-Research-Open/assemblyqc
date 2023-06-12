@@ -10,4 +10,4 @@ The following test configurations are included with the pipeline. Before going t
 - [Test Configuration for a Fungus](../conf/test_full.config)
 - [Test Configuration for a Bacterium](../conf/test_bacterial.config)
 - [Test Configuration for a Virus](../conf/test_viral.config)
-- [Test Configuration for the Transcriptome of a Nematode](../conf/test_viral.config)
+- [Test Configuration for a Transcriptome of a Nematode](../conf/test_viral.config)

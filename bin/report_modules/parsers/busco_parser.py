@@ -59,6 +59,10 @@ class BuscoParser:
     def get_gene_predictor(self, data):
         p = re.compile("Gene predictor used: (.*)")
         gene_predictor = p.search(data)
+
+        if gene_predictor == None:
+            return "None"
+
         result = gene_predictor.group(1)
         q = re.compile(f"{gene_predictor.group(1)}: (.*)")
         predictor_version = q.search(data)

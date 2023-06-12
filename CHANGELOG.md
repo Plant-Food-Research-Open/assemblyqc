@@ -13,6 +13,9 @@
 9. Now the default config file (nextflow.config) is designed to run out-of-the-box at PFR. There is no need to do any setup.
 10. "report" is now the default results folder.
 11. Added documentation and configuration files for examples based on publicly accessible data from NCBI.
+12. Added test configurations for Fungal, Bacterial, and Viral assemblies.
+13. Added test configuration for a Transcriptome of a Nematode.
+14. Now allowed up to 7 days for SYNTENY::DNADIFF based on recent evidence from two ~2.5 GB genomes.
 
 ## Version 0.10.9 (01-Jun-2023)
 
