@@ -21,7 +21,7 @@ This document explains the pipeline configuration using an example configuration
 
 This module has only one parameter: `empire`. The permissible values are: `euk` for Eukaryotes and `prok` for Prokaryotes.
 
-> From conf/test_full.config
+> ⚙️ From conf/test_full.config
 
 ```groovy
 ncbi_fcs_adaptor {
@@ -49,7 +49,7 @@ all.seq_info.tsv.gz
 all.taxa.tsv
 ```
 
-> From conf/test_full.config
+> ⚙️ From conf/test_full.config
 
 ```groovy
 ncbi_fcs_gx {
@@ -67,7 +67,7 @@ Following parameters must be configured:
 - `lineage_datasets`: A list of BUSCO lineages. Any number of lineages can be specified. Each target assembly is assessed against each of the listed lineage. To select a lineage, refer to <https://busco.ezlab.org/list_of_lineages.html>
 - `download_path`: A directory where the BUSCO can download and cache its databases. BUSCO manages download and validation of the databases itself, there, fore, the user does not have to manually setup these databases.
 
-> From conf/test_full.config
+> ⚙️ From conf/test_full.config
 
 ```groovy
 busco {
@@ -88,7 +88,7 @@ The following parameters are optional:
 - `filter_by_size`: Set this flag to 1 to filter out assembly sequences smaller than the size specified by the next parameter (default: 0).
 - `filter_size_bp`: Minimum size of the assembly sequence processed by TIDK (default: 1000000 (1Mbp)).
 
-> From conf/test_full.config
+> ⚙️ From conf/test_full.config
 
 ```groovy
 tidk {
@@ -146,7 +146,7 @@ lai {
 
 - `edta::is_sensitive`: "--sensitive" parameter for the EDTA software. Set to 1 to turn on Sensitive (very slow) and 0 to turn off Sensitive. Default is 0. For Tair10, the LAI score with Sensitive turned off is 17.90 and with Sensitive turned on is 17.87.
 
-> From conf/test_full.config
+> ⚙️ From conf/test_full.config
 
 ```groovy
 lai {
@@ -169,7 +169,7 @@ Following parameters must be configured:
 - `db_url`: The URL for the KRAKEN2 database. To select a DB, see <https://benlangmead.github.io/aws-indexes/k2>. By default, the pipeline uses PlusPFP database.
 - `download_path`: The directory where the pipeline can download and cache the data. The pipeline can download the database itself. However, care must be taken when switching databases. If the `db_url` is changed, a new `download_path` should be provided, otherwise, the pipeline will fail with error saying that the downloaded database is corrupted.
 
-> From conf/test_full.config
+> ⚙️ From conf/test_full.config
 
 ```groovy
 kraken2 {
@@ -184,7 +184,7 @@ Following parameters must be configured:
 
 - `paired_reads`: A relative or absolute path to paired reads in fastq.gz format, or a SRA ID. The format for file path is `*R{1,2}*.(fasta|fq).gz`. An example is '/input/genomic/fungal/Neonectria/Genome/20190506_CAGRF19591_CGYCF_HiC/PG_PETUNIA_HiC_CGYCF_CACTCA_L001_R{1,2}.fastq.gz'.
 
-> From conf/test_full.config
+> ⚙️ From conf/test_full.config
 
 ```groovy
 hic {
@@ -240,7 +240,7 @@ The following parameters are optional:
 - `plot_1_vs_all`: Set it to 1 to create a separate synteny plot for each contig of the target assembly versus all contigs of the reference assembly. Set it to 0 to create a single plot for each target assembly against each reference assembly. This joint plot is also created when `plot_1_vs_all` is set to 1. Default: 0.
 - `color_by_contig`: Set it to 1 to color the synteny plot by contig. Set it to 0 to color the synteny plot by the number of links in a bundle. Default: 1.
 
-> From conf/test_full.config
+> ⚙️ From conf/test_full.config
 
 ```groovy
 synteny {
