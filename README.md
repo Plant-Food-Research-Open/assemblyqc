@@ -55,16 +55,19 @@ flowchart LR
   SYNTENY --> REPORT
 ```
 
-- NCBI FCS ADAPTOR: Adaptor contamination pass/fail
-- NCBI FCS GX: Foreign organism contamination pass/fail
-- ASSEMBLATHON STATS: General assembly statistics such as N50
-- BUSCO: Gene-space completeness analysis
-- TIDK: Telomere completeness analysis
-- LAI: Repeat-space completeness analysis
-- LAI::EDTA: Repeat identification
-- KRAKEN2: Contamination analysis
-- SYNTENY: Synteny analysis
-- GENOMETOOLS GT STAT/BIOCODE GFF3 STATS: General annotation statistics such as the number of gene models
+- [FASTA VALIDATION](https://github.com/GallVp/fasta_validator): FASTA format validation
+- [GFF3 VALIDATION](https://github.com/genometools/genometools): GFF3 format validation
+- [NCBI FCS ADAPTOR](https://github.com/ncbi/fcs): Adaptor contamination pass/fail
+- [NCBI FCS GX](https://github.com/ncbi/fcs): Foreign organism contamination pass/fail
+- [ASSEMBLATHON STATS](https://github.com/PlantandFoodResearch/assemblathon2-analysis/blob/a93cba25d847434f7eadc04e63b58c567c46a56d/assemblathon_stats.pl): General assembly statistics such as N50
+- [BUSCO](https://gitlab.com/ezlab/busco/-/tree/master): Gene-space completeness analysis
+- [TIDK](https://github.com/tolkit/telomeric-identifier): Telomere completeness analysis
+- [LAI](https://github.com/oushujun/LTR_retriever/blob/master/LAI): Repeat-space completeness analysis
+- [LAI::EDTA](https://github.com/oushujun/EDTA): Repeat identification
+- [KRAKEN2](https://github.com/DerrickWood/kraken2): Contamination analysis
+- [HIC CONTACT MAP](https://github.com/igvteam/juicebox-web): 3D structure analysis
+- SYNTENY: Synteny analysis using [MUMMER](https://github.com/mummer4/mummer) and [CIRCOS](http://circos.ca/documentation/).
+- [GENOMETOOLS GT STAT](https://github.com/genometools/genometools)/[BIOCODE GFF3 STATS](https://github.com/jorvis/biocode): General annotation statistics such as the number of gene models
 
 ## Running the Pipeline
 
