@@ -68,7 +68,7 @@ flowchart LR
 
 ## Running the Pipeline
 
-See the [tutorials](./docs/tutorials.md) for detailed instructions on how to use the pipeline.
+See the [tutorials](./docs/README.md) for detailed instructions on how to use the pipeline.
 
 ### Quick Start for Plant & Food Research Users
 
