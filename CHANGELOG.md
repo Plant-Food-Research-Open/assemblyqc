@@ -1,6 +1,6 @@
 # Change Log
 
-## Version 0.11 (08-Jun-2023)
+## Version 1 (RC1; 12-Jun-2023)
 
 1. Added validation for fasta and gff3 files.
 2. Added support for compressed files (fasta.gz, gff3.gz).
