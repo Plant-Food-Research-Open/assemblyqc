@@ -1,5 +1,9 @@
 # Change Log
 
+## Version 1 (RC2; 13-Jun-2023)
+
+1. Added labels to the pipeline flowchart.
+
 ## Version 1 (RC1; 12-Jun-2023)
 
 1. Added validation for fasta and gff3 files.

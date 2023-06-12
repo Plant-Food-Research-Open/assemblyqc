@@ -55,6 +55,17 @@ flowchart LR
   SYNTENY --> REPORT
 ```
 
+- NCBI FCS ADAPTOR: Adaptor contamination pass/fail
+- NCBI FCS GX: Foreign organism contamination pass/fail
+- ASSEMBLATHON STATS: General assembly statistics such as N50
+- BUSCO: Gene-space completeness analysis
+- TIDK: Telomere completeness analysis
+- LAI: Repeat-space completeness analysis
+- LAI::EDTA: Repeat identification
+- KRAKEN2: Contamination analysis
+- SYNTENY: Synteny analysis
+- GENOMETOOLS GT STAT/BIOCODE GFF3 STATS: General annotation statistics such as the number of gene models
+
 ## Running the Pipeline
 
 See the [tutorials](./docs/tutorials.md) for detailed instructions on how to use the pipeline.
