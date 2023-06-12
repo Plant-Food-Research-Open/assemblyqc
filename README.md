@@ -13,13 +13,13 @@
 
 ## Introduction
 
-AssemblyQC is a Nextflow pipeline which evaluates assembly quality with well established tools and presents the results in a unified html report. The tools are shown in the [Pipeline Flowchart](#pipeline-flowchart) and their version are listed under [Software Versions & References](#software-versions--references).
+AssemblyQC is a [NextFlow](https://www.nextflow.io/docs/latest/index.html) pipeline which evaluates assembly quality with well established tools and presents the results in a unified html report. The tools are shown in the [Pipeline Flowchart](#pipeline-flowchart) and their version are listed under [Software Versions & References](#software-versions--references).
 
 ## Pipeline Flowchart
 
 ```mermaid
 flowchart LR
-  forEachTag(Foreach\nAssembly) --> VALIDATE_FORMAT[VALIDATE FORMAT]
+  forEachTag(For each\nAssembly) --> VALIDATE_FORMAT[VALIDATE FORMAT]
   
   VALIDATE_FORMAT --> ncbiFCS[NCBI FCS\nADAPTOR]
   ncbiFCS --> Check{Check}
@@ -55,23 +55,23 @@ flowchart LR
   SYNTENY --> REPORT
 ```
 
-- [FASTA VALIDATION](https://github.com/GallVp/fasta_validator): FASTA format validation
-- [GFF3 VALIDATION](https://github.com/genometools/genometools): GFF3 format validation
+- [FASTA VALIDATION](https://github.com/GallVp/fasta_validator)
+- [GFF3 VALIDATION](https://github.com/genometools/genometools)
+- [ASSEMBLATHON STATS](https://github.com/PlantandFoodResearch/assemblathon2-analysis/blob/a93cba25d847434f7eadc04e63b58c567c46a56d/assemblathon_stats.pl): Assembly statistics
+- [GENOMETOOLS GT STAT](https://github.com/genometools/genometools)/[BIOCODE GFF3 STATS](https://github.com/jorvis/biocode): Annotation statistics
 - [NCBI FCS ADAPTOR](https://github.com/ncbi/fcs): Adaptor contamination pass/fail
 - [NCBI FCS GX](https://github.com/ncbi/fcs): Foreign organism contamination pass/fail
-- [ASSEMBLATHON STATS](https://github.com/PlantandFoodResearch/assemblathon2-analysis/blob/a93cba25d847434f7eadc04e63b58c567c46a56d/assemblathon_stats.pl): General assembly statistics such as N50
-- [BUSCO](https://gitlab.com/ezlab/busco/-/tree/master): Gene-space completeness analysis
-- [TIDK](https://github.com/tolkit/telomeric-identifier): Telomere completeness analysis
-- [LAI](https://github.com/oushujun/LTR_retriever/blob/master/LAI): Repeat-space completeness analysis
+- [BUSCO](https://gitlab.com/ezlab/busco/-/tree/master): Gene-space completeness estimation
+- [TIDK](https://github.com/tolkit/telomeric-identifier): Telomere repeat identification
+- [LAI](https://github.com/oushujun/LTR_retriever/blob/master/LAI): Continuity of repetitive sequences
 - [LAI::EDTA](https://github.com/oushujun/EDTA): Repeat identification
-- [KRAKEN2](https://github.com/DerrickWood/kraken2): Contamination analysis
-- [HIC CONTACT MAP](https://github.com/igvteam/juicebox-web): 3D structure analysis
-- SYNTENY: Synteny analysis using [MUMMER](https://github.com/mummer4/mummer) and [CIRCOS](http://circos.ca/documentation/).
-- [GENOMETOOLS GT STAT](https://github.com/genometools/genometools)/[BIOCODE GFF3 STATS](https://github.com/jorvis/biocode): General annotation statistics such as the number of gene models
+- [KRAKEN2](https://github.com/DerrickWood/kraken2): Taxonomy classification
+- [HIC CONTACT MAP](https://github.com/igvteam/juicebox-web): Alignment and visualisation of HiC data
+- SYNTENY: Synteny analysis using [MUMMER](https://github.com/mummer4/mummer) and [CIRCOS](http://circos.ca/documentation/)
 
 ## Running the Pipeline
 
-See the [tutorials](./docs/README.md) for detailed instructions on how to use the pipeline.
+See the [tutorials](./docs/README.md) for detailed instructions on how to use the pipeline. The pipeline can be executed on a range of executors including AWS, LSF, Slurm, and others supported by [NextFlow](https://www.nextflow.io/docs/latest/executor.html#executors).
 
 ### Quick Start for Plant & Food Research Users
 
@@ -89,35 +89,10 @@ To run the pipeline, first edit the nextflow.config. The following parameters mu
 - synteny::assembly_seq_list
 - synteny::xref_assemblies
 
-Then, the pipeline should be posted to Slurm for execution with following commands:
+Then, the pipeline should be posted to Slurm for execution with the following command:
 
 ```bash
-cat << EOF > assembly_qc_slurm.sh
-#!/bin/bash -e
-
-
-#SBATCH --job-name asm_qc_${USER}
-#SBATCH --time=7-00:00:00
-#SBATCH --nodes=1
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=2
-#SBATCH --output asm_qc_${USER}.stdout
-#SBATCH --error asm_qc_${USER}.stderr
-#SBATCH --mem=4G
-
-ml unload perl
-ml Python/3.10.4-GCCcore-11.2.0-bare
-ml apptainer/1.1
-ml nextflow/22.10.4
-
-export TMPDIR="/workspace/$USER/tmp"
-
-srun nextflow main.nf -profile slurm -resume
-EOF
-
-chmod u+x ./assembly_qc_slurm.sh
-
-sbatch ./assembly_qc_slurm.sh
+sbatch ./assembly_qc_pfr.sh
 ```
 
 ### Post-run clean-up
