@@ -132,13 +132,13 @@ cat << EOF > assembly_qc_slurm.sh
 #!/bin/bash -e
 
 
-#SBATCH --job-name asm_qc_${USER}
+#SBATCH --job-name ASM_QC
 #SBATCH --time=01:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=2
-#SBATCH --output asm_qc_${USER}.stdout
-#SBATCH --error asm_qc_${USER}.stderr
+#SBATCH --output assembly_qc_slurm.stdout
+#SBATCH --error assembly_qc_slurm.stderr
 #SBATCH --mem=4G
 
 ml unload perl
@@ -165,11 +165,9 @@ The `export TMPDIR` directory specifies the location of the temporary directory.
 
 The last line executes the pipeline implemented in the `main.nf` file with profile slurm and `-resume` flag.
 
-After creating the slurm submission script, add execution permission and submit to slurm as follows:
+After creating the slurm submission script, submit to slurm as follows:
 
 ```bash
-chmod u+x ./assembly_qc_slurm.sh
-
 sbatch ./assembly_qc_slurm.sh
 ```
 

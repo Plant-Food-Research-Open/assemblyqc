@@ -3,6 +3,7 @@
 ## Version 1 (RC2; 13-Jun-2023)
 
 1. Added labels to the pipeline flowchart.
+2. Update the README based on team feedback.
 
 ## Version 1 (RC1; 12-Jun-2023)
 
