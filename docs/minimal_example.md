@@ -42,29 +42,29 @@ Notice that `target_assemblies` is a list of lists. Each sublist represents an a
 
 ### Gene Annotations (Optional)
 
-If one or more of these assemblies have gene annotation files, these files should be in gff3 format (gff3, gff3.gz). These files are specified in the `assembly_gff3` parameter. The rules for specifying the ggf3 files are same as those for the fasta files. Here is an example:
+If one or more of these assemblies have gene annotation files, these files should be in gff3 format (gff3, gff3.gz). These files are specified in the `assembly_gff3` parameter. The rules for specifying the gff3 files are same as those for the fasta files. Here is an example:
 
 ```groovy
-target_assemblies = [
+assembly_gff3 = [
     ["assembly2", "/output/genomes/test_genome/all_genes.gff3"]
 ]
 ```
 
-Notice that only one of assemblies have annotation. This is a perfectly valid specification. If none of the assemblies had any annotation, the correct configuration would be:
+Notice that only one of assemblies have annotation. This is a perfectly valid specification. If none of the assemblies has any annotation, the correct configuration is:
 
 ```groovy
-target_assemblies = []
+assembly_gff3 = []
 ```
 
 ## Step 2: Skipping Optional Modules
 
 Some of the modules in the QC pipeline are optional. These modules can be skipped by setting their `skip` flag to `1`. These skip flags are found under the modules' configuration scopes under the `params` scope. If a module is skipped, all its remaining parameters are ignored by the pipeline.
 
-For this minimal example, let's set all the skip flags to 1.
+This minimal example sets all the skip flags to 1.
 
 ## Step 3: Setting Max. Resources
 
-The resources needed for the various modules in the pipeline are dynamically allocated using resources classes defined in the 'conf/base.config' file. Instead of tweaking these classes, the user can conveniently cap the maximum allowed resources by changing the `max_cpus`, `max_memory` and `max_time` variables in the 'nextflow.config' file. For this minimal example, we should cap the maximum time to 1 hour as each module in this example can be executed within an hour.
+The resources needed for the various modules in the pipeline are dynamically allocated using resource-classes defined in the 'conf/base.config' file. Instead of tweaking these classes, the user can conveniently cap the maximum allowed resources by changing the `max_cpus`, `max_memory` and `max_time` variables in the 'nextflow.config' file. These maximum values apply to each process in the pipeline. The pipeline executes multiple processes in parallel. Therefore, the total execution time is not equal to the sum of time taken by each process. More on this later. This example caps the maximum time to 1 hour as each module in this example can be executed within an hour.
 
 ```groovy
 max_time = 1.hour

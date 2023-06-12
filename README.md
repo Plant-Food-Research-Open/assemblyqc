@@ -71,7 +71,6 @@ To run the pipeline, first edit the nextflow.config. The following parameters mu
 - busco::lineage_datasets
 - busco::mode
 - tidk::repeat_seq
-- hic::reads_folder
 - hic::paired_reads
 - synteny::assembly_seq_list
 - synteny::xref_assemblies
