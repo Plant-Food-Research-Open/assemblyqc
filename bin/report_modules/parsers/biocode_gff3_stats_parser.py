@@ -18,13 +18,24 @@ def parse_gff3_statistics(file_lines):
     for line in file_lines:
         read_lines += 1
 
-        if line.startswith("# CDS fragment composition profile"):
-            break
+        if line.startswith("Skipping feature"):
+            continue
 
         if line == "\n" or len(line) < 1:
             continue
 
-        key, value = line.split("\t")
+        if line.startswith("# CDS fragment composition profile"):
+            break
+
+        line_components = line.split("\t")
+
+        # Return None as the parsing assumptions are not valid anymore.
+        # The file is not parsable.
+        if len(line_components) != 2:
+            return None
+
+        key = line_components[0]
+        value = line_components[1]
 
         if key == "Assembly length":
             continue
@@ -110,19 +121,27 @@ def parse_biocode_gff3_stats_folder(folder_name="biocode_gff3_stats"):
             os.path.basename(str(report_path)),
         )[0]
 
-        if file_lines[0].startswith("Failed to compute statistics."):
+        parsed_stats = parse_gff3_statistics(file_lines)
+
+        if parsed_stats == None:
             data["BIOCODE_GFF3_STATS"].append(
                 {
                     "hap": file_tag,
                     "general_stats_table": {},
                     "cds_stats_table": {},
-                    "general_stats_table_html": "Failed to compute statistics. This module expects a 3-level gff3 file with following levels: gene/mRNA/exon,CDS",
+                    "general_stats_table_html": '<pre style="margin: 0; padding: 0; line-height: 0.75;">'
+                    + "\n".join(
+                        ["Failed to parse the BIOCODE GFF3 STATS output:\n\n"]
+                        + file_lines
+                    )
+                    + "</pre>",
                     "cds_plot": "",
                 }
             )
             continue
 
-        general_stats_table, cds_stats_table = parse_gff3_statistics(file_lines)
+        general_stats_table = parsed_stats[0]
+        cds_stats_table = parsed_stats[1]
 
         plot_path = f"./{folder_name}/{os.path.basename(report_path)}.png"
         create_bar_graph(cds_stats_table, plot_path)

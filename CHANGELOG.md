@@ -1,5 +1,9 @@
 # Change Log
 
+## Version 1 (RC3; 14-Jun-2023)
+
+1. Fixed a bug in the BIOCODE GFF3 STATS module which prevented it from processing valid gff3 files.
+
 ## Version 1 (RC2; 13-Jun-2023)
 
 1. Added labels to the pipeline flowchart.
