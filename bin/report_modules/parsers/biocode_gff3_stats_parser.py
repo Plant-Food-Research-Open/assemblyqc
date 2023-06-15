@@ -6,6 +6,7 @@ from tabulate import tabulate
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import math
 
 from report_modules.parsers.parsing_commons import sort_list_of_results
 
@@ -68,29 +69,51 @@ def create_bar_graph(cds_stats_table, file_name):
     ax.set_ylabel("mRNA Count")
     ax.set_title("CDS fragment composition profile")
 
-    num_ticks = 15
-    min_x = min(cds_stats_table["CDS Count"])
-    max_x = max(cds_stats_table["CDS Count"])
-    plt.xticks(np.arange(min_x, max_x + 1, int((max_x - min_x) / num_ticks)))
-
-    plt.yticks([])
-    plt.ylim(0, max(cds_stats_table["mRNA Count"]) * 1.2)
-
-    offset = 0.01 * max(cds_stats_table["mRNA Count"])
-    for i, value in enumerate(cds_stats_table["mRNA Count"]):
-        plt.text(
-            i + 1,
-            value + offset,
-            str(value),
-            ha="center",
-            va="bottom",
-            rotation="vertical",
-        )
+    num_ticks = 16.0
+    min_x = float(min(cds_stats_table["CDS Count"]))
+    max_x = float(max(cds_stats_table["CDS Count"]))
+    setp_x = math.ceil((max_x - min_x) / num_ticks)
+    plt.xticks(np.arange(int(min_x), int(max_x) + setp_x, setp_x))
 
     plt.gca().spines["top"].set_visible(False)
     plt.gca().spines["right"].set_visible(False)
-    # plt.gca().spines['bottom'].set_visible(False)
-    plt.gca().spines["left"].set_visible(False)
+
+    offset = 0.01 * max(cds_stats_table["mRNA Count"])
+
+    if len(cds_stats_table["CDS Count"]) <= 24:
+        plt.yticks([])
+        plt.ylim(0, max(cds_stats_table["mRNA Count"]) * 1.2)
+
+        for i, value in enumerate(cds_stats_table["mRNA Count"]):
+            plt.text(
+                cds_stats_table["CDS Count"].iloc[i],
+                value + offset,
+                str(value),
+                ha="center",
+                va="bottom",
+                rotation="vertical",
+            )
+
+        plt.gca().spines["left"].set_visible(False)
+    else:
+        num_ticks = 10.0
+        min_y = float(min(cds_stats_table["mRNA Count"]))
+        max_y = float(max(cds_stats_table["mRNA Count"]))
+        setp_y = math.ceil((max_y - min_y) / num_ticks)
+        plt.yticks(np.arange(int(min_y), int(max_y) + setp_y, setp_y))
+
+        max_y = cds_stats_table["mRNA Count"].max()
+        max_y_i = cds_stats_table["mRNA Count"].idxmax()
+        x_for_max_of_y = cds_stats_table["CDS Count"].iloc[max_y_i]
+
+        plt.text(
+            x_for_max_of_y,
+            max_y + offset,
+            f"Max: {str(max_y)}",
+            ha="left",
+            va="baseline",
+            rotation="horizontal",
+        )
 
     plt.savefig(file_name, dpi=600)
 
