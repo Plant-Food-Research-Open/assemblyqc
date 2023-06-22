@@ -10,11 +10,10 @@ process MATLOCK_BAM2_JUICER {
         tuple val(sample_id_on_tag), path(hic_bam_scaffolds)
 
     output:
-        tuple val(sample_id_on_tag), path("*sorted.links.txt"), emit: sorted_links_txt_file
+        tuple val(sample_id_on_tag), path("out.links.txt")
 
     script:
         """
         matlock bam2 juicer $hic_bam_scaffolds out.links.txt
-        sort -k2,2 -k6,6 out.links.txt > out.sorted.links.txt
         """
 }

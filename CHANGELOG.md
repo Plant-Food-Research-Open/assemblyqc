@@ -1,8 +1,10 @@
 # Change Log
 
-## Version 1 (22-Jun-2023)
+## Version 1 (RC5; 22-Jun-2023)
 
 1. Updated README in accordance with SPO Editor.
+2. Added a note on LTR sequence identity in the nextflow.config.
+3. Split MATLOCK_BAM2_JUICER module into MATLOCK_BAM2_JUICER and JUICER_SORT and using `--parallel` with `sort`.
 
 ## Version 1 (RC4; 15-Jun-2023)
 

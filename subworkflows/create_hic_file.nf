@@ -4,6 +4,7 @@ include { MAKE_AGP_FROM_FASTA       } from '../modules/make_agp_from_fasta.nf'
 include { AGP2_ASSEMBLY             } from '../modules/agp2_assembly.nf'
 include { ASSEMBLY2_BEDPE           } from '../modules/assembly2_bedpe.nf'
 include { MATLOCK_BAM2_JUICER       } from '../modules/matlock_bam2_juicer.nf'
+include { JUICER_SORT               } from '../modules/juicer_sort.nf'
 include { RUN_ASSEMBLY_VISUALIZER   } from '../modules/run_assembly_visualizer.nf'
 
 workflow CREATE_HIC_FILE {
@@ -24,9 +25,10 @@ workflow CREATE_HIC_FILE {
             [it[0], it[2]] // [sample_id.on.tag, alignment_bam]
         }
         | MATLOCK_BAM2_JUICER
+        | JUICER_SORT
 
         AGP2_ASSEMBLY.out.agp_assembly_file
-        | join(MATLOCK_BAM2_JUICER.out.sorted_links_txt_file) // [sample_id.on.tag, agp_assembly_file, sorted_links_txt_file]
+        | join(JUICER_SORT.out.sorted_links_txt_file) // [sample_id.on.tag, agp_assembly_file, sorted_links_txt_file]
         | RUN_ASSEMBLY_VISUALIZER
 
     emit:
