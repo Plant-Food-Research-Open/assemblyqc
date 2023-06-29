@@ -39,10 +39,6 @@ def validateFastaTags(params) {
 def validateGff3Tags(params) {
     def listOfGff3Tuples   = params["assembly_gff3"]
 
-    if (listOfGff3Tuples == null) {
-        return
-    }
-
     if (listOfGff3Tuples.isEmpty()) {
         return
     }
@@ -98,16 +94,18 @@ def validateLAIParameters(params) {
     def listOfOutFiles      = params["lai"]["out_file"]
     def listOfFastaTuples   = params["target_assemblies"]
 
-    if (listOfPassLists == null && listOfOutFiles == null) {
+    validateLAIMonoploidSeqs(params)
+
+    if (listOfPassLists.isEmpty() && listOfOutFiles.isEmpty()) {
         return
     }
 
     if (isNotListOfLists(listOfPassLists, 2)) {
-        error 'Error: lai::pass_list must be null or a list of sublists, with each sublist containing 2 elements'
+        error 'Error: lai::pass_list must be a list of sublists, with each sublist containing 2 elements'
     }
 
     if (isNotListOfLists(listOfOutFiles, 2)) {
-        error 'Error: lai::out_file must be null or a list of sublists, with each sublist containing 2 elements'
+        error 'Error: lai::out_file must be a list of sublists, with each sublist containing 2 elements'
     }
 
     if (listOfPassLists.size() != listOfOutFiles.size()) {
@@ -124,6 +122,33 @@ def validateLAIParameters(params) {
 
     if (!(passListTags.containsAll(fastaTags) && outFileTags.containsAll(fastaTags))) {
         error "Error: The tags in lai::pass_list and lai::out_file should match the tags in target_assemblies"
+    }
+}
+
+def validateLAIMonoploidSeqs(params) {
+    
+    def listOfMonoploidSeqs = params["lai"]["monoploid_seqs"]
+    def listOfFastaTuples   = params["target_assemblies"]
+
+    if (listOfMonoploidSeqs.isEmpty()) {
+        return
+    }
+
+    if (isNotListOfLists(listOfMonoploidSeqs, 2)) {
+        error 'Error: lai::monoploid_seqs must be a list of sublists, with each sublist containing 2 elements'
+    }
+
+    def fastaTags = listOfFastaTuples.collect { it[0] }
+    def monoSeqTags = listOfFastaTuples.collect { it[0] }
+
+    monoSeqTags.each {
+        if(!fastaTags.contains(it)) {
+            error "Error: $it in lai::monoploid_seqs does not have a corresponding tag in target_assemblies"
+        }
+    }
+
+    listOfMonoploidSeqs.each {
+        validateMonoSeqs(it[2])
     }
 }
 
@@ -155,10 +180,6 @@ def validateSyntenyParameters(params) {
     }
 
     def listOfXRefAssemblies    = params["synteny"]["xref_assemblies"]
-
-    if (listOfXRefAssemblies == null) {
-        return
-    }
 
     if (listOfXRefAssemblies.isEmpty()) {
         return
@@ -221,5 +242,21 @@ def validateSeqList(seqListPath) {
 
     if (!hasUniqueElements) {
         error "${seqListPath} contains duplicate elements in one or both columns"
+    }
+}
+
+def validateMonoSeqs(monoSeqsPath) {
+    def monoSeqsFile = file(monoSeqsPath, checkIfExists: true)
+
+    def lines = monoSeqsFile.readLines()
+    if (lines.isEmpty()) {
+        error "${monoSeqsPath} is empty. It should be a single column text file"
+    }
+
+    lines.each { line ->
+        def literals = line.split()
+        if (literals.size() != 1) {
+            error "${monoSeqsPath} should be a single column text file"
+        }
     }
 }

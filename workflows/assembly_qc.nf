@@ -28,7 +28,7 @@ workflow ASSEMBLY_QC {
     // VALIDATE_FASTA
     Channel.fromList(params.target_assemblies)
     | map {
-        return [it[0], file(it[1], checkIfExists: true)] // [tag, assembly fasta path]
+        [it[0], file(it[1], checkIfExists: true)] // [tag, assembly fasta path]
     }
     | VALIDATE_FASTA
     | set { ch_tag_valid_fasta }
@@ -36,7 +36,7 @@ workflow ASSEMBLY_QC {
     // VALIDATE_GFF3
     Channel.fromList(params.assembly_gff3)
     | map {
-        return [it[0], file(it[1], checkIfExists: true)] // [tag, assembly gff3 path]
+        [it[0], file(it[1], checkIfExists: true)] // [tag, assembly gff3 path]
     }
     | set { ch_tag_gff3_file }
     
@@ -77,7 +77,7 @@ workflow ASSEMBLY_QC {
         ch_tag_valid_fasta
     )
     | map {
-        return [it[0], it[3]] // [tag, valid fasta path]
+        [it[0], it[3]] // [tag, valid fasta path]
     }
     | set { ch_clean_target_assemblies }
 
@@ -92,7 +92,7 @@ workflow ASSEMBLY_QC {
     ch_clean_target_assemblies
     | combine(Channel.fromList(params.busco.lineage_datasets))
     | map {
-        return [it[0], file(it[1], checkIfExists: true), it[2]] // [tag, assembly fasta path, busco lineage]
+        [it[0], file(it[1], checkIfExists: true), it[2]] // [tag, assembly fasta path, busco lineage]
     }
     | BUSCO
     
@@ -100,39 +100,26 @@ workflow ASSEMBLY_QC {
     TIDK(ch_clean_target_assemblies)
     
     // LAI
-    if (params.lai.pass_list == null || params.lai.out_file == null) {
-        ch_clean_target_assemblies
-        .join(
-            ch_clean_target_assemblies
-            .map {
-                return [it[0], null] // [tag, null]
-            }
-        )
-        .join(
-            ch_clean_target_assemblies
-            .map {
-                return [it[0], null] // [tag, null]
-            }
-        )
-        .set { ch_hap_assembly_pass_out }
-    } else {
-        ch_clean_target_assemblies
-        .join(
-            Channel.fromList(params.lai.pass_list)
-            .map {
-                return [it[0], file(it[1], checkIfExists: true)] // [tag, pass list path]
-            }
-        )
-        .join(
-            Channel.fromList(params.lai.out_file)
-            .map {
-                return [it[0], file(it[1], checkIfExists: true)] // [tag, out file path]
-            }
-        )
-        .set { ch_hap_assembly_pass_out }
-    }
-
-    LAI(ch_hap_assembly_pass_out)
+    ch_clean_target_assemblies
+    | join(
+        Channel.fromList(params.lai.pass_list)
+        | map {
+            [it[0], file(it[1], checkIfExists: true)] // [tag, pass list path]
+        }, remainder: true
+    )
+    | join(
+        Channel.fromList(params.lai.out_file)
+        | map {
+            [it[0], file(it[1], checkIfExists: true)] // [tag, out file path]
+        }, remainder: true
+    )
+    | join(
+        Channel.fromList(params.lai.monoploid_seqs)
+        | map {
+            [it[0], file(it[1], checkIfExists: true)] // [tag, monoploid_seqs]
+        }, remainder: true
+    )
+    | LAI
 
     // KRAKEN2
     KRAKEN2(ch_clean_target_assemblies)
@@ -161,14 +148,14 @@ workflow ASSEMBLY_QC {
         .join(
             Channel.fromList(params.synteny.assembly_seq_list)
             .map {
-                return [it[0], file(it[1], checkIfExists: true)] // [tag, assembly seq list path]
+                [it[0], file(it[1], checkIfExists: true)] // [tag, assembly seq list path]
             }
         )
         .set { ch_clean_target_assemblies_seq_list }
 
         Channel.fromList(params.synteny.xref_assemblies)
         .map {
-            return [it[0], file(it[1], checkIfExists: true), file(it[2], checkIfExists: true)] // [tag, xref assembly fasta file path, seq list path]
+            [it[0], file(it[1], checkIfExists: true), file(it[2], checkIfExists: true)] // [tag, xref assembly fasta file path, seq list path]
         }
         .set { ch_with_assemblies }
     } else {

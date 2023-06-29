@@ -1,5 +1,9 @@
 # Change Log
 
+## Version 1 (RC6; 30-Jun-2023)
+
+1. Added logic for the `-mono` parameter in LAI. This parameter allows correct LAI calculation for polyploid assemblies.
+
 ## Version 1 (RC5; 22-Jun-2023)
 
 1. Updated README in accordance with SPO Editor.
