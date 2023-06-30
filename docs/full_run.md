@@ -4,6 +4,7 @@ This document explains how to correctly configure the pipeline for a complete ru
 
 - [Configuring the Pipeline for a Complete Run](#configuring-the-pipeline-for-a-complete-run)
   - [Complete Example Configuration File](#complete-example-configuration-file)
+  - [ASSEMBLATHON STATS](#assemblathon-stats)
   - [NCBI FCS Adaptor](#ncbi-fcs-adaptor)
   - [NCBI FCS GX](#ncbi-fcs-gx)
   - [BUSCO](#busco)
@@ -16,6 +17,18 @@ This document explains how to correctly configure the pipeline for a complete ru
 ## Complete Example Configuration File
 
 This document explains the pipeline configuration using an example configuration file packaged with the pipeline. Refer to 'conf/test_full.config'. This configuration is an expansion of the 'conf/test_minimal.config' covered in [Quick Start: A Minimal Example](./minimal_example.md).
+
+## ASSEMBLATHON STATS
+
+There is only one configurable parameter for this module: `n_limit`. This is the number of 'N's for the unknown gap size. This number is used to split the scaffolds into contigs to compute contig-related stats. NCBI's recommendation for unknown gap size is 100 <https://www.ncbi.nlm.nih.gov/genbank/>.
+
+> ⚙️ From conf/test_full.config
+
+```groovy
+assemblathon_stats {
+    n_limit = 100
+}
+```
 
 ## NCBI FCS Adaptor
 
@@ -33,7 +46,7 @@ ncbi_fcs_adaptor {
 
 Following parameters must be configured:
 
-- `tax_id`: The taxonomy ID for all the target assemblies listed in the `target_assemblies` parameter. A taxonomy ID can be obtained by searching a *Genus species* at <https://www.ncbi.nlm.nih.gov/taxonomy>. A single ID for all assemblies implies that the pipeline is designed to be used for QC'ing one or more assemblies of the same *species* in one run.
+- `tax_id`: The taxonomy ID for all the target assemblies listed in the `target_assemblies` parameter. A taxonomy ID can be obtained by searching a *Genus species* at <https://www.ncbi.nlm.nih.gov/taxonomy>. A single ID for all assemblies implies that the pipeline is designed to be used for checking one or more assemblies of the same *species* in one run.
 - `db_manifest_url`: This URL specifies the database version used by the pipeline.
 - `db_path`: This is the path to the database files stored on a directory accessible to the pipeline. The data placed inside this directory should match with the `db_manifest_url`. Otherwise, the pipeline fails with an error. Before running the pipeline, the user must ensure that the database is correctly downloaded and placed in a directory accessible to the pipeline. Setup instructions are available at <https://github.com/ncbi/fcs/wiki/FCS-GX>. The database directory should contain following files:
 
@@ -107,14 +120,14 @@ Following parameters must be configured:
 
 ```groovy
 target_assemblies   = [
-    ["hap1", "/workspace/assembly_qc/test_data/default/test_data1.fasta.gz"],
-    ["hap2", "/workspace/assembly_qc/test_data/default/test_data2.fasta"]
+    ["hap1", "/input/test_data/default/test_data1.fasta.gz"],
+    ["hap2", "/input/test_data/default/test_data2.fasta"]
 ]
 
 lai {
     pass_list       = [
-        ["hap1", "/workspace/assembly_qc/test_data/default/test_data1.pass.list"],
-        ["hap2", "/workspace/assembly_qc/test_data/default/test_data2.pass.list"]
+        ["hap1", "/input/test_data/default/test_data1.pass.list"],
+        ["hap2", "/input/test_data/default/test_data2.pass.list"]
     ]
 }
 ```
@@ -125,24 +138,36 @@ Notice that the tags (hap1, hap2) in target_assemblies and pass_list are matched
 
 ```groovy
 target_assemblies   = [
-    ["hap1", "/workspace/assembly_qc/test_data/default/test_data1.fasta.gz"],
-    ["hap2", "/workspace/assembly_qc/test_data/default/test_data2.fasta"]
+    ["hap1", "/input/test_data/default/test_data1.fasta.gz"],
+    ["hap2", "/input/test_data/default/test_data2.fasta"]
 ]
 
 lai {
     pass_list       = [
-        ["hap1", "/workspace/assembly_qc/test_data/default/test_data1.pass.list"],
-        ["hap2", "/workspace/assembly_qc/test_data/default/test_data2.pass.list"]
+        ["hap1", "/input/test_data/default/test_data1.pass.list"],
+        ["hap2", "/input/test_data/default/test_data2.pass.list"]
     ]
 
     out_file        = [
-        ["hap1", "/workspace/assembly_qc/test_data/default/test_data1.out"],
-        ["hap2", "/workspace/assembly_qc/test_data/default/test_data2.out"]
+        ["hap1", "/input/test_data/default/test_data1.out"],
+        ["hap2", "/input/test_data/default/test_data2.out"]
     ]
 }
 ```
 
-> ⚠ **WARNING**: EDTA modifies the sequence names in a fasta file if they are not short (<=13 characters) and simple (i.e, letters, numbers, and underscore; no comments allowed in the ID filed). When specifying the `*pass.list` and `*.out` files, ensure that these files have the same sequence IDs as those in the fasta files specified by the `target_assemblies` parameter.
+> ⚠ **WARNING**: EDTA modifies the sequence names in a fasta file if they are not short (<=13 characters) and simple (i.e, letters, numbers, and underscore; no comments allowed in the ID field). When specifying the `*pass.list` and `*.out` files, ensure that these files have the same sequence IDs as those in the fasta files specified by the `target_assemblies` parameter.
+
+- `monoploid_seqs`: A list of lists which specifies the `-mono` parameter-file for LAI when processing a polyploid assembly. The `-mono` parameter-file is a single column text file listing IDs of the monoploid sequences for a polyploid assembly. If this parameter is not needed, it can be set to `[]`. If only some of the assemblies listed in `target_assemblies` are polyploid, the `-mono` parameter-file can be specified only for those assemblies. Similar to the `pass_list` parameter, an assembly is identified by its tag. Here are the contents of an example `-mono` parameter-file:
+
+```TSV
+CP031385.1
+CP031386.1
+CP031387.1
+CP031388.1
+CP031389.1
+CP031390.1
+CP031391.1
+```
 
 - `edta::is_sensitive`: "--sensitive" parameter for the EDTA software. Set to 1 to turn on Sensitive (very slow) and 0 to turn off Sensitive. Default is 0. For Tair10, the LAI score with Sensitive turned off is 17.90 and with Sensitive turned on is 17.87.
 
@@ -150,17 +175,22 @@ lai {
 
 ```groovy
 lai {
-    mode              = "" // Standard
-    pass_list         = []
-    out_file          = []
+    mode                = "" // Standard
+    
+    pass_list           = []
+    out_file            = []
+
+    monoploid_seqs      = [
+        ["FI1", "./docs/test_files/FI1.monoploid.seqs.txt"]
+    ]
 
     edta {
-        is_sensitive  = 0
+        is_sensitive    = 0
     }
 }
 ```
 
-Notice that the default values are used for all the LAI parameters. This means that the pipeline will first run EDTA to perform the repeat annotation and then calculate the LAI score. Although, there is no need to re-define these parameters if the default values are used. It is done here for the sake of clarity.
+Notice that the default values are used for `pass_list` and `out_file`. This means that the pipeline will first run EDTA to perform the repeat annotation and then calculate the LAI score. Moreover, the pipeline will only consider the sequences listed in `monoploid_seqs` when calculating LAI.
 
 ## KRAKEN2
 
@@ -206,7 +236,6 @@ CP031388.1  FI1_4
 CP031389.1  FI1_5
 CP031390.1  FI1_6
 CP031391.1  FI1_7
-CP031392.1  FI1_8
 ```
 
 This parameter is specified as a list of lists. Each sub-list has two elements. The first element identifies the assembly `target_assemblies` using the assembly tag. The second element is the path to the `*.seq.list` file. Here is an example:

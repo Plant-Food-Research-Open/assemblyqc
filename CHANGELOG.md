@@ -3,6 +3,8 @@
 ## Version 1 (RC6; 30-Jun-2023)
 
 1. Added logic for the `-mono` parameter in LAI. This parameter allows correct LAI calculation for polyploid assemblies.
+2. Fixed the typo in `assemblathon_stats` in nextflow.config.
+3. Fixed the test_full.config example config and docs to exclude the mitochondrion genome from synteny and LAI modules.
 
 ## Version 1 (RC5; 22-Jun-2023)
 
@@ -120,7 +122,7 @@
 1. Added Synteny Analysis.
 2. Added "-q" and "-qq" option to LAI. "-qq" is the default.
 3. Now copying the *.TElib.fa file from EDTA work dir to the results folder.
-4. Fixed the n_limit bug in assamblathon_stats.pl.
+4. Fixed the n_limit bug in assemblathon_stats.pl.
 5. Now using 4-hour time limit for FASTP and FASTQC.
 6. Added references for all the tools in the README.
 7. Now the conda environment is saved in the users home directory so that it can be shared across pipeline runs.

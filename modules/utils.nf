@@ -148,7 +148,7 @@ def validateLAIMonoploidSeqs(params) {
     }
 
     listOfMonoploidSeqs.each {
-        validateMonoSeqs(it[2])
+        validateMonoSeqs(it[1])
     }
 }
 

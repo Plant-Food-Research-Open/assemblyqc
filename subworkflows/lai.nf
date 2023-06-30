@@ -69,7 +69,7 @@ def prepareForLAI(inputTuple) {
     if (inputTuple[4] == null) {
         return [inputTuple[0], inputTuple[1], inputTuple[2], inputTuple[3], []]
     } else {
-        return inputTuple
+        return [inputTuple[0], inputTuple[1], inputTuple[2], inputTuple[3], [inputTuple[4]]]
     }
 }
 
@@ -77,7 +77,7 @@ def prepareForMappingMonoSeqs(inputTuple) {
     if (inputTuple[2] == null) {
         return [inputTuple[0], inputTuple[1], []]
     } else {
-        return inputTuple
+        return [inputTuple[0], inputTuple[1], [inputTuple[2]]]
     }
 }
 
@@ -157,18 +157,15 @@ process MAP_MONOPLOID_SEQS_TO_NEW_IDS {
         tuple val(tag_name), path("*.new.monoploid.seqs.txt"), optional: true, emit: tag_new_ids
     
     script:
-        if (!monoploid_seqs.isEmpty())
-            """
+        """
+        if [[ -n "$monoploid_seqs" ]]; then
             cp $monoploid_seqs "${tag_name}.new.monoploid.seqs.txt"
-            
+        
             while IFS=\$'\\t' read -r original_id renamed_id; do
                 sed -i "s/\$original_id/\$renamed_id/g" "${tag_name}.new.monoploid.seqs.txt"
             done < "$renamed_ids_tsv"
-            """
-        else
-            """
-                echo "Empty monoploid seqs file"
-            """
+        fi
+        """
 }
 
 process RUN_LAI {
@@ -190,7 +187,13 @@ process RUN_LAI {
     
     script:
         """
-        [[ -z "$monoploid_seqs" ]] && mono_param="" || mono_param="-mono $monoploid_seqs"
+        if [[ -z "$monoploid_seqs" ]];then
+            mono_param=""
+            lai_output_file_name="${genome_out}.LAI"
+        else
+            mono_param="-mono $monoploid_seqs"
+            lai_output_file_name="${genome_out}.${monoploid_seqs}.out.LAI"
+        fi
         
         LAI ${params.lai.mode} "\$mono_param" \
         -t ${task.cpus} \
@@ -198,7 +201,6 @@ process RUN_LAI {
         -intact $pass_list \
         -all $genome_out > "${hap_name}.LAI.log"
 
-        lai_output_file_name="\$(basename $pass_list .pass.list).out.LAI"
         [[ -f "\$lai_output_file_name" ]] && cat "\$lai_output_file_name" > "${hap_name}.LAI.out" || echo "LAI OUTPUT IS EMPTY" > "${hap_name}.LAI.out"
         """
 }
