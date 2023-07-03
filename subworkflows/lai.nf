@@ -3,7 +3,6 @@ nextflow.enable.dsl=2
 workflow LAI {
     take:
         tuple_of_tag_genome_pass_out_mono_seqs
-    
     main:
         if (!params.lai.skip) {
             if (params.lai.pass_list.isEmpty() && params.lai.out_file.isEmpty()) {
@@ -48,6 +47,12 @@ workflow LAI {
                 | RUN_LAI
                 | collect
                 | set { ch_list_of_lai_outputs }
+
+                EDTA.out.edta_outputs
+                | join(
+                    ch_output_shorten_ids.tag_renamed_ids
+                )
+                | SAVE_EDTA_OUTPUTS
             } else {
                 tuple_of_tag_genome_pass_out_mono_seqs
                 | map {
@@ -82,17 +87,16 @@ def prepareForMappingMonoSeqs(inputTuple) {
 }
 
 process SHORTEN_SEQ_IDS_IF_REQ {
-    tag "${hap_name}"
+    tag "${tag_name}"
     label "process_single"
 
     container "docker://gallvp/python3npkgs:v0.3"
-    publishDir "${params.outdir.main}/edta", mode: 'copy', pattern: '*.renamed.ids.tsv'
     
     input:
-        tuple val(hap_name), path(fasta_file)
+        tuple val(tag_name), path(fasta_file)
     
     output:
-        tuple val(hap_name), path("*.renamed.ids.fa"), path("*.renamed.ids.tsv")
+        tuple val(tag_name), path("*.renamed.ids.fa"), path("*.renamed.ids.tsv")
     
     script:
         """
@@ -103,20 +107,53 @@ process SHORTEN_SEQ_IDS_IF_REQ {
         """
 }
 
+process MAP_MONOPLOID_SEQS_TO_NEW_IDS {
+    tag "${tag_name}"
+    label "process_single"
+
+    input:
+        tuple val(tag_name), path(renamed_ids_tsv), path(monoploid_seqs)
+    
+    output:
+        tuple val(tag_name), path("*.new.monoploid.seqs.txt"), optional: true, emit: tag_new_ids
+    
+    script:
+        """
+        if [[ -z "$monoploid_seqs" ]]; then
+            exit 0
+        fi
+
+        renamed_ids_head=\$(head -n 1 "$renamed_ids_tsv")
+
+        if [[ \$renamed_ids_head == "IDs have acceptable length and character. No change required." ]]; then
+            cat $monoploid_seqs > "${tag_name}.new.monoploid.seqs.txt"
+            exit 0
+        fi
+
+        declare -A orig_to_new_ids
+        while IFS=\$'\\t' read -r original_id renamed_id; do
+            orig_to_new_ids["\$original_id"]="\$renamed_id"
+        done < "$renamed_ids_tsv"
+        
+        while IFS= read -r original_id; do
+            echo "\${orig_to_new_ids[\$original_id]}"
+        done < "$monoploid_seqs" > "${tag_name}.new.monoploid.seqs.txt"
+        """
+}
+
 process EDTA {
-    tag "${hap_name}"
+    tag "${tag_name}"
     label "process_high"
     label "process_week_long"
     
     container 'quay.io/biocontainers/edta:2.1.0--hdfd78af_1'
     containerOptions "-B $TMPDIR:$TMPDIR"
-    publishDir "${params.outdir.main}/edta", mode: 'copy'
 
     input:
-        tuple val(hap_name), path(fasta_file)
+        tuple val(tag_name), path(fasta_file)
     
     output:
-        tuple val(hap_name),
+        tuple val(tag_name),
         path('*.EDTA.TEanno.gff3'),
         path('*.EDTA.intact.gff3'),
         path('*.EDTA.pass.list'),
@@ -146,30 +183,50 @@ process EDTA {
         """
 }
 
-process MAP_MONOPLOID_SEQS_TO_NEW_IDS {
+process SAVE_EDTA_OUTPUTS {
     tag "${tag_name}"
     label "process_single"
 
+    publishDir "${params.outdir.main}/edta", mode: 'copy'
+
     input:
-        tuple val(tag_name), path(renamed_ids_tsv), path(monoploid_seqs)
+        tuple val(tag_name),
+        path(te_anno_gff3),
+        path(intact_gff3),
+        path(pass_list),
+        path(out_file),
+        path(te_lib_fa),
+        path(renamed_ids_tsv)
     
     output:
-        tuple val(tag_name), path("*.new.monoploid.seqs.txt"), optional: true, emit: tag_new_ids
-    
+        tuple val(tag_name),
+        path("${tag_name}.EDTA.TEanno.gff3"),
+        path("${tag_name}.EDTA.intact.gff3"),
+        path("${tag_name}.renamed.ids.EDTA.pass.list"),
+        path("${tag_name}.renamed.ids.EDTA.out"),
+        path("${tag_name}.EDTA.TElib.fa"), 
+        path("${tag_name}.renamed.ids.tsv"), emit: saved_edta_outputs
+
     script:
         """
-        if [[ -n "$monoploid_seqs" ]]; then
-            cp $monoploid_seqs "${tag_name}.new.monoploid.seqs.txt"
+        cat $pass_list > "${tag_name}.renamed.ids.EDTA.pass.list"
+        cat $out_file > "${tag_name}.renamed.ids.EDTA.out"
+        cat $te_lib_fa > "${tag_name}.EDTA.TElib.fa"
+        cat $renamed_ids_tsv > "${tag_name}.renamed.ids.tsv"
         
-            while IFS=\$'\\t' read -r original_id renamed_id; do
-                sed -i "s/\$original_id/\$renamed_id/g" "${tag_name}.new.monoploid.seqs.txt"
-            done < "$renamed_ids_tsv"
+        renamed_ids_head=\$(head -n 1 "$renamed_ids_tsv")
+        
+        if [[ \$renamed_ids_head == "IDs have acceptable length and character. No change required." ]]; then
+            cat $te_anno_gff3 > "${tag_name}.EDTA.TEanno.gff3"
+            cat $intact_gff3 > "${tag_name}.EDTA.intact.gff3"
+        else
+            reverse_edta_naming_f1b7bce.py "$renamed_ids_tsv" "$te_anno_gff3" "$intact_gff3" "$tag_name"
         fi
         """
 }
 
 process RUN_LAI {
-    tag "${hap_name}"
+    tag "${tag_name}"
     if (params.lai.mode != "-qq") {
         label "process_high"
     } else {
@@ -180,7 +237,7 @@ process RUN_LAI {
     publishDir "${params.outdir.main}/lai", mode: 'copy'
     
     input:
-        tuple val(hap_name), path(fasta_file), path(pass_list), path(genome_out), path(monoploid_seqs)
+        tuple val(tag_name), path(fasta_file), path(pass_list), path(genome_out), path(monoploid_seqs)
     
     output:
         tuple path('*.LAI.log'), path('*.LAI.out') // reversed file name to avoid conflict 
@@ -199,8 +256,8 @@ process RUN_LAI {
         -t ${task.cpus} \
         -genome $fasta_file \
         -intact $pass_list \
-        -all $genome_out > "${hap_name}.LAI.log"
+        -all $genome_out > "${tag_name}.LAI.log"
 
-        [[ -f "\$lai_output_file_name" ]] && cat "\$lai_output_file_name" > "${hap_name}.LAI.out" || echo "LAI OUTPUT IS EMPTY" > "${hap_name}.LAI.out"
+        [[ -f "\$lai_output_file_name" ]] && cat "\$lai_output_file_name" > "${tag_name}.LAI.out" || echo "LAI OUTPUT IS EMPTY" > "${tag_name}.LAI.out"
         """
 }
