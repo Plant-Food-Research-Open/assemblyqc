@@ -251,10 +251,13 @@ process RUN_LAI {
             mono_param="-mono $monoploid_seqs"
             lai_output_file_name="${genome_out}.${monoploid_seqs}.out.LAI"
         fi
+
+        # Remove comments from genome fasta
+        sed '/^>/ s/\\s.*\$//' $fasta_file > for.lai.no.comments.fsa
         
         LAI ${params.lai.mode} "\$mono_param" \
         -t ${task.cpus} \
-        -genome $fasta_file \
+        -genome for.lai.no.comments.fsa \
         -intact $pass_list \
         -all $genome_out > "${tag_name}.LAI.log"
 
