@@ -1,57 +1,47 @@
 import json
-import pandas as pd
-from tabulate import tabulate
+
+from pygments import highlight
+from pygments.lexers import JsonLexer
+from pygments.formatters import HtmlFormatter
 
 
-def parse_params_dict(json_dict):
-    param_names = []
-    param_values = []
+def highlight_json(json_string):
+    lexer = JsonLexer()
+    formatter = HtmlFormatter()
+
+    return highlight(json_string, lexer, formatter)
+
+
+def format_params_dict(json_dict):
+    formatted_dict = {}
     for key, value in json_dict.items():
-        if key.startswith("max_"):
+        if key in ["max_cpus", "max_memory", "max_time"]:
             continue
 
         if not isinstance(value, dict):
-            param_names.append(f"● {key}")
-            param_values.append(value)
-        else:
-            param_names.append(f"● {key}")
+            formatted_dict[key] = value
+            continue
 
-            if "skip" in value.keys():
-                if value["skip"] == 1:
-                    param_values.append("Skipped")
-                    continue
+        if "skip" in value.keys():
+            if value["skip"] == 1:
+                formatted_dict[key] = "Skipped"
+                continue
 
-            param_values.append("")
+        formatted_dict[key] = value
+        formatted_dict[key].pop("skip", None)
 
-            for sub_key, sub_value in value.items():
-                if sub_key == "skip":
-                    continue
+        if key == "lai" and formatted_dict[key]["mode"] == "":
+            formatted_dict[key]["mode"] = "(standard)"
+            continue
 
-                param_names.append(f"○ {sub_key}")
-
-                if key == "lai" and sub_key == "mode" and sub_value == "":
-                    param_values.append('"" (standard)')
-                    continue
-
-                param_values.append(sub_value)
-
-    df = pd.DataFrame({"Parameter": param_names, "Value": param_values})
-
-    return df
+    return formatted_dict
 
 
 def parse_params_json():
     with open("params_json.json", "r") as f:
         params_dict = json.load(f)
-        params_df = parse_params_dict(params_dict)
-        params_table = tabulate(
-            params_df,
-            headers=["Parameter", "Value"],
-            tablefmt="html",
-            numalign="left",
-            showindex=False,
-        ).replace(
-            "<th>Parameter", '<th width="20%" style="text-align: left">Parameter', 1
+        formatted_dict_json = highlight_json(
+            json.dumps(format_params_dict(params_dict), indent=4)
         )
 
-    return params_dict, params_table
+    return params_dict, formatted_dict_json

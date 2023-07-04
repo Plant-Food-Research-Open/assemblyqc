@@ -4,7 +4,7 @@ process CREATE_REPORT {
     tag "all modules"
     label "process_single"
     
-    container "docker://gallvp/python3npkgs:v0.3"
+    container "docker://gallvp/python3npkgs:v0.4"
     publishDir params.outdir.main, mode: 'copy'
 
     input:

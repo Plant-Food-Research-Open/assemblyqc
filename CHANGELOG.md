@@ -1,12 +1,13 @@
 # Change Log
 
-## Version 1 (RC6; 4-Jul-2023)
+## Version 1 (RC6; 5-Jul-2023)
 
 1. Added logic for the `-mono` parameter in LAI. This parameter allows correct LAI calculation for polyploid assemblies.
 2. Fixed the typo in `assemblathon_stats` in nextflow.config.
 3. Fixed the test_full.config example config and docs to exclude the mitochondrion genome from synteny and LAI modules.
 4. Now saving `*.EDTA.TEanno.gff3` and `*.EDTA.intact.gff3` with original fasta ids.
 5. Removed comments from the ID lines of the FASTA file before running lAI.
+6. Now presenting the PARAMS page as formatted JSON rather than a table.
 
 ## Version 1 (RC5; 22-Jun-2023)
 
