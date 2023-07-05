@@ -288,7 +288,7 @@ process ADD_COLOUR_TO_BUNDLE_LINKS {
     tag "${target_on_ref}"
     label "process_single"
     
-    container "docker://gallvp/python3npkgs:v0.3"
+    container "docker://gallvp/python3npkgs:v0.4"
 
     input:
         tuple val(target_on_ref), path(bundle_links)
@@ -314,7 +314,7 @@ process RELABEL_BUNDLE_LINKS {
     tag "${target_on_ref}"
     label "process_single"
     
-    container "docker://gallvp/python3npkgs:v0.3"
+    container "docker://gallvp/python3npkgs:v0.4"
     
     input:
         tuple val(target_on_ref), path(coloured_bundle_links), path(target_seq_list), path(ref_seq_list)
@@ -356,7 +356,7 @@ process RELABEL_FASTA_LEN {
     tag "${target_on_ref}"
     label "process_single"
     
-    container "docker://gallvp/python3npkgs:v0.3"
+    container "docker://gallvp/python3npkgs:v0.4"
     
     input:
         tuple val(target_on_ref), path(target_seq_lengths), path(ref_seq_lengths), path(target_seq_list), path(ref_seq_list)

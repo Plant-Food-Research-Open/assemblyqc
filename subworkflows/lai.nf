@@ -90,7 +90,7 @@ process SHORTEN_SEQ_IDS_IF_REQ {
     tag "${tag_name}"
     label "process_single"
 
-    container "docker://gallvp/python3npkgs:v0.3"
+    container "docker://gallvp/python3npkgs:v0.4"
     
     input:
         tuple val(tag_name), path(fasta_file)

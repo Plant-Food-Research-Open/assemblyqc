@@ -4,7 +4,7 @@ process ASSEMBLY2_BEDPE {
     tag "$sample_id_on_tag"
     label "process_single"
 
-    container "docker://gallvp/python3npkgs:v0.3"
+    container "docker://gallvp/python3npkgs:v0.4"
     publishDir "${params.outdir.main}/hic/bedpe", mode:'copy'
 
     input:
