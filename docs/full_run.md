@@ -169,7 +169,7 @@ CP031390.1
 CP031391.1
 ```
 
-- `edta::is_sensitive`: "--sensitive" parameter for the EDTA software. Set to 1 to turn on Sensitive (very slow) and 0 to turn off Sensitive. Default is 0. For Tair10, the LAI score with Sensitive turned off is 17.90 and with Sensitive turned on is 17.87.
+- `edta::is_sensitive`: "--sensitive" parameter for the EDTA software. Set to 1 to turn on Sensitive (very slow) and 0 to turn off Sensitive. Default is 0. For Tair10, the LAI score with Sensitive turned off is 18.06 and with Sensitive turned on is 18.09.
 
 > ⚙️ From conf/test_full.config
 
