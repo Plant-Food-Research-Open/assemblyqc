@@ -17,13 +17,10 @@ workflow NCBI_FCS_GX {
 
             SCREEN_SAMPLES(ch_db_verification, ch_all_samples)
             
+            // Clean/contaminated branching
             SCREEN_SAMPLES
             .out
             .fcs_gx_reports
-            .set { ch_fcs_gx_reports }
-
-            // Clean/contaminated branching
-            ch_fcs_gx_reports
             | flatten
             | map {
                 def parts = it.getName().split("\\.")
@@ -54,6 +51,24 @@ workflow NCBI_FCS_GX {
                     """.stripIndent())
                 }
             }
+
+            // Taxonomy Krona plot
+            SCREEN_SAMPLES
+            .out
+            .fcs_gx_taxonomies
+            | flatten
+            | map {
+                def parts = it.getName().split("\\.")
+                def tag = parts[0]
+                [tag, it]
+            }
+            | FCS_GX_KRONA_PLOT
+            | flatten
+            | mix(
+                SCREEN_SAMPLES.out.fcs_gx_reports.flatten()
+            )
+            | collect
+            | set { ch_fcs_gx_reports }
         } else {
             tuple_of_tag_file
             .map {
@@ -200,5 +215,32 @@ process CHECK_CONTAMINATION {
         hap_name=\$(echo "$report_file" | sed 's/.fcs_gx_report.txt//g')
         num_lines=\$(cat $report_file | wc -l)
         [[ \$num_lines -gt 2 ]] && echo -n "CHECK_GX_CONTAMINATION:CONTAMINATED:\$hap_name" || echo -n "CHECK_GX_CONTAMINATION:CLEAN:\$hap_name"
+        """
+}
+
+process FCS_GX_KRONA_PLOT {
+    tag "${tag_name}"
+    label "process_single"
+    
+    container "docker://nanozoo/krona:2.7.1--e7615f7"
+    publishDir "${params.outdir.main}/ncbi_fcs_gx", mode: 'copy'
+
+    input:
+        tuple val(tag_name), path(fcs_gx_taxonomy)
+    
+    output:
+        tuple path("${tag_name}.fcs.gx.krona.cut"), path("${tag_name}.fcs.gx.krona.html")
+    
+    script:
+        """
+        cat $fcs_gx_taxonomy \
+        | awk 'NR>1 {print \$1,\$2,\$6,\$7,\$32}' FS="\\t" OFS="\\t" \
+        > "${tag_name}.intermediary.tax.rpt.tsv"
+
+        cat "${tag_name}.intermediary.tax.rpt.tsv" \
+        | awk 'NR>1 && \$5 !~ /(bogus|repeat|low-coverage|inconclusive)/ {print \$1,\$4}' FS="\\t" OFS="\\t" \
+        > "${tag_name}.fcs.gx.krona.cut"
+
+        ktImportTaxonomy "${tag_name}.fcs.gx.krona.cut" -i -o "${tag_name}.fcs.gx.krona.html"
         """
 }

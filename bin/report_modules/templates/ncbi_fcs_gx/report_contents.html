@@ -7,28 +7,37 @@
         <div class="section-heading-wrapper">
             <div class="section-heading">{{ all_stats_dicts['NCBI_FCS_GX'][item]['hap'] }}</div>
         </div>
-    </div>
-    {%if all_stats_dicts['NCBI_FCS_GX'][item]['did_detect_contamination'] %}
-    <div class="section-para-wrapper"><p class="section-para">Contamination detected. Subsequent pipeline modules are skipped.</p></div>
-    <div class="table-outer">
-        <div class="table-wrapper">
-            {{ all_stats_dicts['NCBI_FCS_GX'][item]['report_table_html'] }}
+        {%if all_stats_dicts['NCBI_FCS_GX'][item]['did_detect_contamination'] %}
+        <div class="section-para-wrapper">
+            <p class="section-para">Contamination detected. Subsequent pipeline modules are skipped.</p>
+        </div>
+        <div class="table-outer">
+            <div class="table-wrapper">
+                {{ all_stats_dicts['NCBI_FCS_GX'][item]['report_table_html'] }}
+            </div>
+        </div>
+        {% else %}
+        <div class="section-para-wrapper">
+            <p class="section-para">No contamination detected.</p>
+        </div>
+        {% endif %}
+        {%if all_stats_dicts['NCBI_FCS_GX'][item]['is_wrong_div'] %}
+        <div class="section-para-wrapper">
+            <p class="section-para"><b>Warning: </b>Asserted div ({{
+                all_stats_dicts['NCBI_FCS_GX'][item]['report_meta_data'][1]["run-info"]["asserted-div"] }}) is not
+                present in the inferred div(s) ({{
+                all_stats_dicts['NCBI_FCS_GX'][item]['report_meta_data'][1]["run-info"]["inferred-primary-divs"] }}).
+                Either the tax ID is incorrect or the sample is predominantly contamination.</p>
+        </div>
+        {% endif %}
+        <div class="section-heading-wrapper">
+            <div class="section-heading">{{ all_stats_dicts['NCBI_FCS_GX'][item]['hap'] }} Taxonomy</div>
+        </div>
+        <div class="iframe-wrapper">
+            <iframe src="./ncbi_fcs_gx/{{ all_stats_dicts['NCBI_FCS_GX'][item]['krona_html_file_name'] }}" width="100%"
+                height="100%"></iframe>
         </div>
     </div>
-    {% else %}
-    <div class="section-para-wrapper">
-        <p class="section-para">No contamination detected.</p>
-    </div>
-    {% endif %}
-    {%if all_stats_dicts['NCBI_FCS_GX'][item]['is_wrong_div'] %}
-    <div class="section-para-wrapper">
-        <p class="section-para"><b>Warning: </b>Asserted div ({{
-            all_stats_dicts['NCBI_FCS_GX'][item]['report_meta_data'][1]["run-info"]["asserted-div"] }}) is not
-            present in the inferred div(s) ({{
-            all_stats_dicts['NCBI_FCS_GX'][item]['report_meta_data'][1]["run-info"]["inferred-primary-divs"] }}). Either
-            the tax ID is incorrect or the sample is predominantly contamination.</p>
-    </div>
-    {% endif %}
 </div>
 {% if vars.update({'is_first': False}) %} {% endif %}
 {% endfor %}
