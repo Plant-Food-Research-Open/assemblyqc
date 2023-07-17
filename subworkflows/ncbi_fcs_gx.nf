@@ -229,15 +229,15 @@ process FCS_GX_KRONA_PLOT {
         tuple val(tag_name), path(fcs_gx_taxonomy)
     
     output:
-        tuple path("${tag_name}.fcs.gx.krona.cut"), path("${tag_name}.fcs.gx.krona.html")
+        tuple path("${tag_name}.inter.tax.rpt.tsv"), path("${tag_name}.fcs.gx.krona.cut"), path("${tag_name}.fcs.gx.krona.html")
     
     script:
         """
         cat $fcs_gx_taxonomy \
         | awk 'NR>1 {print \$1,\$2,\$6,\$7,\$32}' FS="\\t" OFS="\\t" \
-        > "${tag_name}.intermediary.tax.rpt.tsv"
+        > "${tag_name}.inter.tax.rpt.tsv"
 
-        cat "${tag_name}.intermediary.tax.rpt.tsv" \
+        cat "${tag_name}.inter.tax.rpt.tsv" \
         | awk 'NR>1 && \$5 !~ /(bogus|repeat|low-coverage|inconclusive)/ {print \$1,\$4}' FS="\\t" OFS="\\t" \
         > "${tag_name}.fcs.gx.krona.cut"
 
