@@ -96,7 +96,7 @@ process KRONA_PLOT {
     
     script:
         """
-        perl -lane '@a=split /\\t/; if (\$a[2] =~ /taxid\\s+(\\d+)/) {print "\$a[1]\\t\$1";}' $kraken2_cut > "${hap_name}.kraken2.krona.cut"
-        ktImportTaxonomy "${hap_name}.kraken2.krona.cut" -i -o "${hap_name}.kraken2.krona.html"
+        perl -lane '@a=split /\\t/; if (\$a[2] =~ /taxid\\s+(\\d+)/) {print "\$a[1]\\t\$1\\t1\\t\$a[3]";}' $kraken2_cut > "${hap_name}.kraken2.krona.cut"
+        ktImportTaxonomy -i -o "${hap_name}.kraken2.krona.html" -m "4" "${hap_name}.kraken2.krona.cut"
         """
 }

@@ -10,6 +10,7 @@
 6. Now presenting the PARAMS page as formatted JSON rather than a table.
 7. Now SAMBLASTER can run up to 20 hours.
 8. NCBI FCS GX taxonomy is now presented as a Krona plot. No hits are included. Sequence length is used when calculating abundance.
+9. Krona plot for Kraken2 now uses sequence length for abundance calculation.
 
 ## Version 1 (RC5; 22-Jun-2023)
 
