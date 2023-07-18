@@ -234,13 +234,17 @@ process FCS_GX_KRONA_PLOT {
     script:
         """
         cat $fcs_gx_taxonomy \
-        | awk 'NR>1 {print \$1,\$2,\$6,\$7,\$32}' FS="\\t" OFS="\\t" \
+        | awk 'NR>1 {print \$1,\$2,\$6,\$7,\$11,\$32}' FS="\\t" OFS="\\t" \
         > "${tag_name}.inter.tax.rpt.tsv"
 
         cat "${tag_name}.inter.tax.rpt.tsv" \
-        | awk 'NR>1 && \$5 !~ /(bogus|repeat|low-coverage|inconclusive)/ {print \$1,\$4}' FS="\\t" OFS="\\t" \
+        | awk '\$6 !~ /(bogus|repeat|low-coverage|inconclusive)/ {print \$1,\$4,\$5,\$2}' FS="\\t" OFS="\\t" \
         > "${tag_name}.fcs.gx.krona.cut"
 
-        ktImportTaxonomy "${tag_name}.fcs.gx.krona.cut" -i -o "${tag_name}.fcs.gx.krona.html"
+        cat "${tag_name}.inter.tax.rpt.tsv" \
+        | awk 'NR>1 && \$6 ~ /(bogus|repeat|low-coverage|inconclusive)/ {print \$1,"0",\$5,\$2}' FS="\\t" OFS="\\t" \
+        >> "${tag_name}.fcs.gx.krona.cut"
+
+        ktImportTaxonomy -i -o "${tag_name}.fcs.gx.krona.html" -m "4" "${tag_name}.fcs.gx.krona.cut"
         """
 }
