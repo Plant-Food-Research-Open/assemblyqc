@@ -132,6 +132,10 @@ Once the pipeline has finished execution, the results folder specified in the co
   > <https://github.com/ncbi/fcs>
   >
   > Astashyn A, Tvedte ES, Sweeney D, Sapojnikov V, Bouk N, Joukov V, Mozes E, Strope PK, Sylla PM, Wagner L, Bidwell SL, Clark K, Davis EW, Smith-White B, Hlavina W, Pruitt KD, Schneider VA, Murphy TD. 2023. bioRxiv 2023.06.02.543519; doi: <https://doi.org/10.1101/2023.06.02.543519>
+  
+  NCBI-FCS-GX workflow also employs:
+  - KRONA (2.7.1)
+    > Ondov BD, Bergman NH, Phillippy AM. 2011. Interactive metagenomic visualization in a Web browser. BMC Bioinformatics. 2011 Sep 30;12:385. doi: <https://doi.org/10.1186/1471-2105-12-385>
 - ASSEMBLATHON_STATS
   > [github/PlantandFoodResearch/assemblathon2-analysis/a93cba2](https://github.com/PlantandFoodResearch/assemblathon2-analysis/blob/a93cba25d847434f7eadc04e63b58c567c46a56d/assemblathon_stats.pl)
   >

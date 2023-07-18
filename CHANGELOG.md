@@ -1,6 +1,6 @@
 # Change Log
 
-## Version 1 (RC6c; 18-Jul-2023)
+## Version 1 (RC6c; 19-Jul-2023)
 
 1. Added logic for the `-mono` parameter in LAI. This parameter allows correct LAI calculation for polyploid assemblies.
 2. Fixed the typo in `assemblathon_stats` in nextflow.config.
@@ -9,8 +9,8 @@
 5. Removed comments from the ID lines of the FASTA file before running lAI.
 6. Now presenting the PARAMS page as formatted JSON rather than a table.
 7. Now SAMBLASTER can run up to 20 hours.
-8. NCBI FCS GX taxonomy is now presented as a Krona plot. No hits are included. Sequence length is used when calculating abundance.
-9. Krona plot for Kraken2 now uses sequence length for abundance calculation.
+8. (RC6b) NCBI FCS GX taxonomy is now presented as a Krona plot. (RC6c) No hits are included. Sequence length is used when calculating abundance.
+9. (RC6c) Krona plot for Kraken2 now uses sequence length for abundance calculation.
 
 ## Version 1 (RC5; 22-Jun-2023)
 
