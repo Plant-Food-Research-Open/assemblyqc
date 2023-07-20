@@ -15,8 +15,15 @@ process ASSEMBLATHON_STATS {
 
     script:
         """
-        falite_path="\$(find \$(echo \$PATH | tr ':' ' ') -name FAlite_943e0fb.pm)"
+        paths_to_check=\$(printf "%s\\n" \$(echo \$PATH | tr ':' ' ') \
+        | xargs -I {} find {} -maxdepth 0 -print 2>/dev/null \
+        | grep -v '^\$' \
+        | xargs)
+
+        falite_path="\$(find \$paths_to_check -name FAlite_943e0fb.pm)"
+        
         ln -s "\$falite_path" FAlite_943e0fb.pm
+        
         assemblathon_stats_943e0fb.pl \
         -n ${params.assemblathon_stats.n_limit} \
         -csv \
