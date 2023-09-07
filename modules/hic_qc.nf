@@ -5,7 +5,7 @@ process HIC_QC {
     label "process_single"
     
     publishDir "${params.outdir.main}/hic/hic_qc", mode:'copy'
-    container "docker://gallvp/hic_qc:6881c33"
+    container "docker://gallvp/hic_qc:6881c33_ps"
     containerOptions "-B $TMPDIR:$TMPDIR"
 
     input:

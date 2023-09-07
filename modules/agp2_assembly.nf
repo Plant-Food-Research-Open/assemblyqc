@@ -4,7 +4,7 @@ process AGP2_ASSEMBLY {
     tag "$sample_id_on_tag"
     label "process_single"
 
-    container "docker://gallvp/juicebox_scripts:a7ae991"
+    container "docker://gallvp/juicebox_scripts:a7ae991_ps"
     publishDir "${params.outdir.main}/hic/assembly", mode:'copy'
 
     input:

@@ -263,7 +263,7 @@ process CIRCOS_BUNDLE_LINKS {
     tag "${target_on_ref}"
     label "process_single"
     
-    container "docker://gallvp/circos-tools:0.23-1"
+    container "docker://gallvp/circos-tools:v0.23-1_ps"
 
     input:
         tuple val(target_on_ref), path(coords_file), path(report_file)
@@ -460,7 +460,7 @@ process CIRCOS {
     tag "${target_on_ref_seq}"
     label "process_single"
     
-    container "docker://gallvp/circos-tools:0.23-1" 
+    container "docker://gallvp/circos-tools:v0.23-1_ps" 
     publishDir "${params.outdir.main}/synteny/${target_on_ref_seq}", mode: 'copy'
 
     input:

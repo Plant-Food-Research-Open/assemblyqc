@@ -1,5 +1,10 @@
 # Change Log
 
+## Version 1.0.1 (07-Sep-2023)
+
+1. Now pipeline timeline, report, and trace are enabled by default.
+2. Included `procps` package where needed to allow NextFlow to collect system statistics.
+
 ## Version 1 (25-Jul-2023)
 
 Same as Version 1 RC6c
