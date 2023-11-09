@@ -171,7 +171,7 @@ process FILTER_SORT_FASTA_AND_VALIDATE_SEQ_LISTS {
     tag "${target}.on.${reference}"
     label "process_single"
     
-    container "quay.io/biocontainers/samtools:1.16.1--h6899075_1"
+    container "https://depot.galaxyproject.org/singularity/samtools:1.16.1--h6899075_1"
 
     input:
         tuple val(target), path(target_fasta), path(target_seq_list), val(reference), path(ref_fasta), path(ref_seq_list)
@@ -191,7 +191,7 @@ process GET_FASTA_LEN {
     tag "${target}.on.${reference}"
     label "process_single"
     
-    container "quay.io/biocontainers/samtools:1.16.1--h6899075_1"
+    container "https://depot.galaxyproject.org/singularity/samtools:1.16.1--h6899075_1"
     
     input:        
         tuple val(target), val(reference), path(filtered_ordered_target_fasta), path(filtered_ordered_ref_fasta)

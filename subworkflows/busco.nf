@@ -29,7 +29,7 @@ process RUN_BUSCO {
     tag "${hap_name}:${lineage_dataset}"
     label "process_high"
     
-    container "quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0"
+    container "https://depot.galaxyproject.org/singularity/busco:5.2.2--pyhdfd78af_0"
     containerOptions "-B ${params.busco.download_path}:${params.busco.download_path}"
 
     publishDir "${params.outdir.main}/busco", mode: 'copy'
@@ -63,7 +63,7 @@ process CREATE_PLOT {
     tag "all summaries"
     label "process_single"
     
-    container "quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0"
+    container "https://depot.galaxyproject.org/singularity/busco:5.2.2--pyhdfd78af_0"
     publishDir params.outdir.main, mode: 'copy'
 
     input: 

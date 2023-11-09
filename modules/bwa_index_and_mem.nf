@@ -4,7 +4,7 @@ process BWA_INDEX_AND_MEM {
     tag "${sample_id}.on.${assembly_tag}"
     label "process_high"
     label "process_long"
-    container "quay.io/biocontainers/bwa:0.7.17--hed695b0_7"
+    container "https://depot.galaxyproject.org/singularity/bwa:0.7.17--hed695b0_7"
 
     input:
         tuple val(assembly_tag), path(assembly_fasta), val(sample_id), path(clean_reads)

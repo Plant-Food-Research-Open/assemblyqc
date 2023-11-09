@@ -4,7 +4,7 @@ process BIOCODE_GFF3_STATS {
     tag "${tag_label}"
     label "process_single"
     
-    container "quay.io/biocontainers/biocode:0.10.0--pyhdfd78af_0"
+    container "https://depot.galaxyproject.org/singularity/biocode:0.10.0--pyhdfd78af_0"
     publishDir "${params.outdir.main}/biocode_gff3_stats", mode: 'copy'
 
     input:

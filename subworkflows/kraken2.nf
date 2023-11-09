@@ -55,10 +55,10 @@ process SETUP_KRAKEN2_DB {
 
 process RUN_KRAKEN2 {
     tag "${hap_name}"
-    label "process_high"
+    label "process_single"
     label "process_high_memory"
     
-    container "quay.io/biocontainers/kraken2:2.1.2--pl5321h9f5acd7_2"
+    container "https://depot.galaxyproject.org/singularity/kraken2:2.1.2--pl5321h9f5acd7_2"
     containerOptions "-B ${params.kraken2.download_path}:${params.kraken2.download_path}"
     publishDir "${params.outdir.main}/kraken2", mode: 'copy'
 

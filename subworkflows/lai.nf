@@ -146,7 +146,7 @@ process EDTA {
     label "process_high"
     label "process_week_long"
     
-    container 'quay.io/biocontainers/edta:2.1.0--hdfd78af_1'
+    container 'https://depot.galaxyproject.org/singularity/edta:2.1.0--hdfd78af_1'
     containerOptions "-B $TMPDIR:$TMPDIR"
 
     input:
@@ -233,7 +233,7 @@ process RUN_LAI {
         label "process_single"
     }
     
-    container 'quay.io/biocontainers/ltr_retriever:2.9.0--hdfd78af_1'
+    container 'https://depot.galaxyproject.org/singularity/ltr_retriever:2.9.0--hdfd78af_1'
     publishDir "${params.outdir.main}/lai", mode: 'copy'
     
     input:

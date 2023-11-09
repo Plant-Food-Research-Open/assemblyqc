@@ -24,7 +24,7 @@ process FASTP {
     tag "$sample_id"
     label "process_medium"
     
-    container "quay.io/biocontainers/fastp:0.23.2--h5f740d0_3"
+    container "https://depot.galaxyproject.org/singularity/fastp:0.23.2--h5f740d0_3"
 
     input: 
         tuple val(sample_id), path(reads)
@@ -51,7 +51,7 @@ process FAST_QC {
     label "process_medium"
     
     publishDir "${params.outdir.main}/hic/fastqc", mode:'copy'
-    container "quay.io/biocontainers/fastqc:0.11.9--hdfd78af_1"
+    container "https://depot.galaxyproject.org/singularity/fastqc:0.11.9--hdfd78af_1"
 
     input:
         tuple val(sample_id), path(raw_reads), path(clean_reads)

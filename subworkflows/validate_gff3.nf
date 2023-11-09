@@ -67,7 +67,7 @@ process FORMAT_GFF3 {
     tag "${tag_label}"
     label "process_single"
 
-    container "quay.io/biocontainers/genometools-genometools:1.6.2--py310he7ef181_3"
+    container "https://depot.galaxyproject.org/singularity/genometools-genometools:1.6.2--py310he7ef181_3"
 
     input:
         tuple val(tag_label), path(gff3_file)
@@ -88,7 +88,7 @@ process RUN_VALIDATOR {
     tag "${tag_label}"
     label "process_single"
 
-    container "quay.io/biocontainers/genometools-genometools:1.6.2--py310he7ef181_3"
+    container "https://depot.galaxyproject.org/singularity/genometools-genometools:1.6.2--py310he7ef181_3"
 
     input:
         tuple val(tag_label), path(gff3_file)
@@ -112,7 +112,7 @@ process CHECK_FASTA_GFF3_CORRESPONDENCE {
     tag "${tag_label}"
     label "process_single"
 
-    container "quay.io/biocontainers/samtools:1.16.1--h6899075_1"
+    container "https://depot.galaxyproject.org/singularity/samtools:1.16.1--h6899075_1"
 
     input:
         tuple val(tag_label), path(gff3_file), path(fasta_file)

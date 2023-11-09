@@ -4,7 +4,7 @@ process SAMTOOLS_VIEW {
     tag "$sample_id_on_tag"
     label "process_high"
     
-    container "quay.io/biocontainers/samtools:1.16.1--h6899075_1"
+    container "https://depot.galaxyproject.org/singularity/samtools:1.16.1--h6899075_1"
 
     input:
         tuple val(sample_id_on_tag), path(marked_sam)

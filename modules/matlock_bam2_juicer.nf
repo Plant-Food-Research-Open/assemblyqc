@@ -4,7 +4,7 @@ process MATLOCK_BAM2_JUICER {
     tag "$sample_id_on_tag"
     label "process_single"
 
-    container "quay.io/biocontainers/matlock:20181227--h4b03ef3_3"
+    container "https://depot.galaxyproject.org/singularity/matlock:20181227--h4b03ef3_3"
 
     input:
         tuple val(sample_id_on_tag), path(hic_bam_scaffolds)

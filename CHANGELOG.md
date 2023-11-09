@@ -1,5 +1,10 @@
 # Change Log
 
+## Version 1.1 (09-Nov-2023)
+
+1. Now running kraken2 with a single cpu.
+2. Now pulling containers from https://depot.galaxyproject.org/singularity/
+
 ## Version 1.0.1 (07-Sep-2023)
 
 1. Now pipeline timeline, report, and trace are enabled by default.
