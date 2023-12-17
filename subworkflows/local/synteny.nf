@@ -461,7 +461,7 @@ process CIRCOS {
     label "process_single"
     
     container "docker://gallvp/circos-tools:v0.23-1_ps" 
-    publishDir "${params.outdir.main}/synteny/${target_on_ref_seq}", mode: 'copy'
+    publishDir "${params.outdir}/synteny/${target_on_ref_seq}", mode: 'copy'
 
     input:
         tuple val(target_on_ref_seq), path(karyotype), path(bundle_file)

@@ -50,7 +50,7 @@ process FAST_QC {
     tag "$sample_id"
     label "process_medium"
     
-    publishDir "${params.outdir.main}/hic/fastqc", mode:'copy'
+    publishDir "${params.outdir}/hic/fastqc", mode:'copy'
     container "https://depot.galaxyproject.org/singularity/fastqc:0.11.9--hdfd78af_1"
 
     input:

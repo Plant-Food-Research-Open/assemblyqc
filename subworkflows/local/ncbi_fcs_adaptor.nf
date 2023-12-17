@@ -98,7 +98,7 @@ process SCREEN_SAMPLE {
     tag "${hap_name}"
     label "process_single"
 
-    publishDir "${params.outdir.main}/ncbi_fcs_adaptor", mode: 'copy'
+    publishDir "${params.outdir}/ncbi_fcs_adaptor", mode: 'copy'
 
     input:
         val setup_output

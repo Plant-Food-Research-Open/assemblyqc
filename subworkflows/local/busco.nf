@@ -32,7 +32,7 @@ process RUN_BUSCO {
     container "https://depot.galaxyproject.org/singularity/busco:5.2.2--pyhdfd78af_0"
     containerOptions "-B ${params.busco.download_path}:${params.busco.download_path}"
 
-    publishDir "${params.outdir.main}/busco", mode: 'copy'
+    publishDir "${params.outdir}/busco", mode: 'copy'
 
     input:
         tuple val(hap_name), path(fasta_file), val(lineage_dataset)
@@ -64,7 +64,7 @@ process CREATE_PLOT {
     label "process_single"
     
     container "https://depot.galaxyproject.org/singularity/busco:5.2.2--pyhdfd78af_0"
-    publishDir params.outdir.main, mode: 'copy'
+    publishDir params.outdir, mode: 'copy'
 
     input: 
         path "short_summary.*", stageAs: 'busco/*'

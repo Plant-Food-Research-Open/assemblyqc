@@ -5,7 +5,7 @@ process BIOCODE_GFF3_STATS {
     label "process_single"
     
     container "https://depot.galaxyproject.org/singularity/biocode:0.10.0--pyhdfd78af_0"
-    publishDir "${params.outdir.main}/biocode_gff3_stats", mode: 'copy'
+    publishDir "${params.outdir}/biocode_gff3_stats", mode: 'copy'
 
     input:
         tuple val(tag_label), path(gff3_file)

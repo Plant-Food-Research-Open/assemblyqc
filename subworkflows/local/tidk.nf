@@ -94,7 +94,7 @@ process SEARCH_A_PRIORI_REPEAT_SEQ {
     label "process_single"
 
     container "https://depot.galaxyproject.org/singularity/tidk:0.2.31--h87f3376_0" 
-    publishDir params.outdir.main, mode: 'copy'
+    publishDir params.outdir, mode: 'copy'
 
     input:
         tuple val(hap_name), path(fasta_file)
@@ -113,7 +113,7 @@ process EXPLORE_REPEAT_SEQ {
     label "process_single"
     
     container "https://depot.galaxyproject.org/singularity/tidk:0.2.31--h87f3376_0"
-    publishDir "${params.outdir.main}/tidk", mode: 'copy'
+    publishDir "${params.outdir}/tidk", mode: 'copy'
 
     input:
         tuple val(hap_name), path(fasta_file)
@@ -133,7 +133,7 @@ process SEARCH_A_POSTERIORI_REPEAT_SEQ {
     label "process_single"
     
     container "https://depot.galaxyproject.org/singularity/tidk:0.2.31--h87f3376_0"
-    publishDir params.outdir.main, mode: 'copy'
+    publishDir params.outdir, mode: 'copy'
 
     input:
         tuple val(hap_name), path(hap_explored_sequence), path(fasta_file)
@@ -158,7 +158,7 @@ process PLOT_A_PRIORI_REPEAT_SEQ {
     label "process_single"
     
     container "https://depot.galaxyproject.org/singularity/tidk:0.2.31--h87f3376_0" 
-    publishDir "${params.outdir.main}/tidk", mode: 'copy'
+    publishDir "${params.outdir}/tidk", mode: 'copy'
 
     input:
         tuple val(hap_name), path(tsv_file)
@@ -177,7 +177,7 @@ process PLOT_A_POSTERIORI_REPEAT_SEQ {
     label "process_single"
     
     container "https://depot.galaxyproject.org/singularity/tidk:0.2.31--h87f3376_0"
-    publishDir "${params.outdir.main}/tidk", mode: 'copy'
+    publishDir "${params.outdir}/tidk", mode: 'copy'
 
     input:
         tuple val(hap_name), path(tsv_file)

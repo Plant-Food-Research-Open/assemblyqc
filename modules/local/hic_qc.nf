@@ -4,7 +4,7 @@ process HIC_QC {
     tag "$sample_id_on_tag"
     label "process_single"
     
-    publishDir "${params.outdir.main}/hic/hic_qc", mode:'copy'
+    publishDir "${params.outdir}/hic/hic_qc", mode:'copy'
     container "docker://gallvp/hic_qc:6881c33_ps"
     containerOptions "-B $TMPDIR:$TMPDIR"
 

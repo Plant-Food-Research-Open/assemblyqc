@@ -5,7 +5,7 @@ process ASSEMBLATHON_STATS {
     tag "${hap_name}"
     label "process_single"
 
-    publishDir "${params.outdir.main}/assemblathon_stats", mode: 'copy'
+    publishDir "${params.outdir}/assemblathon_stats", mode: 'copy'
 
     input:
         tuple val(hap_name), path(fasta_file)

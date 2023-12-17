@@ -5,7 +5,7 @@ process ASSEMBLY2_BEDPE {
     label "process_single"
 
     container "docker://gallvp/python3npkgs:v0.4"
-    publishDir "${params.outdir.main}/hic/bedpe", mode:'copy'
+    publishDir "${params.outdir}/hic/bedpe", mode:'copy'
 
     input:
         tuple val(sample_id_on_tag), path(agp_assembly_file)

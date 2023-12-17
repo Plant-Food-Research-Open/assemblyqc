@@ -60,7 +60,7 @@ process RUN_KRAKEN2 {
     
     container "https://depot.galaxyproject.org/singularity/kraken2:2.1.2--pl5321h9f5acd7_2"
     containerOptions "-B ${params.kraken2.download_path}:${params.kraken2.download_path}"
-    publishDir "${params.outdir.main}/kraken2", mode: 'copy'
+    publishDir "${params.outdir}/kraken2", mode: 'copy'
 
     input:
         val setup_output
@@ -86,7 +86,7 @@ process KRONA_PLOT {
     label "process_single"
     
     container "docker://nanozoo/krona:2.7.1--e7615f7"
-    publishDir "${params.outdir.main}/kraken2", mode: 'copy'
+    publishDir "${params.outdir}/kraken2", mode: 'copy'
 
     input:
         tuple val(hap_name), path(kraken2_cut), path(kraken2_report)

@@ -5,7 +5,7 @@ process CREATE_REPORT {
     label "process_single"
     
     container "docker://gallvp/python3npkgs:v0.4"
-    publishDir params.outdir.main, mode: 'copy'
+    publishDir params.outdir, mode: 'copy'
 
     input:
         path ncbi_fcs_adaptor_reports, stageAs: 'ncbi_fcs_adaptor_reports/*'

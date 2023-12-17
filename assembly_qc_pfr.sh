@@ -13,8 +13,8 @@
 ml unload perl
 ml Python/3.10.4-GCCcore-11.2.0-bare
 ml apptainer/1.1
-ml nextflow/22.10.4
+ml nextflow/23.04.4
 
 export TMPDIR="/workspace/$USER/tmp"
 
-nextflow main.nf -profile slurm,apptainer -resume
+nextflow main.nf -profile slurm -resume -c ./conf/test_minimal.config

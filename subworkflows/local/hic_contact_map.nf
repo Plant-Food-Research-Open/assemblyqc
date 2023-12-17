@@ -41,7 +41,7 @@ process HIC2_HTML {
     label "process_single"
     
     container "docker://gallvp/python3npkgs:v0.4"
-    publishDir "${params.outdir.main}/hic", mode: 'copy'
+    publishDir "${params.outdir}/hic", mode: 'copy'
 
     input:
         tuple val(sample_id_on_tag), path(hic_file)

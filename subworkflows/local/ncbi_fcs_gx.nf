@@ -172,7 +172,7 @@ process SCREEN_SAMPLES {
     label "process_long"
     label "process_very_high_memory"
 
-    publishDir "${params.outdir.main}/ncbi_fcs_gx", mode: 'copy'
+    publishDir "${params.outdir}/ncbi_fcs_gx", mode: 'copy'
 
     input:
         val db_verification
@@ -223,7 +223,7 @@ process FCS_GX_KRONA_PLOT {
     label "process_single"
     
     container "docker://nanozoo/krona:2.7.1--e7615f7"
-    publishDir "${params.outdir.main}/ncbi_fcs_gx", mode: 'copy'
+    publishDir "${params.outdir}/ncbi_fcs_gx", mode: 'copy'
 
     input:
         tuple val(tag_name), path(fcs_gx_taxonomy)

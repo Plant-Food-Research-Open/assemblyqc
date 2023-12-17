@@ -187,7 +187,7 @@ process SAVE_EDTA_OUTPUTS {
     tag "${tag_name}"
     label "process_single"
 
-    publishDir "${params.outdir.main}/edta", mode: 'copy'
+    publishDir "${params.outdir}/edta", mode: 'copy'
 
     input:
         tuple val(tag_name),
@@ -234,7 +234,7 @@ process RUN_LAI {
     }
     
     container 'https://depot.galaxyproject.org/singularity/ltr_retriever:2.9.0--hdfd78af_1'
-    publishDir "${params.outdir.main}/lai", mode: 'copy'
+    publishDir "${params.outdir}/lai", mode: 'copy'
     
     input:
         tuple val(tag_name), path(fasta_file), path(pass_list), path(genome_out), path(monoploid_seqs)

@@ -6,7 +6,7 @@ process GENOMETOOLS_GT_STAT {
     label "process_single"
     
     container "https://depot.galaxyproject.org/singularity/genometools-genometools:1.6.2--py310he7ef181_3"
-    publishDir "${params.outdir.main}/genometools_gt_stat", mode: 'copy'
+    publishDir "${params.outdir}/genometools_gt_stat", mode: 'copy'
 
     input:
         tuple val(hap_name), path(gff3_file)
