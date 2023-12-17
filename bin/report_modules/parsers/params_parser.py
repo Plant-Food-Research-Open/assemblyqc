@@ -30,10 +30,6 @@ def format_params_dict(json_dict):
         formatted_dict[key] = value
         formatted_dict[key].pop("skip", None)
 
-        if key == "lai" and formatted_dict[key]["mode"] == "":
-            formatted_dict[key]["mode"] = "(standard)"
-            continue
-
     return formatted_dict
 
 

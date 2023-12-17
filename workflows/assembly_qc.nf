@@ -7,7 +7,7 @@ include { VALIDATE_FASTA        } from '../subworkflows/local/validate_fasta.nf'
 include { VALIDATE_GFF3         } from '../subworkflows/local/validate_gff3.nf'
 include { BUSCO                 } from '../subworkflows/local/busco.nf'
 include { TIDK                  } from '../subworkflows/local/tidk.nf'
-include { LAI                   } from '../subworkflows/local/lai.nf'
+include { FASTA_LTRRETRIEVER_LAI} from '../subworkflows/pfr/fasta_ltrretriever_lai'
 include { KRAKEN2               } from '../subworkflows/local/kraken2.nf'
 include { NCBI_FCS_ADAPTOR      } from '../subworkflows/local/ncbi_fcs_adaptor.nf'
 include { NCBI_FCS_GX           } from '../subworkflows/local/ncbi_fcs_gx.nf'
@@ -99,27 +99,31 @@ workflow ASSEMBLY_QC {
     // TIDK
     TIDK(ch_clean_target_assemblies)
     
-    // LAI
-    ch_clean_target_assemblies
-    | join(
-        Channel.fromList(params.lai.pass_list)
-        | map {
-            [it[0], file(it[1], checkIfExists: true)] // [tag, pass list path]
-        }, remainder: true
+    // FASTA_LTRRETRIEVER_LAI
+    ch_lai_inputs   = params.lai.skip
+                    ? Channel.empty()
+                    : ch_clean_target_assemblies
+                    | join(
+                        Channel.fromList(params.lai.monoploid_seqs)
+                        | map {
+                            [it[0], file(it[1], checkIfExists: true)] // [tag, monoploid_seqs]
+                        }, remainder: true
+                    )
+                    | map { id, fasta, mono -> [ id, fasta, mono ?: [] ] }
+
+    FASTA_LTRRETRIEVER_LAI(
+        ch_lai_inputs.map { id, fasta, mono -> [ [ id:id ], fasta ] },
+        ch_lai_inputs.map { id, fasta, mono -> [ [ id:id ], mono ] },
+        false // Not using this flag
     )
-    | join(
-        Channel.fromList(params.lai.out_file)
-        | map {
-            [it[0], file(it[1], checkIfExists: true)] // [tag, out file path]
-        }, remainder: true
-    )
-    | join(
-        Channel.fromList(params.lai.monoploid_seqs)
-        | map {
-            [it[0], file(it[1], checkIfExists: true)] // [tag, monoploid_seqs]
-        }, remainder: true
-    )
-    | LAI
+
+    ch_lai_outputs  = FASTA_LTRRETRIEVER_LAI.out.lai_log
+                    | join(FASTA_LTRRETRIEVER_LAI.out.lai_out, remainder: true)
+                    | map { meta, log, out -> out ? [ log, out ] : [log] }
+                    | collect
+
+    ch_lai_outputs
+    | view
 
     // KRAKEN2
     KRAKEN2(ch_clean_target_assemblies)
@@ -177,7 +181,7 @@ workflow ASSEMBLY_QC {
         ch_biocode_gff3_stats.ifEmpty([]),
         BUSCO.out.list_of_outputs.ifEmpty([]),
         TIDK.out.list_of_plots.ifEmpty([]),
-        LAI.out.list_of_outputs.ifEmpty([]),
+        ch_lai_outputs.ifEmpty([]),
         KRAKEN2.out.list_of_outputs.ifEmpty([]),
         HIC_CONTACT_MAP.out.list_of_html_files.ifEmpty([]),
         SYNTENY.out.list_of_circos_plots.ifEmpty([]),

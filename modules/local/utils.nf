@@ -90,39 +90,7 @@ def validateLAIParameters(params) {
         return
     }
 
-    def listOfPassLists     = params["lai"]["pass_list"]
-    def listOfOutFiles      = params["lai"]["out_file"]
-    def listOfFastaTuples   = params["target_assemblies"]
-
     validateLAIMonoploidSeqs(params)
-
-    if (listOfPassLists.isEmpty() && listOfOutFiles.isEmpty()) {
-        return
-    }
-
-    if (isNotListOfLists(listOfPassLists, 2)) {
-        error 'Error: lai::pass_list must be a list of sublists, with each sublist containing 2 elements'
-    }
-
-    if (isNotListOfLists(listOfOutFiles, 2)) {
-        error 'Error: lai::out_file must be a list of sublists, with each sublist containing 2 elements'
-    }
-
-    if (listOfPassLists.size() != listOfOutFiles.size()) {
-        error "Error: The number of elements in lai::pass_list and lai::out_file should be equal"
-    }
-
-    if (listOfPassLists.size() != listOfFastaTuples.size()) {
-        error "Error: The number of elements in lai::pass_list, lai::out_file and target_assemblies should be equal"
-    }
-
-    def passListTags        = listOfPassLists.collect { it[0] }
-    def outFileTags         = listOfOutFiles.collect { it[0] }
-    def fastaTags           = listOfFastaTuples.collect { it[0] }
-
-    if (!(passListTags.containsAll(fastaTags) && outFileTags.containsAll(fastaTags))) {
-        error "Error: The tags in lai::pass_list and lai::out_file should match the tags in target_assemblies"
-    }
 }
 
 def validateLAIMonoploidSeqs(params) {

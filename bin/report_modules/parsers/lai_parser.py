@@ -79,10 +79,11 @@ def parse_lai_folder(folder_name="lai_outputs"):
         hap_name = file_tokens[0]
         out_file_path = Path(f"{dir}/{folder_name}/{hap_name}.LAI.out")
         out_file_data = ""
-        with open(out_file_path, "r") as out_file:
-            lines = out_file.readlines()
-            for line in lines:
-                out_file_data += line
+        if os.path.exists(out_file_path):
+            with open(out_file_path, "r") as out_file:
+                lines = out_file.readlines()
+                for line in lines:
+                    out_file_data += line
 
         parser = LAIParser(log_file_data, out_file_data)
         stats = {
