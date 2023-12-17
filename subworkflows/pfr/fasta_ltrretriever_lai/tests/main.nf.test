@@ -1,0 +1,131 @@
+nextflow_workflow {
+
+    name "Test Workflow FASTA_LTRRETRIEVER_LAI"
+    script "../main.nf"
+    workflow "FASTA_LTRRETRIEVER_LAI"
+    config "./nextflow.config"
+
+    tag "subworkflows"
+    tag "subworkflows_nfcore"
+    tag "subworkflows/fasta_ltrretriever_lai"
+    tag "fasta_ltrretriever_lai"
+    tag "custom/shortenfastaids"
+    tag "gt/suffixerator"
+    tag "gt/ltrharvest"
+    tag "ltrfinder"
+    tag "ltrretriever"
+    tag "cat/cat"
+    tag "lai"
+    tag "custom/restoregffids"
+
+    test("homo_sapiens_genome_21_fasta") {
+
+        when {
+            workflow {
+                """
+                input[0] = Channel.of([
+                    [ id:'test' ],
+                    file(params.test_data['homo_sapiens']['genome']['genome_21_fasta'], checkIfExists: true)
+                ])
+                input[1] = []
+                input[2] = false
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert workflow.out.annotation_gff !=  null },
+                { assert workflow.out.lai_log !=  null },
+                { assert file(workflow.out.lai_log.get(0).get(1)).getText().contains("Total LTR sequence content (0%) is too low for accurate LAI calculation") },
+                { assert workflow.out.lai_out ==  [] },
+                { assert snapshot(workflow.out.versions).match("versions") }
+            )
+        }
+    }
+
+    test("stub-homo_sapiens_genome_21_fasta") {
+
+        options '-stub'
+
+        when {
+            workflow {
+                """
+                input[0] = Channel.of([
+                    [ id:'test' ],
+                    file(params.test_data['homo_sapiens']['genome']['genome_21_fasta'], checkIfExists: true)
+                ])
+                input[1] = []
+                input[2] = false
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert workflow.out.annotation_gff !=  null },
+                { assert workflow.out.lai_log !=  null },
+                { assert workflow.out.lai_out ==  [] },
+                { assert snapshot(workflow.out.versions).match("versions") }
+            )
+        }
+    }
+
+    test("stub-homo_sapiens_genome_21_fasta-skip_lai") {
+
+        options '-stub'
+
+        when {
+            workflow {
+                """
+                input[0] = Channel.of([
+                    [ id:'test' ],
+                    file(params.test_data['homo_sapiens']['genome']['genome_21_fasta'], checkIfExists: true)
+                ])
+                input[1] = []
+                input[2] = true
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(workflow.out.versions).match("versions-skip_lai") }
+            )
+        }
+    }
+
+    test("stub-homo_sapiens_genome_21_fasta_genome_fasta") {
+
+        options '-stub'
+
+        when {
+            workflow {
+                """
+                input[0] = Channel.of([
+                    [ id:'test' ],
+                    file(params.test_data['homo_sapiens']['genome']['genome_21_fasta'], checkIfExists: true)
+                ], [
+                    [ id:'test2' ],
+                    file(params.test_data['homo_sapiens']['genome']['genome_fasta'], checkIfExists: true)
+                ])
+                input[1] = []
+                input[2] = false
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert workflow.out.annotation_gff.size() == 2 },
+                { assert workflow.out.lai_log.size() == 2 },
+                { assert workflow.out.lai_out ==  [] },
+                { assert snapshot(workflow.out.versions).match("versions") }
+            )
+        }
+    }
+}

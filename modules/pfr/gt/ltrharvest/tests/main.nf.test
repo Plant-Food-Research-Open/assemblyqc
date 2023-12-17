@@ -1,0 +1,79 @@
+nextflow_process {
+
+    name "Test Process GT_LTRHARVEST"
+    script "../main.nf"
+    process "GT_LTRHARVEST"
+    config "./nextflow.config"
+
+    tag "modules"
+    tag "modules_nfcore"
+    tag "gt"
+    tag "gt/ltrharvest"
+
+    test("homo_sapiens-genome_21_fasta-success") {
+
+        setup {
+            run("GT_SUFFIXERATOR") {
+                script "../../../../pfr/gt/suffixerator"
+
+                process {
+                    """
+                    input[0] = [
+                        [ id:'test' ],
+                        file(params.test_data['homo_sapiens']['genome']['genome_21_fasta'], checkIfExists: true)
+                    ]
+                    """
+                }
+            }
+        }
+
+        when {
+            process {
+                """
+                input[0] = GT_SUFFIXERATOR.out.index
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out.tabout).match("tabout") },
+                { assert process.out.gff3 == [] },
+                { assert snapshot(process.out.fasta).match("fasta") },
+                { assert snapshot(process.out.inner_fasta).match("inner_fasta") },
+                { assert snapshot(process.out.versions).match("versions") }
+            )
+        }
+
+    }
+
+    test("stub") {
+
+        options '-stub'
+
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test' ],
+                    file(params.test_data['homo_sapiens']['genome']['genome_21_fasta'], checkIfExists: true)
+                ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert process.out.tabout != null },
+                { assert process.out.gff3 == [] },
+                { assert process.out.fasta != null },
+                { assert process.out.inner_fasta != null },
+                { assert snapshot(process.out.versions).match("versions") }
+            )
+        }
+
+    }
+
+}

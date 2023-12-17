@@ -17,4 +17,4 @@ ml nextflow/22.10.4
 
 export TMPDIR="/workspace/$USER/tmp"
 
-srun nextflow main.nf -profile slurm -resume
+nextflow main.nf -profile slurm,apptainer -resume

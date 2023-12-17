@@ -1,6 +1,6 @@
 nextflow.enable.dsl=2
 
-include { GZIP_FASTA } from '../modules/gzip_fasta'
+include { GZIP_FASTA } from '../../modules/local/gzip_fasta'
 
 workflow SYNTENY {
     take:

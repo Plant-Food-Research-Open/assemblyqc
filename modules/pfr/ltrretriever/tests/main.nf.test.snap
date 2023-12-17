@@ -1,0 +1,23 @@
+{
+    "pass_list": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test"
+                    },
+                    "test.pass.list:md5,4e99412b54fd99cac2ae533a51cbd4e1"
+                ]
+            ]
+        ],
+        "timestamp": "2023-12-04T15:45:22.007912"
+    },
+    "versions": {
+        "content": [
+            [
+                "versions.yml:md5,bd6cf2de800197f0d726ba1dfa1d6be4"
+            ]
+        ],
+        "timestamp": "2023-12-04T15:45:22.026825"
+    }
+}

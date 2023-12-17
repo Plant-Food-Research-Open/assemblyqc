@@ -1,11 +1,11 @@
 nextflow.enable.dsl=2
 
-include { MAKE_AGP_FROM_FASTA       } from '../modules/make_agp_from_fasta.nf'
-include { AGP2_ASSEMBLY             } from '../modules/agp2_assembly.nf'
-include { ASSEMBLY2_BEDPE           } from '../modules/assembly2_bedpe.nf'
-include { MATLOCK_BAM2_JUICER       } from '../modules/matlock_bam2_juicer.nf'
-include { JUICER_SORT               } from '../modules/juicer_sort.nf'
-include { RUN_ASSEMBLY_VISUALIZER   } from '../modules/run_assembly_visualizer.nf'
+include { MAKE_AGP_FROM_FASTA       } from '../../modules/local/make_agp_from_fasta.nf'
+include { AGP2_ASSEMBLY             } from '../../modules/local/agp2_assembly.nf'
+include { ASSEMBLY2_BEDPE           } from '../../modules/local/assembly2_bedpe.nf'
+include { MATLOCK_BAM2_JUICER       } from '../../modules/local/matlock_bam2_juicer.nf'
+include { JUICER_SORT               } from '../../modules/local/juicer_sort.nf'
+include { RUN_ASSEMBLY_VISUALIZER   } from '../../modules/local/run_assembly_visualizer.nf'
 
 workflow CREATE_HIC_FILE {
     take:

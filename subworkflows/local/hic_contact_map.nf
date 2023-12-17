@@ -3,7 +3,7 @@ nextflow.enable.dsl=2
 include { ALIGN_READS_TO_FASTA  } from './align_reads_to_fasta.nf'
 include { CREATE_HIC_FILE       } from './create_hic_file.nf'
 
-include { HIC_QC                } from '../modules/hic_qc.nf'
+include { HIC_QC                } from '../../modules/local/hic_qc.nf'
 
 workflow HIC_CONTACT_MAP {
     take:

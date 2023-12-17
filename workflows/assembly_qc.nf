@@ -1,24 +1,24 @@
 nextflow.enable.dsl=2
 
-include {validateParams         } from '../modules/utils.nf'
-include {jsonifyParams          } from '../modules/utils.nf'
+include {validateParams         } from '../modules/local/utils.nf'
+include {jsonifyParams          } from '../modules/local/utils.nf'
 
-include { VALIDATE_FASTA        } from '../subworkflows/validate_fasta.nf'
-include { VALIDATE_GFF3         } from '../subworkflows/validate_gff3.nf'
-include { BUSCO                 } from '../subworkflows/busco.nf'
-include { TIDK                  } from '../subworkflows/tidk.nf'
-include { LAI                   } from '../subworkflows/lai.nf'
-include { KRAKEN2               } from '../subworkflows/kraken2.nf'
-include { NCBI_FCS_ADAPTOR      } from '../subworkflows/ncbi_fcs_adaptor.nf'
-include { NCBI_FCS_GX           } from '../subworkflows/ncbi_fcs_gx.nf'
-include { HIC_PREPROCESS        } from '../subworkflows/hic_preprocess.nf'
-include { HIC_CONTACT_MAP       } from '../subworkflows/hic_contact_map.nf'
-include { SYNTENY               } from '../subworkflows/synteny.nf'
+include { VALIDATE_FASTA        } from '../subworkflows/local/validate_fasta.nf'
+include { VALIDATE_GFF3         } from '../subworkflows/local/validate_gff3.nf'
+include { BUSCO                 } from '../subworkflows/local/busco.nf'
+include { TIDK                  } from '../subworkflows/local/tidk.nf'
+include { LAI                   } from '../subworkflows/local/lai.nf'
+include { KRAKEN2               } from '../subworkflows/local/kraken2.nf'
+include { NCBI_FCS_ADAPTOR      } from '../subworkflows/local/ncbi_fcs_adaptor.nf'
+include { NCBI_FCS_GX           } from '../subworkflows/local/ncbi_fcs_gx.nf'
+include { HIC_PREPROCESS        } from '../subworkflows/local/hic_preprocess.nf'
+include { HIC_CONTACT_MAP       } from '../subworkflows/local/hic_contact_map.nf'
+include { SYNTENY               } from '../subworkflows/local/synteny.nf'
 
-include { CREATE_REPORT         } from '../modules/create_report.nf'
-include { ASSEMBLATHON_STATS    } from '../modules/assemblathon_stats.nf'
-include { GENOMETOOLS_GT_STAT   } from '../modules/genometools_gt_stat.nf'
-include { BIOCODE_GFF3_STATS    } from '../modules/biocode_gff3_stats.nf'
+include { CREATE_REPORT         } from '../modules/local/create_report.nf'
+include { ASSEMBLATHON_STATS    } from '../modules/local/assemblathon_stats.nf'
+include { GENOMETOOLS_GT_STAT   } from '../modules/local/genometools_gt_stat.nf'
+include { BIOCODE_GFF3_STATS    } from '../modules/local/biocode_gff3_stats.nf'
 
 validateParams(params)
 def paramsAsJSON = jsonifyParams(params)

@@ -1,8 +1,8 @@
 nextflow.enable.dsl=2
 
-include { BWA_INDEX_AND_MEM     } from '../modules/bwa_index_and_mem.nf'
-include { SAMBLASTER            } from '../modules/samblaster.nf'
-include { SAMTOOLS_VIEW         } from '../modules/samtools_view.nf'
+include { BWA_INDEX_AND_MEM     } from '../../modules/local/bwa_index_and_mem.nf'
+include { SAMBLASTER            } from '../../modules/local/samblaster.nf'
+include { SAMTOOLS_VIEW         } from '../../modules/local/samtools_view.nf'
 
 workflow ALIGN_READS_TO_FASTA {
     take:
