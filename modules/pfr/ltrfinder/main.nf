@@ -3,9 +3,7 @@ process LTRFINDER {
     label 'process_high'
 
     conda "${moduleDir}/environment.yml"
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/edta:2.1.0--hdfd78af_1':
-        'biocontainers/edta:2.1.0--hdfd78af_1' }"
+    container 'https://depot.galaxyproject.org/singularity/edta:2.1.0--hdfd78af_1'
 
     input:
     tuple val(meta), path(fasta)

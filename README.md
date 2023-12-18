@@ -37,9 +37,8 @@ flowchart LR
   Run --> ASS_STATS[ASSEMBLATHON STATS]
   Run --> BUSCO
   Run --> TIDK
-  Run --> EDTA
-  EDTA --> LAI
-  Run --> |Pass list and out file\nprovided|LAI
+  Run --> LTRRETRIEVER
+  LTRRETRIEVER --> LAI
   Run --> KRAKEN2
   Run --> HIC_CONTACT_MAP[HIC CONTACT MAP]
   Run --> SYNTENY
@@ -64,7 +63,7 @@ flowchart LR
 - [BUSCO](https://gitlab.com/ezlab/busco/-/tree/master): Gene-space completeness estimation
 - [TIDK](https://github.com/tolkit/telomeric-identifier): Telomere repeat identification
 - [LAI](https://github.com/oushujun/LTR_retriever/blob/master/LAI): Continuity of repetitive sequences
-- [LAI::EDTA](https://github.com/oushujun/EDTA): Repeat identification
+- [LAI::LTRRETRIEVER](https://github.com/oushujun/LTR_retriever): Repeat identification
 - [KRAKEN2](https://github.com/DerrickWood/kraken2): Taxonomy classification
 - [HIC CONTACT MAP](https://github.com/igvteam/juicebox-web): Alignment and visualisation of HiC data
 - SYNTENY: Synteny analysis using [MUMMER](https://github.com/mummer4/mummer) and [CIRCOS](http://circos.ca/documentation/)
@@ -152,14 +151,20 @@ Once the pipeline has finished execution, the results folder specified in the co
   TIDK workflow also employs:
   - SEQKIT (2.3.1, [MIT](https://github.com/shenwei356/seqkit/blob/master/LICENSE))
     > Shen W, Le S, Li Y, Hu F. 2016. SeqKit: A Cross-Platform and Ultrafast Toolkit for FASTA/Q File Manipulation. PLoS ONE 11(10): e0163962. <https://doi.org/10.1371/journal.pone.0163962>
-- LAI (2.9.0, [GPL v3](https://github.com/oushujun/LTR_retriever/blob/master/LICENSE))
+- LAI (beta3.2, [GPL v3](https://github.com/oushujun/LTR_retriever/blob/master/LICENSE))
   > Ou S, Chen J, Jiang N. 2018. Assessing genome assembly quality using the LTR Assembly Index (LAI), Nucleic Acids Research, Volume 46, Issue 21, 30 November 2018, Page e126, <https://doi.org/10.1093/nar/gky730>
   
   LAI workflow also employs:
-  - EDTA (2.1.0, [GPL v3](https://github.com/oushujun/EDTA/blob/master/LICENSE))
-    > Ou S, Su W, Liao Y et al. 2019. Benchmarking transposable element annotation methods for creation of a streamlined, comprehensive pipeline. Genome Biol 20, 275 (2019). <https://doi.org/10.1186/s13059-019-1905-y>
+  - LTR_FINDER_parallel (1.2, [MIT](https://github.com/oushujun/LTR_FINDER_parallel/blob/master/LICENSE))
+    > Ou S, Jiang N 2019. LTR_FINDER_parallel: parallelization of LTR_FINDER enabling rapid identification of long terminal repeat retrotransposons. Mobile DNA 10, 48 (2019). <https://doi.org/10.1186/s13100-019-0193-0>
+  - GT_LTRHARVEST (1.6.5, [ISC](http://genometools.org/license.html))
+    > Gremme G, Steinbiss S, Kurtz S. 2013. "GenomeTools: A Comprehensive Software Library for Efficient Processing of Structured Genome Annotations," in IEEE/ACM Transactions on Computational Biology and Bioinformatics, vol. 10, no. 3, pp. 645-656, May 2013, doi: <https://doi.org/10.1109/TCBB.2013.68>.
+    
+    > Ellinghaus, D, Kurtz, S & Willhoeft, U 2008. LTRharvest, an efficient and flexible software for de novo detection of LTR retrotransposons. BMC Bioinformatics 9, 18 (2008). <https://doi.org/10.1186/1471-2105-9-18>
+  - LTR_retriever (2.9.0 [GPL v3](https://github.com/oushujun/LTR_retriever/blob/master/LICENSE))
+    > Shujun O, Ning J 2018. LTR_retriever: A Highly Accurate and Sensitive Program for Identification of Long Terminal Repeat Retrotransposons, Plant Physiology, 176, 2 (2018). <https://doi.org/10.1104/pp.17.01310>
 - KRAKEN2 (2.1.2, [MIT](https://github.com/DerrickWood/kraken2/blob/master/LICENSE))
-  > Wood DE, Salzberg SL, Wood DE, Lu J, Langmead B. 2014.  Improved metagenomic analysis with Kraken 2. Genome Biol 20, 257 (2019). <https://doi.org/10.1186/s13059-019-1891-0>
+  > Wood DE, Salzberg SL, Wood DE, Lu J, Langmead B. 2019.  Improved metagenomic analysis with Kraken 2. Genome Biol 20, 257 (2019). <https://doi.org/10.1186/s13059-019-1891-0>
   
   KRAKEN2 workflow also employs:
   - KRONA (2.7.1, [License](https://github.com/marbl/Krona/blob/master/KronaTools/LICENSE.txt))

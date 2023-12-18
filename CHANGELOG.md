@@ -1,5 +1,15 @@
 # Change Log
 
+## Version 1.2 (18-Dec-2023)
+
+1. Switched to apptainer from singularity
+2. Now requiring Nextflow/23.04.4
+3. Simplified output directory from `outdir.main` to `outdir`
+4. Changed profile name from slurm to pfr
+5. Now using APPTAINER_BINDPATH to provide TMPDIR
+6. Integrated and tested FASTA_LTRRETRIEVER_LAI
+7. Corrected LAI version to beta3.2
+
 ## Version 1.1 (09-Nov-2023)
 
 1. Now running kraken2 with a single cpu.

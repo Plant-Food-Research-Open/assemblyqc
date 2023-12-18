@@ -3,9 +3,7 @@ process CUSTOM_SHORTENFASTAIDS {
     label 'process_single'
 
     conda "${moduleDir}/environment.yml"
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/biopython:1.75':
-        'biocontainers/biopython:1.75' }"
+    container 'https://depot.galaxyproject.org/singularity/biopython:1.75'
 
     input:
     tuple val(meta), path(fasta)

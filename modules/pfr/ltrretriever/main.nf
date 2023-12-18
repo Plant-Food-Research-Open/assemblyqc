@@ -3,9 +3,7 @@ process LTRRETRIEVER {
     label 'process_high'
 
     conda "${moduleDir}/environment.yml"
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/ltr_retriever:2.9.0--hdfd78af_2':
-        'biocontainers/ltr_retriever:2.9.0--hdfd78af_2' }"
+    container 'https://depot.galaxyproject.org/singularity/ltr_retriever:2.9.0--hdfd78af_2'
 
     input:
     tuple val(meta), path(genome)

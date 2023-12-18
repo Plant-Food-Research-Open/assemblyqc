@@ -50,7 +50,7 @@ if __name__ == "__main__":
             "BIOCODE_GFF3_STATS": "0.10.0",
             "BUSCO": "5.2.2",
             "TIDK": "0.2.31",
-            "LAI": "2.9.0",
+            "LAI": "beta3.2",
             "KRAKEN2": "2.1.2",
             "HIC": "2.4.3",
             "CIRCOS": "0.23-1",

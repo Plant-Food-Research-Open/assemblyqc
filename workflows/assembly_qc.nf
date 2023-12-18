@@ -122,9 +122,6 @@ workflow ASSEMBLY_QC {
                     | map { meta, log, out -> out ? [ log, out ] : [log] }
                     | collect
 
-    ch_lai_outputs
-    | view
-
     // KRAKEN2
     KRAKEN2(ch_clean_target_assemblies)
 

@@ -7,10 +7,10 @@
     - [Gene Annotations (Optional)](#gene-annotations-optional)
   - [Step 2: Skipping Optional Modules](#step-2-skipping-optional-modules)
   - [Step 3: Setting Max. Resources](#step-3-setting-max-resources)
-  - [Step 4: Setting the Singularity Cache Directory](#step-4-setting-the-singularity-cache-directory)
+  - [Step 4: Setting the Apptainer Cache Directory](#step-4-setting-the-apptainer-cache-directory)
   - [Example Minimal Config File](#example-minimal-config-file)
   - [Step 5: Running the Pipeline](#step-5-running-the-pipeline)
-    - [Running on Slurm](#running-on-slurm)
+    - [Running on Plant\&Food Research Slurm](#running-on-plantfood-research-slurm)
     - [Running on a Single Machine](#running-on-a-single-machine)
     - [Running on Executors other than Slurm](#running-on-executors-other-than-slurm)
   - [AssemblyQC Report](#assemblyqc-report)
@@ -18,8 +18,8 @@
 ## Step 0: System Prerequisites
 
 1. A single computer with linux or a linux-based compute cluster.
-2. NextFlow >= 22.10.4
-3. Apptainer (Singularity) >= 1.1
+2. NextFlow >= 23.04.4
+3. Apptainer >= 1.1
 4. Python >= 3.7
 
 ## Step 1: Setting up the Data
@@ -72,9 +72,9 @@ max_time = 1.hour
 
 > 💡 **Note**: Maximum values defined by `max_cpus`, `max_memory` and `max_time` apply to each process in the pipeline. The pipeline executes multiple processes in parallel. Therefore, the total execution time is not equal to the sum of time taken by each process. Rather, the total time is determined by adding up the time taken by processes which run one after the other. An estimate of the total time maybe needed if the pipeline is submitted to an executor such as Slurm. This topic is covered later in this document.
 
-## Step 4: Setting the Singularity Cache Directory
+## Step 4: Setting the Apptainer Cache Directory
 
-The pipeline uses version controlled singularity containers so that its results are reproducible across systems. These singularity containers are automatically downloaded by the pipeline when it runs for the first time. The containers are then stored for later runs in the folder specified by the `cacheDir` parameter under the `singularity` scope inside the 'nextflow.config' file.
+The pipeline uses version controlled apptainer containers so that its results are reproducible across systems. These apptainer containers are automatically downloaded by the pipeline when it runs for the first time. The containers are then stored for later runs in the folder specified by the `cacheDir` parameter under the `apptainer` scope inside the 'nextflow.config' file.
 
 When downloading these containers, the pipeline can fail due to connection issues. In such a case, the pipeline should be resumed with the `-resume` flag. For more on the resume capability, see the NextFlow [documentation](https://www.nextflow.io/docs/latest/getstarted.html?highlight=resume#modify-and-resume). It may be a good idea to test run the pipeline with a small dataset so that it can download the necessary containers. Moreover, the `cacheDir` should not be changed afterwards. Otherwise, the pipeline will have to download the required containers again.
 
@@ -107,51 +107,46 @@ params {
     hic                 { skip  = 1 }
     synteny             { skip  = 1 }
     
-    outdir {
-        main                    = "./FI1_report_minimal"
-    }
+    outdir                      = "./results"
 
     max_time                    = 1.hour
 }
 
-singularity {
+apptainer {
     cacheDir                    = "/workspace/assembly_qc/singularity"
 }
 ```
 
 ## Step 5: Running the Pipeline
 
-The next sections explain how to run the pipeline on Slurm, a single machine or other executors.
+The next sections explain how to run the pipeline on Plant&Food Research Slurm cluster, a single machine or other executors.
 
-### Running on Slurm
+### Running on Plant&Food Research Slurm
 
 To submit the pipeline to Slurm for execution, first create a submission script with the following bash commands:
 
 ```bash
-cat << EOF > assembly_qc_slurm.sh
+cat << EOF > assembly_qc_pfr.sh
 #!/bin/bash -e
-
 
 #SBATCH --job-name ASM_QC
 #SBATCH --time=01:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=2
-#SBATCH --output assembly_qc_slurm.stdout
-#SBATCH --error assembly_qc_slurm.stderr
+#SBATCH --cpus-per-task=1
+#SBATCH --output assembly_qc_pfr.stdout
+#SBATCH --error assembly_qc_pfr.stderr
 #SBATCH --mem=4G
 
 ml unload perl
 ml Python/3.10.4-GCCcore-11.2.0-bare
 ml apptainer/1.1
-ml nextflow/22.10.4
+ml nextflow/23.04.4
 
 export TMPDIR="/workspace/$USER/tmp"
+export APPTAINER_BINDPATH="$APPTAINER_BINDPATH,$TMPDIR:$TMPDIR,$TMPDIR:/tmp"
 
-srun nextflow main.nf -profile slurm -resume
-
-# When using the minimal test_minimal.config
-# srun nextflow main.nf -profile slurm -resume -c ./conf/test_minimal.config
+nextflow main.nf -profile pfr -resume -c ./conf/test_minimal.config
 EOF
 ```
 
@@ -168,7 +163,7 @@ The last line executes the pipeline implemented in the `main.nf` file with profi
 After creating the slurm submission script, submit to slurm as follows:
 
 ```bash
-sbatch ./assembly_qc_slurm.sh
+sbatch .assembly_qc_pfr.sh
 ```
 
 ### Running on a Single Machine
@@ -176,7 +171,7 @@ sbatch ./assembly_qc_slurm.sh
 To run the pipeline on a single machine, make sure that the maximum resources specified by `max_cpus` and `max_memory` variables in the 'nextflow.config' file are suitable for your machine. Moreover, the minimum software required [Step 0: System Prerequisites](#step-0-system-prerequisites) should be available on the machine. Finally, the pipeline can be executed with the following command.
 
 ```bash
-nextflow main.nf -profile local -resume
+nextflow main.nf -profile local -resume -c ./conf/test_minimal.config
 ```
 
 Notice that the `-profile` parameter is now set to `local` in the NextFlow execution command.

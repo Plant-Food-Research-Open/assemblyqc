@@ -3,9 +3,7 @@ process CAT_CAT {
     label 'process_low'
 
     conda "${moduleDir}/environment.yml"
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/pigz:2.3.4' :
-        'biocontainers/pigz:2.3.4' }"
+    container 'https://depot.galaxyproject.org/singularity/pigz:2.3.4'
 
     input:
     tuple val(meta), path(files_in)

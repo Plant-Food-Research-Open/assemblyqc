@@ -1,11 +1,10 @@
 #!/bin/bash -e
 
-
 #SBATCH --job-name ASM_QC
 #SBATCH --time=7-00:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=2
+#SBATCH --cpus-per-task=1
 #SBATCH --output assembly_qc_pfr.stdout
 #SBATCH --error assembly_qc_pfr.stderr
 #SBATCH --mem=4G
