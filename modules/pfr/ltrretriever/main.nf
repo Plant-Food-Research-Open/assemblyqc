@@ -17,7 +17,7 @@ process LTRRETRIEVER {
     tuple val(meta), path("${prefix}.pass.list"), emit: pass_list
     tuple val(meta), path("*.pass.list.gff3")   , emit: pass_list_gff
     tuple val(meta), path("*.LTRlib.fa")        , emit: ltrlib
-    tuple val(meta), path("*.out")              , emit: annotation_out  , optional: true
+    tuple val(meta), path("${prefix}.out")      , emit: annotation_out  , optional: true
     tuple val(meta), path("*.out.gff3")         , emit: annotation_gff  , optional: true
     path "versions.yml"                         , emit: versions
 

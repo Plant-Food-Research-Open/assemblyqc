@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this pipeline, please cite it as below."
+authors:
+- family-names: "Rashid"
+  given-names: "Usman"
+  orcid: "https://orcid.org/0000-0002-1109-5493"
+- family-names: "Wu"
+  given-names: "Chen"
+- family-names: "Shiller"
+  given-names: "Jason"
+- family-names: "Smith"
+  given-names: "Ken"
+- family-names: "Crowhurst"
+  given-names: "Ross"
+- family-names: "Davy"
+  given-names: "Marcus"
+- family-names: "Thomson"
+  given-names: "Susan"
+- family-names: "Deng"
+  given-names: "Cecilia"
+title: "AssemblyQC: A NextFlow pipeline for evaluating assembly quality"
+version: 1.2
+date-released: 2023-12-19
+url: "https://github.com/Plant-Food-Research-Open/assembly_qc"

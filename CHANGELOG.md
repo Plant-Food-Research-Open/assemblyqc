@@ -7,8 +7,19 @@
 3. Simplified output directory from `outdir.main` to `outdir`
 4. Changed profile name from slurm to pfr
 5. Now using APPTAINER_BINDPATH to provide TMPDIR
-6. Integrated and tested FASTA_LTRRETRIEVER_LAI
+6. Integrated and tested FASTA_LTRRETRIEVER_LAI to replace EDTA_LAI sub-workflow
 7. Corrected LAI version to beta3.2
+
+### FASTA_LTRRETRIEVER_LAI vs EDTA_LAI
+
+For a ~600 MB assembly, EDTA (without sensitive flag) takes ~25 hours of compute time. Whereas, FASTA_LTRRETRIEVER_LAI sub-workflow ( LTRHARVEST+LTRFINDER -> LTRRETRIEVER ) takes ~2.5 hours of compute time. LAI estimates for four plant assemblies are listed below.
+
+| Assembly      | EDTA_LAI  | FASTA_LTRRETRIEVER_LAI    |
+|---------------|-----------|---------------------------|
+| ck6901m/v2    | 18.43     | 16.19                     |
+| donghong/v1   | 19.03     | 16.85                     |
+| red5/v2.1     | 18.75     | 16.59                     |
+| tair/v10      | 18.06     | 17.42                     |
 
 ## Version 1.1 (09-Nov-2023)
 

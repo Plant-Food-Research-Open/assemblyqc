@@ -113,6 +113,9 @@ Once the pipeline has finished execution, the results folder specified in the co
 
 ## Software Versions & References
 
+- nf-core/modules([MIT](https://github.com/nf-core/modules/blob/master/LICENSE))
+  > Ewels PA, Peltzer A, Fillinger S et al. 2020. The nf-core framework for community-curated bioinformatics pipelines. Nat Biotechnol 38, 276–278 (2020). doi: <https://doi.org/10.1038/s41587-020-0439-x>
+
 - FASTA_VALIDATE ([MIT](https://github.com/GallVp/fasta_validator/blob/master/LICENSE))
   > <https://github.com/GallVp/fasta_validator>
   >
