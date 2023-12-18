@@ -16,5 +16,6 @@ ml apptainer/1.1
 ml nextflow/23.04.4
 
 export TMPDIR="/workspace/$USER/tmp"
+export APPTAINER_BINDPATH="$APPTAINER_BINDPATH,$TMPDIR:$TMPDIR,$TMPDIR:/tmp"
 
 nextflow main.nf -profile slurm -resume -c ./conf/test_minimal.config

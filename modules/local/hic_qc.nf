@@ -6,7 +6,6 @@ process HIC_QC {
     
     publishDir "${params.outdir}/hic/hic_qc", mode:'copy'
     container "docker://gallvp/hic_qc:6881c33_ps"
-    containerOptions "-B $TMPDIR:$TMPDIR"
 
     input:
         tuple val(sample_id_on_tag), path(dedup_bam)

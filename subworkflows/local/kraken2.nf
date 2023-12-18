@@ -59,7 +59,6 @@ process RUN_KRAKEN2 {
     label "process_high_memory"
     
     container "https://depot.galaxyproject.org/singularity/kraken2:2.1.2--pl5321h9f5acd7_2"
-    containerOptions "-B ${params.kraken2.download_path}:${params.kraken2.download_path}"
     publishDir "${params.outdir}/kraken2", mode: 'copy'
 
     input:

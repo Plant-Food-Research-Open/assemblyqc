@@ -30,7 +30,6 @@ process RUN_BUSCO {
     label "process_high"
     
     container "https://depot.galaxyproject.org/singularity/busco:5.2.2--pyhdfd78af_0"
-    containerOptions "-B ${params.busco.download_path}:${params.busco.download_path}"
 
     publishDir "${params.outdir}/busco", mode: 'copy'
 
