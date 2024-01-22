@@ -18,13 +18,14 @@ process ASSEMBLATHON_STATS {
         paths_to_check=\$(printf "%s\\n" \$(echo \$PATH | tr ':' ' ') \
         | xargs -I {} find {} -maxdepth 0 -print 2>/dev/null \
         | grep -v '^\$' \
+        | grep -v '/sbin' \
         | xargs)
 
         falite_path="\$(find \$paths_to_check -name FAlite_943e0fb.pm)"
         
         ln -s "\$falite_path" FAlite_943e0fb.pm
         
-        assemblathon_stats_943e0fb.pl \
+        PERL5LIB=./ assemblathon_stats_943e0fb.pl \
         -n ${params.assemblathon_stats.n_limit} \
         -csv \
         "${fasta_file}"

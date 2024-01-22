@@ -67,7 +67,9 @@ process SORT_AND_FILTER_BY_SEQ_LENGTH {
     tag "${hap_name}"
     label "process_single"
     
-    container "https://depot.galaxyproject.org/singularity/seqkit:2.3.1--h9ee0642_0" 
+    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+        'https://depot.galaxyproject.org/singularity/seqkit:2.3.1--h9ee0642_0':
+        'quay.io/biocontainers/seqkit:2.3.1--h9ee0642_0' }"
 
     input:
         tuple val(hap_name), path(fasta_file)
@@ -93,7 +95,9 @@ process SEARCH_A_PRIORI_REPEAT_SEQ {
     tag "${hap_name}"
     label "process_single"
 
-    container "https://depot.galaxyproject.org/singularity/tidk:0.2.31--h87f3376_0" 
+    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+        'https://depot.galaxyproject.org/singularity/tidk:0.2.31--h87f3376_0':
+        'quay.io/biocontainers/tidk:0.2.31--h87f3376_0' }"
     publishDir params.outdir, mode: 'copy'
 
     input:
@@ -112,7 +116,9 @@ process EXPLORE_REPEAT_SEQ {
     tag "${hap_name}"
     label "process_single"
     
-    container "https://depot.galaxyproject.org/singularity/tidk:0.2.31--h87f3376_0"
+    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+        'https://depot.galaxyproject.org/singularity/tidk:0.2.31--h87f3376_0':
+        'quay.io/biocontainers/tidk:0.2.31--h87f3376_0' }"
     publishDir "${params.outdir}/tidk", mode: 'copy'
 
     input:
@@ -132,7 +138,9 @@ process SEARCH_A_POSTERIORI_REPEAT_SEQ {
     tag "${hap_name}"
     label "process_single"
     
-    container "https://depot.galaxyproject.org/singularity/tidk:0.2.31--h87f3376_0"
+    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+        'https://depot.galaxyproject.org/singularity/tidk:0.2.31--h87f3376_0':
+        'quay.io/biocontainers/tidk:0.2.31--h87f3376_0' }"
     publishDir params.outdir, mode: 'copy'
 
     input:
@@ -157,7 +165,9 @@ process PLOT_A_PRIORI_REPEAT_SEQ {
     tag "${hap_name}"
     label "process_single"
     
-    container "https://depot.galaxyproject.org/singularity/tidk:0.2.31--h87f3376_0" 
+    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+        'https://depot.galaxyproject.org/singularity/tidk:0.2.31--h87f3376_0':
+        'quay.io/biocontainers/tidk:0.2.31--h87f3376_0' }"
     publishDir "${params.outdir}/tidk", mode: 'copy'
 
     input:
@@ -176,7 +186,9 @@ process PLOT_A_POSTERIORI_REPEAT_SEQ {
     tag "${hap_name}"
     label "process_single"
     
-    container "https://depot.galaxyproject.org/singularity/tidk:0.2.31--h87f3376_0"
+    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+        'https://depot.galaxyproject.org/singularity/tidk:0.2.31--h87f3376_0':
+        'quay.io/biocontainers/tidk:0.2.31--h87f3376_0' }"
     publishDir "${params.outdir}/tidk", mode: 'copy'
 
     input:

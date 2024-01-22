@@ -1,5 +1,9 @@
 # Change Log
 
+## Version 1.3 (23-Jan-2023)
+
+1. Minimal test config now supported by docker engine.
+
 ## Version 1.2 (18-Dec-2023)
 
 1. Switched to apptainer from singularity

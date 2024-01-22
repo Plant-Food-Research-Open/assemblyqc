@@ -171,7 +171,9 @@ process FILTER_SORT_FASTA_AND_VALIDATE_SEQ_LISTS {
     tag "${target}.on.${reference}"
     label "process_single"
     
-    container "https://depot.galaxyproject.org/singularity/samtools:1.16.1--h6899075_1"
+    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+        'https://depot.galaxyproject.org/singularity/samtools:1.16.1--h6899075_1':
+        'quay.io/biocontainers/samtools:1.16.1--h6899075_1' }"
 
     input:
         tuple val(target), path(target_fasta), path(target_seq_list), val(reference), path(ref_fasta), path(ref_seq_list)
@@ -191,7 +193,9 @@ process GET_FASTA_LEN {
     tag "${target}.on.${reference}"
     label "process_single"
     
-    container "https://depot.galaxyproject.org/singularity/samtools:1.16.1--h6899075_1"
+    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+        'https://depot.galaxyproject.org/singularity/samtools:1.16.1--h6899075_1':
+        'quay.io/biocontainers/samtools:1.16.1--h6899075_1' }"
     
     input:        
         tuple val(target), val(reference), path(filtered_ordered_target_fasta), path(filtered_ordered_ref_fasta)
@@ -213,7 +217,7 @@ process MUMMER {
     tag "${target}.on.${reference}"
     label "process_high"
     
-    container "docker://staphb/mummer:4.0.0"
+    container "docker.io/staphb/mummer:4.0.0"
 
     input:
         tuple val(target), val(reference), path(target_fasta), path(ref_fasta)
@@ -237,7 +241,7 @@ process DNADIFF {
     label "process_single"
     label "process_week_long"
     
-    container "docker://staphb/mummer:4.0.0"
+    container "docker.io/staphb/mummer:4.0.0"
 
     input:
         tuple val(target_on_ref), path(dnadiff_file)
@@ -263,7 +267,7 @@ process CIRCOS_BUNDLE_LINKS {
     tag "${target_on_ref}"
     label "process_single"
     
-    container "docker://gallvp/circos-tools:v0.23-1_ps"
+    container "docker.io/gallvp/circos-tools:v0.23-1_ps"
 
     input:
         tuple val(target_on_ref), path(coords_file), path(report_file)
@@ -288,7 +292,7 @@ process ADD_COLOUR_TO_BUNDLE_LINKS {
     tag "${target_on_ref}"
     label "process_single"
     
-    container "docker://gallvp/python3npkgs:v0.4"
+    container "docker.io/gallvp/python3npkgs:v0.4"
 
     input:
         tuple val(target_on_ref), path(bundle_links)
@@ -314,7 +318,7 @@ process RELABEL_BUNDLE_LINKS {
     tag "${target_on_ref}"
     label "process_single"
     
-    container "docker://gallvp/python3npkgs:v0.4"
+    container "docker.io/gallvp/python3npkgs:v0.4"
     
     input:
         tuple val(target_on_ref), path(coloured_bundle_links), path(target_seq_list), path(ref_seq_list)
@@ -356,7 +360,7 @@ process RELABEL_FASTA_LEN {
     tag "${target_on_ref}"
     label "process_single"
     
-    container "docker://gallvp/python3npkgs:v0.4"
+    container "docker.io/gallvp/python3npkgs:v0.4"
     
     input:
         tuple val(target_on_ref), path(target_seq_lengths), path(ref_seq_lengths), path(target_seq_list), path(ref_seq_list)
@@ -460,7 +464,7 @@ process CIRCOS {
     tag "${target_on_ref_seq}"
     label "process_single"
     
-    container "docker://gallvp/circos-tools:v0.23-1_ps" 
+    container "docker.io/gallvp/circos-tools:v0.23-1_ps" 
     publishDir "${params.outdir}/synteny/${target_on_ref_seq}", mode: 'copy'
 
     input:

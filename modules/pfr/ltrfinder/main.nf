@@ -2,8 +2,9 @@ process LTRFINDER {
     tag "$meta.id"
     label 'process_high'
 
-    conda "${moduleDir}/environment.yml"
-    container 'https://depot.galaxyproject.org/singularity/edta:2.1.0--hdfd78af_1'
+    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+        'https://depot.galaxyproject.org/singularity/edta:2.1.0--hdfd78af_1':
+        'quay.io/biocontainers/edta:2.1.0--hdfd78af_1' }"
 
     input:
     tuple val(meta), path(fasta)

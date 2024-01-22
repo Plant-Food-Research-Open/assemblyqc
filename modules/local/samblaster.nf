@@ -5,7 +5,9 @@ process SAMBLASTER {
     label "process_single"
     label "process_long"
     
-    container "https://depot.galaxyproject.org/singularity/samblaster:0.1.20--h9f5acd7_2"
+    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+        'https://depot.galaxyproject.org/singularity/samblaster:0.1.20--h9f5acd7_2':
+        'quay.io/biocontainers/samblaster:0.1.20--h9f5acd7_2' }"
 
     input:
         tuple val(sample_id_on_tag), path(sam_map)

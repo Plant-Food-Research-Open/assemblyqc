@@ -2,8 +2,9 @@ process LTRRETRIEVER {
     tag "$meta.id"
     label 'process_high'
 
-    conda "${moduleDir}/environment.yml"
-    container 'https://depot.galaxyproject.org/singularity/ltr_retriever:2.9.0--hdfd78af_2'
+    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+        'https://depot.galaxyproject.org/singularity/ltr_retriever:2.9.0--hdfd78af_2':
+        'quay.io/biocontainers/ltr_retriever:2.9.0--hdfd78af_2' }"
 
     input:
     tuple val(meta), path(genome)

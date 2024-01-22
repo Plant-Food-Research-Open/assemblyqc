@@ -2,8 +2,9 @@ process GT_LTRHARVEST {
     tag "$meta.id"
     label 'process_single'
 
-    conda "${moduleDir}/environment.yml"
-    container 'https://depot.galaxyproject.org/singularity/genometools-genometools:1.6.5--py310h3db02ab_0'
+    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+        'https://depot.galaxyproject.org/singularity/genometools-genometools:1.6.5--py310h3db02ab_0':
+        'quay.io/biocontainers/genometools-genometools:1.6.5--py310h3db02ab_0' }"
 
     input:
     tuple val(meta), path(index)

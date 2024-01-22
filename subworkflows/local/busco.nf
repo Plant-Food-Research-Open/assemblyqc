@@ -28,8 +28,10 @@ workflow BUSCO {
 process RUN_BUSCO {
     tag "${hap_name}:${lineage_dataset}"
     label "process_high"
-    
-    container "https://depot.galaxyproject.org/singularity/busco:5.2.2--pyhdfd78af_0"
+
+    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+        'https://depot.galaxyproject.org/singularity/busco:5.2.2--pyhdfd78af_0':
+        'quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0' }"
 
     publishDir "${params.outdir}/busco", mode: 'copy'
 
@@ -62,7 +64,10 @@ process CREATE_PLOT {
     tag "all summaries"
     label "process_single"
     
-    container "https://depot.galaxyproject.org/singularity/busco:5.2.2--pyhdfd78af_0"
+    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+        'https://depot.galaxyproject.org/singularity/busco:5.2.2--pyhdfd78af_0':
+        'quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0' }"
+    
     publishDir params.outdir, mode: 'copy'
 
     input: 

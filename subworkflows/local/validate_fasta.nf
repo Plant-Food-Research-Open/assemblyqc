@@ -31,7 +31,7 @@ process RUN_VALIDATOR {
     tag "${tag_label}"
     label "process_single"
 
-    container "docker://gallvp/fasta_validator:a6a2ec1_ps"
+    container "docker.io/gallvp/fasta_validator:a6a2ec1_ps"
 
     input:
         tuple val(tag_label), path(fasta_file)

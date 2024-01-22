@@ -222,7 +222,7 @@ process FCS_GX_KRONA_PLOT {
     tag "${tag_name}"
     label "process_single"
     
-    container "docker://nanozoo/krona:2.7.1--e7615f7"
+    container "docker.io/nanozoo/krona:2.7.1--e7615f7"
     publishDir "${params.outdir}/ncbi_fcs_gx", mode: 'copy'
 
     input:

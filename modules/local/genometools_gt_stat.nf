@@ -5,7 +5,10 @@ process GENOMETOOLS_GT_STAT {
     tag "${hap_name}"
     label "process_single"
     
-    container "https://depot.galaxyproject.org/singularity/genometools-genometools:1.6.2--py310he7ef181_3"
+    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+        'https://depot.galaxyproject.org/singularity/genometools-genometools:1.6.2--py310he7ef181_3':
+        'quay.io/biocontainers/genometools-genometools:1.6.2--py310he7ef181_3' }"
+
     publishDir "${params.outdir}/genometools_gt_stat", mode: 'copy'
 
     input:

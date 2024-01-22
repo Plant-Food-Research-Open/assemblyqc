@@ -2,8 +2,9 @@ process CAT_CAT {
     tag "$meta.id"
     label 'process_low'
 
-    conda "${moduleDir}/environment.yml"
-    container 'https://depot.galaxyproject.org/singularity/pigz:2.3.4'
+    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+        'https://depot.galaxyproject.org/singularity/pigz:2.3.4':
+        'quay.io/biocontainers/pigz:2.3.4' }"
 
     input:
     tuple val(meta), path(files_in)
