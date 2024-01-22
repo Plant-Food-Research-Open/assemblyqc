@@ -2,7 +2,8 @@
 
 ## Version 1.3 (23-Jan-2023)
 
-1. Minimal test config now supported by docker engine.
+1. Docker engine is now also supported
+2. Added Amazon Genomics CLI project file and a minimal test params file: [./docs/test_params/test_agc.json](./docs/test_params/test_agc.json)
 
 ## Version 1.2 (18-Dec-2023)
 

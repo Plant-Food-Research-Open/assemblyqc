@@ -1,0 +1,66 @@
+{
+    "target_assemblies": [
+        [
+            "FI1",
+            "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/814/445/GCA_003814445.1_ASM381444v1/GCA_003814445.1_ASM381444v1_genomic.fna.gz"
+        ]
+    ],
+    "assembly_gff3": [
+        [
+            "FI1",
+            "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/814/445/GCA_003814445.1_ASM381444v1/GCA_003814445.1_ASM381444v1_genomic.gff.gz"
+        ]
+    ],
+    "ncbi_fcs_adaptor": {
+        "skip": 1
+    },
+    "ncbi_fcs_gx": {
+        "skip": 1
+    },
+    "busco": {
+        "mode": "geno",
+        "lineage_datasets": [
+            "fungi_odb10",
+            "hypocreales_odb10"
+        ],
+        "download_path": null
+    },
+    "tidk": {
+        "repeat_seq": "TTAGGG"
+    },
+    "lai": {
+        "monoploid_seqs": [
+            [
+                "FI1",
+                "./docs/test_files/FI1.monoploid.seqs.txt"
+            ]
+        ]
+    },
+    "kraken2": {
+        "skip": 1
+    },
+    "hic": {
+        "skip": 1,
+        "paired_reads": "SRR8238190"
+    },
+    "synteny": {
+        "skip": 1,
+        "assembly_seq_list": [
+            [
+                "FI1",
+                "./docs/test_files/FI1.seq.list"
+            ]
+        ],
+        "xref_assemblies": [
+            [
+                "TT_2021a",
+                "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/021/950/295/GCA_021950295.1_ASM2195029v1/GCA_021950295.1_ASM2195029v1_genomic.fna.gz",
+                "./docs/test_files/TT_2021a.seq.list"
+            ]
+        ]
+    },
+    "outdir": "./results",
+    "max_cpus": 8,
+    "max_memory": 32,
+    "max_time": "1.hour"
+}

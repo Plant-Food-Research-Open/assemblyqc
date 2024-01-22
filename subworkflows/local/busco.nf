@@ -42,8 +42,9 @@ process RUN_BUSCO {
         path "${hap_name}/short_summary.specific.${lineage_dataset}.${hap_name}_${lineage_split}.txt"
 
     script:
-        lineage_to_split = "${lineage_dataset}";
-        parts = lineage_to_split.split("_");
+        def lineages_path = params.busco.download_path ? "--download_path ${params.busco.download_path}" : ''
+        def lineage_to_split = "${lineage_dataset}";
+        def parts = lineage_to_split.split("_");
         lineage_split = parts[0];
     
         """
@@ -53,7 +54,7 @@ process RUN_BUSCO {
         -i $fasta_file \
         -l ${lineage_dataset} \
         --update-data \
-        --download_path "${params.busco.download_path}" \
+        $lineages_path \
         -c ${task.cpus}
 
         mv "${hap_name}/short_summary.specific.${lineage_dataset}.${hap_name}.txt" "${hap_name}/short_summary.specific.${lineage_dataset}.${hap_name}_${lineage_split}.txt"

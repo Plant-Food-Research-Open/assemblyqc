@@ -1,0 +1,13 @@
+name: AssemblyQC
+schemaVersion: 1
+workflows:
+  PFR_ASSEMBLY_QC:
+    type:
+      language: nextflow
+      version: 1.0
+    sourceURL: ./
+contexts:
+  CtxAssemblyQC:
+    engines:
+      - type: nextflow
+        engine: nextflow
