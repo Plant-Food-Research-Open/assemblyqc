@@ -88,6 +88,10 @@ process SETUP_SCRIPTS {
     tag "setup"
     label "process_single"
 
+    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+        'https://depot.galaxyproject.org/singularityubuntu:20.04':
+        'quay.io/nf-core/ubuntu:20.04' }"
+
     output:
         stdout
     
@@ -123,6 +127,10 @@ process VERIFY_DB {
     tag "setup"
     label "process_single"
 
+    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+        'https://depot.galaxyproject.org/singularityubuntu:20.04':
+        'quay.io/nf-core/ubuntu:20.04' }"
+
     input:
         val setup_out
     
@@ -153,6 +161,10 @@ process SETUP_SAMPLE {
     tag "${hap_name}"
     label "process_single"
 
+    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+        'https://depot.galaxyproject.org/singularityubuntu:20.04':
+        'quay.io/nf-core/ubuntu:20.04' }"
+
     input:
         tuple val(hap_name), path(fasta_file)
 
@@ -171,6 +183,10 @@ process SCREEN_SAMPLES {
     label "process_high"
     label "process_long"
     label "process_very_high_memory"
+
+    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+        'https://depot.galaxyproject.org/singularityubuntu:20.04':
+        'quay.io/nf-core/ubuntu:20.04' }"
 
     publishDir "${params.outdir}/ncbi_fcs_gx", mode: 'copy'
 

@@ -4,6 +4,10 @@ process JUICER_SORT {
     tag "$sample_id_on_tag"
     label "process_high"
 
+    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+        'https://depot.galaxyproject.org/singularityubuntu:20.04':
+        'quay.io/nf-core/ubuntu:20.04' }"
+
     input:
         tuple val(sample_id_on_tag), path(out_links_txt)
 

@@ -26,6 +26,10 @@ process SETUP_KRAKEN2_DB {
     label "process_single"
     label "process_long"
 
+    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+        'https://depot.galaxyproject.org/singularityubuntu:20.04':
+        'quay.io/nf-core/ubuntu:20.04' }"
+
     output:
         stdout
     

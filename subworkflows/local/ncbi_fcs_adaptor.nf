@@ -63,6 +63,10 @@ process SETUP_SCRIPTS {
     tag "setup"
     label "process_single"
 
+    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+        'https://depot.galaxyproject.org/singularityubuntu:20.04':
+        'quay.io/nf-core/ubuntu:20.04' }"
+
     output:
         stdout
     
@@ -98,6 +102,10 @@ process SCREEN_SAMPLE {
     tag "${hap_name}"
     label "process_single"
 
+    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+        'https://depot.galaxyproject.org/singularityubuntu:20.04':
+        'quay.io/nf-core/ubuntu:20.04' }"
+
     publishDir "${params.outdir}/ncbi_fcs_adaptor", mode: 'copy'
 
     input:
@@ -131,6 +139,10 @@ process SCREEN_SAMPLE {
 process CHECK_CONTAMINATION {
     tag "${hap_name}"
     label "process_single"
+
+    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+        'https://depot.galaxyproject.org/singularityubuntu:20.04':
+        'quay.io/nf-core/ubuntu:20.04' }"
 
     input:
         tuple val(hap_name), path(report_tsv)

@@ -394,6 +394,10 @@ process SPLIT_BUNDLE_FILE_BY_TARGET_SEQS {
     tag "${target_on_ref}"
     label "process_single"
 
+    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+        'https://depot.galaxyproject.org/singularityubuntu:20.04':
+        'quay.io/nf-core/ubuntu:20.04' }"
+
     input:
         tuple val(target_on_ref), path(coloured_bundle_links)
     
@@ -419,6 +423,10 @@ process SPLIT_BUNDLE_FILE_BY_TARGET_SEQS {
 process GENERATE_KARYOTYPE {
     tag "${target_on_ref}.${seq_tag}"
     label "process_single"
+
+    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+        'https://depot.galaxyproject.org/singularityubuntu:20.04':
+        'quay.io/nf-core/ubuntu:20.04' }"
 
     input:
         tuple val(target_on_ref), val(seq_tag), path(split_bundle_file), path(target_seq_len), path(ref_seq_len)
