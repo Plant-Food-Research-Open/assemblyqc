@@ -18,6 +18,7 @@
         "skip": 1
     },
     "busco": {
+        "skip": 1,
         "mode": "geno",
         "lineage_datasets": [
             "fungi_odb10",
@@ -26,9 +27,11 @@
         "download_path": null
     },
     "tidk": {
+        "skip": 1,
         "repeat_seq": "TTAGGG"
     },
     "lai": {
+        "skip": 1,
         "monoploid_seqs": [
             [
                 "FI1",
