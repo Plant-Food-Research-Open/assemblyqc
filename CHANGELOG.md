@@ -7,6 +7,7 @@
 3. Downgraded to Nextflow 22.04.3
 4. Removed container setup process from NCBI_FCS_ADAPTOR workflow
 5. The pipeline does not download the kraken database anymore
+6. Fixed a bug in SYNTENY/DNADIFF module which caused failure on AWS Batch
 
 ## Version 1.2 (18-Dec-2023)
 

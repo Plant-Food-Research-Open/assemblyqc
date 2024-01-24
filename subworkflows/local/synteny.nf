@@ -51,15 +51,20 @@ workflow SYNTENY {
                 ["${it[0]}.on.${it[3]}", it[2], it[5]] // [target.on.reference, target_seq_list, ref_seq_list]    
             }
             .set { ch_seq_lists }
-            
+
             
             ch_full_tap_from_all_combinations
             | FILTER_SORT_FASTA_AND_VALIDATE_SEQ_LISTS
             | (MUMMER & GET_FASTA_LEN)
             
-            MUMMER
-            .out
-            .tag_delta_file
+            
+            FILTER_SORT_FASTA_AND_VALIDATE_SEQ_LISTS.out.tags_fasta_files
+            .map { target, reference, target_fasta, ref_fasta ->
+                [ "${target}.on.${reference}", target_fasta, ref_fasta ]
+            }
+            .join(
+                MUMMER.out.tag_delta_file
+            )
             | DNADIFF
             | CIRCOS_BUNDLE_LINKS
             | ADD_COLOUR_TO_BUNDLE_LINKS
@@ -244,22 +249,27 @@ process DNADIFF {
     container "docker.io/staphb/mummer:4.0.0"
 
     input:
-        tuple val(target_on_ref), path(dnadiff_file)
+        tuple val(target_on_ref), path(target_fasta), path(ref_fasta), path(dnadiff_file)
     
     output:
         tuple val(target_on_ref), path("*.xcoords"), path("*.report")
     
     script:
+        def inter_extension = params.synteny.many_to_many_align == 1 ? 'mcoords' : '1coords'
+        def out_extension = params.synteny.many_to_many_align == 1 ? 'm.xcoords' : '1.xcoords'
         """
-        dnadiff \
-        -p $target_on_ref \
-        -d $dnadiff_file
+        cat \\
+            $dnadiff_file \\
+            | sed '1s/.*/${ref_fasta} ${target_fasta}/' \\
+            > ${target_on_ref}.sed.delta
 
-        if [[ "${params.synteny.many_to_many_align}" = "1" ]];then
-            cat "${target_on_ref}.mcoords" > "${target_on_ref}.m.xcoords"
-        else
-            cat "${target_on_ref}.1coords" > "${target_on_ref}.1.xcoords"
-        fi
+        dnadiff \\
+            -p $target_on_ref \\
+            -d ${target_on_ref}.sed.delta
+        
+        cat \\
+            "${target_on_ref}.${inter_extension}" \\
+            > "${target_on_ref}.${out_extension}"
         """
 }
 
