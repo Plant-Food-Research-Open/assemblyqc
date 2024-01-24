@@ -6,5 +6,3 @@ work/
 results/
 *.stdout
 *.stderr
-
-docs/test_params/test_agc_outbucket.json

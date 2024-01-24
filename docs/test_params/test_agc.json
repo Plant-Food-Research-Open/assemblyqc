@@ -62,6 +62,7 @@
             ]
         ]
     },
+    "outdir": "s3://agc-246592587427-ap-southeast-2/results",
     "max_cpus": 8,
     "max_memory": "32.GB",
     "max_time": "1.hour"

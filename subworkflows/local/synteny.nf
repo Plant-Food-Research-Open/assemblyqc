@@ -395,7 +395,7 @@ process SPLIT_BUNDLE_FILE_BY_TARGET_SEQS {
     label "process_single"
 
     container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
-        'https://depot.galaxyproject.org/singularityubuntu:20.04':
+        'https://depot.galaxyproject.org/singularity/ubuntu:20.04':
         'quay.io/nf-core/ubuntu:20.04' }"
 
     input:
@@ -425,7 +425,7 @@ process GENERATE_KARYOTYPE {
     label "process_single"
 
     container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
-        'https://depot.galaxyproject.org/singularityubuntu:20.04':
+        'https://depot.galaxyproject.org/singularity/ubuntu:20.04':
         'quay.io/nf-core/ubuntu:20.04' }"
 
     input:

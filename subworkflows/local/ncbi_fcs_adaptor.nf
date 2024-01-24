@@ -64,7 +64,7 @@ process SETUP_SCRIPTS {
     label "process_single"
 
     container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
-        'https://depot.galaxyproject.org/singularityubuntu:20.04':
+        'https://depot.galaxyproject.org/singularity/ubuntu:20.04':
         'quay.io/nf-core/ubuntu:20.04' }"
 
     output:
@@ -103,7 +103,7 @@ process SCREEN_SAMPLE {
     label "process_single"
 
     container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
-        'https://depot.galaxyproject.org/singularityubuntu:20.04':
+        'https://depot.galaxyproject.org/singularity/ubuntu:20.04':
         'quay.io/nf-core/ubuntu:20.04' }"
 
     publishDir "${params.outdir}/ncbi_fcs_adaptor", mode: 'copy'
@@ -141,7 +141,7 @@ process CHECK_CONTAMINATION {
     label "process_single"
 
     container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
-        'https://depot.galaxyproject.org/singularityubuntu:20.04':
+        'https://depot.galaxyproject.org/singularity/ubuntu:20.04':
         'quay.io/nf-core/ubuntu:20.04' }"
 
     input:
