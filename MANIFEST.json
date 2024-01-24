@@ -1,7 +1,8 @@
 {
   "mainWorkflowURL": "main.nf",
   "inputFileURLs": [
-    "./docs/test_params/test_agc.json"
+    "./docs/test_params/test_agc.json",
+    "./docs/test_params/test_agc_outbucket.json"
   ],
   "engineOptions": "-resume"
 }
