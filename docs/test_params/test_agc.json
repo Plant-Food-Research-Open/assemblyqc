@@ -15,7 +15,9 @@
         "skip": 0
     },
     "ncbi_fcs_gx": {
-        "skip": 1
+        "skip": 1,
+        "db_manifest_url": "https://ftp.ncbi.nlm.nih.gov/genomes/TOOLS/FCS/database/test-only/test-only.manifest",
+        "db_path": "/Users/hrauxr/dbs/gxdb/test"
     },
     "busco": {
         "skip": 0,
@@ -40,10 +42,11 @@
         ]
     },
     "kraken2": {
-        "skip": 1
+        "skip": 1,
+        "db_path": "/Users/hrauxr/dbs/kraken2db/k2_minusb"
     },
     "hic": {
-        "skip": 1,
+        "skip": 0,
         "paired_reads": "SRR8238190"
     },
     "synteny": {

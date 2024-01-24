@@ -3,13 +3,12 @@ nextflow.enable.dsl=2
 workflow KRAKEN2 {
     take:
         tuple_of_hap_file
+        db_path             // val
     
     main:
         if (!params.kraken2.skip) {
-            
-            ch_setup_output = SETUP_KRAKEN2_DB()
 
-            RUN_KRAKEN2(ch_setup_output, tuple_of_hap_file)
+            RUN_KRAKEN2(tuple_of_hap_file, file(db_path, checkIfExists: true))
             | KRONA_PLOT
             | collect
             | set { ch_list_of_kraken2_outputs }
@@ -19,42 +18,6 @@ workflow KRAKEN2 {
     
     emit:
         list_of_outputs = ch_list_of_kraken2_outputs
-}
-
-process SETUP_KRAKEN2_DB {
-    tag "setup"
-    label "process_single"
-    label "process_long"
-
-    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
-        'https://depot.galaxyproject.org/singularity/ubuntu:20.04':
-        'quay.io/nf-core/ubuntu:20.04' }"
-
-    output:
-        stdout
-    
-    script:
-        """
-            kraken_db_tar_name=\$(basename ${params.kraken2.db_url})
-
-            mkdir -p "${params.kraken2.download_path}"
-            cd "${params.kraken2.download_path}"
-            
-            if [[ -e hash.k2d && -e taxo.k2d && -e seqid2taxid.map && -e opts.k2d ]]
-            then
-                echo -n "SETUP_KRAKEN2_DB:PASS:kraken2db already available"
-            else
-                ls | xargs rm -f
-
-                wget ${params.kraken2.db_url}
-                tar -xf "\$kraken_db_tar_name"
-                rm "\$kraken_db_tar_name"
-
-                echo -n "SETUP_KRAKEN2_DB:PASS:Downloaded and extracted kraken2db"
-            fi
-
-            cd -
-        """
 }
 
 process RUN_KRAKEN2 {
@@ -69,8 +32,8 @@ process RUN_KRAKEN2 {
     publishDir "${params.outdir}/kraken2", mode: 'copy'
 
     input:
-        val setup_output
         tuple val(hap_name), path(fasta_file)
+        path db_path
     
     output:
         tuple val(hap_name), path("*.kraken2.cut"), path("*.kraken2.report")
@@ -81,7 +44,7 @@ process RUN_KRAKEN2 {
         --output "${hap_name}.kraken2.cut" \
         --report "${hap_name}.kraken2.report" \
         --use-names \
-        --db ${params.kraken2.download_path} \
+        --db $db_path \
         --threads ${task.cpus} \
         $fasta_file > kraken2.log
         """

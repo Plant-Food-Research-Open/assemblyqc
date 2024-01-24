@@ -60,7 +60,12 @@ workflow ASSEMBLY_QC {
 
     // NCBI-FCS-ADAPTOR & NCBI-FCS-GX
     ch_tag_valid_fasta
-    | (NCBI_FCS_ADAPTOR & NCBI_FCS_GX)
+    | NCBI_FCS_ADAPTOR
+    
+    NCBI_FCS_GX(
+        ch_tag_valid_fasta,
+        params.ncbi_fcs_gx.db_path
+    )
 
     NCBI_FCS_ADAPTOR
     .out
@@ -123,7 +128,10 @@ workflow ASSEMBLY_QC {
                     | collect
 
     // KRAKEN2
-    KRAKEN2(ch_clean_target_assemblies)
+    KRAKEN2(
+        ch_clean_target_assemblies,
+        params.kraken2.db_path
+    )
 
     // HIC_CONTACT_MAP
     if(!params.hic.skip) {
