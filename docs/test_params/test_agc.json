@@ -12,13 +12,13 @@
         ]
     ],
     "ncbi_fcs_adaptor": {
-        "skip": 1
+        "skip": 0
     },
     "ncbi_fcs_gx": {
         "skip": 1
     },
     "busco": {
-        "skip": 1,
+        "skip": 0,
         "mode": "geno",
         "lineage_datasets": [
             "fungi_odb10",
@@ -27,11 +27,11 @@
         "download_path": null
     },
     "tidk": {
-        "skip": 1,
+        "skip": 0,
         "repeat_seq": "TTAGGG"
     },
     "lai": {
-        "skip": 1,
+        "skip": 0,
         "monoploid_seqs": [
             [
                 "FI1",
@@ -47,7 +47,7 @@
         "paired_reads": "SRR8238190"
     },
     "synteny": {
-        "skip": 1,
+        "skip": 0,
         "assembly_seq_list": [
             [
                 "FI1",

@@ -5,6 +5,7 @@
 1. Docker engine is now also supported
 2. Added Amazon Genomics CLI project file and a minimal test params file: [./docs/test_params/test_agc.json](./docs/test_params/test_agc.json)
 3. Downgraded to Nextflow 22.04.3
+4. Removed container setup process from NCBI_FCS_ADAPTOR workflow
 
 ## Version 1.2 (18-Dec-2023)
 
