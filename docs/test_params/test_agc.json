@@ -61,7 +61,7 @@
             ]
         ]
     },
-    "outdir": "s3://agc-246592587427-ap-southeast-2/results",
+    "outdir": "s3://agc-246592587427-ap-southeast-2/output/assembly_qc/tests/test-full-results",
     "max_cpus": 96,
     "max_memory": "512.GB",
     "max_time": "6.hours"
