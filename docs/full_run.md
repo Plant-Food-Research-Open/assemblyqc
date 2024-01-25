@@ -76,7 +76,7 @@ Following parameters must be configured:
 
 - `mode`: geno or genome, for genome assemblies (DNA), tran or transcriptome, for transcriptome assemblies (DNA); and prot or proteins, for annotated gene sets (protein).
 - `lineage_datasets`: A list of BUSCO lineages. Any number of lineages can be specified. Each target assembly is assessed against each of the listed lineage. To select a lineage, refer to <https://busco.ezlab.org/list_of_lineages.html>
-- `download_path`: A directory where the BUSCO can download and cache its databases. BUSCO manages download and validation of the databases itself, therefore, the user does not have to manually setup these databases.
+- `download_path`: A directory where the BUSCO can download and cache its databases. BUSCO manages download and validation of the databases itself, therefore, the user does not have to manually setup these databases. If this is set to `null`, NextFLow will download the database in the process work directory.
 
 > ⚙️ From conf/test_full.config
 
@@ -139,15 +139,13 @@ lai {
 
 Following parameters must be configured:
 
-- `db_url`: The URL for the KRAKEN2 database. To select a DB, see <https://benlangmead.github.io/aws-indexes/k2>. By default, the pipeline uses PlusPFP database.
-- `download_path`: The directory where the pipeline can download and cache the data. The pipeline can download the database itself. However, care must be taken when switching databases. If the `db_url` is changed, a new `download_path` should be provided, otherwise, the pipeline will fail with error saying that the downloaded database is corrupted.
+- `db_path`: Path to a directory or a `*.tar.gz` file containing the Kraken2 database. 
 
 > ⚙️ From conf/test_full.config
 
 ```groovy
 kraken2 {
-    db_url        = "https://genome-idx.s3.amazonaws.com/kraken/k2_pluspfp_20230314.tar.gz"
-    download_path = "/workspace/ComparativeDataSources/kraken2db/k2_pluspfp_20230314"
+    db_path = "/workspace/ComparativeDataSources/kraken2db/k2_pluspfp_20230314"
 }
 ```
 

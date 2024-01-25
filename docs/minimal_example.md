@@ -7,7 +7,8 @@
     - [Gene Annotations (Optional)](#gene-annotations-optional)
   - [Step 2: Skipping Optional Modules](#step-2-skipping-optional-modules)
   - [Step 3: Setting Max. Resources](#step-3-setting-max-resources)
-  - [Step 4: Setting the Apptainer Cache Directory](#step-4-setting-the-apptainer-cache-directory)
+  - [Step 4a: Setting the Apptainer Cache Directory](#step-4a-setting-the-apptainer-cache-directory)
+  - [Step 4b: Setting up Docker](#step-4b-setting-up-docker)
   - [Example Minimal Config File](#example-minimal-config-file)
   - [Step 5: Running the Pipeline](#step-5-running-the-pipeline)
     - [Running on Plant\&Food Research Slurm](#running-on-plantfood-research-slurm)
@@ -18,9 +19,8 @@
 ## Step 0: System Prerequisites
 
 1. A single computer with linux or a linux-based compute cluster.
-2. NextFlow >= 23.04.4
-3. Apptainer >= 1.1
-4. Python >= 3.7
+2. NextFlow >= 22.04.3
+3. Apptainer or Docker
 
 ## Step 1: Setting up the Data
 
@@ -38,7 +38,7 @@ target_assemblies = [
 ]
 ```
 
-Notice that `target_assemblies` is a list of lists. Each sublist represents an assembly. Each sublist must have two members. First, a unique tag that represents the assembly. This tag is used by the pipeline to identify this assembly across QC modules. This tag should only consist of alphanumeric characters (A-Za-z0-9_). Second, the path to the fasta file (fasta, fasta.gz). This path can be a relative, absolute storage path or a valid publicly accessible URL.
+Notice that `target_assemblies` is a list of lists. Each sub-list represents an assembly. Each sub-list must have two members. First, a unique tag that represents the assembly. This tag is used by the pipeline to identify this assembly across QC modules. This tag should only consist of alphanumeric characters (A-Za-z0-9_). Second, the path to the fasta file (fasta, fasta.gz). This path can be a relative, absolute storage path or a valid publicly accessible URL.
 
 ### Gene Annotations (Optional)
 
@@ -72,11 +72,17 @@ max_time = 1.hour
 
 > 💡 **Note**: Maximum values defined by `max_cpus`, `max_memory` and `max_time` apply to each process in the pipeline. The pipeline executes multiple processes in parallel. Therefore, the total execution time is not equal to the sum of time taken by each process. Rather, the total time is determined by adding up the time taken by processes which run one after the other. An estimate of the total time maybe needed if the pipeline is submitted to an executor such as Slurm. This topic is covered later in this document.
 
-## Step 4: Setting the Apptainer Cache Directory
+## Step 4a: Setting the Apptainer Cache Directory
+
+> See [Step 4b](#step-4b-setting-up-docker) if you are using docker.
 
 The pipeline uses version controlled apptainer containers so that its results are reproducible across systems. These apptainer containers are automatically downloaded by the pipeline when it runs for the first time. The containers are then stored for later runs in the folder specified by the `cacheDir` parameter under the `apptainer` scope inside the 'nextflow.config' file.
 
 When downloading these containers, the pipeline can fail due to connection issues. In such a case, the pipeline should be resumed with the `-resume` flag. For more on the resume capability, see the NextFlow [documentation](https://www.nextflow.io/docs/latest/getstarted.html?highlight=resume#modify-and-resume). It may be a good idea to test run the pipeline with a small dataset so that it can download the necessary containers. Moreover, the `cacheDir` should not be changed afterwards. Otherwise, the pipeline will have to download the required containers again.
+
+## Step 4b: Setting up Docker
+
+If you are using docker, the docker daemon should be up and running. That's all. NextFlow will automatically handle container download and setup.
 
 ## Example Minimal Config File
 
@@ -126,7 +132,7 @@ The next sections explain how to run the pipeline on Plant&Food Research Slurm c
 To submit the pipeline to Slurm for execution, first create a submission script with the following bash commands:
 
 ```bash
-cat << EOF > assembly_qc_pfr.sh
+cat << EOF > pfr_assemblyqc
 #!/bin/bash -e
 
 #SBATCH --job-name ASM_QC
@@ -134,12 +140,11 @@ cat << EOF > assembly_qc_pfr.sh
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
-#SBATCH --output assembly_qc_pfr.stdout
-#SBATCH --error assembly_qc_pfr.stderr
+#SBATCH --output pfr_assemblyqc.stdout
+#SBATCH --error pfr_assemblyqc.stderr
 #SBATCH --mem=4G
 
 ml unload perl
-ml Python/3.10.4-GCCcore-11.2.0-bare
 ml apptainer/1.1
 ml nextflow/23.04.4
 
@@ -152,7 +157,7 @@ EOF
 
 The overall time is specified as 1 hour. This is the time for which the NextFlow process is allowed to run by Slurm. This is an estimate of the total execution time and is based on the assumption that the parallel execution of all the processes in this minimal example can be completed within 1 hour.
 
-Similarly, the script specifies the number of CPUs and memory required for running NextFLow. These resources are only for running NextFlow and not the individual modules. Therefore, 2 CPUs with 4 GBs of memory is adequate.
+Similarly, the script specifies the number of CPUs and memory required for running NextFLow. These resources are only for running NextFlow and not the individual modules. Therefore, 1 CPU with 4 GBs of memory is adequate.
 
 The next 4 lines starting with ml specify the environment modules used by the pipeline. These names of these modules are system dependent. Refer to your system manuals to find out the modules which satisfy the requirements listed in [Step 0: System Prerequisites](#step-0-system-prerequisites).
 
@@ -163,7 +168,7 @@ The last line executes the pipeline implemented in the `main.nf` file with profi
 After creating the slurm submission script, submit to slurm as follows:
 
 ```bash
-sbatch .assembly_qc_pfr.sh
+sbatch ./pfr_assemblyqc
 ```
 
 ### Running on a Single Machine
@@ -171,10 +176,10 @@ sbatch .assembly_qc_pfr.sh
 To run the pipeline on a single machine, make sure that the maximum resources specified by `max_cpus` and `max_memory` variables in the 'nextflow.config' file are suitable for your machine. Moreover, the minimum software required [Step 0: System Prerequisites](#step-0-system-prerequisites) should be available on the machine. Finally, the pipeline can be executed with the following command.
 
 ```bash
-nextflow main.nf -profile local -resume -c ./conf/test_minimal.config
+nextflow main.nf -profile local,docker -resume -c ./conf/test_minimal.config
 ```
 
-Notice that the `-profile` parameter is now set to `local` in the NextFlow execution command.
+Notice that the `-profile` parameter is now set to `local,docker` in the NextFlow execution command.
 
 ### Running on Executors other than Slurm
 

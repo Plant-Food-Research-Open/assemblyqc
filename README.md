@@ -91,7 +91,7 @@ To run the pipeline, first edit the nextflow.config. The following parameters mu
 Then, the pipeline should be posted to Slurm for execution with the following command:
 
 ```bash
-sbatch ./assembly_qc_pfr.sh
+sbatch ./pfr_assemblyqc
 ```
 
 ### Post-run clean-up
