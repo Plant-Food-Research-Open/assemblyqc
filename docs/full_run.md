@@ -47,8 +47,7 @@ ncbi_fcs_adaptor {
 Following parameters must be configured:
 
 - `tax_id`: The taxonomy ID for all the target assemblies listed in the `target_assemblies` parameter. A taxonomy ID can be obtained by searching a *Genus species* at <https://www.ncbi.nlm.nih.gov/taxonomy>. A single ID for all assemblies implies that the pipeline is designed to be used for checking one or more assemblies of the same *species* in one run.
-- `db_manifest_url`: This URL specifies the database version used by the pipeline.
-- `db_path`: This is the path to the database files stored on a directory accessible to the pipeline. The data placed inside this directory should match with the `db_manifest_url`. Otherwise, the pipeline fails with an error. Before running the pipeline, the user must ensure that the database is correctly downloaded and placed in a directory accessible to the pipeline. Setup instructions are available at <https://github.com/ncbi/fcs/wiki/FCS-GX>. The database directory should contain following files:
+- `db_path`: This is the path to the database files stored on a directory accessible to the pipeline. Before running the pipeline, the user must ensure that the database is correctly downloaded and placed in a directory accessible to the pipeline. Setup instructions are available at <https://github.com/ncbi/fcs/wiki/FCS-GX>. The database directory should contain following files:
 
 ```bash
 all.assemblies.tsv
@@ -67,7 +66,6 @@ all.taxa.tsv
 ```groovy
 ncbi_fcs_gx {
     tax_id          = "35717"
-    db_manifest_url = "https://ftp.ncbi.nlm.nih.gov/genomes/TOOLS/FCS/database/r2023-01-24/all.manifest"
     db_path         = "/workspace/ComparativeDataSources/NCBI/FCS/GX/r2023-01-24"
 }
 ```

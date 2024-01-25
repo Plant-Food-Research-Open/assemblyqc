@@ -11,16 +11,17 @@
             "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/814/445/GCA_003814445.1_ASM381444v1/GCA_003814445.1_ASM381444v1_genomic.gff.gz"
         ]
     ],
+    "assemblathon_stats": {
+        "n_limit": 100
+    },
     "ncbi_fcs_adaptor": {
-        "skip": 0
+        "empire": "euk"
     },
     "ncbi_fcs_gx": {
-        "skip": 1,
-        "db_manifest_url": "https://ftp.ncbi.nlm.nih.gov/genomes/TOOLS/FCS/database/test-only/test-only.manifest",
-        "db_path": "/Users/hrauxr/dbs/gxdb/test"
+        "tax_id": "35717",
+        "db_path": "s3://agc-246592587427-ap-southeast-2/ComparativeDataSources/ncbi/fcs/gxdb/r2023-01-24"
     },
     "busco": {
-        "skip": 0,
         "mode": "geno",
         "lineage_datasets": [
             "fungi_odb10",
@@ -29,11 +30,9 @@
         "download_path": null
     },
     "tidk": {
-        "skip": 0,
         "repeat_seq": "TTAGGG"
     },
     "lai": {
-        "skip": 0,
         "monoploid_seqs": [
             [
                 "FI1",
@@ -42,15 +41,12 @@
         ]
     },
     "kraken2": {
-        "skip": 1,
-        "db_path": "/Users/hrauxr/dbs/kraken2db/k2_minusb"
+        "db_path": "s3://agc-246592587427-ap-southeast-2/ComparativeDataSources/kraken2db/k2_pluspfp_20231009.tar.gz"
     },
     "hic": {
-        "skip": 0,
         "paired_reads": "SRR8238190"
     },
     "synteny": {
-        "skip": 0,
         "assembly_seq_list": [
             [
                 "FI1",
@@ -66,7 +62,7 @@
         ]
     },
     "outdir": "s3://agc-246592587427-ap-southeast-2/results",
-    "max_cpus": 8,
-    "max_memory": "32.GB",
-    "max_time": "1.hour"
+    "max_cpus": 96,
+    "max_memory": "512.GB",
+    "max_time": "7.days"
 }

@@ -56,6 +56,17 @@
           }
         }
       }
+    },
+    "https://github.com/nf-core/modules.git": {
+      "modules": {
+        "nf-core": {
+          "untar": {
+            "branch": "master",
+            "git_sha": "e719354ba77df0a1bd310836aa2039b45c29d620",
+            "installed_by": ["modules"]
+          }
+        }
+      }
     }
   }
 }

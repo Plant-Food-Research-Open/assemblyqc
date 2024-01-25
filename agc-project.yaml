@@ -8,6 +8,13 @@ workflows:
     sourceURL: ./
 contexts:
   CtxAssemblyQC:
+    instanceTypes:
+      - "m5.large"      # process_single  { 1,  6  }        ->  { 2,  8   }
+      - "r5.large"      # process_low     { 2,  12 }        ->  { 2,  16  }
+      - "r5.2xlarge"    # process_medium  { 6,  36 }        ->  { 8,  64  }
+      - "r5.4xlarge"    # process_high    { 12, 72 }        ->  { 16, 128 }
+      - "r5.8xlarge"    # process_high_memory (200.GB)      ->  { 32, 256 }
+      - "r6i.24xlarge"  # process_very_high_memory (512.GB) ->  { 96, 768 }
     engines:
       - type: nextflow
         engine: nextflow

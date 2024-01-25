@@ -1,5 +1,7 @@
 nextflow.enable.dsl=2
 
+include { UNTAR } from '../../modules/nf-core/untar/main.nf'
+
 workflow KRAKEN2 {
     take:
         tuple_of_hap_file
@@ -8,7 +10,30 @@ workflow KRAKEN2 {
     main:
         if (!params.kraken2.skip) {
 
-            RUN_KRAKEN2(tuple_of_hap_file, file(db_path, checkIfExists: true))
+            ch_tar_db   = "$db_path".endsWith('.tar.gz')
+                        ? Channel.of(file(db_path, checkIfExists:true))
+                        : Channel.empty()
+            
+            ch_untar_db = "$db_path".endsWith('.tar.gz')
+                        ? Channel.empty()
+                        : Channel.of(file(db_path, checkIfExists:true))
+            
+            ch_tar_db
+            | map { tar -> [ [ id: "kraken2_db" ], tar ] }
+            | UNTAR
+
+            UNTAR.out.untar
+            | map { meta, untar -> untar }
+            | mix(
+                ch_untar_db
+            )
+            | combine(tuple_of_hap_file)
+            | set { ch_kraken2_inputs }
+
+            RUN_KRAKEN2(
+                ch_kraken2_inputs.map { db, tag, fasta -> [ tag, fasta ] },
+                ch_kraken2_inputs.map { db, tag, fasta -> db }
+            )
             | KRONA_PLOT
             | collect
             | set { ch_list_of_kraken2_outputs }

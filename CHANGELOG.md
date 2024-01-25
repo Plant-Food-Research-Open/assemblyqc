@@ -8,6 +8,8 @@
 4. Removed container setup process from NCBI_FCS_ADAPTOR workflow
 5. The pipeline does not download the kraken database anymore
 6. Fixed a bug in SYNTENY/DNADIFF module which caused failure on AWS Batch
+7. Now tar zipped database can be directly used with Kraken2
+8. Removed `db_manifest_url` parameter for the  NCBI_FCS_GX workflow
 
 ## Version 1.2 (18-Dec-2023)
 
