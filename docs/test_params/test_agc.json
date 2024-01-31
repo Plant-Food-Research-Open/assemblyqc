@@ -41,7 +41,7 @@
         ]
     },
     "kraken2": {
-        "db_path": "s3://agc-246592587427-ap-southeast-2/ComparativeDataSources/kraken2db/k2_pluspfp_20231009.tar.gz"
+        "db_path": "s3://agc-246592587427-ap-southeast-2/ComparativeDataSources/kraken2db/k2_pluspfp_20231009"
     },
     "hic": {
         "paired_reads": "SRR8238190"
