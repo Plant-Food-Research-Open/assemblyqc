@@ -4,6 +4,7 @@
   - [Introduction](#introduction)
   - [Pipeline Flowchart](#pipeline-flowchart)
   - [Running the Pipeline](#running-the-pipeline)
+    - [Minimal Test Run](#minimal-test-run)
     - [Quick Start for Plant \& Food Research Users](#quick-start-for-plant--food-research-users)
     - [Post-run clean-up](#post-run-clean-up)
   - [AssemblyQC Report](#assemblyqc-report)
@@ -71,6 +72,14 @@ flowchart LR
 ## Running the Pipeline
 
 See the [tutorials](./docs/README.md) for detailed instructions on how to use the pipeline. The pipeline can be executed on a range of executors including AWS, LSF, Slurm, and others supported by [NextFlow](https://www.nextflow.io/docs/latest/executor.html#executors).
+
+### Minimal Test Run
+
+```bash
+nextflow main.nf \
+  -profile local,docker \
+  -c conf/test_minimal.config
+```
 
 ### Quick Start for Plant & Food Research Users
 
