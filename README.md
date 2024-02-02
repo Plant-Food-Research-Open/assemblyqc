@@ -169,7 +169,7 @@ Once the pipeline has finished execution, the results folder specified in the co
   LAI workflow also employs:
   - LTR_FINDER_parallel (1.2, [MIT](https://github.com/oushujun/LTR_FINDER_parallel/blob/master/LICENSE))
     > Ou S, Jiang N 2019. LTR_FINDER_parallel: parallelization of LTR_FINDER enabling rapid identification of long terminal repeat retrotransposons. Mobile DNA 10, 48 (2019). <https://doi.org/10.1186/s13100-019-0193-0>
-  - GT_LTRHARVEST (1.6.5, [ISC](http://genometools.org/license.html))
+  - GT_LTRHARVEST (1.6.2, [ISC](http://genometools.org/license.html))
     > Gremme G, Steinbiss S, Kurtz S. 2013. "GenomeTools: A Comprehensive Software Library for Efficient Processing of Structured Genome Annotations," in IEEE/ACM Transactions on Computational Biology and Bioinformatics, vol. 10, no. 3, pp. 645-656, May 2013, doi: <https://doi.org/10.1109/TCBB.2013.68>.
     
     > Ellinghaus, D, Kurtz, S & Willhoeft, U 2008. LTRharvest, an efficient and flexible software for de novo detection of LTR retrotransposons. BMC Bioinformatics 9, 18 (2008). <https://doi.org/10.1186/1471-2105-9-18>

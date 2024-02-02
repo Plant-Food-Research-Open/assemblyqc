@@ -8,19 +8,33 @@ nextflow_process {
     tag "modules"
     tag "modules_nfcore"
     tag "lai"
+    tag "gt/suffixerator"
+    tag "nf-core/gunzip"
+    tag "gt/ltrharvest"
+    tag "ltrretriever"
 
     test("homo_sapiens-genome_21_fasta-success") {
 
         setup {
-            run("GT_SUFFIXERATOR") {
-                script "../../../pfr/gt/suffixerator"
+            run("GUNZIP") {
+                script "../../../nf-core/gunzip"
 
                 process {
                     """
                     input[0] = [
                         [ id:'test' ],
-                        file(params.test_data['homo_sapiens']['genome']['genome_21_fasta'], checkIfExists: true)
+                        file('/Users/hrauxr/Projects/nxf-modules/tests/data/chr1.fa.gz', checkIfExists: true)
                     ]
+                    """
+                }
+            }
+
+            run("GT_SUFFIXERATOR") {
+                script "../../../pfr/gt/suffixerator"
+
+                process {
+                    """
+                    input[0] = GUNZIP.out.gunzip
                     """
                 }
             }
@@ -40,10 +54,7 @@ nextflow_process {
 
                 process {
                     """
-                    input[0] = [
-                        [ id:'test' ],
-                        file(params.test_data['homo_sapiens']['genome']['genome_21_fasta'], checkIfExists: true)
-                    ]
+                    input[0] = GUNZIP.out.gunzip
                     input[1] = GT_LTRHARVEST.out.tabout.map { meta, tabout -> tabout }
                     input[2] = []
                     input[3] = []
@@ -56,10 +67,7 @@ nextflow_process {
         when {
             process {
                 """
-                input[0] = [
-                    [ id:'test' ],
-                    file(params.test_data['homo_sapiens']['genome']['genome_21_fasta'], checkIfExists: true)
-                ]
+                input[0] = GUNZIP.out.gunzip
                 input[1] = LTRRETRIEVER.out.pass_list.map { meta, pass_list -> pass_list }
                 input[2] = LTRRETRIEVER.out.annotation_out.map { meta, annotation_out -> annotation_out }
                 input[3] = []
@@ -102,8 +110,7 @@ nextflow_process {
         then {
             assertAll(
                 { assert process.success },
-                { assert process.out.log != null },
-                { assert process.out.lai_out == [] },
+                { assert snapshot(process.out).match() },
                 { assert snapshot(process.out.versions).match("versions") }
             )
         }

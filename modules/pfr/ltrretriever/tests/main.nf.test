@@ -8,6 +8,8 @@ nextflow_process {
     tag "modules"
     tag "modules_nfcore"
     tag "ltrretriever"
+    tag "gt/ltrharvest"
+    tag "gt/suffixerator"
 
     test("homo_sapiens-genome_21_fasta-success") {
 

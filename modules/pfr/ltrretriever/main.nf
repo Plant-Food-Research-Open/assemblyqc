@@ -41,7 +41,7 @@ process LTRRETRIEVER {
         $non_tgca_file \\
         -threads $task.cpus \\
         $args \\
-        &> "${prefix}.log"
+        &> >(tee "${prefix}.log" 2>&1)
 
     mv "${genome}.pass.list"        "${prefix}.pass.list"
     mv "${genome}.pass.list.gff3"   "${prefix}.pass.list.gff3"

@@ -1,6 +1,6 @@
 # Change Log
 
-## Version 1.3 (23-Jan-2023)
+## Version 1.3 (02-Feb-2023)
 
 1. Docker engine is now also supported
 2. Added Amazon Genomics CLI project file and a minimal test params file: [./docs/test_params/test_agc.json](./docs/test_params/test_agc.json)
@@ -10,6 +10,7 @@
 6. Fixed a bug in SYNTENY/DNADIFF module which caused failure on AWS Batch
 7. Now tar zipped database can be directly used with Kraken2
 8. Removed `db_manifest_url` parameter for the  NCBI_FCS_GX workflow
+9. Now using parallel version of LTRHARVEST from the EDTA package
 
 ## Version 1.2 (18-Dec-2023)
 

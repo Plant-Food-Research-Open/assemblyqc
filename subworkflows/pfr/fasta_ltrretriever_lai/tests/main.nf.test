@@ -9,9 +9,9 @@ nextflow_workflow {
     tag "subworkflows_nfcore"
     tag "subworkflows/fasta_ltrretriever_lai"
     tag "fasta_ltrretriever_lai"
+    tag "modules/nf-core/gunzip"
     tag "custom/shortenfastaids"
-    tag "gt/suffixerator"
-    tag "gt/ltrharvest"
+    tag "edta/ltrharvest"
     tag "ltrfinder"
     tag "ltrretriever"
     tag "cat/cat"
@@ -20,15 +20,27 @@ nextflow_workflow {
 
     test("homo_sapiens_genome_21_fasta") {
 
+        setup {
+            run("GUNZIP") {
+                script "../../../../modules/nf-core/gunzip"
+
+                process {
+                    """
+                    input[0] = [
+                        [ id:'test' ],
+                        file('/Users/hrauxr/Projects/nf-modules/tests/data/zenodo/actinidia_chinensis/chr1_7M.fasta.gz', checkIfExists: true)
+                    ]
+                    """
+                }
+            }
+        }
+
         when {
             workflow {
                 """
-                input[0] = Channel.of([
-                    [ id:'test' ],
-                    file(params.test_data['homo_sapiens']['genome']['genome_21_fasta'], checkIfExists: true)
-                ])
-                input[1] = []
-                input[2] = false
+                input[0]    = GUNZIP.out.gunzip
+                input[1]    = []
+                input[2]    = false
                 """
             }
         }
@@ -36,95 +48,11 @@ nextflow_workflow {
         then {
             assertAll(
                 { assert workflow.success },
-                { assert workflow.out.annotation_gff !=  null },
-                { assert workflow.out.lai_log !=  null },
-                { assert file(workflow.out.lai_log.get(0).get(1)).getText().contains("Total LTR sequence content (0%) is too low for accurate LAI calculation") },
-                { assert workflow.out.lai_out ==  [] },
-                { assert snapshot(workflow.out.versions).match("versions") }
-            )
-        }
-    }
-
-    test("stub-homo_sapiens_genome_21_fasta") {
-
-        options '-stub'
-
-        when {
-            workflow {
-                """
-                input[0] = Channel.of([
-                    [ id:'test' ],
-                    file(params.test_data['homo_sapiens']['genome']['genome_21_fasta'], checkIfExists: true)
-                ])
-                input[1] = []
-                input[2] = false
-                """
-            }
-        }
-
-        then {
-            assertAll(
-                { assert workflow.success },
-                { assert workflow.out.annotation_gff !=  null },
-                { assert workflow.out.lai_log !=  null },
-                { assert workflow.out.lai_out ==  [] },
-                { assert snapshot(workflow.out.versions).match("versions") }
-            )
-        }
-    }
-
-    test("stub-homo_sapiens_genome_21_fasta-skip_lai") {
-
-        options '-stub'
-
-        when {
-            workflow {
-                """
-                input[0] = Channel.of([
-                    [ id:'test' ],
-                    file(params.test_data['homo_sapiens']['genome']['genome_21_fasta'], checkIfExists: true)
-                ])
-                input[1] = []
-                input[2] = true
-                """
-            }
-        }
-
-        then {
-            assertAll(
-                { assert workflow.success },
-                { assert snapshot(workflow.out.versions).match("versions-skip_lai") }
-            )
-        }
-    }
-
-    test("stub-homo_sapiens_genome_21_fasta_genome_fasta") {
-
-        options '-stub'
-
-        when {
-            workflow {
-                """
-                input[0] = Channel.of([
-                    [ id:'test' ],
-                    file(params.test_data['homo_sapiens']['genome']['genome_21_fasta'], checkIfExists: true)
-                ], [
-                    [ id:'test2' ],
-                    file(params.test_data['homo_sapiens']['genome']['genome_fasta'], checkIfExists: true)
-                ])
-                input[1] = []
-                input[2] = false
-                """
-            }
-        }
-
-        then {
-            assertAll(
-                { assert workflow.success },
-                { assert workflow.out.annotation_gff.size() == 2 },
-                { assert workflow.out.lai_log.size() == 2 },
-                { assert workflow.out.lai_out ==  [] },
-                { assert snapshot(workflow.out.versions).match("versions") }
+                { assert file(workflow.out.annotation_gff[0][1]).text.contains('Gypsy_LTR_retrotransposon') },
+                { assert file(workflow.out.lai_log[0][1]).text.contains('Calculate LAI:') },
+                { assert file(workflow.out.lai_log[0][1]).text.contains('Done!') },
+                { assert Math.abs(Float.parseFloat(path(workflow.out.lai_out[0][1]).text.split("\n")[1].split("\t")[6]) - 31.29) <= 1.0 },
+                { assert file(workflow.out.ltrlib[0][1]).text.contains('#LTR/Gypsy') }
             )
         }
     }

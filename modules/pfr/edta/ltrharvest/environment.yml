@@ -1,9 +1,9 @@
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/environment-schema.json
-name: "gt_suffixerator"
+name: "edta_ltrharvest"
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - "bioconda::genometools-genometools=1.6.5"
+  - "bioconda::edta=2.1.0"

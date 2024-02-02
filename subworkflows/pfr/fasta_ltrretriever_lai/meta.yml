@@ -14,8 +14,7 @@ keywords:
   - qc
 components:
   - custom/shortenfastaids
-  - gt/suffixerator
-  - gt/ltrharvest
+  - edta/ltrharvest
   - ltrfinder
   - ltrretriever
   - cat/cat

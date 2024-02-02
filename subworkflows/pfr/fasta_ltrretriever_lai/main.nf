@@ -1,11 +1,10 @@
-include { CUSTOM_SHORTENFASTAIDS    } from '../../../modules/pfr/custom/shortenfastaids/main.nf'
-include { GT_SUFFIXERATOR           } from '../../../modules/pfr/gt/suffixerator/main.nf'
-include { GT_LTRHARVEST             } from '../../../modules/pfr/gt/ltrharvest/main.nf'
-include { LTRFINDER                 } from '../../../modules/pfr/ltrfinder/main.nf'
-include { LTRRETRIEVER              } from '../../../modules/pfr/ltrretriever/main.nf'
-include { CAT_CAT                   } from '../../../modules/pfr/cat/cat/main.nf'
-include { LAI                       } from '../../../modules/pfr/lai/main.nf'
-include { CUSTOM_RESTOREGFFIDS      } from '../../../modules/pfr/custom/restoregffids/main.nf'
+include { CUSTOM_SHORTENFASTAIDS    } from '../../../modules/pfr/custom/shortenfastaids'
+include { EDTA_LTRHARVEST           } from '../../../modules/pfr/edta/ltrharvest'
+include { LTRFINDER                 } from '../../../modules/pfr/ltrfinder'
+include { LTRRETRIEVER              } from '../../../modules/pfr/ltrretriever'
+include { CAT_CAT                   } from '../../../modules/pfr/cat/cat'
+include { LAI                       } from '../../../modules/pfr/lai'
+include { CUSTOM_RESTOREGFFIDS      } from '../../../modules/pfr/custom/restoregffids'
 
 workflow FASTA_LTRRETRIEVER_LAI {
 
@@ -30,17 +29,11 @@ workflow FASTA_LTRRETRIEVER_LAI {
     ch_short_ids_tsv        = CUSTOM_SHORTENFASTAIDS.out.short_ids_tsv
     ch_versions             = ch_versions.mix(CUSTOM_SHORTENFASTAIDS.out.versions.first())
 
-    // MODULE: GT_SUFFIXERATOR
-    GT_SUFFIXERATOR ( ch_short_ids_fasta )
+    // MODULE: EDTA_LTRHARVEST
+    EDTA_LTRHARVEST ( ch_short_ids_fasta )
 
-    ch_suffixerator_index   = GT_SUFFIXERATOR.out.index
-    ch_versions             = ch_versions.mix(GT_SUFFIXERATOR.out.versions.first())
-
-    // MODULE: GT_LTRHARVEST
-    GT_LTRHARVEST ( ch_suffixerator_index )
-
-    ch_ltrharvest_tabout    = GT_LTRHARVEST.out.tabout
-    ch_versions             = ch_versions.mix(GT_LTRHARVEST.out.versions.first())
+    ch_ltrharvest_scn       = EDTA_LTRHARVEST.out.scn
+    ch_versions             = ch_versions.mix(EDTA_LTRHARVEST.out.versions.first())
 
     // MODULE: LTRFINDER
     LTRFINDER ( ch_short_ids_fasta )
@@ -49,7 +42,7 @@ workflow FASTA_LTRRETRIEVER_LAI {
     ch_versions             = ch_versions.mix(LTRFINDER.out.versions.first())
 
     // MODULE: CAT_CAT
-    CAT_CAT ( ch_ltrharvest_tabout.mix(ch_ltrfinder_scn).groupTuple() )
+    CAT_CAT ( ch_ltrharvest_scn.mix(ch_ltrfinder_scn).groupTuple() )
 
     ch_ltr_candidates       = CAT_CAT.out.file_out
     ch_versions             = ch_versions.mix(CAT_CAT.out.versions.first())

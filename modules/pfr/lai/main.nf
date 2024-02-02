@@ -1,7 +1,6 @@
 process LAI {
     tag "$meta.id"
-
-    label "${ args.contains('-qq') ? 'process_single' : 'process_high' }"
+    label 'process_high'
 
     container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
         'https://depot.galaxyproject.org/singularity/ltr_retriever:2.9.0--hdfd78af_2':
