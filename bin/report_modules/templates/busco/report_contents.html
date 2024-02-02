@@ -1,6 +1,9 @@
 {% for item in range(all_stats_dicts["BUSCO"]|length) %}
-<div id="{{ all_stats_dicts['BUSCO'][item]['hap'] }}_{{ all_stats_dicts['BUSCO'][item]['lineage'] }}"
-    class="tabcontent-BUSCO" style="display: none">
+<div
+    id="{{ all_stats_dicts['BUSCO'][item]['hap'] }}_{{ all_stats_dicts['BUSCO'][item]['lineage'] }}"
+    class="tabcontent-BUSCO"
+    style="display: none"
+>
     <div class="results-section">
         <div class="section-heading-wrapper">
             <div class="section-heading">Results</div>
@@ -18,9 +21,7 @@
                     <tbody>
                         <tr>
                             <td style="text-align: left">Search Percentages</td>
-                            <td>
-                                {{ all_stats_dicts['BUSCO'][item]['search_percentages'] }}
-                            </td>
+                            <td>{{ all_stats_dicts['BUSCO'][item]['search_percentages'] }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -28,9 +29,7 @@
         </div>
 
         <div class="table-outer">
-            <div class="table-wrapper">
-                {{ all_stats_dicts['BUSCO'][item]['results_table'] }}
-            </div>
+            <div class="table-wrapper">{{ all_stats_dicts['BUSCO'][item]['results_table'] }}</div>
         </div>
     </div>
 
@@ -71,9 +70,7 @@
         </div>
 
         <div class="table-outer">
-            <div class="table-wrapper">
-                {{ all_stats_dicts['BUSCO'][item]['dependencies'] }}
-            </div>
+            <div class="table-wrapper">{{ all_stats_dicts['BUSCO'][item]['dependencies'] }}</div>
         </div>
     </div>
 </div>

@@ -1,10 +1,10 @@
 <div class="dropdown">
-  <div class="dropdown_content">
-      <select id="selector_BIOCODE_GFF3_STATS" onchange="showContent('BIOCODE_GFF3_STATS')">
+    <div class="dropdown_content">
+        <select id="selector_BIOCODE_GFF3_STATS" onchange="showContent('BIOCODE_GFF3_STATS')">
             {% set str_hap = 'hap' %} {% for item in range(all_stats_dicts["BIOCODE_GFF3_STATS"]|length) %}
             <option value="tabcontent_BIOCODE_GFF3_STATS_{{all_stats_dicts['BIOCODE_GFF3_STATS'][item]['hap']}}">
-                {{ all_stats_dicts['BIOCODE_GFF3_STATS'][item][str_hap] }}
-                {% endfor %}
-      </select>
-  </div>
+                {{ all_stats_dicts['BIOCODE_GFF3_STATS'][item][str_hap] }} {% endfor %}
+            </option>
+        </select>
+    </div>
 </div>

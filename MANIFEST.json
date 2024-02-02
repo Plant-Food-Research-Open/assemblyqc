@@ -1,7 +1,5 @@
 {
-  "mainWorkflowURL": "main.nf",
-  "inputFileURLs": [
-    "./docs/test_params/test_agc.json"
-  ],
-  "engineOptions": "-resume"
+    "mainWorkflowURL": "main.nf",
+    "inputFileURLs": ["./docs/test_params/test_agc.json"],
+    "engineOptions": "-resume"
 }

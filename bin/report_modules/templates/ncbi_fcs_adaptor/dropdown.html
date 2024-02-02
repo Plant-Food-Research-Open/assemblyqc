@@ -1,10 +1,10 @@
 <div class="dropdown">
-  <div class="dropdown_content">
-      <select id="selector_NCBI_FCS_ADAPTOR" onchange="showContent('NCBI_FCS_ADAPTOR')">
+    <div class="dropdown_content">
+        <select id="selector_NCBI_FCS_ADAPTOR" onchange="showContent('NCBI_FCS_ADAPTOR')">
             {% set str_hap = 'hap' %} {% for item in range(all_stats_dicts["NCBI_FCS_ADAPTOR"]|length) %}
             <option value="tabcontent_NCBI_FCS_ADAPTOR_{{all_stats_dicts['NCBI_FCS_ADAPTOR'][item]['hap']}}">
-                {{ all_stats_dicts['NCBI_FCS_ADAPTOR'][item][str_hap] }}
-                {% endfor %}
-      </select>
-  </div>
+                {{ all_stats_dicts['NCBI_FCS_ADAPTOR'][item][str_hap] }} {% endfor %}
+            </option>
+        </select>
+    </div>
 </div>

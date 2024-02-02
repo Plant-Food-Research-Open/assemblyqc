@@ -38,7 +38,7 @@ target_assemblies = [
 ]
 ```
 
-Notice that `target_assemblies` is a list of lists. Each sub-list represents an assembly. Each sub-list must have two members. First, a unique tag that represents the assembly. This tag is used by the pipeline to identify this assembly across QC modules. This tag should only consist of alphanumeric characters (A-Za-z0-9_). Second, the path to the fasta file (fasta, fasta.gz). This path can be a relative, absolute storage path or a valid publicly accessible URL.
+Notice that `target_assemblies` is a list of lists. Each sub-list represents an assembly. Each sub-list must have two members. First, a unique tag that represents the assembly. This tag is used by the pipeline to identify this assembly across QC modules. This tag should only consist of alphanumeric characters (A-Za-z0-9\_). Second, the path to the fasta file (fasta, fasta.gz). This path can be a relative, absolute storage path or a valid publicly accessible URL.
 
 ### Gene Annotations (Optional)
 
@@ -112,7 +112,7 @@ params {
     kraken2             { skip  = 1 }
     hic                 { skip  = 1 }
     synteny             { skip  = 1 }
-    
+
     outdir                      = "./results"
 
     max_time                    = 1.hour

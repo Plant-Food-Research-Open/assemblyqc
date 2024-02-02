@@ -1,0 +1,9 @@
+# gitignore
+.DS_Store
+*.pyc
+__pycahce__
+.nextflow*
+work/
+results/
+*.stdout
+*.stderr

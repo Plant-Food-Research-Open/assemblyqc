@@ -9,7 +9,7 @@
 5. The pipeline does not download the kraken database anymore
 6. Fixed a bug in SYNTENY/DNADIFF module which caused failure on AWS Batch
 7. Now tar zipped database can be directly used with Kraken2
-8. Removed `db_manifest_url` parameter for the  NCBI_FCS_GX workflow
+8. Removed `db_manifest_url` parameter for the NCBI_FCS_GX workflow
 9. Now using parallel version of LTRHARVEST from the EDTA package
 
 ## Version 1.2 (18-Dec-2023)
@@ -26,12 +26,12 @@
 
 For a ~600 MB assembly, EDTA (without sensitive flag) takes ~25 hours of compute time. Whereas, FASTA_LTRRETRIEVER_LAI sub-workflow ( LTRHARVEST+LTRFINDER -> LTRRETRIEVER ) takes ~2.5 hours of compute time. LAI estimates for four plant assemblies are listed below.
 
-| Assembly      | EDTA_LAI  | FASTA_LTRRETRIEVER_LAI    |
-|---------------|-----------|---------------------------|
-| ck6901m/v2    | 18.43     | 16.19                     |
-| donghong/v1   | 19.03     | 16.85                     |
-| red5/v2.1     | 18.75     | 16.59                     |
-| tair/v10      | 18.06     | 17.42                     |
+| Assembly    | EDTA_LAI | FASTA_LTRRETRIEVER_LAI |
+| ----------- | -------- | ---------------------- |
+| ck6901m/v2  | 18.43    | 16.19                  |
+| donghong/v1 | 19.03    | 16.85                  |
+| red5/v2.1   | 18.75    | 16.59                  |
+| tair/v10    | 18.06    | 17.42                  |
 
 ## Version 1.1 (09-Nov-2023)
 
@@ -175,7 +175,7 @@ Same as Version 1 RC6c
 
 1. Added Synteny Analysis.
 2. Added "-q" and "-qq" option to LAI. "-qq" is the default.
-3. Now copying the *.TElib.fa file from EDTA work dir to the results folder.
+3. Now copying the \*.TElib.fa file from EDTA work dir to the results folder.
 4. Fixed the n_limit bug in assemblathon_stats.pl.
 5. Now using 4-hour time limit for FASTP and FASTQC.
 6. Added references for all the tools in the README.

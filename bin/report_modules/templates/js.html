@@ -42,11 +42,10 @@
         }
 
         document.getElementById(toolName).style.display = "block";
-        target.classList.add("active")
+        target.classList.add("active");
     }
 
-    window.addEventListener('DOMContentLoaded', event => {
-
+    window.addEventListener("DOMContentLoaded", (event) => {
         const topNavBarButtons = document.getElementById("topNavBarButtons");
 
         if (topNavBarButtons.children.length < 1) {

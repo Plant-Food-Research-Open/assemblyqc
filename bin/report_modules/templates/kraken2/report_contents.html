@@ -1,17 +1,21 @@
-{% set vars = {'is_first': True} %}
-{% for item in range(all_stats_dicts["KRAKEN2"]|length) %}
-{% set active_text = 'display: block' if vars.is_first else 'display: none' %}
-<div id="tabcontent_KRAKEN2_{{ all_stats_dicts['KRAKEN2'][item]['hap'] }}" class="tabcontent-KRAKEN2"
-    style="{{ active_text }}">
+{% set vars = {'is_first': True} %} {% for item in range(all_stats_dicts["KRAKEN2"]|length) %} {% set active_text =
+'display: block' if vars.is_first else 'display: none' %}
+<div
+    id="tabcontent_KRAKEN2_{{ all_stats_dicts['KRAKEN2'][item]['hap'] }}"
+    class="tabcontent-KRAKEN2"
+    style="{{ active_text }}"
+>
     <div class="results-section">
         <div class="section-heading-wrapper">
             <div class="section-heading">{{ all_stats_dicts['KRAKEN2'][item]['hap'] }}</div>
         </div>
         <div class="iframe-wrapper">
-            <iframe src="./kraken2/{{ all_stats_dicts['KRAKEN2'][item]['krona_html_file_name'] }}" width="100%"
-                height="100%"></iframe>
+            <iframe
+                src="./kraken2/{{ all_stats_dicts['KRAKEN2'][item]['krona_html_file_name'] }}"
+                width="100%"
+                height="100%"
+            ></iframe>
         </div>
     </div>
 </div>
-{% if vars.update({'is_first': False}) %} {% endif %}
-{% endfor %}
+{% if vars.update({'is_first': False}) %} {% endif %} {% endfor %}

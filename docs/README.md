@@ -6,7 +6,7 @@
 
 ## Test Configurations
 
-The following test configurations are included with the pipeline. Before going through these configurations, 
+The following test configurations are included with the pipeline. Before going through these configurations,
 
 - [Test Configuration for a Fungus](../conf/test_full.config)
 - [Test Configuration for a Bacterium](../conf/test_bacterial.config)

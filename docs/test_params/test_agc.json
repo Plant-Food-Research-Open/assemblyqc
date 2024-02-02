@@ -23,10 +23,7 @@
     },
     "busco": {
         "mode": "geno",
-        "lineage_datasets": [
-            "fungi_odb10",
-            "hypocreales_odb10"
-        ],
+        "lineage_datasets": ["fungi_odb10", "hypocreales_odb10"],
         "download_path": null
     },
     "tidk": {

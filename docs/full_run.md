@@ -46,7 +46,7 @@ ncbi_fcs_adaptor {
 
 Following parameters must be configured:
 
-- `tax_id`: The taxonomy ID for all the target assemblies listed in the `target_assemblies` parameter. A taxonomy ID can be obtained by searching a *Genus species* at <https://www.ncbi.nlm.nih.gov/taxonomy>. A single ID for all assemblies implies that the pipeline is designed to be used for checking one or more assemblies of the same *species* in one run.
+- `tax_id`: The taxonomy ID for all the target assemblies listed in the `target_assemblies` parameter. A taxonomy ID can be obtained by searching a _Genus species_ at <https://www.ncbi.nlm.nih.gov/taxonomy>. A single ID for all assemblies implies that the pipeline is designed to be used for checking one or more assemblies of the same _species_ in one run.
 - `db_path`: This is the path to the database files stored on a directory accessible to the pipeline. Before running the pipeline, the user must ensure that the database is correctly downloaded and placed in a directory accessible to the pipeline. Setup instructions are available at <https://github.com/ncbi/fcs/wiki/FCS-GX>. The database directory should contain following files:
 
 ```bash
@@ -139,7 +139,7 @@ lai {
 
 Following parameters must be configured:
 
-- `db_path`: Path to a directory or a `*.tar.gz` file containing the Kraken2 database. 
+- `db_path`: Path to a directory or a `*.tar.gz` file containing the Kraken2 database.
 
 > ⚙️ From conf/test_full.config
 

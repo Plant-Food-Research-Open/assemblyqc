@@ -1,32 +1,30 @@
 <div id="summary_LAI" class="tabcontent-LAI" style="display: block">
-  <div class="results-section">
-    <div class="section-heading-wrapper">
-      <div class="section-heading">Summary</div>
-    </div>
+    <div class="results-section">
+        <div class="section-heading-wrapper">
+            <div class="section-heading">Summary</div>
+        </div>
 
-    <div class="table-outer">
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th width="20%" style="text-align: left">Assembly</th>
-              <th>Results</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for item in range(all_stats_dicts["LAI"]|length) %}
-            <tr>
-              <td style="text-align: left; font-size: 16px">
-                {{ all_stats_dicts['LAI'][item]['hap'] }}
-              </td>
-              <td style="text-align: left; font-size: 16px">
-                {{ all_stats_dicts['LAI'][item]['result'] }}
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th width="20%" style="text-align: left">Assembly</th>
+                            <th>Results</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in range(all_stats_dicts["LAI"]|length) %}
+                        <tr>
+                            <td style="text-align: left; font-size: 16px">{{ all_stats_dicts['LAI'][item]['hap'] }}</td>
+                            <td style="text-align: left; font-size: 16px">
+                                {{ all_stats_dicts['LAI'][item]['result'] }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-  </div>
 </div>

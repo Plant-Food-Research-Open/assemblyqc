@@ -1,7 +1,9 @@
 <div id="BUSCO" class="tabcontent" style="display: none">
     <div class="section-para-wrapper">
-        <p class="section-para">BUSCO estimates the completeness and redundancy of processed genomic data based on
-            universal single-copy orthologs.</p>
+        <p class="section-para">
+            BUSCO estimates the completeness and redundancy of processed genomic data based on universal single-copy
+            orthologs.
+        </p>
         <p class="section-para"><b>Reference:</b></p>
         <p class="section-para">
             Manni M., Berkeley M.R., Seppey M., Simao F.A., Zdobnov E.M. 2021. BUSCO update: novel and streamlined
@@ -11,7 +13,6 @@
         </p>
         <p class="section-para"><b>Version: {{ all_stats_dicts['VERSIONS']['BUSCO'] }}</b></p>
     </div>
-    {% include 'busco/dropdown.html' %}
-    {% include 'busco/summary_contents.html' %}
-    {% include 'busco/report_contents.html' %}
+    {% include 'busco/dropdown.html' %} {% include 'busco/summary_contents.html' %} {% include
+    'busco/report_contents.html' %}
 </div>

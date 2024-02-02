@@ -1,18 +1,19 @@
 <div id="HIC" class="tabcontent" style="display: none">
     <div class="section-para-wrapper">
-        <p class="section-para">Hi-C contact mapping experiments measure the frequency of physical contact between loci
-            in the genome. The resulting dataset, called a “contact map,” is represented using a two-dimensional
-            heatmap where the intensity of each pixel indicates the frequency of contact between a pair of loci.</p>
+        <p class="section-para">
+            Hi-C contact mapping experiments measure the frequency of physical contact between loci in the genome. The
+            resulting dataset, called a “contact map,” is represented using a two-dimensional heatmap where the
+            intensity of each pixel indicates the frequency of contact between a pair of loci.
+        </p>
         <p class="section-para"><b>Reference:</b></p>
         <p class="section-para">
             Robinson JT, Turner D, Durand NC, Thorvaldsdóttir H, Mesirov JP, Aiden EL. Juicebox.js Provides a
-            Cloud-Based Visualization System for Hi-C Data. Cell Syst. 2018 Feb 28;6(2):256-258.e1. <a
-                href="https://doi.org/10.1016/j.cels.2018.01.001"
-                target="_blank">https://doi.org/10.1016/j.cels.2018.01.001</a>. Epub 2018 Feb 7. PMID: 29428417; PMCID:
-            PMC6047755.
+            Cloud-Based Visualization System for Hi-C Data. Cell Syst. 2018 Feb 28;6(2):256-258.e1.
+            <a href="https://doi.org/10.1016/j.cels.2018.01.001" target="_blank"
+                >https://doi.org/10.1016/j.cels.2018.01.001</a
+            >. Epub 2018 Feb 7. PMID: 29428417; PMCID: PMC6047755.
         </p>
         <p class="section-para"><b>Version: {{ all_stats_dicts['VERSIONS']['HIC'] }}</b></p>
     </div>
-    {% include 'hic/dropdown.html' %}
-    {% include 'hic/report_contents.html' %}
+    {% include 'hic/dropdown.html' %} {% include 'hic/report_contents.html' %}
 </div>
