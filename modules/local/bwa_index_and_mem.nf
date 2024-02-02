@@ -2,8 +2,8 @@ nextflow.enable.dsl=2
 
 process BWA_INDEX_AND_MEM {
     tag "${sample_id}.on.${assembly_tag}"
-    label "process_high"
-    label "process_long"
+    label 'process_high'
+    label 'process_two_days_long'
     
     container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
         'https://depot.galaxyproject.org/singularity/bwa:0.7.17--hed695b0_7':

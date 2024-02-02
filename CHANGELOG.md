@@ -11,6 +11,7 @@
 7. Now tar zipped database can be directly used with Kraken2
 8. Removed `db_manifest_url` parameter for the NCBI_FCS_GX workflow
 9. Now using parallel version of LTRHARVEST from the EDTA package
+10. BWA_INDEX_AND_MEM can now run for two days
 
 ## Version 1.2 (18-Dec-2023)
 
