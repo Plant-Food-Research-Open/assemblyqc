@@ -15,7 +15,7 @@ def check_edges(data):
     largest_indices = data["combined_repeat_number"].nlargest(2).index
 
     if len(largest_indices) < 2:
-        return data["id"].iloc[0], False,  data["window"].max()
+        return data["id"].iloc[0], False, data["window"].max()
 
     if largest_indices[0] == data.index[0] and largest_indices[1] == data.index[-1]:
         return data["id"].iloc[0], True, data["window"].max()
@@ -35,9 +35,21 @@ def count_t2t_complete_scaffolds(tidk_tsv_file_path):
 
         ids_with_checks_lens.append(check_edges(group))
 
-    count_MB = sum([1 if check and length > 1000_000 else 0 for (_, check, length) in ids_with_checks_lens])
-    count_KB = sum([1 if check and length > 1000 else 0 for (_, check, length) in ids_with_checks_lens])
-    print(f"Number of T2T complete scaffolds: {count_MB} (> 1 Mbp), {count_KB} (> 1 Kbp)")
+    count_MB = sum(
+        [
+            1 if check and length > 1000_000 else 0
+            for (_, check, length) in ids_with_checks_lens
+        ]
+    )
+    count_KB = sum(
+        [
+            1 if check and length > 1000 else 0
+            for (_, check, length) in ids_with_checks_lens
+        ]
+    )
+    print(
+        f"Number of T2T complete scaffolds: {count_MB} (> 1 Mbp), {count_KB} (> 1 Kbp)"
+    )
 
 
 if __name__ == "__main__":

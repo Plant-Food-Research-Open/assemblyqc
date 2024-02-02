@@ -92,6 +92,4 @@ def parse_lai_folder(folder_name="lai_outputs"):
         }
         data["LAI"].append(stats)
 
-    return {
-        "LAI": sort_list_of_results(data["LAI"], "hap")
-    }
+    return {"LAI": sort_list_of_results(data["LAI"], "hap")}

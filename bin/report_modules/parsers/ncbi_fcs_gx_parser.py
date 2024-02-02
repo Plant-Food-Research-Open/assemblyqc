@@ -49,7 +49,7 @@ def parse_ncbi_fcs_gx_folder(folder_name="fcs_gx_reports"):
                 "is_wrong_div": False
                 if asserted_div in inferred_primary_divs
                 else True,
-                "krona_html_file_name":f"{file_tokens}.fcs.gx.krona.html",
+                "krona_html_file_name": f"{file_tokens}.fcs.gx.krona.html",
             }
         )
 
