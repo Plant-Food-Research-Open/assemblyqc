@@ -39,7 +39,7 @@ workflow ASSEMBLY_QC {
         [it[0], file(it[1], checkIfExists: true)] // [tag, assembly gff3 path]
     }
     | set { ch_tag_gff3_file }
-    
+
     VALIDATE_GFF3(ch_tag_gff3_file, ch_tag_valid_fasta)
     | set { ch_tag_valid_gff3 }
 
@@ -61,7 +61,7 @@ workflow ASSEMBLY_QC {
     // NCBI-FCS-ADAPTOR & NCBI-FCS-GX
     ch_tag_valid_fasta
     | NCBI_FCS_ADAPTOR
-    
+
     NCBI_FCS_GX(
         ch_tag_valid_fasta,
         params.ncbi_fcs_gx.db_path
@@ -91,8 +91,8 @@ workflow ASSEMBLY_QC {
     ASSEMBLATHON_STATS(ch_clean_target_assemblies)
     | collect
     | set { ch_general_stats }
-    
-    
+
+
     // BUSCO
     ch_clean_target_assemblies
     | combine(Channel.fromList(params.busco.lineage_datasets))
@@ -100,10 +100,10 @@ workflow ASSEMBLY_QC {
         [it[0], file(it[1], checkIfExists: true), it[2]] // [tag, assembly fasta path, busco lineage]
     }
     | BUSCO
-    
+
     // TIDK
     TIDK(ch_clean_target_assemblies)
-    
+
     // FASTA_LTRRETRIEVER_LAI
     ch_lai_inputs   = params.lai.skip
                     ? Channel.empty()
@@ -143,7 +143,7 @@ workflow ASSEMBLY_QC {
     } else {
         ch_paired_reads = Channel.empty()
     }
-    
+
     HIC_PREPROCESS(ch_paired_reads)
     | set { ch_cleaned_paired_reads }
 
