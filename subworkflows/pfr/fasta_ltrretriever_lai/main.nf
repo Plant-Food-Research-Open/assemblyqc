@@ -1,10 +1,10 @@
-include { CUSTOM_SHORTENFASTAIDS    } from '../../../modules/pfr/custom/shortenfastaids'
-include { EDTA_LTRHARVEST           } from '../../../modules/pfr/edta/ltrharvest'
-include { LTRFINDER                 } from '../../../modules/pfr/ltrfinder'
-include { LTRRETRIEVER              } from '../../../modules/pfr/ltrretriever'
-include { CAT_CAT                   } from '../../../modules/pfr/cat/cat'
-include { LAI                       } from '../../../modules/pfr/lai'
-include { CUSTOM_RESTOREGFFIDS      } from '../../../modules/pfr/custom/restoregffids'
+include { CUSTOM_SHORTENFASTAIDS    } from '../../../modules/pfr/custom/shortenfastaids/main.nf'
+include { EDTA_LTRHARVEST           } from '../../../modules/pfr/edta/ltrharvest/main.nf'
+include { LTRFINDER                 } from '../../../modules/pfr/ltrfinder/main.nf'
+include { LTRRETRIEVER              } from '../../../modules/pfr/ltrretriever/main.nf'
+include { CAT_CAT                   } from '../../../modules/pfr/cat/cat/main.nf'
+include { LAI                       } from '../../../modules/pfr/lai/main.nf'
+include { CUSTOM_RESTOREGFFIDS      } from '../../../modules/pfr/custom/restoregffids/main.nf'
 
 workflow FASTA_LTRRETRIEVER_LAI {
 
