@@ -9,20 +9,16 @@ workflows:
 contexts:
   CtxAssemblyQC:
     instanceTypes:
-      - "m5.large" # process_single  { 1,  6 }         ->  { 2,  8   }
-      - "m5.xlarge"
-      - "m5.2xlarge"
-      - "m5.4xlarge"
-      - "r5.large" # process_low     { 2,  12 }        ->  { 2,  16  }
-      - "r5.xlarge"
-      - "r5.2xlarge" # process_medium  { 6,  36 }        ->  { 8,  64  }
-      - "r5.4xlarge" # process_high    { 12, 72 }        ->  { 16, 128 }
-      - "r5.8xlarge" # process_high_memory (200.GB)      ->  { 32, 256 }
-      - "r5.24xlarge" # process_very_high_memory (512.GB) ->  { 96, 768 }
-      - "c5.large" # Compute optimized instances
-      - "c5.xlarge"
+      - "c5.large"
       - "c5.2xlarge"
       - "c5.4xlarge"
+      - "m5.2xlarge"
+      - "m5.4xlarge"
+      - "r5.2xlarge"
+      - "r5.4xlarge"
+      - "r5.8xlarge" # process_high_memory (200.GB)      ->  { 32, 256 }
+      - "r5.24xlarge" # process_very_high_memory (512.GB) ->  { 96, 768 }
     engines:
       - type: nextflow
         engine: nextflow
+    requestSpotInstances: true
