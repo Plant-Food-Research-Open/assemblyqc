@@ -11,6 +11,7 @@
   - [Known Issues](#known-issues)
   - [Software Versions \& References](#software-versions--references)
   - [Contributors](#contributors)
+  - [Citation](#citation)
 
 ## Introduction
 
@@ -231,3 +232,7 @@ Once the pipeline has finished execution, the results folder specified in the co
 ## Contributors
 
 Cecilia Deng [@CeciliaDeng](https://github.com/CeciliaDeng), Chen Wu [@christinawu2008](https://github.com/christinawu2008), Jason Shiller [@jasonshiller](https://github.com/jasonshiller), Ken Smith [@hzlnutspread](https://github.com/hzlnutspread), Marcus Davy [@mdavy86](https://github.com/mdavy86), Ross Crowhurst [@rosscrowhurst](https://github.com/rosscrowhurst), Susan Thomson [@cflsjt](https://github.com/cflsjt), Ting-Hsuan Chen [@ting-hsuan-chen](https://github.com/ting-hsuan-chen), Usman Rashid [@GallVp](https://github.com/GallVp)
+
+## Citation
+
+> Rashid, U., Wu, C., Shiller, J., Smith, K., Crowhurst, R., Davy, M., Chen, T., Thomson, S., & Deng, C. (2023). AssemblyQC: A NextFlow pipeline for evaluating assembly quality (Version 1.2) [Computer software]. https://github.com/Plant-Food-Research-Open/assembly_qc
