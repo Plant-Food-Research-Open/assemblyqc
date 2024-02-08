@@ -66,7 +66,7 @@
                     },
                     "fastq_bwa_mem_samblaster": {
                         "branch": "main",
-                        "git_sha": "32ef0605651e46c3f5720ed55d21dc35ec371001",
+                        "git_sha": "9639ac9a556898d0f0e8592bff24585c33326458",
                         "installed_by": ["subworkflows"]
                     }
                 }

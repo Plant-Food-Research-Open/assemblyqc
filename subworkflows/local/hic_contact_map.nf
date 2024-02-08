@@ -7,36 +7,29 @@ include { HIC_QC                    } from '../../modules/local/hic_qc.nf'
 
 workflow HIC_CONTACT_MAP {
     take:
-        hic_contact_map_inputs // [tag, assembly_fasta, sample_id, [R1, R2]]
+        reads // [ val(id), [ fq ] ]
+        fasta // [ val(tag), fasta ]
 
     main:
         if (!params.hic.skip) {
 
-            hic_contact_map_inputs
-            | map { tag, fasta, sample, reads ->
-                [ "${sample}.on.${tag}", fasta ] // [sample_id.on.tag, assembly_fasta]
-            }
-            | set { ch_assembly_fasta }
-
-            ch_mapping_inputs   = hic_contact_map_inputs
-                                | map { tag, fasta, sample, reads ->
-                                    [ [ id: "${sample}.on.${tag}" ], reads, fasta ]
-                                }
-
             FASTQ_BWA_MEM_SAMBLASTER(
-                ch_mapping_inputs.map { meta, reads, fasta -> [ meta, reads ] },
-                ch_mapping_inputs.map { meta, reads, fasta -> [ fasta, [] ] }
+                reads.map { id, fq -> [ [ id: id ], fq ]},
+                fasta.map { tag, fasta -> [ [ id: tag ], fasta, [] ] }
             )
+            .bam
+            | map { meta, bam -> [ meta.ref_id, meta, bam ] }
+            | join(
+                fasta
+            )
+            | map { ref_id, meta, bam, fasta ->
+                [ "${meta.id}.on.${meta.ref_id}", fasta, bam ]
+            }
+            | set { ch_fasta_bam }
 
-            ch_bam              = FASTQ_BWA_MEM_SAMBLASTER.out.bam
-                                | map { meta, bam ->
-                                    [ meta.id, bam ]
-                                }
+            HIC_QC ( ch_fasta_bam.map { id, fasta, bam -> [ id, bam ] } )
 
-            HIC_QC ( ch_bam )
-
-            ch_assembly_fasta
-            | join(ch_bam)      // [sample_id.on.tag, assembly_fasta, alignment_bam]
+            ch_fasta_bam
             | CREATE_HIC_FILE
             | HIC2_HTML
             | collect

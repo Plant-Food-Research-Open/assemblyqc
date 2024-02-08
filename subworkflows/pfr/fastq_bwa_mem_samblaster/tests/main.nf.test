@@ -28,7 +28,7 @@ nextflow_workflow {
                     ]
                 )
                 input[1] = Channel.of(
-                    [ file(params.test_data['sarscov2']['genome']['genome_fasta'], checkIfExists: true), [] ]
+                    [ [ id: 'genome' ], file(params.test_data['sarscov2']['genome']['genome_fasta'], checkIfExists: true), [] ]
                 )
                 """
             }

@@ -6,28 +6,27 @@ workflow FASTQ_BWA_MEM_SAMBLASTER {
 
     take:
     ch_fastq                // channel: [ val(meta), [ fq ] ]
-    ch_fasta_bwa_index      // channel: [ fasta, index ]; fast | index
+    ch_reference            // channel: [ val(meta2), fasta, index ]; fast | index
 
     main:
     ch_versions             = Channel.empty()
 
-    ch_has_index            = ch_fasta_bwa_index
-                            | branch { fasta, index ->
+    ch_has_index            = ch_reference
+                            | branch { meta2, fasta, index ->
                                 yes: index
                                 no: !index
                             }
 
     // MODULE: BWA_INDEX
-    BWA_INDEX ( ch_has_index.no.map { fasta, index -> [ [], fasta ] } )
+    BWA_INDEX ( ch_has_index.no.map { meta2, fasta, index -> [ meta2, fasta ] } )
 
     ch_bwa_index            = BWA_INDEX.out.index
                             | mix(
                                 ch_has_index.yes
-                                | map { fasta, index ->
-                                    [ [], index ]
+                                | map { meta2, fasta, index ->
+                                    [ meta2, index ]
                                 }
                             )
-                            | map { dummy, index -> index }
 
     ch_versions             = ch_versions.mix(BWA_INDEX.out.versions.first())
 
@@ -36,6 +35,10 @@ workflow FASTQ_BWA_MEM_SAMBLASTER {
                             | combine(
                                 ch_bwa_index
                             )
+                            | map { meta, fq, meta2, index ->
+                                [ meta + [ ref_id: meta2.id ], fq, index ]
+                            }
+
     def sort_bam            = false
     BWA_MEM(
         ch_mem_inputs.map { meta, fq, index -> [ meta, fq ] },

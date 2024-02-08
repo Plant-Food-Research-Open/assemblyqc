@@ -147,9 +147,10 @@ workflow ASSEMBLY_QC {
     HIC_PREPROCESS(ch_paired_reads)
     | set { ch_cleaned_paired_reads }
 
-    ch_clean_target_assemblies
-    .combine(ch_cleaned_paired_reads) // [tag, assembly_fasta, sample_id, [R1, R2]]
-    | HIC_CONTACT_MAP
+    HIC_CONTACT_MAP(
+        ch_cleaned_paired_reads,
+        ch_clean_target_assemblies
+    )
 
     // SYNTENY
     if(!params.synteny.skip) {

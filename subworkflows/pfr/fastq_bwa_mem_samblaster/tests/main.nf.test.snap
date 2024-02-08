@@ -5,9 +5,10 @@
                 "0": [
                     [
                         {
-                            "id": "test"
+                            "id": "test",
+                            "ref_id": "genome"
                         },
-                        "test.samblaster.bam:md5,664cddbb581dd5f2133554eff4c5f92c"
+                        "test.on.genome.samblaster.bam:md5,496319fc81c383a9ae6ab52592876c9b"
                     ]
                 ],
                 "1": [
@@ -18,9 +19,10 @@
                 "bam": [
                     [
                         {
-                            "id": "test"
+                            "id": "test",
+                            "ref_id": "genome"
                         },
-                        "test.samblaster.bam:md5,664cddbb581dd5f2133554eff4c5f92c"
+                        "test.on.genome.samblaster.bam:md5,496319fc81c383a9ae6ab52592876c9b"
                     ]
                 ],
                 "versions": [
@@ -34,6 +36,6 @@
             "nf-test": "0.8.4",
             "nextflow": "23.10.1"
         },
-        "timestamp": "2024-02-08T10:28:09.600785"
+        "timestamp": "2024-02-08T19:37:23.464854"
     }
 }
