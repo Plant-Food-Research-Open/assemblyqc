@@ -70,7 +70,8 @@ The resources needed for the various modules in the pipeline are dynamically all
 max_time = 1.hour
 ```
 
-> 💡 **Note**: Maximum values defined by `max_cpus`, `max_memory` and `max_time` apply to each process in the pipeline. The pipeline executes multiple processes in parallel. Therefore, the total execution time is not equal to the sum of time taken by each process. Rather, the total time is determined by adding up the time taken by processes which run one after the other. An estimate of the total time maybe needed if the pipeline is submitted to an executor such as Slurm. This topic is covered later in this document.
+> [!NOTE]
+> Maximum values defined by `max_cpus`, `max_memory` and `max_time` apply to each process in the pipeline. The pipeline executes multiple processes in parallel. Therefore, the total execution time is not equal to the sum of time taken by each process. Rather, the total time is determined by adding up the time taken by processes which run one after the other. An estimate of the total time maybe needed if the pipeline is submitted to an executor such as Slurm. This topic is covered later in this document.
 
 ## Step 4a: Setting the Apptainer Cache Directory
 

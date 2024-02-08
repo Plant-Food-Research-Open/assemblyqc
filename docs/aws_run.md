@@ -8,7 +8,8 @@ An AGC project configured for the pipeline is included with the source code, [ag
 - kraken2::db_path
 - outdir
 
-> WARNING: The location specified by `outdir` should be changed when the dataset is changed. Otherwise, the pipeline will overwrite the existing files in this directory.
+> [!WARNING]
+> The location specified by `outdir` should be changed when the dataset is changed. Otherwise, the pipeline will overwrite the existing files in this directory.
 
 After creating a valid parameters file, replace the path of the existing parameters file with your parameters file path in the `inputFileURLs` in [MANIFEST.json](../MANIFEST.json). Next, the pipeline can be submitted to AWS for execution.
 
