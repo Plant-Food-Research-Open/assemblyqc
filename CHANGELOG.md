@@ -1,6 +1,6 @@
 # Change Log
 
-## Version 1.3 (02-Feb-2023)
+## Version 1.3 (08-Feb-2023)
 
 1. Docker engine is now also supported
 2. Added Amazon Genomics CLI project file and a minimal test params file: [./docs/test_params/test_agc.json](./docs/test_params/test_agc.json)
@@ -12,6 +12,7 @@
 8. Removed `db_manifest_url` parameter for the NCBI_FCS_GX workflow
 9. Now using parallel version of LTRHARVEST from the EDTA package
 10. BWA_INDEX_AND_MEM can now run for two days
+11. Now using FASTQ_BWA_MEM_SAMBLASTER subworkflow to optimize SAM file transfer on AWS
 
 ## Version 1.2 (18-Dec-2023)
 

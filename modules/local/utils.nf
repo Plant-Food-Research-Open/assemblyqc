@@ -57,7 +57,7 @@ def validateGff3Tags(params) {
 }
 
 def validateGff3FastaCorrespondence(params) {
-    
+
     def listOfGff3Tuples    = params["assembly_gff3"]
     def listOfFastaTuples   = params["target_assemblies"]
 
@@ -94,7 +94,7 @@ def validateLAIParameters(params) {
 }
 
 def validateLAIMonoploidSeqs(params) {
-    
+
     def listOfMonoploidSeqs = params["lai"]["monoploid_seqs"]
     def listOfFastaTuples   = params["target_assemblies"]
 
@@ -135,7 +135,7 @@ def validateSyntenyParameters(params) {
     if (listOfTargetSeqLists.size() != listOfFastaTuples.size()) {
         error "Error: The number of elements in synteny::assembly_seq_list and target_assemblies should be equal"
     }
-    
+
     def fastaTags           = listOfFastaTuples.collect { it[0] }
     def seqListTags         = listOfTargetSeqLists.collect { it[0] }
 
@@ -158,7 +158,7 @@ def validateSyntenyParameters(params) {
     }
 
     def xrefTags = listOfXRefAssemblies.collect { it[0] }
-    
+
     xrefTags.each {
         if (!(it =~ /^\w+$/)) {
             error "Error: $it is not a valid tag in synteny::xref_assemblies"

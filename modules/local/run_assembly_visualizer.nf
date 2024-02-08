@@ -3,7 +3,7 @@ nextflow.enable.dsl=2
 process RUN_ASSEMBLY_VISUALIZER {
     tag "$sample_id_on_tag"
     label "process_medium"
-    
+
     publishDir "${params.outdir}/hic", mode:'copy'
     container "gallvp/3d-dna:63029aa"
 

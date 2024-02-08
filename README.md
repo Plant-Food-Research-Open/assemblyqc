@@ -216,9 +216,9 @@ Once the pipeline has finished execution, the results folder specified in the co
     > Li H. 2013. Aligning sequence reads, clone sequences and assembly contigs with BWA-MEM. <https://doi.org/10.48550/arXiv.1303.3997>
   - MATLOCK ([AGPL v3](https://github.com/phasegenomics/matlock/blob/master/LICENSE))
     > <https://github.com/phasegenomics/matlock>; <https://quay.io/biocontainers/matlock:20181227--h4b03ef3_3>
-  - SAMBLASTER (0.1.20, [MIT](https://github.com/GregoryFaust/samblaster/blob/master/LICENSE.txt))
+  - SAMBLASTER (0.1.26, [MIT](https://github.com/GregoryFaust/samblaster/blob/master/LICENSE.txt))
     > Faust GG, Hall IM. 2014. SAMBLASTER: fast duplicate marking and structural variant read extraction, Bioinformatics, Volume 30, Issue 17, September 2014, Pages 2503–2505, <https://doi.org/10.1093/bioinformatics/btu314>
-  - SAMTOOLS (1.16.1, [MIT/Expat](https://github.com/samtools/samtools/blob/develop/LICENSE))
+  - SAMTOOLS (1.18, [MIT/Expat](https://github.com/samtools/samtools/blob/develop/LICENSE))
     > Danecek P, Bonfield JK, Liddle J, Marshall J, Ohan V, Pollard MO, Whitwham A, Keane T, McCarthy SA, Davies RM, Li H. 2021. Twelve years of SAMtools and BCFtools, GigaScience, Volume 10, Issue 2, February 2021, giab008, <https://doi.org/10.1093/gigascience/giab008>
 - SYNTENY
   - CIRCOS (0.23-1, [GPL v3](https://www.gnu.org/licenses/gpl-3.0.txt))

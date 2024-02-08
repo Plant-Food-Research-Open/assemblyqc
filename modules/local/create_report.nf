@@ -3,7 +3,7 @@ nextflow.enable.dsl=2
 process CREATE_REPORT {
     tag "all modules"
     label "process_single"
-    
+
     container "docker.io/gallvp/python3npkgs:v0.4"
     publishDir params.outdir, mode: 'copy'
 
@@ -29,5 +29,5 @@ process CREATE_REPORT {
         """
         echo -n '$params_json' > params_json.json
         assembly_qc_report_943e0fb.py > report.html
-        """ 
+        """
 }

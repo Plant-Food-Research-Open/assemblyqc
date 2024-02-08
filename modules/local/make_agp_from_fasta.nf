@@ -5,7 +5,7 @@ process MAKE_AGP_FROM_FASTA {
     label "process_single"
 
     container "docker.io/gallvp/juicebox_scripts:a7ae991_ps"
-    
+
     input:
         tuple val(sample_id_on_tag), path(assembly_fasta)
 

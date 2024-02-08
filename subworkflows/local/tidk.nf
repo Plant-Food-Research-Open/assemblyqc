@@ -3,18 +3,18 @@ nextflow.enable.dsl=2
 workflow TIDK {
     take:
         tuple_of_hap_file
-    
+
     main:
         if (!params.tidk.skip) {
             GET_APRIORI_SEQUENCE()
             .set { ch_apriori_sequence }
-            
+
             SORT_AND_FILTER_BY_SEQ_LENGTH(tuple_of_hap_file)
             .set { ch_sorted_hap_file }
 
             EXPLORE_REPEAT_SEQ(tuple_of_hap_file)
             .set { ch_explored_repeat_seq }
-            
+
             ch_explored_repeat_seq
             .join(
                 ch_sorted_hap_file
@@ -28,7 +28,7 @@ workflow TIDK {
             | PLOT_A_PRIORI_REPEAT_SEQ
             | collect
             | set { ch_list_of_a_priori_tidk_plots }
-            
+
 
             ch_list_of_a_posteriori_tidk_plots
             .mix(ch_list_of_a_priori_tidk_plots)
@@ -45,7 +45,7 @@ workflow TIDK {
         else {
             ch_list_of_tidk_plots = Channel.of([])
         }
-    
+
     emit:
         list_of_plots = ch_list_of_tidk_plots
 }
@@ -70,17 +70,17 @@ process GET_APRIORI_SEQUENCE {
 process SORT_AND_FILTER_BY_SEQ_LENGTH {
     tag "${hap_name}"
     label "process_single"
-    
+
     container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
         'https://depot.galaxyproject.org/singularity/seqkit:2.3.1--h9ee0642_0':
         'quay.io/biocontainers/seqkit:2.3.1--h9ee0642_0' }"
 
     input:
         tuple val(hap_name), path(fasta_file)
-    
+
     output:
         tuple val(hap_name), path("${hap_name}.seqkit.sort.fasta")
-    
+
     script:
         """
         if [[ "${params.tidk.filter_by_size}" = "1" ]];then
@@ -88,7 +88,7 @@ process SORT_AND_FILTER_BY_SEQ_LENGTH {
         else
             cat $fasta_file > filtered.file.fasta
         fi
-        
+
         cat filtered.file.fasta \
         | seqkit sort --quiet --reverse --by-length \
         > "${hap_name}.seqkit.sort.fasta"
@@ -119,7 +119,7 @@ process SEARCH_A_PRIORI_REPEAT_SEQ {
 process EXPLORE_REPEAT_SEQ {
     tag "${hap_name}"
     label "process_single"
-    
+
     container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
         'https://depot.galaxyproject.org/singularity/tidk:0.2.31--h87f3376_0':
         'quay.io/biocontainers/tidk:0.2.31--h87f3376_0' }"
@@ -128,7 +128,7 @@ process EXPLORE_REPEAT_SEQ {
     input:
         tuple val(hap_name), path(fasta_file)
 
-    output: 
+    output:
         tuple val(hap_name), path("${hap_name}.a_posteriori.sequence")
 
     script:
@@ -141,7 +141,7 @@ process EXPLORE_REPEAT_SEQ {
 process SEARCH_A_POSTERIORI_REPEAT_SEQ {
     tag "${hap_name}"
     label "process_single"
-    
+
     container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
         'https://depot.galaxyproject.org/singularity/tidk:0.2.31--h87f3376_0':
         'quay.io/biocontainers/tidk:0.2.31--h87f3376_0' }"
@@ -168,7 +168,7 @@ process SEARCH_A_POSTERIORI_REPEAT_SEQ {
 process PLOT_A_PRIORI_REPEAT_SEQ {
     tag "${hap_name}"
     label "process_single"
-    
+
     container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
         'https://depot.galaxyproject.org/singularity/tidk:0.2.31--h87f3376_0':
         'quay.io/biocontainers/tidk:0.2.31--h87f3376_0' }"
@@ -189,7 +189,7 @@ process PLOT_A_PRIORI_REPEAT_SEQ {
 process PLOT_A_POSTERIORI_REPEAT_SEQ {
     tag "${hap_name}"
     label "process_single"
-    
+
     container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
         'https://depot.galaxyproject.org/singularity/tidk:0.2.31--h87f3376_0':
         'quay.io/biocontainers/tidk:0.2.31--h87f3376_0' }"
@@ -205,7 +205,7 @@ process PLOT_A_POSTERIORI_REPEAT_SEQ {
         """
         if [ -s ${tsv_file} ]; then
             tidk plot --tsv "$tsv_file" --output "${hap_name}_a_posteriori.tidk.plot"
-        else 
+        else
             touch ${hap_name}_a_posteriori.tidk.plot.empty.svg
         fi
         """

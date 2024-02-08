@@ -6,10 +6,10 @@ workflow SYNTENY {
     take:
         tuple_of_tag_fasta_seq_list
         tuple_of_tag_xref_fasta_seq_list
-    
+
     main:
         if(!params.synteny.skip) {
-        
+
             if(params.synteny.between_target_asm) {
                 tuple_of_tag_fasta_seq_list
                 | map {
@@ -38,7 +38,7 @@ workflow SYNTENY {
                 [it[0], it[1], it[3]] // [tag, uncompressed xref fasta file path, seq list]
             }
             | set { ch_tuple_tag_xref_uncompressed_fasta_seq_list }
-            
+
             ch_between_target_asm_combinations
             .mix(
                 tuple_of_tag_fasta_seq_list
@@ -48,16 +48,16 @@ workflow SYNTENY {
             )
             .tap { ch_full_tap_from_all_combinations }
             .map {
-                ["${it[0]}.on.${it[3]}", it[2], it[5]] // [target.on.reference, target_seq_list, ref_seq_list]    
+                ["${it[0]}.on.${it[3]}", it[2], it[5]] // [target.on.reference, target_seq_list, ref_seq_list]
             }
             .set { ch_seq_lists }
 
-            
+
             ch_full_tap_from_all_combinations
             | FILTER_SORT_FASTA_AND_VALIDATE_SEQ_LISTS
             | (MUMMER & GET_FASTA_LEN)
-            
-            
+
+
             FILTER_SORT_FASTA_AND_VALIDATE_SEQ_LISTS.out.tags_fasta_files
             .map { target, reference, target_fasta, ref_fasta ->
                 [ "${target}.on.${reference}", target_fasta, ref_fasta ]
@@ -107,7 +107,7 @@ workflow SYNTENY {
         else {
             ch_list_of_circos_plots = Channel.of([])
         }
-    
+
     emit:
         list_of_circos_plots = ch_list_of_circos_plots
 }
@@ -175,17 +175,17 @@ def extractBundleTag(filePath) {
 process FILTER_SORT_FASTA_AND_VALIDATE_SEQ_LISTS {
     tag "${target}.on.${reference}"
     label "process_single"
-    
+
     container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
         'https://depot.galaxyproject.org/singularity/samtools:1.16.1--h6899075_1':
         'quay.io/biocontainers/samtools:1.16.1--h6899075_1' }"
 
     input:
         tuple val(target), path(target_fasta), path(target_seq_list), val(reference), path(ref_fasta), path(ref_seq_list)
-    
-    output:        
+
+    output:
         tuple val(target), val(reference), path("filtered.ordered.target.fasta"), path("filtered.ordered.ref.fasta"), emit: tags_fasta_files
-    
+
     script:
         """
         validate_seq_lists_1d50376.sh "$target_seq_list" "$ref_seq_list"
@@ -197,17 +197,17 @@ process FILTER_SORT_FASTA_AND_VALIDATE_SEQ_LISTS {
 process GET_FASTA_LEN {
     tag "${target}.on.${reference}"
     label "process_single"
-    
+
     container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
         'https://depot.galaxyproject.org/singularity/samtools:1.16.1--h6899075_1':
         'quay.io/biocontainers/samtools:1.16.1--h6899075_1' }"
-    
-    input:        
+
+    input:
         tuple val(target), val(reference), path(filtered_ordered_target_fasta), path(filtered_ordered_ref_fasta)
-    
+
     output:
         tuple val("${target}.on.${reference}"), path("target.seq.lengths"), path("ref.seq.lengths"), emit: tag_len_files
-    
+
     script:
         """
         samtools faidx $filtered_ordered_target_fasta
@@ -221,15 +221,15 @@ process GET_FASTA_LEN {
 process MUMMER {
     tag "${target}.on.${reference}"
     label "process_high"
-    
+
     container "docker.io/staphb/mummer:4.0.0"
 
     input:
         tuple val(target), val(reference), path(target_fasta), path(ref_fasta)
-    
+
     output:
         tuple val("${target}.on.${reference}"), path("*.delta"), emit: tag_delta_file
-    
+
     script:
         """
         nucmer \
@@ -245,15 +245,15 @@ process DNADIFF {
     tag "${target_on_ref}"
     label "process_single"
     label "process_week_long"
-    
+
     container "docker.io/staphb/mummer:4.0.0"
 
     input:
         tuple val(target_on_ref), path(target_fasta), path(ref_fasta), path(dnadiff_file)
-    
+
     output:
         tuple val(target_on_ref), path("*.xcoords"), path("*.report")
-    
+
     script:
         def inter_extension = params.synteny.many_to_many_align == 1 ? 'mcoords' : '1coords'
         def out_extension = params.synteny.many_to_many_align == 1 ? 'm.xcoords' : '1.xcoords'
@@ -266,7 +266,7 @@ process DNADIFF {
         dnadiff \\
             -p $target_on_ref \\
             -d ${target_on_ref}.sed.delta
-        
+
         cat \\
             "${target_on_ref}.${inter_extension}" \\
             > "${target_on_ref}.${out_extension}"
@@ -276,15 +276,15 @@ process DNADIFF {
 process CIRCOS_BUNDLE_LINKS {
     tag "${target_on_ref}"
     label "process_single"
-    
+
     container "docker.io/gallvp/circos-tools:v0.23-1_ps"
 
     input:
         tuple val(target_on_ref), path(coords_file), path(report_file)
-    
+
     output:
         tuple val(target_on_ref), path("*.xcoords.bundle.txt")
-    
+
     script:
         """
         cat $coords_file | awk '{print \$12,\$1,\$2,\$13,\$3,\$4}' OFS="\\t" > "\$(basename $coords_file).links.txt"
@@ -301,15 +301,15 @@ process CIRCOS_BUNDLE_LINKS {
 process ADD_COLOUR_TO_BUNDLE_LINKS {
     tag "${target_on_ref}"
     label "process_single"
-    
+
     container "docker.io/gallvp/python3npkgs:v0.4"
 
     input:
         tuple val(target_on_ref), path(bundle_links)
-    
+
     output:
         tuple val(target_on_ref), path("*.xcoords.bundle.coloured.txt"), emit: coloured_bundle_links
-    
+
     script:
         """
         if [[ "${params.synteny.color_by_contig}" = "1" ]];then
@@ -327,15 +327,15 @@ process ADD_COLOUR_TO_BUNDLE_LINKS {
 process RELABEL_BUNDLE_LINKS {
     tag "${target_on_ref}"
     label "process_single"
-    
+
     container "docker.io/gallvp/python3npkgs:v0.4"
-    
+
     input:
         tuple val(target_on_ref), path(coloured_bundle_links), path(target_seq_list), path(ref_seq_list)
-    
+
     output:
         tuple val(target_on_ref), path("*.xcoords.bundle.coloured.relabeled.txt"), emit: relabeled_coloured_bundle_links
-    
+
     script:
         """
         #!/usr/bin/env python
@@ -351,17 +351,17 @@ process RELABEL_BUNDLE_LINKS {
 
         subs_ref_seq = pd.read_csv('$ref_seq_list', sep='\\t', header=None)
         subs_ref_seq_dict = dict(zip(subs_ref_seq.iloc[:, 0], subs_ref_seq.iloc[:, 1]))
-        
+
         if os.path.getsize('$coloured_bundle_links') == 0:
             with open(output_file_name, 'w') as f:
                 f.write('')
             sys.exit(0)
         else:
             df = pd.read_csv('$coloured_bundle_links', sep=' ', header=None)
-        
+
         df.iloc[:, 3] = df.iloc[:, 3].replace(subs_target_seq_dict, regex=False)
         df.iloc[:, 0] = df.iloc[:, 0].replace(subs_ref_seq_dict, regex=False)
-        
+
         df.to_csv(output_file_name, sep=' ', index=False, header=None)
         """
 }
@@ -369,15 +369,15 @@ process RELABEL_BUNDLE_LINKS {
 process RELABEL_FASTA_LEN {
     tag "${target_on_ref}"
     label "process_single"
-    
+
     container "docker.io/gallvp/python3npkgs:v0.4"
-    
+
     input:
         tuple val(target_on_ref), path(target_seq_lengths), path(ref_seq_lengths), path(target_seq_list), path(ref_seq_list)
-    
+
     output:
         tuple val(target_on_ref), path("relabeld.target.seq.lengths"), path("relabeld.ref.seq.lengths"), emit: relabeled_seq_lengths
-    
+
     script:
         """
         #!/usr/bin/env python
@@ -389,7 +389,7 @@ process RELABEL_FASTA_LEN {
 
         subs_ref_seq = pd.read_csv('$ref_seq_list', sep='\\t', header=None)
         subs_ref_seq_dict = dict(zip(subs_ref_seq.iloc[:, 0], subs_ref_seq.iloc[:, 1]))
-        
+
         df_target_seq_lengths = pd.read_csv('$target_seq_lengths', sep='\\t', header=None)
         df_target_seq_lengths.iloc[:, 0] = df_target_seq_lengths.iloc[:, 0].replace(subs_target_seq_dict, regex=False)
         df_target_seq_lengths.to_csv("relabeld.target.seq.lengths", sep='\\t', index=False, header=None)
@@ -410,15 +410,15 @@ process SPLIT_BUNDLE_FILE_BY_TARGET_SEQS {
 
     input:
         tuple val(target_on_ref), path(coloured_bundle_links)
-    
+
     output:
         tuple val(target_on_ref), path("*.split.bundle.txt")
-    
+
     script:
         """
         if [[ "${params.synteny.plot_1_vs_all}" = "1" ]];then
             target_seqs=(\$(awk '{print \$4}' $coloured_bundle_links | sort | uniq))
-            
+
             for i in "\${!target_seqs[@]}"
             do
                 target_seq=\${target_seqs[\$i]}
@@ -440,10 +440,10 @@ process GENERATE_KARYOTYPE {
 
     input:
         tuple val(target_on_ref), val(seq_tag), path(split_bundle_file), path(target_seq_len), path(ref_seq_len)
-    
+
     output:
         tuple val("${target_on_ref}.${seq_tag}"), path("*.karyotype")
-    
+
     script:
         """
         ref_seqs=(\$(awk '{print \$1}' $split_bundle_file | sort | uniq))
@@ -469,7 +469,7 @@ process GENERATE_KARYOTYPE {
         cat colored.filtered.ref.seq.len | sort -k1V > merged.seq.lengths
         cat colored.filtered.target.seq.len | sort -k1Vr >> merged.seq.lengths
         sed -i '/^\$/d' merged.seq.lengths
-        
+
         cat merged.seq.lengths \
         | awk '{print "chr -",\$1,\$1,"0",\$2-1,\$3}' OFS="\\t" \
         > "${target_on_ref}.${seq_tag}.karyotype"
@@ -481,20 +481,20 @@ process GENERATE_KARYOTYPE {
 process CIRCOS {
     tag "${target_on_ref_seq}"
     label "process_single"
-    
-    container "docker.io/gallvp/circos-tools:v0.23-1_ps" 
+
+    container "docker.io/gallvp/circos-tools:v0.23-1_ps"
     publishDir "${params.outdir}/synteny/${target_on_ref_seq}", mode: 'copy'
 
     input:
         tuple val(target_on_ref_seq), path(karyotype), path(bundle_file)
-    
+
     output:
         path "*.svg", emit: svg_file
         path "*.png", emit: png_file
         path "bundled.links.tsv", emit: bundled_links_tsv
         path "circos.conf", emit: circos_conf
         path "karyotype.tsv", emit: karyotype_tsv
-    
+
     script:
         """
 
@@ -541,11 +541,11 @@ process CIRCOS {
                 format                  = %.1f
             </tick>
             </ticks>"
-            
+
             label_offset=" + 120p"
         else
             ticks_config=""
-            
+
             label_offset=" + 25p"
         fi
 
@@ -589,9 +589,9 @@ process CIRCOS {
         show_tick_labels            = yes
         chromosomes_units           = 1000000
         chromosomes_display_default = yes
-        
+
         \$ticks_config
-        
+
         <image>
             <<include /usr/share/circos/etc/image.conf>>
         </image>

@@ -3,7 +3,7 @@ nextflow.enable.dsl=2
 workflow NCBI_FCS_ADAPTOR {
     take:
         tuple_of_tag_file
-    
+
     main:
         if (!params.ncbi_fcs_adaptor.skip) {
             SCREEN_SAMPLE(tuple_of_tag_file)
@@ -50,7 +50,7 @@ workflow NCBI_FCS_ADAPTOR {
 
             ch_all_reports          = Channel.of([])
         }
-    
+
     emit:
         is_clean_status             = ch_tuple_tag_is_clean
         reports                     = ch_all_reports
@@ -68,14 +68,14 @@ process SCREEN_SAMPLE {
 
     input:
         tuple val(hap_name), path(fasta_file)
-    
+
     output:
         tuple val(hap_name), path("${hap_name}_fcs_adaptor_report.tsv")
 
     script:
         """
             mkdir "${hap_name}_outputdir"
-            
+
             /app/fcs/bin/av_screen_x \
             -o "${hap_name}_outputdir" \
             --${params.ncbi_fcs_adaptor.empire} \
@@ -95,10 +95,10 @@ process CHECK_CONTAMINATION {
 
     input:
         tuple val(hap_name), path(report_tsv)
-    
+
     output:
         stdout
-    
+
     script:
         """
             num_lines=\$(cat $report_tsv | wc -l)

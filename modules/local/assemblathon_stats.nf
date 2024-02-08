@@ -8,7 +8,7 @@ process ASSEMBLATHON_STATS {
     container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
         'https://depot.galaxyproject.org/singularity/ubuntu:20.04':
         'quay.io/nf-core/ubuntu:20.04' }"
-    
+
     publishDir "${params.outdir}/assemblathon_stats", mode: 'copy'
 
     input:
@@ -26,9 +26,9 @@ process ASSEMBLATHON_STATS {
         | xargs)
 
         falite_path="\$(find \$paths_to_check -name FAlite_943e0fb.pm)"
-        
+
         ln -s "\$falite_path" FAlite_943e0fb.pm
-        
+
         PERL5LIB=./ assemblathon_stats_943e0fb.pl \
         -n ${params.assemblathon_stats.n_limit} \
         -csv \
@@ -36,5 +36,5 @@ process ASSEMBLATHON_STATS {
 
         csv_file_name=\$(ls | grep "csv")
         mv \$csv_file_name "${hap_name}_stats.csv"
-        """ 
+        """
 }

@@ -4,7 +4,7 @@ workflow NCBI_FCS_GX {
     take:
         tuple_of_tag_file
         db_path // val
-    
+
     main:
         if (!params.ncbi_fcs_gx.skip) {
 
@@ -14,7 +14,7 @@ workflow NCBI_FCS_GX {
             | set {ch_all_samples}
 
             SCREEN_SAMPLES(ch_all_samples, file(db_path, checkIfExists:true))
-            
+
             // Clean/contaminated branching
             SCREEN_SAMPLES
             .out
@@ -36,7 +36,7 @@ workflow NCBI_FCS_GX {
                 [tag, isClean]
             }
             | set { ch_tuple_tag_is_clean } // [tag, is_clean flag]
-            
+
             ch_tuple_tag_is_clean
             | map {
                 def tag = it[0]
@@ -76,7 +76,7 @@ workflow NCBI_FCS_GX {
 
             ch_fcs_gx_reports = Channel.of([])
         }
-    
+
     emit:
         is_clean_status     = ch_tuple_tag_is_clean
         fcs_gx_reports      = ch_fcs_gx_reports
@@ -95,7 +95,7 @@ process SETUP_SAMPLE {
 
     output:
         path 'fasta.file.for.*.fasta'
-    
+
     script:
         """
         ln -s $fasta_file "fasta.file.for.${hap_name}.fasta"
@@ -118,11 +118,11 @@ process SCREEN_SAMPLES {
     input:
         path samples
         path db_path
-    
+
     output:
         path "*.fcs_gx_report.txt", emit: fcs_gx_reports
         path "*.taxonomy.rpt", emit: fcs_gx_taxonomies
-    
+
     script:
         """
         for sample_fasta in $samples;
@@ -146,10 +146,10 @@ process CHECK_CONTAMINATION {
 
     input:
         tuple val(hap_name), path(report_file)
-    
+
     output:
         stdout
-    
+
     script:
         """
         hap_name=\$(echo "$report_file" | sed 's/.fcs_gx_report.txt//g')
@@ -161,16 +161,16 @@ process CHECK_CONTAMINATION {
 process FCS_GX_KRONA_PLOT {
     tag "${tag_name}"
     label "process_single"
-    
+
     container "docker.io/nanozoo/krona:2.7.1--e7615f7"
     publishDir "${params.outdir}/ncbi_fcs_gx", mode: 'copy'
 
     input:
         tuple val(tag_name), path(fcs_gx_taxonomy)
-    
+
     output:
         tuple path("${tag_name}.inter.tax.rpt.tsv"), path("${tag_name}.fcs.gx.krona.cut"), path("${tag_name}.fcs.gx.krona.html")
-    
+
     script:
         """
         cat $fcs_gx_taxonomy \

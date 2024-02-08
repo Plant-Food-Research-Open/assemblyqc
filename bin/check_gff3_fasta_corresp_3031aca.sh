@@ -8,7 +8,7 @@ gff3_file="$2"
 # samtools faidx
 
 ## STEP 1
-# Check that gff3 has no identifers that are not in fasta (fasta can 
+# Check that gff3 has no identifers that are not in fasta (fasta can
 # have ids that are not in gff3 since not all assembly units have gff3 records
 
 # Extract identifiers from the GFF3 file

@@ -5,12 +5,12 @@ include { GZIP_FASTA } from '../../modules/local/gzip_fasta'
 workflow VALIDATE_FASTA {
     take:
         tuple_of_tag_file
-    
+
     main:
         tuple_of_tag_file
         | GZIP_FASTA
         | set { ch_tuple_tag_extracted_file }
-        
+
         ch_tuple_tag_extracted_file
         | RUN_VALIDATOR
         | map {
@@ -22,7 +22,7 @@ workflow VALIDATE_FASTA {
             ch_tuple_tag_extracted_file
         )
         | set { ch_tuple_tag_valid_fasta }
-    
+
     emit:
         tuple_tag_valid_fasta = ch_tuple_tag_valid_fasta
 }
@@ -35,7 +35,7 @@ process RUN_VALIDATOR {
 
     input:
         tuple val(tag_label), path(fasta_file)
-    
+
     output:
         stdout
 
@@ -46,7 +46,7 @@ process RUN_VALIDATOR {
         # If invalid, the above command will fail and
         # the NXF error startegy will kick in.
         # Otherwise, pass the is_valid status to stdout
-        
+
         echo -n "VALIDATE_FASTA:$tag_label:VALID"
         """
 }

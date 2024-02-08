@@ -15,7 +15,7 @@ use Getopt::Long;
 use List::Util qw(sum max min);
 
 ###############################################
-# 
+#
 #  C o m m a n d   l i n e   o p t i o n s
 #
 ###############################################
@@ -25,9 +25,9 @@ my $graph;       # produce some output ready for Excel or R
 my $csv;         # produce CSV output file of results
 my $n_limit;     # how many N characters should be used to split scaffolds into contigs
 my $genome_size; # estimated or known genome size (will be used for some stats)
- 
+
 GetOptions ("limit=i"       => \$limit,
-			"csv"           => \$csv, 
+			"csv"           => \$csv,
 			"graph"         => \$graph,
 			"n=i"           => \$n_limit,
 			"genome_size=i" => \$genome_size);
@@ -51,7 +51,7 @@ die "$usage" unless (@ARGV == 1);
 my ($file) = @ARGV;
 
 ###############################################
-# 
+#
 #  S o m e   G l o b a l   v a r i a b l e s
 #
 ###############################################
@@ -63,9 +63,9 @@ my $unscaffolded_contig_length = 0;		# total length of all contigs not part of s
 my $w = 60;					# formatting width for output
 my %data;					# data structure to hold all sequence info key is either 'scaffold', 'contig' or intermediate', values are seqs & length arrays
 my (@results, @headers);			# arrays to store results (for use with -csv option)
-	
-	
-	
+
+
+
 # make first loop through file, capture some basic info and add sequences to arrays
 process_FASTA($file);
 
@@ -80,7 +80,7 @@ if(defined($genome_size)){
 sequence_statistics('scaffold');
 
 # produce a couple of intermediate statistics based on scaffolded contigs vs unscaffolded contigs
-sequence_statistics('intermediate');	
+sequence_statistics('intermediate');
 
 # finish with contig stats
 sequence_statistics('contig');
@@ -106,11 +106,11 @@ exit(0);
 ##########################################
 
 sub process_FASTA{
-	
+
 	my ($seqs) = @_;
-	
+
 	my $input;
-	
+
 	# if dealing with gzip file, treat differently
 	if($seqs =~ m/\.gz$/){
 		open($input, "gunzip -c $seqs |") or die "Can't open a pipe to $seqs\n";
@@ -129,33 +129,33 @@ sub process_FASTA{
 		$seq_count++;
 
 		# everything gets pushed to scaffolds array
-		push(@{$data{scaffold}{seqs}},$seq);	
-		push(@{$data{scaffold}{lengths}},$length);	
-		
+		push(@{$data{scaffold}{seqs}},$seq);
+		push(@{$data{scaffold}{lengths}},$length);
+
 		# if there are not at least 25 consecutive Ns in the sequence we need to split it into contigs
 		# otherwise the sequence must be a contig itself and it still needs to be put in @contigs array
 		if ($seq =~ m/N{$n_limit}/){
-			
+
 			# add length to $scaffolded_contig_length
 			$scaffolded_contig_length += $length;
-			
+
 			# loop through all contigs that comprise the scaffold
 			foreach my $contig (split(/N{$n_limit,}/, $seq)){
 			    next unless my $length = length($contig);
 			        $scaffolded_contigs++;
-				push(@{$data{contig}{seqs}},$contig);	
-				push(@{$data{contig}{lengths}},$length);	
+				push(@{$data{contig}{seqs}},$contig);
+				push(@{$data{contig}{lengths}},$length);
 			}
 		} else {
 			# must be here if the scaffold is actually just a contig (or is a scaffold with < $n_limit Ns)
 			$unscaffolded_contigs++;
 			$unscaffolded_contig_length += $length;
-			push(@{$data{contig}{seqs}},$seq);	
-			push(@{$data{contig}{lengths}},$length);	
-		}	
+			push(@{$data{contig}{seqs}},$seq);
+			push(@{$data{contig}{lengths}},$length);
+		}
 		# for testing, just use a few sequences
 		last if ($seq_count >= $limit);
-		
+
 	}
 	close($input);
 }
@@ -167,20 +167,20 @@ sub process_FASTA{
 
 sub sequence_statistics{
 	my ($type) = @_;
-	
+
 	print "\n";
-	
+
 	# need descriptions of each result
 	my $desc;
-	
+
 	# there are just a couple of intermediate level statistics to print
 	if($type eq 'intermediate'){
 		my $total_size = sum(@{$data{scaffold}{lengths}});
-		
+
 		# now calculate percentage of assembly that is accounted for by scaffolded contigs
 		my $percent = sprintf("%.1f",($scaffolded_contig_length / $total_size) * 100);
 		$desc = "Percentage of assembly in scaffolded contigs";
-		printf "%${w}s %10s\n", $desc, "$percent%";		
+		printf "%${w}s %10s\n", $desc, "$percent%";
 		store_results($desc, $percent) if ($csv);
 
 		# now calculate percentage of assembly that is accounted for by unscaffolded contigs
@@ -199,7 +199,7 @@ sub sequence_statistics{
 		$desc = "Average number of contigs per scaffold";
 		printf "%${w}s %10s\n", $desc, $average_contigs_per_scaffold;
 		store_results($desc, $average_contigs_per_scaffold) if ($csv);
-		
+
 		# now calculate average length of break between contigs
 		# just find all runs of Ns in scaffolds (>= $n_limit) and calculate average length
 		my @contig_breaks;
@@ -207,10 +207,10 @@ sub sequence_statistics{
 			while($scaffold =~ m/(N{$n_limit,})/g){
 				push(@contig_breaks, length($1));
 			}
-		}	
+		}
 		# set break size to zero if there are no Ns in scaffolds
 		my $average_break_length;
-		
+
 		if(@contig_breaks == 0){
 			$average_break_length = 0;
 		} else{
@@ -229,22 +229,22 @@ sub sequence_statistics{
 		store_results($desc, $average_break_length) if ($csv);
 		return();
 	}
-	
-	
+
+
 	# n
 	my $count = scalar(@{$data{$type}{lengths}});
 	$desc = "Number of ${type}s";
 	printf "%${w}s %10d\n", $desc, $count;
 	store_results($desc, $count) if ($csv);
-	
-	
-	
+
+
+
 	# more contig details (only for contigs)
 	if ($type eq 'contig'){
 		$desc = "Number of contigs in scaffolds";
 		printf "%${w}s %10d\n",$desc, $scaffolded_contigs;
 		store_results($desc, $scaffolded_contigs) if ($csv);
-		
+
 		$desc = "Number of contigs not in scaffolds";
 		printf "%${w}s %10d\n", $desc,$unscaffolded_contigs;
 		store_results($desc, $unscaffolded_contigs) if ($csv);
@@ -258,21 +258,21 @@ sub sequence_statistics{
 	store_results($desc, $total_size) if ($csv);
 
 
-	# For scaffold data only, can caluclate the percentage of known genome size 
+	# For scaffold data only, can caluclate the percentage of known genome size
 	# and also the amount of useful sequence
-	if ($type eq 'scaffold' && defined($genome_size)){		
+	if ($type eq 'scaffold' && defined($genome_size)){
 		my $percent = sprintf("%.1f",($total_size / $genome_size) * 100);
 		$desc = "Total scaffold length as percentage of assumed genome size";
 		printf "%${w}s %10s\n", $desc, "$percent%";
-		store_results($desc, $percent) if ($csv);		
-		
-		# Also want to find total fraction of genome (based on estimated size) that is 
+		store_results($desc, $percent) if ($csv);
+
+		# Also want to find total fraction of genome (based on estimated size) that is
 		# in 'non-useful scaffolds', those below average size of vertebrate gene
 		# (taken to be 25 kbp)
 		my $useful_length = 25000;
 		my $sum_useful = 0;
 		foreach my $length (@{$data{$type}{lengths}}){
-			($sum_useful += $length) if ($length >= $useful_length);			
+			($sum_useful += $length) if ($length >= $useful_length);
 		}
 		# calculate how much non-useful sequence there was
 		$desc = "Useful amount of $type sequences (>= 25K nt)";
@@ -285,20 +285,20 @@ sub sequence_statistics{
 		store_results($desc, $percent_useful) if ($csv);
 
 	}
-		
-	
+
+
 	# longest and shortest sequences
 	my $max = max(@{$data{$type}{lengths}});
 	$desc = "Longest $type";
 	printf "%${w}s %10d\n", $desc, $max;
 	store_results($desc, $max) if ($csv);
 
-	my $min = min(@{$data{$type}{lengths}});		
+	my $min = min(@{$data{$type}{lengths}});
 	$desc = "Shortest $type";
 	printf "%${w}s %10d\n", $desc, $min;
 	store_results($desc, $min) if ($csv);
 
-	
+
 	# find number of sequences above certain sizes
 	my %sizes_to_shorthand = (1000     => '1K',
 							  10000    => '10K',
@@ -315,10 +315,10 @@ sub sequence_statistics{
 		store_results($desc, $matches)  if ($csv);
 
 		$desc = "Percentage of ${type}s > $sizes_to_shorthand{$size} nt";
-		store_results($desc, $percent)  if ($csv);	
+		store_results($desc, $percent)  if ($csv);
 	}
-		
-	
+
+
 	# mean sequence size
 	my $mean = sprintf("%.0f",$total_size / $count);
 	$desc = "Mean $type size";
@@ -330,11 +330,11 @@ sub sequence_statistics{
 	$desc = "Median $type size";
 	printf "%${w}s %10d\n", $desc, $median;
 	store_results($desc, $median) if ($csv);
-	
-	
-	
+
+
+
 	##################################################################################
- 	# 
+ 	#
 	# N50 values
 	#
 	# Includes N(x) values, NG(x) (using assumed genome size)
@@ -343,7 +343,7 @@ sub sequence_statistics{
 
 	# keep track of cumulative assembly size (starting from smallest seq)
 	my $running_total = 0;
-	
+
 	# want to store all N50-style values from N1..N100. First target size to pass is N1
 	my $n_index = 1;
 	my @n_values;
@@ -359,7 +359,7 @@ sub sequence_statistics{
 
 		# check the current sequence and all sequences shorter than current one
 		# to see if they exceed the current NX value
-		while($running_total > int (($n_index / 100) * $total_size)){	
+		while($running_total > int (($n_index / 100) * $total_size)){
 			if ($n_index == 50){
 				$n50_length = $length;
 				$desc = "N50 $type length";
@@ -367,71 +367,71 @@ sub sequence_statistics{
 				store_results($desc, $length) if ($csv);
 
 				# L50 = number of scaffolds/contigs that are longer than or equal to the N50 size
-				$desc = "L50 $type count";				
+				$desc = "L50 $type count";
 				printf "%${w}s %10d\n","L50 $type count", $i;
 				store_results($desc, $i) if ($csv);
 			}
 			$n_values[$n_index] = $length;
 			$n_index++;
-		}		
+		}
 	}
-	
+
 	my @ng_values;
 
 	# do we have an estimated/known genome size to work with?
 	if(defined($genome_size)){
 		my $ng_index = 1;
 		my $ng50_length = 0;
-		
+
 		$running_total = 0;
 		$i = 0;
-				
+
 		foreach my $length (reverse sort{$a <=> $b} @{$data{$type}{lengths}}){
 			$i++;
 			$running_total += $length;
-					
+
 			# now do the same for NG values, using assumed genome size
-			while($running_total > int (($ng_index / 100) * $genome_size)){	
+			while($running_total > int (($ng_index / 100) * $genome_size)){
 				if ($ng_index == 50){
 					$ng50_length = $length;
 					$desc = "NG50 $type length";
 					printf "%${w}s %10d\n", $desc, $length;
 					store_results($desc, $length) if ($csv);
-		
-					$desc = "LG50 $type count";				
-					printf "%${w}s %10d\n", $desc, $i;				
+
+					$desc = "LG50 $type count";
+					printf "%${w}s %10d\n", $desc, $i;
 					store_results($desc, $i) if ($csv);
 				}
 				$ng_values[$ng_index] = $length;
 				$ng_index++;
-			}		
+			}
 		}
-		
+
 		# calculate N50/NG50 difference
 		my $n50_diff = abs($ng50_length - $n50_length);
 		$desc = "N50 $type - NG50 $type length difference";
 		printf "%${w}s %10d\n", $desc, $n50_diff;
 		store_results($desc, $n50_diff) if ($csv);
-						
+
 	}
 	# add final value to @n_values and @ng_values which will just be the shortest sequence
 #	$n_values[100] = $min;
 #	$ng_values[100] = $min;
-	
+
 
 	# base frequencies
 	my %bases;
 
-    my $seq = join('',@{$data{$type}{seqs}});  
+    my $seq = join('',@{$data{$type}{seqs}});
 	my $length = length($seq);
 
     # count mononucleotide frequencies
-    $bases{A} = ($seq =~ tr/A/A/); 
-    $bases{C} = ($seq =~ tr/C/C/); 
-    $bases{G} = ($seq =~ tr/G/G/); 
-    $bases{T} = ($seq =~ tr/T/T/); 
+    $bases{A} = ($seq =~ tr/A/A/);
+    $bases{C} = ($seq =~ tr/C/C/);
+    $bases{G} = ($seq =~ tr/G/G/);
+    $bases{T} = ($seq =~ tr/T/T/);
     $bases{N} = ($seq =~ tr/N/N/);
-	
+
 	my $base_count = 0;
 	foreach my $base (qw(A C G T N)){
 		my $percent = sprintf("%.2f", ($bases{$base} / $length) * 100);
@@ -440,7 +440,7 @@ sub sequence_statistics{
 		store_results($desc, $percent) if ($csv);
 		$base_count += $bases{$base};
 	}
-	
+
     # calculate remainder ('other) in case there are other characters present
 	my $other = $length - $base_count;
 	my $percent = sprintf("%.2f", ($other / $length) * 100);
@@ -455,28 +455,28 @@ sub sequence_statistics{
 
 	# anything to dump for graphing?
 	if($graph){
-		
+
 		# create new output file name
 		my $file_name = $file;
 		$file_name =~ s/\.gz$//;
 		$file_name =~ s/\.(fa|fasta)$//;
 		$file_name .= ".${type}.NG50.csv";
-		
+
 		open(my $out, ">", "$file_name") or die "Can't create $file_name\n";
 		print $out join (',',"Assembly",1..99), "\n";
-	
+
 		# make some guesses of what might constitute the unique assembly ID
 		my $assembly_ID = $file;
 		($assembly_ID) = $file =~ m/^([A-Z]\d{1,2})_/ if ($file =~ m/^[A-Z]\d{1,2}_/);
 		($assembly_ID) = $file =~ m/^((bird|snake|fish)_\d+(C|E))_/ if ($file =~ m/^(bird|snake|fish)_\d+C|E_/);
-			
+
 		# CSV file, with filename in first column
 		print $out "$assembly_ID";
 
 		for (my $i = 1; $i < 100; $i++){
 			# higher NG values might not be present if assembly is poor
 			if (defined $ng_values[$i]){
-				print $out ",$ng_values[$i]";	
+				print $out ",$ng_values[$i]";
 			} else{
 				print $out ",0";
 			}
@@ -490,20 +490,20 @@ sub sequence_statistics{
 # if -csv option is used
 sub store_results{
 	my ($desc, $result) = @_;
-	
+
 	push(@headers,$desc);
 	push(@results,$result);
 }
 
 sub write_csv{
 	my ($file) = @_;
-	
+
 	# create new output file name
 	my $output = $file;
 	$output =~ s/\.gz$//;
 	$output =~ s/\.(fa|fasta)$//;
 	$output .= ".csv";
-	
+
 	# make some guesses of what might constitute the unique assembly ID
 	my $assembly_ID = $file;
 	($assembly_ID) = $file =~ m/^([A-Z]\d{1,2})_/ if ($file =~ m/^[A-Z]\d{1,2}_/);
@@ -516,13 +516,13 @@ sub write_csv{
 		print $out "$header,";
 	}
 	print $out "\n";
-	
+
 	print $out "$assembly_ID,";
 	foreach my $result (@results){
 		print $out "$result,";
 	}
 	print $out "\n";
-	
-	
+
+
 	close($out);
 }

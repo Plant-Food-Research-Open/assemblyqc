@@ -3,7 +3,7 @@ nextflow.enable.dsl=2
 workflow HIC_PREPROCESS {
     take:
         paired_reads
-    
+
     main:
         if (!params.hic.skip) {
             FASTP(paired_reads)
@@ -15,7 +15,7 @@ workflow HIC_PREPROCESS {
         } else {
             ch_cleaned_paired_reads = Channel.of([])
         }
-    
+
     emit:
         cleaned_paired_reads = ch_cleaned_paired_reads
 }
@@ -23,19 +23,19 @@ workflow HIC_PREPROCESS {
 process FASTP {
     tag "$sample_id"
     label "process_medium"
-    
+
     container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
         'https://depot.galaxyproject.org/singularity/fastp:0.23.2--h5f740d0_3':
         'quay.io/biocontainers/fastp:0.23.2--h5f740d0_3' }"
 
-    input: 
+    input:
         tuple val(sample_id), path(reads)
 
     output:
         tuple val(sample_id), path('*.fastp.fastq.gz')
 
     script:
-        """ 
+        """
         fastp \
         -i ${reads[0]} \
         -o "\$(basename ${reads[0]} .fastq.gz).fastp.fastq.gz" \
@@ -51,7 +51,7 @@ process FASTP {
 process FAST_QC {
     tag "$sample_id"
     label "process_medium"
-    
+
     publishDir "${params.outdir}/hic/fastqc", mode:'copy'
     container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
         'https://depot.galaxyproject.org/singularity/fastqc:0.11.9--hdfd78af_1':
