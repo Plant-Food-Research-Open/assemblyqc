@@ -1,5 +1,7 @@
 # AssemblyQC
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10647870.svg)](https://doi.org/10.5281/zenodo.10647870)
+
 - [AssemblyQC](#assemblyqc)
   - [Introduction](#introduction)
   - [Pipeline Flowchart](#pipeline-flowchart)
