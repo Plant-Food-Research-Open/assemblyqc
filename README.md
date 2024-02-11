@@ -128,4 +128,4 @@ Cecilia Deng [@CeciliaDeng](https://github.com/CeciliaDeng), Chen Wu [@christina
 
 For a comprehensive list of references and versions for the tools, see [CITATIONS.md](./CITATIONS.md).
 
-> Rashid, U., Wu, C., Shiller, J., Smith, K., Crowhurst, R., Davy, M., Chen, T., Thomson, S., & Deng, C. (2024). AssemblyQC: A NextFlow pipeline for evaluating assembly quality (Version 1.3) [Computer software]. https://github.com/Plant-Food-Research-Open/assembly_qc
+> Rashid, U., Wu, C., Shiller, J., Smith, K., Crowhurst, R., Davy, M., Chen, T.-H., Thomson, S., & Deng, C. (2024). AssemblyQC: A NextFlow pipeline for evaluating assembly quality (1.3). Zenodo. https://doi.org/10.5281/zenodo.10647870
