@@ -1,29 +1,30 @@
 nextflow.enable.dsl=2
 
-include { validateParams            } from '../modules/local/utils.nf'
-include { jsonifyParams             } from '../modules/local/utils.nf'
+include { validateParams                    } from '../modules/local/utils'
+include { jsonifyParams                     } from '../modules/local/utils'
 
-include { VALIDATE_FASTA            } from '../subworkflows/local/validate_fasta.nf'
-include { VALIDATE_GFF3             } from '../subworkflows/local/validate_gff3.nf'
-include { BUSCO                     } from '../subworkflows/local/busco.nf'
-include { TIDK                      } from '../subworkflows/local/tidk.nf'
-include { FASTA_LTRRETRIEVER_LAI    } from '../subworkflows/pfr/fasta_ltrretriever_lai/main.nf'
-include { KRAKEN2                   } from '../subworkflows/local/kraken2.nf'
-include { NCBI_FCS_ADAPTOR          } from '../subworkflows/local/ncbi_fcs_adaptor.nf'
-include { NCBI_FCS_GX               } from '../subworkflows/local/ncbi_fcs_gx.nf'
-include { FASTQ_TRIM_FASTP_FASTQC   } from '../subworkflows/nf-core/fastq_trim_fastp_fastqc/main'
-include { HIC_CONTACT_MAP           } from '../subworkflows/local/hic_contact_map.nf'
-include { SYNTENY                   } from '../subworkflows/local/synteny.nf'
+include { VALIDATE_FASTA                    } from '../subworkflows/local/validate_fasta'
+include { VALIDATE_GFF3                     } from '../subworkflows/local/validate_gff3'
+include { BUSCO                             } from '../subworkflows/local/busco'
+include { FASTA_EXPLORE_SEARCH_PLOT_TIDK    } from '../subworkflows/nf-core/fasta_explore_search_plot_tidk/main'
+include { FASTA_LTRRETRIEVER_LAI            } from '../subworkflows/pfr/fasta_ltrretriever_lai/main'
+include { KRAKEN2                           } from '../subworkflows/local/kraken2'
+include { NCBI_FCS_ADAPTOR                  } from '../subworkflows/local/ncbi_fcs_adaptor'
+include { NCBI_FCS_GX                       } from '../subworkflows/local/ncbi_fcs_gx'
+include { FASTQ_TRIM_FASTP_FASTQC           } from '../subworkflows/nf-core/fastq_trim_fastp_fastqc/main'
+include { HIC_CONTACT_MAP                   } from '../subworkflows/local/hic_contact_map'
+include { SYNTENY                           } from '../subworkflows/local/synteny'
 
-include { CREATE_REPORT             } from '../modules/local/create_report.nf'
-include { ASSEMBLATHON_STATS        } from '../modules/local/assemblathon_stats.nf'
-include { GENOMETOOLS_GT_STAT       } from '../modules/local/genometools_gt_stat.nf'
-include { BIOCODE_GFF3_STATS        } from '../modules/local/biocode_gff3_stats.nf'
+include { CREATE_REPORT                     } from '../modules/local/create_report'
+include { ASSEMBLATHON_STATS                } from '../modules/local/assemblathon_stats'
+include { GENOMETOOLS_GT_STAT               } from '../modules/local/genometools_gt_stat'
+include { BIOCODE_GFF3_STATS                } from '../modules/local/biocode_gff3_stats'
+
 
 validateParams(params)
 def paramsAsJSON = jsonifyParams(params)
 
-workflow ASSEMBLY_QC {
+workflow ASSEMBLYQC {
 
     // VALIDATE_FASTA
     Channel.fromList(params.target_assemblies)
@@ -102,7 +103,28 @@ workflow ASSEMBLY_QC {
     | BUSCO
 
     // TIDK
-    TIDK(ch_clean_target_assemblies)
+    ch_tidk_inputs  = params.tidk.skip
+                    ? Channel.empty()
+                    : ch_clean_target_assemblies
+                    | map { tag, fa -> [ [ id: tag ], fa ] }
+                    | combine(
+                        Channel.of(params.tidk.repeat_seq)
+                    )
+
+    FASTA_EXPLORE_SEARCH_PLOT_TIDK(
+        ch_tidk_inputs.map { meta, fa, seq -> [ meta, fa ] },
+        ch_tidk_inputs.map { meta, fa, seq -> [ meta, seq ] }
+    )
+
+    ch_tidk_outputs = FASTA_EXPLORE_SEARCH_PLOT_TIDK.out.apriori_svg
+                    | mix(FASTA_EXPLORE_SEARCH_PLOT_TIDK.out.aposteriori_svg)
+                    | mix(FASTA_EXPLORE_SEARCH_PLOT_TIDK.out.aposteriori_sequence)
+                    | map { meta, file -> file }
+                    | mix(
+                        Channel.of("$params.tidk.repeat_seq")
+                        | collectFile(name: 'a_priori.sequence', newLine: true)
+                    )
+                    | collect
 
     // FASTA_LTRRETRIEVER_LAI
     ch_lai_inputs   = params.lai.skip
@@ -194,7 +216,7 @@ workflow ASSEMBLY_QC {
         ch_genometools_gt_stats.ifEmpty([]),
         ch_biocode_gff3_stats.ifEmpty([]),
         BUSCO.out.list_of_outputs.ifEmpty([]),
-        TIDK.out.list_of_plots.ifEmpty([]),
+        ch_tidk_outputs.ifEmpty([]),
         ch_lai_outputs.ifEmpty([]),
         KRAKEN2.out.list_of_outputs.ifEmpty([]),
         HIC_CONTACT_MAP.out.list_of_html_files.ifEmpty([]),

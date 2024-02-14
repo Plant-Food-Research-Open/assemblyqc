@@ -3,6 +3,8 @@
 ## Version 1.4 (14-Feb-2023)
 
 1. Now it is possible to skip FASTP and FASTQC for the HIC module
+2. Renamed ASSEMBLY_QC workflow to ASSEMBLYQC
+3. Now using nf-core/FASTA_EXPLORE_SEARCH_PLOT_TIDK
 
 ## Version 1.3 (08-Feb-2023)
 

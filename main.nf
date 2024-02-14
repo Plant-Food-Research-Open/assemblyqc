@@ -2,8 +2,12 @@
 
 nextflow.enable.dsl=2
 
-include { ASSEMBLY_QC } from './workflows/assembly_qc.nf'
+include { ASSEMBLYQC } from './workflows/assemblyqc.nf'
 
 workflow {
-    ASSEMBLY_QC()
+    PFR_ASSEMBLYQC()
+}
+
+workflow PFR_ASSEMBLYQC {
+    ASSEMBLYQC()
 }
