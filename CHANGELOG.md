@@ -1,5 +1,9 @@
 # Change Log
 
+## Version 1.4 (14-Feb-2023)
+
+1. Now it is possible to skip FASTP and FASTQC for the HIC module
+
 ## Version 1.3 (08-Feb-2023)
 
 1. Docker engine is now also supported

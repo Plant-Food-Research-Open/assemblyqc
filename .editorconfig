@@ -11,9 +11,6 @@ indent_style = space
 [*.{md,yml,yaml,cff}]
 indent_size = 2
 
-[*.nf.test]
-insert_final_newline = false
-
 [{LICENSE,LEGAL.txt}]
 charset = unset
 end_of_line = unset
@@ -24,3 +21,6 @@ indent_size = unset
 
 [*.{pl,pm}]
 indent_size = unset
+
+[*.nf.test]
+insert_final_newline = false

@@ -6,3 +6,4 @@ work/
 results/
 *.stdout
 *.stderr
+data/

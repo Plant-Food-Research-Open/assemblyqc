@@ -7,14 +7,14 @@ include { HIC_QC                    } from '../../modules/local/hic_qc.nf'
 
 workflow HIC_CONTACT_MAP {
     take:
-        reads // [ val(id), [ fq ] ]
+        reads // [ val(meta), [ fq ] ]
         fasta // [ val(tag), fasta ]
 
     main:
         if (!params.hic.skip) {
 
             FASTQ_BWA_MEM_SAMBLASTER(
-                reads.map { id, fq -> [ [ id: id ], fq ]},
+                reads,
                 fasta.map { tag, fasta -> [ [ id: tag ], fasta, [] ] }
             )
             .bam

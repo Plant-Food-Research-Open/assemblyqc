@@ -154,12 +154,20 @@ kraken2 {
 Following parameter must be configured:
 
 - `paired_reads`: A relative or absolute path to paired reads in fastq.gz format, or a SRA ID. The format for file path is `*R{1,2}*.(fasta|fq).gz`. An example is '/input/genomic/fungal/Neonectria/Genome/20190506_CAGRF19591_CGYCF_HiC/PG_PETUNIA_HiC_CGYCF_CACTCA_L001_R{1,2}.fastq.gz'.
+- `skip_fastp`: Skips fastp trimming.
+- `skip_fastqc`: Skips QC by fastqc.
+- `fastp_ext_args`: Additional arguments for fastp.
 
 > ⚙️ From conf/test_full.config
 
 ```groovy
 hic {
-    paired_reads = "SRR8238190"
+    paired_reads    = "SRR8238190"
+
+    skip_fastp      = 0
+    skip_fastqc     = 0
+
+    fastp_ext_args  = '--qualified_quality_phred 20 --length_required 50'
 }
 ```
 
