@@ -80,9 +80,9 @@
 - HIC CONTACT MAP
   - JUICEBOX.JS (2.4.3, [MIT](https://github.com/igvteam/juicebox.js/blob/master/LICENSE))
     > Robinson JT, Turner D, Durand NC, Thorvaldsdóttir H, Mesirov JP, Aiden EL. 2018. Juicebox.js Provides a Cloud-Based Visualization System for Hi-C Data. Cell Syst. 2018 Feb 28;6(2):256-258.e1. doi: <https://doi.org/10.1016/j.cels.2018.01.001>. Epub 2018 Feb 7. PMID: 29428417; PMCID: PMC6047755.
-  - FASTP (0.23.2, [MIT](https://github.com/OpenGene/fastp/blob/master/LICENSE))
+  - FASTP (0.23.4, [MIT](https://github.com/OpenGene/fastp/blob/master/LICENSE))
     > Chen S, Zhou Y, Chen Y, Gu J. 2018. fastp: an ultra-fast all-in-one FASTQ preprocessor, Bioinformatics, Volume 34, Issue 17, 01 September 2018, Pages i884–i890, <https://doi.org/10.1093/bioinformatics/bty560>
-  - FASTQC (0.11.9, [GPL v3](https://github.com/s-andrews/FastQC/blob/master/LICENSE.txt))
+  - FASTQC (0.12.9, [GPL v3](https://github.com/s-andrews/FastQC/blob/master/LICENSE.txt))
     > <https://github.com/s-andrews/FastQC>
   - RUN_ASSEMBLY_VISUALIZER (commit: 63029aa, [MIT](https://github.com/aidenlab/3d-dna/blob/master/LICENSE))
     > Dudchenko O, Batra SS, Omer AD, Nyquist SK, Hoeger M, Durand NC, Shamim MS, Machol I, Lander, Aiden AP, Aiden EL 2017. De novo assembly of the Aedes aegypti genome using Hi-C yields chromosome-length scaffolds.Science356, 92-95(2017). doi: <https://doi.org/10.1126/science.aal3327>. Available at: <https://github.com/aidenlab/3d-dna/commit/63029aa3bc5ba9bbdad9dd9771ace583cc95e273>
