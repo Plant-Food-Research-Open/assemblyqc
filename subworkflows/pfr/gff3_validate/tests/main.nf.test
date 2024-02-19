@@ -1,0 +1,86 @@
+nextflow_workflow {
+
+    name "Test Workflow GFF3_VALIDATE"
+    script "../main.nf"
+    workflow "GFF3_VALIDATE"
+    config "./nextflow.config"
+
+    tag "subworkflows"
+    tag "subworkflows_nfcore"
+    tag "subworkflows/gff3_validate"
+    tag "gff3_validate"
+    tag "gt"
+    tag "gt/gff3'"
+    tag "gt/gff3validator'"
+    tag "custom"
+    tag "custom/checkgff3fastacorrespondence'"
+
+    test("sarscov2-genome_gff3-genome_fasta-all_pass") {
+
+        when {
+            workflow {
+                """
+                input[0] = Channel.of([ [ id:'test' ], // meta map
+                    file(params.test_data['sarscov2']['genome']['genome_gff3'], checkIfExists: true)
+                ])
+                input[1] = Channel.of([ [ id:'test' ],
+                    file(params.test_data['sarscov2']['genome']['genome_fasta'], checkIfExists: true)
+                ])
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot(workflow.out).match()}
+            )
+        }
+    }
+
+    test("homo_sapiens-genome_bed-genome_fasta-gt_gff3_fail") {
+
+        when {
+            workflow {
+                """
+                input[0] = Channel.of([ [ id:'test' ], // meta map
+                    file(params.test_data['homo_sapiens']['genome']['genome_bed'], checkIfExists: true)
+                ])
+                input[1] = Channel.of([ [ id:'test' ],
+                    file(params.test_data['sarscov2']['genome']['genome_fasta'], checkIfExists: true)
+                ])
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot(workflow.out).match()}
+            )
+        }
+    }
+
+    test("sarscov2-genome_gff3-homo_sapiens-genome_fasta-correspondence_fail") {
+
+        when {
+            workflow {
+                """
+                input[0] = Channel.of([ [ id:'test' ], // meta map
+                    file(params.test_data['sarscov2']['genome']['genome_gff3'], checkIfExists: true)
+                ])
+                input[1] = Channel.of([ [ id:'test' ],
+                    file(params.test_data['homo_sapiens']['genome']['genome_fasta'], checkIfExists: true)
+                ])
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot(workflow.out).match()}
+            )
+        }
+    }
+}

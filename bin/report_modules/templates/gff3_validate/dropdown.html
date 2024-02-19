@@ -1,0 +1,10 @@
+<div class="dropdown">
+    <div class="dropdown_content">
+        <select id="selector_GFF3_VALIDATE" onchange="showContent('GFF3_VALIDATE')">
+            {% set str_hap = 'hap' %} {% for item in range(all_stats_dicts["GFF3_VALIDATE"]|length) %}
+            <option value="tabcontent_GFF3_VALIDATE_{{all_stats_dicts['GFF3_VALIDATE'][item]['hap']}}">
+                {{ all_stats_dicts['GFF3_VALIDATE'][item][str_hap] }} {% endfor %}
+            </option>
+        </select>
+    </div>
+</div>

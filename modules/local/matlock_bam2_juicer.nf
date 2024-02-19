@@ -1,5 +1,3 @@
-nextflow.enable.dsl=2
-
 process MATLOCK_BAM2_JUICER {
     tag "$sample_id_on_tag"
     label "process_single"

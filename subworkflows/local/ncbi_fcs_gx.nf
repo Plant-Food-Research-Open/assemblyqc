@@ -1,85 +1,43 @@
-nextflow.enable.dsl=2
-
 workflow NCBI_FCS_GX {
     take:
-        tuple_of_tag_file
-        db_path // val
+    tuple_of_tag_file
+    db_path                 // channel: path
 
     main:
-        if (!params.ncbi_fcs_gx.skip) {
+    // MODULE: SETUP_SAMPLE
+    SETUP_SAMPLE ( tuple_of_tag_file )
 
-            tuple_of_tag_file
-            | SETUP_SAMPLE
-            | collect
-            | set {ch_all_samples}
+    ch_all_samples          = SETUP_SAMPLE.out.fsata
+                            | collect
 
-            SCREEN_SAMPLES(ch_all_samples, file(db_path, checkIfExists:true))
+    // MODULE: SCREEN_SAMPLES
+    SCREEN_SAMPLES ( ch_all_samples, db_path )
 
-            // Clean/contaminated branching
-            SCREEN_SAMPLES
-            .out
-            .fcs_gx_reports
-            | flatten
-            | map {
-                def parts = it.getName().split("\\.")
-                def tag = parts[0]
-                [tag, it]
-            }
-            | CHECK_CONTAMINATION
-            | map {
-                def itTokes = "$it".tokenize(':')
-                def status = itTokes[1]
-                def tag = itTokes[2]
+    ch_gx_report            = SCREEN_SAMPLES.out.fcs_gx_reports
+                            | flatten
+                            | map {
+                                def parts = it.getName().split("\\.")
+                                def tag = parts[0]
+                                [tag, it]
+                            }
 
-                def isClean = status == "CLEAN"
+    ch_gx_taxonomy          = SCREEN_SAMPLES.out.fcs_gx_taxonomies
+                            | flatten
+                            | map {
+                                def parts = it.getName().split("\\.")
+                                def tag = parts[0]
+                                [tag, it]
+                            }
 
-                [tag, isClean]
-            }
-            | set { ch_tuple_tag_is_clean } // [tag, is_clean flag]
+    // MODULE: FCS_GX_KRONA_PLOT
+    FCS_GX_KRONA_PLOT ( ch_gx_taxonomy )
 
-            ch_tuple_tag_is_clean
-            | map {
-                def tag = it[0]
-                def isClean = it[1]
-
-                if (!isClean) {
-                    log.warn("""
-                    Foreign organism contamination detected in ${tag}.
-                    See the report for further details.
-                    """.stripIndent())
-                }
-            }
-
-            // Taxonomy Krona plot
-            SCREEN_SAMPLES
-            .out
-            .fcs_gx_taxonomies
-            | flatten
-            | map {
-                def parts = it.getName().split("\\.")
-                def tag = parts[0]
-                [tag, it]
-            }
-            | FCS_GX_KRONA_PLOT
-            | flatten
-            | mix(
-                SCREEN_SAMPLES.out.fcs_gx_reports.flatten()
-            )
-            | collect
-            | set { ch_fcs_gx_reports }
-        } else {
-            tuple_of_tag_file
-            .map {
-                [it[0], true] // [tag, true]
-            }
-            .set { ch_tuple_tag_is_clean }
-
-            ch_fcs_gx_reports = Channel.of([])
-        }
-
+    ch_gx_taxonomy_plot     = FCS_GX_KRONA_PLOT.out.plot
     emit:
-        is_clean_status     = ch_tuple_tag_is_clean
-        fcs_gx_reports      = ch_fcs_gx_reports
+    gx_report               = ch_gx_report
+    gx_taxonomy             = ch_gx_taxonomy
+    gx_taxonomy_plot        = ch_gx_taxonomy_plot
+    versions                = Channel.empty().mix(SCREEN_SAMPLES.out.versions.first())
 }
 
 process SETUP_SAMPLE {
@@ -91,15 +49,15 @@ process SETUP_SAMPLE {
         'quay.io/nf-core/ubuntu:20.04' }"
 
     input:
-        tuple val(hap_name), path(fasta_file)
+    tuple val(hap_name), path(fasta_file)
 
     output:
-        path 'fasta.file.for.*.fasta'
+    path 'fasta.file.for.*.fasta', emit: fsata
 
     script:
-        """
-        ln -s $fasta_file "fasta.file.for.${hap_name}.fasta"
-        """
+    """
+    ln -s $fasta_file "fasta.file.for.${hap_name}.fasta"
+    """
 }
 
 
@@ -113,49 +71,32 @@ process SCREEN_SAMPLES {
         'https://ftp.ncbi.nlm.nih.gov/genomes/TOOLS/FCS/releases/0.4.0/fcs-gx.sif':
         'docker.io/ncbi/fcs-gx:0.4.0' }"
 
-    publishDir "${params.outdir}/ncbi_fcs_gx", mode: 'copy'
-
     input:
-        path samples
-        path db_path
+    path samples
+    path db_path
 
     output:
-        path "*.fcs_gx_report.txt", emit: fcs_gx_reports
-        path "*.taxonomy.rpt", emit: fcs_gx_taxonomies
+    path "*.fcs_gx_report.txt"  , emit: fcs_gx_reports
+    path "*.taxonomy.rpt"       , emit: fcs_gx_taxonomies
+    path "versions.yml"         , emit: versions
 
     script:
-        """
-        for sample_fasta in $samples;
-        do
-            sample_tag=\$(echo "\$sample_fasta" | sed 's/fasta.file.for.//g' | sed 's/.fasta//g')
-            python3 /app/bin/run_gx --fasta ./\$sample_fasta --out-dir ./ --gx-db $db_path --tax-id "${params.ncbi_fcs_gx.tax_id}"
+    def VERSION = 0.4
+    """
+    for sample_fasta in $samples;
+    do
+        sample_tag=\$(echo "\$sample_fasta" | sed 's/fasta.file.for.//g' | sed 's/.fasta//g')
+        python3 /app/bin/run_gx --fasta ./\$sample_fasta --out-dir ./ --gx-db $db_path --tax-id "${params.ncbi_fcs_gx.tax_id}"
 
-            mv "\${sample_fasta%.fasta}.${params.ncbi_fcs_gx.tax_id}.fcs_gx_report.txt" "\${sample_tag}.fcs_gx_report.txt"
-            mv "\${sample_fasta%.fasta}.${params.ncbi_fcs_gx.tax_id}.taxonomy.rpt" "\${sample_tag}.taxonomy.rpt"
-        done
-        """
-}
+        mv "\${sample_fasta%.fasta}.${params.ncbi_fcs_gx.tax_id}.fcs_gx_report.txt" "\${sample_tag}.fcs_gx_report.txt"
+        mv "\${sample_fasta%.fasta}.${params.ncbi_fcs_gx.tax_id}.taxonomy.rpt" "\${sample_tag}.taxonomy.rpt"
+    done
 
-process CHECK_CONTAMINATION {
-    tag "${hap_name}"
-    label "process_single"
-
-    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
-        'https://depot.galaxyproject.org/singularity/ubuntu:20.04':
-        'quay.io/nf-core/ubuntu:20.04' }"
-
-    input:
-        tuple val(hap_name), path(report_file)
-
-    output:
-        stdout
-
-    script:
-        """
-        hap_name=\$(echo "$report_file" | sed 's/.fcs_gx_report.txt//g')
-        num_lines=\$(cat $report_file | wc -l)
-        [[ \$num_lines -gt 2 ]] && echo -n "CHECK_GX_CONTAMINATION:CONTAMINATED:\$hap_name" || echo -n "CHECK_GX_CONTAMINATION:CLEAN:\$hap_name"
-        """
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        fcs_gx: $VERSION
+    END_VERSIONS
+    """
 }
 
 process FCS_GX_KRONA_PLOT {
@@ -166,25 +107,25 @@ process FCS_GX_KRONA_PLOT {
     publishDir "${params.outdir}/ncbi_fcs_gx", mode: 'copy'
 
     input:
-        tuple val(tag_name), path(fcs_gx_taxonomy)
+    tuple val(tag_name), path(fcs_gx_taxonomy)
 
     output:
-        tuple path("${tag_name}.inter.tax.rpt.tsv"), path("${tag_name}.fcs.gx.krona.cut"), path("${tag_name}.fcs.gx.krona.html")
+    tuple path("${tag_name}.inter.tax.rpt.tsv"), path("${tag_name}.fcs.gx.krona.cut"), path("${tag_name}.fcs.gx.krona.html"), emit: plot
 
     script:
-        """
-        cat $fcs_gx_taxonomy \
-        | awk 'NR>1 {print \$1,\$2,\$6,\$7,\$11,\$32}' FS="\\t" OFS="\\t" \
+    """
+    cat $fcs_gx_taxonomy \\
+        | awk 'NR>1 {print \$1,\$2,\$6,\$7,\$11,\$32}' FS="\\t" OFS="\\t" \\
         > "${tag_name}.inter.tax.rpt.tsv"
 
-        cat "${tag_name}.inter.tax.rpt.tsv" \
-        | awk '\$6 !~ /(bogus|repeat|low-coverage|inconclusive)/ {print \$1,\$4,\$5,\$2}' FS="\\t" OFS="\\t" \
+    cat "${tag_name}.inter.tax.rpt.tsv" \\
+        | awk '\$6 !~ /(bogus|repeat|low-coverage|inconclusive)/ {print \$1,\$4,\$5,\$2}' FS="\\t" OFS="\\t" \\
         > "${tag_name}.fcs.gx.krona.cut"
 
-        cat "${tag_name}.inter.tax.rpt.tsv" \
-        | awk 'NR>1 && \$6 ~ /(bogus|repeat|low-coverage|inconclusive)/ {print \$1,"0",\$5,\$2}' FS="\\t" OFS="\\t" \
+    cat "${tag_name}.inter.tax.rpt.tsv" \\
+        | awk 'NR>1 && \$6 ~ /(bogus|repeat|low-coverage|inconclusive)/ {print \$1,"0",\$5,\$2}' FS="\\t" OFS="\\t" \\
         >> "${tag_name}.fcs.gx.krona.cut"
 
-        ktImportTaxonomy -i -o "${tag_name}.fcs.gx.krona.html" -m "4" "${tag_name}.fcs.gx.krona.cut"
-        """
+    ktImportTaxonomy -i -o "${tag_name}.fcs.gx.krona.html" -m "4" "${tag_name}.fcs.gx.krona.cut"
+    """
 }

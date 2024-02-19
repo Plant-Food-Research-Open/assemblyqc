@@ -1,6 +1,15 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3.9
 
 import json
+import yaml
+
+from report_modules.report_printer import ReportPrinter
+
+from report_modules.parsers.params_parser import parse_params_json
+from report_modules.parsers.tools_parser import parse_tools_yaml
+
+from report_modules.parsers.gff3_validate_parser import parse_gff3_validate_folder
+from report_modules.parsers.fasta_validate_parser import parse_fasta_validate_folder
 
 from report_modules.parsers.ncbi_fcs_adaptor_parser import parse_ncbi_fcs_adaptor_folder
 from report_modules.parsers.ncbi_fcs_gx_parser import parse_ncbi_fcs_gx_folder
@@ -10,28 +19,25 @@ from report_modules.parsers.assemblathon_stats_parser import (
 from report_modules.parsers.genometools_gt_stat_parser import (
     parse_genometools_gt_stat_folder,
 )
-from report_modules.parsers.biocode_gff3_stats_parser import (
-    parse_biocode_gff3_stats_folder,
-)
 from report_modules.parsers.busco_parser import parse_busco_folder
 from report_modules.parsers.tidk_parser import parse_tidk_folder
 from report_modules.parsers.lai_parser import parse_lai_folder
 from report_modules.parsers.kraken2_parser import parse_kraken2_folder
 from report_modules.parsers.hic_parser import parse_hic_folder
 from report_modules.parsers.circos_parser import parse_circos_folder
-from report_modules.report_printer import ReportPrinter
-from report_modules.parsers.params_parser import parse_params_json
 
 if __name__ == "__main__":
     params_dict, params_table = parse_params_json()
+    tools_dict, tools_table = parse_tools_yaml()
 
     data_from_tools = {}
 
+    data_from_tools = {**data_from_tools, **parse_gff3_validate_folder()}
+    data_from_tools = {**data_from_tools, **parse_fasta_validate_folder()}
     data_from_tools = {**data_from_tools, **parse_ncbi_fcs_adaptor_folder()}
     data_from_tools = {**data_from_tools, **parse_ncbi_fcs_gx_folder()}
     data_from_tools = {**data_from_tools, **parse_assemblathon_stats_folder()}
     data_from_tools = {**data_from_tools, **parse_genometools_gt_stat_folder()}
-    data_from_tools = {**data_from_tools, **parse_biocode_gff3_stats_folder()}
     data_from_tools = {**data_from_tools, **parse_busco_folder()}
     data_from_tools = {**data_from_tools, **parse_tidk_folder()}
     data_from_tools = {**data_from_tools, **parse_lai_folder()}
@@ -39,25 +45,19 @@ if __name__ == "__main__":
     data_from_tools = {**data_from_tools, **parse_hic_folder()}
     data_from_tools = {**data_from_tools, **parse_circos_folder()}
 
+    with open("software_versions.yml", "r") as f:
+        versions_from_ch_versions = yaml.safe_load(f)
+
     data_from_tools = {
-        **data_from_tools,
-        "VERSIONS": {
-            "SELF": "v1.4",
-            "NCBI_FCS_ADAPTOR": "0.4",
-            "NCBI_FCS_GX": "0.4",
-            "ASSEMBLATHON_STATS": "github/PlantandFoodResearch/assemblathon2-analysis/a93cba2",
-            "GENOMETOOLS_GT_STAT": "1.6.2",
-            "BIOCODE_GFF3_STATS": "0.10.0",
-            "BUSCO": "5.2.2",
-            "TIDK": "0.2.31",
-            "LAI": "beta3.2",
-            "KRAKEN2": "2.1.2",
-            "HIC": "2.4.3",
-            "CIRCOS": "0.23-1",
-            "MUMMER": "4.0.0",
-        },
         "PARAMS_DICT": params_dict,
         "PARAMS_TABLE": params_table,
+        "TOOLS_DICT": tools_dict,
+        "TOOLS_TABLE": tools_table,
+        "VERSIONS": {
+            **versions_from_ch_versions,
+            "JUICEBOX_JS": "2.4.3",
+        },
+        **data_from_tools,
     }
 
     report_printer = ReportPrinter()

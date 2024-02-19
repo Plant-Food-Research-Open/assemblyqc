@@ -1,5 +1,3 @@
-nextflow.enable.dsl=2
-
 import groovy.json.JsonOutput
 
 def jsonifyParams(params) {

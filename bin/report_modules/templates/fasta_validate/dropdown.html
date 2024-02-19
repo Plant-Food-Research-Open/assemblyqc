@@ -1,0 +1,10 @@
+<div class="dropdown">
+    <div class="dropdown_content">
+        <select id="selector_FASTA_VALIDATE" onchange="showContent('FASTA_VALIDATE')">
+            {% set str_hap = 'hap' %} {% for item in range(all_stats_dicts["FASTA_VALIDATE"]|length) %}
+            <option value="tabcontent_FASTA_VALIDATE_{{all_stats_dicts['FASTA_VALIDATE'][item]['hap']}}">
+                {{ all_stats_dicts['FASTA_VALIDATE'][item][str_hap] }} {% endfor %}
+            </option>
+        </select>
+    </div>
+</div>

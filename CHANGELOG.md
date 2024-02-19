@@ -1,10 +1,22 @@
 # Change Log
 
-## Version 1.4 (14-Feb-2023)
+## Version 1.4 (20-Feb-2023)
 
 1. Now it is possible to skip FASTP and FASTQC for the HIC module
 2. Renamed ASSEMBLY_QC workflow to ASSEMBLYQC
 3. Now using nf-core/FASTA_EXPLORE_SEARCH_PLOT_TIDK
+4. Now redirecting validation errors to AssemblyQC report
+5. Simplified layout of CITATIONS.md file
+6. Now using pfr/gff3_validate sub-workflow for gff3 validation
+7. Now listing software versions from the versions.yml file
+8. Replaced custom GUNZIP module with nf-core/gunzip
+9. Replaced custom gt/stat with pfr/gt/stat
+10. Replaced custom fasta_validator with nf-core/fastavalidator
+11. Removed BIOCODE GFF3 STATS owing to its frequent failures
+12. Added pre-commit version checking
+13. Now gt/stat reports extended stats and multiple distribution plots have been added to the report
+14. Added a tools tab to the report which lists the tools used by the pipeline to create the report
+15. Refactored and cleaned data flows for all the custom sub-workflow
 
 ## Version 1.3 (08-Feb-2023)
 

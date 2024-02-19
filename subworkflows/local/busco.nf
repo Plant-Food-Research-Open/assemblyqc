@@ -1,28 +1,23 @@
-nextflow.enable.dsl=2
-
 workflow BUSCO {
     take:
-        tuple_of_hap_file_lineage
+    tuple_of_hap_file_lineage
 
     main:
-        if (!params.busco.skip) {
-            RUN_BUSCO(tuple_of_hap_file_lineage)
-            | collect
-            | set {ch_busco_summaries}
+    // MODULE: RUN_BUSCO
+    RUN_BUSCO ( tuple_of_hap_file_lineage )
 
-            CREATE_PLOT(ch_busco_summaries)
-            .set { ch_busco_plot }
+    ch_busco_summaries      = RUN_BUSCO.out.summary
+                            | collect
 
-            ch_busco_summaries
-            .mix(ch_busco_plot)
-            .collect()
-            .set { ch_outputs }
-        } else {
-            ch_outputs = Channel.of([])
-        }
+    // MODULE: RUN_BUSCO
+    CREATE_PLOT ( ch_busco_summaries )
+
+    ch_busco_plot           = CREATE_PLOT.out.png
 
     emit:
-        list_of_outputs = ch_outputs
+    summary                 = RUN_BUSCO.out.summary
+    plot                    = ch_busco_plot
+    versions                = Channel.empty().mix(RUN_BUSCO.out.versions.first())
 }
 
 process RUN_BUSCO {
@@ -33,32 +28,37 @@ process RUN_BUSCO {
         'https://depot.galaxyproject.org/singularity/busco:5.2.2--pyhdfd78af_0':
         'quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0' }"
 
-    publishDir "${params.outdir}/busco", mode: 'copy'
-
     input:
-        tuple val(hap_name), path(fasta_file), val(lineage_dataset)
+    tuple val(hap_name), path(fasta_file), val(lineage_dataset)
 
     output:
-        path "${hap_name}/short_summary.specific.${lineage_dataset}.${hap_name}_${lineage_split}.txt"
+    path "${hap_name}/short_summary.specific.${lineage_dataset}.${hap_name}_${lineage_split}.txt"   , emit: summary
+    path "versions.yml"                                                                             , emit: versions
 
     script:
-        def lineages_path = params.busco.download_path ? "--download_path ${params.busco.download_path}" : ''
-        def lineage_to_split = "${lineage_dataset}";
-        def parts = lineage_to_split.split("_");
-        lineage_split = parts[0];
+    def lineages_path = params.busco.download_path ? "--download_path ${params.busco.download_path}" : ''
+    def lineage_to_split = "${lineage_dataset}";
+    def parts = lineage_to_split.split("_");
+    lineage_split = parts[0];
 
-        """
-        busco \
-        -m ${params.busco.mode} \
-        -o ${hap_name} \
-        -i $fasta_file \
-        -l ${lineage_dataset} \
-        --update-data \
-        $lineages_path \
-        -c ${task.cpus}
+    """
+    busco \
+    -m ${params.busco.mode} \
+    -o ${hap_name} \
+    -i $fasta_file \
+    -l ${lineage_dataset} \
+    --update-data \
+    $lineages_path \
+    -c ${task.cpus}
 
-        mv "${hap_name}/short_summary.specific.${lineage_dataset}.${hap_name}.txt" "${hap_name}/short_summary.specific.${lineage_dataset}.${hap_name}_${lineage_split}.txt"
-        """
+    mv "${hap_name}/short_summary.specific.${lineage_dataset}.${hap_name}.txt" \\
+        "${hap_name}/short_summary.specific.${lineage_dataset}.${hap_name}_${lineage_split}.txt"
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        busco: \$( busco --version 2>&1 | sed 's/^BUSCO //' )
+    END_VERSIONS
+    """
 }
 
 process CREATE_PLOT {
@@ -72,13 +72,13 @@ process CREATE_PLOT {
     publishDir params.outdir, mode: 'copy'
 
     input:
-        path "short_summary.*", stageAs: 'busco/*'
+    path "short_summary.*", stageAs: 'busco/*'
 
     output:
-        path 'busco/*.png'
+    path 'busco/*.png', emit: png
 
     script:
-        """
-        generate_plot.py -wd ./busco
-        """
+    """
+    generate_plot.py -wd ./busco
+    """
 }

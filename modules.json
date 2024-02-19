@@ -20,6 +20,11 @@
                         "git_sha": "a2c6aa54917a232ac543d88edc5d3c3d8bf71ef3",
                         "installed_by": ["fasta_ltrretriever_lai"]
                     },
+                    "custom/checkgff3fastacorrespondence": {
+                        "branch": "main",
+                        "git_sha": "1a76f884082c786760559c462063a5d1de94ca83",
+                        "installed_by": ["gff3_validate"]
+                    },
                     "custom/restoregffids": {
                         "branch": "main",
                         "git_sha": "e9f6bdd634bdbcd52c5568ba82f16176ec06631f",
@@ -34,6 +39,21 @@
                         "branch": "main",
                         "git_sha": "5a3fa7e2643328a95ced3632b761edea710abe07",
                         "installed_by": ["fasta_ltrretriever_lai"]
+                    },
+                    "gt/gff3": {
+                        "branch": "main",
+                        "git_sha": "bfa4874d3942bdff70cb8df17322834125cafb28",
+                        "installed_by": ["gff3_validate"]
+                    },
+                    "gt/gff3validator": {
+                        "branch": "main",
+                        "git_sha": "889b9b57b611dcb063594608c2a222c928327cba",
+                        "installed_by": ["gff3_validate"]
+                    },
+                    "gt/stat": {
+                        "branch": "main",
+                        "git_sha": "cb5fb0be78a98fd1e32b7c90d6adf8c3bf44133e",
+                        "installed_by": ["modules"]
                     },
                     "lai": {
                         "branch": "main",
@@ -68,6 +88,11 @@
                         "branch": "main",
                         "git_sha": "9639ac9a556898d0f0e8592bff24585c33326458",
                         "installed_by": ["subworkflows"]
+                    },
+                    "gff3_validate": {
+                        "branch": "main",
+                        "git_sha": "3fa824f807c433eebd154a424c2e50e1dae7b050",
+                        "installed_by": ["subworkflows"]
                     }
                 }
             }
@@ -75,6 +100,16 @@
         "https://github.com/nf-core/modules.git": {
             "modules": {
                 "nf-core": {
+                    "custom/dumpsoftwareversions": {
+                        "branch": "master",
+                        "git_sha": "de45447d060b8c8b98575bc637a4a575fd0638e1",
+                        "installed_by": ["modules"]
+                    },
+                    "fastavalidator": {
+                        "branch": "master",
+                        "git_sha": "89ff95427f695086369d7927a3c17cea2a37a382",
+                        "installed_by": ["modules"]
+                    },
                     "fastp": {
                         "branch": "master",
                         "git_sha": "003920c7f9a8ae19b69a97171922880220bedf56",
@@ -84,6 +119,11 @@
                         "branch": "master",
                         "git_sha": "f4ae1d942bd50c5c0b9bd2de1393ce38315ba57c",
                         "installed_by": ["fastq_trim_fastp_fastqc"]
+                    },
+                    "gunzip": {
+                        "branch": "master",
+                        "git_sha": "3a5fef109d113b4997c9822198664ca5f2716208",
+                        "installed_by": ["modules"]
                     },
                     "seqkit/seq": {
                         "branch": "master",

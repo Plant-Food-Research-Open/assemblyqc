@@ -35,7 +35,6 @@ flowchart LR
   Skip --> REPORT
 
   VALIDATE_FORMAT --> GFF_STATS[GENOMETOOLS GT STAT]
-  VALIDATE_FORMAT --> GFF_STATS_II[BIOCODE GFF3 STATS]
 
   Run --> ASS_STATS[ASSEMBLATHON STATS]
   Run --> BUSCO
@@ -48,7 +47,6 @@ flowchart LR
 
   ASS_STATS --> REPORT
   GFF_STATS --> REPORT
-  GFF_STATS_II --> REPORT
   BUSCO --> REPORT
   TIDK --> REPORT
   LAI --> REPORT
@@ -60,7 +58,7 @@ flowchart LR
 - [FASTA VALIDATION](https://github.com/GallVp/fasta_validator)
 - [GFF3 VALIDATION](https://github.com/genometools/genometools)
 - [ASSEMBLATHON STATS](https://github.com/PlantandFoodResearch/assemblathon2-analysis/blob/a93cba25d847434f7eadc04e63b58c567c46a56d/assemblathon_stats.pl): Assembly statistics
-- [GENOMETOOLS GT STAT](https://github.com/genometools/genometools)/[BIOCODE GFF3 STATS](https://github.com/jorvis/biocode): Annotation statistics
+- [GENOMETOOLS GT STAT](https://github.com/genometools/genometools): Annotation statistics
 - [NCBI FCS ADAPTOR](https://github.com/ncbi/fcs): Adaptor contamination pass/fail
 - [NCBI FCS GX](https://github.com/ncbi/fcs): Foreign organism contamination pass/fail
 - [BUSCO](https://gitlab.com/ezlab/busco/-/tree/master): Gene-space completeness estimation

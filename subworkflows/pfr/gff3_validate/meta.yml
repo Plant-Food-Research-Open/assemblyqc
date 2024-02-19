@@ -1,0 +1,50 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
+name: gff3_validate
+description: |
+  Validates a gff3 file using GenomeTools gt-gff3, gt-gff3validator and
+  checks its correspondence with a fasta file
+keywords:
+  - genome
+  - gff3
+  - annotation
+  - validation
+components:
+  - gt/gff3
+  - gt/gff3validator
+  - custom/checkgff3fastacorrespondence
+input:
+  - ch_gff3:
+      type: file
+      description: |
+        Input channel containing a gff3 file
+        Structure: [ val(meta), path(gff3) ]
+      pattern: "*.{gff,gff3}"
+  - ch_fasta:
+      type: file
+      description: |
+        Input channel containing a fasta file
+        Structure: [ val(meta), path(fasta) ]
+      pattern: "*.{fsa,fa,fasta}"
+output:
+  - valid_gff3:
+      type: file
+      description: |
+        Valid gff3 file
+        Structure: [ val(meta), path(gff3) ]
+      pattern: "*.gff3"
+  - log_for_invalid_gff3:
+      type: file
+      description: |
+        Error log if the gff3 file is invalid
+        Structure: [ val(meta), path(gff3) ]
+      pattern: "*.gff3"
+  - versions:
+      type: file
+      description: |
+        File containing software versions
+        Structure: [ path(versions.yml) ]
+      pattern: "versions.yml"
+authors:
+  - "@GallVp"
+maintainers:
+  - "@GallVp"
