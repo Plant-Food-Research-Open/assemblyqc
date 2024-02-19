@@ -34,6 +34,7 @@ workflow KRAKEN2 {
     ch_versions         = Channel.empty()
                         | mix(RUN_KRAKEN2.out.versions.first())
                         | mix(UNTAR.out.versions.first())
+                        | mix(KRONA_PLOT.out.versions.first())
 
     emit:
     plot                = KRONA_PLOT.out.plot
@@ -86,10 +87,16 @@ process KRONA_PLOT {
 
     output:
     tuple path("*.kraken2.krona.cut"), path("*.kraken2.krona.html"), emit: plot
+    path "versions.yml"                                             , emit: versions
 
     script:
     """
     perl -lane '@a=split /\\t/; if (\$a[2] =~ /taxid\\s+(\\d+)/) {print "\$a[1]\\t\$1\\t1\\t\$a[3]";}' $kraken2_cut > "${hap_name}.kraken2.krona.cut"
     ktImportTaxonomy -i -o "${hap_name}.kraken2.krona.html" -m "4" "${hap_name}.kraken2.krona.cut"
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        KronaTools: \$(ktImportTaxonomy | sed -n '/KronaTools/s/KronaTools//p' | tr -d ' _/[:space:]' | sed 's/-ktImportTaxonomy\\\\//1')
+    END_VERSIONS
     """
 }

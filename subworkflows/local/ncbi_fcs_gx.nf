@@ -10,10 +10,10 @@ workflow NCBI_FCS_GX {
     ch_all_samples          = SETUP_SAMPLE.out.fsata
                             | collect
 
-    // MODULE: SCREEN_SAMPLES
-    SCREEN_SAMPLES ( ch_all_samples, db_path )
+    // MODULE: NCBI_FCS_GX_SCREEN_SAMPLES
+    NCBI_FCS_GX_SCREEN_SAMPLES ( ch_all_samples, db_path )
 
-    ch_gx_report            = SCREEN_SAMPLES.out.fcs_gx_reports
+    ch_gx_report            = NCBI_FCS_GX_SCREEN_SAMPLES.out.fcs_gx_reports
                             | flatten
                             | map {
                                 def parts = it.getName().split("\\.")
@@ -21,7 +21,7 @@ workflow NCBI_FCS_GX {
                                 [tag, it]
                             }
 
-    ch_gx_taxonomy          = SCREEN_SAMPLES.out.fcs_gx_taxonomies
+    ch_gx_taxonomy          = NCBI_FCS_GX_SCREEN_SAMPLES.out.fcs_gx_taxonomies
                             | flatten
                             | map {
                                 def parts = it.getName().split("\\.")
@@ -33,11 +33,16 @@ workflow NCBI_FCS_GX {
     FCS_GX_KRONA_PLOT ( ch_gx_taxonomy )
 
     ch_gx_taxonomy_plot     = FCS_GX_KRONA_PLOT.out.plot
+
+    ch_versions             = Channel.empty()
+                            | mix(NCBI_FCS_GX_SCREEN_SAMPLES.out.versions.first())
+                            | mix(FCS_GX_KRONA_PLOT.out.versions.first())
+
     emit:
     gx_report               = ch_gx_report
     gx_taxonomy             = ch_gx_taxonomy
     gx_taxonomy_plot        = ch_gx_taxonomy_plot
-    versions                = Channel.empty().mix(SCREEN_SAMPLES.out.versions.first())
+    versions                = ch_versions
 }
 
 process SETUP_SAMPLE {
@@ -61,7 +66,7 @@ process SETUP_SAMPLE {
 }
 
 
-process SCREEN_SAMPLES {
+process NCBI_FCS_GX_SCREEN_SAMPLES {
     tag "all samples"
     label "process_high"
     label "process_long"
@@ -110,7 +115,8 @@ process FCS_GX_KRONA_PLOT {
     tuple val(tag_name), path(fcs_gx_taxonomy)
 
     output:
-    tuple path("${tag_name}.inter.tax.rpt.tsv"), path("${tag_name}.fcs.gx.krona.cut"), path("${tag_name}.fcs.gx.krona.html"), emit: plot
+    tuple path("${tag_name}.inter.tax.rpt.tsv"), path("${tag_name}.fcs.gx.krona.cut"), path("${tag_name}.fcs.gx.krona.html")    , emit: plot
+    path "versions.yml"                                                                                                         , emit: versions
 
     script:
     """
@@ -127,5 +133,10 @@ process FCS_GX_KRONA_PLOT {
         >> "${tag_name}.fcs.gx.krona.cut"
 
     ktImportTaxonomy -i -o "${tag_name}.fcs.gx.krona.html" -m "4" "${tag_name}.fcs.gx.krona.cut"
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        KronaTools: \$(ktImportTaxonomy | sed -n '/KronaTools/s/KronaTools//p' | tr -d ' _/[:space:]' | sed 's/-ktImportTaxonomy\\\\//1')
+    END_VERSIONS
     """
 }
