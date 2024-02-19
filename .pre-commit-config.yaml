@@ -1,24 +1,10 @@
 repos:
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: "v3.1.0"
+    rev: "v3.1.1"
     hooks:
       - id: prettier
-  - repo: https://github.com/psf/black
-    rev: 22.10.0
-    hooks:
-      - id: black
   - repo: https://github.com/editorconfig-checker/editorconfig-checker.python
-    rev: 2.7.3
+    rev: "2.7.3"
     hooks:
       - id: editorconfig-checker
         alias: ec
-  - repo: local
-    hooks:
-      - id: version_checks
-        name: Version checks
-        language: system
-        entry: >
-          ./version_check.sh
-        always_run: true
-        fail_fast: true
-        pass_filenames: false

@@ -1,9 +1,8 @@
-.DS_Store
-*.pyc
-__pycahce__
 .nextflow*
 work/
-results/
-*.stdout
-*.stderr
 data/
+results/
+.DS_Store
+testing/
+testing*
+*.pyc
