@@ -29,6 +29,7 @@ WorkflowAssemblyqc.initialise(params, log)
 
 include { GT_STAT                           } from '../modules/pfr/gt/stat/main'
 include { GFF3_VALIDATE                     } from '../subworkflows/pfr/gff3_validate/main'
+include { NCBI_FCS_ADAPTOR                  } from '../modules/local/ncbi_fcs_adaptor'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -133,6 +134,53 @@ workflow ASSEMBLYQC {
                                             | map { meta, yml -> yml }
 
     ch_versions                             = ch_versions.mix(GT_STAT.out.versions.first())
+
+    // MODULE: NCBI_FCS_ADAPTOR
+    ch_fcs_adaptor_inputs                   = params.ncbi_fcs_adaptor_skip
+                                            ? Channel.empty()
+                                            : ch_valid_target_assembly
+                                            | map { meta, fa -> [ meta.id, fa ] }
+
+    NCBI_FCS_ADAPTOR(
+        ch_fcs_adaptor_inputs,
+        params.ncbi_fcs_adaptor_empire
+    )
+
+    ch_fcs_adaptor_report                   = NCBI_FCS_ADAPTOR.out.report
+                                            | map { tag, report ->
+                                                def is_clean = file(report).readLines().size < 2
+
+                                                if (!is_clean) {
+                                                    log.warn("""
+                                                    Adaptor contamination detected in ${tag}.
+                                                    See the report for further details.
+                                                    """.stripIndent())
+                                                }
+
+                                                [ tag, report ]
+                                            }
+
+    ch_fcs_adaptor_passed_assembly          = params.ncbi_fcs_adaptor_skip
+                                            ? (
+                                                ch_valid_target_assembly
+                                                | map { meta, fa -> [ meta.id, fa ] }
+                                            )
+                                            : (
+                                                ch_fcs_adaptor_report
+                                                | map { tag, report ->
+                                                    [ tag, file(report).readLines().size < 2 ]
+                                                }
+                                                | filter { tag, is_clean -> is_clean }
+                                                | join(
+                                                    ch_valid_target_assembly
+                                                    | map { meta, fa -> [ meta.id, fa ] }
+                                                )
+                                                | map { tag, clean, fa ->
+                                                    [ tag, fa ]
+                                                }
+                                            )
+
+    ch_versions                             = ch_versions.mix(NCBI_FCS_ADAPTOR.out.versions.first())
 
     // MODULE: CUSTOM_DUMPSOFTWAREVERSIONS
     CUSTOM_DUMPSOFTWAREVERSIONS (
