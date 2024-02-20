@@ -31,6 +31,7 @@ include { GT_STAT                           } from '../modules/pfr/gt/stat/main'
 include { GFF3_VALIDATE                     } from '../subworkflows/pfr/gff3_validate/main'
 include { NCBI_FCS_ADAPTOR                  } from '../modules/local/ncbi_fcs_adaptor'
 include { NCBI_FCS_GX                       } from '../subworkflows/local/ncbi_fcs_gx'
+include { ASSEMBLATHON_STATS                } from '../modules/local/assemblathon_stats'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -242,6 +243,15 @@ workflow ASSEMBLYQC {
                                             | map { tag, fa, fa2 ->
                                                 [ tag, fa ]
                                             }
+
+    // MODULE: ASSEMBLATHON_STATS
+    ASSEMBLATHON_STATS(
+        ch_clean_assembly,
+        params.assemblathon_stats_n_limit
+    )
+
+    ch_assemblathon_stats                   = ASSEMBLATHON_STATS.out.stats
+    ch_versions                             = ch_versions.mix(ASSEMBLATHON_STATS.out.versions.first())
 
     // MODULE: CUSTOM_DUMPSOFTWAREVERSIONS
     CUSTOM_DUMPSOFTWAREVERSIONS (

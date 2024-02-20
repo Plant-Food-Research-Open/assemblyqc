@@ -30,3 +30,7 @@ indent_style = unset
 # ignore python
 [*.{py}]
 indent_style = unset
+
+# ignore perl
+[*.{pl,pm}]
+indent_size = unset

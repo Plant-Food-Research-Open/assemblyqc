@@ -1,0 +1,55 @@
+process ASSEMBLATHON_STATS {
+    tag "${asm_tag}"
+    label "process_single"
+
+    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+        'https://depot.galaxyproject.org/singularity/ubuntu:20.04':
+        'quay.io/nf-core/ubuntu:20.04' }"
+
+    input:
+    tuple val(asm_tag), path(fasta_file)
+    val n_limit
+
+    output:
+    path "${asm_tag}_stats.csv"     , emit: stats
+    path 'versions.yml'             , emit: versions
+
+    script:
+    def VERSION = "github/PlantandFoodResearch/assemblathon2-analysis/a93cba2"
+    """
+    paths_to_check=\$(printf "%s\\n" \$(echo \$PATH | tr ':' ' ') \\
+        | xargs -I {} find {} -maxdepth 0 -print 2>/dev/null \\
+        | grep -v '^\$' \\
+        | grep -v '/sbin' \\
+        | xargs
+    )
+
+    falite_path="\$(find \$paths_to_check -name FAlite_a93cba2.pm)"
+
+    ln -s "\$falite_path" FAlite_a93cba2.pm
+
+    PERL5LIB=./ assemblathon_stats_a93cba2.pl \\
+        -n $n_limit \\
+        -csv \\
+        "${fasta_file}"
+
+    csv_file_name=\$(ls | grep "csv")
+    mv \$csv_file_name "${asm_tag}_stats.csv"
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        assemblathon_stats: $VERSION
+    END_VERSIONS
+    """
+
+    stub:
+    def VERSION = "github/PlantandFoodResearch/assemblathon2-analysis/a93cba2"
+    """
+    touch "${asm_tag}_stats.csv"
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        assemblathon_stats: $VERSION
+    END_VERSIONS
+    """
+}
