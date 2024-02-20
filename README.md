@@ -1,5 +1,5 @@
 [![GitHub Actions CI Status](https://github.com/plant-food-research-open/assemblyqc/workflows/nf-core%20CI/badge.svg)](https://github.com/plant-food-research-open/assemblyqc/actions?query=workflow%3A%22nf-core+CI%22)
-[![GitHub Actions Linting Status](https://github.com/plant-food-research-open/assemblyqc/workflows/nf-core%20linting/badge.svg)](https://github.com/plant-food-research-open/assemblyqc/actions?query=workflow%3A%22nf-core+linting%22)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXXX-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.XXXXXXX)
+[![GitHub Actions Linting Status](https://github.com/plant-food-research-open/assemblyqc/workflows/nf-core%20linting/badge.svg)](https://github.com/plant-food-research-open/assemblyqc/actions?query=workflow%3A%22nf-core+linting%22)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.10647870-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.10647870)
 
 [![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A522.04.3-23aa62.svg)](https://www.nextflow.io/)
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
@@ -9,50 +9,79 @@
 
 ## Introduction
 
-**plant-food-research-open/assemblyqc** is a bioinformatics pipeline that ...
+**plant-food-research-open/assemblyqc** is a [NextFlow](https://www.nextflow.io/docs/latest/index.html) pipeline which evaluates assembly quality with well-established tools and presents the results in a unified html report. The tools are shown in the [Pipeline Flowchart](#pipeline-flowchart) and their version are listed in [CITATIONS.md](./CITATIONS.md).
 
-<!-- TODO nf-core:
-   Complete this sentence with a 2-3 sentence summary of what types of data the pipeline ingests, a brief overview of the
-   major pipeline sections and the types of output it produces. You're giving an overview to someone new
-   to nf-core here, in 15-20 seconds. For an example, see https://github.com/nf-core/rnaseq/blob/master/README.md#introduction
--->
+## Pipeline Flowchart
 
-<!-- TODO nf-core: Include a figure that guides the user through the major workflow steps. Many nf-core
-     workflows use the "tube map" design for that. See https://nf-co.re/docs/contributing/design_guidelines#examples for examples.   -->
-<!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->
+```mermaid
+flowchart LR
+  forEachTag(For each\nAssembly) --> VALIDATE_FORMAT[VALIDATE FORMAT]
 
-1. Read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
-2. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
+  VALIDATE_FORMAT --> ncbiFCS[NCBI FCS\nADAPTOR]
+  ncbiFCS --> Check{Check}
+
+  VALIDATE_FORMAT --> ncbiGX[NCBI FCS GX]
+  ncbiGX --> Check
+  Check --> |Clean|Run(Run)
+
+  Check --> |Contamination|Skip(Skip All)
+  Skip --> REPORT
+
+  VALIDATE_FORMAT --> GFF_STATS[GENOMETOOLS GT STAT]
+
+  Run --> ASS_STATS[ASSEMBLATHON STATS]
+  Run --> BUSCO
+  Run --> TIDK
+  Run --> LTRRETRIEVER
+  LTRRETRIEVER --> LAI
+  Run --> KRAKEN2
+  Run --> HIC_CONTACT_MAP[HIC CONTACT MAP]
+  Run --> SYNTENY
+
+  ASS_STATS --> REPORT
+  GFF_STATS --> REPORT
+  BUSCO --> REPORT
+  TIDK --> REPORT
+  LAI --> REPORT
+  KRAKEN2 --> REPORT
+  HIC_CONTACT_MAP --> REPORT
+  SYNTENY --> REPORT
+```
+
+- [FASTA VALIDATION](https://github.com/GallVp/fasta_validator)
+- [GFF3 VALIDATION](https://github.com/genometools/genometools)
+- [ASSEMBLATHON STATS](https://github.com/PlantandFoodResearch/assemblathon2-analysis/blob/a93cba25d847434f7eadc04e63b58c567c46a56d/assemblathon_stats.pl): Assembly statistics
+- [GENOMETOOLS GT STAT](https://github.com/genometools/genometools): Annotation statistics
+- [NCBI FCS ADAPTOR](https://github.com/ncbi/fcs): Adaptor contamination pass/fail
+- [NCBI FCS GX](https://github.com/ncbi/fcs): Foreign organism contamination pass/fail
+- [BUSCO](https://gitlab.com/ezlab/busco/-/tree/master): Gene-space completeness estimation
+- [TIDK](https://github.com/tolkit/telomeric-identifier): Telomere repeat identification
+- [LAI](https://github.com/oushujun/LTR_retriever/blob/master/LAI): Continuity of repetitive sequences
+- [LAI::LTRRETRIEVER](https://github.com/oushujun/LTR_retriever): Repeat identification
+- [KRAKEN2](https://github.com/DerrickWood/kraken2): Taxonomy classification
+- [HIC CONTACT MAP](https://github.com/igvteam/juicebox-web): Alignment and visualisation of HiC data
+- SYNTENY: Synteny analysis using [MUMMER](https://github.com/mummer4/mummer) and [CIRCOS](http://circos.ca/documentation/)
 
 ## Usage
 
 > [!NOTE]
 > If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
 
-<!-- TODO nf-core: Describe the minimum required steps to execute the pipeline, e.g. how to prepare samplesheets.
-     Explain what rows and columns represent. For instance (please edit as appropriate):
+Prepare an `assemblysheet.csv` file with following columns representing target assemblies and associated meta-data.
 
-First, prepare a samplesheet with your input data that looks as follows:
-
-`samplesheet.csv`:
-
-```csv
-sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
-```
-
-Each row represents a fastq file (single-end) or a pair of fastq files (paired end).
-
--->
+- tag: A unique tag which represents the target assembly throughout the pipeline and in the final report
+- fasta: FASTA file
+- gff3 [Optional]: GFF3 annotation file if available
+- monoploid_ids [Optional]: A txt file listing the IDs used to calculate LAI in monoploid mode if necessary
+- hic_reads [Optional] A SRA id such as 'SRR8238190' or path to paired reads such as 'PG_PETUNIA_HiC_CGYCF_CACTCA_L001_R{1,2}.fastq.gz'
+- synteny_labels [Optional]: A two column tsv file listing fasta sequence ids (first column) and labels for the synteny plots (second column) when performing synteny analysis
 
 Now, you can run the pipeline using:
-
-<!-- TODO nf-core: update the following command to include all required parameters for a minimal example -->
 
 ```bash
 nextflow run plant-food-research-open/assemblyqc \
    -profile <docker/singularity/.../institute> \
-   --input samplesheet.csv \
+   --input assemblysheet.csv \
    --outdir <OUTDIR>
 ```
 
@@ -62,11 +91,17 @@ nextflow run plant-food-research-open/assemblyqc \
 
 ## Credits
 
-plant-food-research-open/assemblyqc was originally written by Usman Rashid.
+plant-food-research-open/assemblyqc was originally written by Usman Rashid and Ken Smith.
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 
-<!-- TODO nf-core: If applicable, make list of people who have also contributed -->
+- Cecilia Deng [@CeciliaDeng](https://github.com/CeciliaDeng)
+- Chen Wu [@christinawu2008](https://github.com/christinawu2008)
+- Jason Shiller [@jasonshiller](https://github.com/jasonshiller)
+- Marcus Davy [@mdavy86](https://github.com/mdavy86)
+- Ross Crowhurst [@rosscrowhurst](https://github.com/rosscrowhurst)
+- Susan Thomson [@cflsjt](https://github.com/cflsjt)
+- Ting-Hsuan Chen [@ting-hsuan-chen](https://github.com/ting-hsuan-chen)
 
 ## Contributions and Support
 
@@ -74,10 +109,7 @@ If you would like to contribute to this pipeline, please see the [contributing g
 
 ## Citations
 
-<!-- TODO nf-core: Add citation for pipeline after first release. Uncomment lines below and update Zenodo doi and badge at the top of this file. -->
-<!-- If you use plant-food-research-open/assemblyqc for your analysis, please cite it using the following doi: [10.5281/zenodo.XXXXXX](https://doi.org/10.5281/zenodo.XXXXXX) -->
-
-<!-- TODO nf-core: Add bibliography of tools and data used in your pipeline -->
+If you use plant-food-research-open/assemblyqc for your analysis, please cite it using the following doi: [10.5281/zenodo.10647870](https://doi.org/10.5281/zenodo.10647870)
 
 An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
 
