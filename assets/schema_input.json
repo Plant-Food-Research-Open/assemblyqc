@@ -7,22 +7,61 @@
     "items": {
         "type": "object",
         "properties": {
-            "sample": {
+            "tag": {
                 "type": "string",
-                "pattern": "^\\S+$",
-                "errorMessage": "Sample name must be provided and cannot contain spaces"
+                "pattern": "^\\w+$",
+                "errorMessage": "Assembly tags must be provided and can only contain alphanumeric characters including '_'"
             },
-            "fastq_1": {
+            "fasta": {
                 "type": "string",
-                "pattern": "^\\S+\\.f(ast)?q\\.gz$",
-                "errorMessage": "FastQ file for reads 1 must be provided, cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'"
+                "pattern": "^\\S+\\.f(ast|as|sa|na)?\\.gz$",
+                "errorMessage": "FASTA file path cannot contain spaces and must have extension '.f(ast|as|sa|na)' or '.f(ast|as|sa|na).gz'"
             },
-            "fastq_2": {
-                "errorMessage": "FastQ file for reads 2 cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'",
+            "gff3": {
+                "type": "string",
+                "pattern": "^\\S+\\.gff(3)?\\.gz$",
+                "errorMessage": "GFF3 file path cannot contain spaces and must have extension '.gff.gz' or '.gff3.gz'"
+            },
+            "monoploid_ids": {
+                "errorMessage": "Monoploid IDs txt file path cannot contain spaces and must have extension '.txt'",
                 "anyOf": [
                     {
                         "type": "string",
-                        "pattern": "^\\S+\\.f(ast)?q\\.gz$"
+                        "pattern": "^\\S+\\.txt$"
+                    },
+                    {
+                        "type": "string",
+                        "maxLength": 0
+                    }
+                ]
+            },
+            "hic_reads": {
+                "errorMessage": "HiC reads should either be provided as a SRA ID or as a path to paired reads with pattern '*_R{1,2}.(fastq|fq).gz'",
+                "anyOf": [
+                    {
+                        "type": "string",
+                        "pattern": "^SR\\w+$"
+                    },
+                    {
+                        "type": "string",
+                        "pattern": "^\\S+_R\\{1,2\\}\\.f(ast)?q\\.gz$"
+                    },
+                    {
+                        "type": "string",
+                        "maxLength": 0
+                    }
+                ]
+            },
+            "synteny_labels": {
+                "errorMessage": "Synteny labels tsv path cannot contain spaces and must have extension '.tsv'",
+                "anyOf": [
+                    {
+                        "type": "string",
+                        "pattern": "^SR\\w+$"
+                    },
+                    {
+                        "type": "string",
+                        "pattern": "^\\S+_R\\{1,2\\}\\.f(ast)?q\\.gz$"
                     },
                     {
                         "type": "string",
@@ -31,6 +70,6 @@
                 ]
             }
         },
-        "required": ["sample", "fastq_1"]
+        "required": ["tag", "fasta"]
     }
 }

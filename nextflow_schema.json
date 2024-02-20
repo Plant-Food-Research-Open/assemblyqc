@@ -8,25 +8,24 @@
         "input_output_options": {
             "title": "Input/output options",
             "type": "object",
-            "fa_icon": "fas fa-terminal",
-            "description": "Define where the pipeline should find input data and save output data.",
-            "required": ["input", "outdir"],
+            "description": "",
+            "default": "",
             "properties": {
                 "input": {
                     "type": "string",
                     "format": "file-path",
-                    "exists": true,
-                    "mimetype": "text/csv",
-                    "pattern": "^\\S+\\.csv$",
-                    "description": "Path to comma-separated file containing information about the samples in the experiment.",
-                    "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row.",
+                    "mimetype": "csv",
+                    "schema": "assets/schema_input.json",
+                    "help_text": "FASTA and other associated files for input assemblies provided as a formatted CSV file",
+                    "description": "Input assembly sheet in CSV format",
                     "fa_icon": "fas fa-file-csv"
                 },
                 "outdir": {
                     "type": "string",
                     "format": "directory-path",
                     "description": "The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.",
-                    "fa_icon": "fas fa-folder-open"
+                    "fa_icon": "fas fa-folder-open",
+                    "default": "./results"
                 },
                 "email": {
                     "type": "string",
@@ -34,42 +33,258 @@
                     "fa_icon": "fas fa-envelope",
                     "help_text": "Set this parameter to your e-mail address to get a summary e-mail with details of the run sent to you when the workflow exits. If set in your user config file (`~/.nextflow/config`) then you don't need to specify this on the command line for every run.",
                     "pattern": "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$"
-                },
-                "multiqc_title": {
-                    "type": "string",
-                    "description": "MultiQC report title. Printed as page header, used for filename if not otherwise specified.",
-                    "fa_icon": "fas fa-file-signature"
+                }
+            },
+            "required": ["input", "outdir"]
+        },
+        "general_stats_options": {
+            "title": "General stats options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "assemblathon_stats_n_limit": {
+                    "type": "integer",
+                    "default": 100,
+                    "help_text": "This number is used to split the scaffolds into contigs to compute contig-related stats such as the number of contigs, N50, etc. NCBI recommendation <https://www.ncbi.nlm.nih.gov/genbank/wgs_gapped/> is 100.",
+                    "description": "The number of 'N's for the unknown gap size"
                 }
             }
         },
-        "reference_genome_options": {
-            "title": "Reference genome options",
+        "ncbi_fcs_options": {
+            "title": "NCBI FCS options",
             "type": "object",
-            "fa_icon": "fas fa-dna",
-            "description": "Reference genome related files and options required for the workflow.",
+            "description": "",
+            "default": "",
             "properties": {
-                "genome": {
-                    "type": "string",
-                    "description": "Name of iGenomes reference.",
-                    "fa_icon": "fas fa-book",
-                    "help_text": "If using a reference genome configured in the pipeline using iGenomes, use this parameter to give the ID for the reference. This is then used to build the full paths for all required reference genome files e.g. `--genome GRCh38`. \n\nSee the [nf-core website docs](https://nf-co.re/usage/reference_genomes) for more details."
-                },
-                "fasta": {
-                    "type": "string",
-                    "format": "file-path",
-                    "exists": true,
-                    "mimetype": "text/plain",
-                    "pattern": "^\\S+\\.fn?a(sta)?(\\.gz)?$",
-                    "description": "Path to FASTA genome file.",
-                    "help_text": "This parameter is *mandatory* if `--genome` is not specified. If you don't have a BWA index available this will be generated for you automatically. Combine with `--save_reference` to save BWA index for future runs.",
-                    "fa_icon": "far fa-file-code"
-                },
-                "igenomes_ignore": {
+                "ncbi_fcs_adaptor_skip": {
                     "type": "boolean",
-                    "description": "Do not load the iGenomes reference config.",
-                    "fa_icon": "fas fa-ban",
+                    "description": "Skip NCBI FCS Adaptor checking",
+                    "default": true
+                },
+                "ncbi_fcs_adaptor_empire": {
+                    "type": "string",
+                    "default": "euk",
+                    "enum": ["euk", "prok"],
+                    "description": "Empire for NCBI FCS Adaptor checking"
+                },
+                "ncbi_fcs_gx_skip": {
+                    "type": "boolean",
+                    "description": "Skip NCBI FCS external organism contamination checking",
+                    "default": true
+                },
+                "ncbi_fcs_gx_tax_id": {
+                    "type": "number",
+                    "help_text": "Get correct tax ID from https://www.ncbi.nlm.nih.gov/taxonomy",
+                    "description": "Tax ID for NCBI FCS GX"
+                },
+                "ncbi_fcs_gx_db_path": {
+                    "type": "string",
+                    "format": "directory-path",
+                    "help_text": "NCBI FCS GX DB path\n\nDue to enormity of the DB size, the pipeline does NOT download the data. It must be setup by the user manually before running the pipeline. See instructions for DB setup: https://github.com/ncbi/fcs/wiki/FCS-GX",
+                    "description": "Path to NCBI FCS GX database"
+                }
+            }
+        },
+        "busco_options": {
+            "title": "BUSCO options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "busco_skip": {
+                    "type": "boolean",
+                    "description": "Skip BUSCO",
+                    "default": true
+                },
+                "busco_mode": {
+                    "type": "string",
+                    "default": "geno",
+                    "enum": ["geno", "tran", "prot", "genome", "transcriptome", "proteins"],
+                    "help_text": "'geno' or 'genome' for genome assemblies (DNA), 'tran' or 'transcriptome' for transcriptome assemblies (DNA), 'prot' or 'proteins' for annotated gene sets (protein)",
+                    "description": "BUSCO mode"
+                },
+                "busco_lineage_datasets": {
+                    "type": "string",
+                    "help_text": "Each input assembly is assessed against each lineage. It should be provided as a space-separated list of lineages: 'fungi_odb10 microsporidia_odb10' ",
+                    "pattern": "^(\\w+_odb10\\s)+\\w+_odb10$",
+                    "description": "BUSCO lineages"
+                },
+                "busco_download_path": {
+                    "type": "string",
+                    "help_text": "BUSCO DB download path\n\nThe pipeline automatically downloads the required DB if needed",
+                    "description": "Download path for BUSCO",
+                    "format": "directory-path"
+                }
+            }
+        },
+        "tidk_options": {
+            "title": "TIDK options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "tidk_skip": {
+                    "type": "boolean",
+                    "description": "Skip telomere identification",
+                    "default": true
+                },
+                "tidk_repeat_seq": {
+                    "type": "string",
+                    "default": "TTAGGG",
+                    "description": "Telomere repeat sequence",
+                    "pattern": "^[ACGT]+$"
+                },
+                "tidk_filter_by_size": {
+                    "type": "boolean",
+                    "description": "Filter size in base-pairs"
+                },
+                "tidk_filter_size_bp": {
+                    "type": "integer",
+                    "default": 1000000,
+                    "description": "Filter size in base-pairs"
+                }
+            }
+        },
+        "lai_options": {
+            "title": "LAI options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "lai_skip": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Skip LAI estimation"
+                }
+            }
+        },
+        "kraken2_options": {
+            "title": "Kraken2 options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "kraken2_skip": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Skip Kraken2"
+                },
+                "kraken2_db_path": {
+                    "type": "string",
+                    "description": "Kraken2 database path",
+                    "format": "path"
+                }
+            }
+        },
+        "hic_options": {
+            "title": "HiC options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "hic_skip": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Skip HiC contact map construction"
+                },
+                "hic_skip_fastp": {
+                    "type": "boolean",
+                    "description": "Skip HiC read trimming"
+                },
+                "hic_skip_fastqc": {
+                    "type": "boolean",
+                    "description": "Skip HiC read QC"
+                },
+                "hic_fastp_ext_args": {
+                    "type": "string",
+                    "default": "--qualified_quality_phred 20 --length_required 50",
+                    "description": "Additional parameters for fastp trimming"
+                }
+            }
+        },
+        "synteny_options": {
+            "title": "Synteny options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "synteny_skip": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Skip synteny analysis"
+                },
+                "synteny_between_input_assemblies": {
+                    "type": "boolean",
+                    "description": "Create syntenic plots between each pair of input assemblies",
+                    "default": true
+                },
+                "synteny_xref_assemblies": {
+                    "type": "string",
+                    "description": "Reference assemblies for synteny analysis",
+                    "help_text": "FASTA and synteny label tsv files should be provided in a formatted CSV file ",
+                    "format": "file-path",
+                    "mimetype": "csv",
+                    "schema": "assets/schema_xref_assemblies.json"
+                },
+                "synteny_many_to_many_align": {
+                    "type": "boolean",
+                    "description": "Include alignment blocks with many-to-many mappings (dnadiff .mcoords file)"
+                },
+                "synteny_max_gap": {
+                    "type": "integer",
+                    "default": 1000000,
+                    "description": "Alignments within this distance are bundled together"
+                },
+                "synteny_min_bundle_size": {
+                    "type": "integer",
+                    "default": 1000,
+                    "description": "After bundling, any bundle smaller than this size is filtered out"
+                },
+                "synteny_plot_1_vs_all": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Create a separate synteny plot for each contig of the target assembly versus all contigs of the reference assembly"
+                },
+                "synteny_color_by_contig": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Synteny plot is colored by contig"
+                }
+            }
+        },
+        "max_job_request_options": {
+            "title": "Max job request options",
+            "type": "object",
+            "fa_icon": "fab fa-acquisitions-incorporated",
+            "description": "Set the top limit for requested resources for any single job.",
+            "help_text": "If you are running on a smaller system, a pipeline step requesting more resources than are available may cause the Nextflow to stop the run with an error. These options allow you to cap the maximum resources requested by any single job so that the pipeline will run on your system.\n\nNote that you can not _increase_ the resources requested by any job using these options. For that you will need your own configuration file. See [the nf-core website](https://nf-co.re/usage/configuration) for details.",
+            "properties": {
+                "max_cpus": {
+                    "type": "integer",
+                    "description": "Maximum number of CPUs that can be requested for any single job.",
+                    "default": 16,
+                    "fa_icon": "fas fa-microchip",
                     "hidden": true,
-                    "help_text": "Do not load `igenomes.config` when running the pipeline. You may choose this option if you observe clashes between custom parameters and those supplied in `igenomes.config`."
+                    "help_text": "Use to set an upper-limit for the CPU requirement for each process. Should be an integer e.g. `--max_cpus 1`"
+                },
+                "max_memory": {
+                    "type": "string",
+                    "description": "Maximum amount of memory that can be requested for any single job.",
+                    "default": "512.GB",
+                    "fa_icon": "fas fa-memory",
+                    "pattern": "^\\d+(\\.\\d+)?\\.?\\s*(K|M|G|T)?B$",
+                    "hidden": true,
+                    "help_text": "Use to set an upper-limit for the memory requirement for each process. Should be a string in the format integer-unit e.g. `--max_memory '8.GB'`"
+                },
+                "max_time": {
+                    "type": "string",
+                    "description": "Maximum amount of time that can be requested for any single job.",
+                    "default": "7.day",
+                    "fa_icon": "far fa-clock",
+                    "pattern": "^(\\d+\\.?\\s*(s|m|h|d|day)\\s*)+$",
+                    "hidden": true,
+                    "help_text": "Use to set an upper-limit for the time requirement for each process. Should be a string in the format integer-unit e.g. `--max_time '2.h'`"
                 }
             }
         },
@@ -121,41 +336,6 @@
                 }
             }
         },
-        "max_job_request_options": {
-            "title": "Max job request options",
-            "type": "object",
-            "fa_icon": "fab fa-acquisitions-incorporated",
-            "description": "Set the top limit for requested resources for any single job.",
-            "help_text": "If you are running on a smaller system, a pipeline step requesting more resources than are available may cause the Nextflow to stop the run with an error. These options allow you to cap the maximum resources requested by any single job so that the pipeline will run on your system.\n\nNote that you can not _increase_ the resources requested by any job using these options. For that you will need your own configuration file. See [the nf-core website](https://nf-co.re/usage/configuration) for details.",
-            "properties": {
-                "max_cpus": {
-                    "type": "integer",
-                    "description": "Maximum number of CPUs that can be requested for any single job.",
-                    "default": 16,
-                    "fa_icon": "fas fa-microchip",
-                    "hidden": true,
-                    "help_text": "Use to set an upper-limit for the CPU requirement for each process. Should be an integer e.g. `--max_cpus 1`"
-                },
-                "max_memory": {
-                    "type": "string",
-                    "description": "Maximum amount of memory that can be requested for any single job.",
-                    "default": "128.GB",
-                    "fa_icon": "fas fa-memory",
-                    "pattern": "^\\d+(\\.\\d+)?\\.?\\s*(K|M|G|T)?B$",
-                    "hidden": true,
-                    "help_text": "Use to set an upper-limit for the memory requirement for each process. Should be a string in the format integer-unit e.g. `--max_memory '8.GB'`"
-                },
-                "max_time": {
-                    "type": "string",
-                    "description": "Maximum amount of time that can be requested for any single job.",
-                    "default": "240.h",
-                    "fa_icon": "far fa-clock",
-                    "pattern": "^(\\d+\\.?\\s*(s|m|h|d|day)\\s*)+$",
-                    "hidden": true,
-                    "help_text": "Use to set an upper-limit for the time requirement for each process. Should be a string in the format integer-unit e.g. `--max_time '2.h'`"
-                }
-            }
-        },
         "generic_options": {
             "title": "Generic options",
             "type": "object",
@@ -198,14 +378,6 @@
                     "fa_icon": "fas fa-remove-format",
                     "hidden": true
                 },
-                "max_multiqc_email_size": {
-                    "type": "string",
-                    "description": "File size limit when attaching MultiQC reports to summary emails.",
-                    "pattern": "^\\d+(\\.\\d+)?\\.?\\s*(K|M|G|T)?B$",
-                    "default": "25.MB",
-                    "fa_icon": "fas fa-file-upload",
-                    "hidden": true
-                },
                 "monochrome_logs": {
                     "type": "boolean",
                     "description": "Do not use coloured log outputs.",
@@ -218,24 +390,6 @@
                     "fa_icon": "fas fa-people-group",
                     "help_text": "Incoming hook URL for messaging service. Currently, MS Teams and Slack are supported.",
                     "hidden": true
-                },
-                "multiqc_config": {
-                    "type": "string",
-                    "format": "file-path",
-                    "description": "Custom config file to supply to MultiQC.",
-                    "fa_icon": "fas fa-cog",
-                    "hidden": true
-                },
-                "multiqc_logo": {
-                    "type": "string",
-                    "description": "Custom logo file to supply to MultiQC. File name must also be set in the MultiQC config file",
-                    "fa_icon": "fas fa-image",
-                    "hidden": true
-                },
-                "multiqc_methods_description": {
-                    "type": "string",
-                    "description": "Custom MultiQC yaml file containing HTML including a methods description.",
-                    "fa_icon": "fas fa-cog"
                 },
                 "validate_params": {
                     "type": "boolean",
@@ -273,13 +427,34 @@
             "$ref": "#/definitions/input_output_options"
         },
         {
-            "$ref": "#/definitions/reference_genome_options"
+            "$ref": "#/definitions/general_stats_options"
         },
         {
-            "$ref": "#/definitions/institutional_config_options"
+            "$ref": "#/definitions/ncbi_fcs_options"
+        },
+        {
+            "$ref": "#/definitions/busco_options"
+        },
+        {
+            "$ref": "#/definitions/tidk_options"
+        },
+        {
+            "$ref": "#/definitions/lai_options"
+        },
+        {
+            "$ref": "#/definitions/kraken2_options"
+        },
+        {
+            "$ref": "#/definitions/hic_options"
+        },
+        {
+            "$ref": "#/definitions/synteny_options"
         },
         {
             "$ref": "#/definitions/max_job_request_options"
+        },
+        {
+            "$ref": "#/definitions/institutional_config_options"
         },
         {
             "$ref": "#/definitions/generic_options"
