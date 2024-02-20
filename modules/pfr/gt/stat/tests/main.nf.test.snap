@@ -1,0 +1,31 @@
+{
+    "sarscov2-gff3": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.gt.stat.yml:md5,ebba7831ddbf916b8bbea675ba8693b5"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,a184b50afb2ad6dd2d3d37b0a211dd71"
+                ],
+                "stats": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.gt.stat.yml:md5,ebba7831ddbf916b8bbea675ba8693b5"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,a184b50afb2ad6dd2d3d37b0a211dd71"
+                ]
+            }
+        ],
+        "timestamp": "2023-11-29T11:34:48.057277"
+    }
+}

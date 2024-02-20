@@ -21,18 +21,14 @@ WorkflowAssemblyqc.initialise(params, log)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-// ch_multiqc_config          = Channel.fromPath("$projectDir/assets/multiqc_config.yml", checkIfExists: true)
-
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     IMPORT LOCAL MODULES/SUBWORKFLOWS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-//
-// SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
-//
-// include { INPUT_CHECK } from '../subworkflows/local/input_check'
+include { GT_STAT                           } from '../modules/pfr/gt/stat/main'
+include { GFF3_VALIDATE                     } from '../subworkflows/pfr/gff3_validate/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -112,6 +108,31 @@ workflow ASSEMBLYQC {
                                             }
 
     ch_versions                             = ch_versions.mix(FASTAVALIDATOR.out.versions.first())
+
+    // SUBWORKFLOW: GFF3_VALIDATE
+    GFF3_VALIDATE (
+        ch_assembly_gff3,
+        ch_valid_target_assembly
+    )
+
+    ch_valid_gff3                           = GFF3_VALIDATE.out.valid_gff3
+
+    ch_invalid_gff3_log                     = GFF3_VALIDATE.out.log_for_invalid_gff3
+                                            | map { meta, error_log ->
+                                                log.warn("GFF3 validation failed for ${meta.id}\n${error_log.text}")
+
+                                                [ meta, error_log ]
+                                            }
+
+    ch_versions                             = ch_versions.mix(GFF3_VALIDATE.out.versions)
+
+    // MODULE: GT_STAT
+    GT_STAT ( ch_valid_gff3 )
+
+    ch_gt_stats                             = GT_STAT.out.stats
+                                            | map { meta, yml -> yml }
+
+    ch_versions                             = ch_versions.mix(GT_STAT.out.versions.first())
 
     // MODULE: CUSTOM_DUMPSOFTWAREVERSIONS
     CUSTOM_DUMPSOFTWAREVERSIONS (
