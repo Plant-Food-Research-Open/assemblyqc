@@ -3,7 +3,6 @@ process NCBI_FCS_ADAPTOR {
     label 'process_single'
 
     // Warning: manually update version in script and stub
-    conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://ftp.ncbi.nlm.nih.gov/genomes/TOOLS/FCS/releases/0.5.0/fcs-adaptor.sif':
         'biocontainers/ncbi-fcs-gx:0.5.0--h4ac6f70_3' }"

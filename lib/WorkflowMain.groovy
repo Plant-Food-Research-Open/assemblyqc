@@ -42,6 +42,11 @@ class WorkflowMain {
 
         // Check AWS batch settings
         NfcoreTemplate.awsBatch(workflow, params)
+
+        // Check for ncbi_fcs_gx_tax_id
+        if (!params.ncbi_fcs_gx_skip && !params.ncbi_fcs_gx_tax_id) {
+            Nextflow.error('ncbi_fcs_gx_tax_id must be provided when executing NCBI FCS GX')
+        }
     }
     //
     // Get attribute from genome config file e.g. fasta

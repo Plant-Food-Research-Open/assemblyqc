@@ -30,6 +30,7 @@ WorkflowAssemblyqc.initialise(params, log)
 include { GT_STAT                           } from '../modules/pfr/gt/stat/main'
 include { GFF3_VALIDATE                     } from '../subworkflows/pfr/gff3_validate/main'
 include { NCBI_FCS_ADAPTOR                  } from '../modules/local/ncbi_fcs_adaptor'
+include { NCBI_FCS_GX                       } from '../subworkflows/local/ncbi_fcs_gx'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -181,6 +182,66 @@ workflow ASSEMBLYQC {
                                             )
 
     ch_versions                             = ch_versions.mix(NCBI_FCS_ADAPTOR.out.versions.first())
+
+    // SUBWORKFLOW: NCBI_FCS_GX
+    ch_fcs_gx_inputs                        = params.ncbi_fcs_gx_skip
+                                            ? Channel.empty()
+                                            : ch_valid_target_assembly
+                                            | map { meta, fa -> [ meta.id, fa ] }
+                                            | combine( Channel.of(file(params.ncbi_fcs_gx_db_path, checkIfExists:true)) )
+
+    NCBI_FCS_GX(
+        ch_fcs_gx_inputs.map { tag, fa, db -> [ tag, fa ] },
+        ch_fcs_gx_inputs.map { tag, fa, db -> db },
+        params.ncbi_fcs_gx_tax_id ?: []
+    )
+
+    ch_fcs_gx_report                        = NCBI_FCS_GX.out.gx_report
+                                            | map { tag, report ->
+                                                def is_clean = file(report).readLines().size < 3
+
+                                                if (!is_clean) {
+                                                    log.warn("""
+                                                    Foreign organism contamination detected in ${tag}.
+                                                    See the report for further details.
+                                                    """.stripIndent())
+                                                }
+
+                                                [ tag, report ]
+                                            }
+
+    ch_fcs_gx_taxonomy_plot                 = NCBI_FCS_GX.out.gx_taxonomy_plot
+                                            | map { tag, cut, html -> [ tag, html ] }
+
+    ch_fcs_gx_passed_assembly               = params.ncbi_fcs_gx_skip
+                                            ? (
+                                                ch_valid_target_assembly
+                                                | map { meta, fa -> [ meta.id, fa ] }
+                                            )
+                                            : (
+                                                ch_fcs_gx_report
+                                                | map { tag, report ->
+                                                    [ tag, file(report).readLines().size < 3 ]
+                                                }
+                                                | filter { tag, is_clean -> is_clean }
+                                                | join(
+                                                    ch_valid_target_assembly
+                                                    | map { meta, fa -> [ meta.id, fa ] }
+                                                )
+                                                | map { tag, clean, fa ->
+                                                    [ tag, fa ]
+                                                }
+                                            )
+
+    ch_versions                             = ch_versions.mix(NCBI_FCS_GX.out.versions)
+
+    ch_clean_assembly                       = ch_fcs_adaptor_passed_assembly
+                                            | join(
+                                                ch_fcs_gx_passed_assembly
+                                            )
+                                            | map { tag, fa, fa2 ->
+                                                [ tag, fa ]
+                                            }
 
     // MODULE: CUSTOM_DUMPSOFTWAREVERSIONS
     CUSTOM_DUMPSOFTWAREVERSIONS (

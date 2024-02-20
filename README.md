@@ -67,7 +67,7 @@ flowchart LR
 > [!NOTE]
 > If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
 
-Prepare an `assemblysheet.csv` file with following columns representing target assemblies and associated meta-data.
+Prepare an `assemblysheet.csv` file with following columns representing target assemblies and associated meta-data. See an example [assemblysheet.csv](./assets/assemblysheet.csv)
 
 - `tag:` A unique tag which represents the target assembly throughout the pipeline and in the final report
 - `fasta:` FASTA file
@@ -75,8 +75,6 @@ Prepare an `assemblysheet.csv` file with following columns representing target a
 - `monoploid_ids [Optional]:` A txt file listing the IDs used to calculate LAI in monoploid mode if necessary
 - `hic_reads [Optional]:` A SRA id such as 'SRR8238190' or path to paired reads such as 'PG_PETUNIA_HiC_CGYCF_CACTCA_L001_R{1,2}.fastq.gz'
 - `synteny_labels [Optional]:` A two column tsv file listing fasta sequence ids (first column) and labels for the synteny plots (second column) when performing synteny analysis
-
-See a minimal example [assemblysheet.csv](./assets/assemblysheet.csv)
 
 Now, you can run the pipeline using:
 
