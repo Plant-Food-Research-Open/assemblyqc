@@ -2,10 +2,10 @@ process BUSCO {
     tag "${asm_tag}:${lineage_dataset}"
     label 'process_high'
 
-    conda "bioconda::busco=5.2.2"
+    conda "bioconda::busco=5.6.1"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/busco:5.2.2--pyhdfd78af_0':
-        'quay.io/biocontainers/busco:5.2.2--pyhdfd78af_0' }"
+        'https://depot.galaxyproject.org/singularity/busco:5.6.1--pyhdfd78af_0':
+        'biocontainers/busco:5.6.1--pyhdfd78af_0' }"
 
     input:
     tuple val(asm_tag), path(fasta_file)
@@ -16,6 +16,9 @@ process BUSCO {
     output:
     path "${asm_tag}/short_summary.specific.${lineage_dataset}.${asm_tag}_${lineage_initials}.txt"  , emit: summary
     path "versions.yml"                                                                             , emit: versions
+
+    when:
+    task.ext.when == null || task.ext.when
 
     script:
     def lineages_path   = download_path ? "--download_path ${download_path}" : ''

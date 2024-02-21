@@ -47,6 +47,7 @@ include { FASTA_BUSCO_PLOT                  } from '../subworkflows/local/fasta_
 include { GUNZIP as GUNZIP_FASTA            } from '../modules/nf-core/gunzip/main'
 include { GUNZIP as GUNZIP_GFF3             } from '../modules/nf-core/gunzip/main'
 include { FASTAVALIDATOR                    } from '../modules/nf-core/fastavalidator/main'
+include { FASTA_EXPLORE_SEARCH_PLOT_TIDK    } from '../subworkflows/nf-core/fasta_explore_search_plot_tidk/main'
 
 include { CUSTOM_DUMPSOFTWAREVERSIONS       } from '../modules/nf-core/custom/dumpsoftwareversions/main'
 
@@ -276,6 +277,31 @@ workflow ASSEMBLYQC {
     ch_busco_summary                        = FASTA_BUSCO_PLOT.out.summary
     ch_busco_plot                           = FASTA_BUSCO_PLOT.out.plot
     ch_versions                             = ch_versions.mix(FASTA_BUSCO_PLOT.out.versions)
+
+    // SUBWORKFLOW: FASTA_EXPLORE_SEARCH_PLOT_TIDK
+    ch_tidk_inputs                          = params.tidk_skip
+                                            ? Channel.empty()
+                                            : ch_clean_assembly
+                                            | map { tag, fa -> [ [ id: tag ], fa ] }
+                                            | combine(
+                                                Channel.of(params.tidk_repeat_seq)
+                                            )
+
+    FASTA_EXPLORE_SEARCH_PLOT_TIDK(
+        ch_tidk_inputs.map { meta, fa, seq -> [ meta, fa ] },
+        ch_tidk_inputs.map { meta, fa, seq -> [ meta, seq ] }
+    )
+
+    ch_tidk_outputs                         = FASTA_EXPLORE_SEARCH_PLOT_TIDK.out.apriori_svg
+                                            | mix(FASTA_EXPLORE_SEARCH_PLOT_TIDK.out.aposteriori_svg)
+                                            | mix(FASTA_EXPLORE_SEARCH_PLOT_TIDK.out.aposteriori_sequence)
+                                            | map { meta, file -> file }
+                                            | mix(
+                                                Channel.of("$params.tidk_repeat_seq")
+                                                | collectFile(name: 'a_priori.sequence', newLine: true)
+                                            )
+
+    ch_versions                             = ch_versions.mix(FASTA_EXPLORE_SEARCH_PLOT_TIDK.out.versions)
 
     // MODULE: CUSTOM_DUMPSOFTWAREVERSIONS
     CUSTOM_DUMPSOFTWAREVERSIONS (
