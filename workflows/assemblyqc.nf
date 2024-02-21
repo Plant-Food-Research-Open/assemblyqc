@@ -32,6 +32,7 @@ include { GFF3_VALIDATE                     } from '../subworkflows/pfr/gff3_val
 include { NCBI_FCS_ADAPTOR                  } from '../modules/local/ncbi_fcs_adaptor'
 include { NCBI_FCS_GX                       } from '../subworkflows/local/ncbi_fcs_gx'
 include { ASSEMBLATHON_STATS                } from '../modules/local/assemblathon_stats'
+include { FASTA_BUSCO_PLOT                  } from '../subworkflows/local/fasta_busco_plot'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -252,6 +253,29 @@ workflow ASSEMBLYQC {
 
     ch_assemblathon_stats                   = ASSEMBLATHON_STATS.out.stats
     ch_versions                             = ch_versions.mix(ASSEMBLATHON_STATS.out.versions.first())
+
+    // SUBWORKFLOW: FASTA_BUSCO_PLOT
+    ch_busco_inputs                         = params.busco_skip
+                                            ? Channel.empty()
+                                            : ch_clean_assembly
+                                            | combine(
+                                                Channel.of(params.busco_lineage_datasets)
+                                                | map { it.split(' ') }
+                                                | flatten
+                                            )
+                                            | map { tag, fa, lineage ->
+                                                [ tag, file(fa, checkIfExists: true), lineage ]
+                                            }
+    FASTA_BUSCO_PLOT(
+        ch_busco_inputs.map { tag, fa, lineage -> [ tag, fa ] },
+        ch_busco_inputs.map { tag, fa, lineage -> lineage },
+        params.busco_mode,
+        params.busco_download_path ?: []
+    )
+
+    ch_busco_summary                        = FASTA_BUSCO_PLOT.out.summary
+    ch_busco_plot                           = FASTA_BUSCO_PLOT.out.plot
+    ch_versions                             = ch_versions.mix(FASTA_BUSCO_PLOT.out.versions)
 
     // MODULE: CUSTOM_DUMPSOFTWAREVERSIONS
     CUSTOM_DUMPSOFTWAREVERSIONS (

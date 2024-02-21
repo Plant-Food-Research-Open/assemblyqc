@@ -52,6 +52,11 @@ class WorkflowMain {
         if (!params.ncbi_fcs_gx_skip && !params.ncbi_fcs_gx_db_path) {
             Nextflow.error('ncbi_fcs_gx_db_path must be provided when executing NCBI FCS GX')
         }
+
+        // Check for busco_lineage_datasets
+        if (!params.busco_skip && !params.busco_lineage_datasets) {
+            Nextflow.error('busco_lineage_datasets must be provided when executing BUSCO')
+        }
     }
     //
     // Get attribute from genome config file e.g. fasta

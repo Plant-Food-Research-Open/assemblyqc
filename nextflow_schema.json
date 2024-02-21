@@ -107,7 +107,7 @@
                 "busco_lineage_datasets": {
                     "type": "string",
                     "help_text": "Each input assembly is assessed against each lineage. It should be provided as a space-separated list of lineages: 'fungi_odb10 microsporidia_odb10' ",
-                    "pattern": "^(\\w+_odb10\\s)+\\w+_odb10$",
+                    "pattern": "^(\\w+_odb10\\s)*\\w+_odb10$",
                     "description": "BUSCO lineages"
                 },
                 "busco_download_path": {
