@@ -57,11 +57,7 @@
                 "anyOf": [
                     {
                         "type": "string",
-                        "pattern": "^SR\\w+$"
-                    },
-                    {
-                        "type": "string",
-                        "pattern": "^\\S+_R\\{1,2\\}\\.f(ast)?q\\.gz$"
+                        "pattern": "^\\S+\\.tsv$"
                     },
                     {
                         "type": "string",

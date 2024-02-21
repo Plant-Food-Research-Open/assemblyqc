@@ -47,6 +47,11 @@ class WorkflowMain {
         if (!params.ncbi_fcs_gx_skip && !params.ncbi_fcs_gx_tax_id) {
             Nextflow.error('ncbi_fcs_gx_tax_id must be provided when executing NCBI FCS GX')
         }
+
+        // Check for ncbi_fcs_gx_db_path
+        if (!params.ncbi_fcs_gx_skip && !params.ncbi_fcs_gx_db_path) {
+            Nextflow.error('ncbi_fcs_gx_db_path must be provided when executing NCBI FCS GX')
+        }
     }
     //
     // Get attribute from genome config file e.g. fasta
