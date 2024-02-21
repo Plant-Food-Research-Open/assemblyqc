@@ -1,10 +1,11 @@
 process ASSEMBLATHON_STATS {
     tag "${asm_tag}"
-    label "process_single"
+    label 'process_single'
 
-    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+    conda "conda-forge::perl"
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/ubuntu:20.04':
-        'quay.io/nf-core/ubuntu:20.04' }"
+        'nf-core/ubuntu:20.04' }"
 
     input:
     tuple val(asm_tag), path(fasta_file)
@@ -13,6 +14,9 @@ process ASSEMBLATHON_STATS {
     output:
     path "${asm_tag}_stats.csv"     , emit: stats
     path 'versions.yml'             , emit: versions
+
+    when:
+    task.ext.when == null || task.ext.when
 
     script:
     def VERSION = "github/PlantandFoodResearch/assemblathon2-analysis/a93cba2"

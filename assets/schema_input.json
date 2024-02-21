@@ -36,7 +36,7 @@
                 ]
             },
             "hic_reads": {
-                "errorMessage": "HiC reads should either be provided as a SRA ID or as a path to paired reads with pattern '*_R{1,2}.(fastq|fq).gz'",
+                "errorMessage": "HiC reads should either be provided as a SRA ID or as a path to paired reads with pattern '*R{1,2}.(fastq|fq).gz'",
                 "anyOf": [
                     {
                         "type": "string",
@@ -44,7 +44,7 @@
                     },
                     {
                         "type": "string",
-                        "pattern": "^\\S+_R\\{1,2\\}\\.f(ast)?q\\.gz$"
+                        "pattern": "^\\S+R\\{1,2\\}\\.f(ast)?q\\.gz$"
                     },
                     {
                         "type": "string",
