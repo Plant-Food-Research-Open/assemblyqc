@@ -34,6 +34,7 @@ include { NCBI_FCS_GX                       } from '../subworkflows/local/ncbi_f
 include { ASSEMBLATHON_STATS                } from '../modules/local/assemblathon_stats'
 include { FASTA_BUSCO_PLOT                  } from '../subworkflows/local/fasta_busco_plot'
 include { FASTA_LTRRETRIEVER_LAI            } from '../subworkflows/pfr/fasta_ltrretriever_lai/main'
+include { FASTA_KRAKEN2                     } from '../subworkflows/local/fasta_kraken2'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -334,6 +335,22 @@ workflow ASSEMBLYQC {
                                             | map { meta, log, out -> out ? [ log, out ] : [log] }
 
     ch_versions                             = ch_versions.mix(FASTA_LTRRETRIEVER_LAI.out.versions)
+
+    // SUBWORKFLOW: FASTA_KRAKEN2
+    ch_kraken2_input_assembly               = params.kraken2_skip
+                                            ? Channel.empty()
+                                            : ch_clean_assembly
+
+    ch_kraken2_db_path                      = params.kraken2_skip
+                                            ? Channel.empty()
+                                            : Channel.of(file(params.kraken2_db_path, checkIfExists:true))
+    FASTA_KRAKEN2(
+        ch_kraken2_input_assembly,
+        ch_kraken2_db_path
+    )
+
+    ch_kraken2_plot                         = FASTA_KRAKEN2.out.plot
+    ch_versions                             = ch_versions.mix(FASTA_KRAKEN2.out.versions)
 
     // MODULE: CUSTOM_DUMPSOFTWAREVERSIONS
     CUSTOM_DUMPSOFTWAREVERSIONS (

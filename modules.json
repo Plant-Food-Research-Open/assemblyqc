@@ -119,6 +119,11 @@
                         "branch": "master",
                         "git_sha": "669a329f4aa37f5b7f03776c2ed1cd0ef122c626",
                         "installed_by": ["fasta_explore_search_plot_tidk"]
+                    },
+                    "untar": {
+                        "branch": "master",
+                        "git_sha": "e719354ba77df0a1bd310836aa2039b45c29d620",
+                        "installed_by": ["modules"]
                     }
                 }
             },
