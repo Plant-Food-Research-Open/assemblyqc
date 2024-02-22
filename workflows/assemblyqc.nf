@@ -33,6 +33,7 @@ include { NCBI_FCS_ADAPTOR                  } from '../modules/local/ncbi_fcs_ad
 include { NCBI_FCS_GX                       } from '../subworkflows/local/ncbi_fcs_gx'
 include { ASSEMBLATHON_STATS                } from '../modules/local/assemblathon_stats'
 include { FASTA_BUSCO_PLOT                  } from '../subworkflows/local/fasta_busco_plot'
+include { FASTA_LTRRETRIEVER_LAI            } from '../subworkflows/pfr/fasta_ltrretriever_lai/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -63,11 +64,12 @@ def assemblyqc_report                       = []
 
 workflow ASSEMBLYQC {
 
+    // Input channels
     ch_versions                             = Channel.empty()
     ch_input                                = Channel.fromSamplesheet('input')
 
     ch_target_assemby_branch                = ch_input
-                                            | map { tag, fasta, gff, ids, reads, labels ->
+                                            | map { tag, fasta, gff, mono_ids, reads, labels ->
                                                 [ [ id: tag ], file(fasta, checkIfExists: true) ]
                                             }
                                             | branch { meta, fasta ->
@@ -76,7 +78,7 @@ workflow ASSEMBLYQC {
                                             }
 
     ch_assemby_gff3_branch                  = ch_input
-                                            | map { tag, fasta, gff, ids, reads, labels ->
+                                            | map { tag, fasta, gff, mono_ids, reads, labels ->
                                                 gff
                                                 ? [ [ id: tag ], file(gff, checkIfExists: true) ]
                                                 : null
@@ -84,6 +86,13 @@ workflow ASSEMBLYQC {
                                             | branch { meta, gff ->
                                                 gz: "$gff".endsWith(".gz")
                                                 rest: !"$gff".endsWith(".gz")
+                                            }
+
+    ch_mono_ids                             = ch_input
+                                            | map { tag, fasta, gff, mono_ids, reads, labels ->
+                                                mono_ids
+                                                ? [ [ id: tag ], file(mono_ids, checkIfExists: true) ]
+                                                : null
                                             }
 
     // MODULE: GUNZIP as GUNZIP_FASTA
@@ -302,6 +311,29 @@ workflow ASSEMBLYQC {
                                             )
 
     ch_versions                             = ch_versions.mix(FASTA_EXPLORE_SEARCH_PLOT_TIDK.out.versions)
+
+    // SUBWORKFLOW: FASTA_LTRRETRIEVER_LAI
+    ch_lai_inputs                           = params.lai_skip
+                                            ? Channel.empty()
+                                            : ch_clean_assembly
+                                            | join(
+                                                ch_mono_ids
+                                                | map { meta, mono -> [ meta.id, mono ] },
+                                                remainder: true
+                                            )
+                                            | map { id, fasta, mono -> [ id, fasta, mono ?: [] ] }
+
+    FASTA_LTRRETRIEVER_LAI(
+        ch_lai_inputs.map { id, fasta, mono -> [ [ id:id ], fasta ] },
+        ch_lai_inputs.map { id, fasta, mono -> [ [ id:id ], mono ] },
+        false // Not skipping LAI using this flag
+    )
+
+    ch_lai_outputs                          = FASTA_LTRRETRIEVER_LAI.out.lai_log
+                                            | join(FASTA_LTRRETRIEVER_LAI.out.lai_out, remainder: true)
+                                            | map { meta, log, out -> out ? [ log, out ] : [log] }
+
+    ch_versions                             = ch_versions.mix(FASTA_LTRRETRIEVER_LAI.out.versions)
 
     // MODULE: CUSTOM_DUMPSOFTWAREVERSIONS
     CUSTOM_DUMPSOFTWAREVERSIONS (

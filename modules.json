@@ -5,10 +5,25 @@
         "git@github.com:PlantandFoodResearch/nxf-modules.git": {
             "modules": {
                 "pfr": {
+                    "cat/cat": {
+                        "branch": "main",
+                        "git_sha": "4b9da80b1e4c16067babd97554bea42d7cd9ca85",
+                        "installed_by": ["fasta_ltrretriever_lai"]
+                    },
                     "custom/checkgff3fastacorrespondence": {
                         "branch": "main",
                         "git_sha": "1a76f884082c786760559c462063a5d1de94ca83",
                         "installed_by": ["gff3_validate"]
+                    },
+                    "custom/restoregffids": {
+                        "branch": "main",
+                        "git_sha": "e9f6bdd634bdbcd52c5568ba82f16176ec06631f",
+                        "installed_by": ["fasta_ltrretriever_lai"]
+                    },
+                    "custom/shortenfastaids": {
+                        "branch": "main",
+                        "git_sha": "5e0e41b51d7fc7f68ae43692b6fe19b95d7f3a8c",
+                        "installed_by": ["fasta_ltrretriever_lai"]
                     },
                     "gt/gff3": {
                         "branch": "main",
@@ -24,11 +39,36 @@
                         "branch": "main",
                         "git_sha": "cb5fb0be78a98fd1e32b7c90d6adf8c3bf44133e",
                         "installed_by": ["modules"]
+                    },
+                    "ltrfinder": {
+                        "branch": "main",
+                        "git_sha": "835879b8f174bb4d2c5534d0381ffbe62cc1b060",
+                        "installed_by": ["fasta_ltrretriever_lai"]
+                    },
+                    "ltrharvest": {
+                        "branch": "main",
+                        "git_sha": "835879b8f174bb4d2c5534d0381ffbe62cc1b060",
+                        "installed_by": ["fasta_ltrretriever_lai"]
+                    },
+                    "ltrretriever/lai": {
+                        "branch": "main",
+                        "git_sha": "154661d7c1769532ff7b5f11259644ec200dd47d",
+                        "installed_by": ["fasta_ltrretriever_lai"]
+                    },
+                    "ltrretriever/ltrretriever": {
+                        "branch": "main",
+                        "git_sha": "835879b8f174bb4d2c5534d0381ffbe62cc1b060",
+                        "installed_by": ["fasta_ltrretriever_lai"]
                     }
                 }
             },
             "subworkflows": {
                 "pfr": {
+                    "fasta_ltrretriever_lai": {
+                        "branch": "main",
+                        "git_sha": "154661d7c1769532ff7b5f11259644ec200dd47d",
+                        "installed_by": ["subworkflows"]
+                    },
                     "gff3_validate": {
                         "branch": "main",
                         "git_sha": "f9b96bf8142a01f0649ff90570fb10aa973504b9",

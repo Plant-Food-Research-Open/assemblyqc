@@ -1,0 +1,2 @@
+subworkflows/fasta_ltrretriever_lai:
+  - subworkflows/pfr/fasta_ltrretriever_lai/**
