@@ -73,7 +73,6 @@ Prepare an `assemblysheet.csv` file with following columns representing target a
 - `fasta:` FASTA file
 - `gff3 [Optional]:` GFF3 annotation file if available
 - `monoploid_ids [Optional]:` A txt file listing the IDs used to calculate LAI in monoploid mode if necessary
-- `hic_reads [Optional]:` A SRA id such as 'SRR8238190' or path to paired reads such as 'PG_PETUNIA_HiC_CGYCF_CACTCA_L001_R{1,2}.fastq.gz'
 - `synteny_labels [Optional]:` A two column tsv file listing fasta sequence ids (first column) and labels for the synteny plots (second column) when performing synteny analysis
 
 Now, you can run the pipeline using:

@@ -50,6 +50,7 @@ include { GUNZIP as GUNZIP_FASTA            } from '../modules/nf-core/gunzip/ma
 include { GUNZIP as GUNZIP_GFF3             } from '../modules/nf-core/gunzip/main'
 include { FASTAVALIDATOR                    } from '../modules/nf-core/fastavalidator/main'
 include { FASTA_EXPLORE_SEARCH_PLOT_TIDK    } from '../subworkflows/nf-core/fasta_explore_search_plot_tidk/main'
+include { FASTQ_TRIM_FASTP_FASTQC           } from '../subworkflows/nf-core/fastq_trim_fastp_fastqc/main'
 
 include { CUSTOM_DUMPSOFTWAREVERSIONS       } from '../modules/nf-core/custom/dumpsoftwareversions/main'
 
@@ -70,7 +71,7 @@ workflow ASSEMBLYQC {
     ch_input                                = Channel.fromSamplesheet('input')
 
     ch_target_assemby_branch                = ch_input
-                                            | map { tag, fasta, gff, mono_ids, reads, labels ->
+                                            | map { tag, fasta, gff, mono_ids, labels ->
                                                 [ [ id: tag ], file(fasta, checkIfExists: true) ]
                                             }
                                             | branch { meta, fasta ->
@@ -79,7 +80,7 @@ workflow ASSEMBLYQC {
                                             }
 
     ch_assemby_gff3_branch                  = ch_input
-                                            | map { tag, fasta, gff, mono_ids, reads, labels ->
+                                            | map { tag, fasta, gff, mono_ids, labels ->
                                                 gff
                                                 ? [ [ id: tag ], file(gff, checkIfExists: true) ]
                                                 : null
@@ -90,10 +91,21 @@ workflow ASSEMBLYQC {
                                             }
 
     ch_mono_ids                             = ch_input
-                                            | map { tag, fasta, gff, mono_ids, reads, labels ->
+                                            | map { tag, fasta, gff, mono_ids, labels ->
                                                 mono_ids
                                                 ? [ [ id: tag ], file(mono_ids, checkIfExists: true) ]
                                                 : null
+                                            }
+
+    ch_hic_reads                            = !params.hic
+                                            ? Channel.empty()
+                                            : (
+                                                "$params.hic".find(/.*[\/].*\.(fastq|fq)\.gz/)
+                                                ? Channel.fromFilePairs(params.hic, checkIfExists: true)
+                                                : Channel.fromSRA(params.hic)
+                                            )
+                                            | map{ sample, fq ->
+                                                [ [ id: sample, single_end: false ], fq ]
                                             }
 
     // MODULE: GUNZIP as GUNZIP_FASTA
@@ -351,6 +363,20 @@ workflow ASSEMBLYQC {
 
     ch_kraken2_plot                         = FASTA_KRAKEN2.out.plot
     ch_versions                             = ch_versions.mix(FASTA_KRAKEN2.out.versions)
+
+    // SUBWORKFLOW: FASTQ_TRIM_FASTP_FASTQC
+
+    FASTQ_TRIM_FASTP_FASTQC(
+        ch_hic_reads,
+        [],
+        true,   // val_save_trimmed_fail
+        false,  // val_save_merged
+        params.hic_skip_fastp,
+        params.hic_skip_fastqc
+    )
+
+    ch_cleaned_paired_reads                 = FASTQ_TRIM_FASTP_FASTQC.out.reads
+    ch_versions                             = ch_versions.mix(FASTQ_TRIM_FASTP_FASTQC.out.versions)
 
     // MODULE: CUSTOM_DUMPSOFTWAREVERSIONS
     CUSTOM_DUMPSOFTWAREVERSIONS (

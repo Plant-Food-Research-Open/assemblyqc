@@ -183,10 +183,11 @@
             "description": "",
             "default": "",
             "properties": {
-                "hic_skip": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Skip HiC contact map construction"
+                "hic": {
+                    "type": "string",
+                    "description": "HiC reads",
+                    "help_text": "Path to reads provided as a SRA ID or as a path to paired reads with pattern '*R{1,2}.(fastq|fq).gz'",
+                    "pattern": "^SR\\w+$|^\\S+R\\{1,2\\}\\.f(ast)?q\\.gz$"
                 },
                 "hic_skip_fastp": {
                     "type": "boolean",
