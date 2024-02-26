@@ -10,7 +10,8 @@ process NCBI_FCS_GX_SETUP_SAMPLE {
     tuple val(asm_tag), path(fasta_file)
 
     output:
-    path 'fasta.file.for.*.fasta', emit: fsata
+    path 'fasta.file.for.*.fasta'   , emit: fsata
+    path "versions.yml"             , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -22,5 +23,10 @@ process NCBI_FCS_GX_SETUP_SAMPLE {
     }
     """
     ln -s $fasta_file "fasta.file.for.${asm_tag}.fasta"
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        ubuntu: \$(cat /etc/issue | tr -d 'Ubuntu LTS[:space:]\\\\')
+    END_VERSIONS
     """
 }

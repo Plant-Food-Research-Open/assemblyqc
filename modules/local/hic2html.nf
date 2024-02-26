@@ -8,7 +8,8 @@ process HIC2HTML {
     tuple val(sample_id_on_tag), path(hic_file)
 
     output:
-    path "*.html", emit: html
+    path "*.html"           , emit: html
+    path "versions.yml"     , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -17,5 +18,10 @@ process HIC2HTML {
     """
     file_name="$hic_file"
     hic2html.py "$hic_file" > "\${file_name%.*}.html"
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        python: \$(python --version | tr -d 'Python[:space:]')
+    END_VERSIONS
     """
 }

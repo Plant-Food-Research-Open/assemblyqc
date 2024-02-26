@@ -9,11 +9,15 @@ workflow NCBI_FCS_GX {
     tax_id                  // val: Integer
 
     main:
+    ch_versions             = Channel.empty()
+
     // MODULE: NCBI_FCS_GX_SETUP_SAMPLE
     NCBI_FCS_GX_SETUP_SAMPLE ( tuple_of_tag_file )
 
     ch_all_samples          = NCBI_FCS_GX_SETUP_SAMPLE.out.fsata
                             | collect
+
+    ch_versions             = ch_versions.mix(NCBI_FCS_GX_SETUP_SAMPLE.out.versions.first())
 
     // MODULE: NCBI_FCS_GX_SCREEN_SAMPLES
     NCBI_FCS_GX_SCREEN_SAMPLES(
@@ -38,14 +42,13 @@ workflow NCBI_FCS_GX {
                                 [tag, it]
                             }
 
+    ch_versions             = ch_versions.mix(NCBI_FCS_GX_SCREEN_SAMPLES.out.versions)
+
     // MODULE: NCBI_FCS_GX_KRONA_PLOT
     NCBI_FCS_GX_KRONA_PLOT ( ch_gx_taxonomy )
 
     ch_gx_taxonomy_plot     = NCBI_FCS_GX_KRONA_PLOT.out.plot
-
-    ch_versions             = Channel.empty()
-                            | mix(NCBI_FCS_GX_SCREEN_SAMPLES.out.versions.first())
-                            | mix(NCBI_FCS_GX_KRONA_PLOT.out.versions.first())
+    ch_versions             = ch_versions.mix(NCBI_FCS_GX_KRONA_PLOT.out.versions.first())
 
     emit:
     gx_report               = ch_gx_report

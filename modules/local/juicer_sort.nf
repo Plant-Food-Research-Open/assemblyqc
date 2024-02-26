@@ -10,7 +10,8 @@ process JUICER_SORT {
     tuple val(sample_id_on_tag), path(out_links_txt)
 
     output:
-    tuple val(sample_id_on_tag), path("*sorted.links.txt"), emit: links
+    tuple val(sample_id_on_tag), path("*sorted.links.txt")  , emit: links
+    path "versions.yml"                                     , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -21,5 +22,10 @@ process JUICER_SORT {
         -k2,2 -k6,6 \\
         $out_links_txt \\
         > out.sorted.links.txt
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        sort: \$(sort --version | sed -n '/sort (GNU coreutils) / s/sort (GNU coreutils) //p')
+    END_VERSIONS
     """
 }

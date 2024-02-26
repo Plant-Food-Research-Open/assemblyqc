@@ -57,20 +57,31 @@ workflow FQ2HIC {
 
     // MODULE: MAKEAGPFROMFASTA | AGP2ASSEMBLY | ASSEMBLY2BEDPE
     MAKEAGPFROMFASTA ( ch_bam_and_ref.map { meta3, bam, fa -> [ meta3.id, fa ] } )
-    | AGP2ASSEMBLY
-    | ASSEMBLY2BEDPE
+    AGP2ASSEMBLY ( MAKEAGPFROMFASTA.out.agp )
+    ASSEMBLY2BEDPE ( AGP2ASSEMBLY.out.assembly )
+
+    ch_versions                     = ch_versions.mix(MAKEAGPFROMFASTA.out.versions.first())
+                                    | mix(AGP2ASSEMBLY.out.versions.first())
+                                    | mix(ASSEMBLY2BEDPE.out.versions.first())
 
     // MODULE: MATLOCK_BAM2_JUICER | JUICER_SORT
     MATLOCK_BAM2_JUICER ( ch_bam_and_ref.map { meta3, bam, fa -> [ meta3.id, bam ] } )
-    | JUICER_SORT
+
+    JUICER_SORT ( MATLOCK_BAM2_JUICER.out.links )
+
+    ch_versions                     = ch_versions.mix(MATLOCK_BAM2_JUICER.out.versions.first())
+                                    | mix(JUICER_SORT.out.versions.first())
 
     // MODULE: RUNASSEMBLYVISUALIZER
     RUNASSEMBLYVISUALIZER ( AGP2ASSEMBLY.out.assembly.join(JUICER_SORT.out.links) )
 
     ch_hic                          = RUNASSEMBLYVISUALIZER.out.hic
+    ch_versions                     = ch_versions.mix(RUNASSEMBLYVISUALIZER.out.versions.first())
 
     // MODULE: HIC2HTML
     HIC2HTML ( ch_hic )
+
+    ch_versions                     = ch_versions.mix(HIC2HTML.out.versions.first())
 
     emit:
     hic                             = ch_hic
