@@ -2,7 +2,6 @@ process HICQC {
     tag "$meta.id"
     label 'process_single'
 
-    publishDir "${params.outdir}/hic/hic_qc", mode:'copy'
     container "docker.io/gallvp/hic_qc:6881c33_ps"
 
     input:
@@ -11,6 +10,9 @@ process HICQC {
     output:
     tuple val(meta), path("*.pdf")  , emit: pdf
     path "versions.yml"             , emit: versions
+
+    when:
+    task.ext.when == null || task.ext.when
 
     script:
     """

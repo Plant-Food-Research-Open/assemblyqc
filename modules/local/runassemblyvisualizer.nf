@@ -1,8 +1,7 @@
 process RUNASSEMBLYVISUALIZER {
     tag "$sample_id_on_tag"
-    label "process_medium"
+    label 'process_medium'
 
-    publishDir "${params.outdir}/hic", mode:'copy'
     container "docker.io/gallvp/3d-dna:63029aa"
 
     input:
@@ -10,6 +9,9 @@ process RUNASSEMBLYVISUALIZER {
 
     output:
     tuple val(sample_id_on_tag), path("*.hic"), emit: hic
+
+    when:
+    task.ext.when == null || task.ext.when
 
     script:
     // -p true/false    Use GNU Parallel to speed up computation (default is true).

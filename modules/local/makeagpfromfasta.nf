@@ -10,6 +10,9 @@ process MAKEAGPFROMFASTA {
     output:
     tuple val(sample_id_on_tag), path("*.agp"), emit: agp
 
+    when:
+    task.ext.when == null || task.ext.when
+
     script:
     """
     file_name="$assembly_fasta"

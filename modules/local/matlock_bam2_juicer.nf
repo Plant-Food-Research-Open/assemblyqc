@@ -12,6 +12,9 @@ process MATLOCK_BAM2_JUICER {
     output:
         tuple val(sample_id_on_tag), path("out.links.txt")
 
+    when:
+    task.ext.when == null || task.ext.when
+
     script:
         """
         matlock bam2 juicer $hic_bam_scaffolds out.links.txt

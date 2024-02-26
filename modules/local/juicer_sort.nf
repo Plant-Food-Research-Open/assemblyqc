@@ -12,6 +12,9 @@ process JUICER_SORT {
     output:
     tuple val(sample_id_on_tag), path("*sorted.links.txt"), emit: links
 
+    when:
+    task.ext.when == null || task.ext.when
+
     script:
     """
     sort --parallel=${task.cpus} \\

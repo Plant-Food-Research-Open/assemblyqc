@@ -1,7 +1,6 @@
 process KRAKEN2 {
     tag "${asm_tag}"
     label 'process_single'
-    label 'process_high_memory'
 
     container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
         'https://depot.galaxyproject.org/singularity/kraken2:2.1.2--pl5321h9f5acd7_2':

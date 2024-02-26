@@ -1,7 +1,6 @@
 process NCBI_FCS_GX_SCREEN_SAMPLES {
     tag 'all samples'
     label 'process_high'
-    label 'process_long'
 
     conda "bioconda::ncbi-fcs-gx=0.5.0"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?

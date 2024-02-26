@@ -3,13 +3,15 @@ process AGP2ASSEMBLY {
     label 'process_single'
 
     container "docker.io/gallvp/juicebox_scripts:a7ae991_ps"
-    publishDir "${params.outdir}/hic/assembly", mode:'copy'
 
     input:
     tuple val(sample_id_on_tag), path(agp_file)
 
     output:
     tuple val(sample_id_on_tag), path("*.agp.assembly"), emit: assembly
+
+    when:
+    task.ext.when == null || task.ext.when
 
     script:
     """

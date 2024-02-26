@@ -3,13 +3,15 @@ process ASSEMBLY2BEDPE {
     label 'process_single'
 
     container "docker.io/gallvp/python3npkgs:v0.4"
-    publishDir "${params.outdir}/hic/bedpe", mode:'copy'
 
     input:
     tuple val(sample_id_on_tag), path(agp_assembly_file)
 
     output:
     tuple val(sample_id_on_tag), path("*.assembly.bedpe"), emit: bedpe
+
+    when:
+    task.ext.when == null || task.ext.when
 
     script:
     """
