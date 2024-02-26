@@ -5,6 +5,16 @@
         "git@github.com:PlantandFoodResearch/nxf-modules.git": {
             "modules": {
                 "pfr": {
+                    "bwa/index": {
+                        "branch": "main",
+                        "git_sha": "4b9da80b1e4c16067babd97554bea42d7cd9ca85",
+                        "installed_by": ["fastq_bwa_mem_samblaster"]
+                    },
+                    "bwa/mem": {
+                        "branch": "main",
+                        "git_sha": "835879b8f174bb4d2c5534d0381ffbe62cc1b060",
+                        "installed_by": ["fastq_bwa_mem_samblaster"]
+                    },
                     "cat/cat": {
                         "branch": "main",
                         "git_sha": "4b9da80b1e4c16067babd97554bea42d7cd9ca85",
@@ -59,6 +69,11 @@
                         "branch": "main",
                         "git_sha": "835879b8f174bb4d2c5534d0381ffbe62cc1b060",
                         "installed_by": ["fasta_ltrretriever_lai"]
+                    },
+                    "samblaster": {
+                        "branch": "main",
+                        "git_sha": "73358a6712178b9a67c39f92e65e8144b5880eae",
+                        "installed_by": ["fastq_bwa_mem_samblaster"]
                     }
                 }
             },
@@ -67,6 +82,11 @@
                     "fasta_ltrretriever_lai": {
                         "branch": "main",
                         "git_sha": "154661d7c1769532ff7b5f11259644ec200dd47d",
+                        "installed_by": ["subworkflows"]
+                    },
+                    "fastq_bwa_mem_samblaster": {
+                        "branch": "main",
+                        "git_sha": "9639ac9a556898d0f0e8592bff24585c33326458",
                         "installed_by": ["subworkflows"]
                     },
                     "gff3_validate": {

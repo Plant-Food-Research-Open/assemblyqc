@@ -35,6 +35,7 @@ include { ASSEMBLATHON_STATS                } from '../modules/local/assemblatho
 include { FASTA_BUSCO_PLOT                  } from '../subworkflows/local/fasta_busco_plot'
 include { FASTA_LTRRETRIEVER_LAI            } from '../subworkflows/pfr/fasta_ltrretriever_lai/main'
 include { FASTA_KRAKEN2                     } from '../subworkflows/local/fasta_kraken2'
+include { FQ2HIC                            } from '../subworkflows/local/fq2hic'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -50,7 +51,6 @@ include { GUNZIP as GUNZIP_FASTA            } from '../modules/nf-core/gunzip/ma
 include { GUNZIP as GUNZIP_GFF3             } from '../modules/nf-core/gunzip/main'
 include { FASTAVALIDATOR                    } from '../modules/nf-core/fastavalidator/main'
 include { FASTA_EXPLORE_SEARCH_PLOT_TIDK    } from '../subworkflows/nf-core/fasta_explore_search_plot_tidk/main'
-include { FASTQ_TRIM_FASTP_FASTQC           } from '../subworkflows/nf-core/fastq_trim_fastp_fastqc/main'
 
 include { CUSTOM_DUMPSOFTWAREVERSIONS       } from '../modules/nf-core/custom/dumpsoftwareversions/main'
 
@@ -76,7 +76,7 @@ workflow ASSEMBLYQC {
                                             }
                                             | branch { meta, fasta ->
                                                 gz: "$fasta".endsWith(".gz")
-                                                rest: !"$fasta".endsWith(".gz")
+                                                rest: ! "$fasta".endsWith(".gz")
                                             }
 
     ch_assemby_gff3_branch                  = ch_input
@@ -87,7 +87,7 @@ workflow ASSEMBLYQC {
                                             }
                                             | branch { meta, gff ->
                                                 gz: "$gff".endsWith(".gz")
-                                                rest: !"$gff".endsWith(".gz")
+                                                rest: ! "$gff".endsWith(".gz")
                                             }
 
     ch_mono_ids                             = ch_input
@@ -97,7 +97,7 @@ workflow ASSEMBLYQC {
                                                 : null
                                             }
 
-    ch_hic_reads                            = !params.hic
+    ch_hic_reads                            = ! params.hic
                                             ? Channel.empty()
                                             : (
                                                 "$params.hic".find(/.*[\/].*\.(fastq|fq)\.gz/)
@@ -176,7 +176,7 @@ workflow ASSEMBLYQC {
                                             | map { tag, report ->
                                                 def is_clean = file(report).readLines().size < 2
 
-                                                if (!is_clean) {
+                                                if (! is_clean) {
                                                     log.warn("""
                                                     Adaptor contamination detected in ${tag}.
                                                     See the report for further details.
@@ -225,7 +225,7 @@ workflow ASSEMBLYQC {
                                             | map { tag, report ->
                                                 def is_clean = file(report).readLines().size < 3
 
-                                                if (!is_clean) {
+                                                if (! is_clean) {
                                                     log.warn("""
                                                     Foreign organism contamination detected in ${tag}.
                                                     See the report for further details.
@@ -364,19 +364,21 @@ workflow ASSEMBLYQC {
     ch_kraken2_plot                         = FASTA_KRAKEN2.out.plot
     ch_versions                             = ch_versions.mix(FASTA_KRAKEN2.out.versions)
 
-    // SUBWORKFLOW: FASTQ_TRIM_FASTP_FASTQC
+    // SUBWORKFLOW: FQ2HIC
+    ch_hic_input_assembly                   = ! params.hic
+                                            ? Channel.empty()
+                                            : ch_clean_assembly
+                                            | map { tag, fa -> [ [ id: tag ], fa ] }
 
-    FASTQ_TRIM_FASTP_FASTQC(
+    FQ2HIC(
         ch_hic_reads,
-        [],
-        true,   // val_save_trimmed_fail
-        false,  // val_save_merged
+        ch_hic_input_assembly,
         params.hic_skip_fastp,
         params.hic_skip_fastqc
     )
 
-    ch_cleaned_paired_reads                 = FASTQ_TRIM_FASTP_FASTQC.out.reads
-    ch_versions                             = ch_versions.mix(FASTQ_TRIM_FASTP_FASTQC.out.versions)
+    ch_hic_html                             = FQ2HIC.out.html
+    ch_versions                             = ch_versions.mix(FQ2HIC.out.versions)
 
     // MODULE: CUSTOM_DUMPSOFTWAREVERSIONS
     CUSTOM_DUMPSOFTWAREVERSIONS (

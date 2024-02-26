@@ -1,0 +1,41 @@
+{
+    "sarscov2-fq-gz": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test",
+                            "ref_id": "genome"
+                        },
+                        "test.on.genome.samblaster.bam:md5,496319fc81c383a9ae6ab52592876c9b"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,2ed54ca5e54063cb579273d0792465a7",
+                    "versions.yml:md5,49d22cda9beaf6ea1a1ad838ef4a4255",
+                    "versions.yml:md5,6a2baa7f2d1d555fe604e451624f414b"
+                ],
+                "bam": [
+                    [
+                        {
+                            "id": "test",
+                            "ref_id": "genome"
+                        },
+                        "test.on.genome.samblaster.bam:md5,496319fc81c383a9ae6ab52592876c9b"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,2ed54ca5e54063cb579273d0792465a7",
+                    "versions.yml:md5,49d22cda9beaf6ea1a1ad838ef4a4255",
+                    "versions.yml:md5,6a2baa7f2d1d555fe604e451624f414b"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "23.10.1"
+        },
+        "timestamp": "2024-02-08T19:37:23.464854"
+    }
+}
