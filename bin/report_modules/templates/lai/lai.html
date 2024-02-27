@@ -14,13 +14,7 @@
             Nucleic Acids Research, Volume 46, Issue 21, 30 November 2018, Page e126,
             <a href="https://doi.org/10.1093/nar/gky730" target="_blank">10.1093/nar/gky730</a>
         </p>
-        <p class="section-para"><b>Version: {{ all_stats_dicts['VERSIONS']['LAI']['lai'] }}</b></p>
-        {% if all_stats_dicts['PARAMS_DICT']['lai']['mode'] == '-qq' %}
-        <p class="section-para"><b>Warning:</b></p>
-        <p class="section-para">
-            The LAI mode is set to '-qq' and, therefore, the RAW LAI can only be used for intra-specific comparisons.
-        </p>
-        {% endif %}
+        <p class="section-para"><b>Version: {{ all_stats_dicts['VERSIONS']['LTRRETRIEVER_LAI']['lai'] }}</b></p>
     </div>
     {% include 'lai/dropdown.html' %} {% include 'lai/summary_contents.html' %}
 </div>

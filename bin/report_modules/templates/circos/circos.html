@@ -23,9 +23,9 @@
         </p>
         <p class="section-para"><b>Notes:</b></p>
         <p class="section-para">
-            Alignments within a distance of {{ all_stats_dicts['PARAMS_DICT']['synteny']['max_gap'] }}bp have been
+            Alignments within a distance of {{ all_stats_dicts['PARAMS_DICT']['synteny_max_gap'] }}bp have been
             bundled together. After bundling, any bundle smaller than {{
-            all_stats_dicts['PARAMS_DICT']['synteny']['min_bundle_size'] }}bp has been filtered out.
+            all_stats_dicts['PARAMS_DICT']['synteny_min_bundle_size'] }}bp has been filtered out.
         </p>
     </div>
     {% include 'circos/dropdown.html' %} {% include 'circos/report_contents.html' %}
