@@ -191,7 +191,7 @@ workflow ASSEMBLYQC {
 
     NCBI_FCS_ADAPTOR(
         ch_fcs_adaptor_inputs,
-        params.ncbi_fcs_adaptor_empire
+        params.ncbi_fcs_adaptor_empire ?: []
     )
 
     ch_fcs_adaptor_report                   = NCBI_FCS_ADAPTOR.out.report
@@ -314,7 +314,7 @@ workflow ASSEMBLYQC {
     FASTA_BUSCO_PLOT(
         ch_busco_inputs.map { tag, fa, lineage -> [ tag, fa ] },
         ch_busco_inputs.map { tag, fa, lineage -> lineage },
-        params.busco_mode,
+        params.busco_mode ?: [],
         params.busco_download_path ?: []
     )
 
@@ -438,7 +438,7 @@ workflow ASSEMBLYQC {
         ch_hic_html                         .collect().ifEmpty([]),
         ch_synteny_plot                     .collect().ifEmpty([]),
         CUSTOM_DUMPSOFTWAREVERSIONS         .out.yml,
-        Channel.of ( WorkflowAssemblyqc.jsonifyParams ( params ) ),
+        Channel.of ( WorkflowAssemblyqc.jsonifyParams ( summary_params ) )
     )
 }
 

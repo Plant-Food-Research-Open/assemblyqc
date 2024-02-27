@@ -64,9 +64,9 @@
                 },
                 "ncbi_fcs_adaptor_empire": {
                     "type": "string",
-                    "default": "euk",
                     "enum": ["euk", "prok"],
-                    "description": "Empire for NCBI FCS Adaptor checking"
+                    "description": "Empire for NCBI FCS Adaptor checking",
+                    "help_text": "'euk' for eukaryotes, or 'prok' for prokaryotes"
                 },
                 "ncbi_fcs_gx_skip": {
                     "type": "boolean",
@@ -99,7 +99,6 @@
                 },
                 "busco_mode": {
                     "type": "string",
-                    "default": "geno",
                     "enum": ["geno", "tran", "prot", "genome", "transcriptome", "proteins"],
                     "help_text": "'geno' or 'genome' for genome assemblies (DNA), 'tran' or 'transcriptome' for transcriptome assemblies (DNA), 'prot' or 'proteins' for annotated gene sets (protein)",
                     "description": "BUSCO mode"
@@ -131,7 +130,6 @@
                 },
                 "tidk_repeat_seq": {
                     "type": "string",
-                    "default": "TTAGGG",
                     "description": "Telomere repeat sequence",
                     "pattern": "^[ACGT]+$"
                 },

@@ -12,6 +12,12 @@ class WorkflowAssemblyqc {
     // Check and validate parameters
     //
     public static void initialise(params, log) {
+        // Check for ncbi_fcs_adaptor_empire
+        if (!params.ncbi_fcs_adaptor_skip && !params.ncbi_fcs_adaptor_empire) {
+            log.error('ncbi_fcs_adaptor_empire must be provided when executing NCBI FCS Adaptor')
+            System.exit(1)
+        }
+
         // Check for ncbi_fcs_gx_tax_id
         if (!params.ncbi_fcs_gx_skip && !params.ncbi_fcs_gx_tax_id) {
             log.error('ncbi_fcs_gx_tax_id must be provided when executing NCBI FCS GX')
@@ -21,6 +27,12 @@ class WorkflowAssemblyqc {
         // Check for ncbi_fcs_gx_db_path
         if (!params.ncbi_fcs_gx_skip && !params.ncbi_fcs_gx_db_path) {
             log.error('ncbi_fcs_gx_db_path must be provided when executing NCBI FCS GX')
+            System.exit(1)
+        }
+
+        // Check for busco_mode
+        if (!params.busco_skip && !params.busco_mode) {
+            log.error("busco_mode must be provided when executing BUSCO")
             System.exit(1)
         }
 
@@ -38,6 +50,14 @@ class WorkflowAssemblyqc {
     }
 
     public static String jsonifyParams(params) {
-        return JsonOutput.toJson(params)
+
+        def summary = [:]
+        for (group in params.keySet()) {
+            for (subgroup in params[group].keySet()) {
+                if ( params[group][subgroup] ) { summary << [ "$subgroup": "${params[group][subgroup]}" ] }
+            }
+        }
+
+        return JsonOutput.toJson(summary).toString()
     }
 }
