@@ -1,0 +1,33 @@
+{% set vars = {'is_first': True} %} {% for item in range(all_stats_dicts["TIDK"]|length) %} {% set active_text =
+'display: block' if vars.is_first else 'display: none' %}
+<div id="tabcontent_TIDK_{{ all_stats_dicts['TIDK'][item]['hap'] }}" class="tabcontent-TIDK" style="{{ active_text }}">
+    <div class="results-section">
+        <div class="section-heading-wrapper">
+            <div class="section-heading">{{ all_stats_dicts['TIDK'][item]['hap_display'] }}</div>
+        </div>
+        {% if all_stats_dicts['TIDK'][item]['has_sequence'] %}
+        <div class="section-para-wrapper">
+            <p class="section-para">
+                Searched sequence:
+                <b>{{ all_stats_dicts['TIDK'][item]['sequence'] }}</b>
+            </p>
+        </div>
+        {% endif %} {% if all_stats_dicts['TIDK'][item]['is_a_priori'] %}
+        <div class="section-para-wrapper">
+            <p class="section-para">
+                Searched sequence:
+                <b>{{ all_stats_dicts['TIDK'][item]['a_priori_sequence'] }}</b>
+            </p>
+        </div>
+        {% endif %} {% if all_stats_dicts['TIDK'][item]['tidk_plot_empty'] %}
+        <div class="section-para-wrapper">
+            <p class="section-para">TIDK explore could not find a repeat sequence 😔</p>
+        </div>
+        {% else %}
+        <div class="image-wrapper">
+            <img src="{{ all_stats_dicts['TIDK'][item]['tidk_plot'] }}" alt="" />
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% if vars.update({'is_first': False}) %} {% endif %} {% endfor %}

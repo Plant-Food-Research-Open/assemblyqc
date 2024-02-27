@@ -1,0 +1,68 @@
+<html>
+    {% include 'header.html' %}
+
+    <body>
+        <div class="report-header-wrapper">
+            <div class="report-header">AssemblyQC {{ all_stats_dicts['VERSIONS']['Workflow']['AssemblyQC'] }}</div>
+        </div>
+        <div class="tab" id="topNavBarButtons">
+            <button class="tablinks active" onclick="openTool(event, 'PARAMS')">PARAMS</button>
+            <button class="tablinks active" onclick="openTool(event, 'TOOLS')">TOOLS</button>
+            {% if 'GFF3_VALIDATE' in all_stats_dicts %}
+            <button class="tablinks active" onclick="openTool(event, 'GFF3_VALIDATE')">GFF3 VALIDATE</button>
+            {% endif %} {% if 'FASTA_VALIDATE' in all_stats_dicts %}
+            <button class="tablinks active" onclick="openTool(event, 'FASTA_VALIDATE')">FASTA VALIDATE</button>
+            {% endif %} {% if 'NCBI_FCS_ADAPTOR' in all_stats_dicts %}
+            <button class="tablinks active" onclick="openTool(event, 'NCBI_FCS_ADAPTOR')">NCBI FCS ADAPTOR</button>
+            {% endif %} {% if 'NCBI_FCS_GX' in all_stats_dicts %}<button
+                class="tablinks"
+                onclick="openTool(event, 'NCBI_FCS_GX')"
+            >
+                NCBI FCS GX</button
+            >{% endif %} {% if 'ASSEMBLATHON_STATS' in all_stats_dicts %}<button
+                class="tablinks active"
+                onclick="openTool(event, 'ASSEMBLATHON_STATS')"
+            >
+                ASSEMBLATHON STATS</button
+            >{% endif %} {% if 'GENOMETOOLS_GT_STAT' in all_stats_dicts %}<button
+                class="tablinks active"
+                onclick="openTool(event, 'GENOMETOOLS_GT_STAT')"
+            >
+                GENOMETOOLS GT STAT</button
+            >{% endif %} {% if 'BUSCO' in all_stats_dicts %}<button
+                class="tablinks active"
+                onclick="openTool(event, 'BUSCO')"
+            >
+                BUSCO</button
+            >{% endif %} {% if 'TIDK' in all_stats_dicts %}<button class="tablinks" onclick="openTool(event, 'TIDK')">
+                TIDK</button
+            >{% endif %} {% if 'LAI' in all_stats_dicts %}<button class="tablinks" onclick="openTool(event, 'LAI')">
+                LAI</button
+            >{% endif %} {% if 'KRAKEN2' in all_stats_dicts %}<button
+                class="tablinks"
+                onclick="openTool(event, 'KRAKEN2')"
+            >
+                KRAKEN2</button
+            >{% endif %} {% if 'HIC' in all_stats_dicts %}<button class="tablinks" onclick="openTool(event, 'HIC')">
+                HIC</button
+            >{% endif %} {% if 'CIRCOS' in all_stats_dicts %}<button
+                class="tablinks"
+                onclick="openTool(event, 'CIRCOS')"
+            >
+                CIRCOS</button
+            >{% endif %}
+        </div>
+        {% include 'params/params.html' %} {% include 'tools/tools.html' %} {% if 'GFF3_VALIDATE' in all_stats_dicts
+        %}{% include 'gff3_validate/gff3_validate.html' %}{% endif %} {% if 'FASTA_VALIDATE' in all_stats_dicts %}{%
+        include 'fasta_validate/fasta_validate.html' %}{% endif %} {% if 'NCBI_FCS_ADAPTOR' in all_stats_dicts %}{%
+        include 'ncbi_fcs_adaptor/ncbi_fcs_adaptor.html' %}{% endif %} {% if 'NCBI_FCS_GX' in all_stats_dicts %}{%
+        include 'ncbi_fcs_gx/ncbi_fcs_gx.html' %}{% endif %} {% if 'ASSEMBLATHON_STATS' in all_stats_dicts %}{% include
+        'assemblathon_stats/assemblathon_stats.html' %}{% endif %} {% if 'GENOMETOOLS_GT_STAT' in all_stats_dicts %}{%
+        include 'genometools_gt_stat/genometools_gt_stat.html' %}{% endif %} {% if 'BUSCO' in all_stats_dicts %}{%
+        include 'busco/busco.html' %}{% endif %} {% if 'TIDK' in all_stats_dicts %}{% include 'tidk/tidk.html' %}{%
+        endif %} {% if 'LAI' in all_stats_dicts %}{% include 'lai/lai.html' %}{% endif %} {% if 'KRAKEN2' in
+        all_stats_dicts %}{% include 'kraken2/kraken2.html' %}{% endif %} {% if 'HIC' in all_stats_dicts %}{% include
+        'hic/hic.html' %}{% endif %} {% if 'CIRCOS' in all_stats_dicts %}{% include 'circos/circos.html' %}{% endif %}
+    </body>
+    {% include 'js.html' %}
+</html>

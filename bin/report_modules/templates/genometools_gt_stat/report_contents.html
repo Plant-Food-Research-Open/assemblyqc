@@ -1,0 +1,35 @@
+{% set vars = {'is_first': True} %} {% for item in range(all_stats_dicts["GENOMETOOLS_GT_STAT"]|length) %} {% set
+active_text = 'display: block' if vars.is_first else 'display: none' %}
+<div
+    id="tabcontent_GENOMETOOLS_GT_STAT_{{ all_stats_dicts['GENOMETOOLS_GT_STAT'][item]['hap'] }}"
+    class="tabcontent-GENOMETOOLS_GT_STAT"
+    style="{{ active_text }}"
+>
+    <div class="results-section">
+        <div class="section-heading-wrapper">
+            <div class="section-heading">{{ all_stats_dicts['GENOMETOOLS_GT_STAT'][item]['hap'] }}</div>
+        </div>
+    </div>
+    <div class="table-outer">
+        <div class="table-wrapper">{{ all_stats_dicts['GENOMETOOLS_GT_STAT'][item]['report_table_html'] }}</div>
+    </div>
+    <div class="image-wrapper">
+        <img src="{{ all_stats_dicts['GENOMETOOLS_GT_STAT'][item]['gene_length_plot'] }}" alt="" />
+    </div>
+    <div class="image-wrapper">
+        <img src="{{ all_stats_dicts['GENOMETOOLS_GT_STAT'][item]['gene_score_plot'] }}" alt="" />
+    </div>
+    <div class="image-wrapper">
+        <img src="{{ all_stats_dicts['GENOMETOOLS_GT_STAT'][item]['exon_length_plot'] }}" alt="" />
+    </div>
+    <div class="image-wrapper">
+        <img src="{{ all_stats_dicts['GENOMETOOLS_GT_STAT'][item]['exon_number_plot'] }}" alt="" />
+    </div>
+    <div class="image-wrapper">
+        <img src="{{ all_stats_dicts['GENOMETOOLS_GT_STAT'][item]['intron_length_plot'] }}" alt="" />
+    </div>
+    <div class="image-wrapper">
+        <img src="{{ all_stats_dicts['GENOMETOOLS_GT_STAT'][item]['cds_length_plot'] }}" alt="" />
+    </div>
+</div>
+{% if vars.update({'is_first': False}) %} {% endif %} {% endfor %}

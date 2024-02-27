@@ -42,26 +42,6 @@ class WorkflowMain {
 
         // Check AWS batch settings
         NfcoreTemplate.awsBatch(workflow, params)
-
-        // Check for ncbi_fcs_gx_tax_id
-        if (!params.ncbi_fcs_gx_skip && !params.ncbi_fcs_gx_tax_id) {
-            Nextflow.error('ncbi_fcs_gx_tax_id must be provided when executing NCBI FCS GX')
-        }
-
-        // Check for ncbi_fcs_gx_db_path
-        if (!params.ncbi_fcs_gx_skip && !params.ncbi_fcs_gx_db_path) {
-            Nextflow.error('ncbi_fcs_gx_db_path must be provided when executing NCBI FCS GX')
-        }
-
-        // Check for busco_lineage_datasets
-        if (!params.busco_skip && !params.busco_lineage_datasets) {
-            Nextflow.error('busco_lineage_datasets must be provided when executing BUSCO')
-        }
-
-        // Check for kraken2_db_path
-        if (!params.kraken2_skip && !params.kraken2_db_path) {
-            Nextflow.error('kraken2_db_path must be provided when executing Kraken2')
-        }
     }
     //
     // Get attribute from genome config file e.g. fasta

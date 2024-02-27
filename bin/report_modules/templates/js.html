@@ -1,0 +1,58 @@
+<script>
+    function showContent(ofTool) {
+        let content_blocks = document.getElementsByClassName(`tabcontent-${ofTool}`);
+        for (let i = 0; i < content_blocks.length; i++) {
+            content_blocks[i].style.display = "none";
+        }
+
+        const drop_down_list = document.getElementById(`selector_${ofTool}`);
+        content_id = drop_down_list.options[drop_down_list.selectedIndex].value;
+
+        document.getElementById(content_id).style.display = "block";
+    }
+
+    function openTool(evt, toolName) {
+        let i, tabcontent, tablinks;
+
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        document.getElementById(toolName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    function openToolManually(target, toolName) {
+        let i, tabcontent, tablinks;
+
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        document.getElementById(toolName).style.display = "block";
+        target.classList.add("active");
+    }
+
+    window.addEventListener("DOMContentLoaded", (event) => {
+        const topNavBarButtons = document.getElementById("topNavBarButtons");
+
+        if (topNavBarButtons.children.length < 1) {
+            return;
+        }
+
+        const firstChild = topNavBarButtons.children[0];
+        openToolManually(firstChild, firstChild.innerHTML.replaceAll(" ", "_"));
+    });
+</script>

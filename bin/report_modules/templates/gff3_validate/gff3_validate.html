@@ -1,0 +1,22 @@
+<div id="GFF3_VALIDATE" class="tabcontent" style="display: none">
+    <div class="section-para-wrapper">
+        <p class="section-para">
+            GFF3 validation is conducted with gt/gff3 and gt/gff3validate tools from GenomeTools and a
+            <a
+                href="https://github.com/Plant-Food-Research-Open/assembly_qc/blob/v1.3/bin/check_gff3_fasta_corresp_3031aca.sh"
+                target="_blank"
+                >custom script</a
+            >
+            which check correspondence between FASTA and GFF3 sequence identifiers and coordinates.
+        </p>
+        <p class="section-para"><b>Reference:</b></p>
+        <p class="section-para">
+            Gremme G, Steinbiss S, Kurtz S. 2013. "GenomeTools: A Comprehensive Software Library for Efficient
+            Processing of Structured Genome Annotations," in IEEE/ACM Transactions on Computational Biology and
+            Bioinformatics, vol. 10, no. 3, pp. 645-656, May 2013, doi:
+            <a href="https://doi.org/10.1109/TCBB.2013.68" target="_blank">10.1109/TCBB.2013.68</a>
+        </p>
+        <p class="section-para"><b>Version: {{ all_stats_dicts['VERSIONS']['GT_GFF3']['genometools'] }}</b></p>
+    </div>
+    {% include 'gff3_validate/dropdown.html' %} {% include 'gff3_validate/report_contents.html' %}
+</div>

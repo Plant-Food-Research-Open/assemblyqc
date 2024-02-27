@@ -1,0 +1,21 @@
+<div id="ASSEMBLATHON_STATS" class="tabcontent" style="display: none">
+    <div class="section-para-wrapper">
+        <p class="section-para">A script to calculate a basic set of metrics from a genome assembly.</p>
+        <p class="section-para"><b>Reference:</b></p>
+        <p class="section-para">
+            <a href="https://github.com/KorfLab/Assemblathon" target="_blank"
+                >https://github.com/KorfLab/Assemblathon</a
+            >
+        </p>
+        <p class="section-para">
+            <b>Version: {{ all_stats_dicts['VERSIONS']['ASSEMBLATHON_STATS']['assemblathon_stats'] }}</b>
+        </p>
+        <p class="section-para"><b>Warning:</b></p>
+        <p class="section-para">
+            Contig-related stats are based on the assumption that the n_limit ({{
+            all_stats_dicts['PARAMS_DICT']['assemblathon_stats']['n_limit'] }}) parameter is specified correctly. If you
+            are not certain of the value of the n_limit parameter, please ignore the contig-related stats.
+        </p>
+    </div>
+    {% include 'assemblathon_stats/dropdown.html' %} {% include 'assemblathon_stats/report_contents.html' %}
+</div>

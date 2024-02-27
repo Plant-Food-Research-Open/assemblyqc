@@ -37,6 +37,7 @@ include { FASTA_LTRRETRIEVER_LAI            } from '../subworkflows/pfr/fasta_lt
 include { FASTA_KRAKEN2                     } from '../subworkflows/local/fasta_kraken2'
 include { FQ2HIC                            } from '../subworkflows/local/fq2hic'
 include { FASTA_SYNTENY                     } from '../subworkflows/local/fasta_synteny'
+include { CREATEREPORT                      } from '../modules/local/createreport'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -420,6 +421,24 @@ workflow ASSEMBLYQC {
     // MODULE: CUSTOM_DUMPSOFTWAREVERSIONS
     CUSTOM_DUMPSOFTWAREVERSIONS (
         ch_versions.unique().collectFile(name: 'collated_versions.yml')
+    )
+
+    // MODULE: CREATEREPORT
+    CREATEREPORT(
+        ch_invalid_assembly_log             .map { meta, file -> file }.collect().ifEmpty([]),
+        ch_invalid_gff3_log                 .map { meta, file -> file }.collect().ifEmpty([]),
+        ch_fcs_adaptor_report               .map { meta, file -> file }.collect().ifEmpty([]),
+        ch_fcs_gx_report                    .mix(ch_fcs_gx_taxonomy_plot).map { meta, file -> file }.collect().ifEmpty([]),
+        ch_assemblathon_stats               .collect().ifEmpty([]),
+        ch_gt_stats                         .collect().ifEmpty([]),
+        ch_busco_summary                    .mix(ch_busco_plot).collect().ifEmpty([]),
+        ch_tidk_outputs                     .collect().ifEmpty([]),
+        ch_lai_outputs                      .collect().ifEmpty([]),
+        ch_kraken2_plot                     .collect().ifEmpty([]),
+        ch_hic_html                         .collect().ifEmpty([]),
+        ch_synteny_plot                     .collect().ifEmpty([]),
+        CUSTOM_DUMPSOFTWAREVERSIONS         .out.yml,
+        Channel.of ( WorkflowAssemblyqc.jsonifyParams ( params ) ),
     )
 }
 

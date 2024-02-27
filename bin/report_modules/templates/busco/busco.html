@@ -1,0 +1,18 @@
+<div id="BUSCO" class="tabcontent" style="display: none">
+    <div class="section-para-wrapper">
+        <p class="section-para">
+            BUSCO estimates the completeness and redundancy of processed genomic data based on universal single-copy
+            orthologs.
+        </p>
+        <p class="section-para"><b>Reference:</b></p>
+        <p class="section-para">
+            Manni M., Berkeley M.R., Seppey M., Simao F.A., Zdobnov E.M. 2021. BUSCO update: novel and streamlined
+            workflows along with broader and deeper phylogenetic coverage for scoring of eukaryotic, prokaryotic, and
+            viral genomes. arXiv:2106.11799 [q-bio] [Internet]. Available from:
+            <a href="http://arxiv.org/abs/2106.11799" target="_blank">arxiv.org/abs/2106.11799</a>
+        </p>
+        <p class="section-para"><b>Version: {{ all_stats_dicts['VERSIONS']['RUN_BUSCO']['busco'] }}</b></p>
+    </div>
+    {% include 'busco/dropdown.html' %} {% include 'busco/summary_contents.html' %} {% include
+    'busco/report_contents.html' %}
+</div>
