@@ -27,7 +27,10 @@ from report_modules.parsers.hic_parser import parse_hic_folder
 from report_modules.parsers.circos_parser import parse_circos_folder
 
 if __name__ == "__main__":
-    params_dict, params_table = parse_params_json()
+    params_dict, params_table = parse_params_json("params_json.json")
+    params_summary_dict, params_summary_table = parse_params_json(
+        "params_summary_json.json"
+    )
     tools_dict, tools_table = parse_tools_yaml()
 
     data_from_tools = {}
@@ -51,6 +54,8 @@ if __name__ == "__main__":
     data_from_tools = {
         "PARAMS_DICT": params_dict,
         "PARAMS_TABLE": params_table,
+        "PARAMS_SUMMARY_DICT": params_summary_dict,
+        "PARAMS_SUMMARY_TABLE": params_summary_table,
         "TOOLS_DICT": tools_dict,
         "TOOLS_TABLE": tools_table,
         "VERSIONS": {

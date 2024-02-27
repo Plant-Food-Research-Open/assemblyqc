@@ -49,6 +49,10 @@ class WorkflowAssemblyqc {
     }
 
     public static String jsonifyParams(params) {
+        return JsonOutput.toJson(params).toString()
+    }
+
+    public static String jsonifySummaryParams(params) {
 
         def summary = [:]
         for (group in params.keySet()) {

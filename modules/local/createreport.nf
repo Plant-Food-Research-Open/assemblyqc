@@ -2,7 +2,7 @@ process CREATEREPORT {
     tag "AssemblyQC"
     label 'process_single'
 
-    // container "docker.io/gallvp/python3npkgs:v0.4"
+    container "docker.io/gallvp/python3npkgs:v0.6"
 
     input:
     path fastavalidator_logs, stageAs: 'fastavalidator_logs/*'
@@ -19,19 +19,30 @@ process CREATEREPORT {
     path circos_outputs, stageAs: 'circos_outputs/*'
     path versions
     val params_json
+    val params_summary_json
 
     output:
     path 'report.html'  , emit: html
     path 'report.json'  , emit: json
-    path "versions.yml" , emit: versions
+    path 'versions.yml' , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
     """
-    echo -n '$params_json' > params_json.json
-    assemblyqc.py > report.html
+    echo \\
+        -n \\
+        '$params_json' \\
+        > params_json.json
+
+    echo \\
+        -n \\
+        '$params_summary_json' \\
+        > params_summary_json.json
+
+    assemblyqc.py \\
+        > report.html
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

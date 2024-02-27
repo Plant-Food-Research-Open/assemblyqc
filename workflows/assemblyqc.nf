@@ -438,7 +438,8 @@ workflow ASSEMBLYQC {
         ch_hic_html                         .collect().ifEmpty([]),
         ch_synteny_plot                     .collect().ifEmpty([]),
         CUSTOM_DUMPSOFTWAREVERSIONS         .out.yml,
-        Channel.of ( WorkflowAssemblyqc.jsonifyParams ( summary_params ) )
+        Channel.of ( WorkflowAssemblyqc.jsonifyParams ( params ) ),
+        Channel.of ( WorkflowAssemblyqc.jsonifySummaryParams ( summary_params ) )
     )
 }
 
