@@ -21,18 +21,34 @@ process CREATEREPORT {
     val params_json
 
     output:
-    path 'report.html'
-    path 'report.json'
+    path 'report.html'  , emit: html
+    path 'report.json'  , emit: json
+    path "versions.yml" , emit: versions
+
+    when:
+    task.ext.when == null || task.ext.when
 
     script:
     """
     echo -n '$params_json' > params_json.json
     assemblyqc.py > report.html
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        python: \$(python --version | tr -d 'Python[:space:]')
+        pandas: \$(python -c "import pandas; print(pandas.__version__)")
+    END_VERSIONS
     """
 
     stub:
     """
     touch report.html
     touch report.json
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        python: \$(python --version | tr -d 'Python[:space:]')
+        pandas: \$(python -c "import pandas; print(pandas.__version__)")
+    END_VERSIONS
     """
 }
