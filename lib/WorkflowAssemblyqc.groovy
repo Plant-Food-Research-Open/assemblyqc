@@ -42,6 +42,12 @@ class WorkflowAssemblyqc {
             System.exit(1)
         }
 
+        // Check for tidk_repeat_seq
+        if (!params.tidk_skip && !params.tidk_repeat_seq) {
+            log.error('tidk_repeat_seq must be provided when executing TIDK')
+            System.exit(1)
+        }
+
         // Check for kraken2_db_path
         if (!params.kraken2_skip && !params.kraken2_db_path) {
             log.error('kraken2_db_path must be provided when executing Kraken2')

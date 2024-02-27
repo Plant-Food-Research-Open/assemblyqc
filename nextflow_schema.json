@@ -131,7 +131,8 @@
                 "tidk_repeat_seq": {
                     "type": "string",
                     "description": "Telomere repeat sequence",
-                    "pattern": "^[ACGT]+$"
+                    "pattern": "^[ACGT]+$",
+                    "help_text": "Plant: TTTAGGG, Fungus, Vertebrates: TTAGGG, Insect: TTAGG"
                 },
                 "tidk_filter_by_size": {
                     "type": "boolean",
