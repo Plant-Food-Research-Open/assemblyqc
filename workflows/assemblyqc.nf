@@ -36,6 +36,7 @@ include { FASTA_BUSCO_PLOT                  } from '../subworkflows/local/fasta_
 include { FASTA_LTRRETRIEVER_LAI            } from '../subworkflows/pfr/fasta_ltrretriever_lai/main'
 include { FASTA_KRAKEN2                     } from '../subworkflows/local/fasta_kraken2'
 include { FQ2HIC                            } from '../subworkflows/local/fq2hic'
+include { FASTA_SYNTENY                     } from '../subworkflows/local/fasta_synteny'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -97,6 +98,19 @@ workflow ASSEMBLYQC {
                                                 : null
                                             }
 
+    ch_synteny_labels                       = ch_input
+                                            | map { tag, fasta, gff, mono_ids, labels ->
+                                                labels
+                                                ? [ [ id: tag ], file(labels, checkIfExists: true) ]
+                                                : (
+                                                    params.synteny_skip
+                                                    ? null
+                                                    : log.warn("A synteny_labels file must be provided" +
+                                                    " in the input assembly sheet when running synteny analysis." +
+                                                    " Synteny analysis is skipped!")
+                                                )
+                                            }
+
     ch_hic_reads                            = ! params.hic
                                             ? Channel.empty()
                                             : (
@@ -106,6 +120,13 @@ workflow ASSEMBLYQC {
                                             )
                                             | map{ sample, fq ->
                                                 [ [ id: sample, single_end: false ], fq ]
+                                            }
+
+    ch_xref_assembly                        = params.synteny_skip || ! params.synteny_xref_assemblies
+                                            ? Channel.empty()
+                                            : Channel.fromSamplesheet('synteny_xref_assemblies')
+                                            | map { tag, fa, labels ->
+                                                [ tag, file(fa, checkIfExists: true), file(labels, checkIfExists: true) ]
                                             }
 
     // MODULE: GUNZIP as GUNZIP_FASTA
@@ -379,6 +400,22 @@ workflow ASSEMBLYQC {
 
     ch_hic_html                             = FQ2HIC.out.html
     ch_versions                             = ch_versions.mix(FQ2HIC.out.versions)
+
+    // SUBWORKFLOW: FASTA_SYNTENY
+    FASTA_SYNTENY(
+        ch_clean_assembly,
+        ch_synteny_labels.map { meta, txt -> [ meta.id, txt ] },
+        ch_xref_assembly,
+        params.synteny_between_input_assemblies,
+        params.synteny_many_to_many_align,
+        params.synteny_max_gap,
+        params.synteny_min_bundle_size,
+        params.synteny_plot_1_vs_all,
+        params.synteny_color_by_contig
+    )
+
+    ch_synteny_plot                         = FASTA_SYNTENY.out.plot
+    ch_versions                             = ch_versions.mix(FASTA_SYNTENY.out.versions)
 
     // MODULE: CUSTOM_DUMPSOFTWAREVERSIONS
     CUSTOM_DUMPSOFTWAREVERSIONS (

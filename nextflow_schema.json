@@ -220,14 +220,6 @@
                     "description": "Create syntenic plots between each pair of input assemblies",
                     "default": true
                 },
-                "synteny_xref_assemblies": {
-                    "type": "string",
-                    "description": "Reference assemblies for synteny analysis",
-                    "help_text": "FASTA and synteny label tsv files should be provided in a formatted CSV file ",
-                    "format": "file-path",
-                    "mimetype": "csv",
-                    "schema": "assets/schema_xref_assemblies.json"
-                },
                 "synteny_many_to_many_align": {
                     "type": "boolean",
                     "description": "Include alignment blocks with many-to-many mappings (dnadiff .mcoords file)"
@@ -251,6 +243,14 @@
                     "type": "boolean",
                     "default": true,
                     "description": "Synteny plot is colored by contig"
+                },
+                "synteny_xref_assemblies": {
+                    "type": "string",
+                    "description": "Reference assemblies for synteny analysis",
+                    "help_text": "FASTA and synteny label tsv files should be provided in a formatted CSV file ",
+                    "format": "file-path",
+                    "mimetype": "csv",
+                    "schema": "assets/schema_xref_assemblies.json"
                 }
             }
         },

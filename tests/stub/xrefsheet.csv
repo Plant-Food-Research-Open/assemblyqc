@@ -1,0 +1,2 @@
+tag,fasta,synteny_labels
+TT_2021a,https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/021/950/295/GCA_021950295.1_ASM2195029v1/GCA_021950295.1_ASM2195029v1_genomic.fna.gz,https://raw.githubusercontent.com/plant-food-research-open/assemblyqc/dev/tests/stub/TT_2021a.seq.labels.tsv
