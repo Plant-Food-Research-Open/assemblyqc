@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v1.4dev - [20-Feb-2024]
+## v1.4dev - [28-Feb-2024]
 
 ### `Added`
 
@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 15. Refactored and cleaned data flows for all the custom sub-workflow
 16. Started using nf-core template
 17. Started using semantic versioning
+18. Moved all python depending packages to 'docker.io/gallvp/python3npkgs:v0.6'
 
 ### `Fixed`
 
