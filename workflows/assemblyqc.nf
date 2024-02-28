@@ -356,6 +356,7 @@ workflow ASSEMBLYQC {
                                                 | map { meta, mono -> [ meta.id, mono ] },
                                                 remainder: true
                                             )
+                                            | filter { id, fasta, mono -> fasta != null }
                                             | map { id, fasta, mono -> [ id, fasta, mono ?: [] ] }
 
     FASTA_LTRRETRIEVER_LAI(
