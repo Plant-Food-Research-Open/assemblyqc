@@ -30,7 +30,6 @@ process BUSCO {
         -o ${asm_tag} \\
         -i $fasta_file \\
         -l ${lineage_dataset} \\
-        --update-data \\
         $lineages_path \\
         -c ${task.cpus}
 

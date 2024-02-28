@@ -118,13 +118,14 @@ class BuscoParser:
     def get_busco_result_table(self, file_data):
         list_of_lines = file_data.split("\n")
         for index, line in enumerate(list_of_lines):
-            if "Dependencies and versions" in line:
-                dev_dep_index = index
+            if "Assembly Statistics" in line:
+                stats_index = index
+                break
 
         results_dict = {}
         for index, line in enumerate(list_of_lines):
             if "C:" in line:
-                for i in range(index + 1, dev_dep_index - 1):
+                for i in range(index + 1, stats_index - 1):
                     number = list_of_lines[i].split("\t")[1]
                     descr = list_of_lines[i].split("\t")[2]
 
@@ -140,13 +141,13 @@ class BuscoParser:
     def get_busco_result_dict(self, file_data):
         list_of_lines = file_data.split("\n")
         for index, line in enumerate(list_of_lines):
-            if "Dependencies and versions" in line:
-                dev_dep_index = index
+            if "Assembly Statistics" in line:
+                stats_index = index
 
         results_dict = {}
         for index, line in enumerate(list_of_lines):
             if "C:" in line:
-                for i in range(index + 1, dev_dep_index - 1):
+                for i in range(index + 1, stats_index - 1):
                     number = list_of_lines[i].split("\t")[1]
                     descr = list_of_lines[i].split("\t")[2]
 
