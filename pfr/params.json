@@ -1,5 +1,5 @@
 {
-    "input":"/workspace/assemblyqc/testdata/default/assemblysheet.csv",
+    "input": "/workspace/assemblyqc/testdata/default/assemblysheet.csv",
     "ncbi_fcs_adaptor_skip": false,
     "ncbi_fcs_adaptor_empire": "euk",
     "ncbi_fcs_gx_skip": false,

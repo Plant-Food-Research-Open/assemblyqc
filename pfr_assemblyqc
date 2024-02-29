@@ -13,15 +13,15 @@ full_test_flag=0
 
 # Parse command line options
 while getopts "t" opt; do
-  case ${opt} in
+    case ${opt} in
     t )
-      full_test_flag=1
-      ;;
+        full_test_flag=1
+        ;;
     \? )
-      echo "Invalid option: $OPTARG" 1>&2
-      exit 1
-      ;;
-  esac
+        echo "Invalid option: $OPTARG" 1>&2
+        exit 1
+        ;;
+    esac
 done
 shift $((OPTIND -1))
 
