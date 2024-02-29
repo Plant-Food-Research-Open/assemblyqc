@@ -9,7 +9,7 @@
 
 ## Introduction
 
-**plant-food-research-open/assemblyqc** is a [NextFlow](https://www.nextflow.io/docs/latest/index.html) pipeline which evaluates assembly quality with well-established tools and presents the results in a unified html report. The tools are shown in the [Pipeline Flowchart](#pipeline-flowchart) and their version are listed in [CITATIONS.md](./CITATIONS.md).
+**plant-food-research-open/assemblyqc** is a [NextFlow](https://www.nextflow.io/docs/latest/index.html) pipeline which evaluates assembly quality with multiple QC tools and presents the results in a unified html report. The tools are shown in the [Pipeline Flowchart](#pipeline-flowchart) and their version are listed in [CITATIONS.md](./CITATIONS.md).
 
 ## Pipeline Flowchart
 
@@ -57,12 +57,13 @@ flowchart LR
 - [BUSCO](https://gitlab.com/ezlab/busco/-/tree/master): Gene-space completeness estimation
 - [TIDK](https://github.com/tolkit/telomeric-identifier): Telomere repeat identification
 - [LAI](https://github.com/oushujun/LTR_retriever/blob/master/LAI): Continuity of repetitive sequences
-- [LAI::LTRRETRIEVER](https://github.com/oushujun/LTR_retriever): Repeat identification
 - [KRAKEN2](https://github.com/DerrickWood/kraken2): Taxonomy classification
 - [HIC CONTACT MAP](https://github.com/igvteam/juicebox-web): Alignment and visualisation of HiC data
 - SYNTENY: Synteny analysis using [MUMMER](https://github.com/mummer4/mummer) and [CIRCOS](http://circos.ca/documentation/)
 
 ## Usage
+
+Refer to the [usage document](./docs/usage.md) for details.
 
 > [!NOTE]
 > If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
@@ -88,9 +89,17 @@ nextflow run plant-food-research-open/assemblyqc \
 > Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_;
 > see [docs](https://nf-co.re/usage/configuration#custom-configuration-files).
 
+### Quick Start for Plant&Food Users
+
+Download the pipeline to your `/workspace/$USER` folder. Change the parameters defined in the [pfr/params.json](./pfr/params.json) file. Submit the pipeline to SLURM for execution.
+
+```bash
+sbatch ./pfr_assemblyqc
+```
+
 ## Credits
 
-plant-food-research-open/assemblyqc was originally written by Usman Rashid and Ken Smith.
+plant-food-research-open/assemblyqc was originally written by Usman Rashid and Ken Smith. Ross Crowhurst, Chen Wu and Marcus Davy generously contributed their QC scripts.
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 

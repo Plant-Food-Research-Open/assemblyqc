@@ -1,61 +1,94 @@
 # plant-food-research-open/assemblyqc: Usage
 
-> _Documentation of pipeline parameters is generated automatically from the pipeline schema and can no longer be found in markdown files._
+## Assemblysheet input
 
-## Introduction
+You will need to create an assemblysheet with information about the assemblies you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 5 columns, and a header row. An [example assemblysheet](../assets/assemblysheet.csv) has been provided with the pipeline. Its fields are:
 
-<!-- TODO nf-core: Add documentation about anything specific to running your pipeline. For general topics, please point to (and add to) the main nf-core website. -->
+- `tag:` A unique tag which represents the target assembly throughout the pipeline and in the final report
+- `fasta:` FASTA file
+- `gff3 [Optional]:` GFF3 annotation file if available
+- `monoploid_ids [Optional]:` A txt file listing the IDs used to calculate LAI in monoploid mode if necessary
+- `synteny_labels [Optional]:` A two column tsv file listing fasta sequence ids (first column) and labels for the synteny plots (second column) when performing synteny analysis
 
-## Samplesheet input
+## External databases
 
-You will need to create a samplesheet with information about the samples you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row as shown in the examples below.
+### NCBI FCS GX database
+
+If NCBI FCS GX foreign organism contamination check is executed by setting `ncbi_fcs_gx_skip` to `false`, the path to the GX database must be provided with option `ncbi_fcs_gx_db_path`. The user must ensure that the database is correctly downloaded and placed in a location accessible to the pipeline. Setup instructions are available at <https://github.com/ncbi/fcs/wiki/FCS-GX>. The database path must contain following files:
 
 ```bash
---input '[path to samplesheet file]'
+all.assemblies.tsv
+all.blast_div.tsv.gz
+all.gxi
+all.gxs
+all.manifest
+all.meta.jsonl
+all.README.txt
+all.seq_info.tsv.gz
+all.taxa.tsv
 ```
 
-### Multiple runs of the same sample
+### Kraken2
 
-The `sample` identifiers have to be the same when you have re-sequenced the same sample more than once e.g. to increase sequencing depth. The pipeline will concatenate the raw reads before performing any downstream analysis. Below is an example for the same sample sequenced across 3 lanes:
+Path to Kraken2 database is provided by the `kraken2_db_path` parameter. This can be a URL to a public `.tar.gz` file such as `https://genome-idx.s3.amazonaws.com/kraken/k2_pluspfp_20240112.tar.gz`. The pipeline can download and extract the database. This is not the recommended practice owing to the size of the database. Rather, the database should be downloaded, extracted and stored in a read-only location. The path to that location can be provided by the `kraken2_db_path` parameter such as `/workspace/ComparativeDataSources/kraken2db/k2_pluspfp_20230314`.
 
-```csv title="samplesheet.csv"
-sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
-CONTROL_REP1,AEG588A1_S1_L003_R1_001.fastq.gz,AEG588A1_S1_L003_R2_001.fastq.gz
-CONTROL_REP1,AEG588A1_S1_L004_R1_001.fastq.gz,AEG588A1_S1_L004_R2_001.fastq.gz
-```
+### BUSCO
 
-### Full samplesheet
+BUSCO lineage databases are downloaded and updated by the BUSCO tool itself. A persistent location for the database can be provided by specifying `busco_download_path` parameter.
 
-The pipeline will auto-detect whether a sample is single- or paired-end using the information provided in the samplesheet. The samplesheet can have as many columns as you desire, however, there is a strict requirement for the first 3 columns to match those defined in the table below.
+## Other parameters
 
-A final samplesheet file consisting of both single- and paired-end data may look something like the one below. This is for 6 samples, where `TREATMENT_REP3` has been sequenced twice.
+### Assemblathon stats
 
-```csv title="samplesheet.csv"
-sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
-CONTROL_REP2,AEG588A2_S2_L002_R1_001.fastq.gz,AEG588A2_S2_L002_R2_001.fastq.gz
-CONTROL_REP3,AEG588A3_S3_L002_R1_001.fastq.gz,AEG588A3_S3_L002_R2_001.fastq.gz
-TREATMENT_REP1,AEG588A4_S4_L003_R1_001.fastq.gz,
-TREATMENT_REP2,AEG588A5_S5_L003_R1_001.fastq.gz,
-TREATMENT_REP3,AEG588A6_S6_L003_R1_001.fastq.gz,
-TREATMENT_REP3,AEG588A6_S6_L004_R1_001.fastq.gz,
-```
+`assemblathon_stats_n_limit` is the number of 'N's for the unknown gap size. This number is used to split the scaffolds into contigs to compute contig-related stats. NCBI's recommendation for unknown gap size is 100 <https://www.ncbi.nlm.nih.gov/genbank/>.
 
-| Column    | Description                                                                                                                                                                            |
-| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `sample`  | Custom sample name. This entry will be identical for multiple sequencing libraries/runs from the same sample. Spaces in sample names are automatically converted to underscores (`_`). |
-| `fastq_1` | Full path to FastQ file for Illumina short reads 1. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                             |
-| `fastq_2` | Full path to FastQ file for Illumina short reads 2. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                             |
+### NCBI FCS adaptor
 
-An [example samplesheet](../assets/samplesheet.csv) has been provided with the pipeline.
+`ncbi_fcs_adaptor_empire` should be set to `euk` for Eukaryotes and `prok` for Prokaryotes.
+
+### NCBI FCS GX
+
+`ncbi_fcs_gx_tax_id` is the taxonomy ID for all the assemblies listed in the assemblysheet. A taxonomy ID can be obtained by searching a _Genus species_ at <https://www.ncbi.nlm.nih.gov/taxonomy>.
+
+### BUSCO
+
+- `busco_mode`: `geno` or `genome` for genome assemblies (DNA), `tran` or `transcriptome` for transcriptome assemblies (DNA), and `prot` or `proteins` for annotated gene sets (protein).
+- `busco_lineage_datasets`: A space-separated list of BUSCO lineages. Any number of lineages can be specified such as "fungi_odb10 hypocreales_odb10". Each assembly is assessed against each of the listed lineage. To select a lineage, refer to <https://busco.ezlab.org/list_of_lineages.html>.
+
+### TIDK
+
+- `tidk_repeat_seq`: The telomere search sequence. To select an appropriate sequence, see <https://github.com/tolkit/a-telomeric-repeat-database>. Commonly used sequences are TTTAGGG (Plant), TTAGGG (Fungus, Vertebrates) and TTAGG (Insect). Further reading: <https://pubmed.ncbi.nlm.nih.gov/32153618>
+- `tidk_filter_by_size`: Set this flag to `true` to filter out assembly sequences smaller than the size specified by the next parameter (default: `false`).
+- `tidk_filter_size_bp`: Minimum size of the assembly sequence processed by TIDK (default: 1000000 (1Mbp)).
+
+### HiC
+
+Following parameter must be configured:
+
+- `hic`: Path to reads provided as a SRA ID or as a path to paired reads with pattern '\*R{1,2}.(fastq|fq).gz'
+- `hic_skip_fastp`: Skips fastp trimming
+- `hic_skip_fastqc`: Skips QC by fastqc
+- `hic_fastp_ext_args`: Additional arguments for fastp (default: '--qualified_quality_phred 20 --length_required 50')
+
+### Synteny analysis
+
+- `synteny_between_input_assemblies`: Set it to `true` to create synteny plots between each pair of input assemblies. Default is `true`.
+- `synteny_many_to_many_align`: Set it to `true` to include alignment blocks with many-to-many mappings or set to `false` to only include 1-to-1 mappings. Default is `false`. See the documentation of `dnadiff` for further details: <https://github.com/mummer4/mummer/blob/master/docs/dnadiff.README>
+- `synteny_max_gap`: Alignments within this distance are bundled together. Default: 1000000 (1 Mbp).
+- `synteny_min_bundle_size`: After bundling, any bundle smaller than this size is filtered out. Default: 1000 (1 Kbp)
+- `synteny_plot_1_vs_all`: Set it to `true` to create a separate synteny plot for each contig of the target assembly versus all contigs of the reference assembly. Set it to `false` to create a single plot for each target assembly against each reference assembly. This joint plot is also created when `plot_1_vs_all` is set to `true`. Default: `false`
+- `synteny_color_by_contig`: Set it to `true` to color the synteny plot by contig. Set it to `false` to color the synteny plot by the number of links in a bundle. Default: `true`
+- `synteny_xref_assemblies`: Similar to `--input`, this parameter also provides a CSV sheet listing external reference assemblies which are included in the synteny analysis but are not analysed by other QC tools. See the [example xrefsheet](../assets/xrefsheet.csv) included with the pipeline. Its fields are:
+  - `tag:` A unique tag which represents the reference assembly in the final report
+  - `fasta:` FASTA file
+  - `synteny_labels:` A two column tsv file listing fasta sequence ids (first column) and labels for the synteny plots (second column)
 
 ## Running the pipeline
 
 The typical command for running the pipeline is as follows:
 
 ```bash
-nextflow run plant-food-research-open/assemblyqc --input ./samplesheet.csv --outdir ./results --genome GRCh37 -profile docker
+nextflow run plant-food-research-open/assemblyqc --input ./assemblysheet.csv --outdir ./results -profile docker
 ```
 
 This will launch the pipeline with the `docker` configuration profile. See below for more information about profiles.
@@ -73,9 +106,8 @@ If you wish to repeatedly use the same parameters for multiple runs, rather than
 
 Pipeline settings can be provided in a `yaml` or `json` file via `-params-file <file>`.
 
-:::warning
-Do not use `-c <file>` to specify parameters as this will result in errors. Custom config files specified with `-c` must only be used for [tuning process resource specifications](https://nf-co.re/docs/usage/configuration#tuning-workflow-resources), other infrastructural tweaks (such as output directories), or module arguments (args).
-:::
+> [!WARNING]
+> Do not use `-c <file>` to specify parameters as this will result in errors. Custom config files specified with `-c` must only be used for [tuning process resource specifications](https://nf-co.re/docs/usage/configuration#tuning-workflow-resources), other infrastructural tweaks (such as output directories), or module arguments (args).
 
 The above pipeline run specified with a params file in yaml format:
 
@@ -88,7 +120,6 @@ with `params.yaml` containing:
 ```yaml
 input: './samplesheet.csv'
 outdir: './results/'
-genome: 'GRCh37'
 <...>
 ```
 
@@ -112,15 +143,13 @@ This version number will be logged in reports when you run the pipeline, so that
 
 To further assist in reproducbility, you can use share and re-use [parameter files](#running-the-pipeline) to repeat pipeline runs with the same settings without having to write out a command with every single parameter.
 
-:::tip
-If you wish to share such profile (such as upload as supplementary material for academic publications), make sure to NOT include cluster specific paths to files, nor institutional specific profiles.
-:::
+> [!TIP]
+> If you wish to share such profile (such as upload as supplementary material for academic publications), make sure to NOT include cluster specific paths to files, nor institutional specific profiles.
 
 ## Core Nextflow arguments
 
-:::note
-These options are part of Nextflow and use a _single_ hyphen (pipeline parameters use a double-hyphen).
-:::
+> [!NOTE]
+> These options are part of Nextflow and use a _single_ hyphen (pipeline parameters use a double-hyphen).
 
 ### `-profile`
 
@@ -128,9 +157,8 @@ Use this parameter to choose a configuration profile. Profiles can give configur
 
 Several generic profiles are bundled with the pipeline which instruct the pipeline to use software packaged using different methods (Docker, Singularity, Podman, Shifter, Charliecloud, Apptainer, Conda) - see below.
 
-:::info
-We highly recommend the use of Docker or Singularity containers for full pipeline reproducibility, however when this is not possible, Conda is also supported.
-:::
+> [!TIP]
+> We highly recommend the use of Docker or Singularity containers for full pipeline reproducibility, however when this is not possible, Conda is also supported.
 
 The pipeline also dynamically loads configurations from [https://github.com/nf-core/configs](https://github.com/nf-core/configs) when it runs, making multiple config profiles for various institutional clusters available at run time. For more information and to see if your system is available in these configs please see the [nf-core/configs documentation](https://github.com/nf-core/configs#documentation).
 
