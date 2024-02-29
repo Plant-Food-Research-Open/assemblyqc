@@ -14,8 +14,8 @@
             },
             "fasta": {
                 "type": "string",
-                "pattern": "^\\S+\\.f(ast|as|sa|na)?\\.gz$",
-                "errorMessage": "FASTA file path cannot contain spaces and must have extension '.f(ast|as|sa|na)' or '.f(ast|as|sa|na).gz'"
+                "pattern": "^\\S+\\.f(a|asta|as|sa|na)(\\.gz)?$",
+                "errorMessage": "FASTA file path cannot contain spaces and must have extension '.f(a|asta|as|sa|na)' or '.f(a|asta|as|sa|na).gz'"
             },
             "synteny_labels": {
                 "errorMessage": "Synteny labels tsv path cannot contain spaces and must have extension '.tsv'",

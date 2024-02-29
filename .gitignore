@@ -6,3 +6,7 @@ results/
 testing/
 testing*
 *.pyc
+
+# PFR files
+*.stdout
+*.stderr
