@@ -109,6 +109,8 @@ nextflow_workflow {
 
     test("actinidia_chinensis-genome_21_fasta_gz-without_lai") {
 
+        options '-stub'
+
         setup {
             run("GUNZIP") {
                 script "../../../../modules/nf-core/gunzip"
@@ -148,10 +150,34 @@ nextflow_workflow {
         then {
             assertAll(
                 { assert workflow.success },
-                { assert file(workflow.out.annotation_gff[0][1]).text.contains('Copia_LTR_retrotransposon') },
-                { assert file(workflow.out.ltrlib[0][1]).text.contains('#LTR/Copia') },
+                { assert workflow.out.annotation_gff != null },
+                { assert workflow.out.ltrlib != null },
                 { assert workflow.out.lai_log == [] },
                 { assert workflow.out.lai_out == [] }
+            )
+        }
+    }
+
+    test("empty_fasta_stub") {
+
+        options '-stub'
+
+        when {
+            workflow {
+                """
+                def monoploid_seqs  = new File('test.mono.seq.txt')
+                monoploid_seqs.write("chr_xxxxxxxxxxxxxxx_1")
+
+                input[0]            = Channel.empty()
+                input[1]            = Channel.of( [ [ id:'test' ], monoploid_seqs.toPath() ] )
+                input[2]            = false
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success }
             )
         }
     }

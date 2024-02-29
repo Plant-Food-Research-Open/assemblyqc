@@ -24,7 +24,7 @@ workflow FASTA_LTRRETRIEVER_LAI {
     ch_short_ids_fasta              = ch_fasta
                                     | join(CUSTOM_SHORTENFASTAIDS.out.short_ids_fasta, by:0, remainder:true)
                                     | map { meta, fasta, short_ids_fasta ->
-                                        [ meta, short_ids_fasta ?: fasta ]
+                                        if ( fasta ) { [ meta, short_ids_fasta ?: fasta ] }
                                     }
 
     ch_short_ids_tsv                = CUSTOM_SHORTENFASTAIDS.out.short_ids_tsv
@@ -34,6 +34,12 @@ workflow FASTA_LTRRETRIEVER_LAI {
                                     )
                                     | map { meta, short_ids_tsv, monoploid_seqs ->
                                         map_monoploid_seqs_to_new_ids(meta, short_ids_tsv, monoploid_seqs)
+                                    }
+                                    | collectFile(newLine:true)
+                                    | map { seqs ->
+                                        def id = seqs.name.split('.mapped.monoploid.seqs.txt')[0]
+
+                                        [ [ id: id ], seqs ]
                                     }
     ch_versions                     = ch_versions.mix(CUSTOM_SHORTENFASTAIDS.out.versions.first())
 
@@ -133,7 +139,7 @@ def map_monoploid_seqs_to_new_ids(meta, short_ids_tsv, monoploid_seqs) {
     def short_ids_head = short_ids_tsv.text.split('\n')[0]
 
     if (short_ids_head == "IDs have acceptable length and character. No change required.") {
-        return [ meta, monoploid_seqs ]
+        return [ "${meta.id}.mapped.monoploid.seqs.txt" ] + monoploid_seqs.text.split('\n')
     }
 
     def orig_to_new_ids = [:]
@@ -142,15 +148,15 @@ def map_monoploid_seqs_to_new_ids(meta, short_ids_tsv, monoploid_seqs) {
         orig_to_new_ids[original_id] = renamed_id
     }
 
-    def output_file = new File("${meta.id}.mapped.monoploid.seqs.txt")
+    def mapped_ids = []
     monoploid_seqs.text.eachLine { original_id ->
         if (!orig_to_new_ids[original_id]) {
             error "Faild to find $original_id in ${monoploid_seqs}" +
             "The monoploid_seqs file is malformed!"
         }
 
-        output_file.append(orig_to_new_ids[original_id])
+        mapped_ids.add(orig_to_new_ids[original_id])
     }
 
-    return [ meta, output_file.toPath() ]
+    return [ "${meta.id}.mapped.monoploid.seqs.txt" ] + mapped_ids
 }
