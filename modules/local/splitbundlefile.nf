@@ -2,7 +2,7 @@ process SPLITBUNDLEFILE {
     tag "${target_on_ref}"
     label 'process_single'
 
-    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/ubuntu:20.04':
         'nf-core/ubuntu:20.04' }"
 

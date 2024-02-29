@@ -2,7 +2,7 @@ process GETFASTALENGTH {
     tag "${target}.on.${reference}"
     label 'process_single'
 
-    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/samtools:1.16.1--h6899075_1':
         'biocontainers/samtools:1.16.1--h6899075_1' }"
 

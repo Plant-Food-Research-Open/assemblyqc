@@ -2,7 +2,7 @@ process KRAKEN2 {
     tag "${asm_tag}"
     label 'process_single'
 
-    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/kraken2:2.1.2--pl5321h9f5acd7_2':
         'biocontainers/kraken2:2.1.2--pl5321h9f5acd7_2' }"
 
