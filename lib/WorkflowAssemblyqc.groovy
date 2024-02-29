@@ -48,6 +48,40 @@ class WorkflowAssemblyqc {
         }
     }
 
+    public static ArrayList validateInput(input) {
+        def inputFields = 5
+        def assemblyTags = input[(0..input.size()-1).step(inputFields)]
+
+        def tagCounts = [:]
+        assemblyTags.each { tag ->
+            tagCounts[tag] = tagCounts.containsKey(tag) ? tagCounts[tag] + 1 : 1
+        }
+        def repeatedTags = tagCounts.findAll { key, count -> count > 1 }.collect { key, count -> key }
+
+        if (repeatedTags.size() > 0) {
+            Nextflow.error("Please check input assemblysheet -> Multiple assemblies have the same tags!: ${repeatedTags}")
+        }
+
+        return input
+    }
+
+    public static ArrayList validateXrefAssemblies(xref) {
+        def xrefFields = 3
+        def xrefTags = xref[(0..xref.size()-1).step(xrefFields)]
+
+        def tagCounts = [:]
+        xrefTags.each { tag ->
+            tagCounts[tag] = tagCounts.containsKey(tag) ? tagCounts[tag] + 1 : 1
+        }
+        def repeatedTags = tagCounts.findAll { key, count -> count > 1 }.collect { key, count -> key }
+
+        if (repeatedTags.size() > 0) {
+            Nextflow.error("Please check synteny_xref_assemblies -> Multiple xref assemblies have the same tags!: ${repeatedTags}")
+        }
+
+        return xref
+    }
+
     public static String jsonifyParams(params) {
         return JsonOutput.toJson(params).toString()
     }

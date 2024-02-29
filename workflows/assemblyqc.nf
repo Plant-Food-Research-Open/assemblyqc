@@ -65,12 +65,17 @@ include { CUSTOM_DUMPSOFTWAREVERSIONS       } from '../modules/nf-core/custom/du
 
 // Info required for completion email and summary
 def assemblyqc_report                       = []
+def input_assembly_sheet_fields             = 5
+def synteny_xref_assemblies_fields          = 3
 
 workflow ASSEMBLYQC {
 
     // Input channels
     ch_versions                             = Channel.empty()
     ch_input                                = Channel.fromSamplesheet('input')
+                                            | collect
+                                            | flatMap { WorkflowAssemblyqc.validateInput(it) }
+                                            | buffer(size: input_assembly_sheet_fields)
 
     ch_target_assemby_branch                = ch_input
                                             | map { tag, fasta, gff, mono_ids, labels ->
@@ -126,6 +131,9 @@ workflow ASSEMBLYQC {
     ch_xref_assembly                        = params.synteny_skip || ! params.synteny_xref_assemblies
                                             ? Channel.empty()
                                             : Channel.fromSamplesheet('synteny_xref_assemblies')
+                                            | collect
+                                            | flatMap { WorkflowAssemblyqc.validateXrefAssemblies(it) }
+                                            | buffer(size: synteny_xref_assemblies_fields)
                                             | map { tag, fa, labels ->
                                                 [ tag, file(fa, checkIfExists: true), file(labels, checkIfExists: true) ]
                                             }

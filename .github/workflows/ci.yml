@@ -25,10 +25,10 @@ jobs:
       matrix:
         NXF_VER:
           - "23.04.0"
-          - "latest-everything"
         RUN_CONFIG:
           - "-profile test,docker"
           - "-profile docker -c ./tests/stub/stub.config -stub"
+          - "-profile docker -params-file ./tests/invalid/params.json"
     steps:
       - name: Check out pipeline code
         uses: actions/checkout@v4
