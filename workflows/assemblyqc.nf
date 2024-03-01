@@ -237,15 +237,14 @@ workflow ASSEMBLYQC {
     ch_versions                             = ch_versions.mix(NCBI_FCS_ADAPTOR.out.versions.first())
 
     // SUBWORKFLOW: NCBI_FCS_GX
-    ch_fcs_gx_inputs                        = params.ncbi_fcs_gx_skip
+    ch_fcs_gx_input_assembly                = params.ncbi_fcs_gx_skip
                                             ? Channel.empty()
                                             : ch_valid_target_assembly
                                             | map { meta, fa -> [ meta.id, fa ] }
-                                            | combine( Channel.of(file(params.ncbi_fcs_gx_db_path, checkIfExists:true)) )
 
     NCBI_FCS_GX(
-        ch_fcs_gx_inputs.map { tag, fa, db -> [ tag, fa ] },
-        ch_fcs_gx_inputs.map { tag, fa, db -> db },
+        ch_fcs_gx_input_assembly,
+        params.ncbi_fcs_gx_db_path ?: [],
         params.ncbi_fcs_gx_tax_id ?: []
     )
 

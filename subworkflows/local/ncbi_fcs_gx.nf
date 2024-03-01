@@ -5,7 +5,7 @@ include { NCBI_FCS_GX_KRONA_PLOT        } from '../../modules/local/ncbi_fcs_gx_
 workflow NCBI_FCS_GX {
     take:
     tuple_of_tag_file
-    db_path                 // channel: path
+    db_path                 // val: String
     tax_id                  // val: Integer
 
     main:
@@ -20,9 +20,11 @@ workflow NCBI_FCS_GX {
     ch_versions             = ch_versions.mix(NCBI_FCS_GX_SETUP_SAMPLE.out.versions.first())
 
     // MODULE: NCBI_FCS_GX_SCREEN_SAMPLES
+    ch_db                   = Channel.of( file(db_path, checkIfExists:true) )
+
     NCBI_FCS_GX_SCREEN_SAMPLES(
         ch_all_samples,
-        db_path,
+        ch_db,
         tax_id
     )
 
