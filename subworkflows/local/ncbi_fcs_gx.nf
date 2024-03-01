@@ -20,7 +20,9 @@ workflow NCBI_FCS_GX {
     ch_versions             = ch_versions.mix(NCBI_FCS_GX_SETUP_SAMPLE.out.versions.first())
 
     // MODULE: NCBI_FCS_GX_SCREEN_SAMPLES
-    ch_db                   = Channel.of( file(db_path, checkIfExists:true) )
+    ch_db                   = ! db_path
+                            ? Channel.empty()
+                            : Channel.of( file(db_path, checkIfExists:true) )
 
     NCBI_FCS_GX_SCREEN_SAMPLES(
         ch_all_samples,
