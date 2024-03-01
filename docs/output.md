@@ -59,7 +59,7 @@ The pipeline prints a warning in the pipeline log if FASTA or GFF3 validation fa
 
 GenomeTools `gt stat` tool calculates a basic set of statistics about features contained in GFF3 files.
 
-<div align="center"><figure><img src="images/FI1.gt.stat.yml.gene.length.png" alt="AssemblyQC - GenomeTools gt stat gene length distribution" width="50%"><figcaption>AssemblyQC - GenomeTools gt stat gene length distribution</figcaption><figure></div>
+<div align="center"><img src="images/FI1.gt.stat.yml.gene.length.png" alt="AssemblyQC - GenomeTools gt stat gene length distribution" width="50%"><hr><em>AssemblyQC - GenomeTools gt stat gene length distribution</em></div>
 
 ### NCBI FCS adaptor
 
@@ -89,7 +89,7 @@ GenomeTools `gt stat` tool calculates a basic set of statistics about features c
 
 [BUSCO estimates](https://busco.ezlab.org/busco_userguide.html) the completeness and redundancy of processed genomic data based on universal single-copy orthologs.
 
-<div align="center"><figure><img src="images/busco_figure.png" alt="AssemblyQC - BUSCO summary plot" width="50%"><figcaption>AssemblyQC - BUSCO summary plot</figcaption><figure></div>
+<div align="center"><img src="images/busco_figure.png" alt="AssemblyQC - BUSCO summary plot" width="50%"><hr><em>AssemblyQC - BUSCO summary plot</em></div>
 
 ### TIDK
 
@@ -108,7 +108,7 @@ GenomeTools `gt stat` tool calculates a basic set of statistics about features c
 
 TIDK toolkit is designed to [identify and visualize](https://github.com/tolkit/telomeric-identifier) telomeric repeats for the Darwin Tree of Life genomes.
 
-<div align="center"><figure><img src="images/tidk.png" alt="AssemblyQC - TIDK plot" width="50%"><figcaption>AssemblyQC - TIDK plot</figcaption><figure></div>
+<div align="center"><img src="images/tidk.png" alt="AssemblyQC - TIDK plot" width="50%"><hr><em>AssemblyQC - TIDK plot</em></div>
 
 ### LAI
 
@@ -171,7 +171,7 @@ Hi-C contact mapping experiments measure the frequency of physical contact betwe
 
 Synteny plots are created with Circos which is a tool [facilitating](https://circos.ca) the identification and analysis of similarities and differences arising from comparisons of genomes. The genome-wide alignments are performed with [MUMMER](https://github.com/mummer4/mummer?tab=readme-ov-file) and bundled with [`dnadiff.pl`](https://github.com/mummer4/mummer/blob/master/scripts/dnadiff.pl).
 
-<div align="center"><figure><img src="images/synteny.png" alt="AssemblyQC - Synteny plot" width="50%"><figcaption>AssemblyQC - Synteny plot</figcaption><figure></div>
+<div align="center"><img src="images/synteny.png" alt="AssemblyQC - Synteny plot" width="50%"><hr><em>AssemblyQC - Synteny plot</em></div>
 
 ### Pipeline information
 
