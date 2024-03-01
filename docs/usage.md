@@ -63,8 +63,6 @@ BUSCO lineage databases are downloaded and updated by the BUSCO tool itself. A p
 
 ### HiC
 
-Following parameter must be configured:
-
 - `hic`: Path to reads provided as a SRA ID or as a path to paired reads with pattern '\*{1,2}.(fastq|fq).gz'
 - `hic_skip_fastp`: Skips fastp trimming
 - `hic_skip_fastqc`: Skips QC by fastqc
