@@ -20,8 +20,8 @@ process GENERATEKARYOTYPE {
     """
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        awk: \$(awk --version | sed -n 's/awk version //p')
-        grep: \$(grep --version | sed -n 's/grep (BSD grep, GNU compatible) //p')
+        awk: \$(awk -W version | sed -n 's/mawk //p')
+        grep: \$(grep --version | sed -n '/grep (GNU grep) /s/grep //p')
         sed: \$(sed --version | sed -n 's/^sed //p')
     END_VERSIONS
 

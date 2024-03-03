@@ -12,21 +12,18 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 
 <!-- no toc -->
 
-- [plant-food-research-open/assemblyqc: Output](#plant-food-research-openassemblyqc-output)
-  - [Introduction](#introduction)
-  - [Pipeline overview](#pipeline-overview)
-    - [FASTA and GFF3 validation](#fasta-and-gff3-validation)
-    - [Assemblathon stats](#assemblathon-stats)
-    - [Genometools gt stat](#genometools-gt-stat)
-    - [NCBI FCS adaptor](#ncbi-fcs-adaptor)
-    - [NCBI FCS GX](#ncbi-fcs-gx)
-    - [BUSCO](#busco)
-    - [TIDK](#tidk)
-    - [LAI](#lai)
-    - [Kraken2](#kraken2)
-    - [HiC contact map](#hic-contact-map)
-    - [Synteny](#synteny)
-    - [Pipeline information](#pipeline-information)
+- [FASTA and GFF3 validation](#fasta-and-gff3-validation)
+- [Assemblathon stats](#assemblathon-stats)
+- [Genometools gt stat](#genometools-gt-stat)
+- [NCBI FCS adaptor](#ncbi-fcs-adaptor)
+- [NCBI FCS GX](#ncbi-fcs-gx)
+- [BUSCO](#busco)
+- [TIDK](#tidk)
+- [LAI](#lai)
+- [Kraken2](#kraken2)
+- [HiC contact map](#hic-contact-map)
+- [Synteny](#synteny)
+- [Pipeline information](#pipeline-information)
 
 ### FASTA and GFF3 validation
 
@@ -74,6 +71,20 @@ GenomeTools `gt stat` tool calculates a basic set of statistics about features c
 [FCS-adaptor detects](https://github.com/ncbi/fcs/wiki/FCS-adaptor#rules-for-action-assignment) adaptor and vector contamination in genome sequences.
 
 ### NCBI FCS GX
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `ncbi_fcs_gx/`
+  - `*.taxonomy.rpt`: [Taxonomy report](https://github.com/ncbi/fcs/wiki/FCS-GX-taxonomy-report#taxonomy-report-output-).
+  - `*.fcs_gx_report.txt`: A final report of [recommended actions](https://github.com/ncbi/fcs/wiki/FCS-GX#outputs).
+  - `*.inter.tax.rpt.tsv`: [Select columns](../modules/local/ncbi_fcs_gx_krona_plot.nf) from `*.taxonomy.rpt` used for generation of a Krona taxonomy plot.
+  - `*.fcs.gx.krona.cut`: Krona taxonomy file [created](../modules/local/ncbi_fcs_gx_krona_plot.nf) from `*.inter.tax.rpt.tsv`.
+  - `*.fcs.gx.krona.html`: Krona taxonomy plot.
+
+</details>
+
+[FCS-GX detects](https://github.com/ncbi/fcs/wiki/FCS-GX#outputs) contamination from foreign organisms in genome sequences.
 
 ### BUSCO
 
@@ -155,6 +166,8 @@ LTR Assembly Index (LAI) is a reference-free genome metric that [evaluates assem
 
 Hi-C contact mapping experiments measure the frequency of physical contact between loci in the genome. The resulting dataset, called a “contact map,” is represented using a [two-dimensional heatmap](https://github.com/igvteam/juicebox.js) where the intensity of each pixel indicates the frequency of contact between a pair of loci.
 
+<div align="center"><img src="images/hic_map.png" alt="AssemblyQC - HiC interactive contact map" width="50%"><hr><em>AssemblyQC - HiC interactive contact map</em></div>
+
 ### Synteny
 
 <details markdown="1">
@@ -166,7 +179,7 @@ Hi-C contact mapping experiments measure the frequency of physical contact betwe
     - `bundled.links.tsv`: Bundled links file generated with MUMMER and `dnadiff.pl`.
     - `circos.conf`: CIRCOS configuration file used to generate the synteny plot.
     - `karyotype.tsv`: Karyotype TSV file used to generate the synteny plot.
-  - `*.on.*.*`: Synteny files corresponding to of a single contig of the target assembly with respect to all contig of the reference assembly.
+  - `*.on.*.*`: Synteny files corresponding to a single contig of the target assembly with respect to all contigs of the reference assembly.
   </details>
 
 Synteny plots are created with Circos which is a tool [facilitating](https://circos.ca) the identification and analysis of similarities and differences arising from comparisons of genomes. The genome-wide alignments are performed with [MUMMER](https://github.com/mummer4/mummer?tab=readme-ov-file) and bundled with [`dnadiff.pl`](https://github.com/mummer4/mummer/blob/master/scripts/dnadiff.pl).

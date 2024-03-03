@@ -36,7 +36,7 @@ process SPLITBUNDLEFILE {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        awk: \$(awk --version | sed -n 's/awk version //p')
+        awk: \$(awk -W version | sed -n 's/mawk //p')
     END_VERSIONS
     """
 }
