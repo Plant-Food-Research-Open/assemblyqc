@@ -8,7 +8,7 @@ You will need to create an assemblysheet with information about the assemblies y
 - `fasta:` FASTA file
 - `gff3 [Optional]:` GFF3 annotation file if available
 - `monoploid_ids [Optional]:` A txt file listing the IDs used to calculate LAI in monoploid mode if necessary
-- `synteny_labels [Optional]:` A two column tsv file listing fasta sequence ids (first column) and labels for the synteny plots (second column) when performing synteny analysis
+- `synteny_labels [Optional]:` A two column tsv file listing fasta sequence ids (first column) and their labels for the synteny plots (second column) when performing synteny analysis
 
 ## External databases
 
@@ -40,7 +40,7 @@ BUSCO lineage databases are downloaded and updated by the BUSCO tool itself. A p
 
 ### Assemblathon stats
 
-`assemblathon_stats_n_limit` is the number of 'N's for the unknown gap size. This number is used to split the scaffolds into contigs to compute contig-related stats. NCBI's recommendation for unknown gap size is 100 <https://www.ncbi.nlm.nih.gov/genbank/>.
+`assemblathon_stats_n_limit` is the number of 'N's for the unknown gap size. This number is used to split the scaffolds into contigs to compute contig-related stats. NCBI's recommendation for unknown gap size is 100 <https://www.ncbi.nlm.nih.gov/genbank/wgs_gapped/>.
 
 ### NCBI FCS adaptor
 
@@ -64,8 +64,8 @@ BUSCO lineage databases are downloaded and updated by the BUSCO tool itself. A p
 ### HiC
 
 - `hic`: Path to reads provided as a SRA ID or as a path to paired reads with pattern '\*{1,2}.(fastq|fq).gz'
-- `hic_skip_fastp`: Skips fastp trimming
-- `hic_skip_fastqc`: Skips QC by fastqc
+- `hic_skip_fastp`: Skip fastp trimming
+- `hic_skip_fastqc`: Skip QC by fastqc
 - `hic_fastp_ext_args`: Additional arguments for fastp (default: '--qualified_quality_phred 20 --length_required 50')
 
 ### Synteny analysis
@@ -79,7 +79,7 @@ BUSCO lineage databases are downloaded and updated by the BUSCO tool itself. A p
 - `synteny_xref_assemblies`: Similar to `--input`, this parameter also provides a CSV sheet listing external reference assemblies which are included in the synteny analysis but are not analysed by other QC tools. See the [example xrefsheet](../assets/xrefsheet.csv) included with the pipeline. Its fields are:
   - `tag:` A unique tag which represents the reference assembly in the final report
   - `fasta:` FASTA file
-  - `synteny_labels:` A two column tsv file listing fasta sequence ids (first column) and labels for the synteny plots (second column)
+  - `synteny_labels:` A two column tsv file listing fasta sequence ids (first column) and their labels for the synteny plots (second column)
 
 ## Running the pipeline
 
@@ -116,9 +116,8 @@ nextflow run plant-food-research-open/assemblyqc -profile docker -params-file pa
 with `params.yaml` containing:
 
 ```yaml
-input: './samplesheet.csv'
-outdir: './results/'
-<...>
+input: "./assemblysheet.csv"
+outdir: "./results/"
 ```
 
 You can also generate such `YAML`/`JSON` files via [nf-core/launch](https://nf-co.re/launch).

@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This document describes the output produced by the pipeline. Most of the plots are taken from the AssemblyQC report, which summarises results at the end of the pipeline.
+This document describes the output produced by the pipeline. Most of the plots are taken from the AssemblyQC report which summarises results at the end of the pipeline.
 
 The directories listed below will be created in the results directory after the pipeline has finished. All paths are relative to the top-level results directory.
 
@@ -79,8 +79,8 @@ GenomeTools `gt stat` tool calculates a basic set of statistics about features c
   - `*.taxonomy.rpt`: [Taxonomy report](https://github.com/ncbi/fcs/wiki/FCS-GX-taxonomy-report#taxonomy-report-output-).
   - `*.fcs_gx_report.txt`: A final report of [recommended actions](https://github.com/ncbi/fcs/wiki/FCS-GX#outputs).
   - `*.inter.tax.rpt.tsv`: [Select columns](../modules/local/ncbi_fcs_gx_krona_plot.nf) from `*.taxonomy.rpt` used for generation of a Krona taxonomy plot.
-  - `*.fcs.gx.krona.cut`: Krona taxonomy file [created](../modules/local/ncbi_fcs_gx_krona_plot.nf) from `*.inter.tax.rpt.tsv`.
-  - `*.fcs.gx.krona.html`: Krona taxonomy plot.
+  - `*.fcs.gx.krona.cut`: Taxonomy file for Krona plot [created](../modules/local/ncbi_fcs_gx_krona_plot.nf) from `*.inter.tax.rpt.tsv`.
+  - `*.fcs.gx.krona.html`: Interactive Krona taxonomy plot.
 
 </details>
 
@@ -138,6 +138,21 @@ TIDK toolkit is designed to [identify and visualize](https://github.com/tolkit/t
 LTR Assembly Index (LAI) is a reference-free genome metric that [evaluates assembly continuity](https://doi.org/10.1093/nar/gky730) using LTR-RTs. LTR retrotransposons (LTR-RTs) are the predominant interspersed repeat that is poorly assembled in draft genomes. Correcting for LTR-RT amplification dynamics, LAI is independent of genome size, genomic LTR-RT content, and gene space evaluation metrics such as BUSCO. LAI = Raw LAI + 2.8138 × (94 – whole genome LTR identity). The LAI is set to 0 when raw LAI = 0 or the adjustment produces a negative value. Raw LAI = (Intact LTR element length / Total LTR sequence length) \* 100
 
 ### Kraken2
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `kraken2/`
+  - `*.kraken2.report`: [Kraken2 report](https://github.com/DerrickWood/kraken2/wiki/Manual#output-formats).
+  - `*.kraken2.cut`: [Kraken2 output](https://github.com/DerrickWood/kraken2/wiki/Manual#output-formats).
+  - `*.kraken2.krona.cut`: [Select columns](../modules/local/kraken2_krona_plot.nf) from `*.kraken2.cut` used for generation of a Krona taxonomy plot.
+  - `*.kraken2.krona.html`: Interactive Krona taxonomy plot.
+
+</details>
+
+Kraken2 [assigns taxonomic labels](https://ccb.jhu.edu/software/kraken2/) to sequencing reads for metagenomics projects.
+
+<div align="center"><img src="images/kraken2.jpg" alt="AssemblyQC - Interactive Krona plot from Kraken2 taxonomy" width="50%"><hr><em>AssemblyQC - Interactive Krona plot from Kraken2 taxonomy</em></div>
 
 ### HiC contact map
 
