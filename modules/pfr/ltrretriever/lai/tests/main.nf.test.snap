@@ -1,5 +1,5 @@
 {
-    "homo_sapiens-genome_21_fasta": {
+    "stub": {
         "content": [
             {
                 "0": [
@@ -7,7 +7,7 @@
                         {
                             "id": "test"
                         },
-                        "test.gff3:md5,da13c4ba22e44ef944ddec38aa72c468"
+                        "test.LAI.log:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "1": [
@@ -15,30 +15,30 @@
                         {
                             "id": "test"
                         },
-                        "test.scn:md5,65a6b80823a3f058142aed623a028a22"
+                        "test.LAI.out:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "2": [
-                    "versions.yml:md5,da7912721842adc402c15740be57751f"
+                    "versions.yml:md5,e04e27f9408e771795cd44d96518b7cd"
                 ],
-                "gff3": [
+                "lai_out": [
                     [
                         {
                             "id": "test"
                         },
-                        "test.gff3:md5,da13c4ba22e44ef944ddec38aa72c468"
+                        "test.LAI.out:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
-                "scn": [
+                "log": [
                     [
                         {
                             "id": "test"
                         },
-                        "test.scn:md5,65a6b80823a3f058142aed623a028a22"
+                        "test.LAI.log:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,da7912721842adc402c15740be57751f"
+                    "versions.yml:md5,e04e27f9408e771795cd44d96518b7cd"
                 ]
             }
         ],
@@ -46,9 +46,9 @@
             "nf-test": "0.8.4",
             "nextflow": "23.10.1"
         },
-        "timestamp": "2024-02-02T21:08:07.746204"
+        "timestamp": "2024-02-22T20:09:00.558021"
     },
-    "homo_sapiens-genome_fasta-stub": {
+    "stub_with_monoploid_seqs": {
         "content": [
             {
                 "0": [
@@ -56,7 +56,7 @@
                         {
                             "id": "test"
                         },
-                        "test.gff3:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "test.LAI.log:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "1": [
@@ -64,30 +64,30 @@
                         {
                             "id": "test"
                         },
-                        "test.scn:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "test.LAI.out:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "2": [
-                    "versions.yml:md5,da7912721842adc402c15740be57751f"
+                    "versions.yml:md5,e04e27f9408e771795cd44d96518b7cd"
                 ],
-                "gff3": [
+                "lai_out": [
                     [
                         {
                             "id": "test"
                         },
-                        "test.gff3:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "test.LAI.out:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
-                "scn": [
+                "log": [
                     [
                         {
                             "id": "test"
                         },
-                        "test.scn:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "test.LAI.log:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,da7912721842adc402c15740be57751f"
+                    "versions.yml:md5,e04e27f9408e771795cd44d96518b7cd"
                 ]
             }
         ],
@@ -95,26 +95,6 @@
             "nf-test": "0.8.4",
             "nextflow": "23.10.1"
         },
-        "timestamp": "2024-02-02T21:08:13.587479"
-    },
-    "script_versions": {
-        "content": [
-            "\"EDTA_LTRHARVEST\":\n    LTR_HARVEST_parallel: v1.1\n    genometools: 1.6.2\n"
-        ],
-        "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "23.10.1"
-        },
-        "timestamp": "2024-02-02T21:08:07.763375"
-    },
-    "stub_versions": {
-        "content": [
-            "\"EDTA_LTRHARVEST\":\n    LTR_HARVEST_parallel: v1.1\n    genometools: 1.6.2\n"
-        ],
-        "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "23.10.1"
-        },
-        "timestamp": "2024-02-02T21:08:13.601529"
+        "timestamp": "2024-02-22T20:10:08.213842"
     }
 }

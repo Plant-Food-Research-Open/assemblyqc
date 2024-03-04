@@ -14,11 +14,11 @@ keywords:
   - qc
 components:
   - custom/shortenfastaids
-  - edta/ltrharvest
+  - ltrharvest
   - ltrfinder
-  - ltrretriever
+  - ltrretriever/ltrretriever
   - cat/cat
-  - lai
+  - ltrretriever/lai
   - custom/restoregffids
 input:
   - ch_fasta:

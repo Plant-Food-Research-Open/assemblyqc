@@ -2,6 +2,7 @@ process CUSTOM_RESTOREGFFIDS {
     tag "$meta.id"
     label 'process_single'
 
+    conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
         'https://depot.galaxyproject.org/singularity/python:3.10.2':
         'quay.io/biocontainers/python:3.10.2' }"

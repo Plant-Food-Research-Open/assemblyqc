@@ -1,10 +1,11 @@
-process EDTA_LTRHARVEST {
+process LTRHARVEST {
     tag "$meta.id"
     label 'process_medium'
 
+    conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
-        'https://depot.galaxyproject.org/singularity/edta:2.1.0--hdfd78af_1':
-        'quay.io/biocontainers/edta:2.1.0--hdfd78af_1' }"
+        'https://depot.galaxyproject.org/singularity/ltr_harvest_parallel:1.1--hdfd78af_0':
+        'quay.io/biocontainers/ltr_harvest_parallel:1.1--hdfd78af_0' }"
 
     input:
     tuple val(meta), path(fasta)
@@ -21,7 +22,7 @@ process EDTA_LTRHARVEST {
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-    /usr/local/share/EDTA/bin/LTR_HARVEST_parallel/LTR_HARVEST_parallel \\
+    LTR_HARVEST_parallel \\
         -seq $fasta \\
         $args \\
         -threads $task.cpus
@@ -34,7 +35,7 @@ process EDTA_LTRHARVEST {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        LTR_HARVEST_parallel: \$(/usr/local/share/EDTA/bin/LTR_HARVEST_parallel/LTR_HARVEST_parallel -h | sed -n '/Version/s/Version: //p')
+        LTR_HARVEST_parallel: \$(LTR_HARVEST_parallel -h | sed -n '/Version/s/Version: //p')
         genometools: \$(gt --version | sed '1!d ; s/gt (GenomeTools) //')
     END_VERSIONS
     """
@@ -48,7 +49,7 @@ process EDTA_LTRHARVEST {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        LTR_HARVEST_parallel: \$(/usr/local/share/EDTA/bin/LTR_HARVEST_parallel/LTR_HARVEST_parallel -h | sed -n '/Version/s/Version: //p')
+        LTR_HARVEST_parallel: \$(LTR_HARVEST_parallel -h | sed -n '/Version/s/Version: //p')
         genometools: \$(gt --version | sed '1!d ; s/gt (GenomeTools) //')
     END_VERSIONS
     """

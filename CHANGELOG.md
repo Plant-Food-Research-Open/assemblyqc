@@ -1,6 +1,10 @@
 # Change Log
 
-## Version 1.3 (08-Feb-2023)
+## Version 1.3.1 (04-March-2024)
+
+1. Updated FASTA_LTRRETRIEVER_LAI to a version which respects `monoploid_seqs` parameter
+
+## Version 1.3 (08-Feb-2024)
 
 1. Docker engine is now also supported
 2. Added Amazon Genomics CLI project file and a minimal test params file: [./docs/test_params/test_agc.json](./docs/test_params/test_agc.json)

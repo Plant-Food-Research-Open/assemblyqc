@@ -114,7 +114,9 @@ workflow ASSEMBLY_QC {
                             [it[0], file(it[1], checkIfExists: true)] // [tag, monoploid_seqs]
                         }, remainder: true
                     )
-                    | map { id, fasta, mono -> [ id, fasta, mono ?: [] ] }
+                    | map { id, fasta, mono ->
+                        if ( fasta ) { [ id, fasta, mono ?: [] ] }
+                    }
 
     FASTA_LTRRETRIEVER_LAI(
         ch_lai_inputs.map { id, fasta, mono -> [ [ id:id ], fasta ] },
