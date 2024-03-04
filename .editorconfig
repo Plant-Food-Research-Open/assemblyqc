@@ -8,13 +8,11 @@ trim_trailing_whitespace = true
 indent_size = 4
 indent_style = space
 
-[*.{md,yml,yaml,cff}]
+[*.{md,yml,yaml,html,css,scss,js,cff}]
 indent_size = 2
 
-[*.nf.test]
-insert_final_newline = false
-
-[{LICENSE,LEGAL.txt}]
+# These files are edited and tested upstream in nf-core/modules
+[/modules/nf-core/**]
 charset = unset
 end_of_line = unset
 insert_final_newline = unset
@@ -22,5 +20,17 @@ trim_trailing_whitespace = unset
 indent_style = unset
 indent_size = unset
 
+[/assets/email*]
+indent_size = unset
+
+# ignore Readme
+[README.md]
+indent_style = unset
+
+# ignore python
+[*.{py}]
+indent_style = unset
+
+# ignore perl
 [*.{pl,pm}]
 indent_size = unset

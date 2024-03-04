@@ -13,7 +13,7 @@ keywords:
   - retrotransposon
 tools:
   - "LTR_FINDER_parallel":
-      description: A Perl wrapper for LTR_FINEDR
+      description: A Perl wrapper for LTR_FINDER
       homepage: "https://github.com/oushujun/LTR_FINDER_parallel"
       documentation: "https://github.com/oushujun/LTR_FINDER_parallel"
       tool_dev_url: "https://github.com/oushujun/LTR_FINDER_parallel"

@@ -1,8 +1,12 @@
-.DS_Store
-*.pyc
-__pycahce__
 .nextflow*
 work/
+data/
 results/
+.DS_Store
+testing/
+testing*
+*.pyc
+
+# PFR files
 *.stdout
 *.stderr

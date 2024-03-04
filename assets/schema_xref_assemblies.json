@@ -1,0 +1,32 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://raw.githubusercontent.com/plant-food-research-open/assemblyqc/master/assets/schema_xref_assemblies.json",
+    "title": "plant-food-research-open/assemblyqc pipeline - params.synteny_xref_assemblies schema",
+    "description": "Schema for the file provided with params.synteny_xref_assemblies",
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "tag": {
+                "type": "string",
+                "pattern": "^\\w+$",
+                "errorMessage": "Assembly tags must be provided and can only contain alphanumeric characters including '_'"
+            },
+            "fasta": {
+                "type": "string",
+                "pattern": "^\\S+\\.f(a|asta|as|sa|na)(\\.gz)?$",
+                "errorMessage": "FASTA file path cannot contain spaces and must have extension '.f(a|asta|as|sa|na)' or '.f(a|asta|as|sa|na).gz'"
+            },
+            "synteny_labels": {
+                "errorMessage": "Synteny labels tsv path cannot contain spaces and must have extension '.tsv'",
+                "anyOf": [
+                    {
+                        "type": "string",
+                        "pattern": "^\\S+\\.tsv$"
+                    }
+                ]
+            }
+        },
+        "required": ["tag", "fasta", "synteny_labels"]
+    }
+}

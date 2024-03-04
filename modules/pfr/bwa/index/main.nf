@@ -2,9 +2,10 @@ process BWA_INDEX {
     tag "$fasta"
     label 'process_single'
 
-    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+    conda "${moduleDir}/environment.yml"
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/bwa:0.7.17--hed695b0_7' :
-        'quay.io/biocontainers/bwa:0.7.17--hed695b0_7' }"
+        'biocontainers/bwa:0.7.17--hed695b0_7' }"
 
     input:
     tuple val(meta), path(fasta)

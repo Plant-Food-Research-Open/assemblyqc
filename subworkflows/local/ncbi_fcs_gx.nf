@@ -1,190 +1,62 @@
-nextflow.enable.dsl=2
+include { NCBI_FCS_GX_SETUP_SAMPLE      } from '../../modules/local/ncbi_fcs_gx_setup_sample'
+include { NCBI_FCS_GX_SCREEN_SAMPLES    } from '../../modules/local/ncbi_fcs_gx_screen_samples'
+include { NCBI_FCS_GX_KRONA_PLOT        } from '../../modules/local/ncbi_fcs_gx_krona_plot'
 
 workflow NCBI_FCS_GX {
     take:
-        tuple_of_tag_file
-        db_path // val
+    tuple_of_tag_file
+    db_path                 // val: String
+    tax_id                  // val: Integer
 
     main:
-        if (!params.ncbi_fcs_gx.skip) {
+    ch_versions             = Channel.empty()
 
-            tuple_of_tag_file
-            | SETUP_SAMPLE
-            | collect
-            | set {ch_all_samples}
+    // MODULE: NCBI_FCS_GX_SETUP_SAMPLE
+    NCBI_FCS_GX_SETUP_SAMPLE ( tuple_of_tag_file )
 
-            SCREEN_SAMPLES(ch_all_samples, file(db_path, checkIfExists:true))
+    ch_all_samples          = NCBI_FCS_GX_SETUP_SAMPLE.out.fsata
+                            | collect
 
-            // Clean/contaminated branching
-            SCREEN_SAMPLES
-            .out
-            .fcs_gx_reports
-            | flatten
-            | map {
-                def parts = it.getName().split("\\.")
-                def tag = parts[0]
-                [tag, it]
-            }
-            | CHECK_CONTAMINATION
-            | map {
-                def itTokes = "$it".tokenize(':')
-                def status = itTokes[1]
-                def tag = itTokes[2]
+    ch_versions             = ch_versions.mix(NCBI_FCS_GX_SETUP_SAMPLE.out.versions.first())
 
-                def isClean = status == "CLEAN"
+    // MODULE: NCBI_FCS_GX_SCREEN_SAMPLES
+    ch_db                   = ! db_path
+                            ? Channel.empty()
+                            : Channel.of( file(db_path, checkIfExists:true) )
 
-                [tag, isClean]
-            }
-            | set { ch_tuple_tag_is_clean } // [tag, is_clean flag]
+    NCBI_FCS_GX_SCREEN_SAMPLES(
+        ch_all_samples,
+        ch_db,
+        tax_id
+    )
 
-            ch_tuple_tag_is_clean
-            | map {
-                def tag = it[0]
-                def isClean = it[1]
+    ch_gx_report            = NCBI_FCS_GX_SCREEN_SAMPLES.out.fcs_gx_reports
+                            | flatten
+                            | map {
+                                def parts = it.getName().split("\\.")
+                                def tag = parts[0]
+                                [tag, it]
+                            }
 
-                if (!isClean) {
-                    log.warn("""
-                    Foreign organism contamination detected in ${tag}.
-                    See the report for further details.
-                    """.stripIndent())
-                }
-            }
+    ch_gx_taxonomy          = NCBI_FCS_GX_SCREEN_SAMPLES.out.fcs_gx_taxonomies
+                            | flatten
+                            | map {
+                                def parts = it.getName().split("\\.")
+                                def tag = parts[0]
+                                [tag, it]
+                            }
 
-            // Taxonomy Krona plot
-            SCREEN_SAMPLES
-            .out
-            .fcs_gx_taxonomies
-            | flatten
-            | map {
-                def parts = it.getName().split("\\.")
-                def tag = parts[0]
-                [tag, it]
-            }
-            | FCS_GX_KRONA_PLOT
-            | flatten
-            | mix(
-                SCREEN_SAMPLES.out.fcs_gx_reports.flatten()
-            )
-            | collect
-            | set { ch_fcs_gx_reports }
-        } else {
-            tuple_of_tag_file
-            .map {
-                [it[0], true] // [tag, true]
-            }
-            .set { ch_tuple_tag_is_clean }
+    ch_versions             = ch_versions.mix(NCBI_FCS_GX_SCREEN_SAMPLES.out.versions)
 
-            ch_fcs_gx_reports = Channel.of([])
-        }
+    // MODULE: NCBI_FCS_GX_KRONA_PLOT
+    NCBI_FCS_GX_KRONA_PLOT ( ch_gx_taxonomy )
+
+    ch_gx_taxonomy_plot     = NCBI_FCS_GX_KRONA_PLOT.out.plot
+    ch_versions             = ch_versions.mix(NCBI_FCS_GX_KRONA_PLOT.out.versions.first())
 
     emit:
-        is_clean_status     = ch_tuple_tag_is_clean
-        fcs_gx_reports      = ch_fcs_gx_reports
-}
-
-process SETUP_SAMPLE {
-    tag "${hap_name}"
-    label "process_single"
-
-    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
-        'https://depot.galaxyproject.org/singularity/ubuntu:20.04':
-        'quay.io/nf-core/ubuntu:20.04' }"
-
-    input:
-        tuple val(hap_name), path(fasta_file)
-
-    output:
-        path 'fasta.file.for.*.fasta'
-
-    script:
-        """
-        ln -s $fasta_file "fasta.file.for.${hap_name}.fasta"
-        """
-}
-
-
-process SCREEN_SAMPLES {
-    tag "all samples"
-    label "process_high"
-    label "process_long"
-    label "process_very_high_memory"
-
-    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
-        'https://ftp.ncbi.nlm.nih.gov/genomes/TOOLS/FCS/releases/0.4.0/fcs-gx.sif':
-        'docker.io/ncbi/fcs-gx:0.4.0' }"
-
-    publishDir "${params.outdir}/ncbi_fcs_gx", mode: 'copy'
-
-    input:
-        path samples
-        path db_path
-
-    output:
-        path "*.fcs_gx_report.txt", emit: fcs_gx_reports
-        path "*.taxonomy.rpt", emit: fcs_gx_taxonomies
-
-    script:
-        """
-        for sample_fasta in $samples;
-        do
-            sample_tag=\$(echo "\$sample_fasta" | sed 's/fasta.file.for.//g' | sed 's/.fasta//g')
-            python3 /app/bin/run_gx --fasta ./\$sample_fasta --out-dir ./ --gx-db $db_path --tax-id "${params.ncbi_fcs_gx.tax_id}"
-
-            mv "\${sample_fasta%.fasta}.${params.ncbi_fcs_gx.tax_id}.fcs_gx_report.txt" "\${sample_tag}.fcs_gx_report.txt"
-            mv "\${sample_fasta%.fasta}.${params.ncbi_fcs_gx.tax_id}.taxonomy.rpt" "\${sample_tag}.taxonomy.rpt"
-        done
-        """
-}
-
-process CHECK_CONTAMINATION {
-    tag "${hap_name}"
-    label "process_single"
-
-    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
-        'https://depot.galaxyproject.org/singularity/ubuntu:20.04':
-        'quay.io/nf-core/ubuntu:20.04' }"
-
-    input:
-        tuple val(hap_name), path(report_file)
-
-    output:
-        stdout
-
-    script:
-        """
-        hap_name=\$(echo "$report_file" | sed 's/.fcs_gx_report.txt//g')
-        num_lines=\$(cat $report_file | wc -l)
-        [[ \$num_lines -gt 2 ]] && echo -n "CHECK_GX_CONTAMINATION:CONTAMINATED:\$hap_name" || echo -n "CHECK_GX_CONTAMINATION:CLEAN:\$hap_name"
-        """
-}
-
-process FCS_GX_KRONA_PLOT {
-    tag "${tag_name}"
-    label "process_single"
-
-    container "docker.io/nanozoo/krona:2.7.1--e7615f7"
-    publishDir "${params.outdir}/ncbi_fcs_gx", mode: 'copy'
-
-    input:
-        tuple val(tag_name), path(fcs_gx_taxonomy)
-
-    output:
-        tuple path("${tag_name}.inter.tax.rpt.tsv"), path("${tag_name}.fcs.gx.krona.cut"), path("${tag_name}.fcs.gx.krona.html")
-
-    script:
-        """
-        cat $fcs_gx_taxonomy \
-        | awk 'NR>1 {print \$1,\$2,\$6,\$7,\$11,\$32}' FS="\\t" OFS="\\t" \
-        > "${tag_name}.inter.tax.rpt.tsv"
-
-        cat "${tag_name}.inter.tax.rpt.tsv" \
-        | awk '\$6 !~ /(bogus|repeat|low-coverage|inconclusive)/ {print \$1,\$4,\$5,\$2}' FS="\\t" OFS="\\t" \
-        > "${tag_name}.fcs.gx.krona.cut"
-
-        cat "${tag_name}.inter.tax.rpt.tsv" \
-        | awk 'NR>1 && \$6 ~ /(bogus|repeat|low-coverage|inconclusive)/ {print \$1,"0",\$5,\$2}' FS="\\t" OFS="\\t" \
-        >> "${tag_name}.fcs.gx.krona.cut"
-
-        ktImportTaxonomy -i -o "${tag_name}.fcs.gx.krona.html" -m "4" "${tag_name}.fcs.gx.krona.cut"
-        """
+    gx_report               = ch_gx_report
+    gx_taxonomy             = ch_gx_taxonomy
+    gx_taxonomy_plot        = ch_gx_taxonomy_plot
+    versions                = ch_versions
 }

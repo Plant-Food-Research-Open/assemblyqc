@@ -2,9 +2,10 @@ process LTRFINDER {
     tag "$meta.id"
     label 'process_high'
 
-    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
-        'https://depot.galaxyproject.org/singularity/edta:2.1.0--hdfd78af_1':
-        'quay.io/biocontainers/edta:2.1.0--hdfd78af_1' }"
+    conda "${moduleDir}/environment.yml"
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+        'https://depot.galaxyproject.org/singularity/ltr_finder_parallel:1.1--hdfd78af_0':
+        'biocontainers/ltr_finder_parallel:1.1--hdfd78af_0' }"
 
     input:
     tuple val(meta), path(fasta)
@@ -18,10 +19,10 @@ process LTRFINDER {
     task.ext.when == null || task.ext.when
 
     script:
-    def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: "${meta.id}"
+    def args            = task.ext.args ?: ''
+    def prefix          = task.ext.prefix ?: "${meta.id}"
     """
-    /usr/local/share/EDTA/bin/LTR_FINDER_parallel/LTR_FINDER_parallel \\
+    LTR_FINDER_parallel \\
         -seq $fasta \\
         -threads $task.cpus \\
         $args
@@ -31,21 +32,21 @@ process LTRFINDER {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        LTR_FINDER_parallel: \$(/usr/local/share/EDTA/bin/LTR_FINDER_parallel/LTR_FINDER_parallel -h | grep 'Version:' | sed 's/Version: //')
+        LTR_FINDER_parallel: \$(LTR_FINDER_parallel -h | grep 'Version:' | sed 's/Version: //')
         ltr_finder: \$(ltr_finder -h 2>&1 | grep 'ltr_finder' | sed 's/ltr_finder //')
     END_VERSIONS
     """
 
     stub:
-    def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: "${meta.id}"
+    def args            = task.ext.args ?: ''
+    def prefix          = task.ext.prefix ?: "${meta.id}"
     """
     touch "${prefix}.scn"
     touch "${prefix}.gff3"
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        LTR_FINDER_parallel: \$(/usr/local/share/EDTA/bin/LTR_FINDER_parallel/LTR_FINDER_parallel -h | grep 'Version:' | sed 's/Version: //')
+        LTR_FINDER_parallel: \$(LTR_FINDER_parallel -h | grep 'Version:' | sed 's/Version: //')
         ltr_finder: \$(ltr_finder -h 2>&1 | grep 'ltr_finder' | sed 's/ltr_finder //')
     END_VERSIONS
     """

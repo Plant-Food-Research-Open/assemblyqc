@@ -1,0 +1,2 @@
+gt/gff3validator:
+  - "modules/pfr/gt/gff3validator/**"

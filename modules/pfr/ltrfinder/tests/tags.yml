@@ -1,2 +1,2 @@
 ltrfinder:
-  - "modules/pfr/ltrfinder/**"
+  - "modules/nf-core/ltrfinder/**"

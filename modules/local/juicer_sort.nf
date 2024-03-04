@@ -1,24 +1,31 @@
-nextflow.enable.dsl=2
-
 process JUICER_SORT {
     tag "$sample_id_on_tag"
-    label "process_high"
+    label 'process_high'
 
-    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/ubuntu:20.04':
-        'quay.io/nf-core/ubuntu:20.04' }"
+        'nf-core/ubuntu:20.04' }"
 
     input:
-        tuple val(sample_id_on_tag), path(out_links_txt)
+    tuple val(sample_id_on_tag), path(out_links_txt)
 
     output:
-        tuple val(sample_id_on_tag), path("*sorted.links.txt"), emit: sorted_links_txt_file
+    tuple val(sample_id_on_tag), path("*sorted.links.txt")  , emit: links
+    path "versions.yml"                                     , emit: versions
+
+    when:
+    task.ext.when == null || task.ext.when
 
     script:
-        """
-        sort --parallel=${task.cpus} \
-        -k2,2 -k6,6 \
-        $out_links_txt \
+    """
+    sort --parallel=${task.cpus} \\
+        -k2,2 -k6,6 \\
+        $out_links_txt \\
         > out.sorted.links.txt
-        """
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        sort: \$(sort --version | sed -n '/sort (GNU coreutils) / s/sort (GNU coreutils) //p')
+    END_VERSIONS
+    """
 }

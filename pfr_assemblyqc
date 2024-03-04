@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-#SBATCH --job-name ASM_QC
+#SBATCH --job-name ASMQC
 #SBATCH --time=7-00:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
@@ -9,6 +9,22 @@
 #SBATCH --error pfr_assemblyqc.stderr
 #SBATCH --mem=4G
 
+full_test_flag=0
+
+# Parse command line options
+while getopts "t" opt; do
+    case ${opt} in
+    t )
+        full_test_flag=1
+        ;;
+    \? )
+        echo "Invalid option: $OPTARG" 1>&2
+        exit 1
+        ;;
+    esac
+done
+shift $((OPTIND -1))
+
 ml unload perl
 ml apptainer/1.1
 ml nextflow/23.04.4
@@ -16,4 +32,22 @@ ml nextflow/23.04.4
 export TMPDIR="/workspace/$USER/tmp"
 export APPTAINER_BINDPATH="$APPTAINER_BINDPATH,$TMPDIR:$TMPDIR,$TMPDIR:/tmp"
 
-nextflow main.nf -profile pfr,apptainer -resume
+if [ $full_test_flag -eq 1 ]; then
+    nextflow \
+        main.nf \
+        -c pfr/profile.config \
+        -profile pfr,apptainer,test_full \
+        --ncbi_fcs_gx_skip false \
+        --ncbi_fcs_gx_tax_id 35717 \
+        --ncbi_fcs_gx_db_path "/workspace/ComparativeDataSources/NCBI/FCS/GX/r2023-01-24" \
+        --kraken2_skip false \
+        --kraken2_db_path "/workspace/ComparativeDataSources/kraken2db/k2_pluspfp_20230314" \
+        -resume
+else
+    nextflow \
+        main.nf \
+        -c pfr/profile.config \
+        -profile pfr,apptainer \
+        -params-file pfr/params.json \
+        -resume
+fi

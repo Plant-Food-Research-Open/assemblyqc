@@ -7,11 +7,13 @@
                 >https://github.com/KorfLab/Assemblathon</a
             >
         </p>
-        <p class="section-para"><b>Version: {{ all_stats_dicts['VERSIONS']['ASSEMBLATHON_STATS'] }}</b></p>
+        <p class="section-para">
+            <b>Version: {{ all_stats_dicts['VERSIONS']['ASSEMBLATHON_STATS']['assemblathon_stats'] }}</b>
+        </p>
         <p class="section-para"><b>Warning:</b></p>
         <p class="section-para">
-            Contig-related stats are based on the assumption that the n_limit ({{
-            all_stats_dicts['PARAMS_DICT']['assemblathon_stats']['n_limit'] }}) parameter is specified correctly. If you
+            Contig-related stats are based on the assumption that the assemblathon_stats_n_limit ({{
+            all_stats_dicts['PARAMS_DICT']['assemblathon_stats_n_limit'] }}) parameter is specified correctly. If you
             are not certain of the value of the n_limit parameter, please ignore the contig-related stats.
         </p>
     </div>

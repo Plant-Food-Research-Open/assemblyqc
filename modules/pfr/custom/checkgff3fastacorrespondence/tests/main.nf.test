@@ -1,0 +1,70 @@
+nextflow_process {
+
+    name "Test Process CUSTOM_CHECKGFF3FASTACORRESPONDENCE"
+    script "../main.nf"
+    process "CUSTOM_CHECKGFF3FASTACORRESPONDENCE"
+
+    tag "modules"
+    tag "modules_nfcore"
+    tag "custom"
+    tag "custom/checkgff3fastacorrespondence"
+
+    test("sarscov2-fasta-gff3-success") {
+
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test' ], // meta map
+                    file(params.test_data['sarscov2']['genome']['genome_gff3'], checkIfExists: true)
+                ]
+
+                input[1] = [
+                    file(params.test_data['sarscov2']['genome']['genome_fasta'], checkIfExists: true)
+                ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() },
+                { assert process.out.error_log == [] },
+                { assert process.out.success_log != null },
+                { assert path(process.out.success_log.get(0).get(1)).getText().contains("All tests passed...")},
+            )
+        }
+
+    }
+
+    test("sarscov2-gff3-homo_sapiens-fasta-error") {
+
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test' ], // meta map
+                    file(params.test_data['sarscov2']['genome']['genome_gff3'], checkIfExists: true)
+                ]
+
+                input[1] = [
+                    file(params.test_data['homo_sapiens']['genome']['genome_fasta'], checkIfExists: true)
+                ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() },
+                { assert process.out.success_log == [] },
+                { assert process.out.error_log != null },
+                { assert path(process.out.error_log.get(0).get(1)).getText().contains("GFF3 file contains identifiers not present in FASTA")},
+            )
+        }
+
+    }
+
+}

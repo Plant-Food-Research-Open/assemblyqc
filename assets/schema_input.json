@@ -1,0 +1,54 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://raw.githubusercontent.com/plant-food-research-open/assemblyqc/master/assets/schema_input.json",
+    "title": "plant-food-research-open/assemblyqc pipeline - params.input schema",
+    "description": "Schema for the file provided with params.input",
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "tag": {
+                "type": "string",
+                "pattern": "^\\w+$",
+                "errorMessage": "Assembly tags must be provided and can only contain alphanumeric characters including '_'"
+            },
+            "fasta": {
+                "type": "string",
+                "pattern": "^\\S+\\.f(a|asta|as|sa|na)(\\.gz)?$",
+                "errorMessage": "FASTA file path cannot contain spaces and must have extension '.f(a|asta|as|sa|na)' or '.f(a|asta|as|sa|na).gz'"
+            },
+            "gff3": {
+                "type": "string",
+                "pattern": "^\\S+\\.gff(3)?(\\.gz)?$",
+                "errorMessage": "GFF3 file path cannot contain spaces and must have extension '.gff.gz', '.gff3.gz', '.gff' or '.gff3'"
+            },
+            "monoploid_ids": {
+                "errorMessage": "Monoploid IDs txt file path cannot contain spaces and must have extension '.txt'",
+                "anyOf": [
+                    {
+                        "type": "string",
+                        "pattern": "^\\S+\\.txt$"
+                    },
+                    {
+                        "type": "string",
+                        "maxLength": 0
+                    }
+                ]
+            },
+            "synteny_labels": {
+                "errorMessage": "Synteny labels tsv path cannot contain spaces and must have extension '.tsv'",
+                "anyOf": [
+                    {
+                        "type": "string",
+                        "pattern": "^\\S+\\.tsv$"
+                    },
+                    {
+                        "type": "string",
+                        "maxLength": 0
+                    }
+                ]
+            }
+        },
+        "required": ["tag", "fasta"]
+    }
+}

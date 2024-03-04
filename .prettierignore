@@ -1,9 +1,12 @@
-# gitignore
-.DS_Store
-*.pyc
-__pycahce__
+email_template.html
+adaptivecard.json
+slackreport.json
 .nextflow*
 work/
+data/
 results/
-*.stdout
-*.stderr
+.DS_Store
+testing/
+testing*
+*.pyc
+bin/

@@ -1,6 +1,46 @@
-# Change Log
+# plant-food-research-open/assemblyqc: Changelog
 
-## Version 1.3 (08-Feb-2023)
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## 1.4 - [04-Mar-2024]
+
+### `Added`
+
+1. Now it is possible to skip FASTP and FASTQC for the HIC module
+2. Renamed ASSEMBLY_QC workflow to ASSEMBLYQC
+3. Now using nf-core/FASTA_EXPLORE_SEARCH_PLOT_TIDK
+4. Now redirecting validation errors to AssemblyQC report
+5. Simplified layout of CITATIONS.md file
+6. Now using pfr/gff3_validate sub-workflow for gff3 validation
+7. Now listing software versions from the versions.yml file
+8. Replaced custom GUNZIP module with nf-core/gunzip
+9. Replaced custom gt/stat with pfr/gt/stat
+10. Replaced custom fasta_validator with nf-core/fastavalidator
+11. Added pre-commit version checking
+12. Now gt/stat reports extended stats and multiple distribution plots have been added to the report
+13. Added a tools tab to the report which lists the tools used by the pipeline to create the report
+14. Refactored and cleaned data flows for all the custom sub-workflow
+15. Started using nf-core template
+16. Started using semantic versioning
+17. Moved all python depending packages to 'docker.io/gallvp/python3npkgs:v0.6'
+
+### `Fixed`
+
+1. All modules are now emitting versioning information
+2. Fixed a bug which caused LAI to run with null assembly fasta
+3. Fixed FASTA_LTRRETRIEVER_LAI sub-workflow so that it respects `monoploid_ids` parameter.
+
+### `Dependencies`
+
+1. NextFlow!>=23.04.0
+2. nf-validation@1.1.3
+
+### `Deprecated`
+
+1. Removed BIOCODE GFF3 STATS owing to its frequent failures
+
+## v1.3 [08-Feb-2023]
 
 1. Docker engine is now also supported
 2. Added Amazon Genomics CLI project file and a minimal test params file: [./docs/test_params/test_agc.json](./docs/test_params/test_agc.json)
@@ -14,7 +54,7 @@
 10. BWA_INDEX_AND_MEM can now run for two days
 11. Now using FASTQ_BWA_MEM_SAMBLASTER subworkflow to optimize SAM file transfer on AWS
 
-## Version 1.2 (18-Dec-2023)
+## v1.2 [18-Dec-2023]
 
 1. Switched to apptainer from singularity
 2. Now requiring Nextflow/23.04.4
@@ -35,21 +75,21 @@ For a ~600 MB assembly, EDTA (without sensitive flag) takes ~25 hours of compute
 | red5/v2.1   | 18.75    | 16.59                  |
 | tair/v10    | 18.06    | 17.42                  |
 
-## Version 1.1 (09-Nov-2023)
+## v1.1 [09-Nov-2023]
 
 1. Now running kraken2 with a single cpu.
 2. Now pulling containers from https://depot.galaxyproject.org/singularity/
 
-## Version 1.0.1 (07-Sep-2023)
+## v1.0.1 [07-Sep-2023]
 
 1. Now pipeline timeline, report, and trace are enabled by default.
 2. Included `procps` package where needed to allow NextFlow to collect system statistics.
 
-## Version 1 (25-Jul-2023)
+## v1 [25-Jul-2023]
 
-Same as Version 1 RC6c
+Same as v1rc6c
 
-## Version 1 (RC6c; 20-Jul-2023)
+## v1rc6c [20-Jul-2023]
 
 1. Added logic for the `-mono` parameter in LAI. This parameter allows correct LAI calculation for polyploid assemblies.
 2. Fixed the typo in `assemblathon_stats` in nextflow.config.
@@ -62,26 +102,26 @@ Same as Version 1 RC6c
 9. (RC6c) Krona plot for Kraken2 now uses sequence length for abundance calculation.
 10. Made ASSEMBLATHON_STATS robust to missing paths declared in the PATH variable.
 
-## Version 1 (RC5; 22-Jun-2023)
+## v1rc5 [22-Jun-2023]
 
 1. Updated README in accordance with SPO Editor.
 2. Added a note on LTR sequence identity in the nextflow.config.
 3. Split MATLOCK_BAM2_JUICER module into MATLOCK_BAM2_JUICER and JUICER_SORT and using `--parallel` with `sort`.
 
-## Version 1 (RC4; 15-Jun-2023)
+## v1rc4 [15-Jun-2023]
 
 1. Fixed a bug in the BIOCODE GFF3 STATS module which resulted in a cramped up plot of CDS vs mRNA counts.
 
-## Version 1 (RC3; 14-Jun-2023)
+## v1rc3 [14-Jun-2023]
 
 1. Fixed a bug in the BIOCODE GFF3 STATS module which prevented it from processing valid gff3 files.
 
-## Version 1 (RC2; 13-Jun-2023)
+## v1rc2 [13-Jun-2023]
 
 1. Added labels to the pipeline flowchart.
 2. Update the README based on team feedback.
 
-## Version 1 (RC1; 12-Jun-2023)
+## v1rc1 [12-Jun-2023]
 
 1. Added validation for fasta and gff3 files.
 2. Added support for compressed files (fasta.gz, gff3.gz).
@@ -98,22 +138,22 @@ Same as Version 1 RC6c
 13. Added test configuration for a Transcriptome of a Nematode.
 14. Now allowed up to 7 days for SYNTENY::DNADIFF based on recent evidence from two ~2.5 GB genomes.
 
-## Version 0.10.9 (01-Jun-2023)
+## v0.10.9 [01-Jun-2023]
 
 1. CRITICAL: Fixed a bug in LAI::EDTA which prevented it from renaming fasta ids in case they were longer than 13 characters.
 
-## Version 0.10.8 (30-May-2023)
+## v0.10.8 [30-May-2023]
 
 1. Now NCBI FCS Adaptor and NCBI FCS GX both run in parallel so that both contamination checks are part of the final report even if there is adaptor contamination.
 
-## Version 0.10.7 (29-May-2023)
+## v0.10.7 [29-May-2023]
 
 1. CRITICAL: Fixed a bug in LAI::EDTA which prevented it from renaming fasta ids in case they were longer than 13 characters.
 2. Now the HiC module does not require the storage_server parameter and the HiC contact map does not disappear when the report is moved across folders.
 3. Further developed the tutorials section.
 4. Improved presentation of tables for BUSCO and LAI in the report.
 
-## Version 0.10.6 (25-May-2023)
+## v0.10.6 [25-May-2023]
 
 1. CRITICAL: Fixed a bug in LAI::EDTA which prevented it from renaming fasta ids in case they were longer than 13 characters.
 2. CRITICAL: Fixed a bug in LAI::EDTA which prevented it from accessing the tmp directory.
@@ -125,7 +165,7 @@ Same as Version 1 RC6c
 8. Now only saving the renamed.ids.tsv instead of the whole fasta file from EDTA.
 9. Now also saving the EDTA.intact.gff3 file as EDTA sometimes does not store all the annotations in the EDTA.TEanno.gff3 file.
 
-## Version 0.10.5 (19-May-2023)
+## v0.10.5 [19-May-2023]
 
 1. CRITICAL: Fixed a bug in RUN_ASSEMBLY_VISUALIZER, HIC_QC introduced by the specification of the temporary directory in version 0.10.4.
 2. MATLOCK_BAM2_JUICER now has two hours time limit.
@@ -133,7 +173,7 @@ Same as Version 1 RC6c
 4. Started adding detailed tutorials.
 5. Now TIDK supports a filter by size parameter to filter out small contigs from it output. By default this filter is turned off.
 
-## Version 0.10.4 (16-May-2023)
+## v0.10.4 [16-May-2023]
 
 1. Moved the main workflow into `workflows/assembly_qc.nf` so that it can be imported by other NextFlow pipelines.
 2. Fixed a bug in synteny due to which the pipeline did not resume properly sometimes.
@@ -143,7 +183,7 @@ Same as Version 1 RC6c
 6. CRITICAL: Now explicitly setting the temporary directory to avoid "No space left" errors. This problem may have affected container build and NCBI FCS Adaptor/GX modules in the past.
 7. Now reporting max_gap and min_bundle size in the report for improved readability.
 
-## Version 0.10.3 (08-May-2023)
+## v0.10.3 [08-May-2023]
 
 1. Improved annotation of the config file.
 2. Now using natural sort in the synteny color generator so that chr10's color is assigned after chr9's color.
@@ -153,13 +193,13 @@ Same as Version 1 RC6c
 6. Added GPLv3 license.
 7. Now assembly tags in the dropdown menus of the report are in natural sort order.
 
-## Version 0.10.2 (04-May-2023)
+## v0.10.2 [04-May-2023]
 
 1. Allowed 2 hours for DNADIFF and CIRCOS_BUNDLE_LINKS modules.
 2. Contigs are now ordered by number on the synteny plot.
 3. Added `color_by_contig` option to the synteny module along with a maximum contrast color generator.
 
-## Version 0.10.1 (28-April-2023)
+## v0.10.1 [28-April-2023]
 
 1. Fixed a bug in the TIDK module which resulted in genome fasta file emptying in some cases.
 2. Added a contributors section to README.md
@@ -173,7 +213,7 @@ Same as Version 1 RC6c
 10. Added the `plot_1_vs_all` option in the synteny module.
 11. Added `max_gap` and `min_bundle_size` options to the synteny module.
 
-## Version 0.10 (20-April-2023)
+## v0.10 [20-April-2023]
 
 1. Added Synteny Analysis.
 2. Added "-q" and "-qq" option to LAI. "-qq" is the default.
@@ -186,27 +226,27 @@ Same as Version 1 RC6c
 9. Allowed 8 hours for BWA MEM.
 10. Fixed a bug in LAI where the output was not parsed correctly due to file name mismatch.
 
-## Version 0.9 (31-Mar-2023)
+## v0.9 [31-Mar-2023]
 
 1. Added NCBI FCS GX module.
 2. Added additional annotation to config file.
 3. Removed unnecessary species argument in BUSCO module.
 4. Moved NCBI FCS Adaptor/GX scripts to user home directory for sharing across pipeline downloads to different directories.
 
-## Version 0.8 (29-Mar-2023)
+## v0.8 [29-Mar-2023]
 
 1. Now using system-wide DBs for BUSCO and KRAKEN2.
 2. Added HiC Contact Map module.
 3. Further simplified and annotated the config file.
 
-## Version 0.7.2 (24-Mar-2023)
+## v0.7.2 [24-Mar-2023]
 
 1. Fixed a potential bug in ncbi fcs adaptor.
 2. Fixed rm -f bug in KRAKEN2.
 3. Added additional info for LAI
 4. Fixed a few typos in the config file.
 
-## Version 0.7.1 (23-Mar-2023)
+## v0.7.1 [23-Mar-2023]
 
 1. Fixed a bug in the slurm job submission script.
 2. Fixed a bug in the ASSEMBLATHON_STATS module.
@@ -214,7 +254,7 @@ Same as Version 1 RC6c
 4. Now using uniform naming in the TIDK sub-workflow.
 5. Max time for LAI now set to 2 hours.
 
-## Version 0.7 (17-Mar-2023)
+## v0.7 [17-Mar-2023]
 
 1. Added Kraken2 and NCBI FCS Adaptor tools.
 2. Added Assemblathon stats.
@@ -225,13 +265,13 @@ Same as Version 1 RC6c
 7. Fixed css styling browser conflicts
 8. TIDK process now uses a container instead of conda.
 
-## Version 0.6.1 (8-Mar-2023)
+## v0.6.1 [8-Mar-2023]
 
 1. Included results_dict and dependencies dict (without html formatting) to json.
 2. Removed completed items in readme.
 3. Fixed json dump repeating image url.
 
-## Version 0.6 (17-Feb-2023)
+## v0.6 [17-Feb-2023]
 
 1. Added LAI.
 2. Now sorting sequences by size before feeding to TIDK.
@@ -239,15 +279,15 @@ Same as Version 1 RC6c
 4. Added configuration annotations.
 5. Optimised resource allocation.
 
-## Version 0.5.1
+## v0.5.1
 
 1. Changed report parsers to allow alphanumeric ([a-zA-Z0-9_]) characters in the haplotype names.
 
-## Version 0.5
+## v0.5
 
 1. Added TIDK
 
-## Version 0.4
+## v0.4
 
 1. Added ability run BUSCO for multiple augustus species simultaneously
 2. Formatted tabs into a drop down list for ease of navigation
@@ -255,14 +295,14 @@ Same as Version 1 RC6c
 4. BUSCO plots are now rendered on the summary page
 5. Styling has been changed for better user experience
 
-## Version 0.3
+## v0.3
 
 1. Added ability to run BUSCO for multiple haplotypes simultaneously
 2. Updated README for new functionality
 3. Adjusted styling for easier comparisons between reports
 4. Incorporated conda instead of python venv
 
-## Version 0.2
+## v0.2
 
 1. Added ability to run BUSCO for multiple lineages simultaneously
 2. Removed intermediary outputDir

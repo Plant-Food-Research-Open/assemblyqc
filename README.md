@@ -1,22 +1,15 @@
-# AssemblyQC
+[![GitHub Actions CI Status](https://github.com/plant-food-research-open/assemblyqc/workflows/nf-core%20CI/badge.svg)](https://github.com/plant-food-research-open/assemblyqc/actions?query=workflow%3A%22nf-core+CI%22)
+[![GitHub Actions Linting Status](https://github.com/plant-food-research-open/assemblyqc/workflows/nf-core%20linting/badge.svg)](https://github.com/plant-food-research-open/assemblyqc/actions?query=workflow%3A%22nf-core+linting%22)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.10647870-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.10647870)
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10647870.svg)](https://doi.org/10.5281/zenodo.10647870)
-
-- [AssemblyQC](#assemblyqc)
-  - [Introduction](#introduction)
-  - [Pipeline Flowchart](#pipeline-flowchart)
-  - [Running the Pipeline](#running-the-pipeline)
-    - [Minimal Test Run](#minimal-test-run)
-    - [Quick Start for Plant \& Food Research Users](#quick-start-for-plant--food-research-users)
-    - [Post-run clean-up](#post-run-clean-up)
-  - [AssemblyQC Report](#assemblyqc-report)
-  - [Known Issues](#known-issues)
-  - [Contributors](#contributors)
-  - [Citations](#citations)
+[![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A523.04.0-23aa62.svg)](https://www.nextflow.io/)
+[![run with conda ❌](http://img.shields.io/badge/run%20with-conda%20❌-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
+[![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
+[![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
+[![Launch on Nextflow Tower](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Nextflow%20Tower-%234256e7)](https://tower.nf/launch?pipeline=https://github.com/plant-food-research-open/assemblyqc)
 
 ## Introduction
 
-AssemblyQC is a [NextFlow](https://www.nextflow.io/docs/latest/index.html) pipeline which evaluates assembly quality with well-established tools and presents the results in a unified html report. The tools are shown in the [Pipeline Flowchart](#pipeline-flowchart) and their version are listed in [CITATIONS.md](./CITATIONS.md).
+**plant-food-research-open/assemblyqc** is a [NextFlow](https://www.nextflow.io/docs/latest/index.html) pipeline which evaluates assembly quality with multiple QC tools and presents the results in a unified html report. The tools are shown in the [Pipeline Flowchart](#pipeline-flowchart) and their version are listed in [CITATIONS.md](./CITATIONS.md).
 
 ## Pipeline Flowchart
 
@@ -35,7 +28,6 @@ flowchart LR
   Skip --> REPORT
 
   VALIDATE_FORMAT --> GFF_STATS[GENOMETOOLS GT STAT]
-  VALIDATE_FORMAT --> GFF_STATS_II[BIOCODE GFF3 STATS]
 
   Run --> ASS_STATS[ASSEMBLATHON STATS]
   Run --> BUSCO
@@ -48,7 +40,6 @@ flowchart LR
 
   ASS_STATS --> REPORT
   GFF_STATS --> REPORT
-  GFF_STATS_II --> REPORT
   BUSCO --> REPORT
   TIDK --> REPORT
   LAI --> REPORT
@@ -60,74 +51,80 @@ flowchart LR
 - [FASTA VALIDATION](https://github.com/GallVp/fasta_validator)
 - [GFF3 VALIDATION](https://github.com/genometools/genometools)
 - [ASSEMBLATHON STATS](https://github.com/PlantandFoodResearch/assemblathon2-analysis/blob/a93cba25d847434f7eadc04e63b58c567c46a56d/assemblathon_stats.pl): Assembly statistics
-- [GENOMETOOLS GT STAT](https://github.com/genometools/genometools)/[BIOCODE GFF3 STATS](https://github.com/jorvis/biocode): Annotation statistics
+- [GENOMETOOLS GT STAT](https://github.com/genometools/genometools): Annotation statistics
 - [NCBI FCS ADAPTOR](https://github.com/ncbi/fcs): Adaptor contamination pass/fail
 - [NCBI FCS GX](https://github.com/ncbi/fcs): Foreign organism contamination pass/fail
 - [BUSCO](https://gitlab.com/ezlab/busco/-/tree/master): Gene-space completeness estimation
 - [TIDK](https://github.com/tolkit/telomeric-identifier): Telomere repeat identification
 - [LAI](https://github.com/oushujun/LTR_retriever/blob/master/LAI): Continuity of repetitive sequences
-- [LAI::LTRRETRIEVER](https://github.com/oushujun/LTR_retriever): Repeat identification
 - [KRAKEN2](https://github.com/DerrickWood/kraken2): Taxonomy classification
 - [HIC CONTACT MAP](https://github.com/igvteam/juicebox-web): Alignment and visualisation of HiC data
 - SYNTENY: Synteny analysis using [MUMMER](https://github.com/mummer4/mummer) and [CIRCOS](http://circos.ca/documentation/)
 
-## Running the Pipeline
+## Usage
 
-See the [tutorials](./docs/README.md) for detailed instructions on how to use the pipeline. The pipeline can be executed on a range of executors including AWS, LSF, Slurm, and others supported by [NextFlow](https://www.nextflow.io/docs/latest/executor.html#executors).
+Refer to [usage](./docs/usage.md), [parameters](./docs/parameters.md) and [output](./docs/output.md) documents for details.
 
-### Minimal Test Run
+> [!NOTE]
+> If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
+
+Prepare an `assemblysheet.csv` file with following columns representing target assemblies and associated meta-data. See an example [assemblysheet.csv](./assets/assemblysheet.csv)
+
+- `tag:` A unique tag which represents the target assembly throughout the pipeline and in the final report
+- `fasta:` FASTA file
+- `gff3 [Optional]:` GFF3 annotation file if available
+- `monoploid_ids [Optional]:` A txt file listing the IDs used to calculate LAI in monoploid mode if necessary
+- `synteny_labels [Optional]:` A two column tsv file listing fasta sequence ids (first column) and labels for the synteny plots (second column) when performing synteny analysis
+
+Now, you can run the pipeline using:
 
 ```bash
-nextflow main.nf \
-  -profile local,docker \
-  -c conf/test_minimal.config
+nextflow run plant-food-research-open/assemblyqc \
+   -profile <docker/singularity/.../institute> \
+   --input assemblysheet.csv \
+   --outdir <OUTDIR>
 ```
 
-### Quick Start for Plant & Food Research Users
+> [!WARNING]
+> Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_;
+> see [docs](https://nf-co.re/usage/configuration#custom-configuration-files).
 
-To run the pipeline, first edit the nextflow.config. The following parameters must be checked and modified accordingly:
+### Quick Start for Plant&Food Users
 
-- target_assemblies
-- assembly_gff3
-- assemblathon_stats::n_limit
-- ncbi_fcs_adaptor::empire
-- ncbi_fcs_gx::tax_id
-- busco::lineage_datasets
-- busco::mode
-- tidk::repeat_seq
-- hic::paired_reads
-- synteny::assembly_seq_list
-- synteny::xref_assemblies
-
-Then, the pipeline should be posted to Slurm for execution with the following command:
+Download the pipeline to your `/workspace/$USER` folder. Change the parameters defined in the [pfr/params.json](./pfr/params.json) file. Submit the pipeline to SLURM for execution.
 
 ```bash
 sbatch ./pfr_assemblyqc
 ```
 
-### Post-run clean-up
+## Credits
 
-The intermediary files produced by the pipeline are stored in the "work" folder. After running the pipeline, if you wish to clean up the logs and "work" folder, run the following command:
+plant-food-research-open/assemblyqc was originally written by Usman Rashid and Ken Smith. Ross Crowhurst, Chen Wu and Marcus Davy generously contributed their QC scripts.
 
-```bash
-./cleanNXF.sh
-```
+We thank the following people for their extensive assistance in the development of this pipeline:
 
-## AssemblyQC Report
+- Cecilia Deng [@CeciliaDeng](https://github.com/CeciliaDeng)
+- Chen Wu [@christinawu2008](https://github.com/christinawu2008)
+- Jason Shiller [@jasonshiller](https://github.com/jasonshiller)
+- Marcus Davy [@mdavy86](https://github.com/mdavy86)
+- Ross Crowhurst [@rosscrowhurst](https://github.com/rosscrowhurst)
+- Susan Thomson [@cflsjt](https://github.com/cflsjt)
+- Ting-Hsuan Chen [@ting-hsuan-chen](https://github.com/ting-hsuan-chen)
 
-Once the pipeline has finished execution, the results folder specified in the config file should contain a file named 'report.html'. The 'report.html' is a standalone file for all the modules except HiC and Kraken2. Thus, if you move the report to another folder, make sure to also move the 'hic' folder and the 'kraken2' folder with it.
+## Contributions and Support
 
-## Known Issues
-
-- On its first run, the pipeline has to download a lot many software containers. This download may fail. If it happens, resume the pipeline and it should be able to download the required containers.
-- The pipeline may fail more frequently at building singularity containers when the temporary directory is not the system "/tmp" directory.
-
-## Contributors
-
-Cecilia Deng [@CeciliaDeng](https://github.com/CeciliaDeng), Chen Wu [@christinawu2008](https://github.com/christinawu2008), Jason Shiller [@jasonshiller](https://github.com/jasonshiller), Ken Smith [@hzlnutspread](https://github.com/hzlnutspread), Marcus Davy [@mdavy86](https://github.com/mdavy86), Ross Crowhurst [@rosscrowhurst](https://github.com/rosscrowhurst), Susan Thomson [@cflsjt](https://github.com/cflsjt), Ting-Hsuan Chen [@ting-hsuan-chen](https://github.com/ting-hsuan-chen), Usman Rashid [@GallVp](https://github.com/GallVp)
+If you would like to contribute to this pipeline, please see the [contributing guidelines](.github/CONTRIBUTING.md).
 
 ## Citations
 
-For a comprehensive list of references and versions for the tools, see [CITATIONS.md](./CITATIONS.md).
+If you use plant-food-research-open/assemblyqc for your analysis, please cite it using the following doi: [10.5281/zenodo.10647870](https://doi.org/10.5281/zenodo.10647870)
 
-> Rashid, U., Wu, C., Shiller, J., Smith, K., Crowhurst, R., Davy, M., Chen, T.-H., Thomson, S., & Deng, C. (2024). AssemblyQC: A NextFlow pipeline for evaluating assembly quality (1.3). Zenodo. https://doi.org/10.5281/zenodo.10647870
+An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
+
+This pipeline uses code and infrastructure developed and maintained by the [nf-core](https://nf-co.re) community, reused here under the [MIT license](https://github.com/nf-core/tools/blob/master/LICENSE).
+
+> **The nf-core framework for community-curated bioinformatics pipelines.**
+>
+> Philip Ewels, Alexander Peltzer, Sven Fillinger, Harshil Patel, Johannes Alneberg, Andreas Wilm, Maxime Ulysse Garcia, Paolo Di Tommaso & Sven Nahnsen.
+>
+> _Nat Biotechnol._ 2020 Feb 13. doi: [10.1038/s41587-020-0439-x](https://dx.doi.org/10.1038/s41587-020-0439-x).

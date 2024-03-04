@@ -2,9 +2,10 @@ process UNTAR {
     tag "$archive"
     label 'process_single'
 
-    container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
+    conda "${moduleDir}/environment.yml"
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/ubuntu:20.04' :
-        'quay.io/nf-core/ubuntu:20.04' }"
+        'nf-core/ubuntu:20.04' }"
 
     input:
     tuple val(meta), path(archive)

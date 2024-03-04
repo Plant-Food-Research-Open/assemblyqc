@@ -1,0 +1,48 @@
+name: Fix linting from a comment
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  deploy:
+    # Only run if comment is on a PR with the main repo, and if it contains the magic keywords
+    if: >
+      contains(github.event.comment.html_url, '/pull/') &&
+      contains(github.event.comment.body, '@nf-core-bot fix linting') &&
+      github.repository == 'plant-food-research-open/assemblyqc'
+    runs-on: ubuntu-latest
+    steps:
+      # Use the @nf-core-bot token to check out so we can push later
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.nf_core_bot_auth_token }}
+
+      # Action runs on the issue comment, so we don't get the PR by default
+      # Use the gh cli to check out the PR
+      - name: Checkout Pull Request
+        run: gh pr checkout ${{ github.event.issue.number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.nf_core_bot_auth_token }}
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+          cache: "pip"
+
+      - name: Install pre-commit
+        run: pip install pre-commit
+
+      - name: Run pre-commit
+        run: pre-commit run --all-files || echo "status=fail" >> $GITHUB_ENV
+
+      - name: Commit & push changes
+        if: env.status == 'fail'
+        run: |
+          git config user.email "core@nf-co.re"
+          git config user.name "nf-core-bot"
+          git config push.default upstream
+          git add .
+          git status
+          git commit -m "[automated] Fix linting with pre-commit"
+          git push
