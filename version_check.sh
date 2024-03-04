@@ -10,5 +10,5 @@ fi
 
 # Check CHANGELOG version
 
-grep "## $config_version" CHANGELOG.md >/dev/null \
+grep "## $config_version - " CHANGELOG.md >/dev/null \
     || (echo 'Failed to match CHANGELOG version'; exit 1)

@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 1.4dev - [28-Feb-2024]
+## 1.4 - [04-Mar-2024]
 
 ### `Added`
 
@@ -17,20 +17,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 8. Replaced custom GUNZIP module with nf-core/gunzip
 9. Replaced custom gt/stat with pfr/gt/stat
 10. Replaced custom fasta_validator with nf-core/fastavalidator
-11. Removed BIOCODE GFF3 STATS owing to its frequent failures
-12. Added pre-commit version checking
-13. Now gt/stat reports extended stats and multiple distribution plots have been added to the report
-14. Added a tools tab to the report which lists the tools used by the pipeline to create the report
-15. Refactored and cleaned data flows for all the custom sub-workflow
-16. Started using nf-core template
-17. Started using semantic versioning
-18. Moved all python depending packages to 'docker.io/gallvp/python3npkgs:v0.6'
+11. Added pre-commit version checking
+12. Now gt/stat reports extended stats and multiple distribution plots have been added to the report
+13. Added a tools tab to the report which lists the tools used by the pipeline to create the report
+14. Refactored and cleaned data flows for all the custom sub-workflow
+15. Started using nf-core template
+16. Started using semantic versioning
+17. Moved all python depending packages to 'docker.io/gallvp/python3npkgs:v0.6'
 
 ### `Fixed`
 
+1. All modules are now emitting versioning information
+2. Fixed a bug which caused LAI to run with null assembly fasta
+3. Fixed FASTA_LTRRETRIEVER_LAI sub-workflow so that it respects `monoploid_ids` parameter.
+
 ### `Dependencies`
 
+1. NextFlow!>=23.04.0
+2. nf-validation@1.1.3
+
 ### `Deprecated`
+
+1. Removed BIOCODE GFF3 STATS owing to its frequent failures
 
 ## v1.3 [08-Feb-2023]
 
