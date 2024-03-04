@@ -22,11 +22,18 @@
             >
         </p>
         <p class="section-para"><b>Notes:</b></p>
-        <p class="section-para">
+        <ul>
+          <li>
             Alignments within a distance of {{ all_stats_dicts['PARAMS_DICT']['synteny_max_gap'] }}bp have been
-            bundled together. After bundling, any bundle smaller than {{
-            all_stats_dicts['PARAMS_DICT']['synteny_min_bundle_size'] }}bp has been filtered out.
-        </p>
+            bundled together.
+          </li>
+          <li>
+            After bundling, any bundle smaller than {{ all_stats_dicts['PARAMS_DICT']['synteny_min_bundle_size'] }}bp has been filtered out.
+          </li>
+          <li>
+            The sequence labels shown on the plot are based on the labelling file provided to the pipeline. These labels may or may not be same as the sequence IDs in the corresponding FASTA files.
+          </li>
+        </ul>
     </div>
     {% include 'circos/dropdown.html' %} {% include 'circos/report_contents.html' %}
 </div>

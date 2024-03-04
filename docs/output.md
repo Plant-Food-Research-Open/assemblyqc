@@ -150,7 +150,7 @@ LTR Assembly Index (LAI) is a reference-free genome metric that [evaluates assem
 
 </details>
 
-Kraken2 [assigns taxonomic labels](https://ccb.jhu.edu/software/kraken2/) to sequencing reads for metagenomics projects.
+Kraken2 [assigns taxonomic labels](https://ccb.jhu.edu/software/kraken2/) to sequencing reads for metagenomics projects. Further reading regarding performance of Kraken2: <https://doi.org/10.1099/mgen.0.000949>
 
 <div align="center"><img src="images/kraken2.jpg" alt="AssemblyQC - Interactive Krona plot from Kraken2 taxonomy" width="50%"><hr><em>AssemblyQC - Interactive Krona plot from Kraken2 taxonomy</em></div>
 
@@ -203,7 +203,7 @@ Synteny plots are created with Circos which is a tool [facilitating](https://cir
 
 ### Pipeline information
 
-<details markdown="1" open>
+<details markdown="1">
 <summary>Output files</summary>
 
 - `pipeline_info/`
