@@ -37,6 +37,9 @@ def validateFastaTags(params) {
 }
 
 def validateGff3Tags(params) {
+
+    if ( ! params["assembly_gff3"] ) { return }
+
     def listOfGff3Tuples   = params["assembly_gff3"]
 
     if (listOfGff3Tuples.isEmpty()) {

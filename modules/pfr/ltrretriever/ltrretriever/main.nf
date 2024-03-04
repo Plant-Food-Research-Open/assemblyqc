@@ -2,7 +2,6 @@ process LTRRETRIEVER_LTRRETRIEVER {
     tag "$meta.id"
     label 'process_high'
 
-    conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
         'https://depot.galaxyproject.org/singularity/ltr_retriever:2.9.9--hdfd78af_0':
         'quay.io/biocontainers/ltr_retriever:2.9.9--hdfd78af_0' }"

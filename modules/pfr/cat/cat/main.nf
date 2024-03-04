@@ -2,7 +2,6 @@ process CAT_CAT {
     tag "$meta.id"
     label 'process_low'
 
-    conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
         'https://depot.galaxyproject.org/singularity/pigz:2.3.4' :
         'quay.io/biocontainers/pigz:2.3.4' }"

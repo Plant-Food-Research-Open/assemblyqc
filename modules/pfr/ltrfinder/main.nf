@@ -2,7 +2,6 @@ process LTRFINDER {
     tag "$meta.id"
     label 'process_high'
 
-    conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
         'https://depot.galaxyproject.org/singularity/ltr_finder_parallel:1.1--hdfd78af_0':
         'quay.io/biocontainers/ltr_finder_parallel:1.1--hdfd78af_0' }"

@@ -1,8 +1,11 @@
 # Change Log
 
-## Version 1.3.1 (04-March-2024)
+## Version 1.3.1 (05-March-2024)
 
 1. Updated FASTA_LTRRETRIEVER_LAI to a version which respects `monoploid_seqs` parameter
+2. Fixed path typo in docs/aws_run.md
+3. Fixed paths in docs/test_params/test_agc.json to point to v1.3 tag on GitHub
+4. Now "assembly_gff3" can be `null`
 
 ## Version 1.3 (08-Feb-2024)
 
