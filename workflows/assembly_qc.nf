@@ -178,7 +178,11 @@ workflow ASSEMBLY_QC {
         .set { ch_with_assemblies }
     }
 
-    SYNTENY(ch_clean_target_assemblies_seq_list, ch_with_assemblies)
+    SYNTENY(
+        ch_clean_target_assemblies_seq_list,
+        ch_with_assemblies,
+        params.synteny.plot_type
+    )
 
     // CREATE REPORT
     CREATE_REPORT(
@@ -192,7 +196,7 @@ workflow ASSEMBLY_QC {
         ch_lai_outputs.ifEmpty([]),
         KRAKEN2.out.list_of_outputs.ifEmpty([]),
         HIC_CONTACT_MAP.out.list_of_html_files.ifEmpty([]),
-        SYNTENY.out.list_of_circos_plots.ifEmpty([]),
+        SYNTENY.out.list_of_plots.ifEmpty([]),
         Channel.of("$paramsAsJSON")
     )
 }

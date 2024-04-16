@@ -18,7 +18,7 @@ from report_modules.parsers.tidk_parser import parse_tidk_folder
 from report_modules.parsers.lai_parser import parse_lai_folder
 from report_modules.parsers.kraken2_parser import parse_kraken2_folder
 from report_modules.parsers.hic_parser import parse_hic_folder
-from report_modules.parsers.circos_parser import parse_circos_folder
+from report_modules.parsers.synteny_parser import parse_synteny_folder
 from report_modules.report_printer import ReportPrinter
 from report_modules.parsers.params_parser import parse_params_json
 
@@ -37,12 +37,12 @@ if __name__ == "__main__":
     data_from_tools = {**data_from_tools, **parse_lai_folder()}
     data_from_tools = {**data_from_tools, **parse_kraken2_folder()}
     data_from_tools = {**data_from_tools, **parse_hic_folder()}
-    data_from_tools = {**data_from_tools, **parse_circos_folder()}
+    data_from_tools = {**data_from_tools, **parse_synteny_folder()}
 
     data_from_tools = {
         **data_from_tools,
         "VERSIONS": {
-            "SELF": "v1.3.1",
+            "SELF": "v1.3.2",
             "NCBI_FCS_ADAPTOR": "0.4",
             "NCBI_FCS_GX": "0.4",
             "ASSEMBLATHON_STATS": "github/PlantandFoodResearch/assemblathon2-analysis/a93cba2",
@@ -53,7 +53,7 @@ if __name__ == "__main__":
             "LAI": "beta3.2",
             "KRAKEN2": "2.1.2",
             "HIC": "2.4.3",
-            "CIRCOS": "0.23-1",
+            "SYNTENY_CIRCOS": "0.23-1",
             "MUMMER": "4.0.0",
         },
         "PARAMS_DICT": params_dict,

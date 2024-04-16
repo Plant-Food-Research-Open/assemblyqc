@@ -1,4 +1,4 @@
-<div id="CIRCOS" class="tabcontent" style="display: none">
+<div id="SYNTENY_CIRCOS" class="tabcontent" style="display: none">
     <div class="section-para-wrapper">
         <p class="section-para">
             Circos facilitates the identification and analysis of similarities and differences arising from comparisons
@@ -19,8 +19,8 @@
         </p>
         <p class="section-para">
             <b
-                >Version: {{ all_stats_dicts['VERSIONS']['CIRCOS'] }} (CIRCOS), {{ all_stats_dicts['VERSIONS']['MUMMER']
-                }} (MUMMER)</b
+                >Version: {{ all_stats_dicts['VERSIONS']['SYNTENY_CIRCOS'] }} (CIRCOS), {{
+                all_stats_dicts['VERSIONS']['MUMMER'] }} (MUMMER)</b
             >
         </p>
         <p class="section-para"><b>Notes:</b></p>
@@ -30,5 +30,5 @@
             all_stats_dicts['PARAMS_DICT']['synteny']['min_bundle_size'] }}bp has been filtered out.
         </p>
     </div>
-    {% include 'circos/dropdown.html' %} {% include 'circos/report_contents.html' %}
+    {% include 'synteny_circos/dropdown.html' %} {% include 'synteny_circos/report_contents.html' %}
 </div>

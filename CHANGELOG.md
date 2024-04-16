@@ -1,5 +1,9 @@
 # Change Log
 
+## Version 1.3.2 (16-April-2024)
+
+1. Added support for linear synteny plots by setting `plot_type` to linear under `synteny` params
+
 ## Version 1.3.1 (05-March-2024)
 
 1. Updated FASTA_LTRRETRIEVER_LAI to a version which respects `monoploid_seqs` parameter

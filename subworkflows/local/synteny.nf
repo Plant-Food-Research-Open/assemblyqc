@@ -6,6 +6,7 @@ workflow SYNTENY {
     take:
         tuple_of_tag_fasta_seq_list
         tuple_of_tag_xref_fasta_seq_list
+        plot_type                           // val(circos|linear)
 
     main:
         if(!params.synteny.skip) {
@@ -90,26 +91,48 @@ workflow SYNTENY {
                 [it[0][0], it[1][1], it[1][2], it[0][1], it[0][2]] // [target.on.reference, seq_tag, split_bundle_file, target_seq_len, ref_seq_len]
             }
             | GENERATE_KARYOTYPE
-            | join(
+
+            if ( plot_type == 'circos' ) {
+                GENERATE_KARYOTYPE.out.karyotype
+                | join(
+                    ch_circos_split_bundle_links
+                    | map {
+                        ["${it[0]}.${it[1]}", it[2]] // [target.on.reference.seq_tag, split_bundle_file]
+                    }
+                )
+                | CIRCOS
+
+                CIRCOS
+                .out
+                .png_file
+                | collect
+                | set{ ch_list_of_plots }
+            } else {
                 ch_circos_split_bundle_links
                 | map {
                     ["${it[0]}.${it[1]}", it[2]] // [target.on.reference.seq_tag, split_bundle_file]
                 }
-            )
-            | CIRCOS
+                | join(
+                    GENERATE_KARYOTYPE.out.karyotype_ref
+                )
+                | join(
+                    GENERATE_KARYOTYPE.out.karyotype_target
+                )
+                | LINEAR_SYNTENY_PLOT
 
-            CIRCOS
-            .out
-            .png_file
-            | collect
-            | set{ ch_list_of_circos_plots }
+                LINEAR_SYNTENY_PLOT
+                .out
+                .html
+                | collect
+                | set{ ch_list_of_plots }
+            }
         }
         else {
-            ch_list_of_circos_plots = Channel.of([])
+            ch_list_of_plots = Channel.of([])
         }
 
     emit:
-        list_of_circos_plots = ch_list_of_circos_plots
+        list_of_plots = ch_list_of_plots
 }
 
 def getUniqueWithinCombinations(inputArray) {
@@ -302,7 +325,7 @@ process ADD_COLOUR_TO_BUNDLE_LINKS {
     tag "${target_on_ref}"
     label "process_single"
 
-    container "docker.io/gallvp/python3npkgs:v0.4"
+    container "docker.io/gallvp/python3npkgs:v0.7"
 
     input:
         tuple val(target_on_ref), path(bundle_links)
@@ -328,7 +351,7 @@ process RELABEL_BUNDLE_LINKS {
     tag "${target_on_ref}"
     label "process_single"
 
-    container "docker.io/gallvp/python3npkgs:v0.4"
+    container "docker.io/gallvp/python3npkgs:v0.7"
 
     input:
         tuple val(target_on_ref), path(coloured_bundle_links), path(target_seq_list), path(ref_seq_list)
@@ -370,7 +393,7 @@ process RELABEL_FASTA_LEN {
     tag "${target_on_ref}"
     label "process_single"
 
-    container "docker.io/gallvp/python3npkgs:v0.4"
+    container "docker.io/gallvp/python3npkgs:v0.7"
 
     input:
         tuple val(target_on_ref), path(target_seq_lengths), path(ref_seq_lengths), path(target_seq_list), path(ref_seq_list)
@@ -442,7 +465,9 @@ process GENERATE_KARYOTYPE {
         tuple val(target_on_ref), val(seq_tag), path(split_bundle_file), path(target_seq_len), path(ref_seq_len)
 
     output:
-        tuple val("${target_on_ref}.${seq_tag}"), path("*.karyotype")
+        tuple val("${target_on_ref}.${seq_tag}"), path("*.karyotype")           , emit: karyotype
+        tuple val("${target_on_ref}.${seq_tag}"), path("karyotype_ref.tsv")     , emit: karyotype_ref
+        tuple val("${target_on_ref}.${seq_tag}"), path("karyotype_target.tsv")  , emit: karyotype_target
 
     script:
         """
@@ -468,11 +493,23 @@ process GENERATE_KARYOTYPE {
 
         cat colored.filtered.ref.seq.len | sort -k1V > merged.seq.lengths
         cat colored.filtered.target.seq.len | sort -k1Vr >> merged.seq.lengths
-        sed -i '/^\$/d' merged.seq.lengths
 
         cat merged.seq.lengths \
+        | sed '/^\$/d' \
         | awk '{print "chr -",\$1,\$1,"0",\$2-1,\$3}' OFS="\\t" \
         > "${target_on_ref}.${seq_tag}.karyotype"
+
+        cat colored.filtered.ref.seq.len \
+        | sort -k1V \
+        | sed '/^\$/d' \
+        | awk '{print "chr -",\$1,\$1,"0",\$2-1,\$3}' OFS="\\t" \
+        > karyotype_ref.tsv
+
+        cat colored.filtered.target.seq.len \
+        | sort -k1V \
+        | sed '/^\$/d' \
+        | awk '{print "chr -",\$1,\$1,"0",\$2-1,\$3}' OFS="\\t" \
+        > karyotype_target.tsv
 
         rm "\$tmp_file"
         """
@@ -609,5 +646,33 @@ EOF
 
         mv circos.svg "${target_on_ref_seq}.svg"
         mv circos.png "${target_on_ref_seq}.png"
+        """
+}
+
+process LINEAR_SYNTENY_PLOT {
+    tag "${target_on_ref_seq}"
+    label "process_single"
+
+    container "docker.io/gallvp/python3npkgs:v0.7"
+    publishDir "${params.outdir}/synteny/${target_on_ref_seq}", mode: 'copy'
+
+    input:
+        tuple val(target_on_ref_seq), path(bundle_file), path(karyotype_ref), path(karyotype_target)
+
+    output:
+        path "*.html"               , emit: html
+        path "bundled.links.tsv"    , emit: bundled_links_tsv
+
+    script:
+        """
+        cat $bundle_file \
+        | awk '{print \$1,\$2,\$3,\$4,\$5,\$6,\$7}' OFS="\\t" \
+        > bundled.links.tsv
+
+        linear_synteny.py \
+        bundled.links.tsv \
+        $karyotype_ref \
+        $karyotype_target \
+        --output "${target_on_ref_seq}.html"
         """
 }

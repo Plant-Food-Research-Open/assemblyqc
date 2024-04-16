@@ -128,6 +128,10 @@ def validateSyntenyParameters(params) {
         return
     }
 
+    if ( ! ( params["synteny"]["plot_type"] in [ 'circos', 'linear' ] ) ) {
+        error 'Error: synteny::plot_type must be either circos or linear'
+    }
+
     def listOfFastaTuples       = params["target_assemblies"]
     def listOfTargetSeqLists    = params["synteny"]["assembly_seq_list"]
 

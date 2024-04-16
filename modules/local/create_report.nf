@@ -4,7 +4,7 @@ process CREATE_REPORT {
     tag "all modules"
     label "process_single"
 
-    container "docker.io/gallvp/python3npkgs:v0.4"
+    container "docker.io/gallvp/python3npkgs:v0.7"
     publishDir params.outdir, mode: 'copy'
 
     input:
@@ -18,7 +18,7 @@ process CREATE_REPORT {
         path lai_outputs, stageAs: 'lai_outputs/*'
         path kraken2_outputs, stageAs: 'kraken2_outputs/*'
         path hic_outputs, stageAs: 'hic_outputs/*'
-        path circos_outputs, stageAs: 'circos_outputs/*'
+        path synteny_outputs, stageAs: 'synteny_outputs/*'
         val params_json
 
     output:
