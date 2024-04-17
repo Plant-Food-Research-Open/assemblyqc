@@ -107,23 +107,20 @@ def format_figure(
         hovermode="closest",
         xaxis2=dict(
             overlaying="x",
-            position=0.05,
             scaleanchor="x1",
-            range=[0, list(offsets_ref.values())[-1] + list(karyotype_ref["size"])[-1]],
+            range=xaxis_range,
             tickmode="array",
-            tickvals=list(midpoints_ref.values()),
-            ticktext=list(midpoints_ref.keys()),
+            tickvals=list(offsets_ref.values()),
+            ticktext=list(offsets_ref.keys()),
+            side="top",
         ),
         yaxis2=dict(
             overlaying="y",
             scaleanchor="y1",
-            range=[
-                0,
-                list(offsets_target.values())[-1] + list(karyotype_target["size"])[-1],
-            ],
+            range=yaxis_range,
             tickmode="array",
-            tickvals=list(midpoints_target.values()),
-            ticktext=list(midpoints_target.keys()),
+            tickvals=list(offsets_target.values()),
+            ticktext=list(offsets_target.keys()),
             autoshift=True,
             anchor="free",
         ),
@@ -132,8 +129,20 @@ def format_figure(
         showlegend=True,
     )
 
-    fig.update_xaxes(showgrid=False, zeroline=False)
-    fig.update_yaxes(showgrid=False, zeroline=False)
+    fig.update_xaxes(
+        showgrid=True,
+        zeroline=False,
+        gridcolor="rgba(0, 0, 0, 0.1)",
+        griddash="dashdot",
+    )
+    fig.update_yaxes(
+        showgrid=True,
+        zeroline=False,
+        gridcolor="rgba(0, 0, 0, 0.1)",
+        griddash="dashdot",
+    )
+    fig["layout"]["yaxis1"]["showgrid"] = False
+    fig["layout"]["xaxis1"]["showgrid"] = False
 
 
 if __name__ == "__main__":

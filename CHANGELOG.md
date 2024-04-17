@@ -1,8 +1,9 @@
 # Change Log
 
-## Version 1.3.2 (16-April-2024)
+## Version 1.3.2 (17-April-2024)
 
 1. Added support for linear synteny plots by setting `plot_type` to linear under `synteny` params
+2. Added `version_check.sh` to `pre-commit`
 
 ## Version 1.3.1 (05-March-2024)
 
