@@ -103,8 +103,6 @@ def parse_synteny_linear(folder_name="synteny_outputs"):
 
 def parse_synteny_folder(folder_name="synteny_outputs"):
     circos_data = parse_synteny_circos(folder_name)
+    linear_data = parse_synteny_linear(folder_name)
 
-    if circos_data != {}:
-        return circos_data
-
-    return parse_synteny_linear(folder_name)
+    return {**circos_data, **linear_data}

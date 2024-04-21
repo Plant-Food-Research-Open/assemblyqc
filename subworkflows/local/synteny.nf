@@ -67,7 +67,7 @@ workflow SYNTENY {
                 MUMMER.out.tag_delta_file
             )
             | DNADIFF
-            | CIRCOS_BUNDLE_LINKS
+            | BUNDLE_LINKS
             | ADD_COLOUR_TO_BUNDLE_LINKS
             | join(ch_seq_lists)
             | RELABEL_BUNDLE_LINKS
@@ -92,7 +92,10 @@ workflow SYNTENY {
             }
             | GENERATE_KARYOTYPE
 
-            if ( plot_type == 'circos' ) {
+            ch_list_of_plots = Channel.empty()
+
+            if ( plot_type == 'circos' || plot_type == 'both' ) {
+
                 GENERATE_KARYOTYPE.out.karyotype
                 | join(
                     ch_circos_split_bundle_links
@@ -102,12 +105,9 @@ workflow SYNTENY {
                 )
                 | CIRCOS
 
-                CIRCOS
-                .out
-                .png_file
-                | collect
-                | set{ ch_list_of_plots }
-            } else {
+                ch_list_of_plots = ch_list_of_plots.mix(CIRCOS.out.png_file)
+            }
+            if ( plot_type == 'linear' || plot_type == 'both' ) {
                 ch_circos_split_bundle_links
                 | map {
                     ["${it[0]}.${it[1]}", it[2]] // [target.on.reference.seq_tag, split_bundle_file]
@@ -120,11 +120,7 @@ workflow SYNTENY {
                 )
                 | LINEAR_SYNTENY_PLOT
 
-                LINEAR_SYNTENY_PLOT
-                .out
-                .html
-                | collect
-                | set{ ch_list_of_plots }
+                ch_list_of_plots = ch_list_of_plots.mix(LINEAR_SYNTENY_PLOT.out.html)
             }
         }
         else {
@@ -132,7 +128,7 @@ workflow SYNTENY {
         }
 
     emit:
-        list_of_plots = ch_list_of_plots
+        list_of_plots = ch_list_of_plots.collect()
 }
 
 def getUniqueWithinCombinations(inputArray) {
@@ -296,11 +292,11 @@ process DNADIFF {
         """
 }
 
-process CIRCOS_BUNDLE_LINKS {
+process BUNDLE_LINKS {
     tag "${target_on_ref}"
     label "process_single"
 
-    container "docker.io/gallvp/circos-tools:v0.23-1_ps"
+    container "docker.io/gallvp/python3npkgs:v0.7"
 
     input:
         tuple val(target_on_ref), path(coords_file), path(report_file)
@@ -312,12 +308,11 @@ process CIRCOS_BUNDLE_LINKS {
         """
         cat $coords_file | awk '{print \$12,\$1,\$2,\$13,\$3,\$4}' OFS="\\t" > "\$(basename $coords_file).links.txt"
 
-        /usr/share/circos/tools/bundlelinks/bin/bundlelinks \
-        -links "\$(basename $coords_file).links.txt" \
-        -max_gap "${params.synteny.max_gap}" \
-        -min_bundle_size "${params.synteny.min_bundle_size}" \
-        1>"\$(basename $coords_file).bundle.txt" \
-        2>bundlelinks.err
+        bundle_links.py \\
+            --max_gap "${params.synteny.max_gap}" \\
+            --min_bundle_size "${params.synteny.min_bundle_size}" \\
+            "\$(basename $coords_file).links.txt" \\
+            "\$(basename $coords_file).bundle.txt"
         """
 }
 
