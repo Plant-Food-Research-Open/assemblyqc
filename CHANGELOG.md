@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Added`
 
+1. Updated modules and sub-workflows
+
 ### `Fixed`
 
 1. Fixed a bug which caused NCBI_FCS_GX to not resume
