@@ -16,6 +16,9 @@ workflow NCBI_FCS_GX {
 
     ch_all_samples          = NCBI_FCS_GX_SETUP_SAMPLE.out.fsata
                             | collect
+                            | map {
+                                it.sort(false)
+                            }
 
     ch_versions             = ch_versions.mix(NCBI_FCS_GX_SETUP_SAMPLE.out.versions.first())
 

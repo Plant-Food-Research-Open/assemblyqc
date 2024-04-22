@@ -3,6 +3,21 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 2.0.0 - [22-April-2024]
+
+### `Added`
+
+### `Fixed`
+
+1. Fixed a bug which caused NCBI_FCS_GX to not resume
+
+### `Dependencies`
+
+1. NextFlow!>=23.04.0
+2. nf-validation@1.1.3
+
+### `Deprecated`
+
 ## 1.4 - [04-Mar-2024]
 
 ### `Added`
