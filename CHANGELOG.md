@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 1. Fixed a bug which caused NCBI_FCS_GX to not resume
 2. Restored the original version of `nf-core/subworkflows/fastq_trim_fastp_fastqc`
 3. Fixed n-core linting
+4. Updated `tower.yml`
 
 ### `Dependencies`
 
