@@ -134,13 +134,6 @@
         "https://github.com/nf-core/modules.git": {
             "modules": {
                 "nf-core": {
-                    "custom/dumpsoftwareversions": {
-                        "branch": "master",
-                        "git_sha": "de45447d060b8c8b98575bc637a4a575fd0638e1",
-                        "installed_by": [
-                            "modules"
-                        ]
-                    },
                     "fastavalidator": {
                         "branch": "master",
                         "git_sha": "89ff95427f695086369d7927a3c17cea2a37a382",
@@ -225,6 +218,9 @@
                     "fastq_trim_fastp_fastqc": {
                         "branch": "master",
                         "git_sha": "cfd937a668919d948f6fcbf4218e79de50c2f36f",
+                        "installed_by": [
+                            "subworkflows"
+                        ]
                     },
                     "utils_nextflow_pipeline": {
                         "branch": "master",
