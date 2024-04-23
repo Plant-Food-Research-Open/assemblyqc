@@ -2,7 +2,7 @@
     "name": "plant-food-research-open/assemblyqc",
     "homePage": "https://github.com/plant-food-research-open/assemblyqc",
     "repos": {
-        "git@github.com:PlantandFoodResearch/nxf-modules.git": {
+        "https://github.com/PlantandFoodResearch/nxf-modules.git": {
             "modules": {
                 "pfr": {
                     "bwa/index": {
@@ -97,7 +97,7 @@
                 }
             }
         },
-        "git@github.com:nf-core/modules.git": {
+        "https://github.com/nf-core/modules.git": {
             "modules": {
                 "nf-core": {
                     "fastavalidator": {
