@@ -15,12 +15,10 @@ lint:
     - .github/ISSUE_TEMPLATE/bug_report.yml
     - docs/README.md
     - .github/CONTRIBUTING.md
-  multiqc_config:
-    - report_comment
+    - .github/workflows/linting.yml
   nextflow_config:
     - manifest.name
     - manifest.homePage
-  template_strings: False
 repository_type: pipeline
 template:
   prefix: plant-food-research-open
