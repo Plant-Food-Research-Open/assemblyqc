@@ -41,7 +41,8 @@ workflow PIPELINE_INITIALISATION {
 
     main:
 
-    ch_versions = Channel.empty()
+    ch_versions     = Channel.empty()
+    summary_params  = paramsSummaryMap(workflow, parameters_schema: "nextflow_schema.json")
 
     //
     // Print version and exit if required and dump pipeline parameters to JSON file
@@ -74,13 +75,55 @@ workflow PIPELINE_INITIALISATION {
     UTILS_NFCORE_PIPELINE (
         nextflow_cli_args
     )
+
     //
     // Custom validation for pipeline parameters
     //
     validateInputParameters()
 
+    //
+    // Initialise input channels
+    //
+    def input_assembly_sheet_fields         = 5
+    def synteny_xref_assemblies_fields      = 3
+
+    ch_input                                = Channel.fromSamplesheet('input')
+                                            | collect
+                                            | flatMap { validateInput(it) }
+                                            | buffer(size: input_assembly_sheet_fields)
+
+    ch_hic_reads                            = ! params.hic
+                                            ? Channel.empty()
+                                            : (
+                                                "$params.hic".find(/.*[\/].*\.(fastq|fq)\.gz/)
+                                                ? Channel.fromFilePairs(params.hic, checkIfExists: true)
+                                                : Channel.fromSRA(params.hic)
+                                            )
+                                            | map{ sample, fq ->
+                                                [ [ id: sample, single_end: false ], fq ]
+                                            }
+
+    ch_xref_assembly                        = params.synteny_skip || ! params.synteny_xref_assemblies
+                                            ? Channel.empty()
+                                            : Channel.fromSamplesheet('synteny_xref_assemblies')
+                                            | collect
+                                            | flatMap { validateXrefAssemblies(it) }
+                                            | buffer(size: synteny_xref_assemblies_fields)
+                                            | map { tag, fa, labels ->
+                                                [ tag, file(fa, checkIfExists: true), file(labels, checkIfExists: true) ]
+                                            }
+
+    // Initialise parameter channels
+    ch_params_as_json                       = Channel.of ( jsonifyParams ( params ) )
+    ch_summary_params_as_json               = Channel.of ( jsonifySummaryParams ( summary_params ) )
+
     emit:
-    versions    = ch_versions
+    input                                   = ch_input
+    hic_reads                               = ch_hic_reads
+    xref_assembly                           = ch_xref_assembly
+    params_as_json                          = ch_params_as_json
+    summary_params_as_json                  = ch_summary_params_as_json
+    versions                                = ch_versions
 }
 
 /*

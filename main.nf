@@ -30,10 +30,24 @@ include { PIPELINE_COMPLETION       } from './subworkflows/local/utils_nfcore_as
 //
 workflow PLANTFOODRESEARCHOPEN_ASSEMBLYQC {
 
+    take:
+    ch_input
+    ch_hic_reads
+    ch_xref_assembly
+    ch_params_as_json
+    ch_summary_params_as_json
+
+    main:
     //
     // WORKFLOW: Run pipeline
     //
-    ASSEMBLYQC ()
+    ASSEMBLYQC (
+        ch_input,
+        ch_hic_reads,
+        ch_xref_assembly,
+        ch_params_as_json,
+        ch_summary_params_as_json
+    )
 
 }
 /*
@@ -62,7 +76,13 @@ workflow {
     //
     // WORKFLOW: Run main workflow
     //
-    PLANTFOODRESEARCHOPEN_ASSEMBLYQC ()
+    PLANTFOODRESEARCHOPEN_ASSEMBLYQC (
+        PIPELINE_INITIALISATION.out.input,
+        PIPELINE_INITIALISATION.out.hic_reads,
+        PIPELINE_INITIALISATION.out.xref_assembly,
+        PIPELINE_INITIALISATION.out.params_as_json,
+        PIPELINE_INITIALISATION.out.summary_params_as_json
+    )
 
     //
     // SUBWORKFLOW: Run completion tasks

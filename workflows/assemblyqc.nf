@@ -4,13 +4,6 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { validateInput                     } from '../subworkflows/local/utils_nfcore_assemblyqc_pipeline/main'
-include { validateXrefAssemblies            } from '../subworkflows/local/utils_nfcore_assemblyqc_pipeline/main'
-include { jsonifyParams                     } from '../subworkflows/local/utils_nfcore_assemblyqc_pipeline/main'
-include { jsonifySummaryParams              } from '../subworkflows/local/utils_nfcore_assemblyqc_pipeline/main'
-
-include { paramsSummaryMap                  } from 'plugin/nf-validation'
-include { paramsSummaryMultiqc              } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 include { softwareVersionsToYAML            } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 
 include { GUNZIP as GUNZIP_FASTA            } from '../modules/nf-core/gunzip/main'
@@ -36,18 +29,21 @@ include { CREATEREPORT                      } from '../modules/local/createrepor
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-def input_assembly_sheet_fields             = 5
-def synteny_xref_assemblies_fields          = 3
-
 workflow ASSEMBLYQC {
 
-    // Input channels
-    ch_versions                             = Channel.empty()
-    ch_input                                = Channel.fromSamplesheet('input')
-                                            | collect
-                                            | flatMap { validateInput(it) }
-                                            | buffer(size: input_assembly_sheet_fields)
+    take:
+    ch_input
+    ch_hic_reads
+    ch_xref_assembly
+    ch_params_as_json
+    ch_summary_params_as_json
 
+    main:
+
+    // Versions
+    ch_versions                             = Channel.empty()
+
+    // Input channels
     ch_target_assemby_branch                = ch_input
                                             | map { tag, fasta, gff, mono_ids, labels ->
                                                 [ [ id: tag ], file(fasta, checkIfExists: true) ]
@@ -86,27 +82,6 @@ workflow ASSEMBLYQC {
                                                     " in the input assembly sheet when running synteny analysis." +
                                                     " Synteny analysis is skipped!")
                                                 )
-                                            }
-
-    ch_hic_reads                            = ! params.hic
-                                            ? Channel.empty()
-                                            : (
-                                                "$params.hic".find(/.*[\/].*\.(fastq|fq)\.gz/)
-                                                ? Channel.fromFilePairs(params.hic, checkIfExists: true)
-                                                : Channel.fromSRA(params.hic)
-                                            )
-                                            | map{ sample, fq ->
-                                                [ [ id: sample, single_end: false ], fq ]
-                                            }
-
-    ch_xref_assembly                        = params.synteny_skip || ! params.synteny_xref_assemblies
-                                            ? Channel.empty()
-                                            : Channel.fromSamplesheet('synteny_xref_assemblies')
-                                            | collect
-                                            | flatMap { validateXrefAssemblies(it) }
-                                            | buffer(size: synteny_xref_assemblies_fields)
-                                            | map { tag, fa, labels ->
-                                                [ tag, file(fa, checkIfExists: true), file(labels, checkIfExists: true) ]
                                             }
 
     // MODULE: GUNZIP as GUNZIP_FASTA
@@ -398,32 +373,32 @@ workflow ASSEMBLYQC {
     ch_versions                             = ch_versions.mix(FASTA_SYNTENY.out.versions)
 
     // Collate and save software versions
-    softwareVersionsToYAML ( ch_versions )
-    | collectFile(
-        storeDir: "${params.outdir}/pipeline_info",
-        name: 'nf_core_pipeline_software_mqc_versions.yml',
-        sort: true,
-        newLine: true
-    )
+    ch_versions_yml                         = softwareVersionsToYAML(ch_versions)
+                                            | collectFile(
+                                                storeDir: "${params.outdir}/pipeline_info",
+                                                name: 'nf_core_pipeline_software_mqc_versions.yml',
+                                                sort: true,
+                                                newLine: true
+                                            )
 
-    // MODULE: CREATEREPORT
-    CREATEREPORT(
-        ch_invalid_assembly_log             .map { meta, file -> file }.collect().ifEmpty([]),
-        ch_invalid_gff3_log                 .map { meta, file -> file }.collect().ifEmpty([]),
-        ch_fcs_adaptor_report               .map { meta, file -> file }.collect().ifEmpty([]),
-        ch_fcs_gx_report                    .mix(ch_fcs_gx_taxonomy_plot).map { meta, file -> file }.collect().ifEmpty([]),
-        ch_assemblathon_stats               .collect().ifEmpty([]),
-        ch_gt_stats                         .collect().ifEmpty([]),
-        ch_busco_summary                    .mix(ch_busco_plot).collect().ifEmpty([]),
-        ch_tidk_outputs                     .collect().ifEmpty([]),
-        ch_lai_outputs                      .collect().ifEmpty([]),
-        ch_kraken2_plot                     .collect().ifEmpty([]),
-        ch_hic_html                         .collect().ifEmpty([]),
-        ch_synteny_plot                     .collect().ifEmpty([]),
-        CUSTOM_DUMPSOFTWAREVERSIONS         .out.yml,
-        Channel.of ( jsonifyParams ( params ) ),
-        Channel.of ( jsonifySummaryParams ( summary_params ) )
-    )
+    // // MODULE: CREATEREPORT
+    // CREATEREPORT(
+    //     ch_invalid_assembly_log             .map { meta, file -> file }.collect().ifEmpty([]),
+    //     ch_invalid_gff3_log                 .map { meta, file -> file }.collect().ifEmpty([]),
+    //     ch_fcs_adaptor_report               .map { meta, file -> file }.collect().ifEmpty([]),
+    //     ch_fcs_gx_report                    .mix(ch_fcs_gx_taxonomy_plot).map { meta, file -> file }.collect().ifEmpty([]),
+    //     ch_assemblathon_stats               .collect().ifEmpty([]),
+    //     ch_gt_stats                         .collect().ifEmpty([]),
+    //     ch_busco_summary                    .mix(ch_busco_plot).collect().ifEmpty([]),
+    //     ch_tidk_outputs                     .collect().ifEmpty([]),
+    //     ch_lai_outputs                      .collect().ifEmpty([]),
+    //     ch_kraken2_plot                     .collect().ifEmpty([]),
+    //     ch_hic_html                         .collect().ifEmpty([]),
+    //     ch_synteny_plot                     .collect().ifEmpty([]),
+    //     ch_versions_yml,
+    //     ch_params_as_json,
+    //     ch_summary_params_as_json
+    // )
 }
 
 /*
