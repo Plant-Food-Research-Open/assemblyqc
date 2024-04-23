@@ -18,16 +18,12 @@ end_of_line = unset
 insert_final_newline = unset
 trim_trailing_whitespace = unset
 indent_style = unset
-indent_size = unset
-
-# These files are edited and tested upstream in nf-core/subworkflows
 [/subworkflows/nf-core/**]
 charset = unset
 end_of_line = unset
 insert_final_newline = unset
 trim_trailing_whitespace = unset
 indent_style = unset
-indent_size = unset
 
 # These files are edited and tested upstream in pfr/modules
 [/modules/pfr/**]
@@ -36,16 +32,12 @@ end_of_line = unset
 insert_final_newline = unset
 trim_trailing_whitespace = unset
 indent_style = unset
-indent_size = unset
-
-# These files are edited and tested upstream in pfr/subworkflows
 [/subworkflows/pfr/**]
 charset = unset
 end_of_line = unset
 insert_final_newline = unset
 trim_trailing_whitespace = unset
 indent_style = unset
-indent_size = unset
 
 [/assets/email*]
 indent_size = unset
@@ -55,7 +47,7 @@ indent_size = unset
 indent_style = unset
 
 # ignore python
-[*.{py}]
+[*.{py,md}]
 indent_style = unset
 
 # ignore perl

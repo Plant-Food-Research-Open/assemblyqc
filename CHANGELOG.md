@@ -5,6 +5,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 2.0.0 - [22-April-2024]
 
+1. Updated nf-core/template to 2.13.2.dev0
+
 ### `Added`
 
 1. Updated modules and sub-workflows

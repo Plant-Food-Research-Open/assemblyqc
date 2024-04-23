@@ -1,31 +1,22 @@
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    PRINT PARAMS SUMMARY
+    IMPORT MODULES / SUBWORKFLOWS / FUNCTIONS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { paramsSummaryLog; paramsSummaryMap; fromSamplesheet } from 'plugin/nf-validation'
+include { validateInput                     } from '../subworkflows/local/utils_nfcore_assemblyqc_pipeline/main'
+include { validateXrefAssemblies            } from '../subworkflows/local/utils_nfcore_assemblyqc_pipeline/main'
+include { jsonifyParams                     } from '../subworkflows/local/utils_nfcore_assemblyqc_pipeline/main'
+include { jsonifySummaryParams              } from '../subworkflows/local/utils_nfcore_assemblyqc_pipeline/main'
 
-def logo = NfcoreTemplate.logo(workflow, params.monochrome_logs)
-def citation = '\n' + WorkflowMain.citation(workflow) + '\n'
-def summary_params = paramsSummaryMap(workflow)
+include { paramsSummaryMap                  } from 'plugin/nf-validation'
+include { paramsSummaryMultiqc              } from '../subworkflows/nf-core/utils_nfcore_pipeline'
+include { softwareVersionsToYAML            } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 
-// Print parameter summary log to screen
-log.info logo + paramsSummaryLog(workflow) + citation
-
-WorkflowAssemblyqc.initialise(params, log)
-
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    CONFIG FILES
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
-
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    IMPORT LOCAL MODULES/SUBWORKFLOWS
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
+include { GUNZIP as GUNZIP_FASTA            } from '../modules/nf-core/gunzip/main'
+include { GUNZIP as GUNZIP_GFF3             } from '../modules/nf-core/gunzip/main'
+include { FASTAVALIDATOR                    } from '../modules/nf-core/fastavalidator/main'
+include { FASTA_EXPLORE_SEARCH_PLOT_TIDK    } from '../subworkflows/nf-core/fasta_explore_search_plot_tidk/main'
 
 include { GT_STAT                           } from '../modules/pfr/gt/stat/main'
 include { GFF3_VALIDATE                     } from '../subworkflows/pfr/gff3_validate/main'
@@ -38,24 +29,6 @@ include { FASTA_KRAKEN2                     } from '../subworkflows/local/fasta_
 include { FQ2HIC                            } from '../subworkflows/local/fq2hic'
 include { FASTA_SYNTENY                     } from '../subworkflows/local/fasta_synteny'
 include { CREATEREPORT                      } from '../modules/local/createreport'
-
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    IMPORT NF-CORE MODULES/SUBWORKFLOWS
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
-
-//
-// MODULE: Installed directly from nf-core/modules
-//
-
-include { GUNZIP as GUNZIP_FASTA            } from '../modules/nf-core/gunzip/main'
-include { GUNZIP as GUNZIP_GFF3             } from '../modules/nf-core/gunzip/main'
-include { FASTAVALIDATOR                    } from '../modules/nf-core/fastavalidator/main'
-include { FASTA_EXPLORE_SEARCH_PLOT_TIDK    } from '../subworkflows/nf-core/fasta_explore_search_plot_tidk/main'
-
-include { CUSTOM_DUMPSOFTWAREVERSIONS       } from '../modules/nf-core/custom/dumpsoftwareversions/main'
-
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -72,7 +45,7 @@ workflow ASSEMBLYQC {
     ch_versions                             = Channel.empty()
     ch_input                                = Channel.fromSamplesheet('input')
                                             | collect
-                                            | flatMap { WorkflowAssemblyqc.validateInput(it) }
+                                            | flatMap { validateInput(it) }
                                             | buffer(size: input_assembly_sheet_fields)
 
     ch_target_assemby_branch                = ch_input
@@ -130,7 +103,7 @@ workflow ASSEMBLYQC {
                                             ? Channel.empty()
                                             : Channel.fromSamplesheet('synteny_xref_assemblies')
                                             | collect
-                                            | flatMap { WorkflowAssemblyqc.validateXrefAssemblies(it) }
+                                            | flatMap { validateXrefAssemblies(it) }
                                             | buffer(size: synteny_xref_assemblies_fields)
                                             | map { tag, fa, labels ->
                                                 [ tag, file(fa, checkIfExists: true), file(labels, checkIfExists: true) ]
@@ -424,9 +397,13 @@ workflow ASSEMBLYQC {
     ch_synteny_plot                         = FASTA_SYNTENY.out.plot
     ch_versions                             = ch_versions.mix(FASTA_SYNTENY.out.versions)
 
-    // MODULE: CUSTOM_DUMPSOFTWAREVERSIONS
-    CUSTOM_DUMPSOFTWAREVERSIONS (
-        ch_versions.unique().collectFile(name: 'collated_versions.yml')
+    // Collate and save software versions
+    softwareVersionsToYAML ( ch_versions )
+    | collectFile(
+        storeDir: "${params.outdir}/pipeline_info",
+        name: 'nf_core_pipeline_software_mqc_versions.yml',
+        sort: true,
+        newLine: true
     )
 
     // MODULE: CREATEREPORT
@@ -444,26 +421,9 @@ workflow ASSEMBLYQC {
         ch_hic_html                         .collect().ifEmpty([]),
         ch_synteny_plot                     .collect().ifEmpty([]),
         CUSTOM_DUMPSOFTWAREVERSIONS         .out.yml,
-        Channel.of ( WorkflowAssemblyqc.jsonifyParams ( params ) ),
-        Channel.of ( WorkflowAssemblyqc.jsonifySummaryParams ( summary_params ) )
+        Channel.of ( jsonifyParams ( params ) ),
+        Channel.of ( jsonifySummaryParams ( summary_params ) )
     )
-}
-
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    COMPLETION EMAIL AND SUMMARY
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
-
-workflow.onComplete {
-    if (params.email || params.email_on_fail) {
-        NfcoreTemplate.email(workflow, params, summary_params, projectDir, log)
-    }
-    NfcoreTemplate.dump_parameters(workflow, params)
-    NfcoreTemplate.summary(workflow, params, log)
-    if (params.hook_url) {
-        NfcoreTemplate.IM_notification(workflow, params, summary_params, projectDir, log)
-    }
 }
 
 /*

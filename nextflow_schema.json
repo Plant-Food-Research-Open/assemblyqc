@@ -14,8 +14,10 @@
                 "input": {
                     "type": "string",
                     "format": "file-path",
-                    "mimetype": "csv",
+                    "exists": true,
                     "schema": "assets/schema_input.json",
+                    "mimetype": "text/csv",
+                    "pattern": "^\\S+\\.csv$",
                     "help_text": "FASTA and other associated files for input assemblies provided as a formatted CSV file",
                     "description": "Input assembly sheet in CSV format",
                     "fa_icon": "fas fa-file-csv"
