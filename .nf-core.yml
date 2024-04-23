@@ -13,11 +13,13 @@ lint:
     - docs/images/nf-core-assemblyqc_logo_light.png
     - docs/images/nf-core-assemblyqc_logo_dark.png
     - .github/ISSUE_TEMPLATE/bug_report.yml
+    - docs/README.md
   multiqc_config:
     - report_comment
   nextflow_config:
     - manifest.name
     - manifest.homePage
+  template_strings: False
 nf_core_version: 2.13.2.dev0
 repository_type: pipeline
 template:

@@ -386,6 +386,12 @@
                     "fa_icon": "fas fa-palette",
                     "hidden": true
                 },
+                "monochromeLogs": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-palette",
+                    "description": "Do not use coloured log outputs.",
+                    "hidden": true
+                },
                 "hook_url": {
                     "type": "string",
                     "description": "Incoming hook URL for messaging service",
