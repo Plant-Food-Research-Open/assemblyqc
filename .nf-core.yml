@@ -21,7 +21,6 @@ lint:
     - manifest.name
     - manifest.homePage
   template_strings: False
-nf_core_version: 2.13.2.dev0
 repository_type: pipeline
 template:
   prefix: plant-food-research-open
