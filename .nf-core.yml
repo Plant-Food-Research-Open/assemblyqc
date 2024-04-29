@@ -16,6 +16,7 @@ lint:
     - docs/README.md
     - .github/CONTRIBUTING.md
     - .github/workflows/linting.yml
+    - LICENSE
   nextflow_config:
     - manifest.name
     - manifest.homePage

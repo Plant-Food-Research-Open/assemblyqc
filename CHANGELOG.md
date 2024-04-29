@@ -3,13 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 2.0.0 - [23-April-2024]
-
-1. Updated nf-core/template to 2.13.1
+## 2.0.0 - [29-April-2024]
 
 ### `Added`
 
 1. Updated modules and sub-workflows
+2. Updated nf-core/template to 2.13.1
 
 ### `Fixed`
 
@@ -17,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 2. Restored the original version of `nf-core/subworkflows/fastq_trim_fastp_fastqc`
 3. Fixed n-core linting
 4. Updated `tower.yml`
+5. Updated LICENSE copyright to Copyright (c) 2024 The New Zealand Institute for Plant and Food Research Limited
 
 ### `Dependencies`
 
