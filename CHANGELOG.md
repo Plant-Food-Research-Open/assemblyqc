@@ -1,12 +1,13 @@
 # Change Log
 
-## Version 1.3.2 (29-April-2024)
+## Version 1.3.2 (30-April-2024)
 
 1. Added support for linear synteny plots by setting `plot_type` to linear under `synteny` params
 2. Incorporated a custom `bundlelinks` script in place of `circos/bundlelinks` which takes direction into account when bundling links
 3. Both linear and circos synteny plots are created by default
 4. Added `version_check.sh` to `pre-commit`
 5. Fixed a bug which caused NCBI_FCS_GX to not resume
+6. Added `-noparanoid` flag to `circos`
 
 ## Version 1.3.1 (05-March-2024)
 

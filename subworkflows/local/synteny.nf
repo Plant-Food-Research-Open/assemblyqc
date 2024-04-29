@@ -637,7 +637,7 @@ EOF
             exit 0
         fi
 
-        circos
+        circos -noparanoid
 
         mv circos.svg "${target_on_ref_seq}.svg"
         mv circos.png "${target_on_ref_seq}.png"
