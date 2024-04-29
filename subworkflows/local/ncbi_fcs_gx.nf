@@ -11,6 +11,9 @@ workflow NCBI_FCS_GX {
             tuple_of_tag_file
             | SETUP_SAMPLE
             | collect
+            | map {
+                it.sort(false)
+            }
             | set {ch_all_samples}
 
             SCREEN_SAMPLES(ch_all_samples, file(db_path, checkIfExists:true))
