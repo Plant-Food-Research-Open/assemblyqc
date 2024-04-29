@@ -207,6 +207,7 @@ xref_assemblies = [
 
 The following parameters are optional:
 
+- `plot_type`: Plot type as 'circos', 'linear' or 'both'. Default is 'both'.
 - `between_target_asm`: Set it to 1 to create syntenic plots between each pair of target_assemblies. Default is 1. This parameter is useful if multiple assemblies are specified by the `target_assemblies` parameter and the user needs control over whether syntenic plots are created between each pair of assemblies or not.
 - `many_to_many_align`: Set it to 1 to include alignment blocks with many-to-many mappings or set to 0 to only include 1-to-1 mappings. Default is 0. See the documentation of `dnadiff` for further details: <https://github.com/mummer4/mummer/blob/master/docs/dnadiff.README>
 - `max_gap`: Alignments within this distance are bundled together. Default: 1000000 (1 Mbp).
