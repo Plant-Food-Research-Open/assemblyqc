@@ -90,7 +90,7 @@ nextflow run plant-food-research-open/assemblyqc \
 > Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_;
 > see [docs](https://nf-co.re/usage/configuration#custom-configuration-files).
 
-### Quick Start for Plant&Food Users
+### Plant&Food Users
 
 Download the pipeline to your `/workspace/$USER` folder. Change the parameters defined in the [pfr/params.json](./pfr/params.json) file. Submit the pipeline to SLURM for execution.
 
@@ -111,6 +111,25 @@ We thank the following people for their extensive assistance in the development 
 - Ross Crowhurst [@rosscrowhurst](https://github.com/rosscrowhurst)
 - Susan Thomson [@cflsjt](https://github.com/cflsjt)
 - Ting-Hsuan Chen [@ting-hsuan-chen](https://github.com/ting-hsuan-chen)
+
+The pipeline uses nf-core modules contributed by following authors.
+
+<a href="https://github.com/adamrtalbot"><img src="https://github.com/adamrtalbot.png" width="50" height="50"></a>
+<a href="https://github.com/drpatelh"><img src="https://github.com/drpatelh.png" width="50" height="50"></a>
+<a href="https://github.com/erikrikarddaniel"><img src="https://github.com/erikrikarddaniel.png" width="50" height="50"></a>
+<a href="https://github.com/ewels"><img src="https://github.com/ewels.png" width="50" height="50"></a>
+<a href="https://github.com/felixkrueger"><img src="https://github.com/felixkrueger.png" width="50" height="50"></a>
+<a href="https://github.com/friederikehanssen"><img src="https://github.com/friederikehanssen.png" width="50" height="50"></a>
+<a href="https://github.com/gallvp"><img src="https://github.com/gallvp.png" width="50" height="50"></a>
+<a href="https://github.com/grst"><img src="https://github.com/grst.png" width="50" height="50"></a>
+<a href="https://github.com/jeremy1805"><img src="https://github.com/jeremy1805.png" width="50" height="50"></a>
+<a href="https://github.com/jfy133"><img src="https://github.com/jfy133.png" width="50" height="50"></a>
+<a href="https://github.com/joon-klaps"><img src="https://github.com/joon-klaps.png" width="50" height="50"></a>
+<a href="https://github.com/joseespinosa"><img src="https://github.com/joseespinosa.png" width="50" height="50"></a>
+<a href="https://github.com/kevinmenden"><img src="https://github.com/kevinmenden.png" width="50" height="50"></a>
+<a href="https://github.com/lescai"><img src="https://github.com/lescai.png" width="50" height="50"></a>
+<a href="https://github.com/matthdsm"><img src="https://github.com/matthdsm.png" width="50" height="50"></a>
+<a href="https://github.com/maxulysse"><img src="https://github.com/maxulysse.png" width="50" height="50"></a>
 
 ## Contributions and Support
 

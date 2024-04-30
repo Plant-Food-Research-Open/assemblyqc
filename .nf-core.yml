@@ -20,6 +20,7 @@ lint:
   nextflow_config:
     - manifest.name
     - manifest.homePage
+  template_strings: False
 repository_type: pipeline
 template:
   prefix: plant-food-research-open

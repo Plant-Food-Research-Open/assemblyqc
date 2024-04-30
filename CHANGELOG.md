@@ -3,12 +3,14 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 2.0.0 - [29-April-2024]
+## 2.0.0 - [30-April-2024]
 
 ### `Added`
 
 1. Updated modules and sub-workflows
 2. Updated nf-core/template to 2.13.1
+3. Removed release-announcements GitHub workflow
+4. Added a list of nf-core contributors
 
 ### `Fixed`
 
