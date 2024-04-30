@@ -12,3 +12,14 @@ fi
 
 grep "## Version $config_version (" CHANGELOG.md >/dev/null \
     || (echo 'Failed to match CHANGELOG version'; exit 1)
+
+# Check README version
+
+grep "assembly quality ($config_version)" README.md >/dev/null \
+    || (echo 'Failed to match README version'; exit 1)
+
+# Check bin/assembly_qc_report_943e0fb.py version
+
+pattern="\"SELF\": \"v$config_version\","
+grep "$pattern" bin/assembly_qc_report_943e0fb.py >/dev/null \
+    || (echo 'Failed to match bin/assembly_qc_report_943e0fb.py version'; exit 1)
