@@ -3,7 +3,7 @@ include { FILTERSORTFASTA               } from '../../modules/local/filtersortfa
 include { MUMMER                        } from '../../modules/local/mummer'
 include { GETFASTALENGTH                } from '../../modules/local/getfastalength'
 include { DNADIFF                       } from '../../modules/local/dnadiff'
-include { CIRCOS_BUNDLELINKS            } from '../../modules/local/circos_bundlelinks'
+include { BUNDLELINKS                   } from '../../modules/local/bundlelinks'
 include { COLOURBUNDLELINKS             } from '../../modules/local/colourbundlelinks'
 include { RELABELBUNDLELINKS            } from '../../modules/local/relabelbundlelinks'
 include { SPLITBUNDLEFILE               } from '../../modules/local/splitbundlefile'
@@ -109,18 +109,18 @@ workflow FASTA_SYNTENY {
 
     ch_versions                         = ch_versions.mix(DNADIFF.out.versions.first())
 
-    // MODULE: CIRCOS_BUNDLELINKS
-    CIRCOS_BUNDLELINKS(
+    // MODULE: BUNDLELINKS
+    BUNDLELINKS(
         DNADIFF.out.coords,
         max_gap,
         min_bundle_size
     )
 
-    ch_versions                         = ch_versions.mix(CIRCOS_BUNDLELINKS.out.versions.first())
+    ch_versions                         = ch_versions.mix(BUNDLELINKS.out.versions.first())
 
     // MODULE: COLOURBUNDLELINKS
     COLOURBUNDLELINKS(
-        CIRCOS_BUNDLELINKS.out.links,
+        BUNDLELINKS.out.links,
         color_by_contig
     )
 

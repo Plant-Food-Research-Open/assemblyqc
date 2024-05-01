@@ -2,7 +2,7 @@ process CREATEREPORT {
     tag "AssemblyQC"
     label 'process_single'
 
-    container "docker.io/gallvp/python3npkgs:v0.6"
+    container "docker.io/gallvp/python3npkgs:v0.7"
 
     input:
     path fastavalidator_logs, stageAs: 'fastavalidator_logs/*'

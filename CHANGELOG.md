@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 3. Removed release-announcements GitHub workflow
 4. Added a list of nf-core contributors
 5. Added a launcher script for local testing `local_assemblyqc`
+6. Added a custom `BUNDLELINKS` module which respects direction when bundling `dnadiff` links
 
 ### `Fixed`
 
@@ -28,6 +29,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 2. nf-validation@1.1.3
 
 ### `Deprecated`
+
+1. Removed `CIRCOS_BUNDLELINKS` module
 
 ## 1.4 - [04-Mar-2024]
 
