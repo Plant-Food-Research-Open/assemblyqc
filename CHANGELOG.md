@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 2.0.0 - [30-April-2024]
+## 2.0.0 - [01-May-2024]
 
 ### `Added`
 
@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 2. Updated nf-core/template to 2.13.1
 3. Removed release-announcements GitHub workflow
 4. Added a list of nf-core contributors
+5. Added a launcher script for local testing `local_assemblyqc`
 
 ### `Fixed`
 
@@ -19,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 3. Fixed n-core linting
 4. Updated `tower.yml`
 5. Updated LICENSE copyright to Copyright (c) 2024 The New Zealand Institute for Plant and Food Research Limited
+6. `RUNASSEMBLYVISUALIZER` is now single threaded for successful execution on both Linux and MacOS
 
 ### `Dependencies`
 

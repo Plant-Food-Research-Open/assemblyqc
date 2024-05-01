@@ -1,6 +1,6 @@
 process RUNASSEMBLYVISUALIZER {
     tag "$sample_id_on_tag"
-    label 'process_medium'
+    label 'process_single'
 
     container "docker.io/gallvp/3d-dna:63029aa"
 
@@ -15,12 +15,12 @@ process RUNASSEMBLYVISUALIZER {
     task.ext.when == null || task.ext.when
 
     script:
-    // -p true/false    Use GNU Parallel to speed up computation (default is true).
     """
     assembly_tag=\$(echo $sample_id_on_tag | sed 's/.*\\.on\\.//g')
     file_name="${agp_assembly_file}"
 
     /usr/src/3d-dna/visualize/run-assembly-visualizer.sh \\
+        -p false \\
         $agp_assembly_file $sorted_links_txt_file
 
     mv "\${file_name%.*}.hic" "\${assembly_tag}.hic"
