@@ -81,7 +81,7 @@
                 "pfr": {
                     "fasta_ltrretriever_lai": {
                         "branch": "main",
-                        "git_sha": "10b046eaac396f279c08e7e2bb067482ccd9c74e",
+                        "git_sha": "8088445a270d324cb06e085f18790839c9684754",
                         "installed_by": ["subworkflows"]
                     },
                     "fastq_bwa_mem_samblaster": {
