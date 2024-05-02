@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 2.0.0 - [01-May-2024]
+## 2.0.0 - [02-May-2024]
 
 ### `Added`
 
@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 4. Updated `tower.yml`
 5. Updated LICENSE copyright to Copyright (c) 2024 The New Zealand Institute for Plant and Food Research Limited
 6. `RUNASSEMBLYVISUALIZER` is now single threaded for successful execution on both Linux and MacOS
+7. Updated `FASTA_LTRRETRIEVER_LAI` to fix a pipeline crash when `ch_monoploid_seqs` was `[ meta, [] ]`
 
 ### `Dependencies`
 
