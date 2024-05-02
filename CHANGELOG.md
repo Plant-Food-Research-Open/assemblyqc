@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 4. Added a list of nf-core contributors
 5. Added a launcher script for local testing `local_assemblyqc`
 6. Added a custom `BUNDLELINKS` module which respects direction when bundling `dnadiff` links
+7. Added the ability to create linear synteny plot in addition to the circos plot
 
 ### `Fixed`
 
@@ -31,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Deprecated`
 
 1. Removed `CIRCOS_BUNDLELINKS` module
+2. Now the default value of `synteny_plot_1_vs_all` is false
 
 ## 1.4 - [04-Mar-2024]
 

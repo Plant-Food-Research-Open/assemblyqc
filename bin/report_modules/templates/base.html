@@ -33,9 +33,11 @@
       onclick="openTool(event, 'KRAKEN2')">
       KRAKEN2</button>{% endif %} {% if 'HIC' in all_stats_dicts %}<button class="tablinks"
       onclick="openTool(event, 'HIC')">
-      HIC</button>{% endif %} {% if 'CIRCOS' in all_stats_dicts %}<button class="tablinks"
-      onclick="openTool(event, 'CIRCOS')">
-      CIRCOS</button>{% endif %}
+      HIC</button>{% endif %} {% if 'SYNTENY_CIRCOS' in all_stats_dicts %}<button class="tablinks"
+      onclick="openTool(event, 'SYNTENY_CIRCOS')">
+      SYNTENY CIRCOS</button>{% endif %}{% if 'SYNTENY_LINEAR' in all_stats_dicts %}<button class="tablinks"
+      onclick="openTool(event, 'SYNTENY_LINEAR')">
+      SYNTENY LINEAR</button>{% endif %}
   </div>
   {% include 'params/params.html' %} {% include 'tools/tools.html' %} {% if 'FASTA_VALIDATE' in all_stats_dicts %}{%
   include 'fasta_validate/fasta_validate.html' %}{% endif %}
@@ -50,7 +52,9 @@
   include 'busco/busco.html' %}{% endif %} {% if 'TIDK' in all_stats_dicts %}{% include 'tidk/tidk.html' %}{%
   endif %} {% if 'LAI' in all_stats_dicts %}{% include 'lai/lai.html' %}{% endif %} {% if 'KRAKEN2' in
   all_stats_dicts %}{% include 'kraken2/kraken2.html' %}{% endif %} {% if 'HIC' in all_stats_dicts %}{% include
-  'hic/hic.html' %}{% endif %} {% if 'CIRCOS' in all_stats_dicts %}{% include 'circos/circos.html' %}{% endif %}
+  'hic/hic.html' %}{% endif %} {% if 'SYNTENY_CIRCOS' in all_stats_dicts %}{% include
+  'synteny_circos/synteny_circos.html' %}{% endif %} {% if 'SYNTENY_LINEAR' in all_stats_dicts %}{% include
+  'synteny_linear/synteny_linear.html' %}{% endif %}
 </body>
 {% include 'js.html' %}
 

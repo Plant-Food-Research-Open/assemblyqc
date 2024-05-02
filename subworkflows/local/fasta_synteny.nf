@@ -10,6 +10,7 @@ include { SPLITBUNDLEFILE               } from '../../modules/local/splitbundlef
 include { RELABELFASTALENGTH            } from '../../modules/local/relabelfastalength'
 include { GENERATEKARYOTYPE             } from '../../modules/local/generatekaryotype'
 include { CIRCOS                        } from '../../modules/local/circos'
+include { LINEARSYNTENY                 } from '../../modules/local/linearsynteny'
 
 workflow FASTA_SYNTENY {
     take:
@@ -22,6 +23,7 @@ workflow FASTA_SYNTENY {
     min_bundle_size                     // val(Integer)
     plot_1_vs_all                       // val(true|false)
     color_by_contig                     // val(true|false)
+    plot_type                           // val(linear|circos|both)
 
     main:
     ch_versions                         = Channel.empty()
@@ -176,19 +178,34 @@ workflow FASTA_SYNTENY {
     ch_versions                         = ch_versions.mix(GENERATEKARYOTYPE.out.versions.first())
 
     // MODULE: CIRCOS
-    ch_circos_inputs                    = GENERATEKARYOTYPE.out.karyotype
-                                        | join(
-                                            ch_split_links
-                                            | map { target_on_xref, seq_tag, txt ->
-                                                [ "${target_on_xref}.${seq_tag}", txt ]
-                                            }
-                                        )
+    ch_circos_inputs                    = ( plot_type in [ 'circos', 'both' ] )
+                                        ? ch_split_links
+                                        | map { target_on_xref, seq_tag, txt ->
+                                            [ "${target_on_xref}.${seq_tag}", txt ]
+                                        }
+                                        | join(GENERATEKARYOTYPE.out.karyotype)
+                                        : Channel.empty()
     CIRCOS ( ch_circos_inputs )
 
     ch_versions                         = ch_versions.mix(CIRCOS.out.versions.first())
 
+    // MODULE: LINEARSYNTENY
+    ch_linear_synteny_inputs            = ( plot_type in [ 'linear', 'both' ] )
+                                        ? ch_split_links
+                                        | map { target_on_xref, seq_tag, txt ->
+                                            [ "${target_on_xref}.${seq_tag}", txt ]
+                                        }
+                                        | join(GENERATEKARYOTYPE.out.karyotype_ref)
+                                        | join(GENERATEKARYOTYPE.out.karyotype_target)
+                                        : Channel.empty()
+
+    LINEARSYNTENY ( ch_linear_synteny_inputs )
+
+    ch_versions                         = ch_versions.mix(LINEARSYNTENY.out.versions.first())
+
     emit:
-    plot                                = CIRCOS.out.png_file
+    png                                 = CIRCOS.out.png_file
+    html                                = LINEARSYNTENY.out.html
     versions                            = ch_versions
 }
 

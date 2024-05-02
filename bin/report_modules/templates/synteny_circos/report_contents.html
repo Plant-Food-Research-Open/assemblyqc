@@ -1,15 +1,15 @@
-{% set vars = {'is_first': True} %} {% for item in range(all_stats_dicts["CIRCOS"]|length) %} {% set active_text =
+{% set vars = {'is_first': True} %} {% for item in range(all_stats_dicts["SYNTENY_CIRCOS"]|length) %} {% set active_text =
 'display: block' if vars.is_first else 'display: none' %}
 <div
-    id="tabcontent_CIRCOS_{{ all_stats_dicts['CIRCOS'][item]['tag.on.tag'] }}"
-    class="tabcontent-CIRCOS"
+    id="tabcontent_SYNTENY_CIRCOS_{{ all_stats_dicts['SYNTENY_CIRCOS'][item]['tag.on.tag'] }}"
+    class="tabcontent-SYNTENY_CIRCOS"
     style="{{ active_text }}"
 >
     <div class="results-section">
         <div class="section-heading-wrapper">
-            <div class="section-heading">{{ all_stats_dicts['CIRCOS'][item]['tag.on.tag'] }}</div>
+            <div class="section-heading">{{ all_stats_dicts['SYNTENY_CIRCOS'][item]['tag.on.tag'] }}</div>
         </div>
-        {% if all_stats_dicts['CIRCOS'][item]['is_plot_empty'] %}
+        {% if all_stats_dicts['SYNTENY_CIRCOS'][item]['is_plot_empty'] %}
         <div class="section-para-wrapper">
             <p class="section-para">
                 Either no alignments were detected between the target and reference assemblies, or all the alignment
@@ -18,7 +18,7 @@
         </div>
         {% else %}
         <div class="image-wrapper">
-            <img src="{{ all_stats_dicts['CIRCOS'][item]['circos_plot'] }}" alt="" />
+            <img src="{{ all_stats_dicts['SYNTENY_CIRCOS'][item]['circos_plot'] }}" alt="" />
         </div>
         {% endif %}
     </div>

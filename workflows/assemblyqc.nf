@@ -366,10 +366,11 @@ workflow ASSEMBLYQC {
         params.synteny_max_gap,
         params.synteny_min_bundle_size,
         params.synteny_plot_1_vs_all,
-        params.synteny_color_by_contig
+        params.synteny_color_by_contig,
+        params.synteny_plot_type
     )
 
-    ch_synteny_plot                         = FASTA_SYNTENY.out.plot
+    ch_synteny_plots                        = FASTA_SYNTENY.out.png.mix(FASTA_SYNTENY.out.html)
     ch_versions                             = ch_versions.mix(FASTA_SYNTENY.out.versions)
 
     // Collate and save software versions
@@ -400,7 +401,7 @@ workflow ASSEMBLYQC {
         ch_lai_outputs                      .collect().ifEmpty([]),
         ch_kraken2_plot                     .collect().ifEmpty([]),
         ch_hic_html                         .collect().ifEmpty([]),
-        ch_synteny_plot                     .collect().ifEmpty([]),
+        ch_synteny_plots                    .collect().ifEmpty([]),
         ch_versions_yml,
         ch_params_as_json,
         ch_summary_params_as_json

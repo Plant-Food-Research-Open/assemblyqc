@@ -1,0 +1,10 @@
+<div class="dropdown">
+  <div class="dropdown_content">
+      <select id="selector_SYNTENY_LINEAR" onchange="showContent('SYNTENY_LINEAR')">
+          {% set str_tag_on_tag = 'tag.on.tag' %} {% for item in range(all_stats_dicts["SYNTENY_LINEAR"]|length) %}
+          <option value="tabcontent_SYNTENY_LINEAR_{{all_stats_dicts['SYNTENY_LINEAR'][item]['tag.on.tag']}}">
+              {{ all_stats_dicts['SYNTENY_LINEAR'][item][str_tag_on_tag] }} {% endfor %}
+          </option>
+      </select>
+  </div>
+</div>

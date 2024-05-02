@@ -1,0 +1,30 @@
+<div id="SYNTENY_LINEAR" class="tabcontent" style="display: none">
+  <div class="section-para-wrapper">
+    <p class="section-para">The genome-wide alignments are performed with MUMMER.</p>
+    <p class="section-para"><b>References:</b></p>
+    <p class="section-para">
+      Krzywinski, M., Schein, J., Birol, I., Connors, J., Gascoyne, R., Horsman, D., ... & Marra, M. A. (2009).
+      Circos: an information aesthetic for comparative genomics. Genome research, 19(9), 1639-1645.
+      <a href="https://doi.org/10.1101/gr.092759.109" target="_blank">https://doi.org/10.1101/gr.092759.109</a>
+    </p>
+    <p class="section-para">
+      <b>Version: {{ all_stats_dicts['VERSIONS']['MUMMER']['nucmer'] }} (MUMMER)</b>
+    </p>
+    <p class="section-para"><b>Notes:</b></p>
+    <ul>
+      <li>
+        Alignments within a distance of {{ all_stats_dicts['PARAMS_DICT']['synteny_max_gap'] }}bp have been
+        bundled together.
+      </li>
+      <li>
+        After bundling, any bundle smaller than {{ all_stats_dicts['PARAMS_DICT']['synteny_min_bundle_size'] }}bp has
+        been filtered out.
+      </li>
+      <li>
+        The sequence labels shown on the plot are based on the labelling file provided to the pipeline. These labels may
+        or may not be same as the sequence IDs in the corresponding FASTA files.
+      </li>
+    </ul>
+  </div>
+  {% include 'synteny_linear/dropdown.html' %} {% include 'synteny_linear/report_contents.html' %}
+</div>

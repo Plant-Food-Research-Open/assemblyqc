@@ -5,7 +5,7 @@ process CIRCOS {
     container "docker.io/gallvp/circos-tools:v0.23-1_ps"
 
     input:
-    tuple val(target_on_ref_seq), path(karyotype), path(bundle_file)
+    tuple val(target_on_ref_seq), path(bundle_file), path(karyotype)
 
     output:
     path "*.svg", emit: svg_file

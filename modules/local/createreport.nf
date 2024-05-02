@@ -16,7 +16,7 @@ process CREATEREPORT {
     path lai_outputs, stageAs: 'lai_outputs/*'
     path kraken2_outputs, stageAs: 'kraken2_outputs/*'
     path hic_outputs, stageAs: 'hic_outputs/*'
-    path circos_outputs, stageAs: 'circos_outputs/*'
+    path synteny_outputs, stageAs: 'synteny_outputs/*'
     path versions
     val params_json
     val params_summary_json
