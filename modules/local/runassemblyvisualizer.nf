@@ -15,11 +15,20 @@ process RUNASSEMBLYVISUALIZER {
     task.ext.when == null || task.ext.when
 
     script:
+    if ( !task.memory ) { error '[RUNASSEMBLYVISUALIZER] Available memory not known. Specify process memory requirements to fix this.' }
+    def avail_mem = (task.memory.giga*0.8).intValue()
     """
     assembly_tag=\$(echo $sample_id_on_tag | sed 's/.*\\.on\\.//g')
     file_name="${agp_assembly_file}"
 
-    /usr/src/3d-dna/visualize/run-assembly-visualizer.sh \\
+    cp -r /usr/src/3d-dna/ \\
+        3d-dna
+
+    sed -i \\
+        's/-Xms49152m -Xmx49152m/-Xms${avail_mem}g -Xmx${avail_mem}g/1' \\
+        3d-dna/visualize/juicebox_tools.sh
+
+    3d-dna/visualize/run-assembly-visualizer.sh \\
         -p false \\
         $agp_assembly_file $sorted_links_txt_file
 
@@ -32,6 +41,8 @@ process RUNASSEMBLYVISUALIZER {
     """
 
     stub:
+    if ( !task.memory ) { error '[RUNASSEMBLYVISUALIZER] Available memory not known. Specify process memory requirements to fix this.' }
+    def avail_mem = (task.memory.giga*0.8).intValue()
     """
     assembly_tag=\$(echo $sample_id_on_tag | sed 's/.*\\.on\\.//g')
     touch "\${assembly_tag}.hic"
