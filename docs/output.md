@@ -197,9 +197,9 @@ Hi-C contact mapping experiments measure the frequency of physical contact betwe
   - `*.on.*.*`: Synteny files corresponding to a single contig of the target assembly with respect to all contigs of the reference assembly.
   </details>
 
-Synteny plots are created with Circos which is a tool [facilitating](https://circos.ca) the identification and analysis of similarities and differences arising from comparisons of genomes. The genome-wide alignments are performed with [MUMMER](https://github.com/mummer4/mummer?tab=readme-ov-file) and bundled with [`dnadiff.pl`](https://github.com/mummer4/mummer/blob/master/scripts/dnadiff.pl).
+[Circos](https://circos.ca) and linear synteny plots are created from genome-wide alignments performed with [MUMMER](https://github.com/mummer4/mummer?tab=readme-ov-file) and [`dnadiff.pl`](https://github.com/mummer4/mummer/blob/master/scripts/dnadiff.pl).
 
-<div align="center"><img src="images/synteny.png" alt="AssemblyQC - Synteny plot" width="50%"><hr><em>AssemblyQC - Synteny plot</em></div>
+<div align="center"><img src="images/synteny.png" alt="AssemblyQC - Synteny plot" width="50%"><hr><em>AssemblyQC - Circos synteny plot</em></div>
 
 ### Pipeline information
 

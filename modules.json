@@ -12,7 +12,7 @@
                     },
                     "bwa/mem": {
                         "branch": "main",
-                        "git_sha": "10b046eaac396f279c08e7e2bb067482ccd9c74e",
+                        "git_sha": "26eca75b7373d582569353ed70817072f908b2da",
                         "installed_by": ["fastq_bwa_mem_samblaster"]
                     },
                     "cat/cat": {
@@ -86,7 +86,7 @@
                     },
                     "fastq_bwa_mem_samblaster": {
                         "branch": "main",
-                        "git_sha": "10b046eaac396f279c08e7e2bb067482ccd9c74e",
+                        "git_sha": "258dbf212876e040e0049809ff0f9fc3f032b8d9",
                         "installed_by": ["subworkflows"]
                     },
                     "gff3_validate": {
@@ -171,7 +171,7 @@
                     },
                     "utils_nfcore_pipeline": {
                         "branch": "master",
-                        "git_sha": "5caf7640a9ef1d18d765d55339be751bb0969dfa",
+                        "git_sha": "92de218a329bfc9a9033116eb5f65fd270e72ba3",
                         "installed_by": ["subworkflows"]
                     },
                     "utils_nfvalidation_plugin": {

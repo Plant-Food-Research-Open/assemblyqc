@@ -1,9 +1,8 @@
 process LINEARSYNTENY {
     tag "${target_on_ref_seq}"
-    label "process_single"
+    label 'process_single'
 
     container "docker.io/gallvp/python3npkgs:v0.7"
-    publishDir "${params.outdir}/synteny/${target_on_ref_seq}", mode: 'copy'
 
     input:
     tuple val(target_on_ref_seq), path(bundle_file), path(karyotype_ref), path(karyotype_target)

@@ -6,7 +6,7 @@ workflow FASTQ_BWA_MEM_SAMBLASTER {
 
     take:
     ch_fastq                // channel: [ val(meta), [ fq ] ]
-    ch_reference            // channel: [ val(meta2), fasta, index ]; fast | index
+    ch_reference            // channel: [ val(meta2), fasta, index ]; fasta | index
 
     main:
     ch_versions             = Channel.empty()
@@ -43,6 +43,7 @@ workflow FASTQ_BWA_MEM_SAMBLASTER {
     BWA_MEM(
         ch_mem_inputs.map { meta, fq, index -> [ meta, fq ] },
         ch_mem_inputs.map { meta, fq, index -> [ [], index ] },
+        [ [], [] ],
         sort_bam
     )
 
