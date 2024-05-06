@@ -172,7 +172,9 @@ workflow ASSEMBLYQC {
                                                 | map { tag, report ->
                                                     [ tag, file(report).readLines().size < 2 ]
                                                 }
-                                                | filter { tag, is_clean -> is_clean }
+                                                | filter { tag, is_clean ->
+                                                    ( is_clean || ( ! params.contamination_stops_pipeline ) )
+                                                }
                                                 | join(
                                                     ch_valid_target_assembly
                                                     | map { meta, fa -> [ meta.id, fa ] }
@@ -223,7 +225,9 @@ workflow ASSEMBLYQC {
                                                 | map { tag, report ->
                                                     [ tag, file(report).readLines().size < 3 ]
                                                 }
-                                                | filter { tag, is_clean -> is_clean }
+                                                | filter { tag, is_clean ->
+                                                    ( is_clean || ( ! params.contamination_stops_pipeline ) )
+                                                }
                                                 | join(
                                                     ch_valid_target_assembly
                                                     | map { meta, fa -> [ meta.id, fa ] }

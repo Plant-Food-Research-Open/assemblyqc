@@ -48,7 +48,8 @@ BUSCO lineage databases are downloaded and updated by the BUSCO tool itself. A p
 
 ### NCBI FCS GX
 
-`ncbi_fcs_gx_tax_id` is the taxonomy ID for all the assemblies listed in the assemblysheet. A taxonomy ID can be obtained by searching a _Genus species_ at <https://www.ncbi.nlm.nih.gov/taxonomy>.
+- `ncbi_fcs_gx_tax_id` is the taxonomy ID for all the assemblies listed in the assemblysheet. A taxonomy ID can be obtained by searching a _Genus species_ at <https://www.ncbi.nlm.nih.gov/taxonomy>.
+- `contamination_stops_pipeline` when set to `true`, skips the remaining QC steps for an assembly which has adaptor or GX contamination.
 
 ### BUSCO
 
@@ -70,6 +71,7 @@ BUSCO lineage databases are downloaded and updated by the BUSCO tool itself. A p
 
 ### Synteny analysis
 
+- `synteny_plot_type`: Set it to `linear`, `circos`, or `both` to generate CIRCOS or linear or both synteny plots.
 - `synteny_between_input_assemblies`: Set it to `true` to create synteny plots between each pair of input assemblies. Default is `true`.
 - `synteny_many_to_many_align`: Set it to `true` to include alignment blocks with many-to-many mappings or set to `false` to only include 1-to-1 mappings. Default is `false`. See the documentation of `dnadiff` for further details: <https://github.com/mummer4/mummer/blob/master/docs/dnadiff.README>
 - `synteny_max_gap`: Alignments within this distance are bundled together. Default: 1000000 (1 Mbp).

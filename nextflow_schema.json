@@ -59,7 +59,8 @@
                 "ncbi_fcs_adaptor_skip": {
                     "type": "boolean",
                     "description": "Skip NCBI FCS Adaptor checking",
-                    "default": true
+                    "default": true,
+                    "fa_icon": "fas fa-forward"
                 },
                 "ncbi_fcs_adaptor_empire": {
                     "type": "string",
@@ -69,7 +70,8 @@
                 "ncbi_fcs_gx_skip": {
                     "type": "boolean",
                     "description": "Skip NCBI FCS external organism contamination checking",
-                    "default": true
+                    "default": true,
+                    "fa_icon": "fas fa-forward"
                 },
                 "ncbi_fcs_gx_tax_id": {
                     "type": "number",
@@ -78,7 +80,14 @@
                 "ncbi_fcs_gx_db_path": {
                     "type": "string",
                     "format": "directory-path",
-                    "description": "Path to NCBI FCS GX database. See: https://github.com/ncbi/fcs/wiki/FCS-GX"
+                    "description": "Path to NCBI FCS GX database. See: https://github.com/ncbi/fcs/wiki/FCS-GX",
+                    "fa_icon": "fas fa-folder-open"
+                },
+                "contamination_stops_pipeline": {
+                    "type": "boolean",
+                    "default": true,
+                    "fa_icon": "fas fa-hand-paper",
+                    "description": "Skip remaining QC steps for an assembly which has adaptor or GX contamination"
                 }
             }
         },
@@ -91,7 +100,8 @@
                 "busco_skip": {
                     "type": "boolean",
                     "description": "Skip BUSCO",
-                    "default": true
+                    "default": true,
+                    "fa_icon": "fas fa-forward"
                 },
                 "busco_mode": {
                     "type": "string",
@@ -106,7 +116,8 @@
                 "busco_download_path": {
                     "type": "string",
                     "description": "Download path for BUSCO",
-                    "format": "directory-path"
+                    "format": "directory-path",
+                    "fa_icon": "fas fa-folder-open"
                 }
             }
         },
@@ -119,7 +130,8 @@
                 "tidk_skip": {
                     "type": "boolean",
                     "description": "Skip telomere identification",
-                    "default": true
+                    "default": true,
+                    "fa_icon": "fas fa-forward"
                 },
                 "tidk_repeat_seq": {
                     "type": "string",
@@ -146,7 +158,8 @@
                 "lai_skip": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Skip LAI estimation"
+                    "description": "Skip LAI estimation",
+                    "fa_icon": "fas fa-forward"
                 }
             }
         },
@@ -159,12 +172,14 @@
                 "kraken2_skip": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Skip Kraken2"
+                    "description": "Skip Kraken2",
+                    "fa_icon": "fas fa-forward"
                 },
                 "kraken2_db_path": {
                     "type": "string",
                     "description": "Kraken2 database path",
-                    "format": "path"
+                    "format": "path",
+                    "fa_icon": "fas fa-folder-open"
                 }
             }
         },
@@ -181,11 +196,13 @@
                 },
                 "hic_skip_fastp": {
                     "type": "boolean",
-                    "description": "Skip HiC read trimming"
+                    "description": "Skip HiC read trimming",
+                    "fa_icon": "fas fa-forward"
                 },
                 "hic_skip_fastqc": {
                     "type": "boolean",
-                    "description": "Skip HiC read QC"
+                    "description": "Skip HiC read QC",
+                    "fa_icon": "fas fa-forward"
                 },
                 "hic_fastp_ext_args": {
                     "type": "string",
@@ -203,7 +220,8 @@
                 "synteny_skip": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Skip synteny analysis"
+                    "description": "Skip synteny analysis",
+                    "fa_icon": "fas fa-forward"
                 },
                 "synteny_plot_type": {
                     "type": "string",

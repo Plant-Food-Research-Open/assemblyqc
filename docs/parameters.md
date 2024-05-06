@@ -18,13 +18,14 @@ A NextFlow pipeline which evaluates assembly quality with multiple QC tools and 
 
 ## NCBI FCS options
 
-| Parameter                 | Description                                                                           | Type      | Default | Required | Hidden |
-| ------------------------- | ------------------------------------------------------------------------------------- | --------- | ------- | -------- | ------ |
-| `ncbi_fcs_adaptor_skip`   | Skip NCBI FCS Adaptor checking                                                        | `boolean` | True    |          |        |
-| `ncbi_fcs_adaptor_empire` | Empire for NCBI FCS Adaptor checking: 'euk' for eukaryotes, or 'prok' for prokaryotes | `string`  |         |          |        |
-| `ncbi_fcs_gx_skip`        | Skip NCBI FCS external organism contamination checking                                | `boolean` | True    |          |        |
-| `ncbi_fcs_gx_tax_id`      | Tax ID for NCBI FCS GX. See: https://www.ncbi.nlm.nih.gov/taxonomy                    | `number`  |         |          |        |
-| `ncbi_fcs_gx_db_path`     | Path to NCBI FCS GX database. See: https://github.com/ncbi/fcs/wiki/FCS-GX            | `string`  |         |          |        |
+| Parameter                      | Description                                                                           | Type      | Default | Required | Hidden |
+| ------------------------------ | ------------------------------------------------------------------------------------- | --------- | ------- | -------- | ------ |
+| `ncbi_fcs_adaptor_skip`        | Skip NCBI FCS Adaptor checking                                                        | `boolean` | True    |          |        |
+| `ncbi_fcs_adaptor_empire`      | Empire for NCBI FCS Adaptor checking: 'euk' for eukaryotes, or 'prok' for prokaryotes | `string`  |         |          |        |
+| `ncbi_fcs_gx_skip`             | Skip NCBI FCS external organism contamination checking                                | `boolean` | True    |          |        |
+| `ncbi_fcs_gx_tax_id`           | Tax ID for NCBI FCS GX. See: https://www.ncbi.nlm.nih.gov/taxonomy                    | `number`  |         |          |        |
+| `ncbi_fcs_gx_db_path`          | Path to NCBI FCS GX database. See: https://github.com/ncbi/fcs/wiki/FCS-GX            | `string`  |         |          |        |
+| `contamination_stops_pipeline` | Skip remaining QC steps for an assembly which has adaptor or GX contamination         | `boolean` | True    |          |        |
 
 ## BUSCO options
 

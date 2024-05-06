@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 2.0.0+dev - [03-May-2024]
+## 2.0.0+dev - [06-May-2024]
 
 ### `Added`
 
@@ -11,20 +11,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 2. Removed release-announcements GitHub workflow
 3. Added a list of nf-core contributors
 4. Added a launcher script for local testing `local_assemblyqc`
-5. Added a custom `BUNDLELINKS` module which respects direction when bundling `dnadiff` links
-6. Added the ability to create linear synteny plot in addition to the circos plot
+5. Added a custom `BUNDLELINKS` module which respects direction when bundling `dnadiff` links [#82](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/82)
+6. Added the ability to create linear synteny plot in addition to the circos plot [#74](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/74)
 7. Updated modules and sub-workflows
+8. Now the `contamination_stops_pipeline` flag allows the pipeline to continue if contamination is detected. It's default value is `true` [#54](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/54)
 
 ### `Fixed`
 
-1. Fixed a bug which caused NCBI_FCS_GX to not resume
+1. Fixed a bug which caused NCBI_FCS_GX to not resume [#80](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/80)
 2. Restored the original version of `nf-core/subworkflows/fastq_trim_fastp_fastqc`
 3. Fixed n-core linting
 4. Updated `tower.yml`
-5. Updated LICENSE copyright to Copyright (c) 2024 The New Zealand Institute for Plant and Food Research Limited
+5. Updated LICENSE copyright to Copyright (c) 2024 The New Zealand Institute for Plant and Food Research Limited [#81](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/81)
 6. `RUNASSEMBLYVISUALIZER` is now single threaded for successful execution on both Linux and MacOS
 7. Fixed java memory overflow issues in `RUNASSEMBLYVISUALIZER`
-8. Updated `FASTA_LTRRETRIEVER_LAI` to fix a pipeline crash when `ch_monoploid_seqs` was `[ meta, [] ]`
+8. Updated `FASTA_LTRRETRIEVER_LAI` to fix a pipeline crash when `ch_monoploid_seqs` was `[ meta, [] ]` [#83](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/83)
 
 ### `Dependencies`
 
