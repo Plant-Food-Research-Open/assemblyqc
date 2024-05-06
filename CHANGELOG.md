@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 7. Updated modules and sub-workflows
 8. Now the `contamination_stops_pipeline` flag allows the pipeline to continue if contamination is detected. It's default value is `true` [#54](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/54)
 9. Updated `fcs-adaptor` to 0.5.0 [#55](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/55)
+10. Now fasta ids are sorted in natural order for the HiC module [#76](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/76)
 
 ### `Fixed`
 
