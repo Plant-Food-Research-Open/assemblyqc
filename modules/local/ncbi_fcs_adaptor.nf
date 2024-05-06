@@ -4,8 +4,8 @@ process NCBI_FCS_ADAPTOR {
 
     // Warning: manually update version in script and stub
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://ftp.ncbi.nlm.nih.gov/genomes/TOOLS/FCS/releases/0.4.0/fcs-adaptor.sif':
-        'docker.io/ncbi/fcs-adaptor:0.4.0' }"
+        'https://ftp.ncbi.nlm.nih.gov/genomes/TOOLS/FCS/releases/0.5.0/fcs-adaptor.sif':
+        'docker.io/ncbi/fcs-adaptor:0.5.0' }"
 
     input:
     tuple val(asm_tag), path(fasta_file)
@@ -23,11 +23,11 @@ process NCBI_FCS_ADAPTOR {
     if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
         error "NCBI_FCS_ADAPTOR module does not support Conda. Please use Docker / Singularity / Podman instead."
     }
-    def VERSION = 0.4
+    def VERSION = 0.5
     """
     mkdir "${asm_tag}_outputdir"
 
-    /app/fcs/bin/av_screen_x \\
+    av_screen_x \\
         -o "${asm_tag}_outputdir" \\
         --${empire} \\
         "${fasta_file}"
@@ -46,7 +46,7 @@ process NCBI_FCS_ADAPTOR {
     if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
         error "NCBI_FCS_ADAPTOR module does not support Conda. Please use Docker / Singularity / Podman instead."
     }
-    def VERSION = 0.4
+    def VERSION = 0.5
     """
     touch "${asm_tag}_fcs_adaptor_report.tsv"
 
