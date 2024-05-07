@@ -47,6 +47,47 @@
                         "maxLength": 0
                     }
                 ]
+            },
+            "reads": {
+                "errorMessage": "FASTX file path cannot contain spaces and must have extension '.f(a|asta|as|sa|na|astq|q)' or '.f(a|asta|as|sa|na|astq|q).gz'",
+                "anyOf": [
+                    {
+                        "type": "string",
+                        "pattern": "^\\S+\\.f(a|asta|as|sa|na|astq|q)(\\.gz)?$"
+                    },
+                    {
+                        "type": "string",
+                        "maxLength": 0
+                    }
+                ]
+            },
+            "maternal_reads": {
+                "errorMessage": "FASTX file path cannot contain spaces and must have extension '.f(a|asta|as|sa|na|astq|q)' or '.f(a|asta|as|sa|na|astq|q).gz'",
+                "anyOf": [
+                    {
+                        "type": "string",
+                        "pattern": "^\\S+\\.f(a|asta|as|sa|na|astq|q)(\\.gz)?$"
+                    },
+                    {
+                        "type": "string",
+                        "maxLength": 0
+                    }
+                ],
+                "dependentRequired": ["reads", "paternal_reads"]
+            },
+            "paternal_reads": {
+                "errorMessage": "FASTX file path cannot contain spaces and must have extension '.f(a|asta|as|sa|na|astq|q)' or '.f(a|asta|as|sa|na|astq|q).gz'",
+                "anyOf": [
+                    {
+                        "type": "string",
+                        "pattern": "^\\S+\\.f(a|asta|as|sa|na|astq|q)(\\.gz)?$"
+                    },
+                    {
+                        "type": "string",
+                        "maxLength": 0
+                    }
+                ],
+                "dependentRequired": ["reads", "maternal_reads"]
             }
         },
         "required": ["tag", "fasta"]

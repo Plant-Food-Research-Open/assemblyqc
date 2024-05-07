@@ -1,10 +1,12 @@
 {
     "input": "/workspace/assemblyqc/testdata/default/assemblysheet.csv",
+    "assemblathon_stats_n_limit": 100,
     "ncbi_fcs_adaptor_skip": false,
     "ncbi_fcs_adaptor_empire": "euk",
     "ncbi_fcs_gx_skip": false,
     "ncbi_fcs_gx_tax_id": 3750,
     "ncbi_fcs_gx_db_path": "/workspace/ComparativeDataSources/NCBI/FCS/GX/r2023-01-24",
+    "contamination_stops_pipeline": true,
     "busco_skip": false,
     "busco_mode": "geno",
     "busco_lineage_datasets": "embryophyta_odb10 eudicots_odb10",
@@ -17,13 +19,18 @@
     "kraken2_skip": false,
     "kraken2_db_path": "/workspace/ComparativeDataSources/kraken2db/k2_pluspfp_20230314",
     "hic": null,
+    "hic_skip_fastp": false,
+    "hic_skip_fastqc": false,
+    "hic_fastp_ext_args": "--qualified_quality_phred 20 --length_required 50",
     "synteny_skip": false,
+    "synteny_plot_type": "both",
     "synteny_between_input_assemblies": true,
     "synteny_many_to_many_align": false,
     "synteny_max_gap": 1000000,
     "synteny_min_bundle_size": 1000,
-    "synteny_plot_1_vs_all": true,
+    "synteny_plot_1_vs_all": false,
     "synteny_color_by_contig": true,
     "synteny_xref_assemblies": "/workspace/assemblyqc/testdata/default/xrefsheet.csv",
-    "outdir": "./results"
+    "outdir": "./results",
+    "email": null
 }

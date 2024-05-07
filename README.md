@@ -69,13 +69,10 @@ Refer to [usage](./docs/usage.md), [parameters](./docs/parameters.md) and [outpu
 > [!NOTE]
 > If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
 
-Prepare an `assemblysheet.csv` file with following columns representing target assemblies and associated meta-data. See an example [assemblysheet.csv](./assets/assemblysheet.csv)
+Prepare an `assemblysheet.csv` file with following columns representing target assemblies and associated meta-data.
 
 - `tag:` A unique tag which represents the target assembly throughout the pipeline and in the final report
 - `fasta:` FASTA file
-- `gff3 [Optional]:` GFF3 annotation file if available
-- `monoploid_ids [Optional]:` A txt file listing the IDs used to calculate LAI in monoploid mode if necessary
-- `synteny_labels [Optional]:` A two column tsv file listing fasta sequence ids (first column) and labels for the synteny plots (second column) when performing synteny analysis
 
 Now, you can run the pipeline using:
 
@@ -109,6 +106,7 @@ We thank the following people for their extensive assistance in the development 
 - Jason Shiller [@jasonshiller](https://github.com/jasonshiller)
 - Marcus Davy [@mdavy86](https://github.com/mdavy86)
 - Ross Crowhurst [@rosscrowhurst](https://github.com/rosscrowhurst)
+- Sarah Bailey [@SarahBailey1998](https://github.com/SarahBailey1998)
 - Susan Thomson [@cflsjt](https://github.com/cflsjt)
 - Ting-Hsuan Chen [@ting-hsuan-chen](https://github.com/ting-hsuan-chen)
 
