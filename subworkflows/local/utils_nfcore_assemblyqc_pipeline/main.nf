@@ -83,13 +83,16 @@ workflow PIPELINE_INITIALISATION {
     //
     // Initialise input channels
     //
-    def input_assembly_sheet_fields         = 5
-    def synteny_xref_assemblies_fields      = 3
 
     ch_input                                = Channel.fromSamplesheet('input')
+
+    // Function: validateInputTags
+    ch_input_validated                      = ch_input
+                                            | map { row -> row[0] }
                                             | collect
-                                            | flatMap { validateInput(it) }
-                                            | buffer(size: input_assembly_sheet_fields)
+                                            | map { tags -> validateInputTags( tags ) }
+                                            | combine ( ch_input.map { row -> [ row ] } )
+                                            | map { result, row -> row }
 
     ch_hic_reads                            = ! params.hic
                                             ? Channel.empty()
@@ -105,9 +108,13 @@ workflow PIPELINE_INITIALISATION {
     ch_xref_assembly                        = params.synteny_skip || ! params.synteny_xref_assemblies
                                             ? Channel.empty()
                                             : Channel.fromSamplesheet('synteny_xref_assemblies')
+
+    ch_xref_assembly_validated              = ch_xref_assembly
+                                            | map { row -> row[0] }
                                             | collect
-                                            | flatMap { validateXrefAssemblies(it) }
-                                            | buffer(size: synteny_xref_assemblies_fields)
+                                            | map { tags -> validateXrefAssemblies( tags ) }
+                                            | combine ( ch_xref_assembly.map { row -> [ row ] } )
+                                            | map { result, row -> row }
                                             | map { tag, fa, labels ->
                                                 [ tag, file(fa, checkIfExists: true), file(labels, checkIfExists: true) ]
                                             }
@@ -117,9 +124,9 @@ workflow PIPELINE_INITIALISATION {
     ch_summary_params_as_json               = Channel.of ( jsonifySummaryParams ( summary_params ) )
 
     emit:
-    input                                   = ch_input
+    input                                   = ch_input_validated
     hic_reads                               = ch_hic_reads
-    xref_assembly                           = ch_xref_assembly
+    xref_assembly                           = ch_xref_assembly_validated
     params_as_json                          = ch_params_as_json
     summary_params_as_json                  = ch_summary_params_as_json
     versions                                = ch_versions
@@ -210,9 +217,7 @@ def validateInputParameters() {
     }
 }
 
-def validateInput(input) {
-    def inputFields = 5
-    def assemblyTags = input[(0..input.size()-1).step(inputFields)]
+def validateInputTags(assemblyTags) {
 
     def tagCounts = [:]
     assemblyTags.each { tag ->
@@ -224,12 +229,10 @@ def validateInput(input) {
         error("Please check input assemblysheet -> Multiple assemblies have the same tags!: ${repeatedTags}")
     }
 
-    return input
+    return true
 }
 
-def validateXrefAssemblies(xref) {
-    def xrefFields = 3
-    def xrefTags = xref[(0..xref.size()-1).step(xrefFields)]
+def validateXrefAssemblies(xrefTags) {
 
     def tagCounts = [:]
     xrefTags.each { tag ->
@@ -241,7 +244,7 @@ def validateXrefAssemblies(xref) {
         error("Please check synteny_xref_assemblies -> Multiple xref assemblies have the same tags!: ${repeatedTags}")
     }
 
-    return xref
+    return true
 }
 
 def jsonifyParams(params) {

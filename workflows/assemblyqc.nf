@@ -45,7 +45,10 @@ workflow ASSEMBLYQC {
 
     // Input channels
     ch_target_assemby_branch                = ch_input
-                                            | map { tag, fasta, gff, mono_ids, labels ->
+                                            | map { input_data ->
+                                                def tag     = input_data[0]
+                                                def fasta   = input_data[1]
+
                                                 [ [ id: tag ], file(fasta, checkIfExists: true) ]
                                             }
                                             | branch { meta, fasta ->
@@ -54,7 +57,10 @@ workflow ASSEMBLYQC {
                                             }
 
     ch_assemby_gff3_branch                  = ch_input
-                                            | map { tag, fasta, gff, mono_ids, labels ->
+                                            | map { input_data ->
+                                                def tag     = input_data[0]
+                                                def gff     = input_data[2]
+
                                                 gff
                                                 ? [ [ id: tag ], file(gff, checkIfExists: true) ]
                                                 : null
@@ -65,14 +71,20 @@ workflow ASSEMBLYQC {
                                             }
 
     ch_mono_ids                             = ch_input
-                                            | map { tag, fasta, gff, mono_ids, labels ->
+                                            | map { input_data ->
+                                                def tag     = input_data[0]
+                                                def mono_ids= input_data[3]
+
                                                 mono_ids
                                                 ? [ [ id: tag ], file(mono_ids, checkIfExists: true) ]
                                                 : null
                                             }
 
     ch_synteny_labels                       = ch_input
-                                            | map { tag, fasta, gff, mono_ids, labels ->
+                                            | map { input_data ->
+                                                def tag     = input_data[0]
+                                                def labels  = input_data[4]
+
                                                 labels
                                                 ? [ [ id: tag ], file(labels, checkIfExists: true) ]
                                                 : (
