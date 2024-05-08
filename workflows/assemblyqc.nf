@@ -19,6 +19,7 @@ include { ASSEMBLATHON_STATS                } from '../modules/local/assemblatho
 include { FASTA_BUSCO_PLOT                  } from '../subworkflows/local/fasta_busco_plot'
 include { FASTA_LTRRETRIEVER_LAI            } from '../subworkflows/pfr/fasta_ltrretriever_lai/main'
 include { FASTA_KRAKEN2                     } from '../subworkflows/local/fasta_kraken2'
+include { FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS as DOWNLOAD_HIC } from '../subworkflows/nf-core/fastq_download_prefetch_fasterqdump_sratools/main'
 include { FQ2HIC                            } from '../subworkflows/local/fq2hic'
 include { FASTA_SYNTENY                     } from '../subworkflows/local/fasta_synteny'
 include { CREATEREPORT                      } from '../modules/local/createreport'
@@ -356,6 +357,23 @@ workflow ASSEMBLYQC {
     ch_kraken2_plot                         = FASTA_KRAKEN2.out.plot
     ch_versions                             = ch_versions.mix(FASTA_KRAKEN2.out.versions)
 
+
+    // MODULE: FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS as DOWNLOAD_HIC
+    ch_hic_reads_branch                    = ch_hic_reads
+                                            | branch { meta, fq ->
+                                                sra: meta.is_sra
+                                                rest: ! meta.is_sra
+                                            }
+
+    DOWNLOAD_HIC(
+        ch_hic_reads_branch.sra,
+        []
+    )
+
+    ch_versions                             = ch_versions.mix(DOWNLOAD_HIC.out.versions)
+    ch_hic_read_files                       = DOWNLOAD_HIC.out.reads
+                                            | mix(ch_hic_reads_branch.rest)
+
     // SUBWORKFLOW: FQ2HIC
     ch_hic_input_assembly                   = ! params.hic
                                             ? Channel.empty()
@@ -363,7 +381,7 @@ workflow ASSEMBLYQC {
                                             | map { tag, fa -> [ [ id: tag ], fa ] }
 
     FQ2HIC(
-        ch_hic_reads,
+        ch_hic_read_files,
         ch_hic_input_assembly,
         params.hic_skip_fastp,
         params.hic_skip_fastqc

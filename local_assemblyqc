@@ -23,5 +23,4 @@ nextflow run \
     --ncbi_fcs_gx_db_path ../dbs/gxdb/test \
     --busco_download_path ../dbs/busco \
     --kraken2_skip false \
-    --kraken2_db_path ../dbs/kraken2db/k2_minusb \
-    --hic "$(realpath ../test-data/assemblyqc/hic)/SRR8238190_{1,2}.fastq.gz"
+    --kraken2_db_path ../dbs/kraken2db/k2_minusb

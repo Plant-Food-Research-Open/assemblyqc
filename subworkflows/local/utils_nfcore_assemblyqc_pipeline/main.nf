@@ -99,10 +99,12 @@ workflow PIPELINE_INITIALISATION {
                                             : (
                                                 "$params.hic".find(/.*[\/].*\.(fastq|fq)\.gz/)
                                                 ? Channel.fromFilePairs(params.hic, checkIfExists: true)
-                                                : Channel.fromSRA(params.hic)
+                                                : Channel.of( [ params.hic, 'is_sra' ] )
                                             )
-                                            | map{ sample, fq ->
-                                                [ [ id: sample, single_end: false ], fq ]
+                                            | map { sample, fq ->
+                                                "$fq" != 'is_sra'
+                                                ? [ [ id: sample, single_end: false, is_sra: false ], fq ]
+                                                : [ [ id: sample, single_end: false, is_sra: true ], sample ]
                                             }
 
     ch_xref_assembly                        = params.synteny_skip || ! params.synteny_xref_assemblies
