@@ -112,6 +112,12 @@
 
   > Marçais G, Delcher AL, Phillippy AM, Coston R, Salzberg SL, Zimin A. 2018. MUMmer4: A fast and versatile genome alignment system. PLoS Comput Biol. 2018 Jan 26;14(1):e1005944. doi: <https://doi.org/10.1371/journal.pcbi.1005944>. PMID: 29373581; PMCID: PMC5802927.
 
+- MERQURYFK, [Custom Permissive License](https://github.com/thegenemyers/MERQURY.FK/blob/main/LICENSE)
+
+  > https://github.com/thegenemyers/MERQURY.FK
+  >
+  > Rhie, A., Walenz, B.P., Koren, S. et al. 2020. Merqury: reference-free quality, completeness, and phasing assessment for genome assemblies. Genome Biol 21, 245. doi: <https://doi.org/10.1186/s13059-020-02134-9>
+
 ## Software packaging/containerisation tools
 
 - [Anaconda](https://anaconda.com)

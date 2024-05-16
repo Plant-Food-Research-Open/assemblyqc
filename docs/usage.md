@@ -9,6 +9,8 @@ You will need to create an assemblysheet with information about the assemblies y
 - `gff3 [Optional]:` GFF3 annotation file if available
 - `monoploid_ids [Optional]:` A txt file listing the IDs used to calculate LAI in monoploid mode if necessary
 - `synteny_labels [Optional]:` A two column tsv file listing fasta sequence ids (first column) and their labels for the synteny plots (second column) when performing synteny analysis
+- `reads_1 [Optional]`: A SRA ID for paired FASTQ files or FASTA/FASTQ file path to assembly reads. The reads are used by [MERQURY.FK](https://github.com/thegenemyers/MERQURY.FK) for k-mer analysis. If two assemblies have the same SRA ID or file path for `reads_1`, they are treated as haplotypes of a genome by MERQURY.FK.
+- `reads_2 [Optional]`: If `reads_1` is a SRA ID, this column is ignored. Otherwise, this column should list the second file of the paired reads.
 
 ## External databases
 
@@ -82,6 +84,10 @@ BUSCO lineage databases are downloaded and updated by the BUSCO tool itself. A p
   - `tag:` A unique tag which represents the reference assembly in the final report
   - `fasta:` FASTA file
   - `synteny_labels:` A two column tsv file listing fasta sequence ids (first column) and their labels for the synteny plots (second column)
+
+### Merqury K-mer analysis
+
+- `merqury_kmer_length`: kmer length for merqury analysis
 
 ## Running the pipeline
 

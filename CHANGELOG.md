@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 2.0.0+dev - [06-May-2024]
+## 2.0.0+dev - [16-May-2024]
 
 ### `Added`
 
@@ -13,11 +13,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 4. Added a launcher script for local testing `local_assemblyqc`
 5. Added a custom `BUNDLELINKS` module which respects direction when bundling `dnadiff` links [#82](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/82)
 6. Added the ability to create linear synteny plot in addition to the circos plot [#74](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/74)
-7. Updated modules and sub-workflows
-8. Now the `contamination_stops_pipeline` flag allows the pipeline to continue if contamination is detected. It's default value is `true` [#54](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/54)
-9. Updated `fcs-adaptor` to 0.5.0 [#55](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/55)
-10. Now fasta ids are sorted in natural order for the HiC module [#76](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/76)
-11. Now using `FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS` for SRA downloads
+7. Updated modules and sub-workflows: `bwa/index`, `bwa/mem`, `cat/cat`, `custom/checkgff3fastacorrespondence`, `custom/restoregffids`, `custom/shortenfastaids`, `gt/gff3`, `gt/gff3validator`, `gt/stat`, `ltrfinder`, `ltrharvest`, `ltrretriever/lai`, `ltrretriever/ltrretriever`, `samblaster`, `fasta_ltrretriever_lai`, `fastq_bwa_mem_samblaster`, `gff3_validate`, `custom/sratoolsncbisettings`, `fastp`, `fastqc`, `untar`
+8. Locally bumped `bwa/index` version to `biocontainers/bwa:0.7.18--he4a0461_0`
+9. Now the `contamination_stops_pipeline` flag allows the pipeline to continue if contamination is detected. It's default value is `true` [#54](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/54)
+10. Updated `fcs-adaptor` to 0.5.0 which includes additional adaptors for PacBio and Nanopore technologies [#55](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/55)
+11. Now fasta ids are sorted in natural order for the HiC module [#76](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/76)
+12. Now using `FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS` for SRA downloads
+13. Added `MERQURYFK` module [#85](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/85)
 
 ### `Fixed`
 

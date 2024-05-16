@@ -81,6 +81,13 @@ A NextFlow pipeline which evaluates assembly quality with multiple QC tools and 
 | `synteny_color_by_contig`          | Synteny plot is colored by contig                                                                                  | `boolean` | True    |          |        |
 | `synteny_xref_assemblies`          | Reference assemblies for synteny analysis                                                                          | `string`  |         |          |        |
 
+## Merqury options
+
+| Parameter             | Description                      | Type      | Default | Required | Hidden |
+| --------------------- | -------------------------------- | --------- | ------- | -------- | ------ |
+| `merqury_skip`        |                                  | `boolean` | True    |          |        |
+| `merqury_kmer_length` | kmer length for merqury analysis | `integer` | 21      |          |        |
+
 ## Max job request options
 
 Set the top limit for requested resources for any single job.

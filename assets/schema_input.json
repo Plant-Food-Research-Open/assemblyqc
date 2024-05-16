@@ -49,7 +49,7 @@
                 ]
             },
             "reads_1": {
-                "errorMessage": "reads_1 should be a SRA ID or FASTX file path without spaces and must have extension '.f(a|asta|as|sa|na|astq|q)' or '.f(a|asta|as|sa|na|astq|q).gz'",
+                "errorMessage": "reads_1 should be a SRA ID for paired FASTQ files or FASTX file path without spaces and must have extension '.f(a|asta|as|sa|na|astq|q)' or '.f(a|asta|as|sa|na|astq|q).gz'",
                 "anyOf": [
                     {
                         "type": "string",
@@ -76,7 +76,7 @@
                 "dependentRequired": ["reads_1"]
             },
             "maternal_reads_1": {
-                "errorMessage": "maternal_reads_1 should be a SRA ID or FASTX file path without spaces and must have extension '.f(a|asta|as|sa|na|astq|q)' or '.f(a|asta|as|sa|na|astq|q).gz'",
+                "errorMessage": "maternal_reads_1 should be a SRA ID for paired FASTQ files or FASTX file path without spaces and must have extension '.f(a|asta|as|sa|na|astq|q)' or '.f(a|asta|as|sa|na|astq|q).gz'",
                 "anyOf": [
                     {
                         "type": "string",
@@ -104,7 +104,7 @@
                 "dependentRequired": ["maternal_reads_1"]
             },
             "paternal_reads_1": {
-                "errorMessage": "paternal_reads_1 should be a SRA ID or FASTX file path without spaces and must have extension '.f(a|asta|as|sa|na|astq|q)' or '.f(a|asta|as|sa|na|astq|q).gz'",
+                "errorMessage": "paternal_reads_1 should be a SRA ID for paired FASTQ files or FASTX file path without spaces and must have extension '.f(a|asta|as|sa|na|astq|q)' or '.f(a|asta|as|sa|na|astq|q).gz'",
                 "anyOf": [
                     {
                         "type": "string",

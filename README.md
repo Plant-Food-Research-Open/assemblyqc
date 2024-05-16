@@ -33,11 +33,11 @@ flowchart LR
   Run --> ASS_STATS[ASSEMBLATHON STATS]
   Run --> BUSCO
   Run --> TIDK
-  Run --> LTRRETRIEVER
-  LTRRETRIEVER --> LAI
+  Run --> LAI
   Run --> KRAKEN2
   Run --> HIC_CONTACT_MAP[HIC CONTACT MAP]
   Run --> SYNTENY
+  Run --> MERQURYFK
 
   ASS_STATS --> REPORT
   GFF_STATS --> REPORT
@@ -47,20 +47,22 @@ flowchart LR
   KRAKEN2 --> REPORT
   HIC_CONTACT_MAP --> REPORT
   SYNTENY --> REPORT
+  MERQURYFK --> REPORT
 ```
 
 - [FASTA VALIDATION](https://github.com/GallVp/fasta_validator)
-- [GFF3 VALIDATION](https://github.com/genometools/genometools)
+- [GFF3 VALIDATION](https://genometools.org/tools/gt_gff3validator.html)
 - [ASSEMBLATHON STATS](https://github.com/PlantandFoodResearch/assemblathon2-analysis/blob/a93cba25d847434f7eadc04e63b58c567c46a56d/assemblathon_stats.pl): Assembly statistics
-- [GENOMETOOLS GT STAT](https://github.com/genometools/genometools): Annotation statistics
+- [GENOMETOOLS GT STAT](https://genometools.org/tools/gt_stat.html): Annotation statistics
 - [NCBI FCS ADAPTOR](https://github.com/ncbi/fcs): Adaptor contamination pass/fail
 - [NCBI FCS GX](https://github.com/ncbi/fcs): Foreign organism contamination pass/fail
-- [BUSCO](https://gitlab.com/ezlab/busco/-/tree/master): Gene-space completeness estimation
+- [BUSCO](https://gitlab.com/ezlab/busco): Gene-space completeness estimation
 - [TIDK](https://github.com/tolkit/telomeric-identifier): Telomere repeat identification
 - [LAI](https://github.com/oushujun/LTR_retriever/blob/master/LAI): Continuity of repetitive sequences
 - [KRAKEN2](https://github.com/DerrickWood/kraken2): Taxonomy classification
-- [HIC CONTACT MAP](https://github.com/igvteam/juicebox-web): Alignment and visualisation of HiC data
+- [HIC CONTACT MAP](https://github.com/igvteam/juicebox.js): Alignment and visualisation of HiC data
 - SYNTENY: Synteny analysis using [MUMMER](https://github.com/mummer4/mummer), [CIRCOS](http://circos.ca/documentation/) and [PLOTLY](https://plotly.com)
+- [MERQURY.FK](https://github.com/thegenemyers/MERQURY.FK): k-mer based assembly evaluation
 
 ## Usage
 
@@ -126,8 +128,10 @@ The pipeline uses nf-core modules contributed by following authors.
 <a href="https://github.com/joseespinosa"><img src="https://github.com/joseespinosa.png" width="50" height="50"></a>
 <a href="https://github.com/kevinmenden"><img src="https://github.com/kevinmenden.png" width="50" height="50"></a>
 <a href="https://github.com/lescai"><img src="https://github.com/lescai.png" width="50" height="50"></a>
+<a href="https://github.com/mahesh-panchal"><img src="https://github.com/mahesh-panchal.png" width="50" height="50"></a>
 <a href="https://github.com/matthdsm"><img src="https://github.com/matthdsm.png" width="50" height="50"></a>
 <a href="https://github.com/maxulysse"><img src="https://github.com/maxulysse.png" width="50" height="50"></a>
+<a href="https://github.com/midnighter"><img src="https://github.com/midnighter.png" width="50" height="50"></a>
 
 ## Contributions and Support
 

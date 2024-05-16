@@ -17,6 +17,7 @@ process CREATEREPORT {
     path kraken2_outputs, stageAs: 'kraken2_outputs/*'
     path hic_outputs, stageAs: 'hic_outputs/*'
     path synteny_outputs, stageAs: 'synteny_outputs/*'
+    path merqury_outputs, stageAs: 'merquryfk_outputs/*'
     path versions
     val params_json
     val params_summary_json

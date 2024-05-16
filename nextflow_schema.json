@@ -266,6 +266,25 @@
                 }
             }
         },
+        "merqury_options": {
+            "title": "Merqury options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "merqury_skip": {
+                    "type": "boolean",
+                    "default": true,
+                    "fa_icon": "fas fa-forward"
+                },
+                "merqury_kmer_length": {
+                    "type": "integer",
+                    "default": 21,
+                    "description": "kmer length for merqury analysis",
+                    "minimum": 3
+                }
+            }
+        },
         "max_job_request_options": {
             "title": "Max job request options",
             "type": "object",
@@ -458,6 +477,9 @@
         },
         {
             "$ref": "#/definitions/synteny_options"
+        },
+        {
+            "$ref": "#/definitions/merqury_options"
         },
         {
             "$ref": "#/definitions/max_job_request_options"

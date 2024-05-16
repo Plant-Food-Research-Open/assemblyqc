@@ -19,10 +19,15 @@ include { ASSEMBLATHON_STATS                } from '../modules/local/assemblatho
 include { FASTA_BUSCO_PLOT                  } from '../subworkflows/local/fasta_busco_plot'
 include { FASTA_LTRRETRIEVER_LAI            } from '../subworkflows/pfr/fasta_ltrretriever_lai/main'
 include { FASTA_KRAKEN2                     } from '../subworkflows/local/fasta_kraken2'
-include { FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS as DOWNLOAD_HIC } from '../subworkflows/nf-core/fastq_download_prefetch_fasterqdump_sratools/main'
 include { FQ2HIC                            } from '../subworkflows/local/fq2hic'
+include { CAT_CAT as TAG_ASSEMBLY           } from '../modules/pfr/cat/cat/main'
 include { FASTA_SYNTENY                     } from '../subworkflows/local/fasta_synteny'
+include { FASTK_FASTK                       } from '../modules/nf-core/fastk/fastk/main'
+include { MERQURYFK_MERQURYFK               } from '../modules/nf-core/merquryfk/merquryfk/main'
 include { CREATEREPORT                      } from '../modules/local/createreport'
+
+include { FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS as DOWNLOAD_HIC      } from '../subworkflows/nf-core/fastq_download_prefetch_fasterqdump_sratools/main'
+include { FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS as DOWNLOAD_READS    } from '../subworkflows/nf-core/fastq_download_prefetch_fasterqdump_sratools/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -36,6 +41,7 @@ workflow ASSEMBLYQC {
     ch_input
     ch_hic_reads
     ch_xref_assembly
+    ch_reads
     ch_params_as_json
     ch_summary_params_as_json
 
@@ -407,6 +413,84 @@ workflow ASSEMBLYQC {
     ch_synteny_plots                        = FASTA_SYNTENY.out.png.mix(FASTA_SYNTENY.out.html)
     ch_versions                             = ch_versions.mix(FASTA_SYNTENY.out.versions)
 
+    // MODULE: CAT_CAT as TAG_ASSEMBLY
+    TAG_ASSEMBLY (
+        ch_clean_assembly.map { tag, fa -> [ [ id: tag ], fa ] }
+    )
+
+    ch_clean_assembly_tagged                = TAG_ASSEMBLY.out.file_out
+    ch_versions                             = ch_versions.mix(TAG_ASSEMBLY.out.versions)
+
+    // MODULE: FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS as DOWNLOAD_READS
+    ch_reads_assemblies                     = ch_reads
+                                            | combine(
+                                                ch_clean_assembly_tagged
+                                                | map { [ it ] }
+                                                | collect
+                                                | map { [ it ] }
+                                            )
+                                            | map { meta, fq, assemblies ->
+                                                [
+                                                    [ id: meta.id, single_end: meta.single_end, is_sra: meta.is_sra ],
+                                                    fq,
+                                                    assemblies
+                                                        .findAll { meta2, fasta -> meta2.id in meta.assemblies }
+                                                        .collect { meta2, fasta -> fasta }
+                                                        .flatten()
+                                                        .sort(false)
+                                                ]
+                                            }
+
+    ch_reads_branch                         = ch_reads_assemblies
+                                            | map { meta, fq, fastas -> [ meta, fq ] }
+                                            | branch { meta, fq ->
+                                                sra: meta.is_sra
+                                                rest: ! meta.is_sra
+                                            }
+
+    DOWNLOAD_READS(
+        ch_reads_branch.sra,
+        []
+    )
+
+    ch_reads_files                          = DOWNLOAD_READS.out.reads
+                                            | mix(ch_reads_branch.rest)
+
+    ch_versions                             = ch_versions.mix(DOWNLOAD_READS.out.versions)
+
+    // MODULE: FASTK_FASTK
+    FASTK_FASTK ( ch_reads_files )
+
+    ch_reads_fastk_hist                     = FASTK_FASTK.out.hist
+    ch_reads_fastk                          = FASTK_FASTK.out.ktab
+    ch_versions                             = ch_versions.mix(FASTK_FASTK.out.versions.first())
+
+    // MODULE: MERQURYFK_MERQURYFK
+    ch_merqury_assemblies                   = ch_reads_assemblies
+                                            | map { meta, fq, fastas -> [ meta, fastas ] }
+
+    ch_merqury_inputs                       = ch_reads_fastk_hist
+                                            | join(
+                                                ch_reads_fastk
+                                            )
+                                            | join(
+                                                ch_merqury_assemblies
+                                            )
+                                            | map { meta, hist, ktab, fastas ->
+                                                [ meta, hist, ktab, fastas, [] ]
+                                            }
+
+    MERQURYFK_MERQURYFK ( ch_merqury_inputs )
+
+    ch_merqury_qv                           = MERQURYFK_MERQURYFK.out.qv
+    ch_merqury_stats                        = MERQURYFK_MERQURYFK.out.stats
+    ch_merqury_spectra_cn_fl_png            = MERQURYFK_MERQURYFK.out.spectra_cn_fl_png
+    ch_merqury_outputs                      = ch_merqury_qv
+                                            | mix(ch_merqury_stats)
+                                            | mix(ch_merqury_spectra_cn_fl_png)
+                                            | flatMap { meta, data -> data }
+    ch_versions                             = ch_versions.mix(MERQURYFK_MERQURYFK.out.versions.first())
+
     // Collate and save software versions
     ch_versions                             = ch_versions
                                             | unique
@@ -436,6 +520,7 @@ workflow ASSEMBLYQC {
         ch_kraken2_plot                     .collect().ifEmpty([]),
         ch_hic_html                         .collect().ifEmpty([]),
         ch_synteny_plots                    .collect().ifEmpty([]),
+        ch_merqury_outputs                  .collect().ifEmpty([]),
         ch_versions_yml,
         ch_params_as_json,
         ch_summary_params_as_json

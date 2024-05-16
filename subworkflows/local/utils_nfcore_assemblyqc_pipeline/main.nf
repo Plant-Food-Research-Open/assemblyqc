@@ -121,6 +121,23 @@ workflow PIPELINE_INITIALISATION {
                                                 [ tag, file(fa, checkIfExists: true), file(labels, checkIfExists: true) ]
                                             }
 
+    ch_reads                                = params.merqury_skip
+                                            ? Channel.empty()
+                                            : ch_input_validated
+                                            | map { input_data ->
+                                                def tag     = input_data[0]
+                                                def reads_1 = input_data[5]
+                                                def reads_2 = input_data[6]
+
+                                                reads_1
+                                                ? extractReadsTuple ( tag, reads_1, reads_2 )
+                                                : null
+                                            }
+                                            | groupTuple
+                                            | map { fid, metas, reads ->
+                                                validateAndNormaliseReadsTupe ( fid, metas, reads )
+                                            }
+
     // Initialise parameter channels
     ch_params_as_json                       = Channel.of ( jsonifyParams ( params ) )
     ch_summary_params_as_json               = Channel.of ( jsonifySummaryParams ( summary_params ) )
@@ -129,6 +146,7 @@ workflow PIPELINE_INITIALISATION {
     input                                   = ch_input_validated
     hic_reads                               = ch_hic_reads
     xref_assembly                           = ch_xref_assembly_validated
+    reads                                   = ch_reads
     params_as_json                          = ch_params_as_json
     summary_params_as_json                  = ch_summary_params_as_json
     versions                                = ch_versions
@@ -263,4 +281,87 @@ def jsonifySummaryParams(params) {
     }
 
     return JsonOutput.toJson(summary).toString()
+}
+
+def extractReadsTuple(tag, reads_1, reads_2) {
+    if ( reads_1 && reads_2 ) {
+        return [
+            [ fid: file(reads_1).name ],
+            [
+                id: tag,
+                single_end: false,
+                is_sra: false
+            ],
+            [
+                reads_1,
+                reads_2,
+            ]
+        ]
+    }
+
+    if ( "$reads_1".find(/^SRR[0-9]*$/) ) {
+        return [
+            [ fid: "$reads_1" ],
+            [
+                id: tag,
+                single_end: false,
+                is_sra: true
+            ],
+            reads_1
+        ]
+    }
+
+    return [
+        [ fid: file(reads_1).name ],
+        [
+            id: tag,
+            single_end: true,
+            is_sra: false
+        ],
+        [
+            reads_1
+        ]
+    ]
+}
+
+def validateAndNormaliseReadsTupe ( fid, metas, reads ) {
+
+    def tags        = metas.collect { it.id }.flatten()
+    def endedness   = metas.collect { it.single_end }.flatten()
+
+    // Validate
+    if ( endedness.unique().size() != 1 ) {
+        error("Please check input assemblysheet -> Following assemblies have different reads_1 and reads_2: ${tags}")
+    }
+
+    if ( tags.size() > 2 ) {
+        error("Please check input assemblysheet -> More than two assemblies (${tags}) are in the same read group: ${fid}")
+    }
+
+    def individualID = tags.join('-and-') + "-reads-" + fid.fid.replaceAll(/\./, '_')
+
+    if ( metas.first().is_sra ) { // SRA
+        return [
+            [ id:individualID, single_end:false, is_sra:true, assemblies:tags ],
+            reads.first()
+        ]
+    }
+
+    if ( endedness.unique().first() ) { // Single ended
+        return [
+            [ id:individualID, single_end:true, is_sra:false, assemblies:tags ],
+            reads.first().collect { file(it, checkIfExists: true) }
+        ]
+    }
+
+    def reads_2 = reads.collect { it[1] }
+
+    if ( reads_2.unique().size() != 1 ) {
+        error("Please check input assemblysheet -> Following assemblies have different reads_1 and reads_2: ${tags}")
+    }
+
+    return [
+        [ id:individualID, single_end:false, is_sra:false, assemblies:tags ],
+        reads.first().collect { file(it, checkIfExists: true) }
+    ]
 }
