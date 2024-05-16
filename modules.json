@@ -137,12 +137,12 @@
                     },
                     "seqkit/seq": {
                         "branch": "master",
-                        "git_sha": "687ad41c14008d3d55cf7c2ffacebe6a057211a4",
+                        "git_sha": "2be41ca2cc780eca4293d1b0dd3850b0b7ac40a3",
                         "installed_by": ["fasta_explore_search_plot_tidk"]
                     },
                     "seqkit/sort": {
                         "branch": "master",
-                        "git_sha": "ffcdfb354f8c8e59bdccc1a4249f0f3b232c2a3d",
+                        "git_sha": "2be41ca2cc780eca4293d1b0dd3850b0b7ac40a3",
                         "installed_by": ["fasta_explore_search_plot_tidk"]
                     },
                     "sratools/fasterqdump": {
@@ -181,7 +181,7 @@
                 "nf-core": {
                     "fasta_explore_search_plot_tidk": {
                         "branch": "master",
-                        "git_sha": "2b21fbeb20ad9f17612f4a3dd7b12971513f08d5",
+                        "git_sha": "2be41ca2cc780eca4293d1b0dd3850b0b7ac40a3",
                         "installed_by": ["subworkflows"]
                     },
                     "fastq_download_prefetch_fasterqdump_sratools": {
