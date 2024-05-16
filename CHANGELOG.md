@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 11. Now fasta ids are sorted in natural order for the HiC module [#76](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/76)
 12. Now using `FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS` for SRA downloads
 13. Added `MERQURYFK` module [#85](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/85)
+14. Replaced `GFF3_VALIDATE` sub-workflow with `GFF3_GT_GFF3_GFF3VALIDATOR_STAT`
 
 ### `Fixed`
 

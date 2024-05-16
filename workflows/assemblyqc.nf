@@ -11,8 +11,7 @@ include { GUNZIP as GUNZIP_GFF3             } from '../modules/nf-core/gunzip/ma
 include { FASTAVALIDATOR                    } from '../modules/nf-core/fastavalidator/main'
 include { FASTA_EXPLORE_SEARCH_PLOT_TIDK    } from '../subworkflows/nf-core/fasta_explore_search_plot_tidk/main'
 
-include { GT_STAT                           } from '../modules/pfr/gt/stat/main'
-include { GFF3_VALIDATE                     } from '../subworkflows/pfr/gff3_validate/main'
+include { GFF3_GT_GFF3_GFF3VALIDATOR_STAT   } from '../subworkflows/pfr/gff3_gt_gff3_gff3validator_stat/main'
 include { NCBI_FCS_ADAPTOR                  } from '../modules/local/ncbi_fcs_adaptor'
 include { NCBI_FCS_GX                       } from '../subworkflows/local/ncbi_fcs_gx'
 include { ASSEMBLATHON_STATS                } from '../modules/local/assemblathon_stats'
@@ -131,30 +130,23 @@ workflow ASSEMBLYQC {
 
     ch_versions                             = ch_versions.mix(FASTAVALIDATOR.out.versions.first())
 
-    // SUBWORKFLOW: GFF3_VALIDATE
-    GFF3_VALIDATE (
+    // SUBWORKFLOW: GFF3_GT_GFF3_GFF3VALIDATOR_STAT
+    GFF3_GT_GFF3_GFF3VALIDATOR_STAT (
         ch_assembly_gff3,
         ch_valid_target_assembly
     )
 
-    ch_valid_gff3                           = GFF3_VALIDATE.out.valid_gff3
-
-    ch_invalid_gff3_log                     = GFF3_VALIDATE.out.log_for_invalid_gff3
+    ch_invalid_gff3_log                     = GFF3_GT_GFF3_GFF3VALIDATOR_STAT.out.log_for_invalid_gff3
                                             | map { meta, error_log ->
                                                 log.warn("GFF3 validation failed for ${meta.id}\n${error_log.text}")
 
                                                 [ meta, error_log ]
                                             }
 
-    ch_versions                             = ch_versions.mix(GFF3_VALIDATE.out.versions)
-
-    // MODULE: GT_STAT
-    GT_STAT ( ch_valid_gff3 )
-
-    ch_gt_stats                             = GT_STAT.out.stats
+    ch_gt_stats                             = GFF3_GT_GFF3_GFF3VALIDATOR_STAT.out.gff3_stats
                                             | map { meta, yml -> yml }
 
-    ch_versions                             = ch_versions.mix(GT_STAT.out.versions.first())
+    ch_versions                             = ch_versions.mix(GFF3_GT_GFF3_GFF3VALIDATOR_STAT.out.versions)
 
     // MODULE: NCBI_FCS_ADAPTOR
     ch_fcs_adaptor_inputs                   = params.ncbi_fcs_adaptor_skip

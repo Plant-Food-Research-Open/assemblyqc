@@ -20,11 +20,6 @@
                         "git_sha": "10b046eaac396f279c08e7e2bb067482ccd9c74e",
                         "installed_by": ["fasta_ltrretriever_lai"]
                     },
-                    "custom/checkgff3fastacorrespondence": {
-                        "branch": "main",
-                        "git_sha": "10b046eaac396f279c08e7e2bb067482ccd9c74e",
-                        "installed_by": ["gff3_validate"]
-                    },
                     "custom/restoregffids": {
                         "branch": "main",
                         "git_sha": "10b046eaac396f279c08e7e2bb067482ccd9c74e",
@@ -37,18 +32,18 @@
                     },
                     "gt/gff3": {
                         "branch": "main",
-                        "git_sha": "10b046eaac396f279c08e7e2bb067482ccd9c74e",
-                        "installed_by": ["gff3_validate"]
+                        "git_sha": "84f31d4be03e2ae6bee8e0b9fdea466be8e997bb",
+                        "installed_by": ["gff3_gt_gff3_gff3validator_stat"]
                     },
                     "gt/gff3validator": {
                         "branch": "main",
-                        "git_sha": "10b046eaac396f279c08e7e2bb067482ccd9c74e",
-                        "installed_by": ["gff3_validate"]
+                        "git_sha": "84f31d4be03e2ae6bee8e0b9fdea466be8e997bb",
+                        "installed_by": ["gff3_gt_gff3_gff3validator_stat"]
                     },
                     "gt/stat": {
                         "branch": "main",
                         "git_sha": "10b046eaac396f279c08e7e2bb067482ccd9c74e",
-                        "installed_by": ["modules"]
+                        "installed_by": ["gff3_gt_gff3_gff3validator_stat", "modules"]
                     },
                     "ltrfinder": {
                         "branch": "main",
@@ -74,6 +69,11 @@
                         "branch": "main",
                         "git_sha": "10b046eaac396f279c08e7e2bb067482ccd9c74e",
                         "installed_by": ["fastq_bwa_mem_samblaster"]
+                    },
+                    "samtools/faidx": {
+                        "branch": "main",
+                        "git_sha": "84f31d4be03e2ae6bee8e0b9fdea466be8e997bb",
+                        "installed_by": ["gff3_gt_gff3_gff3validator_stat"]
                     }
                 }
             },
@@ -89,9 +89,9 @@
                         "git_sha": "258dbf212876e040e0049809ff0f9fc3f032b8d9",
                         "installed_by": ["subworkflows"]
                     },
-                    "gff3_validate": {
+                    "gff3_gt_gff3_gff3validator_stat": {
                         "branch": "main",
-                        "git_sha": "10b046eaac396f279c08e7e2bb067482ccd9c74e",
+                        "git_sha": "84f31d4be03e2ae6bee8e0b9fdea466be8e997bb",
                         "installed_by": ["subworkflows"]
                     }
                 }

@@ -1,12 +1,9 @@
----
-# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
-name: "custom_checkgff3fastacorrespondence"
-description: "A custom bash script which checks the correspondence of a gff3 file with a fasta file"
+name: samtools_faidx
+description: Index FASTA file
 keywords:
-  - genome
-  - gff3
-  - annotation
-  - validation
+  - index
+  - fasta
+  - faidx
 tools:
   - samtools:
       description: |
@@ -17,40 +14,52 @@ tools:
       documentation: http://www.htslib.org/doc/samtools.html
       doi: 10.1093/bioinformatics/btp352
       licence: ["MIT"]
-
 input:
   - meta:
       type: map
       description: |
-        Groovy Map containing sample information
-        e.g. `[ id:'test' ]`
-  - gff3:
-      type: file
-      description: Input gff3 file
-      pattern: "*.{gff,gff3}"
+        Groovy Map containing reference information
+        e.g. [ id:'test' ]
   - fasta:
       type: file
-      description: Input fasta file
-      pattern: "*.{fsa,fa,fasta}"
+      description: FASTA file
+      pattern: "*.{fa,fasta}"
+  - meta2:
+      type: map
+      description: |
+        Groovy Map containing reference information
+        e.g. [ id:'test' ]
+  - fai:
+      type: file
+      description: FASTA index file
+      pattern: "*.{fai}"
 output:
   - meta:
       type: map
       description: |
         Groovy Map containing sample information
-        e.g. `[ id:'test' ]`
-  - success_log:
+        e.g. [ id:'test', single_end:false ]
+  - fa:
       type: file
-      description: Log file for successful validation
-      pattern: "*.success.log"
-  - error_log:
+      description: FASTA file
+      pattern: "*.{fa}"
+  - fai:
       type: file
-      description: Log file for failed validation
-      pattern: "*.error.log"
+      description: FASTA index file
+      pattern: "*.{fai}"
+  - gzi:
+      type: file
+      description: Optional gzip index file for compressed inputs
+      pattern: "*.gzi"
   - versions:
       type: file
       description: File containing software versions
       pattern: "versions.yml"
 authors:
-  - "@GallVp"
+  - "@drpatelh"
+  - "@ewels"
+  - "@phue"
 maintainers:
-  - "@GallVp"
+  - "@drpatelh"
+  - "@ewels"
+  - "@phue"
