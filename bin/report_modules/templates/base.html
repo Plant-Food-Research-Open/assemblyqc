@@ -40,6 +40,10 @@
     <button class="tablinks active" onclick="openTool(event, 'BUSCO')">BUSCO</button>
     {% endif %}
 
+    {% if 'BUSCO_GFF' in all_stats_dicts %}
+    <button class="tablinks active" onclick="openTool(event, 'BUSCO_GFF')">BUSCO GFF</button>
+    {% endif %}
+
     {% if 'TIDK' in all_stats_dicts %}
     <button class="tablinks" onclick="openTool(event, 'TIDK')">TIDK</button>
     {% endif %}
@@ -98,6 +102,10 @@
 
   {% if 'BUSCO' in all_stats_dicts %}
   {% include 'busco/busco.html' %}
+  {% endif %}
+
+  {% if 'BUSCO_GFF' in all_stats_dicts %}
+  {% include 'busco_gff/busco_gff.html' %}
   {% endif %}
 
   {% if 'TIDK' in all_stats_dicts %}

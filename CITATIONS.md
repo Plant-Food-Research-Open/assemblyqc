@@ -40,6 +40,10 @@
 
   > Manni M, Berkeley MR, Seppey M, Simão FA, Zdobnov EM. 2021. BUSCO Update: Novel and Streamlined Workflows along with Broader and Deeper Phylogenetic Coverage for Scoring of Eukaryotic, Prokaryotic, and Viral Genomes, Molecular Biology and Evolution, Volume 38, Issue 10, October 2021, Pages 4647–4654, <https://doi.org/10.1093/molbev/msab199>
 
+- GFFREAD, [MIT](https://github.com/gpertea/gffread/blob/master/LICENSE)
+
+  > Pertea G, Pertea M. GFF Utilities: GffRead and GffCompare. F1000Res. 2020 Apr 28;9:ISCB Comm J-304. doi: <http://doi.org/10.12688/f1000research.23297.2>. PMID: 32489650; PMCID: PMC7222033.
+
 - TIDK, [MIT](https://github.com/tolkit/telomeric-identifier/blob/main/LICENSE)
 
   > <https://github.com/tolkit/telomeric-identifier>

@@ -1,0 +1,25 @@
+<div id="BUSCO_GFF" class="tabcontent" style="display: none">
+  <div class="section-para-wrapper">
+    <p class="section-para">
+      BUSCO estimates the completeness and redundancy of processed genomic data based on universal single-copy
+      orthologs. GFFREAD is used to obtain protein sequences from assembly FASTA and annotation GFF3 files.
+    </p>
+    <p class="section-para"><b>Reference:</b></p>
+    <p class="section-para">
+      Manni M., Berkeley M.R., Seppey M., Simao F.A., Zdobnov E.M. 2021. BUSCO update: novel and streamlined
+      workflows along with broader and deeper phylogenetic coverage for scoring of eukaryotic, prokaryotic, and
+      viral genomes. arXiv:2106.11799 [q-bio] [Internet]. Available from:
+      <a href="http://arxiv.org/abs/2106.11799" target="_blank">arxiv.org/abs/2106.11799</a>
+    </p>
+    <p class="section-para">
+      Pertea G, Pertea M. GFF Utilities: GffRead and GffCompare. F1000Res. 2020 Apr 28;9:ISCB Comm J-304. doi: <a
+        href="http://doi.org/10.12688/f1000research.23297.2" target="_blank">10.12688/f1000research.23297.2</a>. PMID:
+      32489650; PMCID: PMC7222033.
+    </p>
+    <p class="section-para"><b>Version: {{ all_stats_dicts['VERSIONS']['BUSCO_ANNOTATION']['busco'] }} (BUSCO), {{
+        all_stats_dicts['VERSIONS']['EXTRACT_PROTEINS']['gffread'] }} (GFFREAD)</b></p>
+  </div>
+  {% include 'busco_gff/dropdown.html' %}
+  {% include 'busco_gff/summary_contents.html' %}
+  {% include 'busco_gff/report_contents.html' %}
+</div>

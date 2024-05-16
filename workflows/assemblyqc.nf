@@ -15,7 +15,7 @@ include { GFF3_GT_GFF3_GFF3VALIDATOR_STAT   } from '../subworkflows/pfr/gff3_gt_
 include { NCBI_FCS_ADAPTOR                  } from '../modules/local/ncbi_fcs_adaptor'
 include { NCBI_FCS_GX                       } from '../subworkflows/local/ncbi_fcs_gx'
 include { ASSEMBLATHON_STATS                } from '../modules/local/assemblathon_stats'
-include { FASTA_BUSCO_PLOT                  } from '../subworkflows/local/fasta_busco_plot'
+include { FASTA_GXF_BUSCO_PLOT              } from '../subworkflows/pfr/fasta_gxf_busco_plot/main'
 include { FASTA_LTRRETRIEVER_LAI            } from '../subworkflows/pfr/fasta_ltrretriever_lai/main'
 include { FASTA_KRAKEN2                     } from '../subworkflows/local/fasta_kraken2'
 include { FQ2HIC                            } from '../subworkflows/local/fq2hic'
@@ -125,7 +125,7 @@ workflow ASSEMBLYQC {
                                             | map { meta, error_log ->
                                                 log.warn("FASTA validation failed for ${meta.id}\n${error_log.text}")
 
-                                                [ meta, error_log ]
+                                                error_log
                                             }
 
     ch_versions                             = ch_versions.mix(FASTAVALIDATOR.out.versions.first())
@@ -136,11 +136,12 @@ workflow ASSEMBLYQC {
         ch_valid_target_assembly
     )
 
+    ch_valid_gff3                           = GFF3_GT_GFF3_GFF3VALIDATOR_STAT.out.valid_gff3
     ch_invalid_gff3_log                     = GFF3_GT_GFF3_GFF3VALIDATOR_STAT.out.log_for_invalid_gff3
                                             | map { meta, error_log ->
                                                 log.warn("GFF3 validation failed for ${meta.id}\n${error_log.text}")
 
-                                                [ meta, error_log ]
+                                                error_log
                                             }
 
     ch_gt_stats                             = GFF3_GT_GFF3_GFF3VALIDATOR_STAT.out.gff3_stats
@@ -267,28 +268,53 @@ workflow ASSEMBLYQC {
     ch_assemblathon_stats                   = ASSEMBLATHON_STATS.out.stats
     ch_versions                             = ch_versions.mix(ASSEMBLATHON_STATS.out.versions.first())
 
-    // SUBWORKFLOW: FASTA_BUSCO_PLOT
-    ch_busco_inputs                         = params.busco_skip
+    // SUBWORKFLOW: FASTA_GXF_BUSCO_PLOT
+    ch_busco_input_assembly                 = params.busco_skip
                                             ? Channel.empty()
                                             : ch_clean_assembly
-                                            | combine(
-                                                Channel.of(params.busco_lineage_datasets)
-                                                | map { it.split(' ') }
-                                                | flatten
-                                            )
-                                            | map { tag, fa, lineage ->
-                                                [ tag, file(fa, checkIfExists: true), lineage ]
-                                            }
-    FASTA_BUSCO_PLOT(
-        ch_busco_inputs.map { tag, fa, lineage -> [ tag, fa ] },
-        ch_busco_inputs.map { tag, fa, lineage -> lineage },
-        params.busco_mode ?: [],
-        params.busco_download_path ?: []
+                                            | map { tag, fasta -> [ [ id: tag ], fasta ] }
+
+    FASTA_GXF_BUSCO_PLOT(
+        ch_busco_input_assembly,
+        ch_valid_gff3,
+        params.busco_mode,
+        params.busco_lineage_datasets?.tokenize(' '),
+        params.busco_download_path,
+        [] // val_busco_config
     )
 
-    ch_busco_summary                        = FASTA_BUSCO_PLOT.out.summary
-    ch_busco_plot                           = FASTA_BUSCO_PLOT.out.plot
-    ch_versions                             = ch_versions.mix(FASTA_BUSCO_PLOT.out.versions)
+    ch_busco_summary                        = FASTA_GXF_BUSCO_PLOT.out.assembly_short_summaries_txt
+                                            | map { meta, txt ->
+                                                def lineage_name = meta.lineage.split('_odb')[0]
+                                                [
+                                                    "short_summary.specific.${meta.lineage}.${meta.id}_${lineage_name}.txt",
+                                                    txt.text
+                                                ]
+                                            }
+                                            | collectFile
+    ch_busco_plot                           = FASTA_GXF_BUSCO_PLOT.out.assembly_png
+
+    ch_busco_outputs                        = ch_busco_summary
+                                            | mix(ch_busco_plot)
+                                            | collect
+
+    ch_busco_gff_summary                    = FASTA_GXF_BUSCO_PLOT.out.annotation_short_summaries_txt
+                                            | map { meta, txt ->
+                                                def lineage_name = meta.lineage.split('_odb')[0]
+                                                [
+                                                    "short_summary.specific.${meta.lineage}.${meta.id}_${lineage_name}.txt",
+                                                    txt.text
+                                                ]
+                                            }
+                                            | collectFile
+
+    ch_busco_gff_plot                       = FASTA_GXF_BUSCO_PLOT.out.annotation_png
+
+    ch_busco_gff_outputs                    = ch_busco_gff_summary
+                                            | mix(ch_busco_gff_plot)
+                                            | collect
+
+    ch_versions                             = ch_versions.mix(FASTA_GXF_BUSCO_PLOT.out.versions)
 
     // SUBWORKFLOW: FASTA_EXPLORE_SEARCH_PLOT_TIDK
     ch_tidk_inputs                          = params.tidk_skip
@@ -500,13 +526,14 @@ workflow ASSEMBLYQC {
 
     // MODULE: CREATEREPORT
     CREATEREPORT(
-        ch_invalid_assembly_log             .map { meta, file -> file }.collect().ifEmpty([]),
-        ch_invalid_gff3_log                 .map { meta, file -> file }.collect().ifEmpty([]),
+        ch_invalid_assembly_log             .collect().ifEmpty([]),
+        ch_invalid_gff3_log                 .collect().ifEmpty([]),
         ch_fcs_adaptor_report               .map { meta, file -> file }.collect().ifEmpty([]),
         ch_fcs_gx_report                    .mix(ch_fcs_gx_taxonomy_plot).map { meta, file -> file }.collect().ifEmpty([]),
         ch_assemblathon_stats               .collect().ifEmpty([]),
         ch_gt_stats                         .collect().ifEmpty([]),
-        ch_busco_summary                    .mix(ch_busco_plot).collect().ifEmpty([]),
+        ch_busco_outputs                    .collect().ifEmpty([]),
+        ch_busco_gff_outputs                .collect().ifEmpty([]),
         ch_tidk_outputs                     .collect().ifEmpty([]),
         ch_lai_outputs                      .collect().ifEmpty([]),
         ch_kraken2_plot                     .collect().ifEmpty([]),

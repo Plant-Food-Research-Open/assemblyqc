@@ -43,6 +43,10 @@ if __name__ == "__main__":
     data_from_tools = {**data_from_tools, **parse_assemblathon_stats_folder()}
     data_from_tools = {**data_from_tools, **parse_genometools_gt_stat_folder()}
     data_from_tools = {**data_from_tools, **parse_busco_folder()}
+    data_from_tools = {
+        **data_from_tools,
+        **parse_busco_folder("busco_gff_outputs", "BUSCO_GFF"),
+    }
     data_from_tools = {**data_from_tools, **parse_tidk_folder()}
     data_from_tools = {**data_from_tools, **parse_lai_folder()}
     data_from_tools = {**data_from_tools, **parse_kraken2_folder()}

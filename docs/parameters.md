@@ -32,7 +32,7 @@ A NextFlow pipeline which evaluates assembly quality with multiple QC tools and 
 | Parameter                | Description                                                                                                    | Type      | Default | Required | Hidden |
 | ------------------------ | -------------------------------------------------------------------------------------------------------------- | --------- | ------- | -------- | ------ |
 | `busco_skip`             | Skip BUSCO                                                                                                     | `boolean` | True    |          |        |
-| `busco_mode`             | BUSCO mode: 'geno' for genome, 'tran' for transcriptome, 'prot' for proteins                                   | `string`  |         |          |        |
+| `busco_mode`             | BUSCO mode: 'genome', 'transcriptome', 'proteins'                                                              | `string`  |         |          |        |
 | `busco_lineage_datasets` | BUSCO lineages. It should be provided as a space-separated list of lineages: 'fungi_odb10 microsporidia_odb10' | `string`  |         |          |        |
 | `busco_download_path`    | Download path for BUSCO                                                                                        | `string`  |         |          |        |
 
@@ -60,12 +60,12 @@ A NextFlow pipeline which evaluates assembly quality with multiple QC tools and 
 
 ## HiC options
 
-| Parameter            | Description                                                                         | Type      | Default                                           | Required | Hidden |
-| -------------------- | ----------------------------------------------------------------------------------- | --------- | ------------------------------------------------- | -------- | ------ | --- |
-| `hic`                | HiC reads path provided as a SRA ID or as paired reads with pattern '\*{1,2}.(fastq | fq).gz'   | `string`                                          |          |        |     |
-| `hic_skip_fastp`     | Skip HiC read trimming                                                              | `boolean` |                                                   |          |        |
-| `hic_skip_fastqc`    | Skip HiC read QC                                                                    | `boolean` |                                                   |          |        |
-| `hic_fastp_ext_args` | Additional parameters for fastp trimming                                            | `string`  | --qualified_quality_phred 20 --length_required 50 |          |        |
+| Parameter            | Description                                                                            | Type      | Default                                           | Required | Hidden |
+| -------------------- | -------------------------------------------------------------------------------------- | --------- | ------------------------------------------------- | -------- | ------ |
+| `hic`                | HiC reads path provided as a SRA ID or as paired reads with pattern '\*{1,2}.fastq.gz' | `string`  |                                                   |          |        |
+| `hic_skip_fastp`     | Skip HiC read trimming                                                                 | `boolean` |                                                   |          |        |
+| `hic_skip_fastqc`    | Skip HiC read QC                                                                       | `boolean` |                                                   |          |        |
+| `hic_fastp_ext_args` | Additional parameters for fastp trimming                                               | `string`  | --qualified_quality_phred 20 --length_required 50 |          |        |
 
 ## Synteny options
 
@@ -85,7 +85,7 @@ A NextFlow pipeline which evaluates assembly quality with multiple QC tools and 
 
 | Parameter             | Description                      | Type      | Default | Required | Hidden |
 | --------------------- | -------------------------------- | --------- | ------- | -------- | ------ |
-| `merqury_skip`        |                                  | `boolean` | True    |          |        |
+| `merqury_skip`        | Skip merqury analysis            | `boolean` | True    |          |        |
 | `merqury_kmer_length` | kmer length for merqury analysis | `integer` | 21      |          |        |
 
 ## Max job request options

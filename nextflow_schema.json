@@ -105,8 +105,8 @@
                 },
                 "busco_mode": {
                     "type": "string",
-                    "enum": ["geno", "tran", "prot", "genome", "transcriptome", "proteins"],
-                    "description": "BUSCO mode: 'geno' for genome, 'tran' for transcriptome, 'prot' for proteins"
+                    "enum": ["genome", "transcriptome", "proteins"],
+                    "description": "BUSCO mode: 'genome', 'transcriptome', 'proteins'"
                 },
                 "busco_lineage_datasets": {
                     "type": "string",
@@ -191,7 +191,7 @@
             "properties": {
                 "hic": {
                     "type": "string",
-                    "description": "HiC reads path provided as a SRA ID or as paired reads with pattern '*{1,2}.(fastq|fq).gz'",
+                    "description": "HiC reads path provided as a SRA ID or as paired reads with pattern '*{1,2}.fastq.gz'",
                     "pattern": "^SR\\w+$|^\\S+\\{1,2\\}\\.f(ast)?q\\.gz$"
                 },
                 "hic_skip_fastp": {
@@ -446,8 +446,7 @@
                     "type": "boolean",
                     "fa_icon": "far fa-check-circle",
                     "description": "Validation of parameters in lenient more.",
-                    "hidden": true,
-                    "help_text": "Allows string values that are parseable as numbers or booleans. For further information see [JSONSchema docs](https://github.com/everit-org/json-schema#lenient-mode)."
+                    "hidden": true
                 }
             }
         }

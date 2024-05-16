@@ -1,26 +1,30 @@
-process BUSCO_PLOT {
-    tag 'all summaries'
+process BUSCO_GENERATEPLOT {
     label 'process_single'
 
-    conda "bioconda::busco=5.6.1"
+    conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/busco:5.6.1--pyhdfd78af_0':
-        'biocontainers/busco:5.6.1--pyhdfd78af_0' }"
+        'https://depot.galaxyproject.org/singularity/busco:5.7.1--pyhdfd78af_0':
+        'biocontainers/busco:5.7.1--pyhdfd78af_0' }"
 
     input:
-    path "short_summary.*", stageAs: 'busco/*'
+    path short_summary_txt, stageAs: 'busco/*'
 
     output:
-    path 'busco/*.png'  , emit: png
+    path '*.png'        , emit: png
     path "versions.yml" , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
+    def args    = task.ext.args     ?: ''
+    def prefix  = task.ext.prefix   ?: 'busco_figure'
     """
     generate_plot.py \\
-        -wd ./busco
+        $args \\
+        -wd busco
+
+    mv ./busco/busco_figure.png ${prefix}.png
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
@@ -29,10 +33,9 @@ process BUSCO_PLOT {
     """
 
     stub:
+    def prefix  = task.ext.prefix   ?: 'busco_figure'
     """
-    mkdir -p busco
-
-    touch busco/summary_plot.png
+    touch ${prefix}.png
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
