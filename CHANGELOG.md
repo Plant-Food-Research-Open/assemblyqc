@@ -3,11 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 2.0.0+dev - [16-May-2024]
+## v2.0.0+dev - [16-May-2024]
 
 ### `Added`
 
-1. Updated nf-core/template to 2.13.1
+1. Updated nf-core/template to 2.14.1
 2. Removed release-announcements GitHub workflow
 3. Added a list of nf-core contributors
 4. Added a launcher script for local testing `local_assemblyqc`

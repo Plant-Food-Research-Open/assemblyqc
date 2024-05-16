@@ -35,7 +35,10 @@
                     "pattern": "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$"
                 }
             },
-            "required": ["input", "outdir"]
+            "required": [
+                "input",
+                "outdir"
+            ]
         },
         "general_stats_options": {
             "title": "General stats options",
@@ -64,7 +67,10 @@
                 },
                 "ncbi_fcs_adaptor_empire": {
                     "type": "string",
-                    "enum": ["euk", "prok"],
+                    "enum": [
+                        "euk",
+                        "prok"
+                    ],
                     "description": "Empire for NCBI FCS Adaptor checking: 'euk' for eukaryotes, or 'prok' for prokaryotes"
                 },
                 "ncbi_fcs_gx_skip": {
@@ -105,7 +111,14 @@
                 },
                 "busco_mode": {
                     "type": "string",
-                    "enum": ["geno", "tran", "prot", "genome", "transcriptome", "proteins"],
+                    "enum": [
+                        "geno",
+                        "tran",
+                        "prot",
+                        "genome",
+                        "transcriptome",
+                        "proteins"
+                    ],
                     "description": "BUSCO mode: 'geno' for genome, 'tran' for transcriptome, 'prot' for proteins"
                 },
                 "busco_lineage_datasets": {
@@ -227,7 +240,11 @@
                     "type": "string",
                     "default": "both",
                     "description": "Synteny plot type: 'linear', 'circos', or 'both'",
-                    "enum": ["both", "linear", "circos"]
+                    "enum": [
+                        "both",
+                        "linear",
+                        "circos"
+                    ]
                 },
                 "synteny_between_input_assemblies": {
                     "type": "boolean",
@@ -275,6 +292,7 @@
                 "merqury_skip": {
                     "type": "boolean",
                     "default": true,
+                    "description": "Skip merqury analysis",
                     "fa_icon": "fas fa-forward"
                 },
                 "merqury_kmer_length": {
@@ -388,7 +406,14 @@
                     "default": "copy",
                     "description": "Method used to save pipeline results to output directory.",
                     "fa_icon": "fas fa-copy",
-                    "enum": ["symlink", "rellink", "link", "copy", "copyNoFollow", "move"],
+                    "enum": [
+                        "symlink",
+                        "rellink",
+                        "link",
+                        "copy",
+                        "copyNoFollow",
+                        "move"
+                    ],
                     "hidden": true
                 },
                 "email_on_fail": {
@@ -445,7 +470,8 @@
                     "type": "boolean",
                     "fa_icon": "far fa-check-circle",
                     "description": "Validation of parameters in lenient more.",
-                    "hidden": true
+                    "hidden": true,
+                    "help_text": "Allows string values that are parseable as numbers or booleans. For further information see [JSONSchema docs](https://github.com/everit-org/json-schema#lenient-mode)."
                 }
             }
         }
