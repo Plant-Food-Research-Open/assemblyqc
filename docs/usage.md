@@ -2,15 +2,20 @@
 
 ## Assemblysheet input
 
-You will need to create an assemblysheet with information about the assemblies you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 5 columns, and a header row. An [example assemblysheet](../assets/assemblysheet.csv) has been provided with the pipeline. Its fields are:
+You will need to create an assemblysheet with information about the assemblies you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 5 columns, and a header row. An [example assemblysheet](../assets/assemblysheetv2.csv) has been provided with the pipeline. Its fields are:
 
 - `tag:` A unique tag which represents the target assembly throughout the pipeline and in the final report
 - `fasta:` FASTA file
 - `gff3 [Optional]:` GFF3 annotation file if available
 - `monoploid_ids [Optional]:` A txt file listing the IDs used to calculate LAI in monoploid mode if necessary
 - `synteny_labels [Optional]:` A two column tsv file listing fasta sequence ids (first column) and their labels for the synteny plots (second column) when performing synteny analysis
-- `reads_1 [Optional]`: A SRA ID for paired FASTQ files or FASTA/FASTQ file path to assembly reads. The reads are used by [MERQURY.FK](https://github.com/thegenemyers/MERQURY.FK) for k-mer analysis. If two assemblies have the same SRA ID or file path for `reads_1`, they are treated as haplotypes of a genome by MERQURY.FK.
+- `reads_1 [Optional]`: A SRA ID for paired FASTQ files or FASTA/FASTQ file path to assembly reads. The reads are used by [MERQURY.FK](https://github.com/thegenemyers/MERQURY.FK) for k-mer analysis. If two assemblies have the same SRA ID or file path for `reads_1`, they are treated as haplotypes of the same genome by MERQURY.FK.
 - `reads_2 [Optional]`: If `reads_1` is a SRA ID, this column is ignored. Otherwise, this column should list the second file of the paired reads.
+
+See following assemblysheet examples for MERQURY.FK analysis.
+
+- [assemblysheet - 1x](../assets/assemblysheetv2.csv)
+- [assemblysheet - mixed2x](../tests/merqury.fk/mixed2x/assemblysheet.csv)
 
 ## External databases
 
@@ -85,7 +90,7 @@ BUSCO lineage databases are downloaded and updated by the BUSCO tool itself. A p
   - `fasta:` FASTA file
   - `synteny_labels:` A two column tsv file listing fasta sequence ids (first column) and their labels for the synteny plots (second column)
 
-### Merqury K-mer analysis
+### Merqury.FK K-mer analysis
 
 - `merqury_kmer_length`: kmer length for merqury analysis
 
