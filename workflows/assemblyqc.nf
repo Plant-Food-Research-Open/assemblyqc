@@ -12,7 +12,7 @@ include { FASTAVALIDATOR                    } from '../modules/nf-core/fastavali
 include { FASTA_EXPLORE_SEARCH_PLOT_TIDK    } from '../subworkflows/nf-core/fasta_explore_search_plot_tidk/main'
 
 include { GFF3_GT_GFF3_GFF3VALIDATOR_STAT   } from '../subworkflows/pfr/gff3_gt_gff3_gff3validator_stat/main'
-include { NCBI_FCS_ADAPTOR                  } from '../modules/local/ncbi_fcs_adaptor'
+include { FCS_FCSADAPTOR                    } from '../modules/nf-core/fcs/fcsadaptor/main'
 include { NCBI_FCS_GX                       } from '../subworkflows/local/ncbi_fcs_gx'
 include { ASSEMBLATHON_STATS                } from '../modules/local/assemblathon_stats'
 include { FASTA_GXF_BUSCO_PLOT              } from '../subworkflows/pfr/fasta_gxf_busco_plot/main'
@@ -149,54 +149,50 @@ workflow ASSEMBLYQC {
 
     ch_versions                             = ch_versions.mix(GFF3_GT_GFF3_GFF3VALIDATOR_STAT.out.versions)
 
-    // MODULE: NCBI_FCS_ADAPTOR
-    ch_fcs_adaptor_inputs                   = params.ncbi_fcs_adaptor_skip
+    // MODULE: FCS_FCSADAPTOR
+    ch_fcs_adaptor_input                    = params.ncbi_fcs_adaptor_skip
                                             ? Channel.empty()
                                             : ch_valid_target_assembly
-                                            | map { meta, fa -> [ meta.id, fa ] }
 
-    NCBI_FCS_ADAPTOR(
-        ch_fcs_adaptor_inputs,
-        params.ncbi_fcs_adaptor_empire ?: []
+    FCS_FCSADAPTOR(
+        ch_fcs_adaptor_input
     )
 
-    ch_fcs_adaptor_report                   = NCBI_FCS_ADAPTOR.out.report
-                                            | map { tag, report ->
+    ch_fcs_adaptor_report                   = FCS_FCSADAPTOR.out.adaptor_report
+                                            | map { meta, report ->
                                                 def is_clean = file(report).readLines().size < 2
 
                                                 if (! is_clean) {
                                                     log.warn("""
-                                                    Adaptor contamination detected in ${tag}.
+                                                    Adaptor contamination detected in ${meta.id}.
                                                     See the report for further details.
                                                     """.stripIndent())
                                                 }
 
-                                                [ tag, report ]
+                                                [ meta, report ]
                                             }
 
     ch_fcs_adaptor_passed_assembly          = params.ncbi_fcs_adaptor_skip
                                             ? (
                                                 ch_valid_target_assembly
-                                                | map { meta, fa -> [ meta.id, fa ] }
                                             )
                                             : (
                                                 ch_fcs_adaptor_report
-                                                | map { tag, report ->
-                                                    [ tag, file(report).readLines().size < 2 ]
+                                                | map { meta, report ->
+                                                    [ meta, file(report).readLines().size < 2 ]
                                                 }
-                                                | filter { tag, is_clean ->
+                                                | filter { meta, is_clean ->
                                                     ( is_clean || ( ! params.contamination_stops_pipeline ) )
                                                 }
                                                 | join(
                                                     ch_valid_target_assembly
-                                                    | map { meta, fa -> [ meta.id, fa ] }
                                                 )
-                                                | map { tag, clean, fa ->
-                                                    [ tag, fa ]
+                                                | map { meta, clean, fa ->
+                                                    [ meta, fa ]
                                                 }
                                             )
 
-    ch_versions                             = ch_versions.mix(NCBI_FCS_ADAPTOR.out.versions.first())
+    ch_versions                             = ch_versions.mix(FCS_FCSADAPTOR.out.versions.first())
 
     // SUBWORKFLOW: NCBI_FCS_GX
     ch_fcs_gx_input_assembly                = params.ncbi_fcs_gx_skip
@@ -252,6 +248,7 @@ workflow ASSEMBLYQC {
     ch_versions                             = ch_versions.mix(NCBI_FCS_GX.out.versions)
 
     ch_clean_assembly                       = ch_fcs_adaptor_passed_assembly
+                                            | map { meta, fa -> [ meta.id, fa ] }
                                             | join(
                                                 ch_fcs_gx_passed_assembly
                                             )

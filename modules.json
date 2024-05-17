@@ -145,6 +145,11 @@
                         "git_sha": "285a50500f9e02578d90b3ce6382ea3c30216acd",
                         "installed_by": ["fastq_trim_fastp_fastqc"]
                     },
+                    "fcs/fcsadaptor": {
+                        "branch": "master",
+                        "git_sha": "28adf00792d7dfd1b9ecbde9d7a8f22ec78ffcbb",
+                        "installed_by": ["modules"]
+                    },
                     "gunzip": {
                         "branch": "master",
                         "git_sha": "3a5fef109d113b4997c9822198664ca5f2716208",

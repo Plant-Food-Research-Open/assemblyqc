@@ -70,4 +70,18 @@ process GENERATEKARYOTYPE {
 
     rm "\$tmp_file"
     """
+
+    stub:
+    """
+    touch "${target_on_ref}.${seq_tag}.karyotype"
+    touch karyotype_ref.tsv
+    touch karyotype_target.tsv
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        awk: \$(awk -W version | sed -n 's/mawk //p')
+        grep: \$(grep --version | sed -n '/grep (GNU grep) /s/grep //p')
+        sed: \$(sed --version | sed -n 's/^sed //p')
+    END_VERSIONS
+    """
 }

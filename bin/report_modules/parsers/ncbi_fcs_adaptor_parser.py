@@ -14,7 +14,7 @@ def parse_ncbi_fcs_adaptor_folder(folder_name="ncbi_fcs_adaptor_reports"):
     if not os.path.exists(reports_folder_path):
         return {}
 
-    list_of_report_files = reports_folder_path.glob("*.tsv")
+    list_of_report_files = reports_folder_path.glob("*.txt")
 
     data = {"NCBI_FCS_ADAPTOR": []}
 
@@ -22,7 +22,7 @@ def parse_ncbi_fcs_adaptor_folder(folder_name="ncbi_fcs_adaptor_reports"):
         report_table = pd.read_csv(report_path, sep="\t")
 
         file_tokens = re.findall(
-            r"([\w]+)_fcs_adaptor_report.tsv",
+            r"([\w]+)\.fcs_adaptor_report.txt",
             os.path.basename(str(report_path)),
         )[0]
 
