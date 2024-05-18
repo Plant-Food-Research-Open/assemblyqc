@@ -20,7 +20,7 @@
     "hic_skip_fastqc": false,
     "synteny_skip": false,
     "synteny_xref_assemblies": "assets/xrefsheet.csv",
-    "merqury_skip": true,
+    "merqury_skip": false,
     "max_cpus": 2,
     "max_memory": "6.GB",
     "max_time": "6.h"
