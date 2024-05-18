@@ -25,8 +25,7 @@ include { FASTK_FASTK                       } from '../modules/nf-core/fastk/fas
 include { MERQURYFK_MERQURYFK               } from '../modules/nf-core/merquryfk/merquryfk/main'
 include { CREATEREPORT                      } from '../modules/local/createreport'
 
-include { FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS as DOWNLOAD_HIC      } from '../subworkflows/nf-core/fastq_download_prefetch_fasterqdump_sratools/main'
-include { FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS as DOWNLOAD_READS    } from '../subworkflows/nf-core/fastq_download_prefetch_fasterqdump_sratools/main'
+include { FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS as FETCHNGS  } from '../subworkflows/nf-core/fastq_download_prefetch_fasterqdump_sratools/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -256,6 +255,75 @@ workflow ASSEMBLYQC {
                                                 [ tag, fa ]
                                             }
 
+    // MODULE: CAT_CAT as TAG_ASSEMBLY
+    TAG_ASSEMBLY (
+        ch_clean_assembly.map { tag, fa -> [ [ id: tag ], fa ] }
+    )
+
+    ch_clean_assembly_tagged                = TAG_ASSEMBLY.out.file_out
+    ch_versions                             = ch_versions.mix(TAG_ASSEMBLY.out.versions)
+
+    // Prepare channels for FETCHNGS
+    // HiC
+    ch_hic_input_assembly                   = ! params.hic
+                                            ? Channel.empty()
+                                            : ch_clean_assembly
+                                            | map { tag, fa -> [ [ id: tag ], fa ] }
+
+    ch_hic_reads_branch                     = ch_hic_reads
+                                            | combine(ch_hic_input_assembly.first()) // Wait till first clean assembly arrives
+                                            | map { meta, fq, meta2, fasta -> [ meta, fq ] }
+                                            | branch { meta, fq ->
+                                                sra: meta.is_sra
+                                                rest: ! meta.is_sra
+                                            }
+    // Reads
+    ch_reads_assemblies                     = ch_reads
+                                            | combine(
+                                                ch_clean_assembly_tagged
+                                                | map { [ it ] }
+                                                | collect
+                                                | map { [ it ] }
+                                            )
+                                            | map { meta, fq, assemblies ->
+                                                [
+                                                    [
+                                                        id: meta.id,
+                                                        single_end: meta.single_end,
+                                                        is_sra: meta.is_sra,
+                                                        type: meta.type
+                                                    ],
+                                                    fq,
+                                                    assemblies
+                                                        .findAll { meta2, fasta -> meta2.id in meta.assemblies }
+                                                        .collect { meta2, fasta -> fasta }
+                                                        .flatten()
+                                                        .sort(false)
+                                                ]
+                                            }
+
+    ch_reads_branch                         = ch_reads_assemblies
+                                            | map { meta, fq, fastas -> [ meta, fq ] }
+                                            | branch { meta, fq ->
+                                                sra: meta.is_sra
+                                                rest: ! meta.is_sra
+                                            }
+
+    // MODULE: FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS as FETCHNGS
+    ch_fetchngs_inputs                      = ch_hic_reads_branch.sra
+                                            | mix(ch_reads_branch.sra)
+    FETCHNGS(
+        ch_fetchngs_inputs,
+        []
+    )
+
+    ch_fetchngs                             = FETCHNGS.out.reads
+                                            | branch { meta, fq ->
+                                                hic: meta.type == 'hic'
+                                                reads: meta.type == 'reads'
+                                            }
+    ch_versions                             = ch_versions.mix(FETCHNGS.out.versions)
+
     // MODULE: ASSEMBLATHON_STATS
     ASSEMBLATHON_STATS(
         ch_clean_assembly,
@@ -378,29 +446,9 @@ workflow ASSEMBLYQC {
     ch_kraken2_plot                         = FASTA_KRAKEN2.out.plot
     ch_versions                             = ch_versions.mix(FASTA_KRAKEN2.out.versions)
 
-
-    // MODULE: FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS as DOWNLOAD_HIC
-    ch_hic_reads_branch                    = ch_hic_reads
-                                            | branch { meta, fq ->
-                                                sra: meta.is_sra
-                                                rest: ! meta.is_sra
-                                            }
-
-    DOWNLOAD_HIC(
-        ch_hic_reads_branch.sra,
-        []
-    )
-
-    ch_versions                             = ch_versions.mix(DOWNLOAD_HIC.out.versions)
-    ch_hic_read_files                       = DOWNLOAD_HIC.out.reads
-                                            | mix(ch_hic_reads_branch.rest)
-
     // SUBWORKFLOW: FQ2HIC
-    ch_hic_input_assembly                   = ! params.hic
-                                            ? Channel.empty()
-                                            : ch_clean_assembly
-                                            | map { tag, fa -> [ [ id: tag ], fa ] }
-
+    ch_hic_read_files                       = ch_fetchngs.hic
+                                            | mix(ch_hic_reads_branch.rest)
     FQ2HIC(
         ch_hic_read_files,
         ch_hic_input_assembly,
@@ -428,52 +476,9 @@ workflow ASSEMBLYQC {
     ch_synteny_plots                        = FASTA_SYNTENY.out.png.mix(FASTA_SYNTENY.out.html)
     ch_versions                             = ch_versions.mix(FASTA_SYNTENY.out.versions)
 
-    // MODULE: CAT_CAT as TAG_ASSEMBLY
-    TAG_ASSEMBLY (
-        ch_clean_assembly.map { tag, fa -> [ [ id: tag ], fa ] }
-    )
-
-    ch_clean_assembly_tagged                = TAG_ASSEMBLY.out.file_out
-    ch_versions                             = ch_versions.mix(TAG_ASSEMBLY.out.versions)
-
-    // MODULE: FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS as DOWNLOAD_READS
-    ch_reads_assemblies                     = ch_reads
-                                            | combine(
-                                                ch_clean_assembly_tagged
-                                                | map { [ it ] }
-                                                | collect
-                                                | map { [ it ] }
-                                            )
-                                            | map { meta, fq, assemblies ->
-                                                [
-                                                    [ id: meta.id, single_end: meta.single_end, is_sra: meta.is_sra ],
-                                                    fq,
-                                                    assemblies
-                                                        .findAll { meta2, fasta -> meta2.id in meta.assemblies }
-                                                        .collect { meta2, fasta -> fasta }
-                                                        .flatten()
-                                                        .sort(false)
-                                                ]
-                                            }
-
-    ch_reads_branch                         = ch_reads_assemblies
-                                            | map { meta, fq, fastas -> [ meta, fq ] }
-                                            | branch { meta, fq ->
-                                                sra: meta.is_sra
-                                                rest: ! meta.is_sra
-                                            }
-
-    DOWNLOAD_READS(
-        ch_reads_branch.sra,
-        []
-    )
-
-    ch_reads_files                          = DOWNLOAD_READS.out.reads
-                                            | mix(ch_reads_branch.rest)
-
-    ch_versions                             = ch_versions.mix(DOWNLOAD_READS.out.versions)
-
     // MODULE: FASTK_FASTK
+    ch_reads_files                          = ch_fetchngs.reads
+                                            | mix(ch_reads_branch.rest)
     FASTK_FASTK ( ch_reads_files )
 
     ch_reads_fastk_hist                     = FASTK_FASTK.out.hist

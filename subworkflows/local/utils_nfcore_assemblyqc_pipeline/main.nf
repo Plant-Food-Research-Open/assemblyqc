@@ -103,8 +103,8 @@ workflow PIPELINE_INITIALISATION {
                                             )
                                             | map { sample, fq ->
                                                 "$fq" != 'is_sra'
-                                                ? [ [ id: sample, single_end: false, is_sra: false ], fq ]
-                                                : [ [ id: sample, single_end: false, is_sra: true ], sample ]
+                                                ? [ [ id: sample, single_end: false, is_sra: false, type: 'hic' ], fq ]
+                                                : [ [ id: sample, single_end: false, is_sra: true, type: 'hic' ], sample ]
                                             }
 
     ch_xref_assembly                        = params.synteny_skip || ! params.synteny_xref_assemblies
@@ -342,14 +342,14 @@ def validateAndNormaliseReadsTupe ( fid, metas, reads ) {
 
     if ( metas.first().is_sra ) { // SRA
         return [
-            [ id:individualID, single_end:false, is_sra:true, assemblies:tags ],
+            [ id:individualID, single_end:false, is_sra:true, type: 'reads', assemblies:tags ],
             reads.first()
         ]
     }
 
     if ( endedness.unique().first() ) { // Single ended
         return [
-            [ id:individualID, single_end:true, is_sra:false, assemblies:tags ],
+            [ id:individualID, single_end:true, is_sra:false, type: 'reads', assemblies:tags ],
             reads.first().collect { file(it, checkIfExists: true) }
         ]
     }
@@ -361,7 +361,7 @@ def validateAndNormaliseReadsTupe ( fid, metas, reads ) {
     }
 
     return [
-        [ id:individualID, single_end:false, is_sra:false, assemblies:tags ],
+        [ id:individualID, single_end:false, is_sra:false, type: 'reads', assemblies:tags ],
         reads.first().collect { file(it, checkIfExists: true) }
     ]
 }
