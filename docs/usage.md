@@ -10,12 +10,13 @@ You will need to create an assemblysheet with information about the assemblies y
 - `monoploid_ids [Optional]:` A txt file listing the IDs used to calculate LAI in monoploid mode if necessary
 - `synteny_labels [Optional]:` A two column tsv file listing fasta sequence ids (first column) and their labels for the synteny plots (second column) when performing synteny analysis
 - `reads_1 [Optional]`: A SRA ID for paired FASTQ files or FASTA/FASTQ file path to assembly reads. The reads are used by [MERQURY.FK](https://github.com/thegenemyers/MERQURY.FK) for k-mer analysis. If two assemblies have the same SRA ID or file path for `reads_1`, they are treated as haplotypes of the same genome by MERQURY.FK.
-- `reads_2 [Optional]`: If `reads_1` is a SRA ID, this column is ignored. Otherwise, this column should list the second file of the paired reads.
+- `reads_2 [Optional]`: This column lists the second file if paired reads are used. If `reads_1` is a SRA ID, this column is ignored.
 
 See following assemblysheet examples for MERQURY.FK analysis.
 
 - [assemblysheet - 1x](../assets/assemblysheetv2.csv)
 - [assemblysheet - mixed2x](../tests/merqury.fk/mixed2x/assemblysheet.csv)
+- [assemblysheet - phased2x](../tests/merqury.fk/phased2x/assemblysheet.csv)
 
 ## External databases
 

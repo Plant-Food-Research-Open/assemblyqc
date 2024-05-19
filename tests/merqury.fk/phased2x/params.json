@@ -1,0 +1,10 @@
+{
+    "config_profile_name": "Test profile",
+    "config_profile_description": "Merqury.FK test for a phased diploid assembly contained in separate fasta",
+    "input": "tests/merqury.fk/phased2x/assemblysheet.csv",
+    "merqury_skip": false,
+    "merqury_kmer_length": 21,
+    "max_cpus": 8,
+    "max_memory": "32.GB",
+    "max_time": "6.h"
+}
