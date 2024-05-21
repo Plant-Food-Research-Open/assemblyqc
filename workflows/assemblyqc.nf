@@ -22,6 +22,9 @@ include { FQ2HIC                            } from '../subworkflows/local/fq2hic
 include { CAT_CAT as TAG_ASSEMBLY           } from '../modules/pfr/cat/cat/main'
 include { FASTA_SYNTENY                     } from '../subworkflows/local/fasta_synteny'
 include { FASTK_FASTK                       } from '../modules/nf-core/fastk/fastk/main'
+include { FASTK_FASTK as MATERNAL_FASTK     } from '../modules/nf-core/fastk/fastk/main'
+include { FASTK_FASTK as PATERNAL_FASTK     } from '../modules/nf-core/fastk/fastk/main'
+include { MERQURYFK_HAPMAKER                } from '../modules/local/merquryfk_hapmaker'
 include { MERQURYFK_MERQURYFK               } from '../modules/nf-core/merquryfk/merquryfk/main'
 include { CREATEREPORT                      } from '../modules/local/createreport'
 
@@ -40,6 +43,8 @@ workflow ASSEMBLYQC {
     ch_hic_reads
     ch_xref_assembly
     ch_reads
+    ch_maternal_reads
+    ch_paternal_reads
     ch_params_as_json
     ch_summary_params_as_json
 
@@ -271,28 +276,29 @@ workflow ASSEMBLYQC {
                                             | map { tag, fa -> [ [ id: tag ], fa ] }
 
     ch_hic_reads_branch                     = ch_hic_reads
-                                            | combine(ch_hic_input_assembly.first()) // Wait till first clean assembly arrives
+                                            | combine(ch_hic_input_assembly.first())
+                                            // Wait till first clean assembly arrives
                                             | map { meta, fq, meta2, fasta -> [ meta, fq ] }
                                             | branch { meta, fq ->
                                                 sra: meta.is_sra
                                                 rest: ! meta.is_sra
                                             }
     // Reads
+    ch_all_clean_assemblies                 = ch_clean_assembly_tagged
+                                            | map { [ it ] }
+                                            | collect
+                                            | map { [ it ] }
+
     ch_reads_assemblies                     = ch_reads
                                             | combine(
-                                                ch_clean_assembly_tagged
-                                                | map { [ it ] }
-                                                | collect
-                                                | map { [ it ] }
+                                                ch_all_clean_assemblies
                                             )
+                                            // This combine with the filter after map
+                                            // is a join on list of assembly tags
+                                            // such as [ tag1 ] or [ tag1, tag2 ]
                                             | map { meta, fq, assemblies ->
                                                 [
-                                                    [
-                                                        id: meta.id,
-                                                        single_end: meta.single_end,
-                                                        is_sra: meta.is_sra,
-                                                        type: meta.type
-                                                    ],
+                                                    meta,
                                                     fq,
                                                     assemblies
                                                         .findAll { meta2, fasta -> meta2.id in meta.assemblies }
@@ -301,6 +307,7 @@ workflow ASSEMBLYQC {
                                                         .sort(false)
                                                 ]
                                             }
+                                            | filter { meta, fq, fastas -> fastas }
 
     ch_reads_branch                         = ch_reads_assemblies
                                             | map { meta, fq, fastas -> [ meta, fq ] }
@@ -309,18 +316,76 @@ workflow ASSEMBLYQC {
                                                 rest: ! meta.is_sra
                                             }
 
+    // Maternal reads
+    ch_maternal_reads_branch                = ch_maternal_reads
+                                            | combine(
+                                                ch_all_clean_assemblies
+                                            )
+                                            // This combine/filter/map is used to sync the
+                                            // reads channel with clean_assembly channel
+                                            // so that the downstream modules wait for
+                                            // the upstream modules to complete first
+                                            | map { meta, fq, assemblies ->
+                                                [
+                                                    meta,
+                                                    fq,
+                                                    assemblies
+                                                        .findAll { meta2, fasta -> meta2.id in meta.assemblies }
+                                                        .collect { meta2, fasta -> fasta }
+                                                        .flatten()
+                                                        .sort(false)
+                                                ]
+                                            }
+                                            | filter { meta, fq, fastas -> fastas }
+                                            | map { meta, fq, assemblies -> [ meta, fq ] }
+                                            | branch { meta, fq ->
+                                                sra: meta.is_sra
+                                                rest: ! meta.is_sra
+                                            }
+
+    // Paternal reads
+    ch_paternal_reads_branch                = ch_paternal_reads
+                                            | combine(
+                                                ch_all_clean_assemblies
+                                            )
+                                            | map { meta, fq, assemblies ->
+                                                [
+                                                    meta,
+                                                    fq,
+                                                    assemblies
+                                                        .findAll { meta2, fasta -> meta2.id in meta.assemblies }
+                                                        .collect { meta2, fasta -> fasta }
+                                                        .flatten()
+                                                        .sort(false)
+                                                ]
+                                            }
+                                            | filter { meta, fq, fastas -> fastas }
+                                            | map { meta, fq, assemblies -> [ meta, fq ] }
+                                            | branch { meta, fq ->
+                                                sra: meta.is_sra
+                                                rest: ! meta.is_sra
+                                            }
+
     // MODULE: FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS as FETCHNGS
     ch_fetchngs_inputs                      = ch_hic_reads_branch.sra
                                             | mix(ch_reads_branch.sra)
+                                            | mix(ch_maternal_reads_branch.sra)
     FETCHNGS(
-        ch_fetchngs_inputs,
+        ch_fetchngs_inputs.map { meta, sra -> [ [ id: meta.id, single_end: meta.single_end ], sra ] },
         []
     )
 
     ch_fetchngs                             = FETCHNGS.out.reads
+                                            | join(
+                                                ch_fetchngs_inputs
+                                                | map { meta, sra -> [ [ id: meta.id, single_end: meta.single_end ], meta ] }
+                                            )
+                                            | map { meta, fq, meta2 -> [ meta2, fq ] }
                                             | branch { meta, fq ->
-                                                hic: meta.type == 'hic'
-                                                reads: meta.type == 'reads'
+                                                hic:        meta.type == 'hic'
+                                                reads:      meta.type == 'reads'
+                                                maternal:   meta.type == 'maternal'
+                                                paternal:   meta.type == 'paternal'
                                             }
     ch_versions                             = ch_versions.mix(FETCHNGS.out.versions)
 
@@ -479,25 +544,131 @@ workflow ASSEMBLYQC {
     // MODULE: FASTK_FASTK
     ch_reads_files                          = ch_fetchngs.reads
                                             | mix(ch_reads_branch.rest)
+
     FASTK_FASTK ( ch_reads_files )
 
     ch_reads_fastk_hist                     = FASTK_FASTK.out.hist
     ch_reads_fastk                          = FASTK_FASTK.out.ktab
     ch_versions                             = ch_versions.mix(FASTK_FASTK.out.versions.first())
 
-    // MODULE: MERQURYFK_MERQURYFK
-    ch_merqury_assemblies                   = ch_reads_assemblies
-                                            | map { meta, fq, fastas -> [ meta, fastas ] }
+    // MODULE: FASTK_FASTK as MATERNAL_FASTK
+    ch_maternal_reads_files                 = ch_fetchngs.maternal
+                                            | mix(ch_maternal_reads_branch.rest)
 
+    MATERNAL_FASTK(
+        // Guard against failed resume on addition of assemblies with same parents
+        ch_maternal_reads_files
+        | map { meta, fq -> [ [ id: meta.id ], fq ] }
+    )
+
+    // ch_maternal_fastk_hist                  = MATERNAL_FASTK.out.hist
+    //                                         | join(
+    //                                             ch_maternal_reads_files
+    //                                             | map { meta, fq -> [ [ id: meta.id ], meta ] }
+    //                                         )
+    //                                         | map { meta, hist, meta2 -> [ meta2, hist ] }
+
+    ch_maternal_fastk                       = MATERNAL_FASTK.out.ktab
+                                            | join(
+                                                ch_maternal_reads_files
+                                                | map { meta, fq -> [ [ id: meta.id ], meta ] }
+                                            )
+                                            | map { meta, ktab, meta2 -> [ meta2, ktab ] }
+    ch_versions                             = ch_versions.mix(MATERNAL_FASTK.out.versions.first())
+
+    // MODULE: FASTK_FASTK as PATERNAL_FASTK
+    ch_paternal_reads_files                 = ch_fetchngs.paternal
+                                            | mix(ch_paternal_reads_branch.rest)
+
+    PATERNAL_FASTK(
+        ch_paternal_reads_files
+        | map { meta, fq -> [ [ id: meta.id ], fq ] }
+    )
+
+    // ch_paternal_fastk_hist                  = PATERNAL_FASTK.out.hist
+    //                                         | join(
+    //                                             ch_paternal_reads_files
+    //                                             | map { meta, fq -> [ [ id: meta.id ], meta ] }
+    //                                         )
+    //                                         | map { meta, hist, meta2 -> [ meta2, hist ] }
+
+    ch_paternal_fastk                       = PATERNAL_FASTK.out.ktab
+                                            | join(
+                                                ch_paternal_reads_files
+                                                | map { meta, fq -> [ [ id: meta.id ], meta ] }
+                                            )
+                                            | map { meta, ktab, meta2 -> [ meta2, ktab ] }
+    ch_versions                             = ch_versions.mix(PATERNAL_FASTK.out.versions.first())
+
+    // MODULE: MERQURYFK_HAPMAKER
+    ch_all_assemblies_with_parents          = ch_maternal_fastk
+                                            | mix(ch_paternal_fastk)
+                                            | flatMap { meta, ktab -> meta.assemblies }
+                                            | unique
+                                            | collect
+                                            | map { [ it ] }
+                                            | ifEmpty( [ [] ] )
+
+    ch_reads_fastk_without_parents          = ch_reads_fastk
+                                            | combine(
+                                                ch_all_assemblies_with_parents
+                                            )
+                                            | filter { meta, ktab, p_asms -> ! meta.assemblies.any { it in p_asms } }
+                                            | map { meta, ktab, p_asms -> [ meta, ktab, [], [] ] }
+
+    ch_group_fastk                          = ch_reads_fastk
+                                            | combine ( ch_maternal_fastk )
+                                            | filter { meta, ktab, meta2, mktab ->
+                                                meta.assemblies.every { it in meta2.assemblies }
+                                            }
+                                            | map { meta, ktab, meta2, mktab ->
+                                                [ meta, ktab, mktab ]
+                                            }
+                                            | combine ( ch_paternal_fastk )
+                                            | filter { meta, ktab, mktab, meta2, pktab ->
+                                                meta.assemblies.every { it in meta2.assemblies }
+                                            }
+                                            | map { meta, ktab, mktab, meta2, pktab ->
+                                                [ meta, ktab, mktab, pktab ]
+                                            }
+
+    MERQURYFK_HAPMAKER(
+        ch_group_fastk.map { meta, ktab, mktab, pktab -> [ meta, ktab ] },
+        ch_group_fastk.map { meta, ktab, mktab, pktab -> mktab },
+        ch_group_fastk.map { meta, ktab, mktab, pktab -> pktab }
+    )
+
+    ch_parental_hapmers                     = MERQURYFK_HAPMAKER.out.mat_hapmers
+                                            | join(MERQURYFK_HAPMAKER.out.pat_hapmers)
+    ch_versions                             = ch_versions.mix(MERQURYFK_HAPMAKER.out.versions.first())
+
+    // Prepare FASTK tables
+    ch_fastk_ktabs                          = ch_group_fastk
+                                            | join(ch_parental_hapmers)
+                                            | map { meta, ktab, mktab, pktab, hap_mktab, hap_pktab ->
+                                                [ meta, ktab, hap_mktab, hap_pktab ]
+                                            }
+                                            | mix(ch_reads_fastk_without_parents)
+                                            | map { meta, ktab, hap_mktab, hap_pktab ->
+                                                [
+                                                    meta,
+                                                    ktab + hap_mktab + hap_pktab
+                                                ]
+                                            }
+
+    // MODULE: MERQURYFK_MERQURYFK
     ch_merqury_inputs                       = ch_reads_fastk_hist
                                             | join(
-                                                ch_reads_fastk
+                                                ch_fastk_ktabs
                                             )
                                             | join(
-                                                ch_merqury_assemblies
+                                                ch_reads_assemblies
+                                                | map { meta, fq, fastas -> [ meta, fastas ] }
                                             )
                                             | map { meta, hist, ktab, fastas ->
-                                                [ meta, hist, ktab, fastas, [] ]
+                                                fastas.size() > 1
+                                                ? [ meta, hist, ktab, fastas[0], fastas[1] ]
+                                                : [ meta, hist, ktab, fastas[0], [] ]
                                             }
 
     MERQURYFK_MERQURYFK ( ch_merqury_inputs )
@@ -527,25 +698,25 @@ workflow ASSEMBLYQC {
                                             )
 
     // MODULE: CREATEREPORT
-    CREATEREPORT(
-        ch_invalid_assembly_log             .collect().ifEmpty([]),
-        ch_invalid_gff3_log                 .collect().ifEmpty([]),
-        ch_fcs_adaptor_report               .map { meta, file -> file }.collect().ifEmpty([]),
-        ch_fcs_gx_report                    .mix(ch_fcs_gx_taxonomy_plot).map { meta, file -> file }.collect().ifEmpty([]),
-        ch_assemblathon_stats               .collect().ifEmpty([]),
-        ch_gt_stats                         .collect().ifEmpty([]),
-        ch_busco_outputs                    .collect().ifEmpty([]),
-        ch_busco_gff_outputs                .collect().ifEmpty([]),
-        ch_tidk_outputs                     .collect().ifEmpty([]),
-        ch_lai_outputs                      .collect().ifEmpty([]),
-        ch_kraken2_plot                     .collect().ifEmpty([]),
-        ch_hic_html                         .collect().ifEmpty([]),
-        ch_synteny_plots                    .collect().ifEmpty([]),
-        ch_merqury_outputs                  .collect().ifEmpty([]),
-        ch_versions_yml,
-        ch_params_as_json,
-        ch_summary_params_as_json
-    )
+    // CREATEREPORT(
+    //     ch_invalid_assembly_log             .collect().ifEmpty([]),
+    //     ch_invalid_gff3_log                 .collect().ifEmpty([]),
+    //     ch_fcs_adaptor_report               .map { meta, file -> file }.collect().ifEmpty([]),
+    //     ch_fcs_gx_report                    .mix(ch_fcs_gx_taxonomy_plot).map { meta, file -> file }.collect().ifEmpty([]),
+    //     ch_assemblathon_stats               .collect().ifEmpty([]),
+    //     ch_gt_stats                         .collect().ifEmpty([]),
+    //     ch_busco_outputs                    .collect().ifEmpty([]),
+    //     ch_busco_gff_outputs                .collect().ifEmpty([]),
+    //     ch_tidk_outputs                     .collect().ifEmpty([]),
+    //     ch_lai_outputs                      .collect().ifEmpty([]),
+    //     ch_kraken2_plot                     .collect().ifEmpty([]),
+    //     ch_hic_html                         .collect().ifEmpty([]),
+    //     ch_synteny_plots                    .collect().ifEmpty([]),
+    //     ch_merqury_outputs                  .collect().ifEmpty([]),
+    //     ch_versions_yml,
+    //     ch_params_as_json,
+    //     ch_summary_params_as_json
+    // )
 }
 
 /*

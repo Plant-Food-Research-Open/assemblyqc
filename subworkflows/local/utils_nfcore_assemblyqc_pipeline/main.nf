@@ -135,7 +135,41 @@ workflow PIPELINE_INITIALISATION {
                                             }
                                             | groupTuple
                                             | map { fid, metas, reads ->
-                                                validateAndNormaliseReadsTupe ( fid, metas, reads )
+                                                validateAndNormaliseReadsTuple ( fid, metas, reads, 'reads' )
+                                            }
+
+    ch_maternal_reads                       = params.merqury_skip
+                                            ? Channel.empty()
+                                            : ch_input_validated
+                                            | map { input_data ->
+                                                def tag                 = input_data[0]
+                                                def maternal_reads_1    = input_data[7]
+                                                def maternal_reads_2    = input_data[8]
+
+                                                maternal_reads_1
+                                                ? extractReadsTuple ( tag, maternal_reads_1, maternal_reads_2 )
+                                                : null
+                                            }
+                                            | groupTuple
+                                            | map { fid, metas, m_reads ->
+                                                validateAndNormaliseReadsTuple ( fid, metas, m_reads, 'maternal' )
+                                            }
+
+    ch_paternal_reads                       = params.merqury_skip
+                                            ? Channel.empty()
+                                            : ch_input_validated
+                                            | map { input_data ->
+                                                def tag                 = input_data[0]
+                                                def paternal_reads_1    = input_data[9]
+                                                def paternal_reads_2    = input_data[10]
+
+                                                paternal_reads_1
+                                                ? extractReadsTuple ( tag, paternal_reads_1, paternal_reads_2 )
+                                                : null
+                                            }
+                                            | groupTuple
+                                            | map { fid, metas, m_reads ->
+                                                validateAndNormaliseReadsTuple ( fid, metas, m_reads, 'paternal' )
                                             }
 
     // Initialise parameter channels
@@ -147,6 +181,8 @@ workflow PIPELINE_INITIALISATION {
     hic_reads                               = ch_hic_reads
     xref_assembly                           = ch_xref_assembly_validated
     reads                                   = ch_reads
+    maternal_reads                          = ch_maternal_reads
+    paternal_reads                          = ch_paternal_reads
     params_as_json                          = ch_params_as_json
     summary_params_as_json                  = ch_summary_params_as_json
     versions                                = ch_versions
@@ -324,32 +360,34 @@ def extractReadsTuple(tag, reads_1, reads_2) {
     ]
 }
 
-def validateAndNormaliseReadsTupe ( fid, metas, reads ) {
+def validateAndNormaliseReadsTuple ( fid, metas, reads, readsType ) {
 
     def tags        = metas.collect { it.id }.flatten()
     def endedness   = metas.collect { it.single_end }.flatten()
+    def identifier  = readsType == 'reads' ? '' : "${readsType}_"
 
     // Validate
     if ( endedness.unique().size() != 1 ) {
-        error("Please check input assemblysheet -> Following assemblies have different reads_1 and reads_2: ${tags}")
+        error("Please check input assemblysheet -> Following assemblies have different ${identifier}reads_1 and ${identifier}reads_2: ${tags}")
     }
 
-    if ( tags.size() > 2 ) {
-        error("Please check input assemblysheet -> More than two assemblies (${tags}) are in the same read group: ${fid}")
+    if ( readsType == 'reads' && tags.size() > 2 ) {
+        error("Please check input assemblysheet -> More than two assemblies (${tags}) are in the same genome group defined by ${identifier}reads_1: ${fid.fid}")
     }
 
-    def individualID = tags.join('-and-') + "-reads-" + fid.fid.replaceAll(/\./, '_')
+    def groupIDPrefix = readsType == 'reads' ? ( tags.join('-and-') + "-${readsType}-" ) : ''
+    def groupID = groupIDPrefix + fid.fid.replaceAll(/\./, '_')
 
     if ( metas.first().is_sra ) { // SRA
         return [
-            [ id:individualID, single_end:false, is_sra:true, type: 'reads', assemblies:tags ],
+            [ id:groupID, single_end:false, is_sra:true, type: readsType, assemblies:tags ],
             reads.first()
         ]
     }
 
     if ( endedness.unique().first() ) { // Single ended
         return [
-            [ id:individualID, single_end:true, is_sra:false, type: 'reads', assemblies:tags ],
+            [ id:groupID, single_end:true, is_sra:false, type: readsType, assemblies:tags ],
             reads.first().collect { file(it, checkIfExists: true) }
         ]
     }
@@ -357,11 +395,11 @@ def validateAndNormaliseReadsTupe ( fid, metas, reads ) {
     def reads_2 = reads.collect { it[1] }
 
     if ( reads_2.unique().size() != 1 ) {
-        error("Please check input assemblysheet -> Following assemblies have different reads_1 and reads_2: ${tags}")
+        error("Please check input assemblysheet -> Following assemblies have different ${identifier}reads_1 and ${identifier}reads_2: ${tags}")
     }
 
     return [
-        [ id:individualID, single_end:false, is_sra:false, type: 'reads', assemblies:tags ],
+        [ id:groupID, single_end:false, is_sra:false, type: readsType, assemblies:tags ],
         reads.first().collect { file(it, checkIfExists: true) }
     ]
 }

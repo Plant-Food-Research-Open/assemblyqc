@@ -75,21 +75,8 @@
                 ],
                 "dependentRequired": ["reads_1"]
             },
-            "is_maternal": {
-                "anyOf": [
-                    {
-                        "type": "string",
-                        "pattern": "^(yes|no)$"
-                    },
-                    {
-                        "type": "string",
-                        "maxLength": 0
-                    }
-                ],
-                "errorMessage": "Maternal haplotype should be indicated by 'yes' or 'no'"
-            },
-            "parent_reads_1": {
-                "errorMessage": "parent_reads_1 should be a SRA ID for paired FASTQ files or FASTX file path without spaces and must have extension '.f(a|asta|as|sa|na|astq|q)' or '.f(a|asta|as|sa|na|astq|q).gz'",
+            "maternal_reads_1": {
+                "errorMessage": "maternal_reads_1 should be a SRA ID for paired FASTQ files or FASTX file path without spaces and must have extension '.f(a|asta|as|sa|na|astq|q)' or '.f(a|asta|as|sa|na|astq|q).gz'",
                 "anyOf": [
                     {
                         "type": "string",
@@ -100,9 +87,9 @@
                         "maxLength": 0
                     }
                 ],
-                "dependentRequired": ["reads_1", "is_maternal"]
+                "dependentRequired": ["reads_1", "paternal_reads_1"]
             },
-            "parent_reads_2": {
+            "maternal_reads_2": {
                 "errorMessage": "FASTX file path cannot contain spaces and must have extension '.f(a|asta|as|sa|na|astq|q)' or '.f(a|asta|as|sa|na|astq|q).gz'",
                 "anyOf": [
                     {
@@ -114,7 +101,35 @@
                         "maxLength": 0
                     }
                 ],
-                "dependentRequired": ["parent_reads_1"]
+                "dependentRequired": ["maternal_reads_1"]
+            },
+            "paternal_reads_1": {
+                "errorMessage": "paternal_reads_1 should be a SRA ID for paired FASTQ files or FASTX file path without spaces and must have extension '.f(a|asta|as|sa|na|astq|q)' or '.f(a|asta|as|sa|na|astq|q).gz'",
+                "anyOf": [
+                    {
+                        "type": "string",
+                        "pattern": "^SR\\w+$|^\\S+\\.f(a|asta|as|sa|na|astq|q)(\\.gz)?$"
+                    },
+                    {
+                        "type": "string",
+                        "maxLength": 0
+                    }
+                ],
+                "dependentRequired": ["reads_1", "maternal_reads_1"]
+            },
+            "paternal_reads_2": {
+                "errorMessage": "FASTX file path cannot contain spaces and must have extension '.f(a|asta|as|sa|na|astq|q)' or '.f(a|asta|as|sa|na|astq|q).gz'",
+                "anyOf": [
+                    {
+                        "type": "string",
+                        "pattern": "^\\S+\\.f(a|asta|as|sa|na|astq|q)(\\.gz)?$"
+                    },
+                    {
+                        "type": "string",
+                        "maxLength": 0
+                    }
+                ],
+                "dependentRequired": ["paternal_reads_1"]
             }
         },
         "required": ["tag", "fasta"]

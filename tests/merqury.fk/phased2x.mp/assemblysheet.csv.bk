@@ -1,0 +1,3 @@
+tag,fasta,reads_1,maternal_reads_1,paternal_reads_1
+COL,https://gembox.cbcb.umd.edu/triobinning/athal_COL.fasta,SRR3703081,https://gembox.cbcb.umd.edu/triobinning/athal_CVI.fastq.gz,https://gembox.cbcb.umd.edu/triobinning/athal_COL.fastq.gz
+CVI,https://gembox.cbcb.umd.edu/triobinning/athal_CVI.fasta,SRR3703081,https://gembox.cbcb.umd.edu/triobinning/athal_CVI.fastq.gz,https://gembox.cbcb.umd.edu/triobinning/athal_COL.fastq.gz
