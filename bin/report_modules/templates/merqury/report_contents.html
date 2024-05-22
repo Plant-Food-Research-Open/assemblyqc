@@ -1,0 +1,61 @@
+{% set vars = {'is_first': True} %}
+{% for item in range(all_stats_dicts["MERQURY"]|length) %}
+{% set active_text = 'display: block' if vars.is_first else 'display: none' %}
+<div id="tabcontent_MERQURY_{{ all_stats_dicts['MERQURY'][item]['individual_id'] }}" class="tabcontent-MERQURY"
+  style="{{ active_text }}">
+  <div class="results-section">
+    <div class="section-heading-wrapper">
+      <div class="section-heading">{{ all_stats_dicts['MERQURY'][item]['individual_id'] }}</div>
+    </div>
+    <div class="section-para-wrapper">
+      <p class="section-para"><b>Completeness stats</b></p>
+    </div>
+    <div class="table-outer">
+      <div class="table-wrapper">{{ all_stats_dicts['MERQURY'][item]['completeness_stats_table_html'] }}</div>
+    </div>
+    <div class="section-para-wrapper">
+      <p class="section-para"><b>Consensus quality QV stats</b></p>
+    </div>
+    <div class="table-outer">
+      <div class="table-wrapper">{{ all_stats_dicts['MERQURY'][item]['qv_stats_table_html'] }}</div>
+    </div>
+
+    <div class="section-para-wrapper">
+      <p class="section-para"><b>Spectra-asm</b></p>
+    </div>
+    <div class="image-wrapper">
+      <img src="{{ all_stats_dicts['MERQURY'][item]['asm_plot'] }}" alt="" />
+    </div>
+
+    {% for subitem in range(all_stats_dicts["MERQURY"][item]['hap_plots']|length) %}
+    <div class="section-para-wrapper">
+      <p class="section-para"><b>{{ all_stats_dicts['MERQURY'][item]['hap_plots'][subitem]['hap'] }} spectra-cn</b></p>
+    </div>
+    <div class="image-wrapper">
+      <img src="{{ all_stats_dicts['MERQURY'][item]['hap_plots'][subitem]['plot'] }}" alt="" />
+    </div>
+    {% endfor %}
+
+    {% if all_stats_dicts['MERQURY'][item]['plot'] is not none %}
+    <div class="section-para-wrapper">
+      <p class="section-para"><b>Spectra-cn</b></p>
+    </div>
+    <div class="image-wrapper">
+      <img src="{{ all_stats_dicts['MERQURY'][item]['plot'] }}" alt="" />
+    </div>
+    {% endif %}
+
+    {% if all_stats_dicts['MERQURY'][item]['hapmers_blob'] is not none %}
+    <div class="section-para-wrapper">
+      <p class="section-para"><b>Hapmers Blob</b></p>
+    </div>
+    <div class="image-wrapper">
+      <img src="{{ all_stats_dicts['MERQURY'][item]['hapmers_blob'] }}" alt="" />
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+{% if vars.update({'is_first': False}) %}
+{% endif %}
+{% endfor %}

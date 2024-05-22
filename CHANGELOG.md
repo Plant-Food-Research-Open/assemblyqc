@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v2.0.0+dev - [17-May-2024]
+## v2.0.0+dev - [22-May-2024]
 
 ### `Added`
 
@@ -18,11 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 9. Now the `contamination_stops_pipeline` flag allows the pipeline to continue if contamination is detected. It's default value is `true` [#54](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/54)
 10. Now fasta ids are sorted in natural order for the HiC module [#76](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/76)
 11. Now using `FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS` for SRA downloads
-12. Added `MERQURYFK` module [#85](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/85)
+12. Added `MERQURY` module [#85](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/85)
 13. Replaced `GFF3_VALIDATE` sub-workflow with `GFF3_GT_GFF3_GFF3VALIDATOR_STAT`
 14. Replaced local `BUSCO` module with `FASTA_GXF_BUSCO_PLOT` sub-workflow [#75](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/75)
 15. Replaced local `NCBI_FCS_ADAPTOR` with nf-core module and updated to 0.5.0 which includes additional adaptors for PacBio and Nanopore technologies [#55](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/55)
-16. Locally added stubs for `FASTK/FASTK`, `MERQURYFK/MERQURYFK`, `SRATOOLS/FASTERQDUMP` and `SRATOOLS/PREFETCH`
 
 ### `Fixed`
 

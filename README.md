@@ -10,7 +10,7 @@
 
 ## Introduction
 
-**plant-food-research-open/assemblyqc** is a [NextFlow](https://www.nextflow.io/docs/latest/index.html) pipeline which evaluates assembly quality with multiple QC tools and presents the results in a unified html report. The tools are shown in the [Pipeline Flowchart](#pipeline-flowchart) and their version are listed in [CITATIONS.md](./CITATIONS.md).
+**plant-food-research-open/assemblyqc** is a [NextFlow](https://www.nextflow.io/docs/latest/index.html) pipeline which evaluates assembly quality with multiple QC tools and presents the results in a unified html report. The tools are shown in the [Pipeline Flowchart](#pipeline-flowchart) and their references are listed in [CITATIONS.md](./CITATIONS.md).
 
 ## Pipeline Flowchart
 
@@ -37,7 +37,7 @@ flowchart LR
   Run --> KRAKEN2
   Run --> HIC_CONTACT_MAP[HIC CONTACT MAP]
   Run --> SYNTENY
-  Run --> MERQURYFK
+  Run --> MERQURY
 
   ASS_STATS --> REPORT
   GFF_STATS --> REPORT
@@ -47,7 +47,7 @@ flowchart LR
   KRAKEN2 --> REPORT
   HIC_CONTACT_MAP --> REPORT
   SYNTENY --> REPORT
-  MERQURYFK --> REPORT
+  MERQURY --> REPORT
 ```
 
 - [FASTA VALIDATION](https://github.com/GallVp/fasta_validator)
@@ -62,7 +62,7 @@ flowchart LR
 - [KRAKEN2](https://github.com/DerrickWood/kraken2): Taxonomy classification
 - [HIC CONTACT MAP](https://github.com/igvteam/juicebox.js): Alignment and visualisation of HiC data
 - SYNTENY: Synteny analysis using [MUMMER](https://github.com/mummer4/mummer), [CIRCOS](http://circos.ca/documentation/) and [PLOTLY](https://plotly.com)
-- [MERQURY.FK](https://github.com/thegenemyers/MERQURY.FK): K-mer completeness, consensus quality and phasing assessment
+- [MERQURY](https://github.com/marbl/merqury): K-mer completeness, consensus quality and phasing assessment
 
 ## Usage
 

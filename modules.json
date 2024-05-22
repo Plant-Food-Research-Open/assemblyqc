@@ -80,6 +80,11 @@
                         "git_sha": "10b046eaac396f279c08e7e2bb067482ccd9c74e",
                         "installed_by": ["fasta_ltrretriever_lai"]
                     },
+                    "merqury/hapmers": {
+                        "branch": "main",
+                        "git_sha": "46b70684b6ae0ac60cae154c61796b293707db64",
+                        "installed_by": ["modules"]
+                    },
                     "samblaster": {
                         "branch": "main",
                         "git_sha": "10b046eaac396f279c08e7e2bb067482ccd9c74e",
@@ -130,12 +135,6 @@
                         "git_sha": "89ff95427f695086369d7927a3c17cea2a37a382",
                         "installed_by": ["modules"]
                     },
-                    "fastk/fastk": {
-                        "branch": "master",
-                        "git_sha": "3f5420aa22e00bd030a2556dfdffc9e164ec0ec5",
-                        "installed_by": ["modules"],
-                        "patch": "modules/nf-core/fastk/fastk/fastk-fastk.diff"
-                    },
                     "fastp": {
                         "branch": "master",
                         "git_sha": "95cf5fe0194c7bf5cb0e3027a2eb7e7c89385080",
@@ -156,11 +155,20 @@
                         "git_sha": "3a5fef109d113b4997c9822198664ca5f2716208",
                         "installed_by": ["modules"]
                     },
-                    "merquryfk/merquryfk": {
+                    "merqury": {
                         "branch": "master",
                         "git_sha": "3f5420aa22e00bd030a2556dfdffc9e164ec0ec5",
-                        "installed_by": ["modules"],
-                        "patch": "modules/nf-core/merquryfk/merquryfk/merquryfk-merquryfk.diff"
+                        "installed_by": ["modules"]
+                    },
+                    "meryl/count": {
+                        "branch": "master",
+                        "git_sha": "c95215baf20e6d8cf2ae0e8411d03c5d9ef21d4a",
+                        "installed_by": ["modules"]
+                    },
+                    "meryl/unionsum": {
+                        "branch": "master",
+                        "git_sha": "b7f584e61c35c138a5717f837f4da9b838e290a7",
+                        "installed_by": ["modules"]
                     },
                     "seqkit/seq": {
                         "branch": "master",
@@ -174,15 +182,13 @@
                     },
                     "sratools/fasterqdump": {
                         "branch": "master",
-                        "git_sha": "5caf7640a9ef1d18d765d55339be751bb0969dfa",
-                        "installed_by": ["fastq_download_prefetch_fasterqdump_sratools", "modules"],
-                        "patch": "modules/nf-core/sratools/fasterqdump/sratools-fasterqdump.diff"
+                        "git_sha": "dd935314930f972117455672f89e5cb0794719e5",
+                        "installed_by": ["fastq_download_prefetch_fasterqdump_sratools", "modules"]
                     },
                     "sratools/prefetch": {
                         "branch": "master",
-                        "git_sha": "1fc29f92e439d5631fdf34b8ac4687297d70f5ec",
-                        "installed_by": ["fastq_download_prefetch_fasterqdump_sratools", "modules"],
-                        "patch": "modules/nf-core/sratools/prefetch/sratools-prefetch.diff"
+                        "git_sha": "dd935314930f972117455672f89e5cb0794719e5",
+                        "installed_by": ["fastq_download_prefetch_fasterqdump_sratools", "modules"]
                     },
                     "tidk/explore": {
                         "branch": "master",

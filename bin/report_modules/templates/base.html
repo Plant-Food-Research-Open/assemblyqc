@@ -68,8 +68,8 @@
     <button class="tablinks" onclick="openTool(event, 'SYNTENY_LINEAR')">SYNTENY LINEAR</button>
     {% endif %}
 
-    {% if 'MERQURYFK' in all_stats_dicts %}
-    <button class="tablinks" onclick="openTool(event, 'MERQURYFK')">MERQURYFK</button>
+    {% if 'MERQURY' in all_stats_dicts %}
+    <button class="tablinks" onclick="openTool(event, 'MERQURY')">MERQURY</button>
     {% endif %}
   </div>
 
@@ -132,8 +132,8 @@
   {% include 'synteny_linear/synteny_linear.html' %}
   {% endif %}
 
-  {% if 'MERQURYFK' in all_stats_dicts %}
-  {% include 'merquryfk/merquryfk.html' %}
+  {% if 'MERQURY' in all_stats_dicts %}
+  {% include 'merqury/merqury.html' %}
   {% endif %}
 </body>
 {% include 'js.html' %}

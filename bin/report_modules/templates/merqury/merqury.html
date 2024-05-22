@@ -1,0 +1,17 @@
+<div id="MERQURY" class="tabcontent" style="display: none">
+  <div class="section-para-wrapper">
+    <p class="section-para">Often, genome assembly projects have illumina whole genome sequencing reads available for
+      the assembled individual. The k-mer spectrum of this read set can be used for independently evaluating assembly
+      quality without the need of a high quality reference. Merqury provides a set of tools for this purpose.</p>
+    <p class="section-para"><b>References:</b></p>
+    <p class="section-para">
+      Rhie, A., Walenz, B.P., Koren, S. et al. Merqury: reference-free quality, completeness, and phasing assessment for
+      genome assemblies. Genome Biol 21, 245 (2020). doi: <a href="https://doi.org/10.1186/s13059-020-02134-9"
+        target="_blank">10.1186/s13059-020-02134-9</a>
+    </p>
+    <p class="section-para">
+      <b>Version: {{ all_stats_dicts['VERSIONS']['MERQURY']['merqury'] }}</b>
+    </p>
+  </div>
+  {% include 'merqury/dropdown.html' %} {% include 'merqury/report_contents.html' %}
+</div>

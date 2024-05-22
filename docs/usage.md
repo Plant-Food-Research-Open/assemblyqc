@@ -10,7 +10,7 @@ You will need to create an assemblysheet with information about the assemblies y
 - `monoploid_ids [Optional]:` A txt file listing the IDs used to calculate LAI in monoploid mode if necessary
 - `synteny_labels [Optional]:` A two column tsv file listing fasta sequence ids (first column) and their labels for the synteny plots (second column) when performing synteny analysis
 
-See the [Merqury.FK](#merquryfk-k-mer-analysis) section For description of assemblysheet columns related to k-mer analysis with Merqury.FK.
+See the [Merqury](#merqury-k-mer-analysis) section For description of assemblysheet columns related to k-mer analysis with Merqury.
 
 ## External databases
 
@@ -85,19 +85,23 @@ BUSCO lineage databases are downloaded and updated by the BUSCO tool itself. A p
   - `fasta:` FASTA file
   - `synteny_labels:` A two column tsv file listing fasta sequence ids (first column) and their labels for the synteny plots (second column)
 
-### Merqury.FK K-mer analysis
+### Merqury K-mer analysis
 
 #### Additional assemblysheet columns
 
-- `reads_1 [Optional]`: A SRA ID for paired FASTQ files or FASTA/FASTQ file path to assembly reads. The reads are used by [MERQURY.FK](https://github.com/thegenemyers/MERQURY.FK) for k-mer analysis. If two assemblies have the same SRA ID or file path for `reads_1`, they are treated as haplotypes of the same genome by MERQURY.FK. A genome can only have one or two haplotypes.
+- `reads_1 [Optional]`: A SRA ID for paired FASTQ files or FASTA/FASTQ file path to assembly reads. The reads are used by [MERQURY](https://github.com/marbl/merqury) for k-mer analysis. If two assemblies have the same SRA ID or file path for `reads_1`, they are treated as haplotypes of the same genome by MERQURY. A genome can only have one or two haplotypes.
 - `reads_2 [Optional]`: This column lists the second file if paired reads are used. If `reads_1` is a SRA ID, this column is ignored.
+- `maternal_reads_1 [Optional]`: A SRA ID for paired FASTQ files or FASTA/FASTQ file path to maternal reads. If two assemblies are haplotypes of the same genome, this path should be repeated. Moreover, more than one genome can have same `maternal_reads_1`.
+- `maternal_reads_2 [Optional]`: This column lists the second file if paired reads are used. If `maternal_reads_1` is a SRA ID, this column is ignored.
+- `paternal_reads_1 [Optional]`: A SRA ID for paired FASTQ files or FASTA/FASTQ file path to paternal reads. If two assemblies are haplotypes of the same genome, this path should be repeated. Moreover, more than one genome can have same `paternal_reads_1`.
+- `paternal_reads_2 [Optional]`: This column lists the second file if paired reads are used. If `paternal_reads_1` is a SRA ID, this column is ignored.
 
-See following assemblysheet examples for MERQURY.FK analysis.
+See following assemblysheet examples for MERQURY analysis.
 
 - [assemblysheet - 1x](../assets/assemblysheetv2.csv)
-- [assemblysheet - mixed2x](../tests/merqury.fk/mixed2x/assemblysheet.csv)
-- [assemblysheet - phased2x](../tests/merqury.fk/phased2x/assemblysheet.csv)
-- [assemblysheet - phased2x with parent reads](../tests/merqury.fk/phased2x.mp/assemblysheet.csv)
+- [assemblysheet - mixed2x](../tests/merqury/mixed2x/assemblysheet.csv)
+- [assemblysheet - phased2x](../tests/merqury/phased2x/assemblysheet.csv)
+- [assemblysheet - phased2x with parent reads](../tests/merqury/phased2x.mp/assemblysheet.csv)
 
 #### Parameters
 

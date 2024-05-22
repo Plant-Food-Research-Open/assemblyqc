@@ -375,8 +375,7 @@ def validateAndNormaliseReadsTuple ( fid, metas, reads, readsType ) {
         error("Please check input assemblysheet -> More than two assemblies (${tags}) are in the same genome group defined by ${identifier}reads_1: ${fid.fid}")
     }
 
-    def groupIDPrefix = readsType == 'reads' ? ( tags.join('-and-') + "-${readsType}-" ) : ''
-    def groupID = groupIDPrefix + fid.fid.replaceAll(/\./, '_')
+    def groupID = readsType == 'reads' ? ( tags.join('-and-') ) : fid.fid.replaceAll(/\./, '_')
 
     if ( metas.first().is_sra ) { // SRA
         return [

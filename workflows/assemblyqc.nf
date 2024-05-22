@@ -21,11 +21,14 @@ include { FASTA_KRAKEN2                     } from '../subworkflows/local/fasta_
 include { FQ2HIC                            } from '../subworkflows/local/fq2hic'
 include { CAT_CAT as TAG_ASSEMBLY           } from '../modules/pfr/cat/cat/main'
 include { FASTA_SYNTENY                     } from '../subworkflows/local/fasta_synteny'
-include { FASTK_FASTK                       } from '../modules/nf-core/fastk/fastk/main'
-include { FASTK_FASTK as MATERNAL_FASTK     } from '../modules/nf-core/fastk/fastk/main'
-include { FASTK_FASTK as PATERNAL_FASTK     } from '../modules/nf-core/fastk/fastk/main'
-include { MERQURYFK_HAPMAKER                } from '../modules/local/merquryfk_hapmaker'
-include { MERQURYFK_MERQURYFK               } from '../modules/nf-core/merquryfk/merquryfk/main'
+include { MERYL_COUNT                       } from '../modules/nf-core/meryl/count/main'
+include { MERYL_UNIONSUM                    } from '../modules/nf-core/meryl/unionsum/main'
+include { MERYL_COUNT as MAT_MERYL_COUNT    } from '../modules/nf-core/meryl/count/main'
+include { MERYL_UNIONSUM as MAT_UNIONSUM    } from '../modules/nf-core/meryl/unionsum/main'
+include { MERYL_COUNT as PAT_MERYL_COUNT    } from '../modules/nf-core/meryl/count/main'
+include { MERYL_UNIONSUM as PAT_UNIONSUM    } from '../modules/nf-core/meryl/unionsum/main'
+include { MERQURY_HAPMERS                   } from '../modules/pfr/merqury/hapmers/main'
+include { MERQURY                           } from '../modules/nf-core/merqury/main'
 include { CREATEREPORT                      } from '../modules/local/createreport'
 
 include { FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS as FETCHNGS  } from '../subworkflows/nf-core/fastq_download_prefetch_fasterqdump_sratools/main'
@@ -541,146 +544,180 @@ workflow ASSEMBLYQC {
     ch_synteny_plots                        = FASTA_SYNTENY.out.png.mix(FASTA_SYNTENY.out.html)
     ch_versions                             = ch_versions.mix(FASTA_SYNTENY.out.versions)
 
-    // MODULE: FASTK_FASTK
+    // MODULE: MERYL_COUNT
     ch_reads_files                          = ch_fetchngs.reads
                                             | mix(ch_reads_branch.rest)
 
-    FASTK_FASTK ( ch_reads_files )
+    MERYL_COUNT(
+        ch_reads_files,
+        params.merqury_kmer_length
+    )
 
-    ch_reads_fastk_hist                     = FASTK_FASTK.out.hist
-    ch_reads_fastk                          = FASTK_FASTK.out.ktab
-    ch_versions                             = ch_versions.mix(FASTK_FASTK.out.versions.first())
+    ch_reads_meryl                          = MERYL_COUNT.out.meryl_db
+    ch_versions                             = ch_versions.mix(MERYL_COUNT.out.versions.first())
 
-    // MODULE: FASTK_FASTK as MATERNAL_FASTK
+    // MODULE: MERYL_UNIONSUM
+    ch_reads_meryl_branch                   = ch_reads_meryl
+                                            | branch { meta, meryl ->
+                                                single: meta.single_end
+                                                paired: ! meta.single_end
+                                            }
+    MERYL_UNIONSUM(
+        ch_reads_meryl_branch.paired,
+        params.merqury_kmer_length
+    )
+
+    ch_reads_union_meryl                    = MERYL_UNIONSUM.out.meryl_db
+                                            | mix(ch_reads_meryl_branch.single)
+    ch_versions                             = ch_versions.mix(MERYL_UNIONSUM.out.versions.first())
+
+    // MODULE: MERYL_COUNT as MAT_MERYL_COUNT
     ch_maternal_reads_files                 = ch_fetchngs.maternal
                                             | mix(ch_maternal_reads_branch.rest)
 
-    MATERNAL_FASTK(
+    MAT_MERYL_COUNT(
         // Guard against failed resume on addition of assemblies with same parents
         ch_maternal_reads_files
-        | map { meta, fq -> [ [ id: meta.id ], fq ] }
+        | map { meta, fq -> [ [ id: meta.id ], fq ] },
+        params.merqury_kmer_length
     )
 
-    // ch_maternal_fastk_hist                  = MATERNAL_FASTK.out.hist
-    //                                         | join(
-    //                                             ch_maternal_reads_files
-    //                                             | map { meta, fq -> [ [ id: meta.id ], meta ] }
-    //                                         )
-    //                                         | map { meta, hist, meta2 -> [ meta2, hist ] }
-
-    ch_maternal_fastk                       = MATERNAL_FASTK.out.ktab
+    ch_maternal_meryl                       = MAT_MERYL_COUNT.out.meryl_db
                                             | join(
                                                 ch_maternal_reads_files
                                                 | map { meta, fq -> [ [ id: meta.id ], meta ] }
                                             )
-                                            | map { meta, ktab, meta2 -> [ meta2, ktab ] }
-    ch_versions                             = ch_versions.mix(MATERNAL_FASTK.out.versions.first())
+                                            | map { meta, meryl, meta2 -> [ meta2, meryl ] }
+    ch_versions                             = ch_versions.mix(MAT_MERYL_COUNT.out.versions.first())
 
-    // MODULE: FASTK_FASTK as PATERNAL_FASTK
+    // MODULE: MAT_UNIONSUM
+    ch_maternal_meryl_branch                = ch_maternal_meryl
+                                            | branch { meta, meryl_db ->
+                                                single: meta.single_end
+                                                paired: ! meta.single_end
+                                            }
+    MAT_UNIONSUM(
+        ch_maternal_meryl_branch.paired,
+        params.merqury_kmer_length
+    )
+
+    ch_maternal_union_meryl                 = MAT_UNIONSUM.out.meryl_db
+                                            | mix(ch_maternal_meryl_branch.single)
+    ch_versions                             = ch_versions.mix(MAT_UNIONSUM.out.versions.first())
+
+    // MODULE: MERYL_COUNT as PAT_MERYL_COUNT
     ch_paternal_reads_files                 = ch_fetchngs.paternal
                                             | mix(ch_paternal_reads_branch.rest)
 
-    PATERNAL_FASTK(
+    PAT_MERYL_COUNT(
         ch_paternal_reads_files
-        | map { meta, fq -> [ [ id: meta.id ], fq ] }
+        | map { meta, fq -> [ [ id: meta.id ], fq ] },
+        params.merqury_kmer_length
     )
 
-    // ch_paternal_fastk_hist                  = PATERNAL_FASTK.out.hist
-    //                                         | join(
-    //                                             ch_paternal_reads_files
-    //                                             | map { meta, fq -> [ [ id: meta.id ], meta ] }
-    //                                         )
-    //                                         | map { meta, hist, meta2 -> [ meta2, hist ] }
-
-    ch_paternal_fastk                       = PATERNAL_FASTK.out.ktab
+    ch_paternal_meryl                       = PAT_MERYL_COUNT.out.meryl_db
                                             | join(
                                                 ch_paternal_reads_files
                                                 | map { meta, fq -> [ [ id: meta.id ], meta ] }
                                             )
-                                            | map { meta, ktab, meta2 -> [ meta2, ktab ] }
-    ch_versions                             = ch_versions.mix(PATERNAL_FASTK.out.versions.first())
+                                            | map { meta, meryl, meta2 -> [ meta2, meryl ] }
+    ch_versions                             = ch_versions.mix(PAT_MERYL_COUNT.out.versions.first())
 
-    // MODULE: MERQURYFK_HAPMAKER
-    ch_all_assemblies_with_parents          = ch_maternal_fastk
-                                            | mix(ch_paternal_fastk)
-                                            | flatMap { meta, ktab -> meta.assemblies }
+    // MODULE: PAT_UNIONSUM
+    ch_paternal_meryl_branch                = ch_paternal_meryl
+                                            | branch { meta, meryl ->
+                                                single: meta.single_end
+                                                paired: ! meta.single_end
+                                            }
+    PAT_UNIONSUM(
+        ch_paternal_meryl_branch.paired,
+        params.merqury_kmer_length
+    )
+
+    ch_paternal_union_meryl                 = PAT_UNIONSUM.out.meryl_db
+                                            | mix(ch_paternal_meryl_branch.single)
+    ch_versions                             = ch_versions.mix(PAT_UNIONSUM.out.versions.first())
+
+    // MODULE: MERQURY_HAPMERS
+    ch_all_assemblies_with_parents          = ch_maternal_union_meryl
+                                            | mix(ch_paternal_union_meryl)
+                                            | flatMap { meta, meryl -> meta.assemblies }
                                             | unique
                                             | collect
                                             | map { [ it ] }
                                             | ifEmpty( [ [] ] )
 
-    ch_reads_fastk_without_parents          = ch_reads_fastk
+    ch_meryl_without_parents                = ch_reads_union_meryl
                                             | combine(
                                                 ch_all_assemblies_with_parents
                                             )
-                                            | filter { meta, ktab, p_asms -> ! meta.assemblies.any { it in p_asms } }
-                                            | map { meta, ktab, p_asms -> [ meta, ktab, [], [] ] }
+                                            | filter { meta, meryl, p_asms -> ! meta.assemblies.any { it in p_asms } }
+                                            | map { meta, meryl, p_asms -> [ meta, meryl, [], [] ] }
 
-    ch_group_fastk                          = ch_reads_fastk
-                                            | combine ( ch_maternal_fastk )
-                                            | filter { meta, ktab, meta2, mktab ->
+    ch_group_meryl                          = ch_reads_union_meryl
+                                            | combine ( ch_maternal_union_meryl )
+                                            | filter { meta, meryl, meta2, mat_meryl ->
                                                 meta.assemblies.every { it in meta2.assemblies }
                                             }
-                                            | map { meta, ktab, meta2, mktab ->
-                                                [ meta, ktab, mktab ]
+                                            | map { meta, meryl, meta2, mat_meryl ->
+                                                [ meta, meryl, mat_meryl ]
                                             }
-                                            | combine ( ch_paternal_fastk )
-                                            | filter { meta, ktab, mktab, meta2, pktab ->
+                                            | combine ( ch_paternal_union_meryl )
+                                            | filter { meta, meryl, mat_meryl, meta2, pat_meryl ->
                                                 meta.assemblies.every { it in meta2.assemblies }
                                             }
-                                            | map { meta, ktab, mktab, meta2, pktab ->
-                                                [ meta, ktab, mktab, pktab ]
+                                            | map { meta, meryl, mat_meryl, meta2, pat_meryl ->
+                                                [ meta, meryl, mat_meryl, pat_meryl ]
                                             }
 
-    MERQURYFK_HAPMAKER(
-        ch_group_fastk.map { meta, ktab, mktab, pktab -> [ meta, ktab ] },
-        ch_group_fastk.map { meta, ktab, mktab, pktab -> mktab },
-        ch_group_fastk.map { meta, ktab, mktab, pktab -> pktab }
+    MERQURY_HAPMERS(
+        ch_group_meryl.map { meta, meryl, mat_meryl, pat_meryl -> [ meta, meryl ] },
+        ch_group_meryl.map { meta, meryl, mat_meryl, pat_meryl -> mat_meryl },
+        ch_group_meryl.map { meta, meryl, mat_meryl, pat_meryl -> pat_meryl }
     )
 
-    ch_parental_hapmers                     = MERQURYFK_HAPMAKER.out.mat_hapmers
-                                            | join(MERQURYFK_HAPMAKER.out.pat_hapmers)
-    ch_versions                             = ch_versions.mix(MERQURYFK_HAPMAKER.out.versions.first())
+    ch_parental_hapmers                     = MERQURY_HAPMERS.out.mat_hapmer_meryl
+                                            | join(MERQURY_HAPMERS.out.pat_hapmer_meryl)
+    ch_versions                             = ch_versions.mix(MERQURY_HAPMERS.out.versions.first())
 
-    // Prepare FASTK tables
-    ch_fastk_ktabs                          = ch_group_fastk
+    // Prepare group meryl dbs
+    ch_meryl_all                            = ch_group_meryl
                                             | join(ch_parental_hapmers)
-                                            | map { meta, ktab, mktab, pktab, hap_mktab, hap_pktab ->
-                                                [ meta, ktab, hap_mktab, hap_pktab ]
+                                            | map { meta, meryl, mat_meryl, pat_meryl, hap_mat_meryl, hap_pat_meryl ->
+                                                [ meta, meryl, hap_mat_meryl, hap_pat_meryl ]
                                             }
-                                            | mix(ch_reads_fastk_without_parents)
-                                            | map { meta, ktab, hap_mktab, hap_pktab ->
+                                            | mix(ch_meryl_without_parents)
+                                            | map { meta, meryl, mat_meryl, pat_meryl ->
                                                 [
                                                     meta,
-                                                    ktab + hap_mktab + hap_pktab
+                                                    mat_meryl
+                                                    ? [ meryl, mat_meryl, pat_meryl ]
+                                                    : meryl
                                                 ]
                                             }
 
-    // MODULE: MERQURYFK_MERQURYFK
-    ch_merqury_inputs                       = ch_reads_fastk_hist
-                                            | join(
-                                                ch_fastk_ktabs
-                                            )
+    // MODULE: MERQURY
+    ch_merqury_inputs                       = ch_meryl_all
                                             | join(
                                                 ch_reads_assemblies
                                                 | map { meta, fq, fastas -> [ meta, fastas ] }
                                             )
-                                            | map { meta, hist, ktab, fastas ->
-                                                fastas.size() > 1
-                                                ? [ meta, hist, ktab, fastas[0], fastas[1] ]
-                                                : [ meta, hist, ktab, fastas[0], [] ]
-                                            }
 
-    MERQURYFK_MERQURYFK ( ch_merqury_inputs )
+    MERQURY ( ch_merqury_inputs )
 
-    ch_merqury_qv                           = MERQURYFK_MERQURYFK.out.qv
-    ch_merqury_stats                        = MERQURYFK_MERQURYFK.out.stats
-    ch_merqury_spectra_cn_fl_png            = MERQURYFK_MERQURYFK.out.spectra_cn_fl_png
+    ch_merqury_qv                           = MERQURY.out.assembly_qv
+    ch_merqury_stats                        = MERQURY.out.stats
+    ch_merqury_spectra_cn_fl_png            = MERQURY.out.spectra_cn_fl_png
+    ch_merqury_spectra_asm_fl_png           = MERQURY.out.spectra_asm_fl_png
+    ch_hapmers_blob_png                     = MERQURY.out.hapmers_blob_png
+
     ch_merqury_outputs                      = ch_merqury_qv
                                             | mix(ch_merqury_stats)
                                             | mix(ch_merqury_spectra_cn_fl_png)
+                                            | mix(ch_merqury_spectra_asm_fl_png)
+                                            | mix(ch_hapmers_blob_png)
                                             | flatMap { meta, data -> data }
-    ch_versions                             = ch_versions.mix(MERQURYFK_MERQURYFK.out.versions.first())
+    ch_versions                             = ch_versions.mix(MERQURY.out.versions.first())
 
     // Collate and save software versions
     ch_versions                             = ch_versions
@@ -698,25 +735,25 @@ workflow ASSEMBLYQC {
                                             )
 
     // MODULE: CREATEREPORT
-    // CREATEREPORT(
-    //     ch_invalid_assembly_log             .collect().ifEmpty([]),
-    //     ch_invalid_gff3_log                 .collect().ifEmpty([]),
-    //     ch_fcs_adaptor_report               .map { meta, file -> file }.collect().ifEmpty([]),
-    //     ch_fcs_gx_report                    .mix(ch_fcs_gx_taxonomy_plot).map { meta, file -> file }.collect().ifEmpty([]),
-    //     ch_assemblathon_stats               .collect().ifEmpty([]),
-    //     ch_gt_stats                         .collect().ifEmpty([]),
-    //     ch_busco_outputs                    .collect().ifEmpty([]),
-    //     ch_busco_gff_outputs                .collect().ifEmpty([]),
-    //     ch_tidk_outputs                     .collect().ifEmpty([]),
-    //     ch_lai_outputs                      .collect().ifEmpty([]),
-    //     ch_kraken2_plot                     .collect().ifEmpty([]),
-    //     ch_hic_html                         .collect().ifEmpty([]),
-    //     ch_synteny_plots                    .collect().ifEmpty([]),
-    //     ch_merqury_outputs                  .collect().ifEmpty([]),
-    //     ch_versions_yml,
-    //     ch_params_as_json,
-    //     ch_summary_params_as_json
-    // )
+    CREATEREPORT(
+        ch_invalid_assembly_log             .collect().ifEmpty([]),
+        ch_invalid_gff3_log                 .collect().ifEmpty([]),
+        ch_fcs_adaptor_report               .map { meta, file -> file }.collect().ifEmpty([]),
+        ch_fcs_gx_report                    .mix(ch_fcs_gx_taxonomy_plot).map { meta, file -> file }.collect().ifEmpty([]),
+        ch_assemblathon_stats               .collect().ifEmpty([]),
+        ch_gt_stats                         .collect().ifEmpty([]),
+        ch_busco_outputs                    .collect().ifEmpty([]),
+        ch_busco_gff_outputs                .collect().ifEmpty([]),
+        ch_tidk_outputs                     .collect().ifEmpty([]),
+        ch_lai_outputs                      .collect().ifEmpty([]),
+        ch_kraken2_plot                     .collect().ifEmpty([]),
+        ch_hic_html                         .collect().ifEmpty([]),
+        ch_synteny_plots                    .collect().ifEmpty([]),
+        ch_merqury_outputs                  .collect().ifEmpty([]),
+        ch_versions_yml,
+        ch_params_as_json,
+        ch_summary_params_as_json
+    )
 }
 
 /*

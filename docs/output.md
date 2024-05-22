@@ -23,7 +23,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 - [Kraken2](#kraken2)
 - [HiC contact map](#hic-contact-map)
 - [Synteny](#synteny)
-- [Merqury.FK](#merquryfk)
+- [Merqury](#merqury)
 - [Pipeline information](#pipeline-information)
 
 ### FASTA and GFF3 validation
@@ -204,19 +204,19 @@ Hi-C contact mapping experiments measure the frequency of physical contact betwe
 <div align="center"><img src="images/synteny_circos.png" alt="AssemblyQC - Circos synteny plot" width="50%"><hr><em>AssemblyQC - Circos synteny plot</em></div>
 <div align="center"><img src="images/synteny_linear.png" alt="AssemblyQC - Linear synteny plot" width="50%"><hr><em>AssemblyQC - Linear synteny plot</em></div>
 
-### Merqury.FK
+### Merqury
 
 <details markdown="1">
 <summary>Output files</summary>
 
-- `merquryfk/`
-  - `tag1-and-tag2-reads-*`: Results folder for haplotype `tag1` and `tag2`.
+- `merqury/`
+  - `tag1-and-tag2`: Results folder for haplotype `tag1` and `tag2`.
     - `*.completeness.stats`: Assembly completeness statistics
     - `*.qv`: Assembly consensus quality QV statistics
     - `*.*.spectra-cn.fl.png`: Spectra-cn plot
     </details>
 
-[MERQURY.FK](https://github.com/thegenemyers/MERQURY.FK) is used for the k-mer analysis.
+[MERQURY](https://github.com/marbl/merqury) is used for the k-mer analysis.
 
 <div align="center"><img src="images/spectra_cn.png" alt="AssemblyQC - Spectra-cn plot" width="50%"><hr><em>AssemblyQC - Spectra-cn plot</em></div>
 
