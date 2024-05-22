@@ -163,15 +163,13 @@
                     },
                     "meryl/count": {
                         "branch": "master",
-                        "git_sha": "c95215baf20e6d8cf2ae0e8411d03c5d9ef21d4a",
-                        "installed_by": ["modules"],
-                        "patch": "modules/nf-core/meryl/count/meryl-count.diff"
+                        "git_sha": "1c72d95476a2edf92ee4f08dc4321b3c50cd3c13",
+                        "installed_by": ["modules"]
                     },
                     "meryl/unionsum": {
                         "branch": "master",
-                        "git_sha": "b7f584e61c35c138a5717f837f4da9b838e290a7",
-                        "installed_by": ["modules"],
-                        "patch": "modules/nf-core/meryl/unionsum/meryl-unionsum.diff"
+                        "git_sha": "1c72d95476a2edf92ee4f08dc4321b3c50cd3c13",
+                        "installed_by": ["modules"]
                     },
                     "seqkit/seq": {
                         "branch": "master",

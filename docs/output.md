@@ -210,11 +210,8 @@ Hi-C contact mapping experiments measure the frequency of physical contact betwe
 <summary>Output files</summary>
 
 - `merqury/`
-  - `tag1-and-tag2`: Results folder for haplotype `tag1` and `tag2`.
-    - `*.completeness.stats`: Assembly completeness statistics
-    - `*.qv`: Assembly consensus quality QV statistics
-    - `*.*.spectra-cn.fl.png`: Spectra-cn plot
-    </details>
+  - `tag1-and-tag2`: Results folder for haplotype `tag1` and `tag2`. - `*.completeness.stats`: Assembly completeness statistics - `*.qv`: Assembly consensus quality QV statistics - `*.fl.png`: Spectra plots - `*.hapmers.blob.png`: Hap-mer blob plot
+  </details>
 
 [MERQURY](https://github.com/marbl/merqury) is used for the k-mer analysis.
 

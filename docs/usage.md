@@ -103,6 +103,8 @@ See following assemblysheet examples for MERQURY analysis.
 - [assemblysheet - phased2x](../tests/merqury/phased2x/assemblysheet.csv)
 - [assemblysheet - phased2x with parent reads](../tests/merqury/phased2x.mp/assemblysheet.csv)
 
+The data for these examples comes from: [umd.edu](https://obj.umiacs.umd.edu/marbl_publications/triobinning/index.html)
+
 #### Parameters
 
 - `merqury_kmer_length`: kmer length for merqury analysis
