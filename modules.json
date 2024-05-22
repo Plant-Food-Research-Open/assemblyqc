@@ -17,12 +17,12 @@
                     },
                     "bwa/index": {
                         "branch": "main",
-                        "git_sha": "10b046eaac396f279c08e7e2bb067482ccd9c74e",
+                        "git_sha": "d158062346649b5d55bccef77f4bbd0468760aff",
                         "installed_by": ["fastq_bwa_mem_samblaster"]
                     },
                     "bwa/mem": {
                         "branch": "main",
-                        "git_sha": "26eca75b7373d582569353ed70817072f908b2da",
+                        "git_sha": "d158062346649b5d55bccef77f4bbd0468760aff",
                         "installed_by": ["fastq_bwa_mem_samblaster"]
                     },
                     "cat/cat": {
@@ -111,7 +111,7 @@
                     },
                     "fastq_bwa_mem_samblaster": {
                         "branch": "main",
-                        "git_sha": "258dbf212876e040e0049809ff0f9fc3f032b8d9",
+                        "git_sha": "d158062346649b5d55bccef77f4bbd0468760aff",
                         "installed_by": ["subworkflows"]
                     },
                     "gff3_gt_gff3_gff3validator_stat": {
@@ -158,17 +158,20 @@
                     "merqury": {
                         "branch": "master",
                         "git_sha": "3f5420aa22e00bd030a2556dfdffc9e164ec0ec5",
-                        "installed_by": ["modules"]
+                        "installed_by": ["modules"],
+                        "patch": "modules/nf-core/merqury/merqury.diff"
                     },
                     "meryl/count": {
                         "branch": "master",
                         "git_sha": "c95215baf20e6d8cf2ae0e8411d03c5d9ef21d4a",
-                        "installed_by": ["modules"]
+                        "installed_by": ["modules"],
+                        "patch": "modules/nf-core/meryl/count/meryl-count.diff"
                     },
                     "meryl/unionsum": {
                         "branch": "master",
                         "git_sha": "b7f584e61c35c138a5717f837f4da9b838e290a7",
-                        "installed_by": ["modules"]
+                        "installed_by": ["modules"],
+                        "patch": "modules/nf-core/meryl/unionsum/meryl-unionsum.diff"
                     },
                     "seqkit/seq": {
                         "branch": "master",

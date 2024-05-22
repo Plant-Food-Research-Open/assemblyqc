@@ -14,14 +14,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 5. Added a custom `BUNDLELINKS` module which respects direction when bundling `DNADIFF` links [#82](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/82)
 6. Added the ability to create linear synteny plot in addition to the circos plot [#74](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/74)
 7. Updated modules and sub-workflows: `BWA/INDEX`, `BWA/MEM`, `CAT/CAT`, `CUSTOM/CHECKGFF3FASTACORRESPONDENCE`, `CUSTOM/RESTOREGFFIDS`, `CUSTOM/SHORTENFASTAIDS`, `GT/GFF3`, `GT/GFF3VALIDATOR`, `GT/STAT`, `LTRFINDER`, `LTRHARVEST`, `LTRRETRIEVER/LAI`, `LTRRETRIEVER/LTRRETRIEVER`, `SAMBLASTER`, `FASTA_LTRRETRIEVER_LAI`, `FASTQ_BWA_MEM_SAMBLASTER`, `GFF3_VALIDATE`, `CUSTOM/SRATOOLSNCBISETTINGS`, `FASTP`, `FASTQC`, `UNTAR`, `SEQKIT/SEQ`, `SEQKIT/SORT`, `FASTA_EXPLORE_SEARCH_PLOT_TIDK`
-8. Locally bumped `bwa/index` version to `biocontainers/bwa:0.7.18--he4a0461_0`
-9. Now the `contamination_stops_pipeline` flag allows the pipeline to continue if contamination is detected. It's default value is `true` [#54](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/54)
-10. Now fasta ids are sorted in natural order for the HiC module [#76](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/76)
-11. Now using `FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS` for SRA downloads
-12. Added `MERQURY` module [#85](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/85)
-13. Replaced `GFF3_VALIDATE` sub-workflow with `GFF3_GT_GFF3_GFF3VALIDATOR_STAT`
-14. Replaced local `BUSCO` module with `FASTA_GXF_BUSCO_PLOT` sub-workflow [#75](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/75)
-15. Replaced local `NCBI_FCS_ADAPTOR` with nf-core module and updated to 0.5.0 which includes additional adaptors for PacBio and Nanopore technologies [#55](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/55)
+8. Now the `contamination_stops_pipeline` flag allows the pipeline to continue if contamination is detected. It's default value is `true` [#54](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/54)
+9. Now fasta ids are sorted in natural order for the HiC module [#76](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/76)
+10. Now using `FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS` for SRA downloads
+11. Added `MERQURY` module [#85](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/85)
+12. Replaced `GFF3_VALIDATE` sub-workflow with `GFF3_GT_GFF3_GFF3VALIDATOR_STAT`
+13. Replaced local `BUSCO` module with `FASTA_GXF_BUSCO_PLOT` sub-workflow [#75](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/75)
+14. Replaced local `NCBI_FCS_ADAPTOR` with nf-core module and updated to 0.5.0 which includes additional adaptors for PacBio and Nanopore technologies [#55](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/55)
+15. Locally patched `MERQURY`, `MERYL/COUNT` and `MERYL/UNIONSUM`
 
 ### `Fixed`
 

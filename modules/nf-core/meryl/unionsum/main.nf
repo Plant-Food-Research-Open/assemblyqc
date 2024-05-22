@@ -12,8 +12,8 @@ process MERYL_UNIONSUM {
     val kvalue
 
     output:
-    tuple val(meta), path("*.unionsum.meryl")   , emit: meryl_db
-    path "versions.yml"                         , emit: versions
+    tuple val(meta), path("*.unionsum.meryl"), emit: meryl_db
+    path "versions.yml"                        , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -25,6 +25,7 @@ process MERYL_UNIONSUM {
     meryl union-sum \\
         k=$kvalue \\
         threads=$task.cpus \\
+        memory=${task.memory.toGiga()} \\
         $args \\
         output ${prefix}.unionsum.meryl \\
         $meryl_dbs

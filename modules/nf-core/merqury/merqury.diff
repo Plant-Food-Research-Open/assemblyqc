@@ -1,0 +1,13 @@
+Changes in module 'nf-core/merqury'
+--- modules/nf-core/merqury/main.nf
++++ modules/nf-core/merqury/main.nf
+@@ -26,6 +26,7 @@
+     tuple val(meta), path("${prefix}.qv")        , emit: assembly_qv
+     tuple val(meta), path("${prefix}.*.qv")      , emit: scaffold_qv
+     tuple val(meta), path("*.hist.ploidy")       , emit: read_ploidy
++    tuple val(meta), path("*.hapmers.blob.png")  , emit: hapmers_blob_png           , optional: true
+     path "versions.yml"                          , emit: versions
+ 
+     when:
+
+************************************************************
