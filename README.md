@@ -63,8 +63,8 @@ flowchart LR
   MERQURY --> REPORT
 ```
 
-- [FASTA VALIDATION](https://github.com/GallVp/fasta_validator)
-- [GFF3 VALIDATION](https://genometools.org/tools/gt_gff3validator.html)
+- [FASTA VALIDATOR](https://github.com/linsalrob/fasta_validator): FASTA validation
+- [GenomeTools GT GFF3VALIDATOR](https://genometools.org/tools/gt_gff3validator.html): GFF3 validation
 - [ASSEMBLATHON STATS](https://github.com/PlantandFoodResearch/assemblathon2-analysis/blob/a93cba25d847434f7eadc04e63b58c567c46a56d/assemblathon_stats.pl): Assembly statistics
 - [GENOMETOOLS GT STAT](https://genometools.org/tools/gt_stat.html): Annotation statistics
 - [NCBI FCS ADAPTOR](https://github.com/ncbi/fcs): Adaptor contamination pass/fail
