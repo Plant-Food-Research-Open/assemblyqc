@@ -533,15 +533,22 @@ workflow ASSEMBLYQC {
         ch_synteny_labels.map { meta, txt -> [ meta.id, txt ] },
         ch_xref_assembly,
         params.synteny_between_input_assemblies,
-        params.synteny_many_to_many_align,
-        params.synteny_max_gap,
-        params.synteny_min_bundle_size,
+        params.synteny_mummer_m2m_align,
+        params.synteny_mummer_max_gap,
+        params.synteny_mummer_min_bundle_size,
         params.synteny_plot_1_vs_all,
         params.synteny_color_by_contig,
-        params.synteny_plot_type
+        params.synteny_mummer_plot_type,
+        params.synteny_mummer_skip,
+        params.synteny_plotsr_seq_label,
+        params.synteny_plotsr_skip,
+        params.synteny_plotsr_assembly_order
     )
 
-    ch_synteny_plots                        = FASTA_SYNTENY.out.png.mix(FASTA_SYNTENY.out.html)
+    ch_synteny_outputs                      = FASTA_SYNTENY.out.png
+                                            | mix(FASTA_SYNTENY.out.html)
+                                            | mix(FASTA_SYNTENY.out.syri_fail_log)
+                                            | mix(FASTA_SYNTENY.out.plotsr_labels)
     ch_versions                             = ch_versions.mix(FASTA_SYNTENY.out.versions)
 
     // MODULE: MERYL_COUNT
@@ -731,7 +738,8 @@ workflow ASSEMBLYQC {
                                                 storeDir: "${params.outdir}/pipeline_info",
                                                 name: 'software_versions.yml',
                                                 sort: true,
-                                                newLine: true
+                                                newLine: true,
+                                                cache: false
                                             )
 
     // MODULE: CREATEREPORT
@@ -748,7 +756,7 @@ workflow ASSEMBLYQC {
         ch_lai_outputs                      .collect().ifEmpty([]),
         ch_kraken2_plot                     .collect().ifEmpty([]),
         ch_hic_html                         .collect().ifEmpty([]),
-        ch_synteny_plots                    .collect().ifEmpty([]),
+        ch_synteny_outputs                  .collect().ifEmpty([]),
         ch_merqury_outputs                  .collect().ifEmpty([]),
         ch_versions_yml,
         ch_params_as_json,

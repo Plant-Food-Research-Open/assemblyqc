@@ -15,6 +15,11 @@
 ## Pipeline Flowchart
 
 ```mermaid
+%%{init: {
+  "themeVariables": {
+    "fontSize": "52px"
+  }
+}}%%
 flowchart LR
   forEachTag(For each\nAssembly) --> VALIDATE_FORMAT[VALIDATE FORMAT]
 
@@ -36,8 +41,14 @@ flowchart LR
   Run --> LAI
   Run --> KRAKEN2
   Run --> HIC_CONTACT_MAP[HIC CONTACT MAP]
-  Run --> SYNTENY
+  Run --> MUMMER
+  Run --> MINIMAP2
   Run --> MERQURY
+
+  MUMMER --> CIRCOS
+  MUMMER --> DOTPLOT
+
+  MINIMAP2 --> PLOTSR
 
   ASS_STATS --> REPORT
   GFF_STATS --> REPORT
@@ -46,7 +57,9 @@ flowchart LR
   LAI --> REPORT
   KRAKEN2 --> REPORT
   HIC_CONTACT_MAP --> REPORT
-  SYNTENY --> REPORT
+  CIRCOS --> REPORT
+  DOTPLOT --> REPORT
+  PLOTSR --> REPORT
   MERQURY --> REPORT
 ```
 
@@ -61,7 +74,7 @@ flowchart LR
 - [LAI](https://github.com/oushujun/LTR_retriever/blob/master/LAI): Continuity of repetitive sequences
 - [KRAKEN2](https://github.com/DerrickWood/kraken2): Taxonomy classification
 - [HIC CONTACT MAP](https://github.com/igvteam/juicebox.js): Alignment and visualisation of HiC data
-- SYNTENY: Synteny analysis using [MUMMER](https://github.com/mummer4/mummer), [CIRCOS](http://circos.ca/documentation/) and [PLOTLY](https://plotly.com)
+- [MUMMER](https://github.com/mummer4/mummer) → [CIRCOS](http://circos.ca/documentation/) + [DOTPLOT](https://plotly.com) & [MINIMAP2](https://github.com/lh3/minimap2) → [PLOTSR](https://github.com/schneebergerlab/plotsr): Synteny analysis
 - [MERQURY](https://github.com/marbl/merqury): K-mer completeness, consensus quality and phasing assessment
 
 ## Usage
@@ -105,7 +118,9 @@ We thank the following people for their extensive assistance in the development 
 
 - Cecilia Deng [@CeciliaDeng](https://github.com/CeciliaDeng)
 - Chen Wu [@christinawu2008](https://github.com/christinawu2008)
+- Ignacio Carvajal [@ignacio3437](https://github.com/ignacio3437)
 - Jason Shiller [@jasonshiller](https://github.com/jasonshiller)
+- Mahesh Binzer-Panchal [@mahesh-panchal](https://github.com/mahesh-panchal)
 - Marcus Davy [@mdavy86](https://github.com/mdavy86)
 - Ross Crowhurst [@rosscrowhurst](https://github.com/rosscrowhurst)
 - Sarah Bailey [@SarahBailey1998](https://github.com/SarahBailey1998)

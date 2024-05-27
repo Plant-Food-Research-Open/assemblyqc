@@ -1,0 +1,24 @@
+<div id="tabcontent_SYNTENY_PLOTSR" class="tabcontent-SYNTENY_PLOTSR" style="display: block">
+  <div class="results-section">
+    {% if all_stats_dicts['SYNTENY_PLOTSR'][0]['error_message'] is not none %}
+    <div class="section-para-wrapper">
+      <p class="section-para">
+        {{ all_stats_dicts['SYNTENY_PLOTSR'][0]['error_message'] }}
+      </p>
+    </div>
+    {% endif %}
+    {% if all_stats_dicts['SYNTENY_PLOTSR'][0]['plotsr_png'] is not none %}
+    <div class="image-wrapper">
+      <img src="{{ all_stats_dicts['SYNTENY_PLOTSR'][0]['plotsr_png'] }}" alt="" />
+    </div>
+    {% endif %}
+    {% if all_stats_dicts['SYNTENY_PLOTSR'][0]['labels_table_html'] is not none %}
+    <div class="section-para-wrapper">
+      <p class="section-para"><b>Sequence labels</b></p>
+    </div>
+    <div class="table-outer">
+      <div class="table-wrapper">{{ all_stats_dicts['SYNTENY_PLOTSR'][0]['labels_table_html'] }}</div>
+    </div>
+    {% endif %}
+  </div>
+</div>

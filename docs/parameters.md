@@ -38,12 +38,12 @@ A NextFlow pipeline which evaluates assembly quality with multiple QC tools and 
 
 ## TIDK options
 
-| Parameter             | Description                                                                          | Type      | Default | Required | Hidden |
-| --------------------- | ------------------------------------------------------------------------------------ | --------- | ------- | -------- | ------ |
-| `tidk_skip`           | Skip telomere identification                                                         | `boolean` | True    |          |        |
-| `tidk_repeat_seq`     | Telomere repeat sequence. Plant: TTTAGGG, Fungus, Vertebrates: TTAGGG, Insect: TTAGG | `string`  |         |          |        |
-| `tidk_filter_by_size` | Filter size in base-pairs                                                            | `boolean` |         |          |        |
-| `tidk_filter_size_bp` | Filter size in base-pairs                                                            | `integer` | 1000000 |          |        |
+| Parameter             | Description                                                                                                | Type      | Default | Required | Hidden |
+| --------------------- | ---------------------------------------------------------------------------------------------------------- | --------- | ------- | -------- | ------ |
+| `tidk_skip`           | Skip telomere identification                                                                               | `boolean` | True    |          |        |
+| `tidk_repeat_seq`     | Telomere repeat sequence. Typical values for plant: TTTAGGG, fungus, vertebrates: TTAGGG and Insect: TTAGG | `string`  |         |          |        |
+| `tidk_filter_by_size` | Filter assembly sequences smaller than the specified length                                                | `boolean` |         |          |        |
+| `tidk_filter_size_bp` | Filter size in base-pairs                                                                                  | `integer` | 1000000 |          |        |
 
 ## LAI options
 
@@ -69,17 +69,22 @@ A NextFlow pipeline which evaluates assembly quality with multiple QC tools and 
 
 ## Synteny options
 
-| Parameter                          | Description                                                                                                        | Type      | Default | Required | Hidden |
-| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------ | --------- | ------- | -------- | ------ |
-| `synteny_skip`                     | Skip synteny analysis                                                                                              | `boolean` | True    |          |        |
-| `synteny_plot_type`                | Synteny plot type: 'linear', 'circos', or 'both'                                                                   | `string`  | both    |          |        |
-| `synteny_between_input_assemblies` | Create syntenic plots between each pair of input assemblies                                                        | `boolean` | True    |          |        |
-| `synteny_many_to_many_align`       | Include alignment blocks with many-to-many mappings (dnadiff .mcoords file)                                        | `boolean` |         |          |        |
-| `synteny_max_gap`                  | Alignments within this distance are bundled together                                                               | `integer` | 1000000 |          |        |
-| `synteny_min_bundle_size`          | After bundling, any bundle smaller than this size is filtered out                                                  | `integer` | 1000    |          |        |
-| `synteny_plot_1_vs_all`            | Create a separate synteny plot for each contig of the target assembly versus all contigs of the reference assembly | `boolean` |         |          |        |
-| `synteny_color_by_contig`          | Synteny plot is colored by contig                                                                                  | `boolean` | True    |          |        |
-| `synteny_xref_assemblies`          | Reference assemblies for synteny analysis                                                                          | `string`  |         |          |        |
+| Parameter                          | Description                                                                                                                                                                | Type      | Default | Required | Hidden |
+| ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | ------- | -------- | ------ |
+| `synteny_skip`                     | Skip synteny analysis                                                                                                                                                      | `boolean` | True    |          |        |
+| `synteny_mummer_skip`              | Skip Mummer-based synteny analysis                                                                                                                                         | `boolean` | True    |          |        |
+| `synteny_plotsr_skip`              | Skip plotsr-based synteny analysis                                                                                                                                         | `boolean` | True    |          |        |
+| `synteny_xref_assemblies`          | Reference assemblies for synteny analysis                                                                                                                                  | `string`  |         |          |        |
+| `synteny_between_input_assemblies` | Create syntenic plots between each pair of input assemblies                                                                                                                | `boolean` | True    |          |        |
+| `synteny_mummer_plot_type`         | Synteny plot type from Mummer alignments: 'dotplot', 'circos', or 'both'                                                                                                   | `string`  | both    |          |        |
+| `synteny_mummer_m2m_align`         | Include Mummer alignment blocks with many-to-many mappings                                                                                                                 | `boolean` |         |          |        |
+| `synteny_mummer_max_gap`           | Mummer alignments within this distance are bundled together                                                                                                                | `integer` | 1000000 |          |        |
+| `synteny_mummer_min_bundle_size`   | After bundling, any Mummer alignment bundle smaller than this size is filtered out                                                                                         | `integer` | 1000    |          |        |
+| `synteny_plot_1_vs_all`            | Create a separate synteny plot for each contig of the target assembly versus all contigs of the reference assembly. This only applies to Mummer plots                      | `boolean` |         |          |        |
+| `synteny_color_by_contig`          | Mummer synteny plots are colored by contig. Otherwise, they are colored by bundle size                                                                                     | `boolean` | True    |          |        |
+| `synteny_plotsr_seq_label`         | Sequence label prefix for plotsr synteny                                                                                                                                   | `string`  | Chr     |          |        |
+| `synteny_plotsr_assembly_order`    | The order in which the assemblies should be compared, provided as space separated string of assembly tags. If absent, assemblies are ordered by their tags alphabetically. | `string`  |
+|                                    |                                                                                                                                                                            |           |
 
 ## Merqury options
 

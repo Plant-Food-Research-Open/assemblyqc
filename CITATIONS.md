@@ -116,6 +116,18 @@
 
   > Marçais G, Delcher AL, Phillippy AM, Coston R, Salzberg SL, Zimin A. 2018. MUMmer4: A fast and versatile genome alignment system. PLoS Comput Biol. 2018 Jan 26;14(1):e1005944. doi: <https://doi.org/10.1371/journal.pcbi.1005944>. PMID: 29373581; PMCID: PMC5802927.
 
+- PLOTSR, [MIT](https://github.com/schneebergerlab/plotsr/blob/master/LICENSE)
+
+  > Goel M, Schneeberger K. 2022. plotsr: visualizing structural similarities and rearrangements between multiple genomes. Bioinformatics. 2022 May 13;38(10):2922-2926. doi: <https://doi.org/10.1093/bioinformatics/btac196>. PMID: 35561173; PMCID: PMC9113368.
+
+- SYRI, [MIT](https://github.com/schneebergerlab/syri/blob/master/LICENSE)
+
+  > Goel M, Sun H, Jiao WB, Schneeberger K. 2019. SyRI: finding genomic rearrangements and local sequence differences from whole-genome assemblies. Genome Biol. 2019 Dec 16;20(1):277. doi: <https://doi.org/10.1186/s13059-019-1911-0>. PMID: 31842948; PMCID: PMC6913012.
+
+- MINIMAP2, [MIT](https://github.com/lh3/minimap2/blob/master/LICENSE.txt)
+
+  > Li H. 2021. New strategies to improve minimap2 alignment accuracy, Bioinformatics, Volume 37, Issue 23, December 2021, Pages 4572–4574, doi: <https://doi.org/10.1093/bioinformatics/btab705>
+
 - MERQURY, [United States Government Work](https://github.com/marbl/merqury?tab=License-1-ov-file#readme)
 
   > Rhie, A., Walenz, B.P., Koren, S. et al. 2020. Merqury: reference-free quality, completeness, and phasing assessment for genome assemblies. Genome Biol 21, 245. doi: <https://doi.org/10.1186/s13059-020-02134-9>

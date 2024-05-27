@@ -1,0 +1,56 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: "custom_relabelfasta"
+description: |
+  Relabels IDs in a fasta file based on a TSV label list
+  consisting of original (first column) and new IDs (second column)
+keywords:
+  - genomics
+  - fasta
+  - relabel
+  - id
+  - rename
+  - sequence
+tools:
+  - "python":
+      description: |
+        Python is a programming language that lets you work quickly
+        and integrate systems more effectively
+      homepage: "https://www.python.org"
+      documentation: "https://docs.python.org/3/"
+      tool_dev_url: "https://github.com/python/cpython"
+      licence: ["MIT"]
+input:
+  - meta:
+      type: map
+      description: |
+        Groovy Map containing sample information
+        e.g. `[ id:'sample1' ]`
+  - fasta:
+      type: file
+      description: Input fasta file
+      pattern: "*.fasta"
+  - labels:
+      type: file
+      description: |
+        A TSV file with original (first column) and new ids (second column)
+      pattern: "*.tsv"
+
+output:
+  - meta:
+      type: map
+      description: |
+        Groovy Map containing sample information
+        e.g. `[ id:'sample1' ]`
+  - versions:
+      type: file
+      description: File containing software versions
+      pattern: "versions.yml"
+  - fasta:
+      type: file
+      description: Output fasta file
+      pattern: "*.fasta"
+authors:
+  - "@GallVp"
+maintainers:
+  - "@GallVp"

@@ -30,6 +30,11 @@
                         "git_sha": "10b046eaac396f279c08e7e2bb067482ccd9c74e",
                         "installed_by": ["fasta_ltrretriever_lai"]
                     },
+                    "custom/relabelfasta": {
+                        "branch": "main",
+                        "git_sha": "0421bdeb1d7a71dce12e0af7dc18aea26e548074",
+                        "installed_by": ["modules"]
+                    },
                     "custom/restoregffids": {
                         "branch": "main",
                         "git_sha": "10b046eaac396f279c08e7e2bb067482ccd9c74e",
@@ -85,6 +90,11 @@
                         "git_sha": "46b70684b6ae0ac60cae154c61796b293707db64",
                         "installed_by": ["modules"]
                     },
+                    "plotsr": {
+                        "branch": "main",
+                        "git_sha": "0413d9b25b127f1c705349fb42de8ff54e83e1e9",
+                        "installed_by": ["modules"]
+                    },
                     "samblaster": {
                         "branch": "main",
                         "git_sha": "10b046eaac396f279c08e7e2bb067482ccd9c74e",
@@ -94,6 +104,11 @@
                         "branch": "main",
                         "git_sha": "84f31d4be03e2ae6bee8e0b9fdea466be8e997bb",
                         "installed_by": ["gff3_gt_gff3_gff3validator_stat"]
+                    },
+                    "syri": {
+                        "branch": "main",
+                        "git_sha": "295e1d8666c746cb05e79563393035e81c9739fc",
+                        "installed_by": ["modules"]
                     }
                 }
             },
@@ -169,6 +184,11 @@
                     "meryl/unionsum": {
                         "branch": "master",
                         "git_sha": "1c72d95476a2edf92ee4f08dc4321b3c50cd3c13",
+                        "installed_by": ["modules"]
+                    },
+                    "minimap2/align": {
+                        "branch": "master",
+                        "git_sha": "72e277acfd9e61a9f1368eafb4a9e83f5bcaa9f5",
                         "installed_by": ["modules"]
                     },
                     "seqkit/seq": {

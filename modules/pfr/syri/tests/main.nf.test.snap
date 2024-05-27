@@ -1,0 +1,80 @@
+{
+    "homo_sapiens - genome": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "testsyri.out:md5,fd2a1b676912818960056aa281177bb4"
+                    ]
+                ],
+                "1": [
+                    
+                ],
+                "2": [
+                    "versions.yml:md5,05cf55e24c29c2661a2b9301d3c7c2a0"
+                ],
+                "error": [
+                    
+                ],
+                "syri": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "testsyri.out:md5,fd2a1b676912818960056aa281177bb4"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,05cf55e24c29c2661a2b9301d3c7c2a0"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.1"
+        },
+        "timestamp": "2024-05-25T21:30:50.653501"
+    },
+    "homo_sapiens - genome - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "testsyri.out:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    
+                ],
+                "2": [
+                    "versions.yml:md5,05cf55e24c29c2661a2b9301d3c7c2a0"
+                ],
+                "error": [
+                    
+                ],
+                "syri": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "testsyri.out:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,05cf55e24c29c2661a2b9301d3c7c2a0"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.1"
+        },
+        "timestamp": "2024-05-25T21:22:31.028411"
+    }
+}

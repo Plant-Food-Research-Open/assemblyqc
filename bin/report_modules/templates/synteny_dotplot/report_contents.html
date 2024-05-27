@@ -1,12 +1,12 @@
-{% set vars = {'is_first': True} %} {% for item in range(all_stats_dicts["SYNTENY_LINEAR"]|length) %} {% set active_text
+{% set vars = {'is_first': True} %} {% for item in range(all_stats_dicts["SYNTENY_DOTPLOT"]|length) %} {% set active_text
 = 'display: block' if vars.is_first else 'display: none' %}
-<div id="tabcontent_SYNTENY_LINEAR_{{ all_stats_dicts['SYNTENY_LINEAR'][item]['tag.on.tag'] }}"
-  class="tabcontent-SYNTENY_LINEAR" style="{{ active_text }}">
+<div id="tabcontent_SYNTENY_DOTPLOT_{{ all_stats_dicts['SYNTENY_DOTPLOT'][item]['tag.on.tag'] }}"
+  class="tabcontent-SYNTENY_DOTPLOT" style="{{ active_text }}">
   <div class="results-section">
     <div class="section-heading-wrapper">
-      <div class="section-heading">{{ all_stats_dicts['SYNTENY_LINEAR'][item]['tag.on.tag'] }}</div>
+      <div class="section-heading">{{ all_stats_dicts['SYNTENY_DOTPLOT'][item]['tag.on.tag'] }}</div>
     </div>
-    {% if all_stats_dicts['SYNTENY_LINEAR'][item]['is_plot_empty'] %}
+    {% if all_stats_dicts['SYNTENY_DOTPLOT'][item]['is_plot_empty'] %}
     <div class="section-para-wrapper">
       <p class="section-para">
         Either no alignments were detected between the target and reference assemblies, or all the alignment
@@ -16,7 +16,7 @@
     {% else %}
     <div class="iframe-wrapper">
       <iframe
-        src="./synteny/{{ all_stats_dicts['SYNTENY_LINEAR'][item]['plot_folder'] }}/{{ all_stats_dicts['SYNTENY_LINEAR'][item]['plot'] }}"
+        src="./synteny/{{ all_stats_dicts['SYNTENY_DOTPLOT'][item]['plot_folder'] }}/{{ all_stats_dicts['SYNTENY_DOTPLOT'][item]['plot'] }}"
         width="100%" height="100%"></iframe>
     </div>
     {% endif %}

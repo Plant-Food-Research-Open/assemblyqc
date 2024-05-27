@@ -191,18 +191,23 @@ Hi-C contact mapping experiments measure the frequency of physical contact betwe
 
 - `synteny/`
   - `*.*.all/`: Synteny files corresponding to all contigs of the target assembly with respect to all contig of the reference assembly.
-    - `*.on.*.all.png/svg`: Synteny plot generated with CIRCOS.
-    - `*.on.*.all.png/svg`: Synteny plot generated with Plotly.
+    - `*.on.*.all.png/svg`: Synteny plot generated with CIRCOS
+    - `*.on.*.all.html`: Synteny dotplot generated with Plotly
     - `bundled.links.tsv`: Bundled links file generated with MUMMER, `MUMMER/dnadiff.pl` and [bundlelinks.py](../bin/bundlelinks.py).
     - `circos.conf`: CIRCOS configuration file used to generate the synteny plot.
     - `karyotype.tsv`: Karyotype TSV file used to generate the synteny plot.
   - `*.on.*.*`: Synteny files corresponding to a single contig of the target assembly with respect to all contigs of the reference assembly.
-  </details>
+  - `plotsr`: Plotsr files
+    - `*.error.log`: Error log for the failed Syri comparison
+    - `*.plotsr.csv`: CSV file listing sequence IDs and labels used by plotsr
+    - `plotsr.png`: Plotsr synteny plot
+    </details>
 
 [Circos](https://circos.ca) and linear synteny plots are created from genome-wide alignments performed with [MUMMER](https://github.com/mummer4/mummer?tab=readme-ov-file) and [`dnadiff.pl`](https://github.com/mummer4/mummer/blob/master/scripts/dnadiff.pl).
 
 <div align="center"><img src="images/synteny_circos.png" alt="AssemblyQC - Circos synteny plot" width="50%"><hr><em>AssemblyQC - Circos synteny plot</em></div>
-<div align="center"><img src="images/synteny_linear.png" alt="AssemblyQC - Linear synteny plot" width="50%"><hr><em>AssemblyQC - Linear synteny plot</em></div>
+<div align="center"><img src="images/synteny_linear.png" alt="AssemblyQC - Dotplot synteny plot" width="50%"><hr><em>AssemblyQC - Dotplot synteny plot</em></div>
+<div align="center"><img src="images/plotsr.png" alt="AssemblyQC - Plotsr synteny plot" width="50%"><hr><em>AssemblyQC - Plotsr synteny plot</em></div>
 
 ### Merqury
 
@@ -210,8 +215,12 @@ Hi-C contact mapping experiments measure the frequency of physical contact betwe
 <summary>Output files</summary>
 
 - `merqury/`
-  - `tag1-and-tag2`: Results folder for haplotype `tag1` and `tag2`. - `*.completeness.stats`: Assembly completeness statistics - `*.qv`: Assembly consensus quality QV statistics - `*.fl.png`: Spectra plots - `*.hapmers.blob.png`: Hap-mer blob plot
-  </details>
+  - `tag1-and-tag2`: Results folder for haplotype `tag1` and `tag2`.
+    - `*.completeness.stats`: Assembly completeness statistics
+    - `*.qv`: Assembly consensus quality QV statistics
+    - `*.fl.png`: Spectra plots
+    - `*.hapmers.blob.png`: Hap-mer blob plot
+    </details>
 
 [MERQURY](https://github.com/marbl/merqury) is used for the k-mer analysis.
 

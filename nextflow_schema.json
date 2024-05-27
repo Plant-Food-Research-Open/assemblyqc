@@ -46,7 +46,8 @@
                 "assemblathon_stats_n_limit": {
                     "type": "integer",
                     "default": 100,
-                    "description": "The number of 'N's for the unknown gap size. NCBI recommendation is 100"
+                    "description": "The number of 'N's for the unknown gap size. NCBI recommendation is 100",
+                    "fa_icon": "fas fa-ruler-horizontal"
                 }
             }
         },
@@ -65,7 +66,8 @@
                 "ncbi_fcs_adaptor_empire": {
                     "type": "string",
                     "enum": ["euk", "prok"],
-                    "description": "Empire for NCBI FCS Adaptor checking: 'euk' for eukaryotes, or 'prok' for prokaryotes"
+                    "description": "Empire for NCBI FCS Adaptor checking: 'euk' for eukaryotes, or 'prok' for prokaryotes",
+                    "fa_icon": "fas fa-project-diagram"
                 },
                 "ncbi_fcs_gx_skip": {
                     "type": "boolean",
@@ -75,7 +77,8 @@
                 },
                 "ncbi_fcs_gx_tax_id": {
                     "type": "number",
-                    "description": "Tax ID for NCBI FCS GX. See: https://www.ncbi.nlm.nih.gov/taxonomy"
+                    "description": "Tax ID for NCBI FCS GX. See: https://www.ncbi.nlm.nih.gov/taxonomy",
+                    "fa_icon": "fab fa-orcid"
                 },
                 "ncbi_fcs_gx_db_path": {
                     "type": "string",
@@ -106,12 +109,14 @@
                 "busco_mode": {
                     "type": "string",
                     "enum": ["genome", "transcriptome", "proteins"],
-                    "description": "BUSCO mode: 'genome', 'transcriptome', 'proteins'"
+                    "description": "BUSCO mode: 'genome', 'transcriptome', 'proteins'",
+                    "fa_icon": "fas fa-cog"
                 },
                 "busco_lineage_datasets": {
                     "type": "string",
                     "pattern": "^(\\w+_odb10\\s)*\\w+_odb10$",
-                    "description": "BUSCO lineages. It should be provided as a space-separated list of lineages: 'fungi_odb10 microsporidia_odb10'"
+                    "description": "BUSCO lineages. It should be provided as a space-separated list of lineages: 'fungi_odb10 microsporidia_odb10'",
+                    "fa_icon": "fas fa-clipboard-list"
                 },
                 "busco_download_path": {
                     "type": "string",
@@ -135,17 +140,20 @@
                 },
                 "tidk_repeat_seq": {
                     "type": "string",
-                    "description": "Telomere repeat sequence. Plant: TTTAGGG, Fungus, Vertebrates: TTAGGG, Insect: TTAGG",
-                    "pattern": "^[ACGT]+$"
+                    "description": "Telomere repeat sequence. Typical values for plant: TTTAGGG, fungus, vertebrates: TTAGGG and Insect: TTAGG",
+                    "pattern": "^[ACGT]+$",
+                    "fa_icon": "fas fa-dna"
                 },
                 "tidk_filter_by_size": {
                     "type": "boolean",
-                    "description": "Filter size in base-pairs"
+                    "description": "Filter assembly sequences smaller than the specified length",
+                    "fa_icon": "fas fa-question-circle"
                 },
                 "tidk_filter_size_bp": {
                     "type": "integer",
                     "default": 1000000,
-                    "description": "Filter size in base-pairs"
+                    "description": "Filter size in base-pairs",
+                    "fa_icon": "fas fa-ruler-horizontal"
                 }
             }
         },
@@ -207,7 +215,8 @@
                 "hic_fastp_ext_args": {
                     "type": "string",
                     "default": "--qualified_quality_phred 20 --length_required 50",
-                    "description": "Additional parameters for fastp trimming"
+                    "description": "Additional parameters for fastp trimming",
+                    "fa_icon": "fas fa-terminal"
                 }
             }
         },
@@ -223,46 +232,78 @@
                     "description": "Skip synteny analysis",
                     "fa_icon": "fas fa-forward"
                 },
-                "synteny_plot_type": {
-                    "type": "string",
-                    "default": "both",
-                    "description": "Synteny plot type: 'linear', 'circos', or 'both'",
-                    "enum": ["both", "linear", "circos"]
-                },
-                "synteny_between_input_assemblies": {
-                    "type": "boolean",
-                    "description": "Create syntenic plots between each pair of input assemblies",
-                    "default": true
-                },
-                "synteny_many_to_many_align": {
-                    "type": "boolean",
-                    "description": "Include alignment blocks with many-to-many mappings (dnadiff .mcoords file)"
-                },
-                "synteny_max_gap": {
-                    "type": "integer",
-                    "default": 1000000,
-                    "description": "Alignments within this distance are bundled together"
-                },
-                "synteny_min_bundle_size": {
-                    "type": "integer",
-                    "default": 1000,
-                    "description": "After bundling, any bundle smaller than this size is filtered out"
-                },
-                "synteny_plot_1_vs_all": {
-                    "type": "boolean",
-                    "description": "Create a separate synteny plot for each contig of the target assembly versus all contigs of the reference assembly"
-                },
-                "synteny_color_by_contig": {
+                "synteny_mummer_skip": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Synteny plot is colored by contig"
+                    "description": "Skip Mummer-based synteny analysis",
+                    "fa_icon": "fas fa-forward"
+                },
+                "synteny_plotsr_skip": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Skip plotsr-based synteny analysis",
+                    "fa_icon": "fas fa-forward"
                 },
                 "synteny_xref_assemblies": {
                     "type": "string",
                     "description": "Reference assemblies for synteny analysis",
                     "format": "file-path",
                     "mimetype": "csv",
-                    "schema": "assets/schema_xref_assemblies.json"
+                    "schema": "assets/schema_xref_assemblies.json",
+                    "fa_icon": "fas fa-file-csv"
+                },
+                "synteny_between_input_assemblies": {
+                    "type": "boolean",
+                    "description": "Create syntenic plots between each pair of input assemblies",
+                    "default": true,
+                    "fa_icon": "fas fa-question-circle"
+                },
+                "synteny_mummer_plot_type": {
+                    "type": "string",
+                    "default": "both",
+                    "description": "Synteny plot type from Mummer alignments: 'dotplot', 'circos', or 'both'",
+                    "enum": ["both", "dotplot", "circos"],
+                    "fa_icon": "fas fa-chart-line"
+                },
+                "synteny_mummer_m2m_align": {
+                    "type": "boolean",
+                    "description": "Include Mummer alignment blocks with many-to-many mappings",
+                    "fa_icon": "fas fa-question-circle"
+                },
+                "synteny_mummer_max_gap": {
+                    "type": "integer",
+                    "default": 1000000,
+                    "description": "Mummer alignments within this distance are bundled together",
+                    "fa_icon": "fas fa-ruler-horizontal"
+                },
+                "synteny_mummer_min_bundle_size": {
+                    "type": "integer",
+                    "default": 1000,
+                    "description": "After bundling, any Mummer alignment bundle smaller than this size is filtered out",
+                    "fa_icon": "fas fa-ruler-horizontal"
+                },
+                "synteny_plot_1_vs_all": {
+                    "type": "boolean",
+                    "description": "Create a separate synteny plot for each contig of the target assembly versus all contigs of the reference assembly. This only applies to Mummer plots",
+                    "fa_icon": "fas fa-question-circle"
+                },
+                "synteny_color_by_contig": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Mummer synteny plots are colored by contig. Otherwise, they are colored by bundle size",
+                    "fa_icon": "fas fa-question-circle"
+                },
+                "synteny_plotsr_seq_label": {
+                    "type": "string",
+                    "default": "Chr",
+                    "description": "Sequence label prefix for plotsr synteny",
+                    "fa_icon": "fas fa-tag"
+                },
+                "synteny_plotsr_assembly_order": {
+                    "type": "string",
+                    "fa_icon": "fas fa-sort-alpha-down",
+                    "pattern": "^(\\w+\\s)*\\w+$",
+                    "description": "The order in which the assemblies should be compared, provided as space separated string of assembly tags. If absent, assemblies are ordered by their tags alphabetically."
                 }
             }
         },
@@ -282,7 +323,8 @@
                     "type": "integer",
                     "default": 21,
                     "description": "kmer length for merqury analysis",
-                    "minimum": 3
+                    "minimum": 3,
+                    "fa_icon": "fas fa-ruler-horizontal"
                 }
             }
         },

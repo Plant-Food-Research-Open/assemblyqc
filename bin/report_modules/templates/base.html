@@ -64,8 +64,12 @@
     <button class="tablinks" onclick="openTool(event, 'SYNTENY_CIRCOS')">SYNTENY CIRCOS</button>
     {% endif %}
 
-    {% if 'SYNTENY_LINEAR' in all_stats_dicts %}
-    <button class="tablinks" onclick="openTool(event, 'SYNTENY_LINEAR')">SYNTENY LINEAR</button>
+    {% if 'SYNTENY_DOTPLOT' in all_stats_dicts %}
+    <button class="tablinks" onclick="openTool(event, 'SYNTENY_DOTPLOT')">SYNTENY DOTPLOT</button>
+    {% endif %}
+
+    {% if 'SYNTENY_PLOTSR' in all_stats_dicts %}
+    <button class="tablinks" onclick="openTool(event, 'SYNTENY_PLOTSR')">SYNTENY PLOTSR</button>
     {% endif %}
 
     {% if 'MERQURY' in all_stats_dicts %}
@@ -128,8 +132,12 @@
   {% include 'synteny_circos/synteny_circos.html' %}
   {% endif %}
 
-  {% if 'SYNTENY_LINEAR' in all_stats_dicts %}
-  {% include 'synteny_linear/synteny_linear.html' %}
+  {% if 'SYNTENY_DOTPLOT' in all_stats_dicts %}
+  {% include 'synteny_dotplot/synteny_dotplot.html' %}
+  {% endif %}
+
+  {% if 'SYNTENY_PLOTSR' in all_stats_dicts %}
+  {% include 'synteny_plotsr/synteny_plotsr.html' %}
   {% endif %}
 
   {% if 'MERQURY' in all_stats_dicts %}

@@ -1,4 +1,4 @@
-<div id="SYNTENY_LINEAR" class="tabcontent" style="display: none">
+<div id="SYNTENY_DOTPLOT" class="tabcontent" style="display: none">
   <div class="section-para-wrapper">
     <p class="section-para">The genome-wide alignments are performed with MUMMER.</p>
     <p class="section-para"><b>References:</b></p>
@@ -13,11 +13,11 @@
     <p class="section-para"><b>Notes:</b></p>
     <ul>
       <li>
-        Alignments within a distance of {{ all_stats_dicts['PARAMS_DICT']['synteny_max_gap'] }}bp have been
+        Alignments within a distance of {{ all_stats_dicts['PARAMS_DICT']['synteny_mummer_max_gap'] }}bp have been
         bundled together.
       </li>
       <li>
-        After bundling, any bundle smaller than {{ all_stats_dicts['PARAMS_DICT']['synteny_min_bundle_size'] }}bp has
+        After bundling, any bundle smaller than {{ all_stats_dicts['PARAMS_DICT']['synteny_mummer_min_bundle_size'] }}bp has
         been filtered out.
       </li>
       <li>
@@ -26,5 +26,5 @@
       </li>
     </ul>
   </div>
-  {% include 'synteny_linear/dropdown.html' %} {% include 'synteny_linear/report_contents.html' %}
+  {% include 'synteny_dotplot/dropdown.html' %} {% include 'synteny_dotplot/report_contents.html' %}
 </div>

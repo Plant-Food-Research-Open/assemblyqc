@@ -24,11 +24,11 @@
         <p class="section-para"><b>Notes:</b></p>
         <ul>
           <li>
-            Alignments within a distance of {{ all_stats_dicts['PARAMS_DICT']['synteny_max_gap'] }}bp have been
+            Alignments within a distance of {{ all_stats_dicts['PARAMS_DICT']['synteny_mummer_max_gap'] }}bp have been
             bundled together.
           </li>
           <li>
-            After bundling, any bundle smaller than {{ all_stats_dicts['PARAMS_DICT']['synteny_min_bundle_size'] }}bp has been filtered out.
+            After bundling, any bundle smaller than {{ all_stats_dicts['PARAMS_DICT']['synteny_mummer_min_bundle_size'] }}bp has been filtered out.
           </li>
           <li>
             The sequence labels shown on the plot are based on the labelling file provided to the pipeline. These labels may or may not be same as the sequence IDs in the corresponding FASTA files.
