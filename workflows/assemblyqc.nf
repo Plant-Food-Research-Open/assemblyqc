@@ -28,7 +28,7 @@ include { MERYL_UNIONSUM as MAT_UNIONSUM    } from '../modules/nf-core/meryl/uni
 include { MERYL_COUNT as PAT_MERYL_COUNT    } from '../modules/nf-core/meryl/count/main'
 include { MERYL_UNIONSUM as PAT_UNIONSUM    } from '../modules/nf-core/meryl/unionsum/main'
 include { MERQURY_HAPMERS                   } from '../modules/pfr/merqury/hapmers/main'
-include { MERQURY                           } from '../modules/nf-core/merqury/main'
+include { MERQURY_MERQURY                   } from '../modules/nf-core/merqury/main'
 include { CREATEREPORT                      } from '../modules/local/createreport'
 
 include { FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS as FETCHNGS  } from '../subworkflows/nf-core/fastq_download_prefetch_fasterqdump_sratools/main'
@@ -703,20 +703,20 @@ workflow ASSEMBLYQC {
                                                 ]
                                             }
 
-    // MODULE: MERQURY
+    // MODULE: MERQURY_MERQURY
     ch_merqury_inputs                       = ch_meryl_all
                                             | join(
                                                 ch_reads_assemblies
                                                 | map { meta, fq, fastas -> [ meta, fastas ] }
                                             )
 
-    MERQURY ( ch_merqury_inputs )
+    MERQURY_MERQURY ( ch_merqury_inputs )
 
-    ch_merqury_qv                           = MERQURY.out.assembly_qv
-    ch_merqury_stats                        = MERQURY.out.stats
-    ch_merqury_spectra_cn_fl_png            = MERQURY.out.spectra_cn_fl_png
-    ch_merqury_spectra_asm_fl_png           = MERQURY.out.spectra_asm_fl_png
-    ch_hapmers_blob_png                     = MERQURY.out.hapmers_blob_png
+    ch_merqury_qv                           = MERQURY_MERQURY.out.assembly_qv
+    ch_merqury_stats                        = MERQURY_MERQURY.out.stats
+    ch_merqury_spectra_cn_fl_png            = MERQURY_MERQURY.out.spectra_cn_fl_png
+    ch_merqury_spectra_asm_fl_png           = MERQURY_MERQURY.out.spectra_asm_fl_png
+    ch_hapmers_blob_png                     = MERQURY_MERQURY.out.hapmers_blob_png
 
     ch_merqury_outputs                      = ch_merqury_qv
                                             | mix(ch_merqury_stats)

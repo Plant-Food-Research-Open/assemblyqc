@@ -170,11 +170,10 @@
                         "git_sha": "3a5fef109d113b4997c9822198664ca5f2716208",
                         "installed_by": ["modules"]
                     },
-                    "merqury": {
+                    "merqury/merqury": {
                         "branch": "master",
-                        "git_sha": "3f5420aa22e00bd030a2556dfdffc9e164ec0ec5",
-                        "installed_by": ["modules"],
-                        "patch": "modules/nf-core/merqury/merqury.diff"
+                        "git_sha": "5f7195c5a3e889a03c31c43aec72a65f8b1f9282",
+                        "installed_by": ["modules"]
                     },
                     "meryl/count": {
                         "branch": "master",

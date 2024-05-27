@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v2.0.0+dev - [22-May-2024]
+## v2.0.0+dev - [27-May-2024]
 
 ### `Added`
 
@@ -21,9 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 12. Replaced `GFF3_VALIDATE` sub-workflow with `GFF3_GT_GFF3_GFF3VALIDATOR_STAT`
 13. Replaced local `BUSCO` module with `FASTA_GXF_BUSCO_PLOT` sub-workflow [#75](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/75)
 14. Replaced local `NCBI_FCS_ADAPTOR` with nf-core module and updated to 0.5.0 which includes additional adaptors for PacBio and Nanopore technologies [#55](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/55)
-15. Locally patched `MERQURY`
-16. Added PLOTSR [#77](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/77)
-17. Added [JADWOS01](https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_016859245.1/) assembly to xrefsheet for successfully running PLOTSR.
+15. Added PLOTSR [#77](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/77)
+16. Added [JADWOS01](https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_016859245.1/) assembly to xrefsheet for successfully running PLOTSR.
 
 ### `Fixed`
 
