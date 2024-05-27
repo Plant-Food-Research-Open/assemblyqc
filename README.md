@@ -14,11 +14,16 @@
 
 ## Introduction
 
-AssemblyQC is a [NextFlow](https://www.nextflow.io/docs/latest/index.html) pipeline which evaluates assembly quality with well-established tools and presents the results in a unified html report. The tools are shown in the [Pipeline Flowchart](#pipeline-flowchart) and their version are listed in [CITATIONS.md](./CITATIONS.md).
+AssemblyQC is a [NextFlow](https://www.nextflow.io/docs/latest/index.html) pipeline which evaluates assembly quality with well-established tools and presents the results in a unified html report. The tools are shown in the [Pipeline Flowchart](#pipeline-flowchart) and their references are listed in [CITATIONS.md](./CITATIONS.md).
 
 ## Pipeline Flowchart
 
 ```mermaid
+%%{init: {
+  "themeVariables": {
+    "fontSize": "52px"
+  }
+}}%%
 flowchart LR
   forEachTag(For each\nAssembly) --> VALIDATE_FORMAT[VALIDATE FORMAT]
 
@@ -42,7 +47,10 @@ flowchart LR
   LTRRETRIEVER --> LAI
   Run --> KRAKEN2
   Run --> HIC_CONTACT_MAP[HIC CONTACT MAP]
-  Run --> SYNTENY
+  Run --> MUMMER
+
+  MUMMER --> CIRCOS
+  MUMMER --> DOTPLOT
 
   ASS_STATS --> REPORT
   GFF_STATS --> REPORT
@@ -52,11 +60,12 @@ flowchart LR
   LAI --> REPORT
   KRAKEN2 --> REPORT
   HIC_CONTACT_MAP --> REPORT
-  SYNTENY --> REPORT
+  CIRCOS --> REPORT
+  DOTPLOT --> REPORT
 ```
 
-- [FASTA VALIDATION](https://github.com/GallVp/fasta_validator)
-- [GFF3 VALIDATION](https://github.com/genometools/genometools)
+- [FASTA VALIDATOR](https://github.com/linsalrob/fasta_validator): FASTA validation
+- [GenomeTools GT GFF3VALIDATOR](https://genometools.org/tools/gt_gff3validator.html): GFF3 validation
 - [ASSEMBLATHON STATS](https://github.com/PlantandFoodResearch/assemblathon2-analysis/blob/a93cba25d847434f7eadc04e63b58c567c46a56d/assemblathon_stats.pl): Assembly statistics
 - [GENOMETOOLS GT STAT](https://github.com/genometools/genometools)/[BIOCODE GFF3 STATS](https://github.com/jorvis/biocode): Annotation statistics
 - [NCBI FCS ADAPTOR](https://github.com/ncbi/fcs): Adaptor contamination pass/fail
@@ -67,7 +76,7 @@ flowchart LR
 - [LAI::LTRRETRIEVER](https://github.com/oushujun/LTR_retriever): Repeat identification
 - [KRAKEN2](https://github.com/DerrickWood/kraken2): Taxonomy classification
 - [HIC CONTACT MAP](https://github.com/igvteam/juicebox-web): Alignment and visualisation of HiC data
-- SYNTENY: Synteny analysis using [MUMMER](https://github.com/mummer4/mummer), [CIRCOS](http://circos.ca/documentation/) and [PLOTLY](https://plotly.com/python/)
+- [MUMMER](https://github.com/mummer4/mummer) → [CIRCOS](http://circos.ca/documentation/) + [DOTPLOT](https://plotly.com): Synteny analysis
 
 ## Usage
 
@@ -109,34 +118,39 @@ Once the pipeline has finished execution, the results folder specified in the co
 
 ## Contributors
 
+plant-food-research-open/assemblyqc was originally written by Usman Rashid and Ken Smith. Ross Crowhurst, Chen Wu and Marcus Davy generously contributed their QC scripts.
+
+We thank the following people for their extensive assistance in the development of this pipeline:
+
 - Cecilia Deng [@CeciliaDeng](https://github.com/CeciliaDeng)
 - Chen Wu [@christinawu2008](https://github.com/christinawu2008)
+- Ignacio Carvajal [@ignacio3437](https://github.com/ignacio3437)
 - Jason Shiller [@jasonshiller](https://github.com/jasonshiller)
-- Ken Smith [@hzlnutspread](https://github.com/hzlnutspread)
+- Mahesh Binzer-Panchal [@mahesh-panchal](https://github.com/mahesh-panchal)
 - Marcus Davy [@mdavy86](https://github.com/mdavy86)
 - Ross Crowhurst [@rosscrowhurst](https://github.com/rosscrowhurst)
+- Sarah Bailey [@SarahBailey1998](https://github.com/SarahBailey1998)
 - Susan Thomson [@cflsjt](https://github.com/cflsjt)
 - Ting-Hsuan Chen [@ting-hsuan-chen](https://github.com/ting-hsuan-chen)
-- Usman Rashid [@GallVp](https://github.com/GallVp)
 
 The pipeline uses nf-core modules contributed by following authors.
 
-<a href="https://github.com/drpatelh"><img src="https://github.com/drpatelh.png" width="50" height="50"></a>
-<a href="https://github.com/erikrikarddaniel"><img src="https://github.com/erikrikarddaniel.png" width="50" height="50"></a>
-<a href="https://github.com/friederikehanssen"><img src="https://github.com/friederikehanssen.png" width="50" height="50"></a>
 <a href="https://github.com/gallvp"><img src="https://github.com/gallvp.png" width="50" height="50"></a>
-<a href="https://github.com/jeremy1805"><img src="https://github.com/jeremy1805.png" width="50" height="50"></a>
-<a href="https://github.com/jfy133"><img src="https://github.com/jfy133.png" width="50" height="50"></a>
-<a href="https://github.com/joseespinosa"><img src="https://github.com/joseespinosa.png" width="50" height="50"></a>
-<a href="https://github.com/lescai"><img src="https://github.com/lescai.png" width="50" height="50"></a>
-<a href="https://github.com/matthdsm"><img src="https://github.com/matthdsm.png" width="50" height="50"></a>
+<a href="https://github.com/drpatelh"><img src="https://github.com/drpatelh.png" width="50" height="50"></a>
 <a href="https://github.com/maxulysse"><img src="https://github.com/maxulysse.png" width="50" height="50"></a>
+<a href="https://github.com/matthdsm"><img src="https://github.com/matthdsm.png" width="50" height="50"></a>
+<a href="https://github.com/lescai"><img src="https://github.com/lescai.png" width="50" height="50"></a>
+<a href="https://github.com/joseespinosa"><img src="https://github.com/joseespinosa.png" width="50" height="50"></a>
+<a href="https://github.com/jfy133"><img src="https://github.com/jfy133.png" width="50" height="50"></a>
+<a href="https://github.com/jeremy1805"><img src="https://github.com/jeremy1805.png" width="50" height="50"></a>
+<a href="https://github.com/friederikehanssen"><img src="https://github.com/friederikehanssen.png" width="50" height="50"></a>
+<a href="https://github.com/erikrikarddaniel"><img src="https://github.com/erikrikarddaniel.png" width="50" height="50"></a>
 
 ## Citations
 
-For a comprehensive list of references and versions for the tools, see [CITATIONS.md](./CITATIONS.md). If you use plant-food-research-open/assemblyqc for your analysis, please cite it as:
+For a comprehensive list of references for the tools, see [CITATIONS.md](./CITATIONS.md). If you use plant-food-research-open/assemblyqc for your analysis, please cite it as:
 
-> Rashid, U., Wu, C., Shiller, J., Smith, K., Crowhurst, R., Davy, M., Chen, T.-H., Thomson, S., & Deng, C. (2024). AssemblyQC: A NextFlow pipeline for evaluating assembly quality (1.3.2). Zenodo. https://doi.org/10.5281/zenodo.10647870
+> Rashid, U., Wu, C., Shiller, J., Smith, K., Crowhurst, R., Davy, M., Chen, T.-H., Thomson, S., & Deng, C. (2024). AssemblyQC: A NextFlow pipeline for evaluating assembly quality (1.3.3). Zenodo. https://doi.org/10.5281/zenodo.10647870
 
 This pipeline uses code and infrastructure developed and maintained by the [nf-core](https://nf-co.re) community, reused here under the [MIT license](https://github.com/nf-core/tools/blob/master/LICENSE).
 

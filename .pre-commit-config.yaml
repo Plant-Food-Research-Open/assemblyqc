@@ -3,12 +3,11 @@ repos:
     rev: "v3.1.0"
     hooks:
       - id: prettier
-  - repo: https://github.com/psf/black
-    rev: 22.10.0
-    hooks:
-      - id: black
+        additional_dependencies:
+          - prettier@3.2.5
+
   - repo: https://github.com/editorconfig-checker/editorconfig-checker.python
-    rev: 2.7.3
+    rev: "2.7.3"
     hooks:
       - id: editorconfig-checker
         alias: ec

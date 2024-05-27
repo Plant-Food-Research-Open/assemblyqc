@@ -10,7 +10,7 @@ fi
 
 # Check CHANGELOG version
 
-grep "## Version $config_version (" CHANGELOG.md >/dev/null \
+head -3 CHANGELOG.md | grep "## Version $config_version (" >/dev/null \
     || (echo 'Failed to match CHANGELOG version'; exit 1)
 
 # Check README version

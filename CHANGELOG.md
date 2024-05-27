@@ -1,5 +1,14 @@
 # Change Log
 
+## Version 1.3.3 (27-May-2024)
+
+1. Updated nf-core/modules contributors
+2. Updated flowchart
+3. Updated credits
+4. Updated pre-commit configuration
+5. Fixed fail on empty `lai::monoploid_seqs` [#87](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/87)
+6. Updated `fcs-adaptor` to 0.5.0 [#87](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/87)
+
 ## Version 1.3.2 (30-April-2024)
 
 1. Added support for linear synteny plots by setting `plot_type` to linear under `synteny` params

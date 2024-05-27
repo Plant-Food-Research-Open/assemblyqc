@@ -28,7 +28,23 @@
                 ]
             }
         ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "23.10.1"
+        },
         "timestamp": "2023-12-07T13:49:30.047425"
+    },
+    "versions_stub": {
+        "content": [
+            [
+                "versions.yml:md5,32d31c4f1da9a3d1be013fd163e5867e"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "23.10.1"
+        },
+        "timestamp": "2024-05-10T15:26:11.66528"
     },
     "versions": {
         "content": [
@@ -36,6 +52,10 @@
                 "versions.yml:md5,32d31c4f1da9a3d1be013fd163e5867e"
             ]
         ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "23.10.1"
+        },
         "timestamp": "2023-12-07T13:49:30.071175"
     }
 }

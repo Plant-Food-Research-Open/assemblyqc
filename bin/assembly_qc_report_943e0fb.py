@@ -42,8 +42,8 @@ if __name__ == "__main__":
     data_from_tools = {
         **data_from_tools,
         "VERSIONS": {
-            "SELF": "v1.3.2",
-            "NCBI_FCS_ADAPTOR": "0.4",
+            "SELF": "v1.3.3",
+            "NCBI_FCS_ADAPTOR": "0.5.0",
             "NCBI_FCS_GX": "0.4",
             "ASSEMBLATHON_STATS": "github/PlantandFoodResearch/assemblathon2-analysis/a93cba2",
             "GENOMETOOLS_GT_STAT": "1.6.2",

@@ -61,8 +61,8 @@ process SCREEN_SAMPLE {
     label "process_single"
 
     container "${ workflow.containerEngine == 'singularity' || workflow.containerEngine == 'apptainer' ?
-        'https://ftp.ncbi.nlm.nih.gov/genomes/TOOLS/FCS/releases/0.4.0/fcs-adaptor.sif':
-        'docker.io/ncbi/fcs-adaptor:0.4.0' }"
+        'https://ftp.ncbi.nlm.nih.gov/genomes/TOOLS/FCS/releases/0.5.0/fcs-adaptor.sif':
+        'docker.io/ncbi/fcs-adaptor:0.5.0' }"
 
     publishDir "${params.outdir}/ncbi_fcs_adaptor", mode: 'copy'
 
@@ -76,7 +76,7 @@ process SCREEN_SAMPLE {
         """
             mkdir "${hap_name}_outputdir"
 
-            /app/fcs/bin/av_screen_x \
+            av_screen_x \
             -o "${hap_name}_outputdir" \
             --${params.ncbi_fcs_adaptor.empire} \
             "${fasta_file}"

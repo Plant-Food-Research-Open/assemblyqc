@@ -3,6 +3,7 @@
 __pycahce__
 .nextflow*
 work/
+data/
 results/
 *.stdout
 *.stderr

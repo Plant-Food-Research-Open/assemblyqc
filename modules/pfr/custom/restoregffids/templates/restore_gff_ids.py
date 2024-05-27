@@ -10,7 +10,7 @@ output_prefix = "$prefix"
 def create_name_mapping_from_tsv(file_path):
     dictionary = {}
 
-    with open(file_path, "r") as tsv_file:
+    with open(file_path) as tsv_file:
         for line in tsv_file:
             columns = line.strip().split("\\t")
             if len(columns) != 2:
@@ -24,11 +24,11 @@ def create_name_mapping_from_tsv(file_path):
 
 def restore_gff3_ids(new_to_orig_ids, file_path, output_file_name):
     # Write versions
-    with open(f"versions.yml", "w") as f_versions:
+    with open("versions.yml", "w") as f_versions:
         f_versions.write('"${task.process}":\\n')
         f_versions.write(f"    python: {python_version()}\\n")
 
-    with open(file_path, "r") as input_gff3_file:
+    with open(file_path) as input_gff3_file:
         input_lines = input_gff3_file.readlines()
 
     with open(output_file_name, "w") as output_gff_file:
