@@ -724,7 +724,7 @@ workflow ASSEMBLYQC {
                                             | mix(ch_merqury_spectra_asm_fl_png)
                                             | mix(ch_hapmers_blob_png)
                                             | flatMap { meta, data -> data }
-    ch_versions                             = ch_versions.mix(MERQURY.out.versions.first())
+    ch_versions                             = ch_versions.mix(MERQURY_MERQURY.out.versions.first())
 
     // Collate and save software versions
     ch_versions                             = ch_versions
