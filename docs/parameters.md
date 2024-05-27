@@ -10,6 +10,12 @@ A NextFlow pipeline which evaluates assembly quality with multiple QC tools and 
 | `outdir`  | The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure. | `string` | ./results | True     |        |
 | `email`   | Email address for completion summary.                                                                                    | `string` |           |          |        |
 
+## Validation options
+
+| Parameter                   | Description                                       | Type      | Default | Required | Hidden |
+| --------------------------- | ------------------------------------------------- | --------- | ------- | -------- | ------ |
+| `check_sequence_duplicates` | Check for duplicate sequences in fasta validation | `boolean` | True    |          |        |
+
 ## General stats options
 
 | Parameter                    | Description                                                             | Type      | Default | Required | Hidden |

@@ -9,8 +9,8 @@ include { softwareVersionsToYAML            } from '../subworkflows/nf-core/util
 include { GUNZIP as GUNZIP_FASTA            } from '../modules/nf-core/gunzip/main'
 include { GUNZIP as GUNZIP_GFF3             } from '../modules/nf-core/gunzip/main'
 include { FASTAVALIDATOR                    } from '../modules/nf-core/fastavalidator/main'
+include { SEQKIT_RMDUP                      } from '../modules/nf-core/seqkit/rmdup/main'
 include { FASTA_EXPLORE_SEARCH_PLOT_TIDK    } from '../subworkflows/nf-core/fasta_explore_search_plot_tidk/main'
-
 include { GFF3_GT_GFF3_GFF3VALIDATOR_STAT   } from '../subworkflows/pfr/gff3_gt_gff3_gff3validator_stat/main'
 include { FCS_FCSADAPTOR                    } from '../modules/nf-core/fcs/fcsadaptor/main'
 include { NCBI_FCS_GX                       } from '../subworkflows/local/ncbi_fcs_gx'
@@ -125,10 +125,10 @@ workflow ASSEMBLYQC {
     // MODULE: FASTAVALIDATOR
     FASTAVALIDATOR ( ch_target_assembly )
 
-    ch_valid_target_assembly                = ch_target_assembly.join(FASTAVALIDATOR.out.success_log)
+    ch_fastavalidator_assembly              = ch_target_assembly.join(FASTAVALIDATOR.out.success_log)
                                             | map { meta, fasta, log -> [ meta, fasta ] }
 
-    ch_invalid_assembly_log                 = FASTAVALIDATOR.out.error_log
+    ch_fastavalidator_log                   = FASTAVALIDATOR.out.error_log
                                             | map { meta, error_log ->
                                                 log.warn("FASTA validation failed for ${meta.id}\n${error_log.text}")
 
@@ -136,6 +136,38 @@ workflow ASSEMBLYQC {
                                             }
 
     ch_versions                             = ch_versions.mix(FASTAVALIDATOR.out.versions.first())
+
+    // MODULE: SEQKIT_RMDUP
+    ch_seqkit_rmdup_input                   = ! params.check_sequence_duplicates
+                                            ? Channel.empty()
+                                            : ch_fastavalidator_assembly
+    SEQKIT_RMDUP ( ch_seqkit_rmdup_input )
+
+    ch_valid_target_assembly                = params.check_sequence_duplicates
+                                            ? SEQKIT_RMDUP.out.log
+                                            | join(ch_seqkit_rmdup_input)
+                                            | map { meta, error_log, fasta ->
+                                                if ( error_log.text.contains('0 duplicated records removed') ) {
+                                                    return [ meta, fasta ]
+                                                }
+
+                                                log.warn("FASTA validation failed for ${meta.id} due to presence of duplicate sequences")
+                                                return null
+                                            }
+                                            : ch_fastavalidator_assembly
+
+    ch_invalid_assembly_log                 = ch_fastavalidator_log
+                                            | mix(
+                                                SEQKIT_RMDUP.out.log
+                                                | map { meta, error_log ->
+                                                    if ( error_log.text.contains('0 duplicated records removed') ) {
+                                                        return null
+                                                    }
+
+                                                    error_log
+                                                }
+                                            )
+    ch_versions                             = ch_versions.mix(SEQKIT_RMDUP.out.versions.first())
 
     // SUBWORKFLOW: GFF3_GT_GFF3_GFF3VALIDATOR_STAT
     GFF3_GT_GFF3_GFF3VALIDATOR_STAT (

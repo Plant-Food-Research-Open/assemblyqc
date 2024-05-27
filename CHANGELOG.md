@@ -23,6 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 14. Replaced local `NCBI_FCS_ADAPTOR` with nf-core module and updated to 0.5.0 which includes additional adaptors for PacBio and Nanopore technologies [#55](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/55)
 15. Added PLOTSR [#77](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/77)
 16. Added [JADWOS01](https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_016859245.1/) assembly to xrefsheet for successfully running PLOTSR.
+17. Manually copied [SEQKIT/RMDUP](../nf-modules/modules/nf-core/seqkit/rmdup)
+18. Now detecting duplicate sequences with `SEQKIT/RMDUP` [#64](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/64)
 
 ### `Fixed`
 

@@ -37,6 +37,20 @@
             },
             "required": ["input", "outdir"]
         },
+        "validation_options": {
+            "title": "Validation options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "check_sequence_duplicates": {
+                    "type": "boolean",
+                    "default": true,
+                    "fa_icon": "fas fa-question-circle",
+                    "description": "Check for duplicate sequences in fasta validation"
+                }
+            }
+        },
         "general_stats_options": {
             "title": "General stats options",
             "type": "object",
@@ -496,6 +510,9 @@
     "allOf": [
         {
             "$ref": "#/definitions/input_output_options"
+        },
+        {
+            "$ref": "#/definitions/validation_options"
         },
         {
             "$ref": "#/definitions/general_stats_options"
