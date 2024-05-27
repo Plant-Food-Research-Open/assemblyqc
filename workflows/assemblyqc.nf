@@ -28,7 +28,7 @@ include { MERYL_UNIONSUM as MAT_UNIONSUM    } from '../modules/nf-core/meryl/uni
 include { MERYL_COUNT as PAT_MERYL_COUNT    } from '../modules/nf-core/meryl/count/main'
 include { MERYL_UNIONSUM as PAT_UNIONSUM    } from '../modules/nf-core/meryl/unionsum/main'
 include { MERQURY_HAPMERS                   } from '../modules/pfr/merqury/hapmers/main'
-include { MERQURY_MERQURY                   } from '../modules/nf-core/merqury/main'
+include { MERQURY_MERQURY                   } from '../modules/nf-core/merqury/merqury/main'
 include { CREATEREPORT                      } from '../modules/local/createreport'
 
 include { FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS as FETCHNGS  } from '../subworkflows/nf-core/fastq_download_prefetch_fasterqdump_sratools/main'
