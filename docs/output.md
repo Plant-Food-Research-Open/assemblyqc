@@ -205,9 +205,13 @@ Hi-C contact mapping experiments measure the frequency of physical contact betwe
 
 [Circos](https://circos.ca) and linear synteny plots are created from genome-wide alignments performed with [MUMMER](https://github.com/mummer4/mummer?tab=readme-ov-file) and [`dnadiff.pl`](https://github.com/mummer4/mummer/blob/master/scripts/dnadiff.pl).
 
-<div align="center"><img src="images/synteny_circos.png" alt="AssemblyQC - Circos synteny plot" width="50%"><hr><em>AssemblyQC - Circos synteny plot</em></div>
-<div align="center"><img src="images/synteny_linear.png" alt="AssemblyQC - Dotplot synteny plot" width="50%"><hr><em>AssemblyQC - Dotplot synteny plot</em></div>
-<div align="center"><img src="images/plotsr.png" alt="AssemblyQC - Plotsr synteny plot" width="50%"><hr><em>AssemblyQC - Plotsr synteny plot</em></div>
+<div align="center">
+<img src="images/synteny_circos.png" alt="AssemblyQC - Circos synteny plot" width="46%">
+<img src="images/plotsr.png" alt="AssemblyQC - Plotsr synteny plot" width="41.8%">
+<img src="images/synteny_linear.png" alt="AssemblyQC - Dotplot synteny plot" width="50%">
+<hr>
+<em>AssemblyQC - Synteny plots</em>
+</div>
 
 ### Merqury
 

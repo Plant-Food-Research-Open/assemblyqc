@@ -112,22 +112,22 @@ sbatch ./pfr_assemblyqc
 
 ## Credits
 
-plant-food-research-open/assemblyqc was originally written by Usman Rashid and Ken Smith. Ross Crowhurst, Chen Wu and Marcus Davy generously contributed their QC scripts.
+plant-food-research-open/assemblyqc was originally written by Usman Rashid ([@gallvp](https://github.com/gallvp)) and Ken Smith ([@hzlnutspread](https://github.com/hzlnutspread)).
+
+Ross Crowhurst ([@rosscrowhurst](https://github.com/rosscrowhurst)), Chen Wu ([@christinawu2008](https://github.com/christinawu2008)) and Marcus Davy ([@mdavy86](https://github.com/mdavy86)) generously contributed their QC scripts.
+
+Mahesh Binzer-Panchal ([@mahesh-panchal](https://github.com/mahesh-panchal)) helped port the pipeline modules and sub-workflows to [nf-core](https://nf-co.re) schema.
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 
-- Cecilia Deng [@CeciliaDeng](https://github.com/CeciliaDeng)
-- Chen Wu [@christinawu2008](https://github.com/christinawu2008)
-- Ignacio Carvajal [@ignacio3437](https://github.com/ignacio3437)
-- Jason Shiller [@jasonshiller](https://github.com/jasonshiller)
-- Mahesh Binzer-Panchal [@mahesh-panchal](https://github.com/mahesh-panchal)
-- Marcus Davy [@mdavy86](https://github.com/mdavy86)
-- Ross Crowhurst [@rosscrowhurst](https://github.com/rosscrowhurst)
-- Sarah Bailey [@SarahBailey1998](https://github.com/SarahBailey1998)
-- Susan Thomson [@cflsjt](https://github.com/cflsjt)
-- Ting-Hsuan Chen [@ting-hsuan-chen](https://github.com/ting-hsuan-chen)
+- [Cecilia Deng](https://github.com/CeciliaDeng)
+- [Ignacio Carvajal](https://github.com/ignacio3437)
+- [Jason Shiller](https://github.com/jasonshiller)
+- [Sarah Bailey](https://github.com/SarahBailey1998)
+- [Susan Thomson](https://github.com/cflsjt)
+- [Ting-Hsuan Chen](https://github.com/ting-hsuan-chen)
 
-The pipeline uses nf-core modules contributed by following authors.
+The pipeline uses nf-core modules contributed by following authors:
 
 <a href="https://github.com/gallvp"><img src="https://github.com/gallvp.png" width="50" height="50"></a>
 <a href="https://github.com/drpatelh"><img src="https://github.com/drpatelh.png" width="50" height="50"></a>
@@ -164,7 +164,9 @@ If you would like to contribute to this pipeline, please see the [contributing g
 
 ## Citations
 
-If you use plant-food-research-open/assemblyqc for your analysis, please cite it using the following doi: [10.5281/zenodo.10647870](https://doi.org/10.5281/zenodo.10647870)
+If you use plant-food-research-open/assemblyqc for your analysis, please cite it as:
+
+> Rashid, U., Wu, C., Shiller, J., Smith, K., Crowhurst, R., Davy, M., Chen, T.-H., Thomson, S., & Deng, C. (2024). AssemblyQC: A NextFlow pipeline for evaluating assembly quality (2.0.0-rc.1). Zenodo. https://doi.org/10.5281/zenodo.10647870
 
 An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
 
