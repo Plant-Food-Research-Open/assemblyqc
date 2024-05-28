@@ -36,6 +36,7 @@
     "synteny_color_by_contig": true,
     "synteny_plotsr_seq_label": "Chr",
     "synteny_plotsr_assembly_order": "gddh13_v1p1 m9_v1 m9_v1_h1 m9_v1_h2",
+    "merqury_skip": false,
     "outdir": "./results",
     "email": null
 }
