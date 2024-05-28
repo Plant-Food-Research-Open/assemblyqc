@@ -16,55 +16,62 @@
 
 ```mermaid
 %%{init: {
-  "themeVariables": {
-    "fontSize": "52px"
+    'theme': 'base',
+    'themeVariables': {
+    'fontSize': '52px",
+    'primaryColor': '#9A6421',
+    'primaryTextColor': '#ffffff',
+    'primaryBorderColor': '#9A6421',
+    'lineColor': '#B180A8',
+    'secondaryColor': '#455C58',
+    'tertiaryColor': '#ffffff'
   }
 }}%%
 flowchart LR
-  forEachTag(For each\nAssembly) --> VALIDATE_FORMAT[VALIDATE FORMAT]
+  forEachTag(Assembly) ==> VALIDATE_FORMAT[VALIDATE FORMAT]
 
-  VALIDATE_FORMAT --> ncbiFCS[NCBI FCS\nADAPTOR]
-  ncbiFCS --> Check{Check}
+  VALIDATE_FORMAT ==> ncbiFCS[NCBI FCS\nADAPTOR]
+  ncbiFCS ==> Check{Check}
 
-  VALIDATE_FORMAT --> ncbiGX[NCBI FCS GX]
-  ncbiGX --> Check
-  Check --> |Clean|Run(Run)
+  VALIDATE_FORMAT ==> ncbiGX[NCBI FCS GX]
+  ncbiGX ==> Check
+  Check ==> |Clean|Run(Run)
 
-  Check --> |Contamination|Skip(Skip All)
-  Skip --> REPORT
+  Check ==> |Contamination|Skip(Skip All)
+  Skip ==> REPORT
 
-  VALIDATE_FORMAT --> GFF_STATS[GENOMETOOLS GT STAT]
+  VALIDATE_FORMAT ==> GFF_STATS[GENOMETOOLS GT STAT]
 
-  Run --> ASS_STATS[ASSEMBLATHON STATS]
-  Run --> BUSCO
-  Run --> TIDK
-  Run --> LAI
-  Run --> KRAKEN2
-  Run --> HIC_CONTACT_MAP[HIC CONTACT MAP]
-  Run --> MUMMER
-  Run --> MINIMAP2
-  Run --> MERQURY
+  Run ==> ASS_STATS[ASSEMBLATHON STATS]
+  Run ==> BUSCO
+  Run ==> TIDK
+  Run ==> LAI
+  Run ==> KRAKEN2
+  Run ==> HIC_CONTACT_MAP[HIC CONTACT MAP]
+  Run ==> MUMMER
+  Run ==> MINIMAP2
+  Run ==> MERQURY
 
-  MUMMER --> CIRCOS
-  MUMMER --> DOTPLOT
+  MUMMER ==> CIRCOS
+  MUMMER ==> DOTPLOT
 
-  MINIMAP2 --> PLOTSR
+  MINIMAP2 ==> PLOTSR
 
-  ASS_STATS --> REPORT
-  GFF_STATS --> REPORT
-  BUSCO --> REPORT
-  TIDK --> REPORT
-  LAI --> REPORT
-  KRAKEN2 --> REPORT
-  HIC_CONTACT_MAP --> REPORT
-  CIRCOS --> REPORT
-  DOTPLOT --> REPORT
-  PLOTSR --> REPORT
-  MERQURY --> REPORT
+  ASS_STATS ==> REPORT
+  GFF_STATS ==> REPORT
+  BUSCO ==> REPORT
+  TIDK ==> REPORT
+  LAI ==> REPORT
+  KRAKEN2 ==> REPORT
+  HIC_CONTACT_MAP ==> REPORT
+  CIRCOS ==> REPORT
+  DOTPLOT ==> REPORT
+  PLOTSR ==> REPORT
+  MERQURY ==> REPORT
 ```
 
 - [FASTA VALIDATOR](https://github.com/linsalrob/fasta_validator) + [SEQKIT RMDUP](https://github.com/shenwei356/seqkit): FASTA validation
-- [GenomeTools GT GFF3VALIDATOR](https://genometools.org/tools/gt_gff3validator.html): GFF3 validation
+- [GENOMETOOLS GT GFF3VALIDATOR](https://genometools.org/tools/gt_gff3validator.html): GFF3 validation
 - [ASSEMBLATHON STATS](https://github.com/PlantandFoodResearch/assemblathon2-analysis/blob/a93cba25d847434f7eadc04e63b58c567c46a56d/assemblathon_stats.pl): Assembly statistics
 - [GENOMETOOLS GT STAT](https://genometools.org/tools/gt_stat.html): Annotation statistics
 - [NCBI FCS ADAPTOR](https://github.com/ncbi/fcs): Adaptor contamination pass/fail
