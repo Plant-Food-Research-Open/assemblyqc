@@ -8,7 +8,7 @@ You will need to create an assemblysheet with information about the assemblies y
 - `fasta:` FASTA file
 - `gff3 [Optional]:` GFF3 annotation file if available
 - `monoploid_ids [Optional]:` A txt file listing the sequence IDs used to calculate LAI in monoploid mode if necessary. If the intent is to run LAI against all the sequences in an assembly, this file can be skipped for that assembly.
-- `synteny_labels [Optional]:` A two column tsv file listing fasta sequence IDs (first column) and their labels for the synteny plots (second column) when performing synteny analysis. If a sequence ID is missing from this file, the corresponding sequence is excluded from the analysis.
+- `synteny_labels [Optional]:` A two column tsv file listing fasta sequence IDs (first column) and their labels for the synteny plots (second column) when performing synteny analysis. If a sequence ID is missing from this file, the corresponding sequence is excluded from the analysis. If `synteny_labels` is not provided for an assembly, that assembly is excluded from the analysis.
 
 See the [Merqury](#merqury-k-mer-analysis) section For description of assemblysheet columns related to k-mer analysis with Merqury.
 
@@ -70,7 +70,7 @@ This section provides additional information for parameters. It does not list al
   - `fasta:` FASTA file
   - `synteny_labels:` A two column tsv file listing fasta sequence ids (first column) and their labels for the synteny plots (second column)
 
-- `synteny_plotsr_assembly_order`: The order in which Minimap2 alignments are performed and, then, plotted by Plotsr. For assembly A, B and C; if the order is specified as 'B C A', then, two alignments are performed. First, C is aligned against B as reference. Second, A is aligned against C as reference. The order of these assemblies on the Plotsr figure is also 'B C A' so that B appears on top, C in the middle and A at the bottom.
+- `synteny_plotsr_assembly_order`: The order in which Minimap2 alignments are performed and, then, plotted by Plotsr. For assembly A, B and C; if the order is specified as 'B C A', then, two alignments are performed. First, C is aligned against B as reference. Second, A is aligned against C as reference. The order of these assemblies on the Plotsr figure is also 'B C A' so that B appears on top, C in the middle and A at the bottom. If this parameter is `null`, the assemblies are ordered alphabetically. All assemblies from `input` and `synteny_xref_assemblies` are included by default. If an assembly is missing from this list, that assembly is excluded from the analysis.
 
 ### Merqury K-mer analysis
 
