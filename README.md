@@ -63,7 +63,7 @@ flowchart LR
   MERQURY --> REPORT
 ```
 
-- [FASTA VALIDATOR](https://github.com/linsalrob/fasta_validator): FASTA validation
+- [FASTA VALIDATOR](https://github.com/linsalrob/fasta_validator) + [SEQKIT RMDUP](https://github.com/shenwei356/seqkit): FASTA validation
 - [GenomeTools GT GFF3VALIDATOR](https://genometools.org/tools/gt_gff3validator.html): GFF3 validation
 - [ASSEMBLATHON STATS](https://github.com/PlantandFoodResearch/assemblathon2-analysis/blob/a93cba25d847434f7eadc04e63b58c567c46a56d/assemblathon_stats.pl): Assembly statistics
 - [GENOMETOOLS GT STAT](https://genometools.org/tools/gt_stat.html): Annotation statistics
@@ -133,12 +133,14 @@ The pipeline uses nf-core modules contributed by following authors.
 <a href="https://github.com/drpatelh"><img src="https://github.com/drpatelh.png" width="50" height="50"></a>
 <a href="https://github.com/midnighter"><img src="https://github.com/midnighter.png" width="50" height="50"></a>
 <a href="https://github.com/mahesh-panchal"><img src="https://github.com/mahesh-panchal.png" width="50" height="50"></a>
+<a href="https://github.com/jfy133"><img src="https://github.com/jfy133.png" width="50" height="50"></a>
 <a href="https://github.com/adamrtalbot"><img src="https://github.com/adamrtalbot.png" width="50" height="50"></a>
 <a href="https://github.com/maxulysse"><img src="https://github.com/maxulysse.png" width="50" height="50"></a>
 <a href="https://github.com/matthdsm"><img src="https://github.com/matthdsm.png" width="50" height="50"></a>
 <a href="https://github.com/joseespinosa"><img src="https://github.com/joseespinosa.png" width="50" height="50"></a>
-<a href="https://github.com/jfy133"><img src="https://github.com/jfy133.png" width="50" height="50"></a>
 <a href="https://github.com/ewels"><img src="https://github.com/ewels.png" width="50" height="50"></a>
+<a href="https://github.com/sofstam"><img src="https://github.com/sofstam.png" width="50" height="50"></a>
+<a href="https://github.com/sateeshperi"><img src="https://github.com/sateeshperi.png" width="50" height="50"></a>
 <a href="https://github.com/priyanka-surana"><img src="https://github.com/priyanka-surana.png" width="50" height="50"></a>
 <a href="https://github.com/phue"><img src="https://github.com/phue.png" width="50" height="50"></a>
 <a href="https://github.com/muffato"><img src="https://github.com/muffato.png" width="50" height="50"></a>
@@ -147,6 +149,7 @@ The pipeline uses nf-core modules contributed by following authors.
 <a href="https://github.com/jvhagey"><img src="https://github.com/jvhagey.png" width="50" height="50"></a>
 <a href="https://github.com/joon-klaps"><img src="https://github.com/joon-klaps.png" width="50" height="50"></a>
 <a href="https://github.com/jeremy1805"><img src="https://github.com/jeremy1805.png" width="50" height="50"></a>
+<a href="https://github.com/heuermh"><img src="https://github.com/heuermh.png" width="50" height="50"></a>
 <a href="https://github.com/grst"><img src="https://github.com/grst.png" width="50" height="50"></a>
 <a href="https://github.com/friederikehanssen"><img src="https://github.com/friederikehanssen.png" width="50" height="50"></a>
 <a href="https://github.com/felixkrueger"><img src="https://github.com/felixkrueger.png" width="50" height="50"></a>
