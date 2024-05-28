@@ -272,11 +272,14 @@ workflow FASTA_SYNTENY {
                                         | map { [ it ] }
                                         | collect
                                         | map { list ->
-                                            if ( plotsr_assembly_order == null) {
+                                            if ( plotsr_assembly_order == null ) {
                                                 return list.sort(false) { it[0].id.toUpperCase() }
                                             }
 
                                             def order   = plotsr_assembly_order.tokenize(' ')
+
+                                            if ( order.size() != order.unique().size() ) error "Tags listed by synteny_plotsr_assembly_order should all be unique: $order"
+
                                             def tags    = list.collect { it[0].id }
 
                                             def ordered_list = []
@@ -333,23 +336,32 @@ workflow FASTA_SYNTENY {
                                             [
                                                 [ id: 'plotsr' ],
                                                 syri,
-                                                [ rfa, tfa ] // Order matters, see https://github.com/schneebergerlab/plotsr/issues/70
+                                                [ tfa, rfa]
                                             ]
                                         }
                                         | groupTuple
                                         | map { meta, syri, fastas ->
+                                            def fasta_list          = fastas.flatten()
+                                            def syri_tags           = syri.collect { it.name.replace('syri.out', '').tokenize('.on.') }.flatten().unique()
+                                            def proposed_order      = plotsr_assembly_order ? plotsr_assembly_order.tokenize(' ') : syri_tags.sort(false)
 
-                                            def unique_fa = []
+                                            def available_tags      = []
+                                            proposed_order.each { tag -> if ( tag in syri_tags ) available_tags << tag }
 
-                                            fastas.flatten().each { fasta ->
-                                                if ( ! ( fasta in unique_fa ) ) { unique_fa << fasta }
-                                            }
+                                            def ordered_fa          = []
+                                            available_tags.each { tag -> ordered_fa << ( fasta_list.find { it.baseName == "${tag}.plotsr" } ) }
+
+                                            def ordered_syri_tags   = []
+                                            available_tags.eachWithIndex { tag, index -> if ( index > 0 ) { ordered_syri_tags << "${tag}.on.${available_tags[index-1]}" } }
+
+                                            def ordered_syri        = []
+                                            ordered_syri_tags.each { tag -> ordered_syri << ( syri.find { it.baseName == "${tag}syri" } ) }
 
                                             [
                                                 meta,
-                                                syri,
-                                                unique_fa,
-                                                "#file\tname\n" + unique_fa.collect { it.baseName.replace('.plotsr', '') }.join('\n')
+                                                ordered_syri,
+                                                ordered_fa,
+                                                "#file\tname\n" + ordered_fa.collect { it.baseName.replace('.plotsr', '') }.join('\n')
                                             ]
                                         }
 
