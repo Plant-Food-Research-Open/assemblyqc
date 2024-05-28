@@ -1,2 +1,2 @@
 gt/stat:
-  - "modules/pfr/gt/stat/**"
+  - "modules/nf-core/gt/stat/**"

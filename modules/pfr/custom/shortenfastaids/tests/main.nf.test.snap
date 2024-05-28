@@ -42,15 +42,40 @@
                 ]
             }
         ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "23.10.1"
+        },
         "timestamp": "2023-12-07T13:33:05.523745"
     },
-    "versions": {
+    "stub": {
         "content": [
-            [
-                "versions.yml:md5,e5704a53ebea373dac3a93ae800d48ba"
-            ]
+            {
+                "0": [
+                    
+                ],
+                "1": [
+                    
+                ],
+                "2": [
+                    "versions.yml:md5,e5704a53ebea373dac3a93ae800d48ba"
+                ],
+                "short_ids_fasta": [
+                    
+                ],
+                "short_ids_tsv": [
+                    
+                ],
+                "versions": [
+                    "versions.yml:md5,e5704a53ebea373dac3a93ae800d48ba"
+                ]
+            }
         ],
-        "timestamp": "2023-12-07T13:30:30.361527"
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "23.10.1"
+        },
+        "timestamp": "2024-05-10T15:27:57.244358"
     },
     "homo_sapiens-genome_fasta-no_change": {
         "content": [
@@ -75,6 +100,10 @@
                 ]
             }
         ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "23.10.1"
+        },
         "timestamp": "2023-12-07T13:32:54.220188"
     },
     "homo_sapiens-genome2_fasta-length_change": {
@@ -120,6 +149,10 @@
                 ]
             }
         ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "23.10.1"
+        },
         "timestamp": "2023-12-07T13:33:01.924483"
     },
     "sarscov2-genome_fasta-pattern_change": {
@@ -165,6 +198,10 @@
                 ]
             }
         ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "23.10.1"
+        },
         "timestamp": "2023-12-07T13:32:58.12885"
     }
 }

@@ -37,12 +37,12 @@
                     },
                     "custom/restoregffids": {
                         "branch": "main",
-                        "git_sha": "10b046eaac396f279c08e7e2bb067482ccd9c74e",
+                        "git_sha": "da7a50af5eaac9601e23f33e00bf24e61f9c27ab",
                         "installed_by": ["fasta_ltrretriever_lai"]
                     },
                     "custom/shortenfastaids": {
                         "branch": "main",
-                        "git_sha": "10b046eaac396f279c08e7e2bb067482ccd9c74e",
+                        "git_sha": "da7a50af5eaac9601e23f33e00bf24e61f9c27ab",
                         "installed_by": ["fasta_ltrretriever_lai"]
                     },
                     "gffread": {
@@ -62,7 +62,7 @@
                     },
                     "gt/stat": {
                         "branch": "main",
-                        "git_sha": "10b046eaac396f279c08e7e2bb067482ccd9c74e",
+                        "git_sha": "ffd39a616c84c814fdfb2a865e9fbbb06e5343d9",
                         "installed_by": ["gff3_gt_gff3_gff3validator_stat", "modules"]
                     },
                     "ltrfinder": {
@@ -162,7 +162,7 @@
                     },
                     "fcs/fcsadaptor": {
                         "branch": "master",
-                        "git_sha": "28adf00792d7dfd1b9ecbde9d7a8f22ec78ffcbb",
+                        "git_sha": "f0732b3df35850d3eb16feee0ba1c0192b05bbcb",
                         "installed_by": ["modules"]
                     },
                     "gunzip": {

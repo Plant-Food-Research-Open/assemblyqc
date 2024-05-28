@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 4. Added a launcher script for local testing `local_assemblyqc`
 5. Added a custom `BUNDLELINKS` module which respects direction when bundling `DNADIFF` links [#82](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/82)
 6. Added the ability to create linear synteny plot in addition to the circos plot [#74](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/74)
-7. Updated modules and sub-workflows: `BWA/INDEX`, `BWA/MEM`, `CAT/CAT`, `CUSTOM/CHECKGFF3FASTACORRESPONDENCE`, `CUSTOM/RESTOREGFFIDS`, `CUSTOM/SHORTENFASTAIDS`, `GT/GFF3`, `GT/GFF3VALIDATOR`, `GT/STAT`, `LTRFINDER`, `LTRHARVEST`, `LTRRETRIEVER/LAI`, `LTRRETRIEVER/LTRRETRIEVER`, `SAMBLASTER`, `FASTA_LTRRETRIEVER_LAI`, `FASTQ_BWA_MEM_SAMBLASTER`, `GFF3_VALIDATE`, `CUSTOM/SRATOOLSNCBISETTINGS`, `FASTP`, `FASTQC`, `UNTAR`, `SEQKIT/SEQ`, `SEQKIT/SORT`, `FASTA_EXPLORE_SEARCH_PLOT_TIDK`
+7. Updated modules and sub-workflows: `BWA/INDEX`, `BWA/MEM`, `CAT/CAT`, , `CUSTOM/RESTOREGFFIDS`, `CUSTOM/SHORTENFASTAIDS`, `GT/GFF3`, `GT/GFF3VALIDATOR`, `GT/STAT`, `LTRFINDER`, `LTRHARVEST`, `LTRRETRIEVER/LAI`, `LTRRETRIEVER/LTRRETRIEVER`, `SAMBLASTER`, `FASTA_LTRRETRIEVER_LAI`, `FASTQ_BWA_MEM_SAMBLASTER`, `GFF3_VALIDATE`, `CUSTOM/SRATOOLSNCBISETTINGS`, `FASTP`, `FASTQC`, `UNTAR`, `SEQKIT/SEQ`, `SEQKIT/SORT`, `FASTA_EXPLORE_SEARCH_PLOT_TIDK`
 8. Now the `contamination_stops_pipeline` flag allows the pipeline to continue if contamination is detected. It's default value is `true` [#54](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/54)
 9. Now fasta ids are sorted in natural order for the HiC module [#76](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/76)
 10. Now using `FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS` for SRA downloads
@@ -46,6 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 1. Removed `CIRCOS_BUNDLELINKS` module
 2. Now the default value of `synteny_plot_1_vs_all` is false
+3. Replace module `CUSTOM/CHECKGFF3FASTACORRESPONDENCE` with a local groovy function in `GFF3_GT_GFF3_GFF3VALIDATOR_STAT` sub-workflow
 
 ## 1.4 - [04-Mar-2024]
 

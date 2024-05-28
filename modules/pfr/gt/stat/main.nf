@@ -11,21 +11,32 @@ process GT_STAT {
     tuple val(meta), path(gff3)
 
     output:
-    tuple val(meta), path("*.gt.stat.yml")  , emit: stats
+    tuple val(meta), path("${prefix}.yml")  , emit: stats
     path "versions.yml"                     , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
-    def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: "${meta.id}"
+    def args    = task.ext.args ?: ''
+    prefix      = task.ext.prefix ?: "${meta.id}"
     """
     gt \\
         stat \\
         $args \\
-        "$gff3" \\
-        > "${prefix}.gt.stat.yml"
+        $gff3 \\
+        > ${prefix}.yml
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        genometools: \$(gt --version | head -1 | sed 's/gt (GenomeTools) //')
+    END_VERSIONS
+    """
+
+    stub:
+    prefix      = task.ext.prefix ?: "${meta.id}"
+    """
+    touch ${prefix}.yml
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
