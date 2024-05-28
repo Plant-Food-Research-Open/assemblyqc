@@ -9,7 +9,7 @@
     "ncbi_fcs_gx_db_path": "/workspace/ComparativeDataSources/NCBI/FCS/GX/r2023-01-24",
     "contamination_stops_pipeline": false,
     "busco_skip": false,
-    "busco_mode": "geno",
+    "busco_mode": "genome",
     "busco_lineage_datasets": "embryophyta_odb10 eudicots_odb10",
     "busco_download_path": "/workspace/ComparativeDataSources/BUSCO/assemblyqc",
     "tidk_skip": false,

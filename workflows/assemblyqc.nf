@@ -105,7 +105,7 @@ workflow ASSEMBLYQC {
                                                     ? null
                                                     : log.warn("A synteny_labels file must be provided" +
                                                     " in the input assembly sheet when running synteny analysis." +
-                                                    " Synteny analysis is skipped!")
+                                                    " Synteny analysis is skipped for $tag")
                                                 )
                                             }
 

@@ -36,6 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 7. Fixed java memory overflow issues in `RUNASSEMBLYVISUALIZER`
 8. Updated `FASTA_LTRRETRIEVER_LAI` to fix a pipeline crash when `ch_monoploid_seqs` was `[ meta, [] ]` [#83](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/83)
 9. Improved input assembly documentation [#86](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/86)
+10. Added assembly tag to synteny warning message regarding missing `synteny_labels` file
 
 ### `Dependencies`
 
