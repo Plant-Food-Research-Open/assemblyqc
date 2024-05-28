@@ -4,7 +4,7 @@
 
 You will need to create an assemblysheet with information about the assemblies you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with at least two columns, and a header row. An [example assemblysheet](../assets/assemblysheet.csv) has been provided with the pipeline. Its fields are:
 
-- `tag:` A unique tag which represents the target assembly throughout the pipeline and in the final report
+- `tag:` A unique tag which represents the target assembly throughout the pipeline and in the final report. The `tag` and `fasta` file name should not be same, such as `tag.fasta`. This can create file name collisions in the pipeline or result in file overwrite. It is also a good-practice to make all the input files read-only.
 - `fasta:` FASTA file
 - `gff3 [Optional]:` GFF3 annotation file if available
 - `monoploid_ids [Optional]:` A txt file listing the sequence IDs used to calculate LAI in monoploid mode if necessary. If the intent is to run LAI against all the sequences in an assembly, this file can be skipped for that assembly.

@@ -19,6 +19,8 @@
     "hic_skip_fastp": true,
     "hic_skip_fastqc": false,
     "synteny_skip": false,
+    "synteny_mummer_skip": false,
+    "synteny_plotsr_skip": false,
     "synteny_xref_assemblies": "assets/xrefsheet.csv",
     "merqury_skip": false,
     "max_cpus": 2,
