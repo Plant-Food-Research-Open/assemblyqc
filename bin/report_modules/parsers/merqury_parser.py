@@ -56,7 +56,7 @@ def parse_merqury_folder(folder_name="merqury_outputs"):
                 "qv_stats_table": qv_stats_table.to_dict("records"),
                 "qv_stats_table_html": tabulate(
                     qv_stats_table,
-                    headers=["Assembly", "No Support", "Total", "Error %", "QV"],
+                    headers=["Assembly", "No Support", "Total", "QV", "Error %"],
                     tablefmt="html",
                     numalign="left",
                     showindex=False,
