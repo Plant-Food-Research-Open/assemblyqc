@@ -208,7 +208,7 @@ Hi-C contact mapping experiments measure the frequency of physical contact betwe
 <div align="center">
 <img src="images/synteny_circos.png" alt="AssemblyQC - Circos synteny plot" width="46%">
 <img src="images/plotsr.png" alt="AssemblyQC - Plotsr synteny plot" width="41.8%">
-<img src="images/synteny_linear.png" alt="AssemblyQC - Dotplot synteny plot" width="50%">
+<img src="images/dotplot.png" alt="AssemblyQC - Dotplot synteny plot" width="50%">
 <hr>
 <em>AssemblyQC - Synteny plots</em>
 </div>
@@ -228,7 +228,12 @@ Hi-C contact mapping experiments measure the frequency of physical contact betwe
 
 [MERQURY](https://github.com/marbl/merqury) is used for the k-mer analysis.
 
-<div align="center"><img src="images/spectra_cn.png" alt="AssemblyQC - Spectra-cn plot" width="50%"><hr><em>AssemblyQC - Spectra-cn plot</em></div>
+<div align="center">
+<img src="images/spectra_cn.png" alt="AssemblyQC - Spectra-cn plot" width="49%">
+<img src="images/hapmers_blob.png" alt="AssemblyQC - Plotsr synteny plot" width="39.8%">
+<hr>
+<em>AssemblyQC - Merqury plots</em>
+</div>
 
 ### Pipeline information
 
