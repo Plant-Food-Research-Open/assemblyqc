@@ -126,7 +126,7 @@ def format_figure(
         ),
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        showlegend=True,
+        showlegend=False,
     )
 
     fig.update_xaxes(
