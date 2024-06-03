@@ -22,7 +22,7 @@ process NCBI_FCS_GX_SETUP_SAMPLE {
         error "NCBI_FCS_GX_SETUP_SAMPLE module does not support Conda. Please use Docker / Singularity / Podman instead."
     }
     """
-    ln -s $fasta_file "fasta.file.for.${asm_tag}.fasta"
+    cp $fasta_file fasta.file.for.${asm_tag}.fasta
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
