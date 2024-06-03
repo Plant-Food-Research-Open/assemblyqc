@@ -55,7 +55,12 @@
                     
                 ],
                 "1": [
-                    
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.short.ids.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
                 ],
                 "2": [
                     "versions.yml:md5,e5704a53ebea373dac3a93ae800d48ba"
@@ -64,7 +69,12 @@
                     
                 ],
                 "short_ids_tsv": [
-                    
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.short.ids.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
                 ],
                 "versions": [
                     "versions.yml:md5,e5704a53ebea373dac3a93ae800d48ba"
@@ -73,9 +83,9 @@
         ],
         "meta": {
             "nf-test": "0.8.4",
-            "nextflow": "23.10.1"
+            "nextflow": "24.04.1"
         },
-        "timestamp": "2024-05-10T15:27:57.244358"
+        "timestamp": "2024-06-02T20:54:36.815875"
     },
     "homo_sapiens-genome_fasta-no_change": {
         "content": [
@@ -84,7 +94,12 @@
                     
                 ],
                 "1": [
-                    
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.short.ids.tsv:md5,642382addc4beba37088b1ebe09d38cf"
+                    ]
                 ],
                 "2": [
                     "versions.yml:md5,e5704a53ebea373dac3a93ae800d48ba"
@@ -93,7 +108,12 @@
                     
                 ],
                 "short_ids_tsv": [
-                    
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.short.ids.tsv:md5,642382addc4beba37088b1ebe09d38cf"
+                    ]
                 ],
                 "versions": [
                     "versions.yml:md5,e5704a53ebea373dac3a93ae800d48ba"
@@ -102,9 +122,9 @@
         ],
         "meta": {
             "nf-test": "0.8.4",
-            "nextflow": "23.10.1"
+            "nextflow": "24.04.1"
         },
-        "timestamp": "2023-12-07T13:32:54.220188"
+        "timestamp": "2024-06-02T20:54:17.945233"
     },
     "homo_sapiens-genome2_fasta-length_change": {
         "content": [

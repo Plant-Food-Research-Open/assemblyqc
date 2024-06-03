@@ -165,6 +165,8 @@ if __name__ == "__main__":
 
     if not do_ids_need_to_change(input_ids_and_descriptions):
         print("IDs have acceptable length and character. No change required.")
+        with open(f"{output_files_prefix}.short.ids.tsv", "w") as f:
+            f.write("IDs have acceptable length and character. No change required.")
         exit(0)
 
     new_ids = shorten_ids(

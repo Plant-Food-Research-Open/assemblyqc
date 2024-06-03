@@ -515,7 +515,13 @@ workflow ASSEMBLYQC {
                                                 | map { meta, mono -> [ meta.id, mono ] },
                                                 remainder: true
                                             )
-                                            | filter { id, fasta, mono -> fasta != null }
+                                            // Danger! This partial join can fail
+                                            | filter { id, fasta, mono -> fasta }
+                                            // This filter safeguards against fail on upstream
+                                            // process failure: https://github.com/nextflow-io/nextflow/issues/5043
+                                            // fasta comes from upstream processes
+                                            // mono comes from input params, it is optional
+                                            // and may not be present for some of the combinations
                                             | map { id, fasta, mono -> [ id, fasta, mono ?: [] ] }
 
     FASTA_LTRRETRIEVER_LAI(
@@ -526,6 +532,8 @@ workflow ASSEMBLYQC {
 
     ch_lai_outputs                          = FASTA_LTRRETRIEVER_LAI.out.lai_log
                                             | join(FASTA_LTRRETRIEVER_LAI.out.lai_out, remainder: true)
+                                            // This partial join can't fail because both outputs are
+                                            // from the same process
                                             | map { meta, log, out -> out ? [ log, out ] : [log] }
 
     ch_versions                             = ch_versions.mix(FASTA_LTRRETRIEVER_LAI.out.versions)
