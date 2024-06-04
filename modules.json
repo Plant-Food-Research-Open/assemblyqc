@@ -121,7 +121,7 @@
                     },
                     "fasta_ltrretriever_lai": {
                         "branch": "main",
-                        "git_sha": "d57f5fb09ab3edca3d4e16dd41beb684a7192d04",
+                        "git_sha": "734297c99ae8b13ed73e3ff9a8f1215e1ca05ecd",
                         "installed_by": ["subworkflows"]
                     },
                     "fastq_bwa_mem_samblaster": {
