@@ -72,8 +72,8 @@ This section provides additional information for parameters. It does not list al
 
 - `synteny_plotsr_assembly_order`: The order in which Minimap2 alignments are performed and, then, plotted by Plotsr. For assembly A, B and C; if the order is specified as 'B C A', then, two alignments are performed. First, C is aligned against B as reference. Second, A is aligned against C as reference. The order of these assemblies on the Plotsr figure is also 'B C A' so that B appears on top, C in the middle and A at the bottom. If this parameter is `null`, the assemblies are ordered alphabetically. All assemblies from `input` and `synteny_xref_assemblies` are included by default. If an assembly is missing from this list, that assembly is excluded from the analysis.
 
-> [!NOTE]
-> PLOTSR performs a sequence-wise (preferably chromosome-wise) synteny analysis. The order of the sequences for each assembly is inferred from its `synteny_labels` file.
+> [!WARNING]
+> PLOTSR performs a sequence-wise (preferably chromosome-wise) synteny analysis. The order of the sequences for each assembly is inferred from its `synteny_labels` file and the order of sequences in the FASTA file is ignored. As all the assemblies are included in a single plot and the number of sequences from each assembly should be same, sequences after the common minimum number are excluded. Afterwards, the sequences are marked sequentially as `Chr1`, `Chr2`, `Chr3`,... If a label other than `Chr` is desirable, it can be configured with the `synteny_plotsr_seq_label` parameter.
 
 ### Merqury K-mer analysis
 
