@@ -174,23 +174,23 @@ workflow FASTA_LTRRETRIEVER_LAI {
 
 def map_monoploid_seqs_to_new_ids(id, short_ids_tsv, monoploid_seqs) {
 
-    def short_ids_head = short_ids_tsv.text.split('\n')[0]
+    def short_ids_head = short_ids_tsv.text.tokenize('\n')[0]
 
     if (short_ids_head == "IDs have acceptable length and character. No change required.") {
-        return [ "${id}.mapped.monoploid.seqs.txt" ] + monoploid_seqs.text.split('\n')
+        return [ "${id}.mapped.monoploid.seqs.txt" ] + monoploid_seqs.text.tokenize('\n')
     }
 
     def orig_to_new_ids = [:]
     short_ids_tsv.text.eachLine { line ->
-        def (original_id, renamed_id) = line.split('\t')
+        def (original_id, renamed_id) = line.tokenize('\t')
         orig_to_new_ids[original_id] = renamed_id
     }
 
     def mapped_ids = []
     monoploid_seqs.text.eachLine { original_id ->
         if (!orig_to_new_ids[original_id]) {
-            error "Faild to find $original_id in ${monoploid_seqs}" +
-            "The monoploid_seqs file is malformed!"
+            error "Faild to find $original_id in ${short_ids_tsv}" +
+            "\nThe short_ids_tsv file is malformed!"
         }
 
         mapped_ids.add(orig_to_new_ids[original_id])

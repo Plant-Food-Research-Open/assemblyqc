@@ -42,7 +42,7 @@
                     },
                     "custom/shortenfastaids": {
                         "branch": "main",
-                        "git_sha": "e226301053a2b0f9a6af514b454b3ae7c91daa80",
+                        "git_sha": "e9ec2e4c48ead3d760c8e13950c568c19ae86b8b",
                         "installed_by": ["fasta_ltrretriever_lai"]
                     },
                     "gffread": {
@@ -121,7 +121,7 @@
                     },
                     "fasta_ltrretriever_lai": {
                         "branch": "main",
-                        "git_sha": "734297c99ae8b13ed73e3ff9a8f1215e1ca05ecd",
+                        "git_sha": "e9ec2e4c48ead3d760c8e13950c568c19ae86b8b",
                         "installed_by": ["subworkflows"]
                     },
                     "fastq_bwa_mem_samblaster": {

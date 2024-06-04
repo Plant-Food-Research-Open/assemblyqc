@@ -25,7 +25,10 @@ process CUSTOM_SHORTENFASTAIDS {
     stub:
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-    touch "${meta.id}.short.ids.tsv"
+    echo \\
+        'IDs have acceptable length and character. No change required.' \\
+        > ${meta.id}.short.ids.tsv
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         python: \$(python --version | cut -d' ' -f2)

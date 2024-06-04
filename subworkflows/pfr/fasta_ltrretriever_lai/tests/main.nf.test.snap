@@ -56,41 +56,91 @@
         "content": [
             {
                 "0": [
-
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.LTRlib.fa:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
                 ],
                 "1": [
-
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.out.gff3:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
                 ],
                 "2": [
-
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.LAI.log:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
                 ],
                 "3": [
-
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.LAI.out:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
                 ],
                 "4": [
-
+                    "versions.yml:md5,05a74dacbcd6c5906faeca3206f6563f",
+                    "versions.yml:md5,52a98b45c3cf73f9314dbe9b34eca9d8",
+                    "versions.yml:md5,5d86cda262f5c21e43738433a2781ebc",
+                    "versions.yml:md5,608d746d45680f025562c4be455db461",
+                    "versions.yml:md5,8468404805dddec679524e75b4fa51e8",
+                    "versions.yml:md5,fb42c6cc5c28b6f9d3384171c7b6b143"
                 ],
                 "annotation_gff": [
-
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.out.gff3:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
                 ],
                 "lai_log": [
-
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.LAI.log:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
                 ],
                 "lai_out": [
-
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.LAI.out:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
                 ],
                 "ltrlib": [
-
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.LTRlib.fa:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
                 ],
                 "versions": [
-
+                    "versions.yml:md5,05a74dacbcd6c5906faeca3206f6563f",
+                    "versions.yml:md5,52a98b45c3cf73f9314dbe9b34eca9d8",
+                    "versions.yml:md5,5d86cda262f5c21e43738433a2781ebc",
+                    "versions.yml:md5,608d746d45680f025562c4be455db461",
+                    "versions.yml:md5,8468404805dddec679524e75b4fa51e8",
+                    "versions.yml:md5,fb42c6cc5c28b6f9d3384171c7b6b143"
                 ]
             }
         ],
         "meta": {
             "nf-test": "0.8.4",
-            "nextflow": "24.04.1"
+            "nextflow": "24.04.2"
         },
-        "timestamp": "2024-06-02T20:35:25.114358"
+        "timestamp": "2024-06-04T13:50:48.75158"
     }
 }

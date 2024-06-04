@@ -59,7 +59,7 @@
                         {
                             "id": "test"
                         },
-                        "test.short.ids.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "test.short.ids.tsv:md5,fcf920d9a7b57a1e3c29a9e88673330f"
                     ]
                 ],
                 "2": [
@@ -73,7 +73,7 @@
                         {
                             "id": "test"
                         },
-                        "test.short.ids.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "test.short.ids.tsv:md5,fcf920d9a7b57a1e3c29a9e88673330f"
                     ]
                 ],
                 "versions": [
@@ -83,9 +83,9 @@
         ],
         "meta": {
             "nf-test": "0.8.4",
-            "nextflow": "24.04.1"
+            "nextflow": "24.04.2"
         },
-        "timestamp": "2024-06-02T20:54:36.815875"
+        "timestamp": "2024-06-04T13:58:30.161542"
     },
     "homo_sapiens-genome_fasta-no_change": {
         "content": [
