@@ -17,6 +17,16 @@ def parse_fasta_validate_folder(folder_name="fastavalidator_logs"):
     data = {"FASTA_VALIDATE": []}
 
     for log_path in list_of_log_files:
+
+        if str(log_path).endswith(".seqkit.rmdup.log"):
+            data["FASTA_VALIDATE"].append(
+                {
+                    "hap": os.path.basename(log_path).replace(".seqkit.rmdup.log", ""),
+                    "validation_log": "FASTA validation failed due to presence of duplicate sequences",
+                }
+            )
+            continue
+
         with open(log_path, "r") as f:
             log_lines = [f"<p class='section-para' >{l}</p>" for l in f.readlines()]
 

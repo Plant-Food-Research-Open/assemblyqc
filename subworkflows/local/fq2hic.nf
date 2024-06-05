@@ -1,5 +1,6 @@
 include { FASTQ_TRIM_FASTP_FASTQC   } from '../nf-core/fastq_trim_fastp_fastqc/main'
 include { FASTQ_BWA_MEM_SAMBLASTER  } from '../pfr/fastq_bwa_mem_samblaster/main'
+include { SEQKIT_SORT               } from '../../modules/nf-core/seqkit/sort/main'
 include { HICQC                     } from '../../modules/local/hicqc'
 include { MAKEAGPFROMFASTA          } from '../../modules/local/makeagpfromfasta'
 include { AGP2ASSEMBLY              } from '../../modules/local/agp2assembly'
@@ -32,10 +33,16 @@ workflow FQ2HIC {
     ch_trim_reads                   = FASTQ_TRIM_FASTP_FASTQC.out.reads
     ch_versions                     = ch_versions.mix(FASTQ_TRIM_FASTP_FASTQC.out.versions)
 
+    // MODULE: SEQKIT_SORT
+    SEQKIT_SORT ( ref )
+
+    ch_sorted_ref                   = SEQKIT_SORT.out.fastx
+    ch_versions                     = ch_versions.mix(SEQKIT_SORT.out.versions)
+
     // SUBWORKFLOW: FASTQ_BWA_MEM_SAMBLASTER
     FASTQ_BWA_MEM_SAMBLASTER(
         ch_trim_reads,
-        ref.map { meta2, fa -> [ meta2, fa, [] ] }
+        ch_sorted_ref.map { meta2, fa -> [ meta2, fa, [] ] }
     )
 
     ch_bam                          = FASTQ_BWA_MEM_SAMBLASTER.out.bam
@@ -45,7 +52,7 @@ workflow FQ2HIC {
     ch_bam_and_ref                  = ch_bam
                                     | map { meta, bam -> [ meta.ref_id, meta, bam ] }
                                     | join(
-                                        ref.map { meta2, fa -> [ meta2.id, fa ] }
+                                        ch_sorted_ref.map { meta2, fa -> [ meta2.id, fa ] }
                                     )
                                     | map { ref_id, meta, bam, fa ->
                                         [ [ id: "${meta.id}.on.${meta.ref_id}" ], bam, fa ]

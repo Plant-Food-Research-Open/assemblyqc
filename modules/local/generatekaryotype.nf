@@ -10,8 +10,10 @@ process GENERATEKARYOTYPE {
     tuple val(target_on_ref), val(seq_tag), path(split_bundle_file), path(target_seq_len), path(ref_seq_len)
 
     output:
-    tuple val("${target_on_ref}.${seq_tag}"), path("*.karyotype")   , emit: karyotype
-    path "versions.yml"                                             , emit: versions
+    tuple val("${target_on_ref}.${seq_tag}"), path("*.karyotype")           , emit: karyotype
+    tuple val("${target_on_ref}.${seq_tag}"), path("karyotype_ref.tsv")     , emit: karyotype_ref
+    tuple val("${target_on_ref}.${seq_tag}"), path("karyotype_target.tsv")  , emit: karyotype_target
+    path "versions.yml"                                                     , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -48,12 +50,38 @@ process GENERATEKARYOTYPE {
 
     cat colored.filtered.ref.seq.len | sort -k1V > merged.seq.lengths
     cat colored.filtered.target.seq.len | sort -k1Vr >> merged.seq.lengths
-    sed -i '/^\$/d' merged.seq.lengths
 
     cat merged.seq.lengths \
+    | sed '/^\$/d' \
     | awk '{print "chr -",\$1,\$1,"0",\$2-1,\$3}' OFS="\\t" \
     > "${target_on_ref}.${seq_tag}.karyotype"
 
+    cat colored.filtered.ref.seq.len \
+    | sort -k1V \
+    | sed '/^\$/d' \
+    | awk '{print "chr -",\$1,\$1,"0",\$2-1,\$3}' OFS="\\t" \
+    > karyotype_ref.tsv
+
+    cat colored.filtered.target.seq.len \
+    | sort -k1V \
+    | sed '/^\$/d' \
+    | awk '{print "chr -",\$1,\$1,"0",\$2-1,\$3}' OFS="\\t" \
+    > karyotype_target.tsv
+
     rm "\$tmp_file"
+    """
+
+    stub:
+    """
+    touch "${target_on_ref}.${seq_tag}.karyotype"
+    touch karyotype_ref.tsv
+    touch karyotype_target.tsv
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        awk: \$(awk -W version | sed -n 's/mawk //p')
+        grep: \$(grep --version | sed -n '/grep (GNU grep) /s/grep //p')
+        sed: \$(sed --version | sed -n 's/^sed //p')
+    END_VERSIONS
     """
 }

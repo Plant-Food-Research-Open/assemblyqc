@@ -1,0 +1,57 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
+name: gff3_gt_gff3_gff3validator_stat
+description: |
+  Validates a gff3 file using GenomeTools gt-gff3, gt-gff3validator, checks its correspondence with a fasta file and produces stats with gt-stat
+keywords:
+  - genome
+  - gff3
+  - annotation
+  - validation
+  - stats
+components:
+  - gt/gff3
+  - gt/gff3validator
+  - samtools/faidx
+  - gt/stat
+input:
+  - ch_gff3:
+      type: file
+      description: |
+        Input channel containing a gff3 file
+        Structure: [ val(meta), path(gff3) ]
+      pattern: "*.{gff,gff3}"
+  - ch_fasta:
+      type: file
+      description: |
+        Input channel containing a fasta file
+        Structure: [ val(meta), path(fasta) ]
+      pattern: "*.{fsa,fa,fasta}"
+output:
+  - valid_gff3:
+      type: file
+      description: |
+        Valid gff3 file
+        Structure: [ val(meta), path(gff3) ]
+      pattern: "*.gff3"
+  - gff3_stats:
+      type: file
+      description: |
+        Statistics
+        Structure: [ val(meta), path(yml) ]
+      pattern: "*.yml"
+  - log_for_invalid_gff3:
+      type: file
+      description: |
+        Error log if the gff3 file is invalid
+        Structure: [ val(meta), path(gff3) ]
+      pattern: "*.gff3"
+  - versions:
+      type: file
+      description: |
+        File containing software versions
+        Structure: [ path(versions.yml) ]
+      pattern: "versions.yml"
+authors:
+  - "@GallVp"
+maintainers:
+  - "@GallVp"

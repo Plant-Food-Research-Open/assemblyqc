@@ -9,8 +9,9 @@ process DNADIFF {
     val many_to_many_align
 
     output:
-    tuple val(target_on_ref), path("*.xcoords"), path("*.report")   , emit: coords
-    path "versions.yml"                                             , emit: versions
+    tuple val(target_on_ref), path("*.xcoords") , emit: coords
+    tuple val(target_on_ref), path("*.report")  , emit: report
+    path "versions.yml"                         , emit: versions
 
     when:
     task.ext.when == null || task.ext.when

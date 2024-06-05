@@ -68,14 +68,11 @@ workflow FASTQ_TRIM_FASTP_FASTQC {
         //
         ch_trim_reads
             .join(ch_trim_json)
-            .map { meta, reads, json ->
-                if (json.text.readLines().size < 1) {
-                    return [ meta, reads ]
-                }
-
-                if (getFastpReadsAfterFiltering(json) > 0) {
-                    [ meta, reads ]
-                }
+            .map {
+                meta, reads, json ->
+                    if (getFastpReadsAfterFiltering(json) > 0) {
+                        [ meta, reads ]
+                    }
             }
             .set { ch_trim_reads }
 

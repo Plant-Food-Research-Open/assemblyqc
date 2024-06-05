@@ -14,9 +14,10 @@
                 "input": {
                     "type": "string",
                     "format": "file-path",
-                    "mimetype": "csv",
+                    "exists": true,
                     "schema": "assets/schema_input.json",
-                    "help_text": "FASTA and other associated files for input assemblies provided as a formatted CSV file",
+                    "mimetype": "text/csv",
+                    "pattern": "^\\S+\\.csv$",
                     "description": "Input assembly sheet in CSV format",
                     "fa_icon": "fas fa-file-csv"
                 },
@@ -31,11 +32,24 @@
                     "type": "string",
                     "description": "Email address for completion summary.",
                     "fa_icon": "fas fa-envelope",
-                    "help_text": "Set this parameter to your e-mail address to get a summary e-mail with details of the run sent to you when the workflow exits. If set in your user config file (`~/.nextflow/config`) then you don't need to specify this on the command line for every run.",
                     "pattern": "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$"
                 }
             },
             "required": ["input", "outdir"]
+        },
+        "validation_options": {
+            "title": "Validation options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "check_sequence_duplicates": {
+                    "type": "boolean",
+                    "default": true,
+                    "fa_icon": "fas fa-question-circle",
+                    "description": "Check for duplicate sequences in fasta validation"
+                }
+            }
         },
         "general_stats_options": {
             "title": "General stats options",
@@ -46,8 +60,8 @@
                 "assemblathon_stats_n_limit": {
                     "type": "integer",
                     "default": 100,
-                    "help_text": "This number is used to split the scaffolds into contigs to compute contig-related stats such as the number of contigs, N50, etc. NCBI recommendation <https://www.ncbi.nlm.nih.gov/genbank/wgs_gapped/> is 100.",
-                    "description": "The number of 'N's for the unknown gap size"
+                    "description": "The number of 'N's for the unknown gap size. NCBI recommendation is 100",
+                    "fa_icon": "fas fa-ruler-horizontal"
                 }
             }
         },
@@ -60,29 +74,37 @@
                 "ncbi_fcs_adaptor_skip": {
                     "type": "boolean",
                     "description": "Skip NCBI FCS Adaptor checking",
-                    "default": true
+                    "default": true,
+                    "fa_icon": "fas fa-forward"
                 },
                 "ncbi_fcs_adaptor_empire": {
                     "type": "string",
                     "enum": ["euk", "prok"],
-                    "description": "Empire for NCBI FCS Adaptor checking",
-                    "help_text": "'euk' for eukaryotes, or 'prok' for prokaryotes"
+                    "description": "Empire for NCBI FCS Adaptor checking: 'euk' for eukaryotes, or 'prok' for prokaryotes",
+                    "fa_icon": "fas fa-project-diagram"
                 },
                 "ncbi_fcs_gx_skip": {
                     "type": "boolean",
                     "description": "Skip NCBI FCS external organism contamination checking",
-                    "default": true
+                    "default": true,
+                    "fa_icon": "fas fa-forward"
                 },
                 "ncbi_fcs_gx_tax_id": {
                     "type": "number",
-                    "help_text": "Get correct tax ID from https://www.ncbi.nlm.nih.gov/taxonomy",
-                    "description": "Tax ID for NCBI FCS GX"
+                    "description": "Tax ID for NCBI FCS GX. See: https://www.ncbi.nlm.nih.gov/taxonomy",
+                    "fa_icon": "fab fa-orcid"
                 },
                 "ncbi_fcs_gx_db_path": {
                     "type": "string",
                     "format": "directory-path",
-                    "help_text": "NCBI FCS GX DB path\n\nDue to enormity of the DB size, the pipeline does NOT download the data. It must be setup by the user manually before running the pipeline. See instructions for DB setup: https://github.com/ncbi/fcs/wiki/FCS-GX",
-                    "description": "Path to NCBI FCS GX database"
+                    "description": "Path to NCBI FCS GX database. See: https://github.com/ncbi/fcs/wiki/FCS-GX",
+                    "fa_icon": "fas fa-folder-open"
+                },
+                "contamination_stops_pipeline": {
+                    "type": "boolean",
+                    "default": true,
+                    "fa_icon": "fas fa-hand-paper",
+                    "description": "Skip remaining QC steps for an assembly which has adaptor or GX contamination"
                 }
             }
         },
@@ -95,25 +117,26 @@
                 "busco_skip": {
                     "type": "boolean",
                     "description": "Skip BUSCO",
-                    "default": true
+                    "default": true,
+                    "fa_icon": "fas fa-forward"
                 },
                 "busco_mode": {
                     "type": "string",
-                    "enum": ["geno", "tran", "prot", "genome", "transcriptome", "proteins"],
-                    "help_text": "'geno' or 'genome' for genome assemblies (DNA), 'tran' or 'transcriptome' for transcriptome assemblies (DNA), 'prot' or 'proteins' for annotated gene sets (protein)",
-                    "description": "BUSCO mode"
+                    "enum": ["genome", "transcriptome", "proteins"],
+                    "description": "BUSCO mode: 'genome', 'transcriptome', 'proteins'",
+                    "fa_icon": "fas fa-cog"
                 },
                 "busco_lineage_datasets": {
                     "type": "string",
-                    "help_text": "Each input assembly is assessed against each lineage. It should be provided as a space-separated list of lineages: 'fungi_odb10 microsporidia_odb10' ",
                     "pattern": "^(\\w+_odb10\\s)*\\w+_odb10$",
-                    "description": "BUSCO lineages"
+                    "description": "BUSCO lineages. It should be provided as a space-separated list of lineages: 'fungi_odb10 microsporidia_odb10'",
+                    "fa_icon": "fas fa-clipboard-list"
                 },
                 "busco_download_path": {
                     "type": "string",
-                    "help_text": "BUSCO DB download path\n\nThe pipeline automatically downloads the required DB if needed",
                     "description": "Download path for BUSCO",
-                    "format": "directory-path"
+                    "format": "directory-path",
+                    "fa_icon": "fas fa-folder-open"
                 }
             }
         },
@@ -126,22 +149,25 @@
                 "tidk_skip": {
                     "type": "boolean",
                     "description": "Skip telomere identification",
-                    "default": true
+                    "default": true,
+                    "fa_icon": "fas fa-forward"
                 },
                 "tidk_repeat_seq": {
                     "type": "string",
-                    "description": "Telomere repeat sequence",
+                    "description": "Telomere repeat sequence. Typical values for plant: TTTAGGG, fungus, vertebrates: TTAGGG and Insect: TTAGG",
                     "pattern": "^[ACGT]+$",
-                    "help_text": "Plant: TTTAGGG, Fungus, Vertebrates: TTAGGG, Insect: TTAGG"
+                    "fa_icon": "fas fa-dna"
                 },
                 "tidk_filter_by_size": {
                     "type": "boolean",
-                    "description": "Filter size in base-pairs"
+                    "description": "Filter assembly sequences smaller than the specified length",
+                    "fa_icon": "fas fa-question-circle"
                 },
                 "tidk_filter_size_bp": {
                     "type": "integer",
                     "default": 1000000,
-                    "description": "Filter size in base-pairs"
+                    "description": "Filter size in base-pairs",
+                    "fa_icon": "fas fa-ruler-horizontal"
                 }
             }
         },
@@ -154,7 +180,8 @@
                 "lai_skip": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Skip LAI estimation"
+                    "description": "Skip LAI estimation",
+                    "fa_icon": "fas fa-forward"
                 }
             }
         },
@@ -167,12 +194,14 @@
                 "kraken2_skip": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Skip Kraken2"
+                    "description": "Skip Kraken2",
+                    "fa_icon": "fas fa-forward"
                 },
                 "kraken2_db_path": {
                     "type": "string",
                     "description": "Kraken2 database path",
-                    "format": "path"
+                    "format": "path",
+                    "fa_icon": "fas fa-folder-open"
                 }
             }
         },
@@ -184,22 +213,24 @@
             "properties": {
                 "hic": {
                     "type": "string",
-                    "description": "HiC reads",
-                    "help_text": "Path to reads provided as a SRA ID or as a path to paired reads with pattern '*{1,2}.(fastq|fq).gz'",
+                    "description": "HiC reads path provided as a SRA ID or as paired reads with pattern '*{1,2}.fastq.gz'",
                     "pattern": "^SR\\w+$|^\\S+\\{1,2\\}\\.f(ast)?q\\.gz$"
                 },
                 "hic_skip_fastp": {
                     "type": "boolean",
-                    "description": "Skip HiC read trimming"
+                    "description": "Skip HiC read trimming",
+                    "fa_icon": "fas fa-forward"
                 },
                 "hic_skip_fastqc": {
                     "type": "boolean",
-                    "description": "Skip HiC read QC"
+                    "description": "Skip HiC read QC",
+                    "fa_icon": "fas fa-forward"
                 },
                 "hic_fastp_ext_args": {
                     "type": "string",
                     "default": "--qualified_quality_phred 20 --length_required 50",
-                    "description": "Additional parameters for fastp trimming"
+                    "description": "Additional parameters for fastp trimming",
+                    "fa_icon": "fas fa-terminal"
                 }
             }
         },
@@ -212,44 +243,102 @@
                 "synteny_skip": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Skip synteny analysis"
+                    "description": "Skip synteny analysis",
+                    "fa_icon": "fas fa-forward"
                 },
-                "synteny_between_input_assemblies": {
-                    "type": "boolean",
-                    "description": "Create syntenic plots between each pair of input assemblies",
-                    "default": true
-                },
-                "synteny_many_to_many_align": {
-                    "type": "boolean",
-                    "description": "Include alignment blocks with many-to-many mappings (dnadiff .mcoords file)"
-                },
-                "synteny_max_gap": {
-                    "type": "integer",
-                    "default": 1000000,
-                    "description": "Alignments within this distance are bundled together"
-                },
-                "synteny_min_bundle_size": {
-                    "type": "integer",
-                    "default": 1000,
-                    "description": "After bundling, any bundle smaller than this size is filtered out"
-                },
-                "synteny_plot_1_vs_all": {
+                "synteny_mummer_skip": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Create a separate synteny plot for each contig of the target assembly versus all contigs of the reference assembly"
+                    "description": "Skip Mummer-based synteny analysis",
+                    "fa_icon": "fas fa-forward"
                 },
-                "synteny_color_by_contig": {
+                "synteny_plotsr_skip": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Synteny plot is colored by contig"
+                    "description": "Skip plotsr-based synteny analysis",
+                    "fa_icon": "fas fa-forward"
                 },
                 "synteny_xref_assemblies": {
                     "type": "string",
                     "description": "Reference assemblies for synteny analysis",
-                    "help_text": "FASTA and synteny label tsv files should be provided in a formatted CSV file ",
                     "format": "file-path",
                     "mimetype": "csv",
-                    "schema": "assets/schema_xref_assemblies.json"
+                    "schema": "assets/schema_xref_assemblies.json",
+                    "fa_icon": "fas fa-file-csv"
+                },
+                "synteny_between_input_assemblies": {
+                    "type": "boolean",
+                    "description": "Create syntenic plots between each pair of input assemblies",
+                    "default": true,
+                    "fa_icon": "fas fa-question-circle"
+                },
+                "synteny_mummer_plot_type": {
+                    "type": "string",
+                    "default": "both",
+                    "description": "Synteny plot type from Mummer alignments: 'dotplot', 'circos', or 'both'",
+                    "enum": ["both", "dotplot", "circos"],
+                    "fa_icon": "fas fa-chart-line"
+                },
+                "synteny_mummer_m2m_align": {
+                    "type": "boolean",
+                    "description": "Include Mummer alignment blocks with many-to-many mappings",
+                    "fa_icon": "fas fa-question-circle"
+                },
+                "synteny_mummer_max_gap": {
+                    "type": "integer",
+                    "default": 1000000,
+                    "description": "Mummer alignments within this distance are bundled together",
+                    "fa_icon": "fas fa-ruler-horizontal"
+                },
+                "synteny_mummer_min_bundle_size": {
+                    "type": "integer",
+                    "default": 1000,
+                    "description": "After bundling, any Mummer alignment bundle smaller than this size is filtered out",
+                    "fa_icon": "fas fa-ruler-horizontal"
+                },
+                "synteny_plot_1_vs_all": {
+                    "type": "boolean",
+                    "description": "Create a separate synteny plot for each contig of the target assembly versus all contigs of the reference assembly. This only applies to Mummer plots",
+                    "fa_icon": "fas fa-question-circle"
+                },
+                "synteny_color_by_contig": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Mummer synteny plots are colored by contig. Otherwise, they are colored by bundle size",
+                    "fa_icon": "fas fa-question-circle"
+                },
+                "synteny_plotsr_seq_label": {
+                    "type": "string",
+                    "default": "Chr",
+                    "description": "Sequence label prefix for plotsr synteny",
+                    "fa_icon": "fas fa-tag"
+                },
+                "synteny_plotsr_assembly_order": {
+                    "type": "string",
+                    "fa_icon": "fas fa-sort-alpha-down",
+                    "pattern": "^(\\w+\\s)*\\w+$",
+                    "description": "The order in which the assemblies should be compared, provided as space separated string of assembly tags. If absent, assemblies are ordered by their tags alphabetically."
+                }
+            }
+        },
+        "merqury_options": {
+            "title": "Merqury options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "merqury_skip": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Skip merqury analysis",
+                    "fa_icon": "fas fa-forward"
+                },
+                "merqury_kmer_length": {
+                    "type": "integer",
+                    "default": 21,
+                    "description": "kmer length for merqury analysis",
+                    "minimum": 3,
+                    "fa_icon": "fas fa-ruler-horizontal"
                 }
             }
         },
@@ -265,26 +354,23 @@
                     "description": "Maximum number of CPUs that can be requested for any single job.",
                     "default": 16,
                     "fa_icon": "fas fa-microchip",
-                    "hidden": true,
-                    "help_text": "Use to set an upper-limit for the CPU requirement for each process. Should be an integer e.g. `--max_cpus 1`"
+                    "hidden": true
                 },
                 "max_memory": {
                     "type": "string",
-                    "description": "Maximum amount of memory that can be requested for any single job.",
+                    "description": "Maximum amount of memory that can be requested for any single job. Example: '8.GB'",
                     "default": "512.GB",
                     "fa_icon": "fas fa-memory",
                     "pattern": "^\\d+(\\.\\d+)?\\.?\\s*(K|M|G|T)?B$",
-                    "hidden": true,
-                    "help_text": "Use to set an upper-limit for the memory requirement for each process. Should be a string in the format integer-unit e.g. `--max_memory '8.GB'`"
+                    "hidden": true
                 },
                 "max_time": {
                     "type": "string",
-                    "description": "Maximum amount of time that can be requested for any single job.",
+                    "description": "Maximum amount of time that can be requested for any single job. Example: '1.day'",
                     "default": "7.day",
                     "fa_icon": "far fa-clock",
                     "pattern": "^(\\d+\\.?\\s*(s|m|h|d|day)\\s*)+$",
-                    "hidden": true,
-                    "help_text": "Use to set an upper-limit for the time requirement for each process. Should be a string in the format integer-unit e.g. `--max_time '2.h'`"
+                    "hidden": true
                 }
             }
         },
@@ -307,7 +393,6 @@
                     "description": "Base directory for Institutional configs.",
                     "default": "https://raw.githubusercontent.com/nf-core/configs/master",
                     "hidden": true,
-                    "help_text": "If you're running offline, Nextflow will not be able to fetch the institutional config files from the internet. If you don't need them, then this is not a problem. If you do need them, you should download the files from the repo and tell Nextflow where to find them with this parameter.",
                     "fa_icon": "fas fa-users-cog"
                 },
                 "config_profile_name": {
@@ -359,7 +444,6 @@
                     "type": "string",
                     "default": "copy",
                     "description": "Method used to save pipeline results to output directory.",
-                    "help_text": "The Nextflow `publishDir` option specifies which intermediate files should be saved to the output directory. This option tells the pipeline what method should be used to move these files. See [Nextflow docs](https://www.nextflow.io/docs/latest/process.html#publishdir) for details.",
                     "fa_icon": "fas fa-copy",
                     "enum": ["symlink", "rellink", "link", "copy", "copyNoFollow", "move"],
                     "hidden": true
@@ -369,7 +453,6 @@
                     "description": "Email address for completion summary, only when pipeline fails.",
                     "fa_icon": "fas fa-exclamation-triangle",
                     "pattern": "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$",
-                    "help_text": "An email address to send a summary email to when the pipeline is completed - ONLY sent if the pipeline does not exit successfully.",
                     "hidden": true
                 },
                 "plaintext_email": {
@@ -384,11 +467,16 @@
                     "fa_icon": "fas fa-palette",
                     "hidden": true
                 },
+                "monochromeLogs": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-palette",
+                    "description": "Do not use coloured log outputs.",
+                    "hidden": true
+                },
                 "hook_url": {
                     "type": "string",
                     "description": "Incoming hook URL for messaging service",
                     "fa_icon": "fas fa-people-group",
-                    "help_text": "Incoming hook URL for messaging service. Currently, MS Teams and Slack are supported.",
                     "hidden": true
                 },
                 "validate_params": {
@@ -402,22 +490,19 @@
                     "type": "boolean",
                     "fa_icon": "far fa-eye-slash",
                     "description": "Show all params when using `--help`",
-                    "hidden": true,
-                    "help_text": "By default, parameters set as _hidden_ in the schema are not shown on the command line when a user runs with `--help`. Specifying this option will tell the pipeline to show all parameters."
+                    "hidden": true
                 },
                 "validationFailUnrecognisedParams": {
                     "type": "boolean",
                     "fa_icon": "far fa-check-circle",
                     "description": "Validation of parameters fails when an unrecognised parameter is found.",
-                    "hidden": true,
-                    "help_text": "By default, when an unrecognised parameter is found, it returns a warinig."
+                    "hidden": true
                 },
                 "validationLenientMode": {
                     "type": "boolean",
                     "fa_icon": "far fa-check-circle",
                     "description": "Validation of parameters in lenient more.",
-                    "hidden": true,
-                    "help_text": "Allows string values that are parseable as numbers or booleans. For further information see [JSONSchema docs](https://github.com/everit-org/json-schema#lenient-mode)."
+                    "hidden": true
                 }
             }
         }
@@ -425,6 +510,9 @@
     "allOf": [
         {
             "$ref": "#/definitions/input_output_options"
+        },
+        {
+            "$ref": "#/definitions/validation_options"
         },
         {
             "$ref": "#/definitions/general_stats_options"
@@ -449,6 +537,9 @@
         },
         {
             "$ref": "#/definitions/synteny_options"
+        },
+        {
+            "$ref": "#/definitions/merqury_options"
         },
         {
             "$ref": "#/definitions/max_job_request_options"

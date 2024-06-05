@@ -1,0 +1,10 @@
+<div class="dropdown">
+  <div class="dropdown_content">
+    <select id="selector_MERQURY" onchange="showContent('MERQURY')">
+      {% set str_individual_id = 'individual_id' %} {% for item in range(all_stats_dicts["MERQURY"]|length) %}
+      <option value="tabcontent_MERQURY_{{all_stats_dicts['MERQURY'][item]['individual_id']}}">
+        {{ all_stats_dicts['MERQURY'][item][str_individual_id] }} {% endfor %}
+      </option>
+    </select>
+  </div>
+</div>

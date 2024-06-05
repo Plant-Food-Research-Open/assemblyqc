@@ -24,7 +24,8 @@ from report_modules.parsers.tidk_parser import parse_tidk_folder
 from report_modules.parsers.lai_parser import parse_lai_folder
 from report_modules.parsers.kraken2_parser import parse_kraken2_folder
 from report_modules.parsers.hic_parser import parse_hic_folder
-from report_modules.parsers.circos_parser import parse_circos_folder
+from report_modules.parsers.synteny_parser import parse_synteny_folder
+from report_modules.parsers.merqury_parser import parse_merqury_folder
 
 if __name__ == "__main__":
     params_dict, params_table = parse_params_json("params_json.json")
@@ -42,11 +43,16 @@ if __name__ == "__main__":
     data_from_tools = {**data_from_tools, **parse_assemblathon_stats_folder()}
     data_from_tools = {**data_from_tools, **parse_genometools_gt_stat_folder()}
     data_from_tools = {**data_from_tools, **parse_busco_folder()}
+    data_from_tools = {
+        **data_from_tools,
+        **parse_busco_folder("busco_gff_outputs", "BUSCO_GFF"),
+    }
     data_from_tools = {**data_from_tools, **parse_tidk_folder()}
     data_from_tools = {**data_from_tools, **parse_lai_folder()}
     data_from_tools = {**data_from_tools, **parse_kraken2_folder()}
     data_from_tools = {**data_from_tools, **parse_hic_folder()}
-    data_from_tools = {**data_from_tools, **parse_circos_folder()}
+    data_from_tools = {**data_from_tools, **parse_synteny_folder()}
+    data_from_tools = {**data_from_tools, **parse_merqury_folder()}
 
     with open("software_versions.yml", "r") as f:
         versions_from_ch_versions = yaml.safe_load(f)

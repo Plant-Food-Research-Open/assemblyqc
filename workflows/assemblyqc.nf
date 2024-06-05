@@ -1,61 +1,37 @@
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    PRINT PARAMS SUMMARY
+    IMPORT MODULES / SUBWORKFLOWS / FUNCTIONS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { paramsSummaryLog; paramsSummaryMap; fromSamplesheet } from 'plugin/nf-validation'
-
-def logo = NfcoreTemplate.logo(workflow, params.monochrome_logs)
-def citation = '\n' + WorkflowMain.citation(workflow) + '\n'
-def summary_params = paramsSummaryMap(workflow)
-
-// Print parameter summary log to screen
-log.info logo + paramsSummaryLog(workflow) + citation
-
-WorkflowAssemblyqc.initialise(params, log)
-
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    CONFIG FILES
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
-
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    IMPORT LOCAL MODULES/SUBWORKFLOWS
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
-
-include { GT_STAT                           } from '../modules/pfr/gt/stat/main'
-include { GFF3_VALIDATE                     } from '../subworkflows/pfr/gff3_validate/main'
-include { NCBI_FCS_ADAPTOR                  } from '../modules/local/ncbi_fcs_adaptor'
-include { NCBI_FCS_GX                       } from '../subworkflows/local/ncbi_fcs_gx'
-include { ASSEMBLATHON_STATS                } from '../modules/local/assemblathon_stats'
-include { FASTA_BUSCO_PLOT                  } from '../subworkflows/local/fasta_busco_plot'
-include { FASTA_LTRRETRIEVER_LAI            } from '../subworkflows/pfr/fasta_ltrretriever_lai/main'
-include { FASTA_KRAKEN2                     } from '../subworkflows/local/fasta_kraken2'
-include { FQ2HIC                            } from '../subworkflows/local/fq2hic'
-include { FASTA_SYNTENY                     } from '../subworkflows/local/fasta_synteny'
-include { CREATEREPORT                      } from '../modules/local/createreport'
-
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    IMPORT NF-CORE MODULES/SUBWORKFLOWS
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
-
-//
-// MODULE: Installed directly from nf-core/modules
-//
+include { softwareVersionsToYAML            } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 
 include { GUNZIP as GUNZIP_FASTA            } from '../modules/nf-core/gunzip/main'
 include { GUNZIP as GUNZIP_GFF3             } from '../modules/nf-core/gunzip/main'
 include { FASTAVALIDATOR                    } from '../modules/nf-core/fastavalidator/main'
+include { SEQKIT_RMDUP                      } from '../modules/nf-core/seqkit/rmdup/main'
 include { FASTA_EXPLORE_SEARCH_PLOT_TIDK    } from '../subworkflows/nf-core/fasta_explore_search_plot_tidk/main'
+include { GFF3_GT_GFF3_GFF3VALIDATOR_STAT   } from '../subworkflows/pfr/gff3_gt_gff3_gff3validator_stat/main'
+include { FCS_FCSADAPTOR                    } from '../modules/nf-core/fcs/fcsadaptor/main'
+include { NCBI_FCS_GX                       } from '../subworkflows/local/ncbi_fcs_gx'
+include { ASSEMBLATHON_STATS                } from '../modules/local/assemblathon_stats'
+include { FASTA_GXF_BUSCO_PLOT              } from '../subworkflows/pfr/fasta_gxf_busco_plot/main'
+include { FASTA_LTRRETRIEVER_LAI            } from '../subworkflows/pfr/fasta_ltrretriever_lai/main'
+include { FASTA_KRAKEN2                     } from '../subworkflows/local/fasta_kraken2'
+include { FQ2HIC                            } from '../subworkflows/local/fq2hic'
+include { CAT_CAT as TAG_ASSEMBLY           } from '../modules/pfr/cat/cat/main'
+include { FASTA_SYNTENY                     } from '../subworkflows/local/fasta_synteny'
+include { MERYL_COUNT                       } from '../modules/nf-core/meryl/count/main'
+include { MERYL_UNIONSUM                    } from '../modules/nf-core/meryl/unionsum/main'
+include { MERYL_COUNT as MAT_MERYL_COUNT    } from '../modules/nf-core/meryl/count/main'
+include { MERYL_UNIONSUM as MAT_UNIONSUM    } from '../modules/nf-core/meryl/unionsum/main'
+include { MERYL_COUNT as PAT_MERYL_COUNT    } from '../modules/nf-core/meryl/count/main'
+include { MERYL_UNIONSUM as PAT_UNIONSUM    } from '../modules/nf-core/meryl/unionsum/main'
+include { MERQURY_HAPMERS                   } from '../modules/pfr/merqury/hapmers/main'
+include { MERQURY_MERQURY                   } from '../modules/nf-core/merqury/merqury/main'
+include { CREATEREPORT                      } from '../modules/local/createreport'
 
-include { CUSTOM_DUMPSOFTWAREVERSIONS       } from '../modules/nf-core/custom/dumpsoftwareversions/main'
-
+include { FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS as FETCHNGS  } from '../subworkflows/nf-core/fastq_download_prefetch_fasterqdump_sratools/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -63,20 +39,29 @@ include { CUSTOM_DUMPSOFTWAREVERSIONS       } from '../modules/nf-core/custom/du
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-def input_assembly_sheet_fields             = 5
-def synteny_xref_assemblies_fields          = 3
-
 workflow ASSEMBLYQC {
 
-    // Input channels
-    ch_versions                             = Channel.empty()
-    ch_input                                = Channel.fromSamplesheet('input')
-                                            | collect
-                                            | flatMap { WorkflowAssemblyqc.validateInput(it) }
-                                            | buffer(size: input_assembly_sheet_fields)
+    take:
+    ch_input
+    ch_hic_reads
+    ch_xref_assembly
+    ch_reads
+    ch_maternal_reads
+    ch_paternal_reads
+    ch_params_as_json
+    ch_summary_params_as_json
 
+    main:
+
+    // Versions
+    ch_versions                             = Channel.empty()
+
+    // Input channels
     ch_target_assemby_branch                = ch_input
-                                            | map { tag, fasta, gff, mono_ids, labels ->
+                                            | map { input_data ->
+                                                def tag     = input_data[0]
+                                                def fasta   = input_data[1]
+
                                                 [ [ id: tag ], file(fasta, checkIfExists: true) ]
                                             }
                                             | branch { meta, fasta ->
@@ -85,7 +70,10 @@ workflow ASSEMBLYQC {
                                             }
 
     ch_assemby_gff3_branch                  = ch_input
-                                            | map { tag, fasta, gff, mono_ids, labels ->
+                                            | map { input_data ->
+                                                def tag     = input_data[0]
+                                                def gff     = input_data[2]
+
                                                 gff
                                                 ? [ [ id: tag ], file(gff, checkIfExists: true) ]
                                                 : null
@@ -96,14 +84,20 @@ workflow ASSEMBLYQC {
                                             }
 
     ch_mono_ids                             = ch_input
-                                            | map { tag, fasta, gff, mono_ids, labels ->
+                                            | map { input_data ->
+                                                def tag     = input_data[0]
+                                                def mono_ids= input_data[3]
+
                                                 mono_ids
                                                 ? [ [ id: tag ], file(mono_ids, checkIfExists: true) ]
                                                 : null
                                             }
 
     ch_synteny_labels                       = ch_input
-                                            | map { tag, fasta, gff, mono_ids, labels ->
+                                            | map { input_data ->
+                                                def tag     = input_data[0]
+                                                def labels  = input_data[4]
+
                                                 labels
                                                 ? [ [ id: tag ], file(labels, checkIfExists: true) ]
                                                 : (
@@ -111,29 +105,8 @@ workflow ASSEMBLYQC {
                                                     ? null
                                                     : log.warn("A synteny_labels file must be provided" +
                                                     " in the input assembly sheet when running synteny analysis." +
-                                                    " Synteny analysis is skipped!")
+                                                    " Synteny analysis is skipped for $tag")
                                                 )
-                                            }
-
-    ch_hic_reads                            = ! params.hic
-                                            ? Channel.empty()
-                                            : (
-                                                "$params.hic".find(/.*[\/].*\.(fastq|fq)\.gz/)
-                                                ? Channel.fromFilePairs(params.hic, checkIfExists: true)
-                                                : Channel.fromSRA(params.hic)
-                                            )
-                                            | map{ sample, fq ->
-                                                [ [ id: sample, single_end: false ], fq ]
-                                            }
-
-    ch_xref_assembly                        = params.synteny_skip || ! params.synteny_xref_assemblies
-                                            ? Channel.empty()
-                                            : Channel.fromSamplesheet('synteny_xref_assemblies')
-                                            | collect
-                                            | flatMap { WorkflowAssemblyqc.validateXrefAssemblies(it) }
-                                            | buffer(size: synteny_xref_assemblies_fields)
-                                            | map { tag, fa, labels ->
-                                                [ tag, file(fa, checkIfExists: true), file(labels, checkIfExists: true) ]
                                             }
 
     // MODULE: GUNZIP as GUNZIP_FASTA
@@ -152,89 +125,113 @@ workflow ASSEMBLYQC {
     // MODULE: FASTAVALIDATOR
     FASTAVALIDATOR ( ch_target_assembly )
 
-    ch_valid_target_assembly                = ch_target_assembly.join(FASTAVALIDATOR.out.success_log)
+    ch_fastavalidator_assembly              = ch_target_assembly.join(FASTAVALIDATOR.out.success_log)
                                             | map { meta, fasta, log -> [ meta, fasta ] }
 
-    ch_invalid_assembly_log                 = FASTAVALIDATOR.out.error_log
+    ch_fastavalidator_log                   = FASTAVALIDATOR.out.error_log
                                             | map { meta, error_log ->
                                                 log.warn("FASTA validation failed for ${meta.id}\n${error_log.text}")
 
-                                                [ meta, error_log ]
+                                                error_log
                                             }
 
     ch_versions                             = ch_versions.mix(FASTAVALIDATOR.out.versions.first())
 
-    // SUBWORKFLOW: GFF3_VALIDATE
-    GFF3_VALIDATE (
+    // MODULE: SEQKIT_RMDUP
+    ch_seqkit_rmdup_input                   = ! params.check_sequence_duplicates
+                                            ? Channel.empty()
+                                            : ch_fastavalidator_assembly
+    SEQKIT_RMDUP ( ch_seqkit_rmdup_input )
+
+    ch_valid_target_assembly                = params.check_sequence_duplicates
+                                            ? SEQKIT_RMDUP.out.log
+                                            | join(ch_seqkit_rmdup_input)
+                                            | map { meta, error_log, fasta ->
+                                                if ( error_log.text.contains('0 duplicated records removed') ) {
+                                                    return [ meta, fasta ]
+                                                }
+
+                                                log.warn("FASTA validation failed for ${meta.id} due to presence of duplicate sequences")
+                                                return null
+                                            }
+                                            : ch_fastavalidator_assembly
+
+    ch_invalid_assembly_log                 = ch_fastavalidator_log
+                                            | mix(
+                                                SEQKIT_RMDUP.out.log
+                                                | map { meta, error_log ->
+                                                    if ( error_log.text.contains('0 duplicated records removed') ) {
+                                                        return null
+                                                    }
+
+                                                    error_log
+                                                }
+                                            )
+    ch_versions                             = ch_versions.mix(SEQKIT_RMDUP.out.versions.first())
+
+    // SUBWORKFLOW: GFF3_GT_GFF3_GFF3VALIDATOR_STAT
+    GFF3_GT_GFF3_GFF3VALIDATOR_STAT (
         ch_assembly_gff3,
         ch_valid_target_assembly
     )
 
-    ch_valid_gff3                           = GFF3_VALIDATE.out.valid_gff3
-
-    ch_invalid_gff3_log                     = GFF3_VALIDATE.out.log_for_invalid_gff3
+    ch_valid_gff3                           = GFF3_GT_GFF3_GFF3VALIDATOR_STAT.out.valid_gff3
+    ch_invalid_gff3_log                     = GFF3_GT_GFF3_GFF3VALIDATOR_STAT.out.log_for_invalid_gff3
                                             | map { meta, error_log ->
                                                 log.warn("GFF3 validation failed for ${meta.id}\n${error_log.text}")
 
-                                                [ meta, error_log ]
+                                                error_log
                                             }
 
-    ch_versions                             = ch_versions.mix(GFF3_VALIDATE.out.versions)
-
-    // MODULE: GT_STAT
-    GT_STAT ( ch_valid_gff3 )
-
-    ch_gt_stats                             = GT_STAT.out.stats
+    ch_gt_stats                             = GFF3_GT_GFF3_GFF3VALIDATOR_STAT.out.gff3_stats
                                             | map { meta, yml -> yml }
 
-    ch_versions                             = ch_versions.mix(GT_STAT.out.versions.first())
+    ch_versions                             = ch_versions.mix(GFF3_GT_GFF3_GFF3VALIDATOR_STAT.out.versions)
 
-    // MODULE: NCBI_FCS_ADAPTOR
-    ch_fcs_adaptor_inputs                   = params.ncbi_fcs_adaptor_skip
+    // MODULE: FCS_FCSADAPTOR
+    ch_fcs_adaptor_input                    = params.ncbi_fcs_adaptor_skip
                                             ? Channel.empty()
                                             : ch_valid_target_assembly
-                                            | map { meta, fa -> [ meta.id, fa ] }
 
-    NCBI_FCS_ADAPTOR(
-        ch_fcs_adaptor_inputs,
-        params.ncbi_fcs_adaptor_empire ?: []
+    FCS_FCSADAPTOR(
+        ch_fcs_adaptor_input
     )
 
-    ch_fcs_adaptor_report                   = NCBI_FCS_ADAPTOR.out.report
-                                            | map { tag, report ->
+    ch_fcs_adaptor_report                   = FCS_FCSADAPTOR.out.adaptor_report
+                                            | map { meta, report ->
                                                 def is_clean = file(report).readLines().size < 2
 
                                                 if (! is_clean) {
                                                     log.warn("""
-                                                    Adaptor contamination detected in ${tag}.
+                                                    Adaptor contamination detected in ${meta.id}.
                                                     See the report for further details.
                                                     """.stripIndent())
                                                 }
 
-                                                [ tag, report ]
+                                                [ meta, report ]
                                             }
 
     ch_fcs_adaptor_passed_assembly          = params.ncbi_fcs_adaptor_skip
                                             ? (
                                                 ch_valid_target_assembly
-                                                | map { meta, fa -> [ meta.id, fa ] }
                                             )
                                             : (
                                                 ch_fcs_adaptor_report
-                                                | map { tag, report ->
-                                                    [ tag, file(report).readLines().size < 2 ]
+                                                | map { meta, report ->
+                                                    [ meta, file(report).readLines().size < 2 ]
                                                 }
-                                                | filter { tag, is_clean -> is_clean }
+                                                | filter { meta, is_clean ->
+                                                    ( is_clean || ( ! params.contamination_stops_pipeline ) )
+                                                }
                                                 | join(
                                                     ch_valid_target_assembly
-                                                    | map { meta, fa -> [ meta.id, fa ] }
                                                 )
-                                                | map { tag, clean, fa ->
-                                                    [ tag, fa ]
+                                                | map { meta, clean, fa ->
+                                                    [ meta, fa ]
                                                 }
                                             )
 
-    ch_versions                             = ch_versions.mix(NCBI_FCS_ADAPTOR.out.versions.first())
+    ch_versions                             = ch_versions.mix(FCS_FCSADAPTOR.out.versions.first())
 
     // SUBWORKFLOW: NCBI_FCS_GX
     ch_fcs_gx_input_assembly                = params.ncbi_fcs_gx_skip
@@ -275,7 +272,9 @@ workflow ASSEMBLYQC {
                                                 | map { tag, report ->
                                                     [ tag, file(report).readLines().size < 3 ]
                                                 }
-                                                | filter { tag, is_clean -> is_clean }
+                                                | filter { tag, is_clean ->
+                                                    ( is_clean || ( ! params.contamination_stops_pipeline ) )
+                                                }
                                                 | join(
                                                     ch_valid_target_assembly
                                                     | map { meta, fa -> [ meta.id, fa ] }
@@ -288,12 +287,142 @@ workflow ASSEMBLYQC {
     ch_versions                             = ch_versions.mix(NCBI_FCS_GX.out.versions)
 
     ch_clean_assembly                       = ch_fcs_adaptor_passed_assembly
+                                            | map { meta, fa -> [ meta.id, fa ] }
                                             | join(
                                                 ch_fcs_gx_passed_assembly
                                             )
                                             | map { tag, fa, fa2 ->
                                                 [ tag, fa ]
                                             }
+
+    // MODULE: CAT_CAT as TAG_ASSEMBLY
+    TAG_ASSEMBLY (
+        ch_clean_assembly.map { tag, fa -> [ [ id: tag ], fa ] }
+    )
+
+    ch_clean_assembly_tagged                = TAG_ASSEMBLY.out.file_out
+    ch_versions                             = ch_versions.mix(TAG_ASSEMBLY.out.versions)
+
+    // Prepare channels for FETCHNGS
+    // HiC
+    ch_hic_input_assembly                   = ! params.hic
+                                            ? Channel.empty()
+                                            : ch_clean_assembly
+                                            | map { tag, fa -> [ [ id: tag ], fa ] }
+
+    ch_hic_reads_branch                     = ch_hic_reads
+                                            | combine(ch_hic_input_assembly.first())
+                                            // Wait till first clean assembly arrives
+                                            | map { meta, fq, meta2, fasta -> [ meta, fq ] }
+                                            | branch { meta, fq ->
+                                                sra: meta.is_sra
+                                                rest: ! meta.is_sra
+                                            }
+    // Reads
+    ch_all_clean_assemblies                 = ch_clean_assembly_tagged
+                                            | map { [ it ] }
+                                            | collect
+                                            | map { [ it ] }
+
+    ch_reads_assemblies                     = ch_reads
+                                            | combine(
+                                                ch_all_clean_assemblies
+                                            )
+                                            // This combine with the filter after map
+                                            // is a join on list of assembly tags
+                                            // such as [ tag1 ] or [ tag1, tag2 ]
+                                            | map { meta, fq, assemblies ->
+                                                [
+                                                    meta,
+                                                    fq,
+                                                    assemblies
+                                                        .findAll { meta2, fasta -> meta2.id in meta.assemblies }
+                                                        .collect { meta2, fasta -> fasta }
+                                                        .flatten()
+                                                        .sort(false)
+                                                ]
+                                            }
+                                            | filter { meta, fq, fastas -> fastas }
+
+    ch_reads_branch                         = ch_reads_assemblies
+                                            | map { meta, fq, fastas -> [ meta, fq ] }
+                                            | branch { meta, fq ->
+                                                sra: meta.is_sra
+                                                rest: ! meta.is_sra
+                                            }
+
+    // Maternal reads
+    ch_maternal_reads_branch                = ch_maternal_reads
+                                            | combine(
+                                                ch_all_clean_assemblies
+                                            )
+                                            // This combine/filter/map is used to sync the
+                                            // reads channel with clean_assembly channel
+                                            // so that the downstream modules wait for
+                                            // the upstream modules to complete first
+                                            | map { meta, fq, assemblies ->
+                                                [
+                                                    meta,
+                                                    fq,
+                                                    assemblies
+                                                        .findAll { meta2, fasta -> meta2.id in meta.assemblies }
+                                                        .collect { meta2, fasta -> fasta }
+                                                        .flatten()
+                                                        .sort(false)
+                                                ]
+                                            }
+                                            | filter { meta, fq, fastas -> fastas }
+                                            | map { meta, fq, assemblies -> [ meta, fq ] }
+                                            | branch { meta, fq ->
+                                                sra: meta.is_sra
+                                                rest: ! meta.is_sra
+                                            }
+
+    // Paternal reads
+    ch_paternal_reads_branch                = ch_paternal_reads
+                                            | combine(
+                                                ch_all_clean_assemblies
+                                            )
+                                            | map { meta, fq, assemblies ->
+                                                [
+                                                    meta,
+                                                    fq,
+                                                    assemblies
+                                                        .findAll { meta2, fasta -> meta2.id in meta.assemblies }
+                                                        .collect { meta2, fasta -> fasta }
+                                                        .flatten()
+                                                        .sort(false)
+                                                ]
+                                            }
+                                            | filter { meta, fq, fastas -> fastas }
+                                            | map { meta, fq, assemblies -> [ meta, fq ] }
+                                            | branch { meta, fq ->
+                                                sra: meta.is_sra
+                                                rest: ! meta.is_sra
+                                            }
+
+    // MODULE: FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS as FETCHNGS
+    ch_fetchngs_inputs                      = ch_hic_reads_branch.sra
+                                            | mix(ch_reads_branch.sra)
+                                            | mix(ch_maternal_reads_branch.sra)
+    FETCHNGS(
+        ch_fetchngs_inputs.map { meta, sra -> [ [ id: meta.id, single_end: meta.single_end ], sra ] },
+        []
+    )
+
+    ch_fetchngs                             = FETCHNGS.out.reads
+                                            | join(
+                                                ch_fetchngs_inputs
+                                                | map { meta, sra -> [ [ id: meta.id, single_end: meta.single_end ], meta ] }
+                                            )
+                                            | map { meta, fq, meta2 -> [ meta2, fq ] }
+                                            | branch { meta, fq ->
+                                                hic:        meta.type == 'hic'
+                                                reads:      meta.type == 'reads'
+                                                maternal:   meta.type == 'maternal'
+                                                paternal:   meta.type == 'paternal'
+                                            }
+    ch_versions                             = ch_versions.mix(FETCHNGS.out.versions)
 
     // MODULE: ASSEMBLATHON_STATS
     ASSEMBLATHON_STATS(
@@ -304,28 +433,53 @@ workflow ASSEMBLYQC {
     ch_assemblathon_stats                   = ASSEMBLATHON_STATS.out.stats
     ch_versions                             = ch_versions.mix(ASSEMBLATHON_STATS.out.versions.first())
 
-    // SUBWORKFLOW: FASTA_BUSCO_PLOT
-    ch_busco_inputs                         = params.busco_skip
+    // SUBWORKFLOW: FASTA_GXF_BUSCO_PLOT
+    ch_busco_input_assembly                 = params.busco_skip
                                             ? Channel.empty()
                                             : ch_clean_assembly
-                                            | combine(
-                                                Channel.of(params.busco_lineage_datasets)
-                                                | map { it.split(' ') }
-                                                | flatten
-                                            )
-                                            | map { tag, fa, lineage ->
-                                                [ tag, file(fa, checkIfExists: true), lineage ]
-                                            }
-    FASTA_BUSCO_PLOT(
-        ch_busco_inputs.map { tag, fa, lineage -> [ tag, fa ] },
-        ch_busco_inputs.map { tag, fa, lineage -> lineage },
-        params.busco_mode ?: [],
-        params.busco_download_path ?: []
+                                            | map { tag, fasta -> [ [ id: tag ], fasta ] }
+
+    FASTA_GXF_BUSCO_PLOT(
+        ch_busco_input_assembly,
+        ch_valid_gff3,
+        params.busco_mode,
+        params.busco_lineage_datasets?.tokenize(' '),
+        params.busco_download_path,
+        [] // val_busco_config
     )
 
-    ch_busco_summary                        = FASTA_BUSCO_PLOT.out.summary
-    ch_busco_plot                           = FASTA_BUSCO_PLOT.out.plot
-    ch_versions                             = ch_versions.mix(FASTA_BUSCO_PLOT.out.versions)
+    ch_busco_summary                        = FASTA_GXF_BUSCO_PLOT.out.assembly_short_summaries_txt
+                                            | map { meta, txt ->
+                                                def lineage_name = meta.lineage.split('_odb')[0]
+                                                [
+                                                    "short_summary.specific.${meta.lineage}.${meta.id}_${lineage_name}.txt",
+                                                    txt.text
+                                                ]
+                                            }
+                                            | collectFile
+    ch_busco_plot                           = FASTA_GXF_BUSCO_PLOT.out.assembly_png
+
+    ch_busco_outputs                        = ch_busco_summary
+                                            | mix(ch_busco_plot)
+                                            | collect
+
+    ch_busco_gff_summary                    = FASTA_GXF_BUSCO_PLOT.out.annotation_short_summaries_txt
+                                            | map { meta, txt ->
+                                                def lineage_name = meta.lineage.split('_odb')[0]
+                                                [
+                                                    "short_summary.specific.${meta.lineage}.${meta.id}_${lineage_name}.txt",
+                                                    txt.text
+                                                ]
+                                            }
+                                            | collectFile
+
+    ch_busco_gff_plot                       = FASTA_GXF_BUSCO_PLOT.out.annotation_png
+
+    ch_busco_gff_outputs                    = ch_busco_gff_summary
+                                            | mix(ch_busco_gff_plot)
+                                            | collect
+
+    ch_versions                             = ch_versions.mix(FASTA_GXF_BUSCO_PLOT.out.versions)
 
     // SUBWORKFLOW: FASTA_EXPLORE_SEARCH_PLOT_TIDK
     ch_tidk_inputs                          = params.tidk_skip
@@ -361,7 +515,13 @@ workflow ASSEMBLYQC {
                                                 | map { meta, mono -> [ meta.id, mono ] },
                                                 remainder: true
                                             )
-                                            | filter { id, fasta, mono -> fasta != null }
+                                            // Danger! This partial join can fail
+                                            | filter { id, fasta, mono -> fasta }
+                                            // This filter safeguards against fail on upstream
+                                            // process failure: https://github.com/nextflow-io/nextflow/issues/5043
+                                            // fasta comes from upstream processes
+                                            // mono comes from input params, it is optional
+                                            // and may not be present for some of the combinations
                                             | map { id, fasta, mono -> [ id, fasta, mono ?: [] ] }
 
     FASTA_LTRRETRIEVER_LAI(
@@ -372,6 +532,8 @@ workflow ASSEMBLYQC {
 
     ch_lai_outputs                          = FASTA_LTRRETRIEVER_LAI.out.lai_log
                                             | join(FASTA_LTRRETRIEVER_LAI.out.lai_out, remainder: true)
+                                            // This partial join can't fail because both outputs are
+                                            // from the same process
                                             | map { meta, log, out -> out ? [ log, out ] : [log] }
 
     ch_versions                             = ch_versions.mix(FASTA_LTRRETRIEVER_LAI.out.versions)
@@ -393,13 +555,10 @@ workflow ASSEMBLYQC {
     ch_versions                             = ch_versions.mix(FASTA_KRAKEN2.out.versions)
 
     // SUBWORKFLOW: FQ2HIC
-    ch_hic_input_assembly                   = ! params.hic
-                                            ? Channel.empty()
-                                            : ch_clean_assembly
-                                            | map { tag, fa -> [ [ id: tag ], fa ] }
-
+    ch_hic_read_files                       = ch_fetchngs.hic
+                                            | mix(ch_hic_reads_branch.rest)
     FQ2HIC(
-        ch_hic_reads,
+        ch_hic_read_files,
         ch_hic_input_assembly,
         params.hic_skip_fastp,
         params.hic_skip_fastqc
@@ -414,56 +573,235 @@ workflow ASSEMBLYQC {
         ch_synteny_labels.map { meta, txt -> [ meta.id, txt ] },
         ch_xref_assembly,
         params.synteny_between_input_assemblies,
-        params.synteny_many_to_many_align,
-        params.synteny_max_gap,
-        params.synteny_min_bundle_size,
+        params.synteny_mummer_m2m_align,
+        params.synteny_mummer_max_gap,
+        params.synteny_mummer_min_bundle_size,
         params.synteny_plot_1_vs_all,
-        params.synteny_color_by_contig
+        params.synteny_color_by_contig,
+        params.synteny_mummer_plot_type,
+        params.synteny_mummer_skip,
+        params.synteny_plotsr_seq_label,
+        params.synteny_plotsr_skip,
+        params.synteny_plotsr_assembly_order
     )
 
-    ch_synteny_plot                         = FASTA_SYNTENY.out.plot
+    ch_synteny_outputs                      = FASTA_SYNTENY.out.png
+                                            | mix(FASTA_SYNTENY.out.html)
+                                            | mix(FASTA_SYNTENY.out.syri_fail_log)
+                                            | mix(FASTA_SYNTENY.out.plotsr_labels)
     ch_versions                             = ch_versions.mix(FASTA_SYNTENY.out.versions)
 
-    // MODULE: CUSTOM_DUMPSOFTWAREVERSIONS
-    CUSTOM_DUMPSOFTWAREVERSIONS (
-        ch_versions.unique().collectFile(name: 'collated_versions.yml')
+    // MODULE: MERYL_COUNT
+    ch_reads_files                          = ch_fetchngs.reads
+                                            | mix(ch_reads_branch.rest)
+
+    MERYL_COUNT(
+        ch_reads_files,
+        params.merqury_kmer_length
     )
+
+    ch_reads_meryl                          = MERYL_COUNT.out.meryl_db
+    ch_versions                             = ch_versions.mix(MERYL_COUNT.out.versions.first())
+
+    // MODULE: MERYL_UNIONSUM
+    ch_reads_meryl_branch                   = ch_reads_meryl
+                                            | branch { meta, meryl ->
+                                                single: meta.single_end
+                                                paired: ! meta.single_end
+                                            }
+    MERYL_UNIONSUM(
+        ch_reads_meryl_branch.paired,
+        params.merqury_kmer_length
+    )
+
+    ch_reads_union_meryl                    = MERYL_UNIONSUM.out.meryl_db
+                                            | mix(ch_reads_meryl_branch.single)
+    ch_versions                             = ch_versions.mix(MERYL_UNIONSUM.out.versions.first())
+
+    // MODULE: MERYL_COUNT as MAT_MERYL_COUNT
+    ch_maternal_reads_files                 = ch_fetchngs.maternal
+                                            | mix(ch_maternal_reads_branch.rest)
+
+    MAT_MERYL_COUNT(
+        // Guard against failed resume on addition of assemblies with same parents
+        ch_maternal_reads_files
+        | map { meta, fq -> [ [ id: meta.id ], fq ] },
+        params.merqury_kmer_length
+    )
+
+    ch_maternal_meryl                       = MAT_MERYL_COUNT.out.meryl_db
+                                            | join(
+                                                ch_maternal_reads_files
+                                                | map { meta, fq -> [ [ id: meta.id ], meta ] }
+                                            )
+                                            | map { meta, meryl, meta2 -> [ meta2, meryl ] }
+    ch_versions                             = ch_versions.mix(MAT_MERYL_COUNT.out.versions.first())
+
+    // MODULE: MAT_UNIONSUM
+    ch_maternal_meryl_branch                = ch_maternal_meryl
+                                            | branch { meta, meryl_db ->
+                                                single: meta.single_end
+                                                paired: ! meta.single_end
+                                            }
+    MAT_UNIONSUM(
+        ch_maternal_meryl_branch.paired,
+        params.merqury_kmer_length
+    )
+
+    ch_maternal_union_meryl                 = MAT_UNIONSUM.out.meryl_db
+                                            | mix(ch_maternal_meryl_branch.single)
+    ch_versions                             = ch_versions.mix(MAT_UNIONSUM.out.versions.first())
+
+    // MODULE: MERYL_COUNT as PAT_MERYL_COUNT
+    ch_paternal_reads_files                 = ch_fetchngs.paternal
+                                            | mix(ch_paternal_reads_branch.rest)
+
+    PAT_MERYL_COUNT(
+        ch_paternal_reads_files
+        | map { meta, fq -> [ [ id: meta.id ], fq ] },
+        params.merqury_kmer_length
+    )
+
+    ch_paternal_meryl                       = PAT_MERYL_COUNT.out.meryl_db
+                                            | join(
+                                                ch_paternal_reads_files
+                                                | map { meta, fq -> [ [ id: meta.id ], meta ] }
+                                            )
+                                            | map { meta, meryl, meta2 -> [ meta2, meryl ] }
+    ch_versions                             = ch_versions.mix(PAT_MERYL_COUNT.out.versions.first())
+
+    // MODULE: PAT_UNIONSUM
+    ch_paternal_meryl_branch                = ch_paternal_meryl
+                                            | branch { meta, meryl ->
+                                                single: meta.single_end
+                                                paired: ! meta.single_end
+                                            }
+    PAT_UNIONSUM(
+        ch_paternal_meryl_branch.paired,
+        params.merqury_kmer_length
+    )
+
+    ch_paternal_union_meryl                 = PAT_UNIONSUM.out.meryl_db
+                                            | mix(ch_paternal_meryl_branch.single)
+    ch_versions                             = ch_versions.mix(PAT_UNIONSUM.out.versions.first())
+
+    // MODULE: MERQURY_HAPMERS
+    ch_all_assemblies_with_parents          = ch_maternal_union_meryl
+                                            | mix(ch_paternal_union_meryl)
+                                            | flatMap { meta, meryl -> meta.assemblies }
+                                            | unique
+                                            | collect
+                                            | map { [ it ] }
+                                            | ifEmpty( [ [] ] )
+
+    ch_meryl_without_parents                = ch_reads_union_meryl
+                                            | combine(
+                                                ch_all_assemblies_with_parents
+                                            )
+                                            | filter { meta, meryl, p_asms -> ! meta.assemblies.any { it in p_asms } }
+                                            | map { meta, meryl, p_asms -> [ meta, meryl, [], [] ] }
+
+    ch_group_meryl                          = ch_reads_union_meryl
+                                            | combine ( ch_maternal_union_meryl )
+                                            | filter { meta, meryl, meta2, mat_meryl ->
+                                                meta.assemblies.every { it in meta2.assemblies }
+                                            }
+                                            | map { meta, meryl, meta2, mat_meryl ->
+                                                [ meta, meryl, mat_meryl ]
+                                            }
+                                            | combine ( ch_paternal_union_meryl )
+                                            | filter { meta, meryl, mat_meryl, meta2, pat_meryl ->
+                                                meta.assemblies.every { it in meta2.assemblies }
+                                            }
+                                            | map { meta, meryl, mat_meryl, meta2, pat_meryl ->
+                                                [ meta, meryl, mat_meryl, pat_meryl ]
+                                            }
+
+    MERQURY_HAPMERS(
+        ch_group_meryl.map { meta, meryl, mat_meryl, pat_meryl -> [ meta, meryl ] },
+        ch_group_meryl.map { meta, meryl, mat_meryl, pat_meryl -> mat_meryl },
+        ch_group_meryl.map { meta, meryl, mat_meryl, pat_meryl -> pat_meryl }
+    )
+
+    ch_parental_hapmers                     = MERQURY_HAPMERS.out.mat_hapmer_meryl
+                                            | join(MERQURY_HAPMERS.out.pat_hapmer_meryl)
+    ch_versions                             = ch_versions.mix(MERQURY_HAPMERS.out.versions.first())
+
+    // Prepare group meryl dbs
+    ch_meryl_all                            = ch_group_meryl
+                                            | join(ch_parental_hapmers)
+                                            | map { meta, meryl, mat_meryl, pat_meryl, hap_mat_meryl, hap_pat_meryl ->
+                                                [ meta, meryl, hap_mat_meryl, hap_pat_meryl ]
+                                            }
+                                            | mix(ch_meryl_without_parents)
+                                            | map { meta, meryl, mat_meryl, pat_meryl ->
+                                                [
+                                                    meta,
+                                                    mat_meryl
+                                                    ? [ meryl, mat_meryl, pat_meryl ]
+                                                    : meryl
+                                                ]
+                                            }
+
+    // MODULE: MERQURY_MERQURY
+    ch_merqury_inputs                       = ch_meryl_all
+                                            | join(
+                                                ch_reads_assemblies
+                                                | map { meta, fq, fastas -> [ meta, fastas ] }
+                                            )
+
+    MERQURY_MERQURY ( ch_merqury_inputs )
+
+    ch_merqury_qv                           = MERQURY_MERQURY.out.assembly_qv
+    ch_merqury_stats                        = MERQURY_MERQURY.out.stats
+    ch_merqury_spectra_cn_fl_png            = MERQURY_MERQURY.out.spectra_cn_fl_png
+    ch_merqury_spectra_asm_fl_png           = MERQURY_MERQURY.out.spectra_asm_fl_png
+    ch_hapmers_blob_png                     = MERQURY_MERQURY.out.hapmers_blob_png
+
+    ch_merqury_outputs                      = ch_merqury_qv
+                                            | mix(ch_merqury_stats)
+                                            | mix(ch_merqury_spectra_cn_fl_png)
+                                            | mix(ch_merqury_spectra_asm_fl_png)
+                                            | mix(ch_hapmers_blob_png)
+                                            | flatMap { meta, data -> data }
+    ch_versions                             = ch_versions.mix(MERQURY_MERQURY.out.versions.first())
+
+    // Collate and save software versions
+    ch_versions                             = ch_versions
+                                            | unique
+                                            | map { yml ->
+                                                if ( yml ) { yml }
+                                            }
+
+    ch_versions_yml                         = softwareVersionsToYAML(ch_versions)
+                                            | collectFile(
+                                                storeDir: "${params.outdir}/pipeline_info",
+                                                name: 'software_versions.yml',
+                                                sort: true,
+                                                newLine: true,
+                                                cache: false
+                                            )
 
     // MODULE: CREATEREPORT
     CREATEREPORT(
-        ch_invalid_assembly_log             .map { meta, file -> file }.collect().ifEmpty([]),
-        ch_invalid_gff3_log                 .map { meta, file -> file }.collect().ifEmpty([]),
+        ch_invalid_assembly_log             .collect().ifEmpty([]),
+        ch_invalid_gff3_log                 .collect().ifEmpty([]),
         ch_fcs_adaptor_report               .map { meta, file -> file }.collect().ifEmpty([]),
         ch_fcs_gx_report                    .mix(ch_fcs_gx_taxonomy_plot).map { meta, file -> file }.collect().ifEmpty([]),
         ch_assemblathon_stats               .collect().ifEmpty([]),
         ch_gt_stats                         .collect().ifEmpty([]),
-        ch_busco_summary                    .mix(ch_busco_plot).collect().ifEmpty([]),
+        ch_busco_outputs                    .collect().ifEmpty([]),
+        ch_busco_gff_outputs                .collect().ifEmpty([]),
         ch_tidk_outputs                     .collect().ifEmpty([]),
         ch_lai_outputs                      .collect().ifEmpty([]),
         ch_kraken2_plot                     .collect().ifEmpty([]),
         ch_hic_html                         .collect().ifEmpty([]),
-        ch_synteny_plot                     .collect().ifEmpty([]),
-        CUSTOM_DUMPSOFTWAREVERSIONS         .out.yml,
-        Channel.of ( WorkflowAssemblyqc.jsonifyParams ( params ) ),
-        Channel.of ( WorkflowAssemblyqc.jsonifySummaryParams ( summary_params ) )
+        ch_synteny_outputs                  .collect().ifEmpty([]),
+        ch_merqury_outputs                  .collect().ifEmpty([]),
+        ch_versions_yml,
+        ch_params_as_json,
+        ch_summary_params_as_json
     )
-}
-
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    COMPLETION EMAIL AND SUMMARY
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
-
-workflow.onComplete {
-    if (params.email || params.email_on_fail) {
-        NfcoreTemplate.email(workflow, params, summary_params, projectDir, log)
-    }
-    NfcoreTemplate.dump_parameters(workflow, params)
-    NfcoreTemplate.summary(workflow, params, log)
-    if (params.hook_url) {
-        NfcoreTemplate.IM_notification(workflow, params, summary_params, projectDir, log)
-    }
 }
 
 /*

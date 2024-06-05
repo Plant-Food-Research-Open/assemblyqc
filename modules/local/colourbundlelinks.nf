@@ -2,7 +2,7 @@ process COLOURBUNDLELINKS {
     tag "${target_on_ref}"
     label 'process_single'
 
-    container "docker.io/gallvp/python3npkgs:v0.6"
+    container "docker.io/gallvp/python3npkgs:v0.7"
 
     input:
     tuple val(target_on_ref), path(bundle_links)

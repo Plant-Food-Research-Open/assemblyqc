@@ -1,0 +1,9 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/environment-schema.json
+name: "plotsr"
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - "bioconda::plotsr=1.1.1"

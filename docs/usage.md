@@ -2,13 +2,15 @@
 
 ## Assemblysheet input
 
-You will need to create an assemblysheet with information about the assemblies you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 5 columns, and a header row. An [example assemblysheet](../assets/assemblysheet.csv) has been provided with the pipeline. Its fields are:
+You will need to create an assemblysheet with information about the assemblies you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with at least two columns, and a header row. An [example assemblysheet](../assets/assemblysheet.csv) has been provided with the pipeline. Its fields are:
 
-- `tag:` A unique tag which represents the target assembly throughout the pipeline and in the final report
+- `tag:` A unique tag which represents the target assembly throughout the pipeline and in the final report. The `tag` and `fasta` file name should not be same, such as `tag.fasta`. This can create file name collisions in the pipeline or result in file overwrite. It is also a good-practice to make all the input files read-only.
 - `fasta:` FASTA file
 - `gff3 [Optional]:` GFF3 annotation file if available
-- `monoploid_ids [Optional]:` A txt file listing the IDs used to calculate LAI in monoploid mode if necessary
-- `synteny_labels [Optional]:` A two column tsv file listing fasta sequence ids (first column) and their labels for the synteny plots (second column) when performing synteny analysis
+- `monoploid_ids [Optional]:` A txt file listing the sequence IDs used to calculate LAI in monoploid mode if necessary. If the intent is to run LAI against all the sequences in an assembly, this file can be skipped for that assembly. Soft masked regions are ignored when calculating LAI. The pipeline may fail if all the LTRs are already soft masked.
+- `synteny_labels [Optional]:` A two column tsv file listing fasta sequence IDs (first column) and their labels for the synteny plots (second column) when performing synteny analysis. If a sequence ID is missing from this file, the corresponding sequence is excluded from the analysis. If `synteny_labels` is not provided for an assembly, that assembly is excluded from the analysis.
+
+See the [Merqury](#merqury-k-mer-analysis) section For description of assemblysheet columns related to k-mer analysis with Merqury.
 
 ## External databases
 
@@ -38,48 +40,60 @@ BUSCO lineage databases are downloaded and updated by the BUSCO tool itself. A p
 
 ## Other parameters
 
+This section provides additional information for parameters. It does not list all the pipeline parameters. For an exhaustive list, see [parameters.md](./parameters.md).
+
 ### Assemblathon stats
 
 `assemblathon_stats_n_limit` is the number of 'N's for the unknown gap size. This number is used to split the scaffolds into contigs to compute contig-related stats. NCBI's recommendation for unknown gap size is 100 <https://www.ncbi.nlm.nih.gov/genbank/wgs_gapped/>.
 
-### NCBI FCS adaptor
-
-`ncbi_fcs_adaptor_empire` should be set to `euk` for Eukaryotes and `prok` for Prokaryotes.
-
 ### NCBI FCS GX
 
-`ncbi_fcs_gx_tax_id` is the taxonomy ID for all the assemblies listed in the assemblysheet. A taxonomy ID can be obtained by searching a _Genus species_ at <https://www.ncbi.nlm.nih.gov/taxonomy>.
+- `ncbi_fcs_gx_tax_id` is the taxonomy ID for all the assemblies listed in the assemblysheet. A taxonomy ID can be obtained by searching a _Genus species_ at <https://www.ncbi.nlm.nih.gov/taxonomy>.
 
 ### BUSCO
 
-- `busco_mode`: `geno` or `genome` for genome assemblies (DNA), `tran` or `transcriptome` for transcriptome assemblies (DNA), and `prot` or `proteins` for annotated gene sets (protein).
 - `busco_lineage_datasets`: A space-separated list of BUSCO lineages. Any number of lineages can be specified such as "fungi_odb10 hypocreales_odb10". Each assembly is assessed against each of the listed lineage. To select a lineage, refer to <https://busco.ezlab.org/list_of_lineages.html>.
 
 ### TIDK
 
 - `tidk_repeat_seq`: The telomere search sequence. To select an appropriate sequence, see <https://github.com/tolkit/a-telomeric-repeat-database>. Commonly used sequences are TTTAGGG (Plant), TTAGGG (Fungus, Vertebrates) and TTAGG (Insect). Further reading: <https://pubmed.ncbi.nlm.nih.gov/32153618>
-- `tidk_filter_by_size`: Set this flag to `true` to filter out assembly sequences smaller than the size specified by the next parameter (default: `false`).
-- `tidk_filter_size_bp`: Minimum size of the assembly sequence processed by TIDK (default: 1000000 (1Mbp)).
 
 ### HiC
 
-- `hic`: Path to reads provided as a SRA ID or as a path to paired reads with pattern '\*{1,2}.(fastq|fq).gz'
-- `hic_skip_fastp`: Skip fastp trimming
-- `hic_skip_fastqc`: Skip QC by fastqc
-- `hic_fastp_ext_args`: Additional arguments for fastp (default: '--qualified_quality_phred 20 --length_required 50')
+- `hic`: Path to reads provided as a SRA ID or as a path to paired reads with pattern '\*{1,2}.(fastq|fq).gz'. These reads are applied to each assembly listed by `input`.
 
 ### Synteny analysis
 
-- `synteny_between_input_assemblies`: Set it to `true` to create synteny plots between each pair of input assemblies. Default is `true`.
-- `synteny_many_to_many_align`: Set it to `true` to include alignment blocks with many-to-many mappings or set to `false` to only include 1-to-1 mappings. Default is `false`. See the documentation of `dnadiff` for further details: <https://github.com/mummer4/mummer/blob/master/docs/dnadiff.README>
-- `synteny_max_gap`: Alignments within this distance are bundled together. Default: 1000000 (1 Mbp).
-- `synteny_min_bundle_size`: After bundling, any bundle smaller than this size is filtered out. Default: 1000 (1 Kbp)
-- `synteny_plot_1_vs_all`: Set it to `true` to create a separate synteny plot for each contig of the target assembly versus all contigs of the reference assembly. Set it to `false` to create a single plot for each target assembly against each reference assembly. This joint plot is also created when `plot_1_vs_all` is set to `true`. Default: `false`
-- `synteny_color_by_contig`: Set it to `true` to color the synteny plot by contig. Set it to `false` to color the synteny plot by the number of links in a bundle. Default: `true`
 - `synteny_xref_assemblies`: Similar to `--input`, this parameter also provides a CSV sheet listing external reference assemblies which are included in the synteny analysis but are not analysed by other QC tools. See the [example xrefsheet](../assets/xrefsheet.csv) included with the pipeline. Its fields are:
+
   - `tag:` A unique tag which represents the reference assembly in the final report
   - `fasta:` FASTA file
   - `synteny_labels:` A two column tsv file listing fasta sequence ids (first column) and their labels for the synteny plots (second column)
+
+- `synteny_plotsr_assembly_order`: The order in which Minimap2 alignments are performed and, then, plotted by Plotsr. For assembly A, B and C; if the order is specified as 'B C A', then, two alignments are performed. First, C is aligned against B as reference. Second, A is aligned against C as reference. The order of these assemblies on the Plotsr figure is also 'B C A' so that B appears on top, C in the middle and A at the bottom. If this parameter is `null`, the assemblies are ordered alphabetically. All assemblies from `input` and `synteny_xref_assemblies` are included by default. If an assembly is missing from this list, that assembly is excluded from the analysis.
+
+> [!WARNING]
+> PLOTSR performs a sequence-wise (preferably chromosome-wise) synteny analysis. The order of the sequences for each assembly is inferred from its `synteny_labels` file and the order of sequences in the FASTA file is ignored. As all the assemblies are included in a single plot and the number of sequences from each assembly should be same, sequences after the common minimum number are excluded. Afterwards, the sequences are marked sequentially as `Chr1`, `Chr2`, `Chr3`,... If a label other than `Chr` is desirable, it can be configured with the `synteny_plotsr_seq_label` parameter.
+
+### Merqury K-mer analysis
+
+Additional assemblysheet columns:
+
+- `reads_1 [Optional]`: A SRA ID for paired FASTQ files or FASTA/FASTQ file path to assembly reads. The reads are used by [MERQURY](https://github.com/marbl/merqury) for k-mer analysis. If two assemblies have the same SRA ID or file path for `reads_1`, they are treated as haplotypes of the same genome by MERQURY. A genome can only have one or two haplotypes.
+- `reads_2 [Optional]`: This column lists the second file if paired reads are used. If `reads_1` is a SRA ID, this column is ignored.
+- `maternal_reads_1 [Optional]`: A SRA ID for paired FASTQ files or FASTA/FASTQ file path to maternal reads. If two assemblies are haplotypes of the same genome, this path should be repeated. Moreover, more than one genome can have same `maternal_reads_1`.
+- `maternal_reads_2 [Optional]`: This column lists the second file if paired reads are used. If `maternal_reads_1` is a SRA ID, this column is ignored.
+- `paternal_reads_1 [Optional]`: A SRA ID for paired FASTQ files or FASTA/FASTQ file path to paternal reads. If two assemblies are haplotypes of the same genome, this path should be repeated. Moreover, more than one genome can have same `paternal_reads_1`.
+- `paternal_reads_2 [Optional]`: This column lists the second file if paired reads are used. If `paternal_reads_1` is a SRA ID, this column is ignored.
+
+See following assemblysheet examples for MERQURY analysis.
+
+- [assemblysheet - 1x](../assets/assemblysheetv2.csv)
+- [assemblysheet - mixed2x](../tests/merqury/mixed2x/assemblysheet.csv)
+- [assemblysheet - phased2x](../tests/merqury/phased2x/assemblysheet.csv)
+- [assemblysheet - phased2x with parent reads](../tests/merqury/phased2x.mp/assemblysheet.csv)
+
+The data for these examples comes from: [umd.edu](https://obj.umiacs.umd.edu/marbl_publications/triobinning/index.html)
 
 ## Running the pipeline
 
@@ -179,6 +193,8 @@ If `-profile` is not specified, the pipeline will run locally and expect all sof
   - A generic configuration profile to be used with [Charliecloud](https://hpc.github.io/charliecloud/)
 - `apptainer`
   - A generic configuration profile to be used with [Apptainer](https://apptainer.org/)
+- `wave`
+  - A generic configuration profile to enable [Wave](https://seqera.io/wave/) containers. Use together with one of the above (requires Nextflow ` 24.03.0-edge` or later).
 - `conda`
   - A generic configuration profile to be used with [Conda](https://conda.io/docs/). Please only use Conda as a last resort i.e. when it's not possible to run the pipeline with Docker, Singularity, Podman, Shifter, Charliecloud, or Apptainer.
 

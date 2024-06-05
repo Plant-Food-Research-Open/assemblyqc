@@ -10,5 +10,10 @@ fi
 
 # Check CHANGELOG version
 
-grep "## $config_version - " CHANGELOG.md >/dev/null \
+head -10 CHANGELOG.md | grep "## v$config_version - " >/dev/null \
     || (echo 'Failed to match CHANGELOG version'; exit 1)
+
+# Check README version
+
+grep "assembly quality ($config_version)" README.md >/dev/null \
+    || (echo 'Failed to match README version'; exit 1)

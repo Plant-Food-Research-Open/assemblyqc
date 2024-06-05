@@ -2,7 +2,7 @@ process RELABELBUNDLELINKS {
     tag "${target_on_ref}"
     label 'process_single'
 
-    container "docker.io/gallvp/python3npkgs:v0.6"
+    container "docker.io/gallvp/python3npkgs:v0.7"
 
     input:
     tuple val(target_on_ref), path(coloured_bundle_links), path(target_seq_list), path(ref_seq_list)

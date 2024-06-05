@@ -1,2 +1,0 @@
-subworkflows/gff3_validate:
-  - subworkflows/pfr/gff3_validate/**

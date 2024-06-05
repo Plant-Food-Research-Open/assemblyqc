@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+NO_FORMAT="\033[0m"
+C_RED="\033[38;5;9m"
+F_BOLD="\033[1m"
+
+[[ $1 == '-stub' ]] \
+    && stub='-stub' \
+    || stub=''
+
+[[ $1 == '-stub' ]] \
+    && echo 'Executing with -stub' \
+    || echo -e "${C_RED}${F_BOLD}Executing without -stub${NO_FORMAT}"
+
+nextflow run \
+    main.nf \
+    -profile docker,test_full \
+    -resume \
+    $stub \
+    --max_cpus 8 \
+    --max_memory '32.GB' \
+    --ncbi_fcs_gx_skip false \
+    --ncbi_fcs_gx_db_path ../dbs/gxdb/test \
+    --busco_download_path ../dbs/busco \
+    --kraken2_skip false \
+    --kraken2_db_path ../dbs/kraken2db/k2_minusb

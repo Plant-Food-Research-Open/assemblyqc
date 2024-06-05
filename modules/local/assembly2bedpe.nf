@@ -2,7 +2,7 @@ process ASSEMBLY2BEDPE {
     tag "$sample_id_on_tag"
     label 'process_single'
 
-    container "docker.io/gallvp/python3npkgs:v0.6"
+    container "docker.io/gallvp/python3npkgs:v0.7"
 
     input:
     tuple val(sample_id_on_tag), path(agp_assembly_file)

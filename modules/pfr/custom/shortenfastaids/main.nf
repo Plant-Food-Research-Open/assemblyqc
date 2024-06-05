@@ -12,7 +12,7 @@ process CUSTOM_SHORTENFASTAIDS {
 
     output:
     tuple val(meta), path("*.short.ids.fasta")  , emit: short_ids_fasta , optional: true
-    tuple val(meta), path("*.short.ids.tsv")    , emit: short_ids_tsv   , optional: true
+    tuple val(meta), path("*.short.ids.tsv")    , emit: short_ids_tsv
     path "versions.yml"                         , emit: versions
 
     when:
@@ -25,6 +25,10 @@ process CUSTOM_SHORTENFASTAIDS {
     stub:
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
+    echo \\
+        'IDs have acceptable length and character. No change required.' \\
+        > ${meta.id}.short.ids.tsv
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         python: \$(python --version | cut -d' ' -f2)

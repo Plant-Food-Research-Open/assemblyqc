@@ -3,6 +3,53 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.0.0 - [04-June-2024]
+
+### `Added`
+
+1. Updated nf-core/template to 2.14.1
+2. Removed release-announcements GitHub workflow
+3. Added a list of nf-core contributors
+4. Added a launcher script for local testing `local_assemblyqc`
+5. Added a custom `BUNDLELINKS` module which respects direction when bundling `DNADIFF` links [#82](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/82)
+6. Added the ability to create linear synteny plot in addition to the circos plot [#74](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/74)
+7. Updated modules and sub-workflows: `BWA/INDEX`, `BWA/MEM`, `CAT/CAT`, , `CUSTOM/RESTOREGFFIDS`, `CUSTOM/SHORTENFASTAIDS`, `GT/GFF3`, `GT/GFF3VALIDATOR`, `GT/STAT`, `LTRFINDER`, `LTRHARVEST`, `LTRRETRIEVER/LAI`, `LTRRETRIEVER/LTRRETRIEVER`, `SAMBLASTER`, `FASTA_LTRRETRIEVER_LAI`, `FASTQ_BWA_MEM_SAMBLASTER`, `GFF3_VALIDATE`, `CUSTOM/SRATOOLSNCBISETTINGS`, `FASTP`, `FASTQC`, `UNTAR`, `SEQKIT/SEQ`, `SEQKIT/SORT`, `FASTA_EXPLORE_SEARCH_PLOT_TIDK`
+8. Now the `contamination_stops_pipeline` flag allows the pipeline to continue if contamination is detected. It's default value is `true` [#54](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/54)
+9. Now fasta ids are sorted in natural order for the HiC module [#76](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/76)
+10. Now using `FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS` for SRA downloads
+11. Added `MERQURY` module [#85](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/85)
+12. Replaced `GFF3_VALIDATE` sub-workflow with `GFF3_GT_GFF3_GFF3VALIDATOR_STAT`
+13. Replaced local `BUSCO` module with `FASTA_GXF_BUSCO_PLOT` sub-workflow [#75](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/75)
+14. Replaced local `NCBI_FCS_ADAPTOR` with nf-core module and updated to 0.5.0 which includes additional adaptors for PacBio and Nanopore technologies [#55](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/55)
+15. Added PLOTSR [#77](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/77)
+16. Added [JADWOS01](https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_016859245.1/) assembly to xrefsheet for successfully running PLOTSR
+17. Now detecting duplicate sequences with `SEQKIT/RMDUP` [#64](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/64)
+
+### `Fixed`
+
+1. Fixed a bug which caused NCBI_FCS_GX to not resume [#80](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/80)
+2. Restored the original version of `nf-core/subworkflows/fastq_trim_fastp_fastqc`
+3. Fixed n-core linting
+4. Updated `tower.yml`
+5. Updated LICENSE copyright to Copyright (c) 2024 The New Zealand Institute for Plant and Food Research Limited [#81](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/81)
+6. `RUNASSEMBLYVISUALIZER` is now single threaded for successful execution on both Linux and MacOS
+7. Fixed java memory overflow issues in `RUNASSEMBLYVISUALIZER`
+8. Updated `FASTA_LTRRETRIEVER_LAI` to fix a pipeline crash when `ch_monoploid_seqs` was `[ meta, [] ]` [#83](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/83)
+9. Improved input assembly documentation [#86](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/86)
+10. Added assembly tag to synteny warning message regarding missing `synteny_labels` file
+11. Now copying files in `NCBI_FCS_GX_SETUP_SAMPLE` rather than symlinking in an attempt to support NextFlow Fusion
+
+### `Dependencies`
+
+1. NextFlow!>=23.04.0
+2. nf-validation@1.1.3
+
+### `Deprecated`
+
+1. Removed `CIRCOS_BUNDLELINKS` module
+2. Now the default value of `synteny_plot_1_vs_all` is false
+3. Replace module `CUSTOM/CHECKGFF3FASTACORRESPONDENCE` with a local groovy function in `GFF3_GT_GFF3_GFF3VALIDATOR_STAT` sub-workflow
+
 ## 1.4 - [04-Mar-2024]
 
 ### `Added`

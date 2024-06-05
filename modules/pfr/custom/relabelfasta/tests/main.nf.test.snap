@@ -1,0 +1,68 @@
+{
+    "sarscov2 - fasta - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.fasta:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,d2052e0039190dca1b50700028ef14c3"
+                ],
+                "fasta": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.fasta:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,d2052e0039190dca1b50700028ef14c3"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.1"
+        },
+        "timestamp": "2024-05-25T13:40:44.896721"
+    },
+    "sarscov2 - fasta": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.fasta:md5,393572534251b71ec74fbe3b1a31a709"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,d2052e0039190dca1b50700028ef14c3"
+                ],
+                "fasta": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.fasta:md5,393572534251b71ec74fbe3b1a31a709"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,d2052e0039190dca1b50700028ef14c3"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.1"
+        },
+        "timestamp": "2024-05-25T13:38:20.323976"
+    }
+}

@@ -8,18 +8,31 @@ nextflow_process {
     tag "modules_nfcore"
     tag "gt"
     tag "gt/gff3validator"
+    tag "gt/gff3"
 
-    test("custom-gff3-valid") {
+    test("sarscov2-gff3-valid") {
+
+        config './nextflow.config'
+
+        setup {
+            run("GT_GFF3") {
+                script "../../../../nf-core/gt/gff3"
+
+                process {
+                    """
+                    input[0] = [
+                        [ id:'test' ],
+                        file(params.test_data['sarscov2']['genome']['genome_gff3'], checkIfExists: true)
+                    ]
+                    """
+                }
+            }
+        }
 
         when {
             process {
                 """
-                input[0] = Channel.of(
-                        '##gff-version 3',
-                        'chr22\thavana\tpseudogene\t16572027\t16574637\t.\t+\t.\tID=gene:ENSG00000233995;Name=AP000547.1'
-                    )
-                    .collectFile(name: 'sample.gff3', newLine: true)
-                    .map { file -> [ [ id:'test' ], file ] }
+                input[0] = GT_GFF3.out.gt_gff3
                 """
             }
         }
@@ -28,9 +41,32 @@ nextflow_process {
             assertAll(
                 { assert process.success },
                 { assert snapshot(process.out).match() },
-                { assert process.out.error_log == [] },
-                { assert process.out.success_log != null },
-                { assert path(process.out.success_log.get(0).get(1)).getText().contains("input is valid GFF3") }
+                { assert path(process.out.success_log[0][1]).text.contains("input is valid GFF3") },
+                { assert process.out.error_log == [] }
+            )
+        }
+
+    }
+
+    test("sarscov2-gff3-stub") {
+
+        options '-stub'
+
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test' ],
+                    file(params.test_data['sarscov2']['genome']['genome_gff3'], checkIfExists: true)
+                ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
             )
         }
 
@@ -54,8 +90,7 @@ nextflow_process {
                 { assert process.success },
                 { assert snapshot(process.out).match() },
                 { assert process.out.success_log == [] },
-                { assert process.out.error_log != null },
-                { assert path(process.out.error_log.get(0).get(1)).getText().contains("gt gff3validator: error:") }
+                { assert path(process.out.error_log[0][1]).text.contains("gt gff3validator: error:") }
             )
         }
 

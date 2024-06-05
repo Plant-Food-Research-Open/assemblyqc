@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 
 import re
-
-from Bio import SeqIO
 from importlib.metadata import version
 from platform import python_version
+
+from Bio import SeqIO
 
 # The input fasta file path
 fasta_file_path = "$fasta"
@@ -122,7 +122,7 @@ def shorten_id_by_pattern_replacement(patterns_dict, id):
 
     for pattern in matches_for_id:
         shortened_id = re.sub(
-            r"({})".format(re.escape(pattern)),
+            rf"({re.escape(pattern)})",
             patterns_dict[pattern],
             shortened_id,
         )
@@ -158,13 +158,15 @@ if __name__ == "__main__":
     input_ids = [x[0] for x in input_ids_and_descriptions]
 
     # Write versions
-    with open(f"versions.yml", "w") as f_versions:
+    with open("versions.yml", "w") as f_versions:
         f_versions.write('"${task.process}":\\n')
         f_versions.write(f"    python: {python_version()}\\n")
         f_versions.write(f"    biopython: {version('biopython')}\\n")
 
     if not do_ids_need_to_change(input_ids_and_descriptions):
         print("IDs have acceptable length and character. No change required.")
+        with open(f"{output_files_prefix}.short.ids.tsv", "w") as f:
+            f.write("IDs have acceptable length and character. No change required.")
         exit(0)
 
     new_ids = shorten_ids(
