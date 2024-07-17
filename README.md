@@ -173,7 +173,7 @@ If you would like to contribute to this pipeline, please see the [contributing g
 
 If you use plant-food-research-open/assemblyqc for your analysis, please cite it as:
 
-> Rashid, U., Wu, C., Shiller, J., Smith, K., Crowhurst, R., Davy, M., Chen, T.-H., Thomson, S., & Deng, C. (2024). AssemblyQC: A NextFlow pipeline for evaluating assembly quality (2.0.0). Zenodo. https://doi.org/10.5281/zenodo.10647870
+> Rashid, U., Wu, C., Shiller, J., Smith, K., Crowhurst, R., Davy, M., Chen, T.-H., Thomson, S., & Deng, C. (2024). AssemblyQC: A NextFlow pipeline for evaluating assembly quality (2.1.0+dev). Zenodo. https://doi.org/10.5281/zenodo.10647870
 
 An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
 
