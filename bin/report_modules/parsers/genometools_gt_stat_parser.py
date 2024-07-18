@@ -82,7 +82,7 @@ def parse_genometools_gt_stat_folder(folder_name="genometools_gt_stat"):
         cds_length_distribution_graph = ""
         if cds_length_distribution != []:
             cds_length_distribution_graph = create_dist_graph(
-                intron_length_distribution,
+                cds_length_distribution,
                 "Length",
                 "CDS Length Distribution",
                 f"./{folder_name}/{os.path.basename(report_path)}.cds.length.png",
