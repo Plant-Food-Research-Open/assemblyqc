@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Fixed`
 
 1. Fixed a bug where `intron_length_distribution` was used instead of `cds_length_distribution` when creating the CDS Length Distribution Graph [#95](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/95)
+2. Changed default branch name from `master` to `main` in nf-core template files
 
 ### `Dependencies`
 
