@@ -3,13 +3,17 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v2.1.0+dev - [17-July-2024]
+## v2.1.0+dev - [18-July-2024]
 
 ### `Added`
 
 1. Added a test to verify the fix for the bug which resulted in a pipeline crash for assemblies without LTRs
+2. Locally patched `FASTA_LTRRETRIEVER_LAI` sub-workflow to emit the `LTRRETRIEVER_LTRRETRIEVER` log as one of the outputs
+3. Locally patched `LTRRETRIEVER_LTRRETRIEVER` module to not fail when `LTR_retriever` exits with an error
 
 ### `Fixed`
+
+1. Now LTR Retriever does not crash when the input assembly does not contain any LTRs [#92](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/92)
 
 ### `Dependencies`
 

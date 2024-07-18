@@ -535,6 +535,10 @@ workflow ASSEMBLYQC {
                                             // This partial join can't fail because both outputs are
                                             // from the same process
                                             | map { meta, log, out -> out ? [ log, out ] : [log] }
+                                            | mix(
+                                                FASTA_LTRRETRIEVER_LAI.out.ltrretriever_log
+                                                | map { meta, log -> log }
+                                            )
 
     ch_versions                             = ch_versions.mix(FASTA_LTRRETRIEVER_LAI.out.versions)
 

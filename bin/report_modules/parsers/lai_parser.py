@@ -92,4 +92,28 @@ def parse_lai_folder(folder_name="lai_outputs"):
         }
         data["LAI"].append(stats)
 
+    list_of_ltrretriever_log_files = lai_folder_path.glob("*.log")
+
+    for file in list_of_ltrretriever_log_files:
+        if str(file).endswith("LAI.log"):
+            continue
+
+        p = re.compile("ERROR: (.*)")
+        match_results = p.findall(file.read_text())
+        if len(match_results) < 1:
+            continue
+
+        file_tokens = re.findall(
+            r"([\w]+).log",
+            os.path.basename(str(file)),
+        )
+
+        hap_name = file_tokens[0]
+
+        stats = {
+            "hap": hap_name,
+            "result": f"<b style='color:red;'>LTR_retriever Error:</b> {match_results[0]}".strip(),
+        }
+        data["LAI"].append(stats)
+
     return {"LAI": sort_list_of_results(data["LAI"], "hap")}

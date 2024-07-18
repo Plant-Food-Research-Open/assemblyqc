@@ -102,6 +102,7 @@ workflow FASTA_LTRRETRIEVER_LAI {
         []
     )
 
+    ch_ltrretriever_log             = LTRRETRIEVER_LTRRETRIEVER.out.log
     ch_pass_list                    = LTRRETRIEVER_LTRRETRIEVER.out.pass_list
     ch_annotation_out               = LTRRETRIEVER_LTRRETRIEVER.out.annotation_out
     ch_pass_out                     = ch_pass_list.join(ch_annotation_out)
@@ -164,11 +165,12 @@ workflow FASTA_LTRRETRIEVER_LAI {
     ch_versions                     = ch_versions.mix(CUSTOM_RESTOREGFFIDS.out.versions.first())
 
     emit:
-    ltrlib                          = ch_ltrlib         // channel: [ val(meta), fasta ]
-    annotation_gff                  = ch_restored_gff   // channel: [ val(meta), gff ]
-    lai_log                         = ch_lai_log        // channel: [ val(meta), log ]
-    lai_out                         = ch_lai_out        // channel: [ val(meta), out ]
-    versions                        = ch_versions       // channel: [ versions.yml ]
+    ltrretriever_log                = ch_ltrretriever_log   // channel: [ val(meta), fasta ]
+    ltrlib                          = ch_ltrlib             // channel: [ val(meta), fasta ]
+    annotation_gff                  = ch_restored_gff       // channel: [ val(meta), gff ]
+    lai_log                         = ch_lai_log            // channel: [ val(meta), log ]
+    lai_out                         = ch_lai_out            // channel: [ val(meta), out ]
+    versions                        = ch_versions           // channel: [ versions.yml ]
 }
 
 
