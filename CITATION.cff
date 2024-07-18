@@ -21,7 +21,7 @@ authors:
   - family-names: "Deng"
     given-names: "Cecilia"
 title: "AssemblyQC: A NextFlow pipeline for evaluating assembly quality"
-version: 2.0.0
+version: 2.1.0+dev
 date-released: 2024-02-12
 url: "https://github.com/Plant-Food-Research-Open/assembly_qc"
 doi: 10.5281/zenodo.10647870
