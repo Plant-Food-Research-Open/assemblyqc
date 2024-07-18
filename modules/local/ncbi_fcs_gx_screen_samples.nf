@@ -2,10 +2,10 @@ process NCBI_FCS_GX_SCREEN_SAMPLES {
     tag 'all samples'
     label 'process_high'
 
-    conda "bioconda::ncbi-fcs-gx=0.5.0"
+    conda "bioconda::ncbi-fcs-gx=0.5.4"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/ncbi-fcs-gx:0.5.0--h4ac6f70_3':
-        'biocontainers/ncbi-fcs-gx:0.5.0--h4ac6f70_3' }"
+        'https://depot.galaxyproject.org/singularity/ncbi-fcs-gx:0.5.4--h4ac6f70_0':
+        'biocontainers/ncbi-fcs-gx:0.5.4--h4ac6f70_0' }"
 
     input:
     path samples
@@ -21,12 +21,20 @@ process NCBI_FCS_GX_SCREEN_SAMPLES {
     task.ext.when == null || task.ext.when
 
     script:
-    def VERSION = 0.5
+    def VERSION = '0.5.4'
     """
+    export GX_NUM_CORES=$task.cpus
+
     for sample_fasta in $samples;
     do
         sample_tag=\$(echo "\$sample_fasta" | sed 's/fasta.file.for.//g' | sed 's/.fasta//g')
-        run_gx.py --fasta ./\$sample_fasta --out-dir ./ --gx-db $db_path --tax-id "${tax_id}"
+
+        run_gx.py \\
+            --fasta ./\$sample_fasta \\
+            --out-dir ./ \\
+            --gx-db $db_path \\
+            --tax-id "${tax_id}" \\
+            --phone-home-label github/$workflow.manifest.name
 
         mv "\${sample_fasta%.fasta}.${tax_id}.fcs_gx_report.txt" "\${sample_tag}.fcs_gx_report.txt"
         mv "\${sample_fasta%.fasta}.${tax_id}.taxonomy.rpt" "\${sample_tag}.taxonomy.rpt"
@@ -39,7 +47,7 @@ process NCBI_FCS_GX_SCREEN_SAMPLES {
     """
 
     stub:
-    def VERSION = 0.5
+    def VERSION = '0.5.4'
     """
     for sample_fasta in $samples;
     do
