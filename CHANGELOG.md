@@ -14,7 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 1. Fixed a bug where `intron_length_distribution` was used instead of `cds_length_distribution` when creating the CDS Length Distribution Graph [#95](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/95)
 2. Fixed a bug where 'Subsequent pipeline modules are skipped.' was printed in the `report.html` even when `contamination_stops_pipeline` was set to false
-3. Changed default branch name from `master` to `main` in nf-core template files
+3. Updated NCBI FCS GX to 0.5.4 [#93](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/93)
+4. Now NCBI FCS GX module uses all the cores available from the Nextflow task
+5. Changed default branch name from `master` to `main` in nf-core template files
 
 ### `Dependencies`
 
