@@ -19,6 +19,7 @@ lint:
   nextflow_config:
     - manifest.name
     - manifest.homePage
+  multiqc_config: False
   template_strings: False
   multiqc_config: False
 nf_core_version: 2.14.1

@@ -1,4 +1,34 @@
-# plant-food-research-open/assemblyqc: Usage
+# plant-food-research-open/assemblyqc: Usage<!-- omit in toc -->
+
+- [Assemblysheet input](#assemblysheet-input)
+- [External databases](#external-databases)
+  - [NCBI FCS GX database](#ncbi-fcs-gx-database)
+  - [Kraken2](#kraken2)
+  - [BUSCO](#busco)
+- [Other parameters](#other-parameters)
+  - [Assemblathon stats](#assemblathon-stats)
+  - [NCBI FCS GX](#ncbi-fcs-gx)
+  - [BUSCO](#busco-1)
+  - [TIDK](#tidk)
+  - [HiC](#hic)
+  - [Synteny analysis](#synteny-analysis)
+  - [Merqury K-mer analysis](#merqury-k-mer-analysis)
+- [Minimum System Requirements](#minimum-system-requirements)
+- [Running the pipeline](#running-the-pipeline)
+  - [Updating the pipeline](#updating-the-pipeline)
+  - [Reproducibility](#reproducibility)
+- [Core Nextflow arguments](#core-nextflow-arguments)
+  - [`-profile`](#-profile)
+  - [`-resume`](#-resume)
+  - [`-c`](#-c)
+- [Custom configuration](#custom-configuration)
+  - [Resource requests](#resource-requests)
+  - [Custom Containers](#custom-containers)
+  - [Custom Tool Arguments](#custom-tool-arguments)
+  - [nf-core/configs](#nf-coreconfigs)
+- [Azure Resource Requests](#azure-resource-requests)
+- [Running in the background](#running-in-the-background)
+- [Nextflow memory requirements](#nextflow-memory-requirements)
 
 ## Assemblysheet input
 
@@ -94,6 +124,13 @@ See following assemblysheet examples for MERQURY analysis.
 - [assemblysheet - phased2x with parent reads](../tests/merqury/phased2x.mp/assemblysheet.csv)
 
 The data for these examples comes from: [umd.edu](https://obj.umiacs.umd.edu/marbl_publications/triobinning/index.html)
+
+## Minimum System Requirements
+
+All the modules have been tested to work on a single machine with 10 CPUs + 30 GBs of memory, except NCBI FCS GX and Kraken2. Their minimum requirements are:
+
+- NCBI FCS GX: 1 CPU + 512 GBs memory
+- Kraken2: 1 CPU + 200 GBs memory
 
 ## Running the pipeline
 
