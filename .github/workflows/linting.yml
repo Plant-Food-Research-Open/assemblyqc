@@ -62,6 +62,7 @@ jobs:
             --key files_unchanged \
             --key merge_markers \
             --key modules_config \
+            --key multiqc_config \
             --key nextflow_config \
             --key nfcore_yml \
             --key pipeline_name_conventions \
