@@ -8,11 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Added`
 
 1. Created summary presence/absence tables for NCBI FCS modules [#88](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/88)
+2. Added min. system requirements [#91](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/91)
 
 ### `Fixed`
 
 1. Fixed a bug where `intron_length_distribution` was used instead of `cds_length_distribution` when creating the CDS Length Distribution Graph [#95](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/95)
 2. Fixed a bug where 'Subsequent pipeline modules are skipped.' was printed in the `report.html` even when `contamination_stops_pipeline` was set to false
+3. Changed default branch name from `master` to `main` in nf-core template files
 
 ### `Dependencies`
 
