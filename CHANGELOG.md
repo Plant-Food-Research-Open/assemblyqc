@@ -16,7 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 2. Fixed a bug where 'Subsequent pipeline modules are skipped.' was printed in the `report.html` even when `contamination_stops_pipeline` was set to false
 3. Updated NCBI FCS GX to 0.5.4 [#93](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/93)
 4. Now NCBI FCS GX module uses all the cores available from the Nextflow task
-5. Changed default branch name from `master` to `main` in nf-core template files
+5. Fixed a bug which caused `PLOTSR` to fail for certain assembly names [#102](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/102)
+6. Changed default branch name from `master` to `main` in nf-core template files
 
 ### `Dependencies`
 

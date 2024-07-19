@@ -342,7 +342,7 @@ workflow FASTA_SYNTENY {
                                         | groupTuple
                                         | map { meta, syri, fastas ->
                                             def fasta_list          = fastas.flatten()
-                                            def syri_tags           = syri.collect { it.name.replace('syri.out', '').tokenize('.on.') }.flatten().unique()
+                                            def syri_tags           = syri.collect { it.name.replace('syri.out', '').split(/\.on\./).toList() }.flatten().unique()
                                             def proposed_order      = plotsr_assembly_order ? plotsr_assembly_order.tokenize(' ') : syri_tags.sort(false)
 
                                             def available_tags      = []
