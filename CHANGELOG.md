@@ -3,12 +3,13 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v2.1.0+dev - [19-July-2024]
+## v2.1.0+dev - [22-July-2024]
 
 ### `Added`
 
 1. Created summary presence/absence tables for NCBI FCS modules [#88](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/88)
 2. Added min. system requirements [#91](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/91)
+3. Updated modules: `UNTAR`, `MERYL_COUNT`, `GUNZIP`, `MINIMAP2_ALIGN`
 
 ### `Fixed`
 
