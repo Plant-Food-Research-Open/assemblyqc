@@ -4,4 +4,6 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - bioconda::multiqc=1.21
+  - conda-forge::grep=3.11
+  - conda-forge::sed=4.8
+  - conda-forge::tar=1.34
