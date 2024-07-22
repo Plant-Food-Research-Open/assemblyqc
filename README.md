@@ -159,6 +159,7 @@ The pipeline uses nf-core modules contributed by following authors:
 <a href="https://github.com/heuermh"><img src="https://github.com/heuermh.png" width="50" height="50"></a>
 <a href="https://github.com/grst"><img src="https://github.com/grst.png" width="50" height="50"></a>
 <a href="https://github.com/friederikehanssen"><img src="https://github.com/friederikehanssen.png" width="50" height="50"></a>
+<a href="https://github.com/fellen31"><img src="https://github.com/fellen31.png" width="50" height="50"></a>
 <a href="https://github.com/felixkrueger"><img src="https://github.com/felixkrueger.png" width="50" height="50"></a>
 <a href="https://github.com/erikrikarddaniel"><img src="https://github.com/erikrikarddaniel.png" width="50" height="50"></a>
 <a href="https://github.com/edmundmiller"><img src="https://github.com/edmundmiller.png" width="50" height="50"></a>

@@ -33,6 +33,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Deprecated`
 
 1. Changed default branch name from `master` to `main` in nf-core template files
+2. Moved `version_check.sh` to `.github/version_checks.sh`
+3. Moved `docs/contributors.sh` to `.github/contributors.sh`
 
 ## v2.0.0 - [04-June-2024]
 

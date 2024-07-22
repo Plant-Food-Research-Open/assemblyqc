@@ -17,7 +17,7 @@ repos:
         name: Version checks
         language: system
         entry: >
-          ./version_check.sh
+          .github/version_checks.sh
         always_run: true
         fail_fast: true
         pass_filenames: false
