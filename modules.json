@@ -167,7 +167,7 @@
                     },
                     "gunzip": {
                         "branch": "master",
-                        "git_sha": "3a5fef109d113b4997c9822198664ca5f2716208",
+                        "git_sha": "4e5f4687318f24ba944a13609d3ea6ebd890737d",
                         "installed_by": ["modules"]
                     },
                     "merqury/merqury": {
@@ -177,7 +177,7 @@
                     },
                     "meryl/count": {
                         "branch": "master",
-                        "git_sha": "1c72d95476a2edf92ee4f08dc4321b3c50cd3c13",
+                        "git_sha": "2910aa889fd3497727d87854148a0e0aa1105da3",
                         "installed_by": ["modules"]
                     },
                     "meryl/unionsum": {
@@ -187,7 +187,7 @@
                     },
                     "minimap2/align": {
                         "branch": "master",
-                        "git_sha": "72e277acfd9e61a9f1368eafb4a9e83f5bcaa9f5",
+                        "git_sha": "e83b347b3e674de6bb1bb7bdf9b2674768c8e0fe",
                         "installed_by": ["modules"]
                     },
                     "seqkit/rmdup": {
@@ -232,7 +232,7 @@
                     },
                     "untar": {
                         "branch": "master",
-                        "git_sha": "5caf7640a9ef1d18d765d55339be751bb0969dfa",
+                        "git_sha": "4e5f4687318f24ba944a13609d3ea6ebd890737d",
                         "installed_by": ["modules"]
                     }
                 }
