@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 1. Created summary presence/absence tables for NCBI FCS modules [#88](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/88)
 2. Added min. system requirements [#91](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/91)
 3. Updated modules: `UNTAR`, `MERYL_COUNT`, `GUNZIP`, `MINIMAP2_ALIGN`
+4. Added a test to verify the fix for the bug which resulted in a pipeline crash for assemblies without LTRs
+5. Locally patched `FASTA_LTRRETRIEVER_LAI` sub-workflow to emit the `LTRRETRIEVER_LTRRETRIEVER` log as one of the outputs
+6. Locally patched `LTRRETRIEVER_LTRRETRIEVER` module to not fail when `LTR_retriever` exits with an error
 
 ### `Fixed`
 
@@ -18,7 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 3. Updated NCBI FCS GX to 0.5.4 [#93](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/93)
 4. Now NCBI FCS GX module uses all the cores available from the Nextflow task
 5. Fixed a bug which caused `PLOTSR` to fail for certain assembly names [#102](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/102)
-6. Changed default branch name from `master` to `main` in nf-core template files
+6. Now `LTRRETRIEVER_LTRRETRIEVER` does not crash when the input assembly does not contain any LTRs [#92](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/92)
+7. Now `LTRRETRIEVER_LTRRETRIEVER` does not crash when the input assembly is not writable [#98](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/98)
 
 ### `Dependencies`
 
@@ -26,6 +30,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 2. nf-validation@1.1.3
 
 ### `Deprecated`
+
+1. Changed default branch name from `master` to `main` in nf-core template files
 
 ## v2.0.0 - [04-June-2024]
 
