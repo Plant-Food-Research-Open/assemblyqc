@@ -14,7 +14,7 @@
                     
                 ],
                 "2": [
-                    "versions.yml:md5,05cf55e24c29c2661a2b9301d3c7c2a0"
+                    "versions.yml:md5,0c85b0fa3d80a73807daf08b7e4c51f6"
                 ],
                 "error": [
                     
@@ -28,15 +28,15 @@
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,05cf55e24c29c2661a2b9301d3c7c2a0"
+                    "versions.yml:md5,0c85b0fa3d80a73807daf08b7e4c51f6"
                 ]
             }
         ],
         "meta": {
             "nf-test": "0.8.4",
-            "nextflow": "24.04.1"
+            "nextflow": "24.04.3"
         },
-        "timestamp": "2024-05-25T21:30:50.653501"
+        "timestamp": "2024-07-22T14:11:06.589243"
     },
     "homo_sapiens - genome - stub": {
         "content": [
@@ -53,7 +53,7 @@
                     
                 ],
                 "2": [
-                    "versions.yml:md5,05cf55e24c29c2661a2b9301d3c7c2a0"
+                    "versions.yml:md5,0c85b0fa3d80a73807daf08b7e4c51f6"
                 ],
                 "error": [
                     
@@ -67,14 +67,14 @@
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,05cf55e24c29c2661a2b9301d3c7c2a0"
+                    "versions.yml:md5,0c85b0fa3d80a73807daf08b7e4c51f6"
                 ]
             }
         ],
         "meta": {
             "nf-test": "0.8.4",
-            "nextflow": "24.04.1"
+            "nextflow": "24.04.3"
         },
-        "timestamp": "2024-05-25T21:22:31.028411"
+        "timestamp": "2024-07-22T14:11:12.583161"
     }
 }

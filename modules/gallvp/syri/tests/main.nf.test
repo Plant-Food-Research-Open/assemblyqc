@@ -6,26 +6,27 @@ nextflow_process {
     process "SYRI"
 
     tag "modules"
-    tag "modules_nfcore"
+    tag "modules_gallvp"
     tag "syri"
     tag "minimap2/align"
 
     setup {
         run("MINIMAP2_ALIGN") {
-            script "modules/pfr/minimap2/align/main.nf"
+            script "../../minimap2/align"
             process {
                 """
                 input[0] = [
                     [id: 'test'],
-                    file(params.test_data['homo_sapiens']['genome']['genome_fasta'], checkIfExists: true)
+                    file(params.modules_testdata_base_path + 'genomics/homo_sapiens/genome/genome.fasta', checkIfExists: true)
                 ]
                 input[1] = [
                     [id: 'reference'],
-                    file(params.test_data['homo_sapiens']['genome']['genome2_fasta'], checkIfExists: true)
+                    file(params.modules_testdata_base_path + 'genomics/homo_sapiens/genome/genome2.fasta', checkIfExists: true)
                 ]
                 input[2] = true     // bam_format
-                input[3] = false    // cigar_paf_format
-                input[4] = false    // cigar_bam
+                input[3] = 'bai'    // bam_index_extension
+                input[4] = false    // cigar_paf_format
+                input[5] = false    // cigar_bam
                 """
             }
         }
@@ -37,8 +38,8 @@ nextflow_process {
             process {
                 """
                 input[0] = MINIMAP2_ALIGN.out.bam
-                input[1] = file(params.test_data['homo_sapiens']['genome']['genome_fasta'], checkIfExists: true)
-                input[2] = file(params.test_data['homo_sapiens']['genome']['genome2_fasta'], checkIfExists: true)
+                input[1] = file(params.modules_testdata_base_path + 'genomics/homo_sapiens/genome/genome.fasta', checkIfExists: true)
+                input[2] = file(params.modules_testdata_base_path + 'genomics/homo_sapiens/genome/genome2.fasta', checkIfExists: true)
                 input[3] = 'B'
                 """
             }
@@ -61,8 +62,8 @@ nextflow_process {
             process {
                 """
                 input[0] = MINIMAP2_ALIGN.out.bam
-                input[1] = file(params.test_data['homo_sapiens']['genome']['genome_fasta'], checkIfExists: true)
-                input[2] = file(params.test_data['homo_sapiens']['genome']['genome2_fasta'], checkIfExists: true)
+                input[1] = file(params.modules_testdata_base_path + 'genomics/homo_sapiens/genome/genome.fasta', checkIfExists: true)
+                input[2] = file(params.modules_testdata_base_path + 'genomics/homo_sapiens/genome/genome2.fasta', checkIfExists: true)
                 input[3] = 'B'
                 """
             }

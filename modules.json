@@ -2,6 +2,17 @@
     "name": "plant-food-research-open/assemblyqc",
     "homePage": "https://github.com/plant-food-research-open/assemblyqc",
     "repos": {
+        "https://github.com/GallVp/nxf-components.git": {
+            "modules": {
+                "gallvp": {
+                    "syri": {
+                        "branch": "main",
+                        "git_sha": "836bb223521eeaa08d65c1b7f4b82be1272a1964",
+                        "installed_by": ["modules"]
+                    }
+                }
+            }
+        },
         "https://github.com/PlantandFoodResearch/nxf-modules.git": {
             "modules": {
                 "pfr": {
@@ -104,11 +115,6 @@
                         "branch": "main",
                         "git_sha": "84f31d4be03e2ae6bee8e0b9fdea466be8e997bb",
                         "installed_by": ["gff3_gt_gff3_gff3validator_stat"]
-                    },
-                    "syri": {
-                        "branch": "main",
-                        "git_sha": "295e1d8666c746cb05e79563393035e81c9739fc",
-                        "installed_by": ["modules"]
                     }
                 }
             },

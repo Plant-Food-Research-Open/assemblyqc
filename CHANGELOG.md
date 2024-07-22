@@ -13,16 +13,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 4. Added a test to verify the fix for the bug which resulted in a pipeline crash for assemblies without LTRs
 5. Locally patched `FASTA_LTRRETRIEVER_LAI` sub-workflow to emit the `LTRRETRIEVER_LTRRETRIEVER` log as one of the outputs
 6. Locally patched `LTRRETRIEVER_LTRRETRIEVER` module to not fail when `LTR_retriever` exits with an error
+7. Updated NCBI FCS GX to 0.5.4 [#93](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/93)
+8. Updated `SYRI` to 1.7.0 [#104](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/104)
 
 ### `Fixed`
 
 1. Fixed a bug where `intron_length_distribution` was used instead of `cds_length_distribution` when creating the CDS Length Distribution Graph [#95](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/95)
 2. Fixed a bug where 'Subsequent pipeline modules are skipped.' was printed in the `report.html` even when `contamination_stops_pipeline` was set to false
-3. Updated NCBI FCS GX to 0.5.4 [#93](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/93)
-4. Now NCBI FCS GX module uses all the cores available from the Nextflow task
-5. Fixed a bug which caused `PLOTSR` to fail for certain assembly names [#102](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/102)
-6. Now `LTRRETRIEVER_LTRRETRIEVER` does not crash when the input assembly does not contain any LTRs [#92](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/92)
-7. Now `LTRRETRIEVER_LTRRETRIEVER` does not crash when the input assembly is not writable [#98](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/98)
+3. Now NCBI FCS GX module uses all the cores available from the Nextflow task
+4. Fixed a bug which caused `PLOTSR` to fail for certain assembly names [#102](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/102)
+5. Now `LTRRETRIEVER_LTRRETRIEVER` does not crash when the input assembly does not contain any LTRs [#92](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/92)
+6. Now `LTRRETRIEVER_LTRRETRIEVER` does not crash when the input assembly is not writable [#98](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/98)
 
 ### `Dependencies`
 

@@ -13,7 +13,7 @@ include { CIRCOS                        } from '../../modules/local/circos'
 include { LINEARSYNTENY                 } from '../../modules/local/linearsynteny'
 include { CUSTOM_RELABELFASTA           } from '../../modules/pfr/custom/relabelfasta/main'
 include { MINIMAP2_ALIGN                } from '../../modules/nf-core/minimap2/align/main'
-include { SYRI                          } from '../../modules/pfr/syri/main'
+include { SYRI                          } from '../../modules/gallvp/syri/main'
 include { PLOTSR                        } from '../../modules/pfr/plotsr/main'
 
 workflow FASTA_SYNTENY {

@@ -6,4 +6,4 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - "bioconda::syri=1.6.3"
+  - "bioconda::syri=1.7.0"
