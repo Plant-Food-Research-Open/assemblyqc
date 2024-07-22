@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v2.1.0+dev - [18-July-2024]
+## v2.1.0+dev - [22-July-2024]
 
 ### `Added`
 
@@ -13,7 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Fixed`
 
-1. Now LTR Retriever does not crash when the input assembly does not contain any LTRs [#92](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/92)
+1. Now `LTRRETRIEVER_LTRRETRIEVER` does not crash when the input assembly does not contain any LTRs [#92](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/92)
+2. Now `LTRRETRIEVER_LTRRETRIEVER` does not crash when the input assembly is not writable [#98](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/98)
 
 ### `Dependencies`
 
