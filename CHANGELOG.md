@@ -11,11 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 2. Added min. system requirements [#91](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/91)
 3. Updated modules: `UNTAR`, `MERYL_COUNT`, `GUNZIP`, `MINIMAP2_ALIGN`
 4. Added a test to verify the fix for the bug which resulted in a pipeline crash for assemblies without LTRs
-5. Locally patched `FASTA_LTRRETRIEVER_LAI` sub-workflow to emit the `LTRRETRIEVER_LTRRETRIEVER` log as one of the outputs
-6. Locally patched `LTRRETRIEVER_LTRRETRIEVER` module to not fail when `LTR_retriever` exits with an error
-7. Updated NCBI FCS GX to 0.5.4 [#93](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/93)
-8. Updated `SYRI` to 1.7.0 [#104](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/104)
-9. Added a script to automatically check for updates on GitHub/GitLab and post issues
+5. Updated NCBI FCS GX to 0.5.4 [#93](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/93)
+6. Updated `SYRI` to 1.7.0 [#104](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/104)
+7. Added a script to automatically check for updates on GitHub/GitLab and post issues
 
 ### `Fixed`
 
