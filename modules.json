@@ -5,10 +5,54 @@
         "https://github.com/GallVp/nxf-components.git": {
             "modules": {
                 "gallvp": {
+                    "cat/cat": {
+                        "branch": "main",
+                        "git_sha": "490f8ab54c632d84f99edd6f208305ac5e283ab3",
+                        "installed_by": ["fasta_ltrretriever_lai"]
+                    },
+                    "custom/restoregffids": {
+                        "branch": "main",
+                        "git_sha": "490f8ab54c632d84f99edd6f208305ac5e283ab3",
+                        "installed_by": ["fasta_ltrretriever_lai"]
+                    },
+                    "custom/shortenfastaids": {
+                        "branch": "main",
+                        "git_sha": "490f8ab54c632d84f99edd6f208305ac5e283ab3",
+                        "installed_by": ["fasta_ltrretriever_lai"]
+                    },
+                    "ltrfinder": {
+                        "branch": "main",
+                        "git_sha": "db7fb043c5557cf06a49a1edbed16e282a7dffb2",
+                        "installed_by": ["fasta_ltrretriever_lai"]
+                    },
+                    "ltrharvest": {
+                        "branch": "main",
+                        "git_sha": "db7fb043c5557cf06a49a1edbed16e282a7dffb2",
+                        "installed_by": ["fasta_ltrretriever_lai"]
+                    },
+                    "ltrretriever/lai": {
+                        "branch": "main",
+                        "git_sha": "490f8ab54c632d84f99edd6f208305ac5e283ab3",
+                        "installed_by": ["fasta_ltrretriever_lai"]
+                    },
+                    "ltrretriever/ltrretriever": {
+                        "branch": "main",
+                        "git_sha": "490f8ab54c632d84f99edd6f208305ac5e283ab3",
+                        "installed_by": ["fasta_ltrretriever_lai"]
+                    },
                     "syri": {
                         "branch": "main",
                         "git_sha": "836bb223521eeaa08d65c1b7f4b82be1272a1964",
                         "installed_by": ["modules"]
+                    }
+                }
+            },
+            "subworkflows": {
+                "gallvp": {
+                    "fasta_ltrretriever_lai": {
+                        "branch": "main",
+                        "git_sha": "490f8ab54c632d84f99edd6f208305ac5e283ab3",
+                        "installed_by": ["subworkflows"]
                     }
                 }
             }
@@ -36,25 +80,10 @@
                         "git_sha": "d158062346649b5d55bccef77f4bbd0468760aff",
                         "installed_by": ["fastq_bwa_mem_samblaster"]
                     },
-                    "cat/cat": {
-                        "branch": "main",
-                        "git_sha": "10b046eaac396f279c08e7e2bb067482ccd9c74e",
-                        "installed_by": ["fasta_ltrretriever_lai"]
-                    },
                     "custom/relabelfasta": {
                         "branch": "main",
                         "git_sha": "0421bdeb1d7a71dce12e0af7dc18aea26e548074",
                         "installed_by": ["modules"]
-                    },
-                    "custom/restoregffids": {
-                        "branch": "main",
-                        "git_sha": "da7a50af5eaac9601e23f33e00bf24e61f9c27ab",
-                        "installed_by": ["fasta_ltrretriever_lai"]
-                    },
-                    "custom/shortenfastaids": {
-                        "branch": "main",
-                        "git_sha": "e9ec2e4c48ead3d760c8e13950c568c19ae86b8b",
-                        "installed_by": ["fasta_ltrretriever_lai"]
                     },
                     "gffread": {
                         "branch": "main",
@@ -75,26 +104,6 @@
                         "branch": "main",
                         "git_sha": "ffd39a616c84c814fdfb2a865e9fbbb06e5343d9",
                         "installed_by": ["gff3_gt_gff3_gff3validator_stat", "modules"]
-                    },
-                    "ltrfinder": {
-                        "branch": "main",
-                        "git_sha": "10b046eaac396f279c08e7e2bb067482ccd9c74e",
-                        "installed_by": ["fasta_ltrretriever_lai"]
-                    },
-                    "ltrharvest": {
-                        "branch": "main",
-                        "git_sha": "10b046eaac396f279c08e7e2bb067482ccd9c74e",
-                        "installed_by": ["fasta_ltrretriever_lai"]
-                    },
-                    "ltrretriever/lai": {
-                        "branch": "main",
-                        "git_sha": "10b046eaac396f279c08e7e2bb067482ccd9c74e",
-                        "installed_by": ["fasta_ltrretriever_lai"]
-                    },
-                    "ltrretriever/ltrretriever": {
-                        "branch": "main",
-                        "git_sha": "10b046eaac396f279c08e7e2bb067482ccd9c74e",
-                        "installed_by": ["fasta_ltrretriever_lai"]
                     },
                     "merqury/hapmers": {
                         "branch": "main",
@@ -123,11 +132,6 @@
                     "fasta_gxf_busco_plot": {
                         "branch": "main",
                         "git_sha": "0e4afaff4964485d2d93f1115c5254a99765b9c1",
-                        "installed_by": ["subworkflows"]
-                    },
-                    "fasta_ltrretriever_lai": {
-                        "branch": "main",
-                        "git_sha": "e9ec2e4c48ead3d760c8e13950c568c19ae86b8b",
                         "installed_by": ["subworkflows"]
                     },
                     "fastq_bwa_mem_samblaster": {
