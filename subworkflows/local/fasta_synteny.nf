@@ -11,10 +11,10 @@ include { RELABELFASTALENGTH            } from '../../modules/local/relabelfasta
 include { GENERATEKARYOTYPE             } from '../../modules/local/generatekaryotype'
 include { CIRCOS                        } from '../../modules/local/circos'
 include { LINEARSYNTENY                 } from '../../modules/local/linearsynteny'
-include { CUSTOM_RELABELFASTA           } from '../../modules/pfr/custom/relabelfasta/main'
+include { CUSTOM_RELABELFASTA           } from '../../modules/gallvp/custom/relabelfasta/main'
 include { MINIMAP2_ALIGN                } from '../../modules/nf-core/minimap2/align/main'
 include { SYRI                          } from '../../modules/gallvp/syri/main'
-include { PLOTSR                        } from '../../modules/pfr/plotsr/main'
+include { PLOTSR                        } from '../../modules/gallvp/plotsr/main'
 
 workflow FASTA_SYNTENY {
     take:

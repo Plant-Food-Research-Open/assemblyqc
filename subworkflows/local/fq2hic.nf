@@ -1,14 +1,14 @@
-include { FASTQ_TRIM_FASTP_FASTQC   } from '../nf-core/fastq_trim_fastp_fastqc/main'
-include { FASTQ_BWA_MEM_SAMBLASTER  } from '../pfr/fastq_bwa_mem_samblaster/main'
-include { SEQKIT_SORT               } from '../../modules/nf-core/seqkit/sort/main'
-include { HICQC                     } from '../../modules/local/hicqc'
-include { MAKEAGPFROMFASTA          } from '../../modules/local/makeagpfromfasta'
-include { AGP2ASSEMBLY              } from '../../modules/local/agp2assembly'
-include { ASSEMBLY2BEDPE            } from '../../modules/local/assembly2bedpe'
-include { MATLOCK_BAM2_JUICER       } from '../../modules/local/matlock_bam2_juicer'
-include { JUICER_SORT               } from '../../modules/local/juicer_sort'
-include { RUNASSEMBLYVISUALIZER     } from '../../modules/local/runassemblyvisualizer'
-include { HIC2HTML                  } from '../../modules/local/hic2html'
+include { FASTQ_FASTQC_UMITOOLS_FASTP   } from '../nf-core/fastq_fastqc_umitools_fastp/main'
+include { FASTQ_BWA_MEM_SAMBLASTER      } from '../gallvp/fastq_bwa_mem_samblaster/main'
+include { SEQKIT_SORT                   } from '../../modules/nf-core/seqkit/sort/main'
+include { HICQC                         } from '../../modules/local/hicqc'
+include { MAKEAGPFROMFASTA              } from '../../modules/local/makeagpfromfasta'
+include { AGP2ASSEMBLY                  } from '../../modules/local/agp2assembly'
+include { ASSEMBLY2BEDPE                } from '../../modules/local/assembly2bedpe'
+include { MATLOCK_BAM2_JUICER           } from '../../modules/local/matlock_bam2_juicer'
+include { JUICER_SORT                   } from '../../modules/local/juicer_sort'
+include { RUNASSEMBLYVISUALIZER         } from '../../modules/local/runassemblyvisualizer'
+include { HIC2HTML                      } from '../../modules/local/hic2html'
 
 workflow FQ2HIC {
     take:
@@ -20,18 +20,22 @@ workflow FQ2HIC {
     main:
     ch_versions                     = Channel.empty()
 
-    // SUBWORKFLOW: FASTQ_TRIM_FASTP_FASTQC
-    FASTQ_TRIM_FASTP_FASTQC(
+    // SUBWORKFLOW: FASTQ_FASTQC_UMITOOLS_FASTP
+    FASTQ_FASTQC_UMITOOLS_FASTP(
         reads,
-        [],
-        true,                       // val_save_trimmed_fail
-        false,                      // val_save_merged
+        hic_skip_fastqc,
+        false,                      // with_umi
+        true,                       // skip_umi_extract
+        0,                          // umi_discard_read
         hic_skip_fastp,
-        hic_skip_fastqc
+        [],                         // adapter_fasta
+        true,                       // save_trimmed_fail
+        false,                      // save_merged
+        1                           // min_trimmed_reads
     )
 
-    ch_trim_reads                   = FASTQ_TRIM_FASTP_FASTQC.out.reads
-    ch_versions                     = ch_versions.mix(FASTQ_TRIM_FASTP_FASTQC.out.versions)
+    ch_trim_reads                   = FASTQ_FASTQC_UMITOOLS_FASTP.out.reads
+    ch_versions                     = ch_versions.mix(FASTQ_FASTQC_UMITOOLS_FASTP.out.versions)
 
     // MODULE: SEQKIT_SORT
     SEQKIT_SORT ( ref )

@@ -13,7 +13,6 @@ lint:
     - docs/README.md
     - .github/PULL_REQUEST_TEMPLATE.md
     - .github/CONTRIBUTING.md
-    - .github/workflows/linting.yml
     - .github/workflows/branch.yml
     - LICENSE
   nextflow_config:
