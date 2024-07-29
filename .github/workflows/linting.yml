@@ -51,27 +51,7 @@ jobs:
           GITHUB_COMMENTS_URL: ${{ github.event.pull_request.comments_url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_PR_COMMIT: ${{ github.event.pull_request.head.sha }}
-        run: |
-          nf-core -l lint_log.txt lint \
-            --dir ${GITHUB_WORKSPACE} \
-            --markdown lint_results.md \
-            --key actions_ci \
-            --key actions_schema_validation \
-            --key base_config \
-            --key files_exist \
-            --key files_unchanged \
-            --key merge_markers \
-            --key modules_config \
-            --key multiqc_config \
-            --key nextflow_config \
-            --key nfcore_yml \
-            --key pipeline_name_conventions \
-            --key pipeline_todos \
-            --key readme \
-            --key schema_description \
-            --key schema_lint \
-            --key schema_params \
-            --key system_exit
+        run: nf-core -l lint_log.txt lint --dir ${GITHUB_WORKSPACE} --markdown lint_results.md
 
       - name: Save PR number
         if: ${{ always() }}
