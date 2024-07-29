@@ -1,4 +1,4 @@
-include { FASTQ_FASTQC_UMITOOLS_FASTP   } from '../subworkflows/nf-core/fastq_fastqc_umitools_fastp/main'
+include { FASTQ_FASTQC_UMITOOLS_FASTP   } from '../nf-core/fastq_fastqc_umitools_fastp/main'
 include { FASTQ_BWA_MEM_SAMBLASTER      } from '../gallvp/fastq_bwa_mem_samblaster/main'
 include { SEQKIT_SORT                   } from '../../modules/nf-core/seqkit/sort/main'
 include { HICQC                         } from '../../modules/local/hicqc'
