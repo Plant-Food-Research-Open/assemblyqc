@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 1. Created summary presence/absence tables for NCBI FCS modules [#88](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/88)
 2. Added min. system requirements [#91](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/91)
-3. Updated modules: `UNTAR`, `MERYL_COUNT`, `GUNZIP`, `MINIMAP2_ALIGN`
+3. Updated modules: `UNTAR`, `MERYL_COUNT`, `GUNZIP`, `MINIMAP2_ALIGN`, `FASTQC`
 4. Added a test to verify the fix for the bug which resulted in a pipeline crash for assemblies without LTRs
 5. Updated NCBI FCS GX to 0.5.4 [#93](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/93)
 6. Updated `SYRI` to 1.7.0 [#104](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/104)

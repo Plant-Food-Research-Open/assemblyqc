@@ -172,7 +172,7 @@
                     },
                     "fastqc": {
                         "branch": "master",
-                        "git_sha": "285a50500f9e02578d90b3ce6382ea3c30216acd",
+                        "git_sha": "46eca555142d6e597729fcb682adcc791796f514",
                         "installed_by": ["fastq_trim_fastp_fastqc"]
                     },
                     "fcs/fcsadaptor": {
@@ -202,7 +202,7 @@
                     },
                     "minimap2/align": {
                         "branch": "master",
-                        "git_sha": "e83b347b3e674de6bb1bb7bdf9b2674768c8e0fe",
+                        "git_sha": "a33ef9475558c6b8da08c5f522ddaca1ec810306",
                         "installed_by": ["modules"]
                     },
                     "seqkit/rmdup": {
