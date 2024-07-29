@@ -3,6 +3,7 @@
         "content": [
             [
                 "versions.yml:md5,05a74dacbcd6c5906faeca3206f6563f",
+                "versions.yml:md5,4b491828a96bf34cfac8268152ac7a77",
                 "versions.yml:md5,52a98b45c3cf73f9314dbe9b34eca9d8",
                 "versions.yml:md5,5d86cda262f5c21e43738433a2781ebc",
                 "versions.yml:md5,608d746d45680f025562c4be455db461",
@@ -15,9 +16,9 @@
             "nf-test": "0.8.4",
             "nextflow": "24.04.3"
         },
-        "timestamp": "2024-07-23T10:24:39.012122"
+        "timestamp": "2024-07-29T09:23:40.519096"
     },
-    "homo_sapiens - sarscov2 - noltr": {
+    "sarscov2 - fasta - noltr": {
         "content": [
             [
                 
@@ -33,6 +34,7 @@
             ],
             [
                 "versions.yml:md5,05a74dacbcd6c5906faeca3206f6563f",
+                "versions.yml:md5,4b491828a96bf34cfac8268152ac7a77",
                 "versions.yml:md5,52a98b45c3cf73f9314dbe9b34eca9d8",
                 "versions.yml:md5,608d746d45680f025562c4be455db461",
                 "versions.yml:md5,8468404805dddec679524e75b4fa51e8",
@@ -43,12 +45,35 @@
             "nf-test": "0.8.4",
             "nextflow": "24.04.3"
         },
-        "timestamp": "2024-07-23T10:25:08.444634"
+        "timestamp": "2024-07-29T09:24:10.73061"
+    },
+    "homo_sapiens - fasta": {
+        "content": [
+            [
+                "versions.yml:md5,05a74dacbcd6c5906faeca3206f6563f",
+                "versions.yml:md5,4b491828a96bf34cfac8268152ac7a77",
+                "versions.yml:md5,52a98b45c3cf73f9314dbe9b34eca9d8",
+                "versions.yml:md5,5d86cda262f5c21e43738433a2781ebc",
+                "versions.yml:md5,608d746d45680f025562c4be455db461",
+                "versions.yml:md5,8468404805dddec679524e75b4fa51e8",
+                "versions.yml:md5,9b2d5d76add82441b1e950d333e31307",
+                "versions.yml:md5,fb42c6cc5c28b6f9d3384171c7b6b143"
+            ],
+            [
+                
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.3"
+        },
+        "timestamp": "2024-07-29T09:36:15.230271"
     },
     "actinidia_chinensis-genome_1_fasta_gz": {
         "content": [
             [
                 "versions.yml:md5,05a74dacbcd6c5906faeca3206f6563f",
+                "versions.yml:md5,4b491828a96bf34cfac8268152ac7a77",
                 "versions.yml:md5,52a98b45c3cf73f9314dbe9b34eca9d8",
                 "versions.yml:md5,5d86cda262f5c21e43738433a2781ebc",
                 "versions.yml:md5,608d746d45680f025562c4be455db461",
@@ -60,12 +85,13 @@
             "nf-test": "0.8.4",
             "nextflow": "24.04.3"
         },
-        "timestamp": "2024-07-23T10:18:00.012075"
+        "timestamp": "2024-07-29T09:17:04.823488"
     },
     "actinidia_chinensis-genome_1_fasta_gz-with_mono": {
         "content": [
             [
                 "versions.yml:md5,05a74dacbcd6c5906faeca3206f6563f",
+                "versions.yml:md5,4b491828a96bf34cfac8268152ac7a77",
                 "versions.yml:md5,52a98b45c3cf73f9314dbe9b34eca9d8",
                 "versions.yml:md5,5d86cda262f5c21e43738433a2781ebc",
                 "versions.yml:md5,608d746d45680f025562c4be455db461",
@@ -78,7 +104,7 @@
             "nf-test": "0.8.4",
             "nextflow": "24.04.3"
         },
-        "timestamp": "2024-07-23T10:21:18.682603"
+        "timestamp": "2024-07-29T09:20:22.223941"
     },
     "empty_fasta_stub": {
         "content": [
@@ -125,6 +151,7 @@
                 ],
                 "5": [
                     "versions.yml:md5,05a74dacbcd6c5906faeca3206f6563f",
+                    "versions.yml:md5,4b491828a96bf34cfac8268152ac7a77",
                     "versions.yml:md5,52a98b45c3cf73f9314dbe9b34eca9d8",
                     "versions.yml:md5,5d86cda262f5c21e43738433a2781ebc",
                     "versions.yml:md5,608d746d45680f025562c4be455db461",
@@ -173,6 +200,7 @@
                 ],
                 "versions": [
                     "versions.yml:md5,05a74dacbcd6c5906faeca3206f6563f",
+                    "versions.yml:md5,4b491828a96bf34cfac8268152ac7a77",
                     "versions.yml:md5,52a98b45c3cf73f9314dbe9b34eca9d8",
                     "versions.yml:md5,5d86cda262f5c21e43738433a2781ebc",
                     "versions.yml:md5,608d746d45680f025562c4be455db461",
@@ -185,6 +213,6 @@
             "nf-test": "0.8.4",
             "nextflow": "24.04.3"
         },
-        "timestamp": "2024-07-23T10:24:51.320182"
+        "timestamp": "2024-07-29T09:23:53.423404"
     }
 }
