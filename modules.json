@@ -40,6 +40,11 @@
                         "git_sha": "490f8ab54c632d84f99edd6f208305ac5e283ab3",
                         "installed_by": ["fasta_ltrretriever_lai"]
                     },
+                    "seqkit/seq": {
+                        "branch": "main",
+                        "git_sha": "8ec55a2c8e4ce3af070393768f6c2c57f5c34076",
+                        "installed_by": ["fasta_ltrretriever_lai"]
+                    },
                     "syri": {
                         "branch": "main",
                         "git_sha": "836bb223521eeaa08d65c1b7f4b82be1272a1964",
