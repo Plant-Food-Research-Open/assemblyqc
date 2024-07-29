@@ -1,10 +1,11 @@
-include { CUSTOM_SHORTENFASTAIDS    } from '../../../modules/gallvp/custom/shortenfastaids/main'
-include { LTRHARVEST                } from '../../../modules/gallvp/ltrharvest/main'
-include { LTRFINDER                 } from '../../../modules/gallvp/ltrfinder/main'
-include { LTRRETRIEVER_LTRRETRIEVER } from '../../../modules/gallvp/ltrretriever/ltrretriever/main'
-include { CAT_CAT                   } from '../../../modules/gallvp/cat/cat/main'
-include { LTRRETRIEVER_LAI          } from '../../../modules/gallvp/ltrretriever/lai/main'
-include { CUSTOM_RESTOREGFFIDS      } from '../../../modules/gallvp/custom/restoregffids/main'
+include { SEQKIT_SEQ as UNMASK_IF_ANY   } from '../../../modules/gallvp/seqkit/seq/main'
+include { CUSTOM_SHORTENFASTAIDS        } from '../../../modules/gallvp/custom/shortenfastaids/main'
+include { LTRHARVEST                    } from '../../../modules/gallvp/ltrharvest/main'
+include { LTRFINDER                     } from '../../../modules/gallvp/ltrfinder/main'
+include { LTRRETRIEVER_LTRRETRIEVER     } from '../../../modules/gallvp/ltrretriever/ltrretriever/main'
+include { CAT_CAT                       } from '../../../modules/gallvp/cat/cat/main'
+include { LTRRETRIEVER_LAI              } from '../../../modules/gallvp/ltrretriever/lai/main'
+include { CUSTOM_RESTOREGFFIDS          } from '../../../modules/gallvp/custom/restoregffids/main'
 
 workflow FASTA_LTRRETRIEVER_LAI {
 
@@ -24,8 +25,15 @@ workflow FASTA_LTRRETRIEVER_LAI {
                                     // Cater to channel: [ meta2, [] ]
                                     | map { meta2, seqs -> [ meta2.id, seqs ] }
 
+
+    // MODULE: SEQKIT_SEQ as UNMASK_IF_ANY
+    UNMASK_IF_ANY ( ch_fasta )
+
+    ch_unmasked_fasta               = UNMASK_IF_ANY.out.fastx
+    ch_versions                     = ch_versions.mix(UNMASK_IF_ANY.out.versions.first())
+
     // MOUDLE: CUSTOM_SHORTENFASTAIDS
-    CUSTOM_SHORTENFASTAIDS ( ch_fasta )
+    CUSTOM_SHORTENFASTAIDS ( ch_unmasked_fasta )
 
     ch_short_ids_tsv                = CUSTOM_SHORTENFASTAIDS.out.short_ids_tsv
     ch_shortenfastaids_branch       = ch_short_ids_tsv
@@ -36,7 +44,7 @@ workflow FASTA_LTRRETRIEVER_LAI {
 
     ch_short_ids_fasta              = ch_shortenfastaids_branch.nonchange
                                     | join(
-                                        ch_fasta
+                                        ch_unmasked_fasta
                                     )
                                     | map { meta, tsv, fasta -> [ meta, fasta ] }
                                     | mix(

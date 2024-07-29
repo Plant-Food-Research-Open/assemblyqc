@@ -13,6 +13,7 @@ keywords:
   - stats
   - qc
 components:
+  - seqkit/seq
   - custom/shortenfastaids
   - ltrharvest
   - ltrfinder

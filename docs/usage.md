@@ -37,7 +37,7 @@ You will need to create an assemblysheet with information about the assemblies y
 - `tag:` A unique tag which represents the target assembly throughout the pipeline and in the final report. The `tag` and `fasta` file name should not be same, such as `tag.fasta`. This can create file name collisions in the pipeline or result in file overwrite. It is also a good-practice to make all the input files read-only.
 - `fasta:` FASTA file
 - `gff3 [Optional]:` GFF3 annotation file if available
-- `monoploid_ids [Optional]:` A txt file listing the sequence IDs used to calculate LAI in monoploid mode if necessary. If the intent is to run LAI against all the sequences in an assembly, this file can be skipped for that assembly. Soft masked regions are ignored when calculating LAI. The pipeline may fail if all the LTRs are already soft masked.
+- `monoploid_ids [Optional]:` A txt file listing the sequence IDs used to calculate LAI in monoploid mode if necessary. If the intent is to run LAI against all the sequences in an assembly, this file can be skipped for that assembly. Soft masked regions are unmasked when calculating LAI. However, hard masked regions are left as is. The pipeline will fail to calculate LAI if all the LTRs are already hard masked.
 - `synteny_labels [Optional]:` A two column tsv file listing fasta sequence IDs (first column) and their labels for the synteny plots (second column) when performing synteny analysis. If a sequence ID is missing from this file, the corresponding sequence is excluded from the analysis. If `synteny_labels` is not provided for an assembly, that assembly is excluded from the analysis.
 
 See the [Merqury](#merqury-k-mer-analysis) section For description of assemblysheet columns related to k-mer analysis with Merqury.

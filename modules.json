@@ -51,7 +51,7 @@
                 "gallvp": {
                     "fasta_ltrretriever_lai": {
                         "branch": "main",
-                        "git_sha": "490f8ab54c632d84f99edd6f208305ac5e283ab3",
+                        "git_sha": "8ec55a2c8e4ce3af070393768f6c2c57f5c34076",
                         "installed_by": ["subworkflows"]
                     }
                 }
@@ -208,7 +208,7 @@
                     "seqkit/seq": {
                         "branch": "master",
                         "git_sha": "2be41ca2cc780eca4293d1b0dd3850b0b7ac40a3",
-                        "installed_by": ["fasta_explore_search_plot_tidk"]
+                        "installed_by": ["fasta_explore_search_plot_tidk", "fasta_ltrretriever_lai"]
                     },
                     "seqkit/sort": {
                         "branch": "master",
