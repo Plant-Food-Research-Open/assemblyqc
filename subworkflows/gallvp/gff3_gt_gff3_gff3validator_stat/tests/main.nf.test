@@ -1,0 +1,121 @@
+nextflow_workflow {
+
+    name "Test Workflow GFF3_GT_GFF3_GFF3VALIDATOR_STAT"
+    script "../main.nf"
+    workflow "GFF3_GT_GFF3_GFF3VALIDATOR_STAT"
+    config "./nextflow.config"
+
+    tag "subworkflows"
+    tag "subworkflows_gallvp"
+    tag "subworkflows/gff3_gt_gff3_gff3validator_stat"
+    tag "gff3_gt_gff3_gff3validator_stat"
+    tag "gt"
+    tag "gt/gff3"
+    tag "gt/gff3validator"
+    tag "gt/stat"
+    tag "samtools"
+    tag "samtools/faidx"
+
+    test("sarscov2-genome_gff3-all_pass") {
+
+        when {
+            workflow {
+                """
+                input[0] = Channel.of([ [ id:'test' ], // meta map
+                    file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/genome.gff3', checkIfExists: true)
+                ])
+                input[1] = Channel.of([ [ id:'test' ],
+                    file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/genome.fasta', checkIfExists: true)
+                ])
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot(workflow.out).match()}
+            )
+        }
+    }
+
+    test("homo_sapiens-genome_bed-gt_gff3_fail") {
+
+        when {
+            workflow {
+                """
+                input[0] = Channel.of([ [ id:'test' ], // meta map
+                    file(params.modules_testdata_base_path + 'genomics/homo_sapiens/genome/genome.bed', checkIfExists: true)
+                ])
+                input[1] = Channel.of([ [ id:'test' ],
+                    file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/genome.fasta', checkIfExists: true)
+                ])
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot(workflow.out).match()}
+            )
+        }
+    }
+
+    test("sarscov2-genome_gff3-homo_sapiens-genome_fasta-correspondence_fail") {
+
+        when {
+            workflow {
+                """
+                input[0] = Channel.of([ [ id:'test' ], // meta map
+                    file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/genome.gff3', checkIfExists: true)
+                ])
+                input[1] = Channel.of([ [ id:'test' ],
+                    file(params.modules_testdata_base_path + 'genomics/homo_sapiens/genome/genome.fasta', checkIfExists: true)
+                ])
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot(
+                    workflow.out.valid_gff3,
+                    workflow.out.versions).match()
+                },
+                { assert path(workflow.out.log_for_invalid_gff3[0][1]).text.contains('GFF3 file contains identifiers not present in FASTA') }
+            )
+        }
+    }
+
+    test("sarscov2-genome_gff3-test_fasta-correspondence_fail-out_of_bounds") {
+
+        when {
+            workflow {
+                """
+                def test_fasta = new File('genome.fasta')
+                test_fasta.text = '>MT192765.1\\nAGCTAGCT'
+
+                input[0] = Channel.of([ [ id:'test' ], // meta map
+                    file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/genome.gff3', checkIfExists: true)
+                ])
+                input[1] = Channel.of([ [ id:'test' ],
+                    test_fasta.toPath()
+                ])
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot(
+                    workflow.out.valid_gff3,
+                    workflow.out.versions).match()
+                },
+                { assert path(workflow.out.log_for_invalid_gff3[0][1]).text.contains('Coordinates exceed sequence length in GFF3 file') }
+            )
+        }
+    }
+}

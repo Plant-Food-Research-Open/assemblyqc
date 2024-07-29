@@ -1,2 +1,0 @@
-subworkflows/fasta_gxf_busco_plot:
-  - subworkflows/pfr/fasta_gxf_busco_plot/**

@@ -1,5 +1,5 @@
 include { FASTQ_TRIM_FASTP_FASTQC   } from '../nf-core/fastq_trim_fastp_fastqc/main'
-include { FASTQ_BWA_MEM_SAMBLASTER  } from '../pfr/fastq_bwa_mem_samblaster/main'
+include { FASTQ_BWA_MEM_SAMBLASTER  } from '../gallvp/fastq_bwa_mem_samblaster/main'
 include { SEQKIT_SORT               } from '../../modules/nf-core/seqkit/sort/main'
 include { HICQC                     } from '../../modules/local/hicqc'
 include { MAKEAGPFROMFASTA          } from '../../modules/local/makeagpfromfasta'

@@ -25,20 +25,6 @@ insert_final_newline = unset
 trim_trailing_whitespace = unset
 indent_style = unset
 
-# These files are edited and tested upstream in pfr/modules
-[/modules/pfr/**]
-charset = unset
-end_of_line = unset
-insert_final_newline = unset
-trim_trailing_whitespace = unset
-indent_style = unset
-[/subworkflows/pfr/**]
-charset = unset
-end_of_line = unset
-insert_final_newline = unset
-trim_trailing_whitespace = unset
-indent_style = unset
-
 # These files are edited and tested upstream in gallvp/modules
 [/modules/gallvp/**]
 charset = unset

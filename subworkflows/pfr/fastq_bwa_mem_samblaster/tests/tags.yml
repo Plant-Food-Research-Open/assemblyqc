@@ -1,2 +1,0 @@
-subworkflows/fastq_bwa_mem_samblaster:
-  - subworkflows/pfr/fastq_bwa_mem_samblaster/**

@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v2.1.0+dev - [29-July-2024]
+## v2.1.0+dev - [30-July-2024]
 
 ### `Added`
 
@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 1. Changed default branch name from `master` to `main` in nf-core template files
 2. Moved `version_check.sh` to `.github/version_checks.sh`
 3. Moved `docs/contributors.sh` to `.github/contributors.sh`
+4. Removed dependency on <https://github.com/PlantandFoodResearch/nxf-modules.git>
 
 ## v2.0.0 - [04-June-2024]
 
