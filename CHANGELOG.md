@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v2.1.0+dev - [30-July-2024]
+## v2.1.0+dev - [31-July-2024]
 
 ### `Added`
 
@@ -24,10 +24,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 5. Now `LTRRETRIEVER_LTRRETRIEVER` does not crash when the input assembly does not contain any LTRs [#92](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/92)
 6. Now `LTRRETRIEVER_LTRRETRIEVER` does not crash when the input assembly is not writable [#98](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/98)
 7. Now soft masked regions are unmasked before computing LAI [#117](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/117)
+8. Changed `NextFlow` to `Nextflow`
+9. Updated citation to Bioinformatics
 
 ### `Dependencies`
 
-1. NextFlow!>=23.04.0
+1. Nextflow!>=23.04.0
 2. nf-validation@1.1.3
 
 ### `Deprecated`
@@ -37,6 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 3. Moved `docs/contributors.sh` to `.github/contributors.sh`
 4. Removed dependency on <https://github.com/PlantandFoodResearch/nxf-modules.git>
 5. Replaced `nf-core/fastq_trim_fastp_fastqc` with `nf-core/fastq_fastqc_umitools_fastp` which has nf-test unit tests
+6. Removed version check on README.md
 
 ## v2.0.0 - [04-June-2024]
 
@@ -72,11 +75,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 8. Updated `FASTA_LTRRETRIEVER_LAI` to fix a pipeline crash when `ch_monoploid_seqs` was `[ meta, [] ]` [#83](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/83)
 9. Improved input assembly documentation [#86](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/86)
 10. Added assembly tag to synteny warning message regarding missing `synteny_labels` file
-11. Now copying files in `NCBI_FCS_GX_SETUP_SAMPLE` rather than symlinking in an attempt to support NextFlow Fusion
+11. Now copying files in `NCBI_FCS_GX_SETUP_SAMPLE` rather than symlinking in an attempt to support Nextflow Fusion
 
 ### `Dependencies`
 
-1. NextFlow!>=23.04.0
+1. Nextflow!>=23.04.0
 2. nf-validation@1.1.3
 
 ### `Deprecated`
@@ -115,7 +118,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Dependencies`
 
-1. NextFlow!>=23.04.0
+1. Nextflow!>=23.04.0
 2. nf-validation@1.1.3
 
 ### `Deprecated`
@@ -165,7 +168,7 @@ For a ~600 MB assembly, EDTA (without sensitive flag) takes ~25 hours of compute
 ## v1.0.1 [07-Sep-2023]
 
 1. Now pipeline timeline, report, and trace are enabled by default.
-2. Included `procps` package where needed to allow NextFlow to collect system statistics.
+2. Included `procps` package where needed to allow Nextflow to collect system statistics.
 
 ## v1 [25-Jul-2023]
 
@@ -257,7 +260,7 @@ Same as v1rc6c
 
 ## v0.10.4 [16-May-2023]
 
-1. Moved the main workflow into `workflows/assembly_qc.nf` so that it can be imported by other NextFlow pipelines.
+1. Moved the main workflow into `workflows/assembly_qc.nf` so that it can be imported by other Nextflow pipelines.
 2. Fixed a bug in synteny due to which the pipeline did not resume properly sometimes.
 3. The included binaries now have unique versions to avoid collision with binaries with same names already present on local PATH.
 4. Now using a unique name for the conda environment to have better interoperability across pipelines.

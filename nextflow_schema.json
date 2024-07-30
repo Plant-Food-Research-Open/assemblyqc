@@ -2,7 +2,7 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "$id": "https://raw.githubusercontent.com/plant-food-research-open/assemblyqc/main/nextflow_schema.json",
     "title": "plant-food-research-open/assemblyqc pipeline parameters",
-    "description": "A NextFlow pipeline which evaluates assembly quality with multiple QC tools and presents the results in a unified html report.",
+    "description": "A Nextflow pipeline which evaluates assembly quality with multiple QC tools and presents the results in a unified html report.",
     "type": "object",
     "definitions": {
         "input_output_options": {
