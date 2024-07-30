@@ -16,12 +16,16 @@ authors:
     given-names: "Marcus"
   - family-names: "Chen"
     given-names: "Ting-Hsuan"
+  - family-names: "Carvajal"
+    given-names: "Ignacio"
+  - family-names: "Bailey"
+    given-names: "Sarah"
   - family-names: "Thomson"
     given-names: "Susan"
   - family-names: "Deng"
     given-names: "Cecilia"
-title: "AssemblyQC: A NextFlow pipeline for evaluating assembly quality"
+title: "AssemblyQC: A Nextflow pipeline for reproducible reporting of assembly quality"
 version: 2.1.0+dev
-date-released: 2024-02-12
-url: "https://github.com/Plant-Food-Research-Open/assembly_qc"
-doi: 10.5281/zenodo.10647870
+date-released: 2024-07-30
+url: "https://github.com/Plant-Food-Research-Open/assemblyqc"
+doi: 10.1093/bioinformatics/btae477
