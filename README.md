@@ -123,7 +123,7 @@ plant-food-research-open/assemblyqc was originally written by Usman Rashid ([@ga
 
 Ross Crowhurst ([@rosscrowhurst](https://github.com/rosscrowhurst)), Chen Wu ([@christinawu2008](https://github.com/christinawu2008)) and Marcus Davy ([@mdavy86](https://github.com/mdavy86)) generously contributed their QC scripts.
 
-Mahesh Binzer-Panchal ([@mahesh-panchal](https://github.com/mahesh-panchal)) helped port the pipeline modules and sub-workflows to [nf-core](https://nf-co.re) schema.
+Mahesh Binzer-Panchal ([@mahesh-panchal](https://github.com/mahesh-panchal)) and Simon Pearce ([@SPPearce](https://github.com/SPPearce)) helped port the pipeline modules and sub-workflows to [nf-core](https://nf-co.re) schema.
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 
@@ -176,7 +176,7 @@ If you use plant-food-research-open/assemblyqc for your analysis, please cite it
 
 > **AssemblyQC: A Nextflow pipeline for reproducible reporting of assembly quality.**
 >
-> Usman Rashid, Chen Wu, Jason Shiller, Ken Smith, Ross Crowhurst, Marcus Davy, Ting-Hsuan Chen, Ignacio Carvajal, Sarah Bailey, Susan Thomson & Cecilia H Deng
+> Usman Rashid, Chen Wu, Jason Shiller, Ken Smith, Ross Crowhurst, Marcus Davy, Ting-Hsuan Chen, Ignacio Carvajal, Sarah Bailey, Susan Thomson & Cecilia H Deng.
 >
 > _Bioinformatics_. 2024 July 30. doi: [10.1093/bioinformatics/btae477](https://doi.org/10.1093/bioinformatics/btae477).
 
