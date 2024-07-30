@@ -174,7 +174,11 @@ If you would like to contribute to this pipeline, please see the [contributing g
 
 If you use plant-food-research-open/assemblyqc for your analysis, please cite it as:
 
-> Usman Rashid, Chen Wu, Jason Shiller, Ken Smith, Ross Crowhurst, Marcus Davy, Ting-Hsuan Chen, Ignacio Carvajal, Sarah Bailey, Susan Thomson, Cecilia H Deng, AssemblyQC: A Nextflow pipeline for reproducible reporting of assembly quality, Bioinformatics, 2024;, btae477, https://doi.org/10.1093/bioinformatics/btae477
+> **AssemblyQC: A Nextflow pipeline for reproducible reporting of assembly quality.**
+>
+> Usman Rashid, Chen Wu, Jason Shiller, Ken Smith, Ross Crowhurst, Marcus Davy, Ting-Hsuan Chen, Ignacio Carvajal, Sarah Bailey, Susan Thomson & Cecilia H Deng
+>
+> _Bioinformatics_. 2024 July 30. doi: [10.1093/bioinformatics/btae477](https://doi.org/10.1093/bioinformatics/btae477).
 
 An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
 
