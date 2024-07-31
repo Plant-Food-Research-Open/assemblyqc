@@ -34,7 +34,7 @@ process ASSEMBLATHON_STATS {
     echo "Echo paths_to_check..."
     echo \$paths_to_check
 
-    falite_path="\$(find \$paths_to_check -name FAlite_a93cba2.pm)"
+    falite_path="\$(find \$paths_to_check -name FAlite_a93cba2.pm | head -n 1)"
 
     echo "Echo falite_path..."
     echo \$falite_path
