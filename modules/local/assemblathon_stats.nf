@@ -28,7 +28,7 @@ process ASSEMBLATHON_STATS {
         | xargs
     )
 
-    falite_path="\$(find \$paths_to_check -name FAlite_a93cba2.pm)"
+    falite_path="\$(find \$paths_to_check -name FAlite_a93cba2.pm | head -n 1)"
 
     ln -s "\$falite_path" FAlite_a93cba2.pm
 

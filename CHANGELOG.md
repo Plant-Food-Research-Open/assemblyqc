@@ -24,8 +24,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 5. Now `LTRRETRIEVER_LTRRETRIEVER` does not crash when the input assembly does not contain any LTRs [#92](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/92)
 6. Now `LTRRETRIEVER_LTRRETRIEVER` does not crash when the input assembly is not writable [#98](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/98)
 7. Now soft masked regions are unmasked before computing LAI [#117](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/117)
-8. Changed `NextFlow` to `Nextflow`
-9. Updated citation to Bioinformatics
+8. Fixed a bug in `ASSEMBLATHON_STATS` which caused it to fail on MMC executor due to multiple binds of the `bin` directory
+9. Changed `NextFlow` to `Nextflow`
+10. Updated citation to Bioinformatics
 
 ### `Dependencies`
 
