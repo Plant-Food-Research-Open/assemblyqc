@@ -21,9 +21,6 @@ process ASSEMBLATHON_STATS {
     script:
     def VERSION = "github/PlantandFoodResearch/assemblathon2-analysis/a93cba2"
     """
-    echo "Echo PATH..."
-    echo \$PATH
-
     paths_to_check=\$(printf "%s\\n" \$(echo \$PATH | tr ':' ' ') \\
         | xargs -I {} find {} -maxdepth 0 -print 2>/dev/null \\
         | grep -v '^\$' \\
@@ -31,13 +28,7 @@ process ASSEMBLATHON_STATS {
         | xargs
     )
 
-    echo "Echo paths_to_check..."
-    echo \$paths_to_check
-
     falite_path="\$(find \$paths_to_check -name FAlite_a93cba2.pm | head -n 1)"
-
-    echo "Echo falite_path..."
-    echo \$falite_path
 
     ln -s "\$falite_path" FAlite_a93cba2.pm
 
