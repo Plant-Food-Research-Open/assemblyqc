@@ -29,6 +29,7 @@ jobs:
           - minimal
           - invalid
           - stub
+          - noltr
         include:
           - OPTION_STUB: ""
           - OPTION_STUB: "-stub"
