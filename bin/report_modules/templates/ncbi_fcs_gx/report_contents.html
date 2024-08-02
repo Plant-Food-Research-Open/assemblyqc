@@ -1,9 +1,8 @@
-{% set vars = {'is_first': True} %} {% for item in range(all_stats_dicts["NCBI_FCS_GX"]|length) %} {% set active_text =
-'display: block' if vars.is_first else 'display: none' %}
+{% for item in range(all_stats_dicts["NCBI_FCS_GX"]|length) %}
 <div
     id="tabcontent_NCBI_FCS_GX_{{ all_stats_dicts['NCBI_FCS_GX'][item]['hap'] }}"
     class="tabcontent-NCBI_FCS_GX"
-    style="{{ active_text }}"
+    style="display: none"
 >
     <div class="results-section">
         <div class="section-heading-wrapper">
@@ -11,7 +10,7 @@
         </div>
         {%if all_stats_dicts['NCBI_FCS_GX'][item]['did_detect_contamination'] %}
         <div class="section-para-wrapper">
-            <p class="section-para">Contamination detected. Subsequent pipeline modules are skipped.</p>
+            <p class="section-para">Contamination detected.{%if all_stats_dicts['PARAMS_DICT']['contamination_stops_pipeline'] %} Subsequent pipeline modules are skipped.{% endif %}</p>
         </div>
         <div class="table-outer">
             <div class="table-wrapper">{{ all_stats_dicts['NCBI_FCS_GX'][item]['report_table_html'] }}</div>
@@ -46,4 +45,4 @@
         </div>
     </div>
 </div>
-{% if vars.update({'is_first': False}) %} {% endif %} {% endfor %}
+{% endfor %}

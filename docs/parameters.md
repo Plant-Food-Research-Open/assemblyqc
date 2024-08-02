@@ -1,6 +1,6 @@
 # plant-food-research-open/assemblyqc pipeline parameters
 
-A NextFlow pipeline which evaluates assembly quality with multiple QC tools and presents the results in a unified html report.
+A Nextflow pipeline which evaluates assembly quality with multiple QC tools and presents the results in a unified html report.
 
 ## Input/output options
 

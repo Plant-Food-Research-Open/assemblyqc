@@ -11,10 +11,10 @@ include { RELABELFASTALENGTH            } from '../../modules/local/relabelfasta
 include { GENERATEKARYOTYPE             } from '../../modules/local/generatekaryotype'
 include { CIRCOS                        } from '../../modules/local/circos'
 include { LINEARSYNTENY                 } from '../../modules/local/linearsynteny'
-include { CUSTOM_RELABELFASTA           } from '../../modules/pfr/custom/relabelfasta/main'
+include { CUSTOM_RELABELFASTA           } from '../../modules/gallvp/custom/relabelfasta/main'
 include { MINIMAP2_ALIGN                } from '../../modules/nf-core/minimap2/align/main'
-include { SYRI                          } from '../../modules/pfr/syri/main'
-include { PLOTSR                        } from '../../modules/pfr/plotsr/main'
+include { SYRI                          } from '../../modules/gallvp/syri/main'
+include { PLOTSR                        } from '../../modules/gallvp/plotsr/main'
 
 workflow FASTA_SYNTENY {
     take:
@@ -306,6 +306,7 @@ workflow FASTA_SYNTENY {
         ch_minimap_inputs.map { meta, tfa, rfa -> [ meta, tfa ] },
         ch_minimap_inputs.map { meta, tfa, rfa -> [ meta, rfa ] },
         true,   // bam_format
+        'bai',  // bam_index_extension
         false,  // cigar_paf_format
         false   // cigar_bam
     )
@@ -342,7 +343,7 @@ workflow FASTA_SYNTENY {
                                         | groupTuple
                                         | map { meta, syri, fastas ->
                                             def fasta_list          = fastas.flatten()
-                                            def syri_tags           = syri.collect { it.name.replace('syri.out', '').tokenize('.on.') }.flatten().unique()
+                                            def syri_tags           = syri.collect { it.name.replace('syri.out', '').split(/\.on\./).toList() }.flatten().unique()
                                             def proposed_order      = plotsr_assembly_order ? plotsr_assembly_order.tokenize(' ') : syri_tags.sort(false)
 
                                             def available_tags      = []

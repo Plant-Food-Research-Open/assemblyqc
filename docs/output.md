@@ -138,6 +138,9 @@ TIDK toolkit is designed to [identify and visualize](https://github.com/tolkit/t
 
 LTR Assembly Index (LAI) is a reference-free genome metric that [evaluates assembly continuity](https://doi.org/10.1093/nar/gky730) using LTR-RTs. LTR retrotransposons (LTR-RTs) are the predominant interspersed repeat that is poorly assembled in draft genomes. Correcting for LTR-RT amplification dynamics, LAI is independent of genome size, genomic LTR-RT content, and gene space evaluation metrics such as BUSCO. LAI = Raw LAI + 2.8138 × (94 – whole genome LTR identity). The LAI is set to 0 when raw LAI = 0 or the adjustment produces a negative value. Raw LAI = (Intact LTR element length / Total LTR sequence length) \* 100
 
+> [!WARNING]
+> Soft masked regions are unmasked when calculating LAI. However, hard masked regions are left as is. The pipeline will fail to calculate LAI if all the LTRs are already hard masked.
+
 ### Kraken2
 
 <details markdown="1">
