@@ -90,7 +90,7 @@ This section provides additional information for parameters. It does not list al
 
 ### HiC
 
-- `hic`: Path to reads provided as a SRA ID or as a path to paired reads with pattern '\*{1,2}.(fastq|fq).gz'. These reads are applied to each assembly listed by `input`.
+- `hic`: Path to reads provided as a SRA ID or as a path to paired reads such as 'hic_reads{1,2}.fastq.gz'. These reads are applied to each assembly listed by `input`.
 
 ### Synteny analysis
 

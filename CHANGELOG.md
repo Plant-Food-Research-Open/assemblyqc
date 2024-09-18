@@ -3,6 +3,21 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.1.1+dev - [19-Sep-2024]
+
+### `Added`
+
+1. Configured nf-test for function testing
+
+### `Fixed`
+
+1. Made the `hic` param pattern more flexible as `^SR\w+$|^\S+\{1,2\}[\w\.]*\.f(ast)?q\.gz$`
+
+### `Dependencies`
+
+1. Nextflow!>=23.04.0
+2. nf-validation@1.1.3
+
 ## v2.1.0 - [31-July-2024]
 
 ### `Added`

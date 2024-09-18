@@ -1,0 +1,9 @@
+{
+    "config_profile_name": "Test to verify hic param validation",
+    "config_profile_description": "Test to verify hic param validation",
+    "input": "tests/hicparam/assemblysheet.csv",
+    "hic": "tests/hicparam/hic/Dummy_hic_{1,2}.merged.fq.gz",
+    "max_cpus": 2,
+    "max_memory": "6.GB",
+    "max_time": "6.h"
+}
