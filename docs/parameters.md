@@ -66,12 +66,12 @@ A Nextflow pipeline which evaluates assembly quality with multiple QC tools and 
 
 ## HiC options
 
-| Parameter            | Description                                                                            | Type      | Default                                           | Required | Hidden |
-| -------------------- | -------------------------------------------------------------------------------------- | --------- | ------------------------------------------------- | -------- | ------ |
-| `hic`                | HiC reads path provided as a SRA ID or as paired reads with pattern '\*{1,2}.fastq.gz' | `string`  |                                                   |          |        |
-| `hic_skip_fastp`     | Skip HiC read trimming                                                                 | `boolean` |                                                   |          |        |
-| `hic_skip_fastqc`    | Skip HiC read QC                                                                       | `boolean` |                                                   |          |        |
-| `hic_fastp_ext_args` | Additional parameters for fastp trimming                                               | `string`  | --qualified_quality_phred 20 --length_required 50 |          |        |
+| Parameter            | Description                                                                              | Type      | Default                                           | Required | Hidden |
+| -------------------- | ---------------------------------------------------------------------------------------- | --------- | ------------------------------------------------- | -------- | ------ |
+| `hic`                | HiC reads path provided as a SRA ID or as paired reads such as 'hic_reads{1,2}.fastq.gz' | `string`  |                                                   |          |        |
+| `hic_skip_fastp`     | Skip HiC read trimming                                                                   | `boolean` |                                                   |          |        |
+| `hic_skip_fastqc`    | Skip HiC read QC                                                                         | `boolean` |                                                   |          |        |
+| `hic_fastp_ext_args` | Additional parameters for fastp trimming                                                 | `string`  | --qualified_quality_phred 20 --length_required 50 |          |        |
 
 ## Synteny options
 

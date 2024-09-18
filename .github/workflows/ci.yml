@@ -30,10 +30,13 @@ jobs:
           - invalid
           - stub
           - noltr
+          - hicparam
         include:
           - OPTION_STUB: ""
           - OPTION_STUB: "-stub"
             TEST_PARAMS: stub
+          - OPTION_STUB: "-stub"
+            TEST_PARAMS: hicparam
     steps:
       - name: Check out pipeline code
         uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
@@ -55,3 +58,31 @@ jobs:
             -params-file \
             ./tests/${{ matrix.TEST_PARAMS }}/params.json \
             ${{ matrix.OPTION_STUB }}
+
+  nf-test:
+    name: Run nf-tests
+    # Only run on push if this is the nf-core dev branch (merged PRs)
+    if: "${{ github.event_name != 'push' || (github.event_name == 'push' && github.repository == 'plant-food-research-open/assemblyqc') }}"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        NXF_VER:
+          - "23.04.0"
+    steps:
+      - name: Check out pipeline code
+        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
+
+      - name: Install Nextflow
+        uses: nf-core/setup-nextflow@v2
+        with:
+          version: ${{ matrix.NXF_VER }}
+
+      - name: Install nf-test
+        uses: nf-core/setup-nf-test@v1.1.2
+
+      - name: Run nf-tests
+        run: |
+          nf-test \
+            test \
+            --verbose \
+            tests
