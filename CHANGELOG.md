@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Fixed`
 
 1. Made the `hic` param pattern more flexible as `^SR\w+$|^\S+\{1,2\}[\w\.]*\.f(ast)?q\.gz$`
+2. Updated modules to remove Bioconda `defaults` channel
 
 ### `Dependencies`
 
