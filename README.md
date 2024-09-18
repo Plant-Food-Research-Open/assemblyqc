@@ -30,7 +30,7 @@
 flowchart LR
   forEachTag(Assembly) ==> VALIDATE_FORMAT[VALIDATE FORMAT]
 
-  VALIDATE_FORMAT ==> ncbiFCS[NCBI FCS\nADAPTOR]
+  VALIDATE_FORMAT ==> ncbiFCS[NCBI FCS ADAPTOR]
   ncbiFCS ==> Check{Check}
 
   VALIDATE_FORMAT ==> ncbiGX[NCBI FCS GX]
