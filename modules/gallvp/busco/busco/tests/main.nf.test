@@ -126,7 +126,7 @@ nextflow_process {
             }
 
             assert snapshot(
-                    process.out.batch_summary[0][1],
+                    file(process.out.batch_summary[0][1]).name,
                     process.out.full_table[0][1],
                     process.out.missing_busco_list[0][1],
                     process.out.versions[0]

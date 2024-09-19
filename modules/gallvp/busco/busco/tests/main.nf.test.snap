@@ -146,7 +146,7 @@
     },
     "test_busco_genome_multi_fasta": {
         "content": [
-            "test-bacteria_odb10-busco.batch_summary.txt:md5,fcd3c208913e8abda3d6742c43fec5fa",
+            "test-bacteria_odb10-busco.batch_summary.txt",
             [
                 "full_table.tsv:md5,c657edcc7d0de0175869717551df6e83",
                 "full_table.tsv:md5,638fe7590f442c57361554dae330eca1"
@@ -159,9 +159,9 @@
         ],
         "meta": {
             "nf-test": "0.8.4",
-            "nextflow": "23.10.1"
+            "nextflow": "24.04.4"
         },
-        "timestamp": "2024-05-03T13:23:50.255602"
+        "timestamp": "2024-08-22T11:24:24.828742"
     },
     "test_busco_eukaryote_metaeuk": {
         "content": [
