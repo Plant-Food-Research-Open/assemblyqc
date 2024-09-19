@@ -30,24 +30,24 @@
 flowchart LR
   forEachTag(Assembly) ==> VALIDATE_FORMAT[VALIDATE FORMAT]
 
-  VALIDATE_FORMAT ==> ncbiFCS[NCBI FCS ADAPTOR]
+  VALIDATE_FORMAT ==> ncbiFCS[<span style="white-space: nowrap;">NCBI FCS ADAPTOR</span>]
   ncbiFCS ==> Check{Check}
 
-  VALIDATE_FORMAT ==> ncbiGX[NCBI FCS GX]
+  VALIDATE_FORMAT ==> ncbiGX[<span style="white-space: nowrap;">NCBI FCS GX</span>]
   ncbiGX ==> Check
   Check ==> |Clean|Run(Run)
 
   Check ==> |Contamination|Skip(Skip All)
   Skip ==> REPORT
 
-  VALIDATE_FORMAT ==> GFF_STATS[GENOMETOOLS GT STAT]
+  VALIDATE_FORMAT ==> GFF_STATS[<span style="white-space: nowrap;">GENOMETOOLS GT STAT</span>]
 
-  Run ==> ASS_STATS[ASSEMBLATHON STATS]
+  Run ==> ASS_STATS[<span style="white-space: nowrap;">ASSEMBLATHON STATS</span>]
   Run ==> BUSCO
   Run ==> TIDK
   Run ==> LAI
   Run ==> KRAKEN2
-  Run ==> HIC_CONTACT_MAP[HIC CONTACT MAP]
+  Run ==> HIC_CONTACT_MAP[<span style="white-space: nowrap;">HIC CONTACT MAP</span>]
   Run ==> MUMMER
   Run ==> MINIMAP2
   Run ==> MERQURY
