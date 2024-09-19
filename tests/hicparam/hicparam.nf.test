@@ -1,0 +1,118 @@
+nextflow_function {
+
+    name "checkHiCParam"
+    script "./hicparam.nf"
+    function "checkHiCParam"
+
+    test("Dummy_hic.R{1,2}.fq.gz") {
+        when {
+            function {
+                """
+                input[0] = "Dummy_hic.R{1,2}.fq.gz"
+                input[1] = "$baseDir/nextflow_schema.json"
+                """
+            }
+        }
+
+        then {
+            assert function.success
+            assert function.result
+        }
+    }
+
+    test("Dummy_hic.{1,2}.fq.gz") {
+        when {
+            function {
+                """
+                input[0] = "Dummy_hic.{1,2}.fq.gz"
+                input[1] = "$baseDir/nextflow_schema.json"
+                """
+            }
+        }
+
+        then {
+            assert function.success
+            assert function.result
+        }
+    }
+
+    test("Dummy_hic{1,2}.fastq.gz") {
+        when {
+            function {
+                """
+                input[0] = "Dummy_hic{1,2}.fastq.gz"
+                input[1] = "$baseDir/nextflow_schema.json"
+                """
+            }
+        }
+
+        then {
+            assert function.success
+            assert function.result
+        }
+    }
+
+    test("Dummy_hic.R{1,2}.merged.fq.gz") {
+        when {
+            function {
+                """
+                input[0] = "Dummy_hic.R{1,2}.merged.fq.gz"
+                input[1] = "$baseDir/nextflow_schema.json"
+                """
+            }
+        }
+
+        then {
+            assert function.success
+            assert function.result
+        }
+    }
+
+    test("Dummy_hic{1,2}_merged.samtools._check.fq.gz") {
+        when {
+            function {
+                """
+                input[0] = "Dummy_hic{1,2}_merged.samtools._check.fq.gz"
+                input[1] = "$baseDir/nextflow_schema.json"
+                """
+            }
+        }
+
+        then {
+            assert function.success
+            assert function.result
+        }
+    }
+
+    test("CK13_02_hic_R{1,2}.merged.fastq.gz") {
+        when {
+            function {
+                """
+                input[0] = "CK13_02_hic_R{1,2}.merged.fastq.gz"
+                input[1] = "$baseDir/nextflow_schema.json"
+                """
+            }
+        }
+
+        then {
+            assert function.success
+            assert function.result
+        }
+    }
+
+    test("CK13_02_hic_1.merged.fastq.gz -- fail") {
+        when {
+            function {
+                """
+                input[0] = "CK13_02_hic_1.merged.fastq.gz"
+                input[1] = "$baseDir/nextflow_schema.json"
+                """
+            }
+        }
+
+        then {
+            assert function.success
+            assert ! function.result
+        }
+    }
+}

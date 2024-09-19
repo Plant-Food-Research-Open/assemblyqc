@@ -63,6 +63,67 @@
         },
         "timestamp": "2024-07-29T16:22:06.684959"
     },
+    "sarscov2 - fasta - circular_region - pass": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.gt.gff3:md5,b3bb01b18b8eeac28922ab55c5c6c939"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.yml:md5,545b8e290cfa8a93fd0ff01ad9daee08"
+                    ]
+                ],
+                "2": [
+                    
+                ],
+                "3": [
+                    "versions.yml:md5,0cb9519e626e5128d8495cf29b7d59ff",
+                    "versions.yml:md5,80555fe6e28e9564cb534f5478842286",
+                    "versions.yml:md5,8a418ac34d045b0cdac812eb2dc9c106",
+                    "versions.yml:md5,c89b081a13c68acc5326e43ca9104344"
+                ],
+                "gff3_stats": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.yml:md5,545b8e290cfa8a93fd0ff01ad9daee08"
+                    ]
+                ],
+                "log_for_invalid_gff3": [
+                    
+                ],
+                "valid_gff3": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.gt.gff3:md5,b3bb01b18b8eeac28922ab55c5c6c939"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,0cb9519e626e5128d8495cf29b7d59ff",
+                    "versions.yml:md5,80555fe6e28e9564cb534f5478842286",
+                    "versions.yml:md5,8a418ac34d045b0cdac812eb2dc9c106",
+                    "versions.yml:md5,c89b081a13c68acc5326e43ca9104344"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
+        },
+        "timestamp": "2024-09-19T13:53:32.901064"
+    },
     "sarscov2-genome_gff3-homo_sapiens-genome_fasta-correspondence_fail": {
         "content": [
             [

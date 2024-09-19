@@ -3,6 +3,25 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.1.1 - [20-Sep-2024]
+
+### `Added`
+
+1. Configured nf-test for function testing
+
+### `Fixed`
+
+1. Made the `hic` param pattern more flexible as `^SR\w+$|^\S+\{1,2\}[\w\.]*\.f(ast)?q\.gz$` [#130](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/130)
+2. Fixed flowchart syntax to remove '\n' [#132](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/132)
+3. Updated modules to remove Bioconda `defaults` channel [#135](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/135)
+4. Now gff files for circular molecules can have end coordinates greater than the sequence length [#129](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/129)
+5. Fixed the branch protection GitHub action
+
+### `Dependencies`
+
+1. Nextflow!>=23.04.0
+2. nf-validation@1.1.3
+
 ## v2.1.0 - [31-July-2024]
 
 ### `Added`

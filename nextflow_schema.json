@@ -213,8 +213,8 @@
             "properties": {
                 "hic": {
                     "type": "string",
-                    "description": "HiC reads path provided as a SRA ID or as paired reads with pattern '*{1,2}.fastq.gz'",
-                    "pattern": "^SR\\w+$|^\\S+\\{1,2\\}\\.f(ast)?q\\.gz$"
+                    "description": "HiC reads path provided as a SRA ID or as paired reads such as 'hic_reads{1,2}.fastq.gz'",
+                    "pattern": "^SR\\w+$|^\\S+\\{1,2\\}[\\w\\.]*\\.f(ast)?q\\.gz$"
                 },
                 "hic_skip_fastp": {
                     "type": "boolean",
