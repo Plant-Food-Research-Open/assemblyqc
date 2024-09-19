@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 2. Fixed flowchart syntax to remove '\n' [#132](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/132)
 3. Updated modules to remove Bioconda `defaults` channel [#135](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/135)
 4. Now gff files for circular molecules can have end coordinates greater than the sequence length [#129](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/129)
+5. Fixed the branch protection GitHub action
 
 ### `Dependencies`
 
