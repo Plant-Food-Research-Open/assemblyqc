@@ -114,7 +114,38 @@ nextflow_workflow {
                     workflow.out.valid_gff3,
                     workflow.out.versions).match()
                 },
-                { assert path(workflow.out.log_for_invalid_gff3[0][1]).text.contains('Coordinates exceed sequence length in GFF3 file') }
+                { assert path(workflow.out.log_for_invalid_gff3[0][1]).text.contains('Start coordinates exceed sequence length in the GFF3 file') }
+            )
+        }
+    }
+
+    test("sarscov2 - fasta - circular_region - pass") {
+
+        when {
+            workflow {
+                """
+                def circular_gff = new File('circular_gff.gff')
+                circular_gff.text = [
+                    '##gff-version 3',
+                    'MT192765.1	Genbank	region	1	29829	.	+	.	circular=true',
+                    'MT192765.1	Genbank	gene	29551	39667	.	+	.	ID=gene1',
+                    'MT192765.1	Genbank	CDS	29551	39667	.	+	0	Parent=gene1'
+                ].join('\\n')
+
+                input[0] = Channel.of([ [ id:'test' ], // meta map
+                    circular_gff.toPath()
+                ])
+                input[1] = Channel.of([ [ id:'test' ],
+                    file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/genome.fasta', checkIfExists: true)
+                ])
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot(workflow.out).match() }
             )
         }
     }

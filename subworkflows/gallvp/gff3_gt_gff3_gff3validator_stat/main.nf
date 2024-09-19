@@ -129,19 +129,62 @@ def checkGff3FastaCorrespondence(meta, gff3File, faiFile) {
         def end = parts[4].toInteger()
         def seqLength = sequenceLengths[name].toInteger()
 
-        if (start > seqLength || end > seqLength) {
+        if ( start > seqLength ) {
             return [
                 meta,
                 [], // success log
                 [
                     "Failed to validate gff3: ${gff3File.name}",
-                    "Coordinates exceed sequence length in GFF3 file:",
+                    "Start coordinates exceed sequence length in the GFF3 file:",
                     "Sequence: $name",
                     "Sequence length: $seqLength",
-                    "Start: $start",
+                    "Start: $start"
+                ] // error log
+            ]
+        }
+
+        if ( end > seqLength ) {
+
+            // Check if the sequence is defined as a circular region
+            // Otherwise, fail
+            def regionLine = gff3Lines.find {
+                def _parts = it.split('\t')
+
+                _parts[0] == "$name" && _parts[2] == 'region'
+            }
+
+            if ( ! regionLine ) {
+                return [
+                    meta,
+                    [], // success log
+                    [
+                        "Failed to validate gff3: ${gff3File.name}",
+                        "End coordinates exceed sequence length and the sequence attributes are also missing in GFF3 file:",
+                        "Sequence: $name",
+                        "Sequence length: $seqLength",
+                        "End: $end"
+                    ] // error log
+                ]
+            }
+
+            def regionAtts = regionLine.split('\t')[8]
+            def isCircular = regionAtts.contains('circular=true')
+
+            // Models on circular molecules are allowed to exceed sequence length
+            if ( isCircular ) { continue }
+
+            return [
+                meta,
+                [], // success log
+                [
+                    "Failed to validate gff3: ${gff3File.name}",
+                    "End coordinates exceed length of a non-circular sequence in GFF3 file:",
+                    "Sequence: $name",
+                    "Sequence length: $seqLength",
                     "End: $end"
                 ] // error log
             ]
+
         }
     }
 

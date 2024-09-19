@@ -131,7 +131,7 @@
                     },
                     "gff3_gt_gff3_gff3validator_stat": {
                         "branch": "main",
-                        "git_sha": "775762619b57101ca800269b6ecda0b915fb9913",
+                        "git_sha": "58c5f9e695b9e03d43e4c59d9339af7c93f0acbe",
                         "installed_by": ["subworkflows"]
                     }
                 }
