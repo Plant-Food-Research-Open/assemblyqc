@@ -21,6 +21,7 @@ A Nextflow pipeline which evaluates assembly quality with multiple QC tools and 
 | Parameter                    | Description                                                             | Type      | Default | Required | Hidden |
 | ---------------------------- | ----------------------------------------------------------------------- | --------- | ------- | -------- | ------ |
 | `assemblathon_stats_n_limit` | The number of 'N's for the unknown gap size. NCBI recommendation is 100 | `integer` | 100     |          |        |
+| `gfastats_skip`              | Skip Gfastats                                                           | `boolean` | True    |          |        |
 
 ## NCBI FCS options
 

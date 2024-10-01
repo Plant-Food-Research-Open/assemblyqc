@@ -36,6 +36,10 @@
   >
   > Forked from: <https://github.com/ucdavis-bioinformatics/assemblathon2-analysis>
 
+- GFASTATS, [MIT](https://github.com/vgl-hub/gfastats/blob/main/LICENSE)
+
+  > Giulio Formenti, Linelle Abueg, Angelo Brajuka, Nadolina Brajuka, Cristóbal Gallardo-Alba, Alice Giani, Olivier Fedrigo, Erich D Jarvis, Gfastats: conversion, evaluation and manipulation of genome sequences using assembly graphs, Bioinformatics, Volume 38, Issue 17, September 2022, Pages 4214–4216, <https://doi.org/10.1093/bioinformatics/btac460>
+
 - BUSCO, [MIT](https://gitlab.com/ezlab/busco/-/blob/master/LICENSE)
 
   > Manni M, Berkeley MR, Seppey M, Simão FA, Zdobnov EM. 2021. BUSCO Update: Novel and Streamlined Workflows along with Broader and Deeper Phylogenetic Coverage for Scoring of Eukaryotic, Prokaryotic, and Viral Genomes, Molecular Biology and Evolution, Volume 38, Issue 10, October 2021, Pages 4647–4654, <https://doi.org/10.1093/molbev/msab199>

@@ -62,6 +62,12 @@
                     "default": 100,
                     "description": "The number of 'N's for the unknown gap size. NCBI recommendation is 100",
                     "fa_icon": "fas fa-ruler-horizontal"
+                },
+                "gfastats_skip": {
+                    "type": "boolean",
+                    "description": "Skip Gfastats",
+                    "default": true,
+                    "fa_icon": "fas fa-forward"
                 }
             }
         },

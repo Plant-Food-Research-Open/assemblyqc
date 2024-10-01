@@ -10,6 +10,7 @@ process CREATEREPORT {
     path ncbi_fcs_adaptor_reports   , stageAs: 'ncbi_fcs_adaptor_reports/*'
     path fcs_gx_reports             , stageAs: 'fcs_gx_reports/*'
     path assemblathon_stats         , stageAs: 'assemblathon_stats/*'
+    path gfastats                   , stageAs: 'gfastats/*'
     path genometools_gt_stats       , stageAs: 'genometools_gt_stat/*'
     path busco_outputs              , stageAs: 'busco_outputs/*'
     path busco_gff_outputs          , stageAs: 'busco_gff_outputs/*'

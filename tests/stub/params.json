@@ -2,6 +2,7 @@
     "config_profile_name": "Full stub test",
     "config_profile_description": "Full test of the pipeline in stub mode",
     "input": "assets/assemblysheetv2.csv",
+    "gfastats_skip": false,
     "ncbi_fcs_adaptor_skip": false,
     "ncbi_fcs_adaptor_empire": "euk",
     "ncbi_fcs_gx_skip": false,
