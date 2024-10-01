@@ -85,12 +85,11 @@ A Nextflow pipeline which evaluates assembly quality with multiple QC tools and 
 | `synteny_mummer_plot_type`         | Synteny plot type from Mummer alignments: 'dotplot', 'circos', or 'both'                                                                                                   | `string`  | both    |          |        |
 | `synteny_mummer_m2m_align`         | Include Mummer alignment blocks with many-to-many mappings                                                                                                                 | `boolean` |         |          |        |
 | `synteny_mummer_max_gap`           | Mummer alignments within this distance are bundled together                                                                                                                | `integer` | 1000000 |          |        |
-| `synteny_mummer_min_bundle_size`   | After bundling, any Mummer alignment bundle smaller than this size is filtered out                                                                                         | `integer` | 1000    |          |        |
+| `synteny_mummer_min_bundle_size`   | After bundling, any Mummer alignment bundle smaller than this size is filtered out                                                                                         | `integer` | 1000000 |          |        |
 | `synteny_plot_1_vs_all`            | Create a separate synteny plot for each contig of the target assembly versus all contigs of the reference assembly. This only applies to Mummer plots                      | `boolean` |         |          |        |
 | `synteny_color_by_contig`          | Mummer synteny plots are colored by contig. Otherwise, they are colored by bundle size                                                                                     | `boolean` | True    |          |        |
 | `synteny_plotsr_seq_label`         | Sequence label prefix for plotsr synteny                                                                                                                                   | `string`  | Chr     |          |        |
-| `synteny_plotsr_assembly_order`    | The order in which the assemblies should be compared, provided as space separated string of assembly tags. If absent, assemblies are ordered by their tags alphabetically. | `string`  |
-|                                    |                                                                                                                                                                            |           |
+| `synteny_plotsr_assembly_order`    | The order in which the assemblies should be compared, provided as space separated string of assembly tags. If absent, assemblies are ordered by their tags alphabetically. | `string`  |         |          |        |
 
 ## Merqury options
 
