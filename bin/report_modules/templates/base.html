@@ -32,6 +32,10 @@
     <button class="tablinks active" onclick="openTool(event, 'ASSEMBLATHON_STATS')">ASSEMBLATHON STATS</button>
     {% endif %}
 
+    {% if 'GFASTATS' in all_stats_dicts %}
+    <button class="tablinks active" onclick="openTool(event, 'GFASTATS')">GFASTATS</button>
+    {% endif %}
+
     {% if 'GENOMETOOLS_GT_STAT' in all_stats_dicts %}
     <button class="tablinks active" onclick="openTool(event, 'GENOMETOOLS_GT_STAT')">GENOMETOOLS GT STAT</button>
     {% endif %}
@@ -98,6 +102,10 @@
 
   {% if 'ASSEMBLATHON_STATS' in all_stats_dicts %}
   {% include 'assemblathon_stats/assemblathon_stats.html' %}
+  {% endif %}
+
+  {% if 'GFASTATS' in all_stats_dicts %}
+  {% include 'gfastats/gfastats.html' %}
   {% endif %}
 
   {% if 'GENOMETOOLS_GT_STAT' in all_stats_dicts %}

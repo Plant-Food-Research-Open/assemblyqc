@@ -1,0 +1,17 @@
+{% set vars = {'is_first': True} %} {% for item in range(all_stats_dicts["GFASTATS"]|length) %} {% set
+active_text = 'display: block' if vars.is_first else 'display: none' %}
+<div
+    id="tabcontent_GFASTATS_{{ all_stats_dicts['GFASTATS'][item]['hap'] }}"
+    class="tabcontent-GFASTATS"
+    style="{{ active_text }}"
+>
+    <div class="results-section">
+        <div class="section-heading-wrapper">
+            <div class="section-heading">{{ all_stats_dicts['GFASTATS'][item]['hap'] }}</div>
+        </div>
+    </div>
+    <div class="table-outer">
+        <div class="table-wrapper">{{ all_stats_dicts['GFASTATS'][item]['report_table_html'] }}</div>
+    </div>
+</div>
+{% if vars.update({'is_first': False}) %} {% endif %} {% endfor %}

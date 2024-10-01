@@ -2,6 +2,7 @@
     "input": "/workspace/assemblyqc/testdata/v2/assemblysheet.csv",
     "check_sequence_duplicates": true,
     "assemblathon_stats_n_limit": 100,
+    "gfastats_skip": false,
     "ncbi_fcs_adaptor_skip": false,
     "ncbi_fcs_adaptor_empire": "euk",
     "ncbi_fcs_gx_skip": false,

@@ -42,7 +42,7 @@ flowchart LR
 
   VALIDATE_FORMAT ==> GFF_STATS[<span style="white-space: nowrap;">GENOMETOOLS GT STAT</span>]
 
-  Run ==> ASS_STATS[<span style="white-space: nowrap;">ASSEMBLATHON STATS</span>]
+  Run ==> ASS_STATS[<span style="white-space: nowrap;">STATS</span>]
   Run ==> BUSCO
   Run ==> TIDK
   Run ==> LAI
@@ -72,7 +72,7 @@ flowchart LR
 
 - [FASTA VALIDATOR](https://github.com/linsalrob/fasta_validator) + [SEQKIT RMDUP](https://github.com/shenwei356/seqkit): FASTA validation
 - [GENOMETOOLS GT GFF3VALIDATOR](https://genometools.org/tools/gt_gff3validator.html): GFF3 validation
-- [ASSEMBLATHON STATS](https://github.com/PlantandFoodResearch/assemblathon2-analysis/blob/a93cba25d847434f7eadc04e63b58c567c46a56d/assemblathon_stats.pl): Assembly statistics
+- [ASSEMBLATHON STATS](https://github.com/PlantandFoodResearch/assemblathon2-analysis/blob/a93cba25d847434f7eadc04e63b58c567c46a56d/assemblathon_stats.pl), [GFASTATS](https://github.com/vgl-hub/gfastats): Assembly statistics
 - [GENOMETOOLS GT STAT](https://genometools.org/tools/gt_stat.html): Annotation statistics
 - [NCBI FCS ADAPTOR](https://github.com/ncbi/fcs): Adaptor contamination pass/fail
 - [NCBI FCS GX](https://github.com/ncbi/fcs): Foreign organism contamination pass/fail

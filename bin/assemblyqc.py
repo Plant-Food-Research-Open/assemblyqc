@@ -16,6 +16,9 @@ from report_modules.parsers.ncbi_fcs_gx_parser import parse_ncbi_fcs_gx_folder
 from report_modules.parsers.assemblathon_stats_parser import (
     parse_assemblathon_stats_folder,
 )
+from report_modules.parsers.gfastats_parser import (
+    parse_gfastats_folder,
+)
 from report_modules.parsers.genometools_gt_stat_parser import (
     parse_genometools_gt_stat_folder,
 )
@@ -41,6 +44,7 @@ if __name__ == "__main__":
     data_from_tools = {**data_from_tools, **parse_ncbi_fcs_adaptor_folder()}
     data_from_tools = {**data_from_tools, **parse_ncbi_fcs_gx_folder()}
     data_from_tools = {**data_from_tools, **parse_assemblathon_stats_folder()}
+    data_from_tools = {**data_from_tools, **parse_gfastats_folder()}
     data_from_tools = {**data_from_tools, **parse_genometools_gt_stat_folder()}
     data_from_tools = {**data_from_tools, **parse_busco_folder()}
     data_from_tools = {

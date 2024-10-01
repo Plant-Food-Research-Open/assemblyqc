@@ -15,6 +15,7 @@ include { GFF3_GT_GFF3_GFF3VALIDATOR_STAT   } from '../subworkflows/gallvp/gff3_
 include { FCS_FCSADAPTOR                    } from '../modules/nf-core/fcs/fcsadaptor/main'
 include { NCBI_FCS_GX                       } from '../subworkflows/local/ncbi_fcs_gx'
 include { ASSEMBLATHON_STATS                } from '../modules/local/assemblathon_stats'
+include { GFASTATS                          } from '../modules/nf-core/gfastats/main'
 include { FASTA_GXF_BUSCO_PLOT              } from '../subworkflows/gallvp/fasta_gxf_busco_plot/main'
 include { FASTA_LTRRETRIEVER_LAI            } from '../subworkflows/gallvp/fasta_ltrretriever_lai/main'
 include { FASTA_KRAKEN2                     } from '../subworkflows/local/fasta_kraken2'
@@ -433,6 +434,27 @@ workflow ASSEMBLYQC {
     ch_assemblathon_stats                   = ASSEMBLATHON_STATS.out.stats
     ch_versions                             = ch_versions.mix(ASSEMBLATHON_STATS.out.versions.first())
 
+    // MODULE: GFASTATS
+    ch_gfastats_assembly                    = params.gfastats_skip
+                                            ? Channel.empty()
+                                            : ch_clean_assembly
+                                            | map { tag, fasta -> [ [ id: tag ], fasta ] }
+
+    GFASTATS(
+        ch_gfastats_assembly,
+        'gfa', // output format
+        '', // estimated genome size
+        '', // target specific sequence by header
+        [], // agp file
+        [], // include bed
+        [], // exclude bed
+        [] // instructions
+    )
+
+    ch_gfastats_stats                       = GFASTATS.out.assembly_summary
+                                            | map { tag, stats -> stats }
+    ch_versions                             = ch_versions.mix(GFASTATS.out.versions.first())
+
     // SUBWORKFLOW: FASTA_GXF_BUSCO_PLOT
     ch_busco_input_assembly                 = params.busco_skip
                                             ? Channel.empty()
@@ -793,6 +815,7 @@ workflow ASSEMBLYQC {
         ch_fcs_adaptor_report               .map { meta, file -> file }.collect().ifEmpty([]),
         ch_fcs_gx_report                    .mix(ch_fcs_gx_taxonomy_plot).map { meta, file -> file }.collect().ifEmpty([]),
         ch_assemblathon_stats               .collect().ifEmpty([]),
+        ch_gfastats_stats                   .collect().ifEmpty([]),
         ch_gt_stats                         .collect().ifEmpty([]),
         ch_busco_outputs                    .collect().ifEmpty([]),
         ch_busco_gff_outputs                .collect().ifEmpty([]),

@@ -14,7 +14,8 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 
 - [FASTA and GFF3 validation](#fasta-and-gff3-validation)
 - [Assemblathon stats](#assemblathon-stats)
-- [Genometools gt stat](#genometools-gt-stat)
+- [Gfastats](#gfastats)
+- [GenomeTools gt stat](#genometools-gt-stat)
 - [NCBI FCS adaptor](#ncbi-fcs-adaptor)
 - [NCBI FCS GX](#ncbi-fcs-gx)
 - [BUSCO](#busco)
@@ -45,7 +46,19 @@ The pipeline prints a warning in the pipeline log if FASTA or GFF3 validation fa
 > [!WARNING]
 > Contig-related stats are based on the assumption that `assemblathon_stats_n_limit` is specified correctly. If you are not certain of the value of `assemblathon_stats_n_limit`, please ignore the contig-related stats.
 
-### Genometools gt stat
+### Gfastats
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `gfastats/`
+  - `*.assembly_summary`: Assembly stats in TSV format.
+
+</details>
+
+Gfastats is a fast and exhaustive tool for summary statistics.
+
+### GenomeTools gt stat
 
 <details markdown="1">
 <summary>Output files</summary>
