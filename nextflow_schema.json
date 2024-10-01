@@ -65,6 +65,7 @@
                 },
                 "gfastats_skip": {
                     "type": "boolean",
+                    "description": "Skip Gfastats",
                     "default": true,
                     "fa_icon": "fas fa-forward"
                 }
