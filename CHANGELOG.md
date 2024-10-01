@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Added`
 
+1. Added Gfastats [#126](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/126)
+
 ### `Fixed`
 
 ### `Dependencies`
@@ -16,8 +18,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Deprecated`
 
-1. Reduced the GenomeTools stats figures to 300 DPI
-2. Now `synteny_mummer_min_bundle_size` is set to `1000000` by default
+1. Reduced the GenomeTools stats figures to 300 DPI [#142](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/142)
+2. Now `synteny_mummer_min_bundle_size` is set to `1000000` by default [#142](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/142)
 
 ## v2.1.1 - [20-Sep-2024]
 
