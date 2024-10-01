@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v2.2.0+dev - [30-Sep-2024]
+## v2.2.0+dev - [01-Oct-2024]
 
 ### `Added`
 
@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 2. nf-validation@1.1.3
 
 ### `Deprecated`
+
+1. Reduced the GenomeTools stats figures to 300 DPI
+2. Now `synteny_mummer_min_bundle_size` is set to `1000000` by default
 
 ## v2.1.1 - [20-Sep-2024]
 

@@ -214,7 +214,8 @@
                 "hic": {
                     "type": "string",
                     "description": "HiC reads path provided as a SRA ID or as paired reads such as 'hic_reads{1,2}.fastq.gz'",
-                    "pattern": "^SR\\w+$|^\\S+\\{1,2\\}[\\w\\.]*\\.f(ast)?q\\.gz$"
+                    "pattern": "^SR\\w+$|^\\S+\\{1,2\\}[\\w\\.]*\\.f(ast)?q\\.gz$",
+                    "fa_icon": "fas fa-copy"
                 },
                 "hic_skip_fastp": {
                     "type": "boolean",
@@ -292,7 +293,7 @@
                 },
                 "synteny_mummer_min_bundle_size": {
                     "type": "integer",
-                    "default": 1000,
+                    "default": 1000000,
                     "description": "After bundling, any Mummer alignment bundle smaller than this size is filtered out",
                     "fa_icon": "fas fa-ruler-horizontal"
                 },

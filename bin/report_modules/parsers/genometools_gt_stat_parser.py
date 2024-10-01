@@ -335,7 +335,7 @@ def create_dist_graph(groups_dict, x_label, title, file_name):
         arrowprops=dict(color="red", arrowstyle="->, head_width=.15"),
     )
 
-    plt.savefig(file_name, dpi=600)
+    plt.savefig(file_name, dpi=300)
 
     with open(file_name, "rb") as f:
         binary_fc = f.read()
