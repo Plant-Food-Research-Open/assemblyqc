@@ -124,13 +124,12 @@ Parameters used to describe centralised config profiles. These should not be edi
 
 Less common options for the pipeline, typically set in a config file.
 
-| Parameter                          | Description                                                             | Type      | Default | Required | Hidden |
-| ---------------------------------- | ----------------------------------------------------------------------- | --------- | ------- | -------- | ------ |
-| `help`                             | Display help text.                                                      | `boolean` |         |          | True   |
-| `version`                          | Display version and exit.                                               | `boolean` |         |          | True   |
-| `publish_dir_mode`                 | Method used to save pipeline results to output directory.               | `string`  | copy    |          | True   |
-| `email_on_fail`                    | Email address for completion summary, only when pipeline fails.         | `string`  |         |          | True   |
-| `plaintext_email`                  | Send plain-text email instead of HTML.                                  | `boolean` |         |          | True   |
-| `monochrome_logs`                  | Do not use coloured log outputs.                                        | `boolean` |         |          | True   |
-| `hook_url`                         | Incoming hook URL for messaging service                                 | `string`  |         |          | True   |
-| `validate_params`                  | Boolean whether to validate parameters against the schema at runtime    | `boolean` | True    |          | True   |
+| Parameter          | Description                                                     | Type      | Default | Required | Hidden |
+| ------------------ | --------------------------------------------------------------- | --------- | ------- | -------- | ------ |
+| `help`             | Display help text.                                              | `boolean` |         |          | True   |
+| `version`          | Display version and exit.                                       | `boolean` |         |          | True   |
+| `publish_dir_mode` | Method used to save pipeline results to output directory.       | `string`  | copy    |          | True   |
+| `email_on_fail`    | Email address for completion summary, only when pipeline fails. | `string`  |         |          | True   |
+| `plaintext_email`  | Send plain-text email instead of HTML.                          | `boolean` |         |          | True   |
+| `monochrome_logs`  | Do not use coloured log outputs.                                | `boolean` |         |          | True   |
+| `hook_url`         | Incoming hook URL for messaging service                         | `string`  |         |          | True   |
