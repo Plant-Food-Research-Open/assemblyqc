@@ -437,9 +437,6 @@
             "$ref": "#/$defs/input_output_options"
         },
         {
-            "$ref": "#/$defs/institutional_config_options"
-        },
-        {
             "$ref": "#/$defs/validation_options"
         },
         {

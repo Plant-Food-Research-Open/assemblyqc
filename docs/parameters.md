@@ -4,11 +4,11 @@ A Nextflow pipeline which evaluates assembly quality with multiple QC tools and 
 
 ## Input/output options
 
-| Parameter | Description                                                                                                              | Type     | Default   | Required | Hidden |
-| --------- | ------------------------------------------------------------------------------------------------------------------------ | -------- | --------- | -------- | ------ |
-| `input`   | Input assembly sheet in CSV format                                                                                       | `string` |           | True     |        |
-| `outdir`  | The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure. | `string` | ./results | True     |        |
-| `email`   | Email address for completion summary.                                                                                    | `string` |           |          |        |
+| Parameter | Description                                                                                                              | Type     | Default | Required | Hidden |
+| --------- | ------------------------------------------------------------------------------------------------------------------------ | -------- | ------- | -------- | ------ |
+| `input`   | Input assembly sheet in CSV format                                                                                       | `string` |         | True     |        |
+| `outdir`  | The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure. | `string` |         | True     |        |
+| `email`   | Email address for completion summary.                                                                                    | `string` |         |          |        |
 
 ## Validation options
 
@@ -99,16 +99,6 @@ A Nextflow pipeline which evaluates assembly quality with multiple QC tools and 
 | `merqury_skip`        | Skip merqury analysis            | `boolean` | True    |          |        |
 | `merqury_kmer_length` | kmer length for merqury analysis | `integer` | 21      |          |        |
 
-## Max job request options
-
-Set the top limit for requested resources for any single job.
-
-| Parameter    | Description                                                                        | Type      | Default | Required | Hidden |
-| ------------ | ---------------------------------------------------------------------------------- | --------- | ------- | -------- | ------ |
-| `max_cpus`   | Maximum number of CPUs that can be requested for any single job.                   | `integer` | 16      |          | True   |
-| `max_memory` | Maximum amount of memory that can be requested for any single job. Example: '8.GB' | `string`  | 512.GB  |          | True   |
-| `max_time`   | Maximum amount of time that can be requested for any single job. Example: '1.day'  | `string`  | 7.day   |          | True   |
-
 ## Institutional config options
 
 Parameters used to describe centralised config profiles. These should not be edited.
@@ -126,7 +116,6 @@ Less common options for the pipeline, typically set in a config file.
 
 | Parameter          | Description                                                     | Type      | Default | Required | Hidden |
 | ------------------ | --------------------------------------------------------------- | --------- | ------- | -------- | ------ |
-| `help`             | Display help text.                                              | `boolean` |         |          | True   |
 | `version`          | Display version and exit.                                       | `boolean` |         |          | True   |
 | `publish_dir_mode` | Method used to save pipeline results to output directory.       | `string`  | copy    |          | True   |
 | `email_on_fail`    | Email address for completion summary, only when pipeline fails. | `string`  |         |          | True   |

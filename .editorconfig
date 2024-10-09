@@ -51,3 +51,4 @@ indent_style = unset
 # ignore perl
 [*.{pl,pm}]
 indent_size = unset
+indent_style = unset
