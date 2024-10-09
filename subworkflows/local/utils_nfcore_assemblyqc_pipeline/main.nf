@@ -101,7 +101,7 @@ workflow PIPELINE_INITIALISATION {
 
     ch_xref_assembly                        = params.synteny_skip || ! params.synteny_xref_assemblies
                                             ? Channel.empty()
-                                            : Channel.fromSamplesheet('synteny_xref_assemblies')
+                                            : Channel.fromList(samplesheetToList(params.synteny_xref_assemblies, "assets/schema_xref_assemblies.json"))
 
     ch_xref_assembly_validated              = ch_xref_assembly
                                             | map { row -> row[0] }

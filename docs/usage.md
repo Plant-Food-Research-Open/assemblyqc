@@ -126,7 +126,7 @@ The data for these examples comes from: [umd.edu](https://obj.umiacs.umd.edu/mar
 
 ## Minimum System Requirements
 
-All the modules have been tested to work on a single machine with 10 CPUs + 30 GBs of memory, except NCBI FCS GX and Kraken2. Their minimum requirements are:
+All the modules have been tested to work on a single machine with 10 CPUs + 32 GBs of memory, except NCBI FCS GX and Kraken2. Their minimum requirements are:
 
 - NCBI FCS GX: 1 CPU + 512 GBs memory
 - Kraken2: 1 CPU + 200 GBs memory
