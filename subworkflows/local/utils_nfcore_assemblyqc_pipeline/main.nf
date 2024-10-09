@@ -76,7 +76,7 @@ workflow PIPELINE_INITIALISATION {
     // Initialise input channels
     //
 
-    ch_input                                = Channel.fromSamplesheet('input')
+    ch_input                                = Channel.fromList (samplesheetToList(input, "assets/schema_input.json"))
 
     // Function: validateInputTags
     ch_input_validated                      = ch_input

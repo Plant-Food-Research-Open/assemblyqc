@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Dependencies`
 
 1. Nextflow!>=23.04.0
-2. nf-validation@1.1.3
+2. nf-schema@2.1.1
 
 ### `Deprecated`
 

@@ -6,6 +6,7 @@
     "type": "array",
     "items": {
         "type": "object",
+        "uniqueEntries": ["tag"],
         "properties": {
             "tag": {
                 "type": "string",
@@ -72,8 +73,7 @@
                         "type": "string",
                         "maxLength": 0
                     }
-                ],
-                "dependentRequired": ["reads_1"]
+                ]
             },
             "maternal_reads_1": {
                 "errorMessage": "maternal_reads_1 should be a SRA ID for paired FASTQ files or FASTX file path without spaces and must have extension '.f(a|asta|as|sa|na|astq|q)' or '.f(a|asta|as|sa|na|astq|q).gz'",
@@ -86,8 +86,7 @@
                         "type": "string",
                         "maxLength": 0
                     }
-                ],
-                "dependentRequired": ["reads_1", "paternal_reads_1"]
+                ]
             },
             "maternal_reads_2": {
                 "errorMessage": "FASTX file path cannot contain spaces and must have extension '.f(a|asta|as|sa|na|astq|q)' or '.f(a|asta|as|sa|na|astq|q).gz'",
@@ -100,8 +99,7 @@
                         "type": "string",
                         "maxLength": 0
                     }
-                ],
-                "dependentRequired": ["maternal_reads_1"]
+                ]
             },
             "paternal_reads_1": {
                 "errorMessage": "paternal_reads_1 should be a SRA ID for paired FASTQ files or FASTX file path without spaces and must have extension '.f(a|asta|as|sa|na|astq|q)' or '.f(a|asta|as|sa|na|astq|q).gz'",
@@ -114,8 +112,7 @@
                         "type": "string",
                         "maxLength": 0
                     }
-                ],
-                "dependentRequired": ["reads_1", "maternal_reads_1"]
+                ]
             },
             "paternal_reads_2": {
                 "errorMessage": "FASTX file path cannot contain spaces and must have extension '.f(a|asta|as|sa|na|astq|q)' or '.f(a|asta|as|sa|na|astq|q).gz'",
@@ -128,10 +125,16 @@
                         "type": "string",
                         "maxLength": 0
                     }
-                ],
-                "dependentRequired": ["paternal_reads_1"]
+                ]
             }
         },
-        "required": ["tag", "fasta"]
+        "required": ["tag", "fasta"],
+        "dependentRequired": {
+            "reads_2": ["reads_1"],
+            "maternal_reads_1": ["reads_1", "paternal_reads_1"],
+            "maternal_reads_2": ["maternal_reads_1"],
+            "paternal_reads_1": ["reads_1", "maternal_reads_1"],
+            "paternal_reads_2": ["paternal_reads_1"]
+        }
     }
 }
