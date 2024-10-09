@@ -35,10 +35,7 @@
                     "pattern": "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$"
                 }
             },
-            "required": [
-                "input",
-                "outdir"
-            ]
+            "required": ["input", "outdir"]
         },
         "validation_options": {
             "title": "Validation options",
@@ -88,10 +85,7 @@
                 },
                 "ncbi_fcs_adaptor_empire": {
                     "type": "string",
-                    "enum": [
-                        "euk",
-                        "prok"
-                    ],
+                    "enum": ["euk", "prok"],
                     "description": "Empire for NCBI FCS Adaptor checking: 'euk' for eukaryotes, or 'prok' for prokaryotes",
                     "fa_icon": "fas fa-project-diagram"
                 },
@@ -134,11 +128,7 @@
                 },
                 "busco_mode": {
                     "type": "string",
-                    "enum": [
-                        "genome",
-                        "transcriptome",
-                        "proteins"
-                    ],
+                    "enum": ["genome", "transcriptome", "proteins"],
                     "description": "BUSCO mode: 'genome', 'transcriptome', 'proteins'",
                     "fa_icon": "fas fa-cog"
                 },
@@ -293,11 +283,7 @@
                     "type": "string",
                     "default": "both",
                     "description": "Synteny plot type from Mummer alignments: 'dotplot', 'circos', or 'both'",
-                    "enum": [
-                        "both",
-                        "dotplot",
-                        "circos"
-                    ],
+                    "enum": ["both", "dotplot", "circos"],
                     "fa_icon": "fas fa-chart-line"
                 },
                 "synteny_mummer_m2m_align": {
@@ -460,14 +446,7 @@
                     "default": "copy",
                     "description": "Method used to save pipeline results to output directory.",
                     "fa_icon": "fas fa-copy",
-                    "enum": [
-                        "symlink",
-                        "rellink",
-                        "link",
-                        "copy",
-                        "copyNoFollow",
-                        "move"
-                    ],
+                    "enum": ["symlink", "rellink", "link", "copy", "copyNoFollow", "move"],
                     "hidden": true
                 },
                 "email_on_fail": {
@@ -531,55 +510,62 @@
                         "default": "https://raw.githubusercontent.com/nf-core/test-datasets/",
                         "hidden": true
                     }
+                },
+                "validationSchemaIgnoreParams": {
+                    "type": "string"
+                },
+                "pipelines_testdata_base_path": {
+                    "type": "string",
+                    "default": "https://raw.githubusercontent.com/nf-core/test-datasets/"
                 }
             }
+        }
+    },
+    "allOf": [
+        {
+            "$ref": "#/$defs/input_output_options"
         },
-        "allOf": [
-            {
-                "$ref": "#/$defs/input_output_options"
-            },
-            {
-                "$ref": "#/$defs/institutional_config_options"
-            },
-            {
-                "$ref": "#/defs/validation_options"
-            },
-            {
-                "$ref": "#/defs/general_stats_options"
-            },
-            {
-                "$ref": "#/defs/ncbi_fcs_options"
-            },
-            {
-                "$ref": "#/defs/busco_options"
-            },
-            {
-                "$ref": "#/defs/tidk_options"
-            },
-            {
-                "$ref": "#/defs/lai_options"
-            },
-            {
-                "$ref": "#/defs/kraken2_options"
-            },
-            {
-                "$ref": "#/defs/hic_options"
-            },
-            {
-                "$ref": "#/defs/synteny_options"
-            },
-            {
-                "$ref": "#/defs/merqury_options"
-            },
-            {
-                "$ref": "#/defs/max_job_request_options"
-            },
-            {
-                "$ref": "#/defs/institutional_config_options"
-            },
-            {
-                "$ref": "#/$defs/generic_options"
-            }
-        ]
-    }
+        {
+            "$ref": "#/$defs/institutional_config_options"
+        },
+        {
+            "$ref": "#/$defs/validation_options"
+        },
+        {
+            "$ref": "#/$defs/general_stats_options"
+        },
+        {
+            "$ref": "#/$defs/ncbi_fcs_options"
+        },
+        {
+            "$ref": "#/$defs/busco_options"
+        },
+        {
+            "$ref": "#/$defs/tidk_options"
+        },
+        {
+            "$ref": "#/$defs/lai_options"
+        },
+        {
+            "$ref": "#/$defs/kraken2_options"
+        },
+        {
+            "$ref": "#/$defs/hic_options"
+        },
+        {
+            "$ref": "#/$defs/synteny_options"
+        },
+        {
+            "$ref": "#/$defs/merqury_options"
+        },
+        {
+            "$ref": "#/$defs/max_job_request_options"
+        },
+        {
+            "$ref": "#/$defs/institutional_config_options"
+        },
+        {
+            "$ref": "#/$defs/generic_options"
+        }
+    ]
 }
