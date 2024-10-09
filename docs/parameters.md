@@ -119,8 +119,6 @@ Parameters used to describe centralised config profiles. These should not be edi
 | `custom_config_base`         | Base directory for Institutional configs. | `string` | https://raw.githubusercontent.com/nf-core/configs/master |          | True   |
 | `config_profile_name`        | Institutional config name.                | `string` |                                                          |          | True   |
 | `config_profile_description` | Institutional config description.         | `string` |                                                          |          | True   |
-| `config_profile_contact`     | Institutional config contact information. | `string` |                                                          |          | True   |
-| `config_profile_url`         | Institutional config URL link.            | `string` |                                                          |          | True   |
 
 ## Generic options
 
@@ -134,9 +132,5 @@ Less common options for the pipeline, typically set in a config file.
 | `email_on_fail`                    | Email address for completion summary, only when pipeline fails.         | `string`  |         |          | True   |
 | `plaintext_email`                  | Send plain-text email instead of HTML.                                  | `boolean` |         |          | True   |
 | `monochrome_logs`                  | Do not use coloured log outputs.                                        | `boolean` |         |          | True   |
-| `monochromeLogs`                   | Do not use coloured log outputs.                                        | `boolean` |         |          | True   |
 | `hook_url`                         | Incoming hook URL for messaging service                                 | `string`  |         |          | True   |
 | `validate_params`                  | Boolean whether to validate parameters against the schema at runtime    | `boolean` | True    |          | True   |
-| `validationShowHiddenParams`       | Show all params when using `--help`                                     | `boolean` |         |          | True   |
-| `validationFailUnrecognisedParams` | Validation of parameters fails when an unrecognised parameter is found. | `boolean` |         |          | True   |
-| `validationLenientMode`            | Validation of parameters in lenient more.                               | `boolean` |         |          | True   |

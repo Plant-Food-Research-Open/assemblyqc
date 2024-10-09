@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 1. Reduced the GenomeTools stats figures to 300 DPI [#142](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/142)
 2. Now `synteny_mummer_min_bundle_size` is set to `1000000` by default [#142](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/142)
+3. `results` is not the default output directory anymore
+4. Removed a number of unnecessary parameters: `monochromeLogs`, `config_profile_contact`, `config_profile_url`, `validationFailUnrecognisedParams`, `validationLenientMode`, `validationSchemaIgnoreParams`, `validationShowHiddenParams`
 
 ## v2.1.1 - [20-Sep-2024]
 

@@ -25,8 +25,7 @@
                     "type": "string",
                     "format": "directory-path",
                     "description": "The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.",
-                    "fa_icon": "fas fa-folder-open",
-                    "default": "./results"
+                    "fa_icon": "fas fa-folder-open"
                 },
                 "email": {
                     "type": "string",
@@ -413,18 +412,6 @@
                     "description": "Institutional config description.",
                     "hidden": true,
                     "fa_icon": "fas fa-users-cog"
-                },
-                "config_profile_contact": {
-                    "type": "string",
-                    "description": "Institutional config contact information.",
-                    "hidden": true,
-                    "fa_icon": "fas fa-users-cog"
-                },
-                "config_profile_url": {
-                    "type": "string",
-                    "description": "Institutional config URL link.",
-                    "hidden": true,
-                    "fa_icon": "fas fa-users-cog"
                 }
             }
         },
@@ -468,12 +455,6 @@
                     "fa_icon": "fas fa-palette",
                     "hidden": true
                 },
-                "monochromeLogs": {
-                    "type": "boolean",
-                    "fa_icon": "fas fa-palette",
-                    "description": "Do not use coloured log outputs.",
-                    "hidden": true
-                },
                 "hook_url": {
                     "type": "string",
                     "description": "Incoming hook URL for messaging service",
@@ -486,37 +467,6 @@
                     "default": true,
                     "fa_icon": "fas fa-check-square",
                     "hidden": true
-                },
-                "validationShowHiddenParams": {
-                    "type": "boolean",
-                    "fa_icon": "far fa-eye-slash",
-                    "description": "Show all params when using `--help`",
-                    "hidden": true
-                },
-                "validationFailUnrecognisedParams": {
-                    "type": "boolean",
-                    "fa_icon": "far fa-check-circle",
-                    "description": "Validation of parameters fails when an unrecognised parameter is found.",
-                    "hidden": true
-                },
-                "validationLenientMode": {
-                    "type": "boolean",
-                    "fa_icon": "far fa-check-circle",
-                    "description": "Validation of parameters in lenient more.",
-                    "pipelines_testdata_base_path": {
-                        "type": "string",
-                        "fa_icon": "far fa-check-circle",
-                        "description": "Base URL or local path to location of pipeline test dataset files",
-                        "default": "https://raw.githubusercontent.com/nf-core/test-datasets/",
-                        "hidden": true
-                    }
-                },
-                "validationSchemaIgnoreParams": {
-                    "type": "string"
-                },
-                "pipelines_testdata_base_path": {
-                    "type": "string",
-                    "default": "https://raw.githubusercontent.com/nf-core/test-datasets/"
                 }
             }
         }
