@@ -27,14 +27,14 @@ lint:
     - validation.help.afterText
     - validation.summary.beforeText
     - validation.summary.afterText
-nf_core_version: 3.0.0
+nf_core_version: 3.0.1
 org_path: null
 repository_type: pipeline
 template:
   author: Usman Rashid, Ken Smith, Ross Crowhurst, Chen Wu, Marcus Davy
   description: A NextFlow pipeline which evaluates assembly quality with multiple
     QC tools and presents the results in a unified html report.
-  force: true
+  force: false
   is_nfcore: false
   name: assemblyqc
   org: plant-food-research-open
@@ -43,5 +43,5 @@ template:
     - igenomes
     - multiqc
     - fastqc
-  version: 3.0.0
+  version: 2.2.0+dev
 update: null
