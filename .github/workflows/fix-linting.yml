@@ -9,7 +9,7 @@ jobs:
     if: >
       contains(github.event.comment.html_url, '/pull/') &&
       contains(github.event.comment.body, '@nf-core-bot fix linting') &&
-      github.repository == 'plant-food-research-open/assemblyqc'
+      github.repository == 'Plant-Food-Research-Open/assemblyqc'
     runs-on: ubuntu-latest
     steps:
       # Use the @nf-core-bot token to check out so we can push later

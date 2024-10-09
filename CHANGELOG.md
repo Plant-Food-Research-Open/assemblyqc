@@ -3,23 +3,27 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v2.2.0+dev - [01-Oct-2024]
+## v2.2.0+dev - [09-Oct-2024]
 
 ### `Added`
 
 1. Added Gfastats [#126](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/126)
+2. Updated nf-core/template to 3.0.0 [#149](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/149)
 
 ### `Fixed`
 
 ### `Dependencies`
 
 1. Nextflow!>=23.04.0
-2. nf-validation@1.1.3
+2. nf-schema@2.1.1
 
 ### `Deprecated`
 
 1. Reduced the GenomeTools stats figures to 300 DPI [#142](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/142)
 2. Now `synteny_mummer_min_bundle_size` is set to `1000000` by default [#142](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/142)
+3. `results` is not the default output directory anymore
+4. Removed a number of unnecessary parameters: `monochromeLogs`, `config_profile_contact`, `config_profile_url`, `validationFailUnrecognisedParams`, `validationLenientMode`, `validationSchemaIgnoreParams`, `validationShowHiddenParams` `validate_params`
+5. Resource parameters have been removed: `max_memory`, `max_cpus`, `max_time`
 
 ## v2.1.1 - [20-Sep-2024]
 

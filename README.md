@@ -1,8 +1,10 @@
+# plant-food-research-open/assemblyqc
+
 [![GitHub Actions CI Status](https://github.com/plant-food-research-open/assemblyqc/actions/workflows/ci.yml/badge.svg)](https://github.com/plant-food-research-open/assemblyqc/actions/workflows/ci.yml)
 [![GitHub Actions Linting Status](https://github.com/plant-food-research-open/assemblyqc/actions/workflows/linting.yml/badge.svg)](https://github.com/plant-food-research-open/assemblyqc/actions/workflows/linting.yml)[![Cite Article](http://img.shields.io/badge/DOI-10.1093/bioinformatics/btae477-1073c8?labelColor=000000)](https://doi.org/10.1093/bioinformatics/btae477)
 [![nf-test](https://img.shields.io/badge/unit_tests-nf--test-337ab7.svg)](https://www.nf-test.com)
 
-[![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A523.04.0-23aa62.svg)](https://www.nextflow.io/)
+[![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A524.04.2-23aa62.svg)](https://www.nextflow.io/)
 [![run with conda ❌](http://img.shields.io/badge/run%20with-conda%20❌-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
 [![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
@@ -106,8 +108,7 @@ nextflow run plant-food-research-open/assemblyqc \
 ```
 
 > [!WARNING]
-> Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_;
-> see [docs](https://nf-co.re/usage/configuration#custom-configuration-files).
+> Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_; see [docs](https://nf-co.re/docs/usage/getting_started/configuration#custom-configuration-files).
 
 ### Plant&Food Users
 

@@ -17,10 +17,9 @@ nextflow run \
     -profile docker,test_full \
     -resume \
     $stub \
-    --max_cpus 8 \
-    --max_memory '32.GB' \
     --ncbi_fcs_gx_skip false \
     --ncbi_fcs_gx_db_path ../dbs/gxdb/test \
     --busco_download_path ../dbs/busco \
     --kraken2_skip false \
-    --kraken2_db_path ../dbs/kraken2db/k2_minusb
+    --kraken2_db_path ../dbs/kraken2db/k2_minusb \
+    --outdir results
