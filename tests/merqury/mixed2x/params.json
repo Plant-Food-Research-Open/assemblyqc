@@ -3,8 +3,5 @@
     "config_profile_description": "Merqury test for a mixed diploid assembly contained in a single fasta",
     "input": "tests/merqury/mixed2x/assemblysheet.csv",
     "merqury_skip": false,
-    "merqury_kmer_length": 21,
-    "max_cpus": 8,
-    "max_memory": "32.GB",
-    "max_time": "6.h"
+    "merqury_kmer_length": 21
 }

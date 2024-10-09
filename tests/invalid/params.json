@@ -1,8 +1,5 @@
 {
     "config_profile_name": "Invalid profile",
     "config_profile_description": "Profile to test invalid files",
-    "input": "tests/invalid/assemblysheet.csv",
-    "max_cpus": 2,
-    "max_memory": "6.GB",
-    "max_time": "6.h"
+    "input": "tests/invalid/assemblysheet.csv"
 }

@@ -4,9 +4,6 @@ lint:
     - conf/igenomes.config
     - conf/igenomes_ignored.config
     - assets/multiqc_config.yml
-    - conf/igenomes.config
-    - conf/igenomes_ignored.config
-    - assets/multiqc_config.yml
     - CODE_OF_CONDUCT.md
     - assets/nf-core-assemblyqc_logo_light.png
     - docs/images/nf-core-assemblyqc_logo_light.png
@@ -14,18 +11,6 @@ lint:
     - .github/ISSUE_TEMPLATE/config.yml
     - .github/workflows/awstest.yml
     - .github/workflows/awsfulltest.yml
-    - assets/multiqc_config.yml
-    - conf/igenomes.config
-  files_unchanged:
-    - .github/CONTRIBUTING.md
-    - assets/sendmail_template.txt
-    - .github/CONTRIBUTING.md
-    - assets/sendmail_template.txt
-    - CODE_OF_CONDUCT.md
-    - assets/nf-core-assemblyqc_logo_light.png
-    - docs/images/nf-core-assemblyqc_logo_light.png
-    - docs/images/nf-core-assemblyqc_logo_dark.png
-    - .github/ISSUE_TEMPLATE/bug_report.yml
   multiqc_config: false
   template_strings: false
   nextflow_config:
@@ -51,5 +36,5 @@ template:
     - igenomes
     - multiqc
     - fastqc
-  version: 1.0.0dev
+  version: 2.2.0+dev
 update: null
