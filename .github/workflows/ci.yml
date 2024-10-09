@@ -7,6 +7,7 @@ on:
   pull_request:
   release:
     types: [published]
+  workflow_dispatch:
 
 env:
   NXF_ANSI_LOG: false
@@ -19,12 +20,12 @@ jobs:
   test:
     name: Run pipeline with test data
     # Only run on push if this is the nf-core dev branch (merged PRs)
-    if: "${{ github.event_name != 'push' || (github.event_name == 'push' && github.repository == 'plant-food-research-open/assemblyqc') }}"
+    if: "${{ github.event_name != 'push' || (github.event_name == 'push' && github.repository == 'Plant-Food-Research-Open/assemblyqc') }}"
     runs-on: ubuntu-latest
     strategy:
       matrix:
         NXF_VER:
-          - "23.04.0"
+          - "24.04.2"
         TEST_PARAMS:
           - minimal
           - invalid

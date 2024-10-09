@@ -1,10 +1,10 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://raw.githubusercontent.com/plant-food-research-open/assemblyqc/main/nextflow_schema.json",
     "title": "plant-food-research-open/assemblyqc pipeline parameters",
     "description": "A Nextflow pipeline which evaluates assembly quality with multiple QC tools and presents the results in a unified html report.",
     "type": "object",
-    "definitions": {
+    "$defs": {
         "input_output_options": {
             "title": "Input/output options",
             "type": "object",
@@ -35,7 +35,10 @@
                     "pattern": "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$"
                 }
             },
-            "required": ["input", "outdir"]
+            "required": [
+                "input",
+                "outdir"
+            ]
         },
         "validation_options": {
             "title": "Validation options",
@@ -85,7 +88,10 @@
                 },
                 "ncbi_fcs_adaptor_empire": {
                     "type": "string",
-                    "enum": ["euk", "prok"],
+                    "enum": [
+                        "euk",
+                        "prok"
+                    ],
                     "description": "Empire for NCBI FCS Adaptor checking: 'euk' for eukaryotes, or 'prok' for prokaryotes",
                     "fa_icon": "fas fa-project-diagram"
                 },
@@ -128,7 +134,11 @@
                 },
                 "busco_mode": {
                     "type": "string",
-                    "enum": ["genome", "transcriptome", "proteins"],
+                    "enum": [
+                        "genome",
+                        "transcriptome",
+                        "proteins"
+                    ],
                     "description": "BUSCO mode: 'genome', 'transcriptome', 'proteins'",
                     "fa_icon": "fas fa-cog"
                 },
@@ -283,7 +293,11 @@
                     "type": "string",
                     "default": "both",
                     "description": "Synteny plot type from Mummer alignments: 'dotplot', 'circos', or 'both'",
-                    "enum": ["both", "dotplot", "circos"],
+                    "enum": [
+                        "both",
+                        "dotplot",
+                        "circos"
+                    ],
                     "fa_icon": "fas fa-chart-line"
                 },
                 "synteny_mummer_m2m_align": {
@@ -435,12 +449,6 @@
             "description": "Less common options for the pipeline, typically set in a config file.",
             "help_text": "These options are common to all nf-core pipelines and allow you to customise some of the core preferences for how the pipeline runs.\n\nTypically these options would be set in a Nextflow config file loaded for all pipeline runs, such as `~/.nextflow/config`.",
             "properties": {
-                "help": {
-                    "type": "boolean",
-                    "description": "Display help text.",
-                    "fa_icon": "fas fa-question-circle",
-                    "hidden": true
-                },
                 "version": {
                     "type": "boolean",
                     "description": "Display version and exit.",
@@ -452,7 +460,14 @@
                     "default": "copy",
                     "description": "Method used to save pipeline results to output directory.",
                     "fa_icon": "fas fa-copy",
-                    "enum": ["symlink", "rellink", "link", "copy", "copyNoFollow", "move"],
+                    "enum": [
+                        "symlink",
+                        "rellink",
+                        "link",
+                        "copy",
+                        "copyNoFollow",
+                        "move"
+                    ],
                     "hidden": true
                 },
                 "email_on_fail": {
@@ -509,53 +524,61 @@
                     "type": "boolean",
                     "fa_icon": "far fa-check-circle",
                     "description": "Validation of parameters in lenient more.",
-                    "hidden": true
+                    "pipelines_testdata_base_path": {
+                        "type": "string",
+                        "fa_icon": "far fa-check-circle",
+                        "description": "Base URL or local path to location of pipeline test dataset files",
+                        "default": "https://raw.githubusercontent.com/nf-core/test-datasets/",
+                        "hidden": true
+                    }
                 }
             }
-        }
-    },
-    "allOf": [
-        {
-            "$ref": "#/definitions/input_output_options"
         },
-        {
-            "$ref": "#/definitions/validation_options"
-        },
-        {
-            "$ref": "#/definitions/general_stats_options"
-        },
-        {
-            "$ref": "#/definitions/ncbi_fcs_options"
-        },
-        {
-            "$ref": "#/definitions/busco_options"
-        },
-        {
-            "$ref": "#/definitions/tidk_options"
-        },
-        {
-            "$ref": "#/definitions/lai_options"
-        },
-        {
-            "$ref": "#/definitions/kraken2_options"
-        },
-        {
-            "$ref": "#/definitions/hic_options"
-        },
-        {
-            "$ref": "#/definitions/synteny_options"
-        },
-        {
-            "$ref": "#/definitions/merqury_options"
-        },
-        {
-            "$ref": "#/definitions/max_job_request_options"
-        },
-        {
-            "$ref": "#/definitions/institutional_config_options"
-        },
-        {
-            "$ref": "#/definitions/generic_options"
-        }
-    ]
-}
+        "allOf": [
+            {
+                "$ref": "#/$defs/input_output_options"
+            },
+            {
+                "$ref": "#/$defs/institutional_config_options"
+            },
+            {
+                "$ref": "#/defs/validation_options"
+            },
+            {
+                "$ref": "#/defs/general_stats_options"
+            },
+            {
+                "$ref": "#/defs/ncbi_fcs_options"
+            },
+            {
+                "$ref": "#/defs/busco_options"
+            },
+            {
+                "$ref": "#/defs/tidk_options"
+            },
+            {
+                "$ref": "#/defs/lai_options"
+            },
+            {
+                "$ref": "#/defs/kraken2_options"
+            },
+            {
+                "$ref": "#/defs/hic_options"
+            },
+            {
+                "$ref": "#/defs/synteny_options"
+            },
+            {
+                "$ref": "#/defs/merqury_options"
+            },
+            {
+                "$ref": "#/defs/max_job_request_options"
+            },
+            {
+                "$ref": "#/defs/institutional_config_options"
+            },
+            {
+                "$ref": "#/$defs/generic_options"
+            }
+        ]
+    }

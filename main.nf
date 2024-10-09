@@ -7,8 +7,6 @@
 ----------------------------------------------------------------------------------------
 */
 
-nextflow.enable.dsl = 2
-
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     IMPORT FUNCTIONS / MODULES / SUBWORKFLOWS / WORKFLOWS
@@ -18,7 +16,6 @@ nextflow.enable.dsl = 2
 include { ASSEMBLYQC                } from './workflows/assemblyqc'
 include { PIPELINE_INITIALISATION   } from './subworkflows/local/utils_nfcore_assemblyqc_pipeline'
 include { PIPELINE_COMPLETION       } from './subworkflows/local/utils_nfcore_assemblyqc_pipeline'
-
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     NAMED WORKFLOWS FOR PIPELINE
@@ -54,7 +51,6 @@ workflow PLANTFOODRESEARCHOPEN_ASSEMBLYQC {
         ch_params_as_json,
         ch_summary_params_as_json
     )
-
 }
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -65,13 +61,11 @@ workflow PLANTFOODRESEARCHOPEN_ASSEMBLYQC {
 workflow {
 
     main:
-
     //
     // SUBWORKFLOW: Run initialisation tasks
     //
     PIPELINE_INITIALISATION (
         params.version,
-        params.help,
         params.validate_params,
         params.monochrome_logs,
         args,
@@ -92,7 +86,6 @@ workflow {
         PIPELINE_INITIALISATION.out.params_as_json,
         PIPELINE_INITIALISATION.out.summary_params_as_json
     )
-
     //
     // SUBWORKFLOW: Run completion tasks
     //
@@ -102,7 +95,8 @@ workflow {
         params.plaintext_email,
         params.outdir,
         params.monochrome_logs,
-        params.hook_url
+        params.hook_url,
+
     )
 }
 

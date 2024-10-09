@@ -11,7 +11,6 @@ The directories listed below will be created in the results directory after the 
 The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes data using the following steps:
 
 <!-- no toc -->
-
 - [FASTA and GFF3 validation](#fasta-and-gff3-validation)
 - [Assemblathon stats](#assemblathon-stats)
 - [Gfastats](#gfastats)
