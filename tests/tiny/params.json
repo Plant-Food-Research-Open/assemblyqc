@@ -1,0 +1,8 @@
+{
+    "config_profile_name": "Test profile",
+    "config_profile_description": "Tiny test dataset to check pipeline function",
+    "input": "tests/tiny/assemblysheet.csv",
+    "max_cpus": 2,
+    "max_memory": "6.GB",
+    "max_time": "6.h"
+}
