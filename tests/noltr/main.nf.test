@@ -42,7 +42,7 @@ nextflow_pipeline {
             assertAll(
                 { assert workflow.success},
                 {
-                    def lai = file("$outputDir/lai/FI1.LAI.out").readLines()[1].split('\t')[6]
+                    def lai = Float.parseFloat(path("$outputDir/lai/FI1.LAI.out").text.split("\n")[1].split("\t")[6])
                     assert Math.abs(lai - 4.84) <= 1.0
                 },
                 { assert snapshot(
