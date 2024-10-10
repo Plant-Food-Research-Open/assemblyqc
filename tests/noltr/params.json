@@ -1,6 +1,0 @@
-{
-    "config_profile_name": "No LTRs assembly profile",
-    "config_profile_description": "Profile to test an assembly without LTRs",
-    "input": "tests/noltr/assemblysheet.csv",
-    "lai_skip": false
-}

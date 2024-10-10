@@ -1,5 +1,0 @@
-{
-    "config_profile_name": "Test profile",
-    "config_profile_description": "Minimal test dataset to check pipeline function",
-    "input": "https://raw.githubusercontent.com/plant-food-research-open/assemblyqc/dev/assets/assemblysheetv2.csv"
-}

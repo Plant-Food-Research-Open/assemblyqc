@@ -1,5 +1,0 @@
-{
-    "config_profile_name": "Test profile",
-    "config_profile_description": "Tiny test dataset to check pipeline function",
-    "input": "tests/tiny/assemblysheet.csv"
-}

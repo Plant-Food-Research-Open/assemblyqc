@@ -1,0 +1,35 @@
+nextflow_pipeline {
+
+    name "Test with invalid input files"
+    script "main.nf"
+
+    test("invalid") {
+
+        when {
+            params {
+                input   = "$baseDir/tests/invalid/assemblysheet.csv"
+                outdir  = "$outputDir"
+            }
+        }
+
+        then {
+            def stable_path = getAllFilesFromDir(params.outdir, false, ['pipeline_info/*.{html,json,txt,yml}', 'report.{html,json}'], null, ['**'])
+
+            assertAll(
+                { assert workflow.success},
+                { assert 'WARN: GFF3 validation failed for TT_2021a' in workflow.stdout },
+                { assert 'WARN: FASTA validation failed for MISC' in workflow.stdout },
+                { assert 'WARN: FASTA validation failed for DUPSEQ due to presence of duplicate sequences' in workflow.stdout },
+                { assert snapshot(
+                    [
+                        'successful tasks': workflow.trace.succeeded().size(),
+                        'versions': removeNextflowVersion("$outputDir/pipeline_info/software_versions.yml"),
+                        'stable paths': stable_path
+                    ]
+                ).match() }
+            )
+        }
+
+    }
+
+}
