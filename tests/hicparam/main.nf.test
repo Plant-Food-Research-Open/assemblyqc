@@ -1,0 +1,35 @@
+nextflow_pipeline {
+
+    name "Test with hic param"
+    script "main.nf"
+
+    test("hic param - stub") {
+
+        options '-stub'
+
+        when {
+            params {
+                input   = "$baseDir/tests/hicparam/assemblysheet.csv"
+                hic     = "$baseDir/tests/hicparam/hic/Dummy_hic_{1,2}.merged.fq.gz"
+                outdir  = "$outputDir"
+            }
+        }
+
+        then {
+            def stable_path = getAllFilesFromDir(params.outdir, false, ['pipeline_info/*.{html,json,txt,yml}', 'report.{html,json}'], null, ['**'])
+
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot(
+                    [
+                        'successful tasks': workflow.trace.succeeded().size(),
+                        'versions': removeNextflowVersion("$outputDir/pipeline_info/software_versions.yml"),
+                        'stable paths': stable_path
+                    ]
+                ).match() }
+            )
+        }
+
+    }
+
+}

@@ -1,5 +1,0 @@
-{
-    "config_profile_name": "Invalid profile",
-    "config_profile_description": "Profile to test invalid files",
-    "input": "tests/invalid/assemblysheet.csv"
-}

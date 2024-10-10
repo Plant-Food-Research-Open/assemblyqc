@@ -1,0 +1,307 @@
+{
+    "full - stub": {
+        "content": [
+            {
+                "successful tasks": 91,
+                "versions": {
+                    "AGP2ASSEMBLY": {
+                        "juicebox_scripts": "0.1.0"
+                    },
+                    "ASSEMBLATHON_STATS": {
+                        "assemblathon_stats": "github/PlantandFoodResearch/assemblathon2-analysis/a93cba2"
+                    },
+                    "ASSEMBLY2BEDPE": {
+                        "python": "3.11.3",
+                        "pandas": "2.1.1"
+                    },
+                    "BUNDLELINKS": {
+                        "python": "3.11.3"
+                    },
+                    "BUSCO_ANNOTATION": {
+                        "busco": "5.7.1"
+                    },
+                    "BUSCO_ASSEMBLY": {
+                        "busco": "5.7.1"
+                    },
+                    "BWA_INDEX": {
+                        "bwa": "0.7.18-r1243-dirty"
+                    },
+                    "BWA_MEM": {
+                        "bwa": "0.7.18-r1243-dirty",
+                        "samtools": 1.2
+                    },
+                    "CAT_CAT": {
+                        "pigz": "2.3.4"
+                    },
+                    "CIRCOS": {
+                        "circos": "v0.69-8",
+                        "perl": 5.032001
+                    },
+                    "COLOURBUNDLELINKS": {
+                        "python": "3.11.3",
+                        "perl": "5.32.1"
+                    },
+                    "CUSTOM_RELABELFASTA": {
+                        "python": "3.8.13",
+                        "biopython": 1.75
+                    },
+                    "CUSTOM_SHORTENFASTAIDS": {
+                        "python": "3.8.13",
+                        "biopython": 1.75
+                    },
+                    "CUSTOM_SRATOOLSNCBISETTINGS": {
+                        "sratools": "3.0.8"
+                    },
+                    "DNADIFF": {
+                        "dnadiff": 1.3
+                    },
+                    "EXTRACT_PROTEINS": {
+                        "gffread": "0.12.7"
+                    },
+                    "FASTAVALIDATOR": {
+                        "py_fasta_validator": 0.6
+                    },
+                    "FASTQC_RAW": {
+                        "fastqc": "0.12.1"
+                    },
+                    "FCS_FCSADAPTOR": {
+                        "FCS-adaptor": "0.5.0"
+                    },
+                    "FILTERSORTFASTA": {
+                        "samtools": "1.16.1"
+                    },
+                    "FILTER_BY_LENGTH": {
+                        "seqkit": "v2.8.0"
+                    },
+                    "GENERATEKARYOTYPE": {
+                        "awk": "1.3.4 20200120",
+                        "grep": "(GNU grep) 3.4",
+                        "sed": "(GNU sed) 4.7"
+                    },
+                    "GETFASTALENGTH": {
+                        "samtools": "1.16.1"
+                    },
+                    "GFASTATS": {
+                        "gfastats": "1.3.6"
+                    },
+                    "GT_GFF3": {
+                        "genometools": "1.6.5"
+                    },
+                    "GT_GFF3VALIDATOR": {
+                        "genometools": "1.6.5"
+                    },
+                    "GT_STAT": {
+                        "genometools": "1.6.5"
+                    },
+                    "GUNZIP_FASTA": {
+                        "gunzip": 1.1
+                    },
+                    "GUNZIP_GFF3": {
+                        "gunzip": 1.1
+                    },
+                    "HIC2HTML": {
+                        "python": "3.11.3"
+                    },
+                    "HICQC": {
+                        "hic_qc.py": "0+untagged.261.g6881c33"
+                    },
+                    "JUICER_SORT": {
+                        "sort": 8.3
+                    },
+                    "KRAKEN2": {
+                        "kraken2": "2.1.2"
+                    },
+                    "KRAKEN2_KRONA_PLOT": {
+                        "KronaTools": "2.7.1"
+                    },
+                    "LINEARSYNTENY": {
+                        "python": "3.11.3",
+                        "pandas": "2.1.1",
+                        "plotly": "5.20.0"
+                    },
+                    "LTRFINDER": {
+                        "LTR_FINDER_parallel": "v1.1",
+                        "ltr_finder": "v1.07"
+                    },
+                    "LTRHARVEST": {
+                        "LTR_HARVEST_parallel": "v1.1",
+                        "genometools": "1.6.5"
+                    },
+                    "LTRRETRIEVER_LAI": {
+                        "lai": "beta3.2"
+                    },
+                    "LTRRETRIEVER_LTRRETRIEVER": {
+                        "LTR_retriever": "v2.9.9"
+                    },
+                    "MAKEAGPFROMFASTA": {
+                        "juicebox_scripts": "0.1.0"
+                    },
+                    "MATLOCK_BAM2_JUICER": {
+                        "matlock": 20181227
+                    },
+                    "MERQURY_MERQURY": {
+                        "merqury": 1.3
+                    },
+                    "MERYL_COUNT": {
+                        "meryl": "1.4.1"
+                    },
+                    "MERYL_UNIONSUM": {
+                        "meryl": "1.4.1"
+                    },
+                    "MINIMAP2_ALIGN": {
+                        "minimap2": "2.28-r1209"
+                    },
+                    "MUMMER": {
+                        "nucmer": "4.0.0rc1"
+                    },
+                    "NCBI_FCS_GX_KRONA_PLOT": {
+                        "KronaTools": "2.7.1"
+                    },
+                    "NCBI_FCS_GX_SCREEN_SAMPLES": {
+                        "fcs_gx": "0.5.4"
+                    },
+                    "NCBI_FCS_GX_SETUP_SAMPLE": {
+                        "ubuntu": "20.04.6l"
+                    },
+                    "PLOTSR": {
+                        "plotsr": "1.1.1"
+                    },
+                    "RELABELBUNDLELINKS": {
+                        "python": "3.11.3"
+                    },
+                    "RELABELFASTALENGTH": {
+                        "python": "3.11.3"
+                    },
+                    "RUNASSEMBLYVISUALIZER": {
+                        "run-assembly-visualizer.sh": "18 July 2016"
+                    },
+                    "SAMBLASTER": {
+                        "samblaster": "0.1.26",
+                        "samtools": "1.19.2"
+                    },
+                    "SAMTOOLS_FAIDX": {
+                        "samtools": 1.21
+                    },
+                    "SEQKIT_RMDUP": {
+                        "seqkit": "v2.8.0"
+                    },
+                    "SEQKIT_SORT": {
+                        "seqkit": "v2.8.0"
+                    },
+                    "SORT_BY_LENGTH": {
+                        "seqkit": "v2.8.0"
+                    },
+                    "SPLITBUNDLEFILE": {
+                        "awk": "1.3.4 20200120"
+                    },
+                    "SRATOOLS_FASTERQDUMP": {
+                        "sratools": "3.0.8",
+                        "pigz": 2.6
+                    },
+                    "SRATOOLS_PREFETCH": {
+                        "sratools": "3.1.0",
+                        "curl": "8.5.0"
+                    },
+                    "SYRI": {
+                        "syri": "1.7.0"
+                    },
+                    "TAG_ASSEMBLY": {
+                        "pigz": "2.3.4"
+                    },
+                    "TIDK_EXPLORE": {
+                        "tidk": "0.2.41"
+                    },
+                    "TIDK_PLOT_APOSTERIORI": {
+                        "tidk": "0.2.41"
+                    },
+                    "TIDK_PLOT_APRIORI": {
+                        "tidk": "0.2.41"
+                    },
+                    "TIDK_SEARCH_APOSTERIORI": {
+                        "tidk": "0.2.41"
+                    },
+                    "TIDK_SEARCH_APRIORI": {
+                        "tidk": "0.2.41"
+                    },
+                    "UNMASK_IF_ANY": {
+                        "seqkit": "v2.8.0"
+                    },
+                    "UNTAR": {
+                        "untar": 1.34
+                    },
+                    "Workflow": {
+                        "plant-food-research-open/assemblyqc": "v2.2.0+dev"
+                    }
+                },
+                "stable paths": [
+                    "FI1_stats.csv:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.gt.stat.yml:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.assembly_summary:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.hic:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.html:md5,6bd2e97a3a2199609c2f2a5d4d314b1e",
+                    "FI1.agp.assembly:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.assembly.bedpe:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "Dummy_hic.R.html:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "Dummy_hic.R.zip:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "Dummy_hic.R.on.FI1.pdf:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.kraken2.cut:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.kraken2.krona.cut:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.kraken2.krona.html:md5,a629f1aab2e8dce3e921119498d669fd",
+                    "FI1.kraken2.report:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.LAI.log:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.LAI.out:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.LTRlib.fa:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.short.ids.tsv:md5,fcf920d9a7b57a1e3c29a9e88673330f",
+                    "FI1.FI1.qv:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.completeness.stats:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.dist_only.hist:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.hist.ploidy:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.qv:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.spectra-asm.fl.png:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.spectra-asm.hist:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.spectra-asm.ln.png:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.spectra-asm.st.png:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.spectra-cn.fl.png:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.spectra-cn.hist:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.spectra-cn.ln.png:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.spectra-cn.st.png:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1_only.bed:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1_only.wig:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.fcs_adaptor_report.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.fcs.gx.krona.cut:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.fcs.gx.krona.html:md5,4e24c1bdb5d3e2666e647390a9ececce",
+                    "FI1.fcs_gx_report.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.inter.tax.rpt.tsv:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.taxonomy.rpt:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.on.JAD.all.html:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.on.JAD.all.png:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.on.JAD.all.svg:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "bundled.links.tsv:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "circos.conf:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "karyotype.tsv:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.on.TT_2021a.all.html:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.on.TT_2021a.all.png:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.on.TT_2021a.all.svg:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "bundled.links.tsv:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "circos.conf:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "karyotype.tsv:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.plotsr.csv:md5,d2e982f8f4fb8e32dc2f0ae74e688aef",
+                    "JAD.plotsr.csv:md5,1c9f46f53f33361b80e126cc5d410c7d",
+                    "TT_2021a.plotsr.csv:md5,dba0dd1f7c25e345052363030deace6b",
+                    "plotsr.png:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.aposteriori.svg:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.aposteriori.tsv:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.apriori.svg:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.apriori.tsv:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.tidk.explore.tsv:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "FI1.top.sequence.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
+        },
+        "timestamp": "2024-10-10T14:56:44.730644"
+    }
+}

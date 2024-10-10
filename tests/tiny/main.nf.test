@@ -1,0 +1,32 @@
+nextflow_pipeline {
+
+    name "Test with a tiny input genome"
+    script "main.nf"
+
+    test("tiny") {
+
+        when {
+            params {
+                input   = "$baseDir/tests/tiny/assemblysheet.csv"
+                outdir  = "$outputDir"
+            }
+        }
+
+        then {
+            def stable_path = getAllFilesFromDir(params.outdir, false, ['pipeline_info/*.{html,json,txt,yml}', 'report.{html,json}'], null, ['**'])
+
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot(
+                    [
+                        'successful tasks': workflow.trace.succeeded().size(),
+                        'versions': removeNextflowVersion("$outputDir/pipeline_info/software_versions.yml"),
+                        'stable paths': stable_path
+                    ]
+                ).match() }
+            )
+        }
+
+    }
+
+}

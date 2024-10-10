@@ -1,0 +1,89 @@
+{
+    "noltr": {
+        "content": [
+            {
+                "successful tasks": 26,
+                "versions": {
+                    "ASSEMBLATHON_STATS": {
+                        "assemblathon_stats": "github/PlantandFoodResearch/assemblathon2-analysis/a93cba2"
+                    },
+                    "CAT_CAT": {
+                        "pigz": "2.3.4"
+                    },
+                    "CUSTOM_RESTOREGFFIDS": {
+                        "python": "3.10.2"
+                    },
+                    "CUSTOM_SHORTENFASTAIDS": {
+                        "python": "3.8.13",
+                        "biopython": 1.75
+                    },
+                    "FASTAVALIDATOR": {
+                        "py_fasta_validator": 0.6
+                    },
+                    "GUNZIP_FASTA": {
+                        "gunzip": 1.1
+                    },
+                    "LTRFINDER": {
+                        "LTR_FINDER_parallel": "v1.1",
+                        "ltr_finder": "v1.07"
+                    },
+                    "LTRHARVEST": {
+                        "LTR_HARVEST_parallel": "v1.1",
+                        "genometools": "1.6.5"
+                    },
+                    "LTRRETRIEVER_LAI": {
+                        "lai": "beta3.2"
+                    },
+                    "LTRRETRIEVER_LTRRETRIEVER": {
+                        "LTR_retriever": "v2.9.9"
+                    },
+                    "SAMTOOLS_FAIDX": {
+                        "samtools": 1.21
+                    },
+                    "SEQKIT_RMDUP": {
+                        "seqkit": "v2.8.0"
+                    },
+                    "TAG_ASSEMBLY": {
+                        "pigz": "2.3.4"
+                    },
+                    "UNMASK_IF_ANY": {
+                        "seqkit": "v2.8.0"
+                    },
+                    "Workflow": {
+                        "plant-food-research-open/assemblyqc": "v2.2.0+dev"
+                    }
+                },
+                "stable paths": [
+                    "FI1_stats.csv:md5,8d1274e52117e39b413ff71a76c40331",
+                    "sarscov2_stats.csv:md5,9ec4147b73cae550a38337520fc028dd",
+                    "FI1.LAI.out:md5,c958c2f4187e0ae42060d304556e0e6a",
+                    "FI1.LTRlib.fa:md5,e7cc7ee7269dd5a09773cfbedba0de06",
+                    "FI1.short.ids.tsv:md5,948c19c1ccd05463a1f5d23f0615b169",
+                    "sarscov2.short.ids.tsv:md5,d7a2af88e8549586e5616bff6a88bd71"
+                ],
+                "stable names": [
+                    "assemblathon_stats",
+                    "assemblathon_stats/FI1_stats.csv",
+                    "assemblathon_stats/sarscov2_stats.csv",
+                    "lai",
+                    "lai/FI1.LAI.log",
+                    "lai/FI1.LAI.out",
+                    "lai/FI1.LTRlib.fa",
+                    "lai/FI1.restored.ids.gff3",
+                    "lai/FI1.short.ids.tsv",
+                    "lai/sarscov2.short.ids.tsv",
+                    "pipeline_info",
+                    "report.html",
+                    "report.json",
+                    "synteny",
+                    "synteny/plotsr"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
+        },
+        "timestamp": "2024-10-10T15:40:52.594249"
+    }
+}

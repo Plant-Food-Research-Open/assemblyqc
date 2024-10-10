@@ -1,0 +1,102 @@
+{
+    "hic param - stub": {
+        "content": [
+            {
+                "successful tasks": 21,
+                "versions": {
+                    "AGP2ASSEMBLY": {
+                        "juicebox_scripts": "0.1.0"
+                    },
+                    "ASSEMBLATHON_STATS": {
+                        "assemblathon_stats": "github/PlantandFoodResearch/assemblathon2-analysis/a93cba2"
+                    },
+                    "ASSEMBLY2BEDPE": {
+                        "python": "3.11.3",
+                        "pandas": "2.1.1"
+                    },
+                    "BWA_INDEX": {
+                        "bwa": "0.7.18-r1243-dirty"
+                    },
+                    "BWA_MEM": {
+                        "bwa": "0.7.18-r1243-dirty",
+                        "samtools": 1.2
+                    },
+                    "FASTAVALIDATOR": {
+                        "py_fasta_validator": 0.6
+                    },
+                    "FASTP": {
+                        "fastp": "0.23.4"
+                    },
+                    "FASTQC_RAW": {
+                        "fastqc": "0.12.1"
+                    },
+                    "FASTQC_TRIM": {
+                        "fastqc": "0.12.1"
+                    },
+                    "HIC2HTML": {
+                        "python": "3.11.3"
+                    },
+                    "HICQC": {
+                        "hic_qc.py": "0+untagged.261.g6881c33"
+                    },
+                    "JUICER_SORT": {
+                        "sort": 8.3
+                    },
+                    "MAKEAGPFROMFASTA": {
+                        "juicebox_scripts": "0.1.0"
+                    },
+                    "MATLOCK_BAM2_JUICER": {
+                        "matlock": 20181227
+                    },
+                    "RUNASSEMBLYVISUALIZER": {
+                        "run-assembly-visualizer.sh": "18 July 2016"
+                    },
+                    "SAMBLASTER": {
+                        "samblaster": "0.1.26",
+                        "samtools": "1.19.2"
+                    },
+                    "SAMTOOLS_FAIDX": {
+                        "samtools": 1.21
+                    },
+                    "SEQKIT_RMDUP": {
+                        "seqkit": "v2.8.0"
+                    },
+                    "SEQKIT_SORT": {
+                        "seqkit": "v2.8.0"
+                    },
+                    "TAG_ASSEMBLY": {
+                        "pigz": "2.3.4"
+                    },
+                    "Workflow": {
+                        "plant-food-research-open/assemblyqc": "v2.2.0+dev"
+                    }
+                },
+                "stable paths": [
+                    "test_stats.csv:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "test.agp.assembly:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "test.assembly.bedpe:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "Dummy_hic.fastp.html:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "Dummy_hic.fastp.json:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "Dummy_hic.fastp.log:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "Dummy_hic.paired.fail.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940",
+                    "Dummy_hic_1.fail.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940",
+                    "Dummy_hic_1.fastp.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940",
+                    "Dummy_hic_2.fail.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940",
+                    "Dummy_hic_2.fastp.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940",
+                    "Dummy_hic.html:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "Dummy_hic.zip:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "Dummy_hic.html:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "Dummy_hic.zip:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "Dummy_hic.on.test.pdf:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "test.hic:md5,d41d8cd98f00b204e9800998ecf8427e",
+                    "test.html:md5,bbd8f07f11522eb75bb9429e86e95713"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
+        },
+        "timestamp": "2024-10-10T16:11:00.660108"
+    }
+}

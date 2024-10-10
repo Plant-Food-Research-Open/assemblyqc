@@ -1,0 +1,55 @@
+nextflow_pipeline {
+
+    name "Test with a genome which does not have LTRs"
+    script "main.nf"
+
+    test("noltr") {
+
+        when {
+            params {
+                input       = "$baseDir/tests/noltr/assemblysheet.csv"
+                lai_skip    = false
+                outdir      = "$outputDir"
+            }
+        }
+
+        then {
+            def stable_path = getAllFilesFromDir(
+                params.outdir,
+                false,
+                [
+                    'pipeline_info/*.{html,json,txt,yml}',
+                    'report.{html,json}',
+                    'lai/*.LAI.log',
+                    'lai/*.restored.ids.gff3'
+                ],
+                null,
+                ['**']
+            )
+
+            def stable_name = getAllFilesFromDir(
+                params.outdir,
+                true,
+                [
+                    'pipeline_info/*.{html,json,txt,yml}'
+                ],
+                null,
+                ['**']
+            )
+
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot(
+                    [
+                        'successful tasks': workflow.trace.succeeded().size(),
+                        'versions': removeNextflowVersion("$outputDir/pipeline_info/software_versions.yml"),
+                        'stable paths': stable_path,
+                        'stable names': getRelativePath(stable_name, outputDir),
+                    ]
+                ).match() }
+            )
+        }
+
+    }
+
+}
