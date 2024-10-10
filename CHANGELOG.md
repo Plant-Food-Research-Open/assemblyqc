@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 1. Added Gfastats [#126](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/126)
 2. Updated nf-core/template to 3.0.1 [#149](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/149)
+3. Updated `samtools faidx` to 1.21
 
 ### `Fixed`
 
