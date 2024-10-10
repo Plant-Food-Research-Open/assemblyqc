@@ -20,6 +20,7 @@ lint:
     - docs/README.md
   multiqc_config: false
   template_strings: false
+  actions_ci: false
   nextflow_config:
     - manifest.name
     - manifest.homePage

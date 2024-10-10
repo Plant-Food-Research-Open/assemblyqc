@@ -65,6 +65,11 @@
                         "git_sha": "ae9714c21ede9199a3118e3c20b65484aa73e232",
                         "installed_by": ["gff3_gt_gff3_gff3validator_stat"]
                     },
+                    "gunzip": {
+                        "branch": "main",
+                        "git_sha": "ae9714c21ede9199a3118e3c20b65484aa73e232",
+                        "installed_by": ["modules"]
+                    },
                     "ltrfinder": {
                         "branch": "main",
                         "git_sha": "ae9714c21ede9199a3118e3c20b65484aa73e232",
@@ -84,6 +89,11 @@
                         "branch": "main",
                         "git_sha": "ae9714c21ede9199a3118e3c20b65484aa73e232",
                         "installed_by": ["fasta_ltrretriever_lai"]
+                    },
+                    "minimap2/align": {
+                        "branch": "main",
+                        "git_sha": "ae9714c21ede9199a3118e3c20b65484aa73e232",
+                        "installed_by": ["modules"]
                     },
                     "plotsr": {
                         "branch": "main",
