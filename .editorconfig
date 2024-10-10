@@ -11,7 +11,6 @@ indent_style = space
 [*.{md,yml,yaml,html,css,scss,js,cff}]
 indent_size = 2
 
-
 # These files are edited and tested upstream in nf-core/modules
 [/modules/nf-core/**]
 charset = unset
@@ -42,7 +41,6 @@ indent_style = unset
 
 [/assets/email*]
 indent_size = unset
-
 
 # ignore python and markdown
 [*.{py,md}]
