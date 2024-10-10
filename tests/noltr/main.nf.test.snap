@@ -56,8 +56,6 @@
                 "stable paths": [
                     "FI1_stats.csv:md5,8d1274e52117e39b413ff71a76c40331",
                     "sarscov2_stats.csv:md5,9ec4147b73cae550a38337520fc028dd",
-                    "FI1.LAI.out:md5,c958c2f4187e0ae42060d304556e0e6a",
-                    "FI1.LTRlib.fa:md5,e7cc7ee7269dd5a09773cfbedba0de06",
                     "FI1.short.ids.tsv:md5,948c19c1ccd05463a1f5d23f0615b169",
                     "sarscov2.short.ids.tsv:md5,d7a2af88e8549586e5616bff6a88bd71"
                 ],
@@ -84,6 +82,6 @@
             "nf-test": "0.9.0",
             "nextflow": "24.04.4"
         },
-        "timestamp": "2024-10-10T15:40:52.594249"
+        "timestamp": "2024-10-10T20:38:08.028244"
     }
 }

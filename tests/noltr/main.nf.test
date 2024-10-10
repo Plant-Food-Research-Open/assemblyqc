@@ -21,7 +21,9 @@ nextflow_pipeline {
                     'pipeline_info/*.{html,json,txt,yml}',
                     'report.{html,json}',
                     'lai/*.LAI.log',
-                    'lai/*.restored.ids.gff3'
+                    'lai/*.restored.ids.gff3',
+                    'lai/*.LAI.out',
+                    'lai/*.LTRlib.fa'
                 ],
                 null,
                 ['**']
@@ -39,6 +41,10 @@ nextflow_pipeline {
 
             assertAll(
                 { assert workflow.success},
+                {
+                    def lai = file("$outputDir/lai/FI1.LAI.out").readLines()[1].split('\t')[6]
+                    assert Math.abs(lai - 4.84) <= 1.0
+                },
                 { assert snapshot(
                     [
                         'successful tasks': workflow.trace.succeeded().size(),

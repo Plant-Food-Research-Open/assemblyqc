@@ -73,6 +73,10 @@ jobs:
         with:
           version: 0.9.0
 
+      - name: Disk space cleanup
+        if: matrix.nf_test_files == 'tests/stub/main.nf.test'
+        uses: jlumbroso/free-disk-space@v1.3.1
+
       - name: Run nf-test
         run: |
           nf-test test --verbose ${{ matrix.nf_test_files }} --profile "+${{ matrix.profile }}"
