@@ -230,7 +230,7 @@
                         "untar": 1.34
                     },
                     "Workflow": {
-                        "plant-food-research-open/assemblyqc": "v2.2.0+dev"
+                        "plant-food-research-open/assemblyqc": "v2.2.0dev"
                     }
                 },
                 "stable paths": [
