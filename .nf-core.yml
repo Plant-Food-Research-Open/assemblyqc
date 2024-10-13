@@ -1,5 +1,8 @@
 bump_version: null
 lint:
+  actions_ci: false
+  multiqc_config: false
+  template_strings: false
   files_exist:
     - conf/igenomes.config
     - conf/igenomes_ignored.config
@@ -18,9 +21,6 @@ lint:
     - .github/workflows/branch.yml
     - .github/workflows/linting.yml
     - docs/README.md
-  multiqc_config: false
-  template_strings: false
-  actions_ci: false
   nextflow_config:
     - manifest.name
     - manifest.homePage
@@ -28,7 +28,7 @@ lint:
     - validation.help.afterText
     - validation.summary.beforeText
     - validation.summary.afterText
-nf_core_version: 3.0.1
+nf_core_version: 3.0.2
 org_path: null
 repository_type: pipeline
 template:
