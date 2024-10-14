@@ -591,6 +591,11 @@ workflow ASSEMBLYQC {
     )
 
     ch_hic_html                             = FQ2HIC.out.html
+    ch_hic_assembly                         = FQ2HIC.out.assembly
+    ch_hic_report_files                     = ch_hic_html
+                                            | mix(
+                                                ch_hic_assembly.map { tag, assembly -> assembly }
+                                            )
     ch_versions                             = ch_versions.mix(FQ2HIC.out.versions)
 
     // SUBWORKFLOW: FASTA_SYNTENY
@@ -822,7 +827,7 @@ workflow ASSEMBLYQC {
         ch_tidk_outputs                     .collect().ifEmpty([]),
         ch_lai_outputs                      .collect().ifEmpty([]),
         ch_kraken2_plot                     .collect().ifEmpty([]),
-        ch_hic_html                         .collect().ifEmpty([]),
+        ch_hic_report_files                 .collect().ifEmpty([]),
         ch_synteny_outputs                  .collect().ifEmpty([]),
         ch_merqury_outputs                  .collect().ifEmpty([]),
         ch_versions_yml,

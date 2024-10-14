@@ -97,5 +97,6 @@ workflow FQ2HIC {
     emit:
     hic                             = ch_hic
     html                            = HIC2HTML.out.html
+    assembly                        = AGP2ASSEMBLY.out.assembly
     versions                        = ch_versions
 }
