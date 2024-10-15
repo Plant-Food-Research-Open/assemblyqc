@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Fixed`
 
 1. Fixed a bug where Gene score distribution graph did not appear correctly [#125](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/125)
+2. Increased memory requirement for `DNADIFF` to avoid SLURM OOM kills with exit code 2 [#141](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/141)
 
 ### `Dependencies`
 
