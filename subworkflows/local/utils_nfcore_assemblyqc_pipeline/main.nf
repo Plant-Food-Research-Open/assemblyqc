@@ -80,6 +80,8 @@ workflow PIPELINE_INITIALISATION {
                                             | map { row -> row[0] }
                                             | collect
                                             | map { tags -> validateInputTags( tags ) }
+                                            | map { tags -> validateHiCMergeTags( tags, params.hic_merge_assemblies ) }
+                                            | map { tags -> [ tags ] }
                                             | combine ( ch_input.map { row -> [ row ] } )
                                             | map { result, row -> row }
 
@@ -281,7 +283,22 @@ def validateInputTags(assemblyTags) {
         error("Please check input assemblysheet -> Multiple assemblies have the same tags!: ${repeatedTags}")
     }
 
-    return true
+    return assemblyTags
+}
+
+def validateHiCMergeTags(assemblyTags, hicTags) {
+
+    if ( ! hicTags ) {
+        return assemblyTags
+    }
+
+    hicTags.tokenize(' ').each { hicTag ->
+        if ( hicTag !in assemblyTags ) {
+            error("Please check parameter 'hic_merge_assemblies' -> Tag '${hicTag}' is not one of ${assemblyTags}")
+        }
+    }
+
+    return assemblyTags
 }
 
 def validateXrefAssemblies(xrefTags) {

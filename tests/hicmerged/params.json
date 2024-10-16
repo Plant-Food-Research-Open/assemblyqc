@@ -1,0 +1,7 @@
+{
+    "config_profile_name": "Test profile",
+    "config_profile_description": "Merged HiC contact map",
+    "input": "tests/hicmerged/assemblysheet.csv",
+    "hic": "SRR8238190",
+    "hic_merge_assemblies": "FI1 TT_2021a"
+}

@@ -222,6 +222,12 @@
                     "pattern": "^SR\\w+$|^\\S+\\{1,2\\}[\\w\\.]*\\.f(ast)?q\\.gz$",
                     "fa_icon": "fas fa-copy"
                 },
+                "hic_merge_assemblies": {
+                    "type": "string",
+                    "fa_icon": "fas fa-layer-group",
+                    "description": "A space separated list of two or more assembly tags. The assemblies are merged on a single contact map.",
+                    "pattern": "^(\\w+\\s)+\\w+$"
+                },
                 "hic_skip_fastp": {
                     "type": "boolean",
                     "description": "Skip HiC read trimming",
