@@ -12,17 +12,18 @@ include { HIC2HTML                      } from '../../modules/local/hic2html'
 
 workflow FQ2HIC {
     take:
-    reads                           // [ val(meta), [ fq ] ]
-    ref                             // [ val(meta2), fa ]
+    ch_reads                        // [ val(meta), [ fq ] ]
+    ch_ref                          // [ val(meta2), fa ]
     hic_skip_fastp                  // val: true|false
     hic_skip_fastqc                 // val: true|false
+    hic_merge_assemblies            // val: ^(\w+\s)+\w+$, a space separated list of assemblies
 
     main:
     ch_versions                     = Channel.empty()
 
     // SUBWORKFLOW: FASTQ_FASTQC_UMITOOLS_FASTP
     FASTQ_FASTQC_UMITOOLS_FASTP(
-        reads,
+        ch_reads,
         hic_skip_fastqc,
         false,                      // with_umi
         true,                       // skip_umi_extract
@@ -37,8 +38,26 @@ workflow FQ2HIC {
     ch_trim_reads                   = FASTQ_FASTQC_UMITOOLS_FASTP.out.reads
     ch_versions                     = ch_versions.mix(FASTQ_FASTQC_UMITOOLS_FASTP.out.versions)
 
+    // Function: Separate merged and individual references
+    ch_merged_refs                  = ch_ref
+                                    | filter { meta2, fa ->
+                                        meta2.id in hic_merge_assemblies.tokenize(' ')
+                                    }
+                                    | map { meta2, fa -> [ 'hic', meta2, fa ] }
+                                    | groupTuple
+                                    | map { key, metas, fastas ->
+                                        def group_meta = [:]
+
+                                        [ [ id: metas.collect { it.id }.join('.and.') ], fastas ]
+                                    }
+
+    ch_individual_refs              = ch_ref
+                                    | filter { meta2, fa ->
+                                        meta2.id !in hic_merge_assemblies.tokenize(' ')
+                                    }
+
     // MODULE: SEQKIT_SORT
-    SEQKIT_SORT ( ref )
+    SEQKIT_SORT ( ch_individual_refs )
 
     ch_sorted_ref                   = SEQKIT_SORT.out.fastx
     ch_versions                     = ch_versions.mix(SEQKIT_SORT.out.versions)

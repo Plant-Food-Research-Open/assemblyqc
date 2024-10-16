@@ -587,7 +587,8 @@ workflow ASSEMBLYQC {
         ch_hic_read_files,
         ch_hic_input_assembly,
         params.hic_skip_fastp,
-        params.hic_skip_fastqc
+        params.hic_skip_fastqc,
+        params.hic_merge_assemblies
     )
 
     ch_hic_html                             = FQ2HIC.out.html
