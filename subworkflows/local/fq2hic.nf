@@ -1,6 +1,8 @@
 include { FASTQ_FASTQC_UMITOOLS_FASTP   } from '../nf-core/fastq_fastqc_umitools_fastp/main'
 include { FASTQ_BWA_MEM_SAMBLASTER      } from '../gallvp/fastq_bwa_mem_samblaster/main'
+include { SEQKIT_REPLACE                } from '../../modules/nf-core/seqkit/replace/main'
 include { SEQKIT_SORT                   } from '../../modules/nf-core/seqkit/sort/main'
+include { CAT_CAT as MERGE_FASTAS       } from '../../modules/gallvp/cat/cat/main'
 include { HICQC                         } from '../../modules/local/hicqc'
 include { MAKEAGPFROMFASTA              } from '../../modules/local/makeagpfromfasta'
 include { AGP2ASSEMBLY                  } from '../../modules/local/agp2assembly'
@@ -38,34 +40,52 @@ workflow FQ2HIC {
     ch_trim_reads                   = FASTQ_FASTQC_UMITOOLS_FASTP.out.reads
     ch_versions                     = ch_versions.mix(FASTQ_FASTQC_UMITOOLS_FASTP.out.versions)
 
-    // Function: Separate merged and individual references
-    ch_merged_refs                  = ch_ref
+    // Function: Separate merging and individual references
+    ch_merging_ref                  = ch_ref
                                     | filter { meta2, fa ->
                                         meta2.id in hic_merge_assemblies.tokenize(' ')
                                     }
-                                    | map { meta2, fa -> [ 'hic', meta2, fa ] }
-                                    | groupTuple
-                                    | map { key, metas, fastas ->
-                                        def group_meta = [:]
 
-                                        [ [ id: metas.collect { it.id }.join('.and.') ], fastas ]
-                                    }
-
-    ch_individual_refs              = ch_ref
+    ch_individual_ref               = ch_ref
                                     | filter { meta2, fa ->
                                         meta2.id !in hic_merge_assemblies.tokenize(' ')
                                     }
 
+    // MODULE: SEQKIT_REPLACE
+    SEQKIT_REPLACE ( ch_merging_ref )
+
+    ch_prefixed_ref                 = SEQKIT_REPLACE.out.fastx
+    ch_versions                     = ch_versions.mix(SEQKIT_REPLACE.out.versions.first())
+
     // MODULE: SEQKIT_SORT
-    SEQKIT_SORT ( ch_individual_refs )
+    SEQKIT_SORT ( ch_individual_ref )
 
     ch_sorted_ref                   = SEQKIT_SORT.out.fastx
-    ch_versions                     = ch_versions.mix(SEQKIT_SORT.out.versions)
+    ch_versions                     = ch_versions.mix(SEQKIT_SORT.out.versions.first())
+
+    // MODULE: CAT_CAT as MERGE_FASTAS
+    ch_cat_inputs                   = ch_prefixed_ref
+                                    | map { meta2, fa -> [ 'hic', meta2, fa ] }
+                                    | groupTuple
+                                    | map { key, metas, fastas ->
+                                        def sorted_indices  = metas.indices.sort(false) { a, b -> metas[a].id <=> metas[b].id }
+                                        def sorted_metas    = sorted_indices.collect { metas[it] }
+                                        def sorted_fastas   = sorted_indices.collect { fastas[it] }
+                                        [ [ id: sorted_metas.collect { it.id }.join('-and-') ], sorted_fastas ]
+                                    }
+
+    MERGE_FASTAS ( ch_cat_inputs )
+
+    ch_merged_ref                   = MERGE_FASTAS.out.file_out
+    ch_versions                     = ch_versions.mix(MERGE_FASTAS.out.versions.first())
+
+    // Function: Mix merged and individual references
+    ch_mixed_ref                    = ch_sorted_ref.mix(ch_merged_ref)
 
     // SUBWORKFLOW: FASTQ_BWA_MEM_SAMBLASTER
     FASTQ_BWA_MEM_SAMBLASTER(
         ch_trim_reads,
-        ch_sorted_ref.map { meta2, fa -> [ meta2, fa, [] ] }
+        ch_mixed_ref.map { meta2, fa -> [ meta2, fa, [] ] }
     )
 
     ch_bam                          = FASTQ_BWA_MEM_SAMBLASTER.out.bam
@@ -75,7 +95,7 @@ workflow FQ2HIC {
     ch_bam_and_ref                  = ch_bam
                                     | map { meta, bam -> [ meta.ref_id, meta, bam ] }
                                     | join(
-                                        ch_sorted_ref.map { meta2, fa -> [ meta2.id, fa ] }
+                                        ch_mixed_ref.map { meta2, fa -> [ meta2.id, fa ] }
                                     )
                                     | map { ref_id, meta, bam, fa ->
                                         [ [ id: "${meta.id}.on.${meta.ref_id}" ], bam, fa ]

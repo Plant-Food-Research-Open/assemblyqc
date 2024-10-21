@@ -14,12 +14,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 5. Added `text/html` as content mime type for the report file [#146](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/146)
 6. Added a sequence labels table below the HiC contact map [#147](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/147)
 7. Added parameter `hic_samtools_ext_args` and set its default value to `-F 3852` [#159](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/159)
+8. Added `hic_merge_assemblies` parameter to add the ability to create merged HiC maps [#128](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/128)
 
 ### `Fixed`
 
 1. Fixed a bug where Gene score distribution graph did not appear correctly [#125](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/125)
 2. Increased memory requirement for `DNADIFF` to avoid SLURM OOM kills with exit code 2 [#141](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/141)
 3. Documented the use explicit use of `-revision` parameter [#160](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/160)
+4. Changed the samtools view -F setting from `2316` to `3852` to removed marked PCR duplicates [#159](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/159)
 
 ### `Dependencies`
 
