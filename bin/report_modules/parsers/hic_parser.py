@@ -22,7 +22,7 @@ def parse_hic_folder(folder_name="hic_outputs"):
         hic_file_name = os.path.basename(str(hic_path))
 
         file_tokens = re.findall(
-            r"([\w]+).html",
+            r"([\w-]+).html",
             hic_file_name,
         )[0]
 
