@@ -18,7 +18,7 @@ workflow FQ2HIC {
     ch_ref                          // [ val(meta2), fa ]
     hic_skip_fastp                  // val: true|false
     hic_skip_fastqc                 // val: true|false
-    hic_merge_assemblies            // val: ^(\w+\s)+\w+$, a space separated list of assemblies
+    hic_merge_assemblies            // val: ^(\w+\s)+\w+$, a space separated list of assemblies, or null
 
     main:
     ch_versions                     = Channel.empty()
@@ -43,12 +43,12 @@ workflow FQ2HIC {
     // Function: Separate merging and individual references
     ch_merging_ref                  = ch_ref
                                     | filter { meta2, fa ->
-                                        meta2.id in hic_merge_assemblies.tokenize(' ')
+                                        meta2.id in ( hic_merge_assemblies ?: '' ).tokenize(' ')
                                     }
 
     ch_individual_ref               = ch_ref
                                     | filter { meta2, fa ->
-                                        meta2.id !in hic_merge_assemblies.tokenize(' ')
+                                        meta2.id !in ( hic_merge_assemblies ?: '' ).tokenize(' ')
                                     }
 
     // MODULE: SEQKIT_REPLACE
