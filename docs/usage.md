@@ -136,7 +136,7 @@ All the modules have been tested to work on a single machine with 10 CPUs + 32 G
 The typical command for running the pipeline is as follows:
 
 ```bash
-nextflow run plant-food-research-open/assemblyqc --input ./assemblysheet.csv --outdir ./results -profile docker
+nextflow run plant-food-research-open/assemblyqc -revision <version> --input ./assemblysheet.csv --outdir ./results -profile docker
 ```
 
 This will launch the pipeline with the `docker` configuration profile. See below for more information about profiles.
@@ -160,7 +160,7 @@ Pipeline settings can be provided in a `yaml` or `json` file via `-params-file <
 The above pipeline run specified with a params file in yaml format:
 
 ```bash
-nextflow run plant-food-research-open/assemblyqc -profile docker -params-file params.yaml
+nextflow run plant-food-research-open/assemblyqc -revision main -profile docker -params-file params.yaml
 ```
 
 with:

@@ -102,6 +102,7 @@ Now, you can run the pipeline using:
 
 ```bash
 nextflow run plant-food-research-open/assemblyqc \
+  -revision <version> \
    -profile <docker/singularity/.../institute> \
    --input assemblysheet.csv \
    --outdir <OUTDIR>
