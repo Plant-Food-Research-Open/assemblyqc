@@ -237,6 +237,12 @@
                     "default": "--qualified_quality_phred 20 --length_required 50",
                     "description": "Additional parameters for fastp trimming",
                     "fa_icon": "fas fa-terminal"
+                },
+                "hic_samtools_ext_args": {
+                    "type": "string",
+                    "default": "-F 3852",
+                    "fa_icon": "fas fa-terminal",
+                    "description": "Additional parameters for samtools view command run after samblaster"
                 }
             }
         },

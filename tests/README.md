@@ -16,7 +16,11 @@ nextflow run plant-food-research-open/assemblyqc -r main -profile singularity,te
 
 ## nf-test and Continuous Integration (CI)
 
-The GitHub [CI action](../.github/workflows/ci.yml) included with the pipeline continuously tests the pipeline using [nf-test](https://www.nf-test.com).
+The GitHub [CI action](../.github/workflows/ci.yml) included with the pipeline continuously tests the pipeline using [nf-test](https://www.nf-test.com). Many components included with the pipeline such as [minimap2/align](../modules/nf-core/minimap2/align) include their own [tests](../modules/nf-core/minimap2/align/tests/main.nf.test) with test data from nf-core.
+
+## Testing with a Large Dataset at Plant&Food
+
+Before each release, the functionality of the entire pipeline is tested with a large dataset on the on-prem SLURM-based HPC at The New Zealand Institute of Plant and Food Research.
 
 ## Testing Merqury Datasets
 
