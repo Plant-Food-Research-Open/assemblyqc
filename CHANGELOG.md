@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 4. Now using nf-test for pipeline level testing [#153](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/153)
 5. Added `text/html` as content mime type for the report file [#146](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/146)
 6. Added a sequence labels table below the HiC contact map [#147](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/147)
+7. Added parameter `hic_samtools_ext_args` and set its default value to `-F 3852` [#159](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/159)
 
 ### `Fixed`
 
