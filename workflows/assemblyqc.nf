@@ -590,11 +590,15 @@ workflow ASSEMBLYQC {
         params.hic_skip_fastqc
     )
 
+    ch_hicqc_pdf                            = FQ2HIC.out.hicqc_pdf
     ch_hic_html                             = FQ2HIC.out.html
     ch_hic_assembly                         = FQ2HIC.out.assembly
     ch_hic_report_files                     = ch_hic_html
                                             | mix(
                                                 ch_hic_assembly.map { tag, assembly -> assembly }
+                                            )
+                                            | mix(
+                                                ch_hicqc_pdf.map { meta, pdf -> pdf }
                                             )
     ch_versions                             = ch_versions.mix(FQ2HIC.out.versions)
 

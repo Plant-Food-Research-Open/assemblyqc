@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v2.2.0dev - [25-Oct-2024]
+## v2.2.0dev - [31-Oct-2024]
 
 ### `Added`
 
@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 5. Added `text/html` as content mime type for the report file [#146](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/146)
 6. Added a sequence labels table below the HiC contact map [#147](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/147)
 7. Added parameter `hic_samtools_ext_args` and set its default value to `-F 3852` [#159](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/159)
+8. Added the HiC QC report to the final report so that users don't have to navigate to the results folder [#162](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/162)
 
 ### `Fixed`
 

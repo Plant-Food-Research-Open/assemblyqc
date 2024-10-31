@@ -64,6 +64,7 @@ workflow FQ2HIC {
 
     HICQC ( ch_bam_and_ref.map { meta3, bam, fa -> [ meta3, bam ] } )
 
+    ch_hicqc_pdf                   = HICQC.out.pdf
     ch_versions                     = ch_versions.mix(HICQC.out.versions)
 
     // MODULE: MAKEAGPFROMFASTA | AGP2ASSEMBLY | ASSEMBLY2BEDPE
@@ -95,6 +96,7 @@ workflow FQ2HIC {
     ch_versions                     = ch_versions.mix(HIC2HTML.out.versions.first())
 
     emit:
+    hicqc_pdf                      = ch_hicqc_pdf
     hic                             = ch_hic
     html                            = HIC2HTML.out.html
     assembly                        = AGP2ASSEMBLY.out.assembly
