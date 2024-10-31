@@ -198,7 +198,12 @@ Kraken2 [assigns taxonomic labels](https://ccb.jhu.edu/software/kraken2/) to seq
 
 Hi-C contact mapping experiments measure the frequency of physical contact between loci in the genome. The resulting dataset, called a “contact map,” is represented using a [two-dimensional heatmap](https://github.com/igvteam/juicebox.js) where the intensity of each pixel indicates the frequency of contact between a pair of loci.
 
-<div align="center"><img src="images/hic_map.png" alt="AssemblyQC - HiC interactive contact map" width="50%"><hr><em>AssemblyQC - HiC interactive contact map</em></div>
+<div align="center">
+<img src="images/hicqc.png" alt="AssemblyQC - HiC QC report" width="44.59%">
+<img src="images/hic_map.png" alt="AssemblyQC - HiC interactive contact map" width="40%">
+<hr>
+<em>AssemblyQC - HiC results</em>
+</div>
 
 ### Synteny
 
