@@ -7,6 +7,50 @@ import re
 from report_modules.parsers.parsing_commons import sort_list_of_results
 
 
+def colorize_fastp_log(log: Path):
+    section_colors = {
+        "adapter": "color: blue;",
+        "before_filtering": "color: goldenrod;",
+        "after_filtering": "color: green;",
+        "filtering_result": "color: green;",
+        "duplication": "color: red;",
+        "fastp": "color: gray;",
+        "version": "color: blue;",
+    }
+
+    patterns = {
+        "adapter": re.compile(r"Detecting adapter sequence for read\d..."),
+        "before_filtering": re.compile(r"Read\d before filtering:"),
+        "after_filtering": re.compile(r"Read\d after filtering:"),
+        "filtering_result": re.compile(r"Filtering result:"),
+        "duplication": re.compile(r"Duplication rate:"),
+        "fastp": re.compile(r"fastp --in"),
+        "version": re.compile(r"fastp v"),
+    }
+
+    html_log = "<pre>\n"
+
+    for line in log.read_text().split("\n"):
+        colored_line = line.strip()
+        # Apply HTML color style based on section patterns
+        for section, pattern in patterns.items():
+            if pattern.search(line):
+                colored_line = (
+                    f"<span style='{section_colors[section]}'>{line.strip()}</span>"
+                )
+                break
+        else:
+            # Default styling for uncolored lines
+            colored_line = f"<span>{line.strip()}</span>"
+
+        html_log += f"{colored_line}\n"
+
+    # Close HTML tags
+    html_log += "</pre>"
+
+    return html_log
+
+
 def parse_hic_folder(folder_name="hic_outputs"):
     dir = os.getcwdb().decode()
     hic_folder_path = Path(f"{dir}/{folder_name}")
@@ -44,6 +88,15 @@ def parse_hic_folder(folder_name="hic_outputs"):
             if re.match(rf"[\S]+\.on\.{tag}_qc_report\.pdf", x.name)
         ][0]
 
+        # Get FASTP log if it is there
+        fastp_log = [x for x in hic_folder_path.glob("*.log")]
+
+        if fastp_log != []:
+            fastp_log = fastp_log[0]
+            fastp_log = colorize_fastp_log(fastp_log)
+        else:
+            fastp_log = None
+
         data["HIC"].append(
             {
                 "hap": tag,
@@ -57,6 +110,7 @@ def parse_hic_folder(folder_name="hic_outputs"):
                     showindex=False,
                 ),
                 "hicqc_report_pdf": os.path.basename(str(hicqc_report)),
+                "fastp_log": fastp_log,
             }
         )
 
