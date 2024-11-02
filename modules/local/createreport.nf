@@ -20,6 +20,7 @@ process CREATEREPORT {
     path hic_outputs                , stageAs: 'hic_outputs/*'
     path synteny_outputs            , stageAs: 'synteny_outputs/*'
     path merqury_outputs            , stageAs: 'merqury_outputs/*'
+    path orthofinder_outputs        , stageAs: 'orthofinder_outputs/*'
     path versions
     val params_json
     val params_summary_json

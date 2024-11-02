@@ -16,61 +16,7 @@
 
 ## Pipeline Flowchart
 
-```mermaid
-%%{init: {
-    'theme': 'base',
-    'themeVariables': {
-    'fontSize': '52px",
-    'primaryColor': '#9A6421',
-    'primaryTextColor': '#ffffff',
-    'primaryBorderColor': '#9A6421',
-    'lineColor': '#B180A8',
-    'secondaryColor': '#455C58',
-    'tertiaryColor': '#ffffff'
-  }
-}}%%
-flowchart LR
-  forEachTag(Assembly) ==> VALIDATE_FORMAT[VALIDATE FORMAT]
-
-  VALIDATE_FORMAT ==> ncbiFCS[<span style="white-space: nowrap;">NCBI FCS ADAPTOR</span>]
-  ncbiFCS ==> Check{Check}
-
-  VALIDATE_FORMAT ==> ncbiGX[<span style="white-space: nowrap;">NCBI FCS GX</span>]
-  ncbiGX ==> Check
-  Check ==> |Clean|Run(Run)
-
-  Check ==> |Contamination|Skip(Skip All)
-  Skip ==> REPORT
-
-  VALIDATE_FORMAT ==> GFF_STATS[<span style="white-space: nowrap;">GENOMETOOLS GT STAT</span>]
-
-  Run ==> ASS_STATS[<span style="white-space: nowrap;">STATS</span>]
-  Run ==> BUSCO
-  Run ==> TIDK
-  Run ==> LAI
-  Run ==> KRAKEN2
-  Run ==> HIC_CONTACT_MAP[<span style="white-space: nowrap;">HIC CONTACT MAP</span>]
-  Run ==> MUMMER
-  Run ==> MINIMAP2
-  Run ==> MERQURY
-
-  MUMMER ==> CIRCOS
-  MUMMER ==> DOTPLOT
-
-  MINIMAP2 ==> PLOTSR
-
-  ASS_STATS ==> REPORT
-  GFF_STATS ==> REPORT
-  BUSCO ==> REPORT
-  TIDK ==> REPORT
-  LAI ==> REPORT
-  KRAKEN2 ==> REPORT
-  HIC_CONTACT_MAP ==> REPORT
-  CIRCOS ==> REPORT
-  DOTPLOT ==> REPORT
-  PLOTSR ==> REPORT
-  MERQURY ==> REPORT
-```
+<p align="center"><img src="docs/images/assemblyqc.png"></p>
 
 - [FASTA VALIDATOR](https://github.com/linsalrob/fasta_validator) + [SEQKIT RMDUP](https://github.com/shenwei356/seqkit): FASTA validation
 - [GENOMETOOLS GT GFF3VALIDATOR](https://genometools.org/tools/gt_gff3validator.html): GFF3 validation
@@ -85,6 +31,7 @@ flowchart LR
 - [HIC CONTACT MAP](https://github.com/igvteam/juicebox.js): Alignment and visualisation of HiC data
 - [MUMMER](https://github.com/mummer4/mummer) → [CIRCOS](http://circos.ca/documentation/) + [DOTPLOT](https://plotly.com) & [MINIMAP2](https://github.com/lh3/minimap2) → [PLOTSR](https://github.com/schneebergerlab/plotsr): Synteny analysis
 - [MERQURY](https://github.com/marbl/merqury): K-mer completeness, consensus quality and phasing assessment
+- [ORTHOFINDER](https://github.com/davidemms/OrthoFinder): Phylogenetic orthology inference for comparative genomics
 
 ## Usage
 
@@ -140,31 +87,32 @@ The pipeline uses nf-core modules contributed by following authors:
 
 <a href="https://github.com/gallvp"><img src="https://github.com/gallvp.png" width="50" height="50"></a>
 <a href="https://github.com/drpatelh"><img src="https://github.com/drpatelh.png" width="50" height="50"></a>
-<a href="https://github.com/midnighter"><img src="https://github.com/midnighter.png" width="50" height="50"></a>
 <a href="https://github.com/mahesh-panchal"><img src="https://github.com/mahesh-panchal.png" width="50" height="50"></a>
 <a href="https://github.com/jfy133"><img src="https://github.com/jfy133.png" width="50" height="50"></a>
-<a href="https://github.com/adamrtalbot"><img src="https://github.com/adamrtalbot.png" width="50" height="50"></a>
-<a href="https://github.com/maxulysse"><img src="https://github.com/maxulysse.png" width="50" height="50"></a>
-<a href="https://github.com/matthdsm"><img src="https://github.com/matthdsm.png" width="50" height="50"></a>
+<a href="https://github.com/midnighter"><img src="https://github.com/midnighter.png" width="50" height="50"></a>
 <a href="https://github.com/joseespinosa"><img src="https://github.com/joseespinosa.png" width="50" height="50"></a>
-<a href="https://github.com/grst"><img src="https://github.com/grst.png" width="50" height="50"></a>
-<a href="https://github.com/ewels"><img src="https://github.com/ewels.png" width="50" height="50"></a>
 <a href="https://github.com/sofstam"><img src="https://github.com/sofstam.png" width="50" height="50"></a>
 <a href="https://github.com/sateeshperi"><img src="https://github.com/sateeshperi.png" width="50" height="50"></a>
+<a href="https://github.com/maxulysse"><img src="https://github.com/maxulysse.png" width="50" height="50"></a>
+<a href="https://github.com/matthdsm"><img src="https://github.com/matthdsm.png" width="50" height="50"></a>
+<a href="https://github.com/heuermh"><img src="https://github.com/heuermh.png" width="50" height="50"></a>
+<a href="https://github.com/grst"><img src="https://github.com/grst.png" width="50" height="50"></a>
+<a href="https://github.com/fellen31"><img src="https://github.com/fellen31.png" width="50" height="50"></a>
+<a href="https://github.com/ewels"><img src="https://github.com/ewels.png" width="50" height="50"></a>
+<a href="https://github.com/edmundmiller"><img src="https://github.com/edmundmiller.png" width="50" height="50"></a>
+<a href="https://github.com/adamrtalbot"><img src="https://github.com/adamrtalbot.png" width="50" height="50"></a>
 <a href="https://github.com/robsyme"><img src="https://github.com/robsyme.png" width="50" height="50"></a>
 <a href="https://github.com/priyanka-surana"><img src="https://github.com/priyanka-surana.png" width="50" height="50"></a>
 <a href="https://github.com/phue"><img src="https://github.com/phue.png" width="50" height="50"></a>
+<a href="https://github.com/nvnieuwk"><img src="https://github.com/nvnieuwk.png" width="50" height="50"></a>
 <a href="https://github.com/muffato"><img src="https://github.com/muffato.png" width="50" height="50"></a>
 <a href="https://github.com/lescai"><img src="https://github.com/lescai.png" width="50" height="50"></a>
 <a href="https://github.com/kevinmenden"><img src="https://github.com/kevinmenden.png" width="50" height="50"></a>
 <a href="https://github.com/jvhagey"><img src="https://github.com/jvhagey.png" width="50" height="50"></a>
 <a href="https://github.com/jeremy1805"><img src="https://github.com/jeremy1805.png" width="50" height="50"></a>
-<a href="https://github.com/heuermh"><img src="https://github.com/heuermh.png" width="50" height="50"></a>
 <a href="https://github.com/friederikehanssen"><img src="https://github.com/friederikehanssen.png" width="50" height="50"></a>
-<a href="https://github.com/fellen31"><img src="https://github.com/fellen31.png" width="50" height="50"></a>
 <a href="https://github.com/felixkrueger"><img src="https://github.com/felixkrueger.png" width="50" height="50"></a>
 <a href="https://github.com/erikrikarddaniel"><img src="https://github.com/erikrikarddaniel.png" width="50" height="50"></a>
-<a href="https://github.com/edmundmiller"><img src="https://github.com/edmundmiller.png" width="50" height="50"></a>
 <a href="https://github.com/d4straub"><img src="https://github.com/d4straub.png" width="50" height="50"></a>
 <a href="https://github.com/charles-plessy"><img src="https://github.com/charles-plessy.png" width="50" height="50"></a>
 

@@ -1,0 +1,83 @@
+{
+    "invalid": {
+        "content": [
+            {
+                "successful tasks": 46,
+                "versions": {
+                    "ASSEMBLATHON_STATS": {
+                        "assemblathon_stats": "github/PlantandFoodResearch/assemblathon2-analysis/a93cba2"
+                    },
+                    "FASTAVALIDATOR": {
+                        "py_fasta_validator": 0.6
+                    },
+                    "GFFREAD": {
+                        "gffread": "0.12.7"
+                    },
+                    "GT_GFF3": {
+                        "genometools": "1.6.5"
+                    },
+                    "GT_GFF3VALIDATOR": {
+                        "genometools": "1.6.5"
+                    },
+                    "GT_STAT": {
+                        "genometools": "1.6.5"
+                    },
+                    "GUNZIP_FASTA": {
+                        "gunzip": 1.1
+                    },
+                    "GUNZIP_GFF3": {
+                        "gunzip": 1.1
+                    },
+                    "ORTHOFINDER": {
+                        "orthofinder": "2.5.5"
+                    },
+                    "SAMTOOLS_FAIDX": {
+                        "samtools": 1.21
+                    },
+                    "SEQKIT_RMDUP": {
+                        "seqkit": "v2.8.0"
+                    },
+                    "TAG_ASSEMBLY": {
+                        "pigz": "2.3.4"
+                    },
+                    "Workflow": {
+                        "plant-food-research-open/assemblyqc": "v2.2.0dev"
+                    }
+                },
+                "stable paths": [
+                    "agalactiae_stats.csv:md5,4f4ce28e8975f9ded73cf86ff5eaa507",
+                    "gallisepticum_stats.csv:md5,cedd23a5778c76bf17053f5a0aa6eaf8",
+                    "genitalium_stats.csv:md5,04ef67d681fba6ca05df4171f888424a",
+                    "hyopneumoniae_stats.csv:md5,d59081ff1b5bb0e9f1be494b8463f3b8",
+                    "agalactiae.gt.stat.yml:md5,74fe2e9753fdebaa31840016201eaf17",
+                    "gallisepticum.gt.stat.yml:md5,0ec946739663876b25fca0efd47fd467",
+                    "genitalium.gt.stat.yml:md5,ce9917e5b197e130c0d1be90d88e3177",
+                    "hyopneumoniae.gt.stat.yml:md5,856c5eb7511f53a40056987922e649c7"
+                ],
+                "orthofinder stats": [
+                    {
+                        "Number of species in orthogroup": 1,
+                        "Number of orthogroups": 79
+                    },
+                    {
+                        "Number of species in orthogroup": 2,
+                        "Number of orthogroups": 166
+                    },
+                    {
+                        "Number of species in orthogroup": 3,
+                        "Number of orthogroups": 70
+                    },
+                    {
+                        "Number of species in orthogroup": 4,
+                        "Number of orthogroups": 277
+                    }
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
+        },
+        "timestamp": "2024-11-01T14:11:21.865104"
+    }
+}

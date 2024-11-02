@@ -79,6 +79,11 @@
     {% if 'MERQURY' in all_stats_dicts %}
     <button class="tablinks" onclick="openTool(event, 'MERQURY')">MERQURY</button>
     {% endif %}
+
+    {% if 'ORTHOFINDER' in all_stats_dicts %}
+    <button class="tablinks" onclick="openTool(event, 'ORTHOFINDER')">ORTHOFINDER</button>
+    {% endif %}
+
   </div>
 
   {% include 'params/params.html' %}
@@ -151,6 +156,11 @@
   {% if 'MERQURY' in all_stats_dicts %}
   {% include 'merqury/merqury.html' %}
   {% endif %}
+
+  {% if 'ORTHOFINDER' in all_stats_dicts %}
+  {% include 'orthofinder/orthofinder.html' %}
+  {% endif %}
+
 </body>
 {% include 'js.html' %}
 

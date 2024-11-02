@@ -1,0 +1,5 @@
+tag,fasta,gff3
+agalactiae,https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/063/605/GCF_000063605.1_ASM6360v1/GCF_000063605.1_ASM6360v1_genomic.fna.gz,https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/063/605/GCF_000063605.1_ASM6360v1/GCF_000063605.1_ASM6360v1_genomic.gff.gz
+gallisepticum,https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/900/476/085/GCF_900476085.1_50569_G01/GCF_900476085.1_50569_G01_genomic.fna.gz,https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/900/476/085/GCF_900476085.1_50569_G01/GCF_900476085.1_50569_G01_genomic.gff.gz
+genitalium,https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/027/325/GCF_000027325.1_ASM2732v1/GCF_000027325.1_ASM2732v1_genomic.fna.gz,https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/027/325/GCF_000027325.1_ASM2732v1/GCF_000027325.1_ASM2732v1_genomic.gff.gz
+hyopneumoniae,https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/008/205/GCF_000008205.1_ASM820v1/GCF_000008205.1_ASM820v1_genomic.fna.gz,https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/008/205/GCF_000008205.1_ASM820v1/GCF_000008205.1_ASM820v1_genomic.gff.gz

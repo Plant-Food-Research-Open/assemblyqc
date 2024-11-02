@@ -30,6 +30,8 @@ include { MERYL_COUNT as PAT_MERYL_COUNT    } from '../modules/nf-core/meryl/cou
 include { MERYL_UNIONSUM as PAT_UNIONSUM    } from '../modules/nf-core/meryl/unionsum/main'
 include { MERQURY_HAPMERS                   } from '../modules/nf-core/merqury/hapmers/main'
 include { MERQURY_MERQURY                   } from '../modules/nf-core/merqury/merqury/main'
+include { GFFREAD                           } from '../modules/nf-core/gffread/main'
+include { ORTHOFINDER                       } from '../modules/nf-core/orthofinder/main'
 include { CREATEREPORT                      } from '../modules/local/createreport'
 
 include { FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS as FETCHNGS  } from '../subworkflows/nf-core/fastq_download_prefetch_fasterqdump_sratools/main'
@@ -805,6 +807,38 @@ workflow ASSEMBLYQC {
                                             | flatMap { meta, data -> data }
     ch_versions                             = ch_versions.mix(MERQURY_MERQURY.out.versions.first())
 
+    // MODULE: GFFREAD
+    ch_gffread_inputs                       = params.orthofinder_skip
+                                            ? Channel.empty()
+                                            : ch_valid_gff3
+                                            | join(
+                                                ch_clean_assembly
+                                                | map { tag, fasta -> [ [ id: tag ], fasta ] }
+                                            )
+                                            | map { [ it ] }
+                                            | collect
+                                            | filter { it.size() > 1 }
+                                            | flatten
+                                            | buffer ( size: 3 )
+
+    GFFREAD(
+        ch_gffread_inputs.map { meta, gff, fasta -> [ meta, gff ] },
+        ch_gffread_inputs.map { meta, gff, fasta -> fasta }
+    )
+
+    ch_proteins_fasta                       = GFFREAD.out.gffread_fasta
+    ch_versions                             = ch_versions.mix(GFFREAD.out.versions.first())
+
+    // ORTHOFINDER
+    ORTHOFINDER(
+        ch_proteins_fasta.map { meta, fasta -> fasta }.collect().map { fastas -> [ [ id: 'assemblyqc' ], fastas ] },
+        [ [], [] ]
+    )
+
+    ch_orthofinder_outputs                  = ORTHOFINDER.out.orthofinder
+                                            | map { meta, dir -> dir }
+    ch_versions                             = ch_versions.mix(ORTHOFINDER.out.versions)
+
     // Collate and save software versions
     ch_versions                             = ch_versions
                                             | unique
@@ -838,6 +872,7 @@ workflow ASSEMBLYQC {
         ch_hic_report_files                 .collect().ifEmpty([]),
         ch_synteny_outputs                  .collect().ifEmpty([]),
         ch_merqury_outputs                  .collect().ifEmpty([]),
+        ch_orthofinder_outputs              .collect().ifEmpty([]),
         ch_versions_yml,
         ch_params_as_json,
         ch_summary_params_as_json

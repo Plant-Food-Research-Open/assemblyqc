@@ -354,6 +354,20 @@
                 }
             }
         },
+        "orthofinder_options": {
+            "title": "Orthofinder options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "orthofinder_skip": {
+                    "type": "boolean",
+                    "default": true,
+                    "fa_icon": "fas fa-forward",
+                    "description": "Skip orthofinder"
+                }
+            }
+        },
         "institutional_config_options": {
             "title": "Institutional config options",
             "type": "object",
@@ -471,6 +485,9 @@
         },
         {
             "$ref": "#/$defs/merqury_options"
+        },
+        {
+            "$ref": "#/$defs/orthofinder_options"
         },
         {
             "$ref": "#/$defs/institutional_config_options"

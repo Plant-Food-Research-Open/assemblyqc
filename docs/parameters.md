@@ -100,6 +100,12 @@ A Nextflow pipeline which evaluates assembly quality with multiple QC tools and 
 | `merqury_skip`        | Skip merqury analysis            | `boolean` | True    |          |        |
 | `merqury_kmer_length` | kmer length for merqury analysis | `integer` | 21      |          |        |
 
+## Orthofinder options
+
+| Parameter          | Description      | Type      | Default | Required | Hidden |
+| ------------------ | ---------------- | --------- | ------- | -------- | ------ |
+| `orthofinder_skip` | Skip orthofinder | `boolean` | True    |          |        |
+
 ## Institutional config options
 
 Parameters used to describe centralised config profiles. These should not be edited.

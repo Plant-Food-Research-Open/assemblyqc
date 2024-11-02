@@ -29,6 +29,7 @@ from report_modules.parsers.kraken2_parser import parse_kraken2_folder
 from report_modules.parsers.hic_parser import parse_hic_folder
 from report_modules.parsers.synteny_parser import parse_synteny_folder
 from report_modules.parsers.merqury_parser import parse_merqury_folder
+from report_modules.parsers.orthofinder_parser import parse_orthofinder_folder
 
 if __name__ == "__main__":
     params_dict, params_table = parse_params_json("params_json.json")
@@ -57,6 +58,7 @@ if __name__ == "__main__":
     data_from_tools = {**data_from_tools, **parse_hic_folder()}
     data_from_tools = {**data_from_tools, **parse_synteny_folder()}
     data_from_tools = {**data_from_tools, **parse_merqury_folder()}
+    data_from_tools = {**data_from_tools, **parse_orthofinder_folder()}
 
     with open("software_versions.yml", "r") as f:
         versions_from_ch_versions = yaml.safe_load(f)
