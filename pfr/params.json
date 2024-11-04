@@ -37,7 +37,7 @@
     "synteny_mummer_plot_type": "both",
     "synteny_mummer_m2m_align": false,
     "synteny_mummer_max_gap": 1000000,
-    "synteny_mummer_min_bundle_size": 1000,
+    "synteny_mummer_min_bundle_size": 1000000,
     "synteny_plot_1_vs_all": false,
     "synteny_color_by_contig": true,
     "synteny_plotsr_seq_label": "Chr",
