@@ -27,7 +27,7 @@ shift $((OPTIND -1))
 
 ml unload perl
 ml apptainer/1.1
-ml nextflow/23.04.4
+ml nextflow/24.04.3
 
 export TMPDIR="/workspace/$USER/tmp"
 export APPTAINER_BINDPATH="$APPTAINER_BINDPATH,$TMPDIR:$TMPDIR,$TMPDIR:/tmp"
