@@ -12,7 +12,7 @@
 
 ## Introduction
 
-**plant-food-research-open/assemblyqc** is a [Nextflow](https://www.nextflow.io/docs/latest/index.html) pipeline which evaluates assembly quality with multiple QC tools and presents the results in a unified html report. The tools are shown in the [Pipeline Flowchart](#pipeline-flowchart) and their references are listed in [CITATIONS.md](./CITATIONS.md). The pipeline includes skip flags to disable execution of many of it tools.
+**plant-food-research-open/assemblyqc** is a [Nextflow](https://www.nextflow.io/docs/latest/index.html) pipeline which evaluates assembly quality with multiple QC tools and presents the results in a unified html report. The tools are shown in the [Pipeline Flowchart](#pipeline-flowchart) and their references are listed in [CITATIONS.md](./CITATIONS.md). The pipeline includes skip flags to disable execution of various tools.
 
 ## Pipeline Flowchart
 
@@ -29,7 +29,7 @@
   - [Kraken 2](https://github.com/DerrickWood/kraken2), [Krona](https://github.com/marbl/Krona): Taxonomy classification
   - `Alignment and visualisation of HiC data`
     - [sra-tools](https://github.com/ncbi/sra-tools): HiC data download from SRA or use of local FASTQ files
-    - [fastp](https://github.com/OpenGene/fastp), [FastQC](https://github.com/s-andrews/FastQC): QC and trimming
+    - [fastp](https://github.com/OpenGene/fastp), [FastQC](https://github.com/s-andrews/FastQC): Read QC and trimming
     - [SeqKit sort](https://github.com/shenwei356/seqkit): Alphanumeric sorting of FASTA by sequence ID
     - [bwa-mem](https://github.com/lh3/bwa): HiC read alignment
     - [samblaster](https://github.com/GregoryFaust/samblaster): Duplicate marking
@@ -43,7 +43,7 @@
     - [Merqury](https://github.com/marbl/merqury): Completeness, consensus quality and phasing assessment
   - `Synteny analysis`
     - [MUMmer](https://github.com/mummer4/mummer) → [Circos](http://circos.ca/documentation/) + [dotplot](https://plotly.com): One-to-all and all-to-all synteny analysis at the contig level
-    - [Minimap2](https://github.com/lh3/minimap2) → [Syri](https://github.com/schneebergerlab/syri)/[Plotsr](https://github.com/schneebergerlab/plotsr): One-one to chromosome synteny analysis at the chromosome level
+    - [Minimap2](https://github.com/lh3/minimap2) → [Syri](https://github.com/schneebergerlab/syri)/[Plotsr](https://github.com/schneebergerlab/plotsr): One-to-one synteny analysis at the chromosome level
 - `Annotation`
   - [GenomeTools gt gff3validator](https://genometools.org/tools/gt_gff3validator.html) + [FASTA/GFF correspondence](subworkflows/gallvp/gff3_gt_gff3_gff3validator_stat/main.nf): GFF3 validation
   - [GenomeTools gt stat](https://genometools.org/tools/gt_stat.html): Annotation statistics
