@@ -2,17 +2,17 @@
 
 - [Assemblysheet input](#assemblysheet-input)
 - [External databases](#external-databases)
-  - [NCBI FCS GX database](#ncbi-fcs-gx-database)
-  - [Kraken2](#kraken2)
+  - [NCBI FCS-GX database](#ncbi-fcs-gx-database)
   - [BUSCO](#busco)
+  - [Kraken 2](#kraken-2)
 - [Other parameters](#other-parameters)
   - [Assemblathon stats](#assemblathon-stats)
-  - [NCBI FCS GX](#ncbi-fcs-gx)
+  - [NCBI FCS-GX](#ncbi-fcs-gx)
+  - [tidk](#tidk)
   - [BUSCO](#busco-1)
-  - [TIDK](#tidk)
   - [HiC](#hic)
-  - [Synteny analysis](#synteny-analysis)
   - [Merqury K-mer analysis](#merqury-k-mer-analysis)
+  - [Synteny analysis](#synteny-analysis)
 - [Minimum System Requirements](#minimum-system-requirements)
 - [Running the pipeline](#running-the-pipeline)
   - [Updating the pipeline](#updating-the-pipeline)
@@ -43,9 +43,9 @@ See the [Merqury](#merqury-k-mer-analysis) section For description of assemblysh
 
 ## External databases
 
-### NCBI FCS GX database
+### NCBI FCS-GX database
 
-If NCBI FCS GX foreign organism contamination check is executed by setting `ncbi_fcs_gx_skip` to `false`, the path to the GX database must be provided with option `ncbi_fcs_gx_db_path`. The user must ensure that the database is correctly downloaded and placed in a location accessible to the pipeline. Setup instructions are available at <https://github.com/ncbi/fcs/wiki/FCS-GX>. The database path must contain following files:
+If NCBI FCS-GX foreign organism contamination check is executed by setting `ncbi_fcs_gx_skip` to `false`, the path to the GX database must be provided with option `ncbi_fcs_gx_db_path`. The user must ensure that the database is correctly downloaded and placed in a location accessible to the pipeline. Setup instructions are available at <https://github.com/ncbi/fcs/wiki/FCS-GX>. The database path must contain following files:
 
 ```bash
 all.assemblies.tsv
@@ -59,13 +59,13 @@ all.seq_info.tsv.gz
 all.taxa.tsv
 ```
 
-### Kraken2
-
-Path to Kraken2 database is provided by the `kraken2_db_path` parameter. This can be a URL to a public `.tar.gz` file such as `https://genome-idx.s3.amazonaws.com/kraken/k2_pluspfp_20240112.tar.gz`. The pipeline can download and extract the database. This is not the recommended practice owing to the size of the database. Rather, the database should be downloaded, extracted and stored in a read-only location. The path to that location can be provided by the `kraken2_db_path` parameter such as `/workspace/ComparativeDataSources/kraken2db/k2_pluspfp_20230314`.
-
 ### BUSCO
 
 BUSCO lineage databases are downloaded and updated by the BUSCO tool itself. A persistent location for the database can be provided by specifying `busco_download_path` parameter.
+
+### Kraken 2
+
+Path to Kraken 2 database is provided by the `kraken2_db_path` parameter. This can be a URL to a public `.tar.gz` file such as `https://genome-idx.s3.amazonaws.com/kraken/k2_pluspfp_20240112.tar.gz`. The pipeline can download and extract the database. This is not the recommended practice owing to the size of the database. Rather, the database should be downloaded, extracted and stored in a read-only location. The path to that location can be provided by the `kraken2_db_path` parameter such as `/workspace/ComparativeDataSources/kraken2db/k2_pluspfp_20230314`.
 
 ## Other parameters
 
@@ -75,34 +75,21 @@ This section provides additional information for parameters. It does not list al
 
 `assemblathon_stats_n_limit` is the number of 'N's for the unknown gap size. This number is used to split the scaffolds into contigs to compute contig-related stats. NCBI's recommendation for unknown gap size is 100 <https://www.ncbi.nlm.nih.gov/genbank/wgs_gapped/>.
 
-### NCBI FCS GX
+### NCBI FCS-GX
 
 - `ncbi_fcs_gx_tax_id` is the taxonomy ID for all the assemblies listed in the assemblysheet. A taxonomy ID can be obtained by searching a _Genus species_ at <https://www.ncbi.nlm.nih.gov/taxonomy>.
+
+### tidk
+
+- `tidk_repeat_seq`: The telomere search sequence. To select an appropriate sequence, see <https://github.com/tolkit/a-telomeric-repeat-database>. Commonly used sequences are TTTAGGG (Plant), TTAGGG (Fungus, Vertebrates) and TTAGG (Insect). Further reading: <https://pubmed.ncbi.nlm.nih.gov/32153618>
 
 ### BUSCO
 
 - `busco_lineage_datasets`: A space-separated list of BUSCO lineages. Any number of lineages can be specified such as "fungi_odb10 hypocreales_odb10". Each assembly is assessed against each of the listed lineage. To select a lineage, refer to <https://busco.ezlab.org/list_of_lineages.html>.
 
-### TIDK
-
-- `tidk_repeat_seq`: The telomere search sequence. To select an appropriate sequence, see <https://github.com/tolkit/a-telomeric-repeat-database>. Commonly used sequences are TTTAGGG (Plant), TTAGGG (Fungus, Vertebrates) and TTAGG (Insect). Further reading: <https://pubmed.ncbi.nlm.nih.gov/32153618>
-
 ### HiC
 
 - `hic`: Path to reads provided as a SRA ID or as a path to paired reads such as 'hic_reads{1,2}.fastq.gz'. These reads are applied to each assembly listed by `input`.
-
-### Synteny analysis
-
-- `synteny_xref_assemblies`: Similar to `--input`, this parameter also provides a CSV sheet listing external reference assemblies which are included in the synteny analysis but are not analysed by other QC tools. See the [example xrefsheet](../assets/xrefsheet.csv) included with the pipeline. Its fields are:
-
-  - `tag:` A unique tag which represents the reference assembly in the final report
-  - `fasta:` FASTA file
-  - `synteny_labels:` A two column tsv file listing fasta sequence ids (first column) and their labels for the synteny plots (second column)
-
-- `synteny_plotsr_assembly_order`: The order in which Minimap2 alignments are performed and, then, plotted by Plotsr. For assembly A, B and C; if the order is specified as 'B C A', then, two alignments are performed. First, C is aligned against B as reference. Second, A is aligned against C as reference. The order of these assemblies on the Plotsr figure is also 'B C A' so that B appears on top, C in the middle and A at the bottom. If this parameter is `null`, the assemblies are ordered alphabetically. All assemblies from `input` and `synteny_xref_assemblies` are included by default. If an assembly is missing from this list, that assembly is excluded from the analysis.
-
-> [!WARNING]
-> PLOTSR performs a sequence-wise (preferably chromosome-wise) synteny analysis. The order of the sequences for each assembly is inferred from its `synteny_labels` file and the order of sequences in the FASTA file is ignored. As all the assemblies are included in a single plot and the number of sequences from each assembly should be same, sequences after the common minimum number are excluded. Afterwards, the sequences are marked sequentially as `Chr1`, `Chr2`, `Chr3`,... If a label other than `Chr` is desirable, it can be configured with the `synteny_plotsr_seq_label` parameter.
 
 ### Merqury K-mer analysis
 
@@ -123,6 +110,19 @@ See following assemblysheet examples for MERQURY analysis.
 - [assemblysheet - phased2x with parent reads](../tests/merqury/phased2x.mp/assemblysheet.csv)
 
 The data for these examples comes from: [umd.edu](https://obj.umiacs.umd.edu/marbl_publications/triobinning/index.html)
+
+### Synteny analysis
+
+- `synteny_xref_assemblies`: Similar to `--input`, this parameter also provides a CSV sheet listing external reference assemblies which are included in the synteny analysis but are not analysed by other QC tools. See the [example xrefsheet](../assets/xrefsheet.csv) included with the pipeline. Its fields are:
+
+  - `tag:` A unique tag which represents the reference assembly in the final report
+  - `fasta:` FASTA file
+  - `synteny_labels:` A two column tsv file listing fasta sequence ids (first column) and their labels for the synteny plots (second column)
+
+- `synteny_plotsr_assembly_order`: The order in which Minimap2 alignments are performed and, then, plotted by Plotsr. For assembly A, B and C; if the order is specified as 'B C A', then, two alignments are performed. First, C is aligned against B as reference. Second, A is aligned against C as reference. The order of these assemblies on the Plotsr figure is also 'B C A' so that B appears on top, C in the middle and A at the bottom. If this parameter is `null`, the assemblies are ordered alphabetically. All assemblies from `input` and `synteny_xref_assemblies` are included by default. If an assembly is missing from this list, that assembly is excluded from the analysis.
+
+> [!WARNING]
+> PLOTSR performs a sequence-wise (preferably chromosome-wise) synteny analysis. The order of the sequences for each assembly is inferred from its `synteny_labels` file and the order of sequences in the FASTA file is ignored. As all the assemblies are included in a single plot and the number of sequences from each assembly should be same, sequences after the common minimum number are excluded. Afterwards, the sequences are marked sequentially as `Chr1`, `Chr2`, `Chr3`,... If a label other than `Chr` is desirable, it can be configured with the `synteny_plotsr_seq_label` parameter.
 
 ## Minimum System Requirements
 

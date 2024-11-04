@@ -8,26 +8,27 @@ The directories listed below will be created in the results directory after the 
 
 ## Pipeline overview
 
-The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes data using the following steps:
+The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes data to produce following outputs:
 
 <!-- no toc -->
 
-- [FASTA and GFF3 validation](#fasta-and-gff3-validation)
+- [Format validation](#format-validation)
 - [Assemblathon stats](#assemblathon-stats)
-- [Gfastats](#gfastats)
-- [GenomeTools gt stat](#genometools-gt-stat)
-- [NCBI FCS adaptor](#ncbi-fcs-adaptor)
-- [NCBI FCS GX](#ncbi-fcs-gx)
+- [gfastats](#gfastats)
+- [NCBI FCS-adaptor](#ncbi-fcs-adaptor)
+- [NCBI FCS-GX](#ncbi-fcs-gx)
+- [tidk](#tidk)
 - [BUSCO](#busco)
-- [TIDK](#tidk)
 - [LAI](#lai)
-- [Kraken2](#kraken2)
+- [Kraken 2](#kraken-2)
 - [HiC contact map](#hic-contact-map)
-- [Synteny](#synteny)
 - [Merqury](#merqury)
+- [Synteny](#synteny)
+- [GenomeTools gt stat](#genometools-gt-stat)
+- [OrthoFinder](#orthofinder)
 - [Pipeline information](#pipeline-information)
 
-### FASTA and GFF3 validation
+### Format validation
 
 The pipeline prints a warning in the pipeline log if FASTA or GFF3 validation fails. The error log from the validator is reported in the `report.html`. The remaining QC tools are skipped for the assembly with invalid fasta file.
 
@@ -46,7 +47,7 @@ The pipeline prints a warning in the pipeline log if FASTA or GFF3 validation fa
 > [!WARNING]
 > Contig-related stats are based on the assumption that `assemblathon_stats_n_limit` is specified correctly. If you are not certain of the value of `assemblathon_stats_n_limit`, please ignore the contig-related stats.
 
-### Gfastats
+### gfastats
 
 <details markdown="1">
 <summary>Output files</summary>
@@ -56,35 +57,21 @@ The pipeline prints a warning in the pipeline log if FASTA or GFF3 validation fa
 
 </details>
 
-Gfastats is a fast and exhaustive tool for summary statistics.
+gfastats is a fast and exhaustive tool for summary statistics.
 
-### GenomeTools gt stat
-
-<details markdown="1">
-<summary>Output files</summary>
-
-- `genometools_gt_stat/`
-  - `*.gt.stat.yml`: Assembly annotation stats in yaml format.
-
-</details>
-
-GenomeTools `gt stat` tool calculates a basic set of statistics about features contained in GFF3 files.
-
-<div align="center"><img src="images/FI1.gt.stat.yml.gene.length.png" alt="AssemblyQC - GenomeTools gt stat gene length distribution" width="50%"><hr><em>AssemblyQC - GenomeTools gt stat gene length distribution</em></div>
-
-### NCBI FCS adaptor
+### NCBI FCS-adaptor
 
 <details markdown="1">
 <summary>Output files</summary>
 
 - `ncbi_fcs_adaptor/`
-  - `*_fcs_adaptor_report.tsv`: NCBI FCS adaptor report in CSV format.
+  - `*_fcs_adaptor_report.tsv`: NCBI FCS-adaptor report in CSV format.
 
 </details>
 
-[FCS-adaptor detects](https://github.com/ncbi/fcs/wiki/FCS-adaptor#rules-for-action-assignment) adaptor and vector contamination in genome sequences.
+[FCS-adaptor](https://github.com/ncbi/fcs/wiki/FCS-adaptor#rules-for-action-assignment) detects adaptor and vector contamination in genome sequences.
 
-### NCBI FCS GX
+### NCBI FCS-GX
 
 <details markdown="1">
 <summary>Output files</summary>
@@ -98,25 +85,9 @@ GenomeTools `gt stat` tool calculates a basic set of statistics about features c
 
 </details>
 
-[FCS-GX detects](https://github.com/ncbi/fcs/wiki/FCS-GX#outputs) contamination from foreign organisms in genome sequences.
+[FCS-GX](https://github.com/ncbi/fcs/wiki/FCS-GX#outputs) detects contamination from foreign organisms in genome sequences.
 
-### BUSCO
-
-<details markdown="1">
-<summary>Output files</summary>
-
-- `busco/`
-  - `busco_figure.png`: Summary figure created from all the BUSCO summaries.
-  - `tag`
-    - `short_summary.specific.*_odb10.tag_*.txt`: BUSCO summary for the assembly represented by `tag`.
-
-</details>
-
-[BUSCO estimates](https://busco.ezlab.org/busco_userguide.html) the completeness and redundancy of processed genomic data based on universal single-copy orthologs.
-
-<div align="center"><img src="images/busco_figure.png" alt="AssemblyQC - BUSCO summary plot" width="50%"><hr><em>AssemblyQC - BUSCO summary plot</em></div>
-
-### TIDK
+### tidk
 
 <details markdown="1">
 <summary>Output files</summary>
@@ -131,9 +102,30 @@ GenomeTools `gt stat` tool calculates a basic set of statistics about features c
 
 </details>
 
-TIDK toolkit is designed to [identify and visualize](https://github.com/tolkit/telomeric-identifier) telomeric repeats for the Darwin Tree of Life genomes.
+tidk toolkit is designed to [identify and visualize](https://github.com/tolkit/telomeric-identifier) telomeric repeats for the Darwin Tree of Life genomes.
 
-<div align="center"><img src="images/tidk.png" alt="AssemblyQC - TIDK plot" width="50%"><hr><em>AssemblyQC - TIDK plot</em></div>
+<div align="center"><img src="images/tidk.png" alt="AssemblyQC - tidk plot" width="50%"><hr><em>AssemblyQC - tidk plot</em></div>
+
+### BUSCO
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `busco/`
+  - `fasta`
+    - `busco_figure.png`: Summary figure created from all the BUSCO summaries.
+    - `tag`
+      - `short_summary.specific.*_odb10.tag_*.txt`: BUSCO summary for the assembly represented by `tag`.
+  - `gff`
+    - `busco_figure.png`: Summary figure created from all the BUSCO summaries.
+    - `tag`
+      - `short_summary.specific.*_odb10.tag_*.txt`: BUSCO summary for the annotation of the assembly represented by `tag`.
+
+</details>
+
+[BUSCO](https://busco.ezlab.org/busco_userguide.html) estimates the completeness and redundancy of processed genomic data based on universal single-copy orthologs.
+
+<div align="center"><img src="images/busco_figure.png" alt="AssemblyQC - BUSCO summary plot" width="50%"><hr><em>AssemblyQC - BUSCO summary plot</em></div>
 
 ### LAI
 
@@ -154,22 +146,22 @@ LTR Assembly Index (LAI) is a reference-free genome metric that [evaluates assem
 > [!WARNING]
 > Soft masked regions are unmasked when calculating LAI. However, hard masked regions are left as is. The pipeline will fail to calculate LAI if all the LTRs are already hard masked.
 
-### Kraken2
+### Kraken 2
 
 <details markdown="1">
 <summary>Output files</summary>
 
 - `kraken2/`
-  - `*.kraken2.report`: [Kraken2 report](https://github.com/DerrickWood/kraken2/wiki/Manual#output-formats).
-  - `*.kraken2.cut`: [Kraken2 output](https://github.com/DerrickWood/kraken2/wiki/Manual#output-formats).
+  - `*.kraken2.report`: [Kraken 2 report](https://github.com/DerrickWood/kraken2/wiki/Manual#output-formats).
+  - `*.kraken2.cut`: [Kraken 2 output](https://github.com/DerrickWood/kraken2/wiki/Manual#output-formats).
   - `*.kraken2.krona.cut`: [Select columns](../modules/local/kraken2_krona_plot.nf) from `*.kraken2.cut` used for generation of a Krona taxonomy plot.
   - `*.kraken2.krona.html`: Interactive Krona taxonomy plot.
 
 </details>
 
-Kraken2 [assigns taxonomic labels](https://ccb.jhu.edu/software/kraken2/) to sequencing reads for metagenomics projects. Further reading regarding performance of Kraken2: <https://doi.org/10.1099/mgen.0.000949>
+Kraken 2 [assigns taxonomic labels](https://ccb.jhu.edu/software/kraken2/) to sequencing reads for metagenomics projects. Further reading regarding performance of Kraken 2: <https://doi.org/10.1099/mgen.0.000949>
 
-<div align="center"><img src="images/kraken2.jpg" alt="AssemblyQC - Interactive Krona plot from Kraken2 taxonomy" width="50%"><hr><em>AssemblyQC - Interactive Krona plot from Kraken2 taxonomy</em></div>
+<div align="center"><img src="images/kraken2.jpg" alt="AssemblyQC - Interactive Krona plot from Kraken 2 taxonomy" width="50%"><hr><em>AssemblyQC - Interactive Krona plot from Kraken 2 taxonomy</em></div>
 
 ### HiC contact map
 
@@ -178,17 +170,17 @@ Kraken2 [assigns taxonomic labels](https://ccb.jhu.edu/software/kraken2/) to seq
 
 - `hic/`
   - `fastqc_raw/`
-    - `*_1_fastqc.html/*_2_fastqc.html`: FASTQC html report for the raw reads
-    - `*_1_fastqc.zip/*_2_fastqc.zip`: FASTQC stats for the raw reads
+    - `*_1_fastqc.html/*_2_fastqc.html`: FastQC html report for the raw reads
+    - `*_1_fastqc.zip/*_2_fastqc.zip`: FastQC stats for the raw reads
   - `fastp/`
-    - `*.fastp.html`: FASTP HTML report
-    - `*.fastp.json`: FASTP statistics in JSON format
-    - `*.fastp.log`: FASTP log
-    - `*_1.fastp.fastq.gz/*_2.fastp.fastq.gz`: Reads passed by FASTP
-    - `*_1.fail.fastq.gz/*_2.fail.fastq.gz`: Reads failed by FASTP
+    - `*.fastp.html`: fastp HTML report
+    - `*.fastp.json`: fastp statistics in JSON format
+    - `*.fastp.log`: fastp log
+    - `*_1.fastp.fastq.gz/*_2.fastp.fastq.gz`: Reads passed by fastp
+    - `*_1.fail.fastq.gz/*_2.fail.fastq.gz`: Reads failed by fastp
   - `fastqc_trim/`
-    - `*_1_fastqc.html/*_2_fastqc.html`: FASTQC html report for the reads passed by FASTP.
-    - `*_1_fastqc.zip/*_2_fastqc.zip`: FASTQC stats for the reads passed by FASTP.
+    - `*_1_fastqc.html/*_2_fastqc.html`: FastQC html report for the reads passed by FASTP.
+    - `*_1_fastqc.zip/*_2_fastqc.zip`: FastQC stats for the reads passed by FASTP.
   - `hicqc`
     - `*.on.*_qc_report.pdf`: HiC QC report for reads mapped to an assembly.
   - `assembly/`
@@ -204,6 +196,28 @@ Hi-C contact mapping experiments measure the frequency of physical contact betwe
 <img src="images/hic_map.png" alt="AssemblyQC - HiC interactive contact map" width="50%">
 <hr>
 <em>AssemblyQC - HiC results</em>
+</div>
+
+### Merqury
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `merqury/`
+  - `tag1-and-tag2`: Results folder for haplotype `tag1` and `tag2`.
+    - `*.completeness.stats`: Assembly completeness statistics
+    - `*.qv`: Assembly consensus quality QV statistics
+    - `*.fl.png`: Spectra plots
+    - `*.hapmers.blob.png`: Hap-mer blob plot
+    </details>
+
+[Merqury](https://github.com/marbl/merqury) is used for the k-mer analysis.
+
+<div align="center">
+<img src="images/spectra_cn.png" alt="AssemblyQC - Spectra-cn plot" width="49%">
+<img src="images/hapmers_blob.png" alt="AssemblyQC - Plotsr synteny plot" width="39.8%">
+<hr>
+<em>AssemblyQC - Merqury plots</em>
 </div>
 
 ### Synteny
@@ -225,37 +239,42 @@ Hi-C contact mapping experiments measure the frequency of physical contact betwe
     - `plotsr.png`: Plotsr synteny plot
     </details>
 
-[Circos](https://circos.ca) and linear synteny plots are created from genome-wide alignments performed with [MUMMER](https://github.com/mummer4/mummer?tab=readme-ov-file) and [`dnadiff.pl`](https://github.com/mummer4/mummer/blob/master/scripts/dnadiff.pl).
+[Circos](https://circos.ca) and dotplots are created from genome-wide alignments performed with [MUMmer](https://github.com/mummer4/mummer?tab=readme-ov-file). Whereas, [Plotsr](https://github.com/schneebergerlab/plotsr) plots are created from genome-wide alignments performed with [Minimap2](https://github.com/lh3/minimap2).
 
 <div align="center">
 <img src="images/synteny_circos.png" alt="AssemblyQC - Circos synteny plot" width="46%">
 <img src="images/plotsr.png" alt="AssemblyQC - Plotsr synteny plot" width="41.8%">
-<img src="images/dotplot.png" alt="AssemblyQC - Dotplot synteny plot" width="50%">
+<img src="images/dotplot.png" alt="AssemblyQC - dotplot synteny plot" width="50%">
 <hr>
 <em>AssemblyQC - Synteny plots</em>
 </div>
 
-### Merqury
+### GenomeTools gt stat
 
 <details markdown="1">
 <summary>Output files</summary>
 
-- `merqury/`
-  - `tag1-and-tag2`: Results folder for haplotype `tag1` and `tag2`.
-    - `*.completeness.stats`: Assembly completeness statistics
-    - `*.qv`: Assembly consensus quality QV statistics
-    - `*.fl.png`: Spectra plots
-    - `*.hapmers.blob.png`: Hap-mer blob plot
-    </details>
+- `genometools_gt_stat/`
+  - `*.gt.stat.yml`: Assembly annotation stats in yaml format.
 
-[MERQURY](https://github.com/marbl/merqury) is used for the k-mer analysis.
+</details>
 
-<div align="center">
-<img src="images/spectra_cn.png" alt="AssemblyQC - Spectra-cn plot" width="49%">
-<img src="images/hapmers_blob.png" alt="AssemblyQC - Plotsr synteny plot" width="39.8%">
-<hr>
-<em>AssemblyQC - Merqury plots</em>
-</div>
+GenomeTools `gt stat` tool calculates a basic set of statistics about features contained in GFF3 files.
+
+<div align="center"><img src="images/FI1.gt.stat.yml.gene.length.png" alt="AssemblyQC - GenomeTools gt stat gene length distribution" width="50%"><hr><em>AssemblyQC - GenomeTools gt stat gene length distribution</em></div>
+
+### OrthoFinder
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `orthofinder/assemblyqc`: OrthoFinder output folder.
+
+</details>
+
+If more than one assemblies are included along with their annotations, OrthoFinder is executed on the annotation proteins to perform a phylogenetic orthology inference for comparative genomics.
+
+<div align="center"><img src="images/orthofinder.png" alt="AssemblyQC - OrthoFinder species tree" width="50%"><hr><em>AssemblyQC -  OrthoFinder species tree</em></div>
 
 ### Pipeline information
 

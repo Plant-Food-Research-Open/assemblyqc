@@ -18,15 +18,15 @@
 
   > Gremme G, Steinbiss S, Kurtz S. 2013. "GenomeTools: A Comprehensive Software Library for Efficient Processing of Structured Genome Annotations," in IEEE/ACM Transactions on Computational Biology and Bioinformatics, vol. 10, no. 3, pp. 645-656, May 2013, doi: <https://doi.org/10.1109/TCBB.2013.68>
 
-- SAMTOOLS, [MIT/Expat](https://github.com/samtools/samtools/blob/develop/LICENSE)
+- samtools, [MIT/Expat](https://github.com/samtools/samtools/blob/develop/LICENSE)
 
   > Danecek P, Bonfield JK, Liddle J, Marshall J, Ohan V, Pollard MO, Whitwham A, Keane T, McCarthy SA, Davies RM, Li H. 2021. Twelve years of SAMtools and BCFtools, GigaScience, Volume 10, Issue 2, February 2021, giab008, <https://doi.org/10.1093/gigascience/giab008>
 
-- NCBI/FCS, [License](https://github.com/ncbi/fcs/blob/main/LICENSE.txt)
+- NCBI FCS, [License](https://github.com/ncbi/fcs/blob/main/LICENSE.txt)
 
   > Astashyn A, Tvedte ES, Sweeney D, Sapojnikov V, Bouk N, Joukov V, Mozes E, Strope PK, Sylla PM, Wagner L, Bidwell SL, Clark K, Davis EW, Smith-White B, Hlavina W, Pruitt KD, Schneider VA, Murphy TD. 2023. Rapid and sensitive detection of genome contamination at scale with FCS-GX. bioRxiv 2023.06.02.543519; doi: <https://doi.org/10.1101/2023.06.02.543519>
 
-- KRONA, [License](https://github.com/marbl/Krona/blob/master/KronaTools/LICENSE.txt)
+- Krona, [License](https://github.com/marbl/Krona/blob/master/KronaTools/LICENSE.txt)
 
   > Ondov BD, Bergman NH, Phillippy AM. 2011. Interactive metagenomic visualization in a Web browser. BMC Bioinformatics. 2011 Sep 30;12:385. doi: <https://doi.org/10.1186/1471-2105-12-385>
 
@@ -36,7 +36,7 @@
   >
   > Forked from: <https://github.com/ucdavis-bioinformatics/assemblathon2-analysis>
 
-- GFASTATS, [MIT](https://github.com/vgl-hub/gfastats/blob/main/LICENSE)
+- gfastats, [MIT](https://github.com/vgl-hub/gfastats/blob/main/LICENSE)
 
   > Giulio Formenti, Linelle Abueg, Angelo Brajuka, Nadolina Brajuka, Cristóbal Gallardo-Alba, Alice Giani, Olivier Fedrigo, Erich D Jarvis, Gfastats: conversion, evaluation and manipulation of genome sequences using assembly graphs, Bioinformatics, Volume 38, Issue 17, September 2022, Pages 4214–4216, <https://doi.org/10.1093/bioinformatics/btac460>
 
@@ -44,15 +44,15 @@
 
   > Manni M, Berkeley MR, Seppey M, Simão FA, Zdobnov EM. 2021. BUSCO Update: Novel and Streamlined Workflows along with Broader and Deeper Phylogenetic Coverage for Scoring of Eukaryotic, Prokaryotic, and Viral Genomes, Molecular Biology and Evolution, Volume 38, Issue 10, October 2021, Pages 4647–4654, <https://doi.org/10.1093/molbev/msab199>
 
-- GFFREAD, [MIT](https://github.com/gpertea/gffread/blob/master/LICENSE)
+- GffRead, [MIT](https://github.com/gpertea/gffread/blob/master/LICENSE)
 
   > Pertea G, Pertea M. GFF Utilities: GffRead and GffCompare. F1000Res. 2020 Apr 28;9:ISCB Comm J-304. doi: <http://doi.org/10.12688/f1000research.23297.2>. PMID: 32489650; PMCID: PMC7222033.
 
-- TIDK, [MIT](https://github.com/tolkit/telomeric-identifier/blob/main/LICENSE)
+- tidk, [MIT](https://github.com/tolkit/telomeric-identifier/blob/main/LICENSE)
 
   > <https://github.com/tolkit/telomeric-identifier>
 
-- SEQKIT, [MIT](https://github.com/shenwei356/seqkit/blob/master/LICENSE)
+- SeqKit, [MIT](https://github.com/shenwei356/seqkit/blob/master/LICENSE)
 
   > Shen W, Le S, Li Y, Hu F. 2016. SeqKit: A Cross-Platform and Ultrafast Toolkit for FASTA/Q File Manipulation. PLoS ONE 11(10): e0163962. <https://doi.org/10.1371/journal.pone.0163962>
 
@@ -72,19 +72,19 @@
 
   > Shujun O, Ning J 2018. LTR_retriever: A Highly Accurate and Sensitive Program for Identification of Long Terminal Repeat Retrotransposons, Plant Physiology, 176, 2 (2018). <https://doi.org/10.1104/pp.17.01310>
 
-- KRAKEN2, [MIT](https://github.com/DerrickWood/kraken2/blob/master/LICENSE)
+- Kraken 2, [MIT](https://github.com/DerrickWood/kraken2/blob/master/LICENSE)
 
   > Wood DE, Salzberg SL, Wood DE, Lu J, Langmead B. 2019. Improved metagenomic analysis with Kraken 2. Genome Biol 20, 257 (2019). <https://doi.org/10.1186/s13059-019-1891-0>
 
-- JUICEBOX.JS, [MIT](https://github.com/igvteam/juicebox.js/blob/master/LICENSE)
+- juicebox.js, [MIT](https://github.com/igvteam/juicebox.js/blob/master/LICENSE)
 
   > Robinson JT, Turner D, Durand NC, Thorvaldsdóttir H, Mesirov JP, Aiden EL. 2018. Juicebox.js Provides a Cloud-Based Visualization System for Hi-C Data. Cell Syst. 2018 Feb 28;6(2):256-258.e1. doi: <https://doi.org/10.1016/j.cels.2018.01.001>. Epub 2018 Feb 7. PMID: 29428417; PMCID: PMC6047755.
 
-- FASTP, [MIT](https://github.com/OpenGene/fastp/blob/master/LICENSE)
+- fastp, [MIT](https://github.com/OpenGene/fastp/blob/master/LICENSE)
 
   > Chen S, Zhou Y, Chen Y, Gu J. 2018. fastp: an ultra-fast all-in-one FASTQ preprocessor, Bioinformatics, Volume 34, Issue 17, 01 September 2018, Pages i884–i890, <https://doi.org/10.1093/bioinformatics/bty560>
 
-- FASTQC, [GPL v3](https://github.com/s-andrews/FastQC/blob/master/LICENSE.txt)
+- FastQC, [GPL v3](https://github.com/s-andrews/FastQC/blob/master/LICENSE.txt)
 
   > <https://github.com/s-andrews/FastQC>
 
@@ -92,7 +92,7 @@
 
   > Dudchenko O, Batra SS, Omer AD, Nyquist SK, Hoeger M, Durand NC, Shamim MS, Machol I, Lander, Aiden AP, Aiden EL 2017. De novo assembly of the Aedes aegypti genome using Hi-C yields chromosome-length scaffolds.Science356, 92-95(2017). doi: <https://doi.org/10.1126/science.aal3327>. Available at: <https://github.com/aidenlab/3d-dna/commit/63029aa3bc5ba9bbdad9dd9771ace583cc95e273>
 
-- HIC_QC, [AGPL v3](https://github.com/phasegenomics/hic_qc/blob/master/LICENSE)
+- hic_qc, [AGPL v3](https://github.com/phasegenomics/hic_qc/blob/master/LICENSE)
 
   > <https://github.com/phasegenomics/hic_qc/commit/6881c3390fd4afb85009a52918b4d068100c58b4>
 
@@ -100,41 +100,45 @@
 
   > <https://github.com/phasegenomics/juicebox_scripts/commit/a7ae9915401eb677b8058b0118011ce440999bc0>
 
-- BWA, [GPL v3](https://github.com/lh3/bwa/blob/master/COPYING)
+- bwa-mem, [GPL v3](https://github.com/lh3/bwa/blob/master/COPYING)
 
   > Li H. 2013. Aligning sequence reads, clone sequences and assembly contigs with BWA-MEM. <https://doi.org/10.48550/arXiv.1303.3997>
 
-- MATLOCK, [AGPL v3](https://github.com/phasegenomics/matlock/blob/master/LICENSE)
+- Matlock, [AGPL v3](https://github.com/phasegenomics/matlock/blob/master/LICENSE)
 
   > <https://github.com/phasegenomics/matlock>; <https://quay.io/biocontainers/matlock:20181227--h4b03ef3_3>
 
-- SAMBLASTER, [MIT](https://github.com/GregoryFaust/samblaster/blob/master/LICENSE.txt)
+- samblaster, [MIT](https://github.com/GregoryFaust/samblaster/blob/master/LICENSE.txt)
 
   > Faust GG, Hall IM. 2014. SAMBLASTER: fast duplicate marking and structural variant read extraction, Bioinformatics, Volume 30, Issue 17, September 2014, Pages 2503–2505, <https://doi.org/10.1093/bioinformatics/btu314>
 
-- CIRCOS, [GPL v3](https://www.gnu.org/licenses/gpl-3.0.txt)
+- Circos, [GPL v3](https://www.gnu.org/licenses/gpl-3.0.txt)
 
   > Krzywinski M, Schein J, Birol I, Connors J, Gascoyne R. Horsman D, ... Marra MA. 2009. Circos: an information aesthetic for comparative genomics. Genome research, 19(9), 1639-1645. <https://doi.org/10.1101/gr.092759.109>
 
-- MUMMER, [Artistic 2.0](https://github.com/mummer4/mummer/blob/master/LICENSE.md)
+- MUMmer, [Artistic 2.0](https://github.com/mummer4/mummer/blob/master/LICENSE.md)
 
   > Marçais G, Delcher AL, Phillippy AM, Coston R, Salzberg SL, Zimin A. 2018. MUMmer4: A fast and versatile genome alignment system. PLoS Comput Biol. 2018 Jan 26;14(1):e1005944. doi: <https://doi.org/10.1371/journal.pcbi.1005944>. PMID: 29373581; PMCID: PMC5802927.
 
-- PLOTSR, [MIT](https://github.com/schneebergerlab/plotsr/blob/master/LICENSE)
+- Plotsr, [MIT](https://github.com/schneebergerlab/plotsr/blob/master/LICENSE)
 
   > Goel M, Schneeberger K. 2022. plotsr: visualizing structural similarities and rearrangements between multiple genomes. Bioinformatics. 2022 May 13;38(10):2922-2926. doi: <https://doi.org/10.1093/bioinformatics/btac196>. PMID: 35561173; PMCID: PMC9113368.
 
-- SYRI, [MIT](https://github.com/schneebergerlab/syri/blob/master/LICENSE)
+- Syri, [MIT](https://github.com/schneebergerlab/syri/blob/master/LICENSE)
 
   > Goel M, Sun H, Jiao WB, Schneeberger K. 2019. SyRI: finding genomic rearrangements and local sequence differences from whole-genome assemblies. Genome Biol. 2019 Dec 16;20(1):277. doi: <https://doi.org/10.1186/s13059-019-1911-0>. PMID: 31842948; PMCID: PMC6913012.
 
-- MINIMAP2, [MIT](https://github.com/lh3/minimap2/blob/master/LICENSE.txt)
+- Minimap2, [MIT](https://github.com/lh3/minimap2/blob/master/LICENSE.txt)
 
   > Li H. 2021. New strategies to improve minimap2 alignment accuracy, Bioinformatics, Volume 37, Issue 23, December 2021, Pages 4572–4574, doi: <https://doi.org/10.1093/bioinformatics/btab705>
 
-- MERQURY, [United States Government Work](https://github.com/marbl/merqury?tab=License-1-ov-file#readme)
+- Merqury, [United States Government Work](https://github.com/marbl/merqury?tab=License-1-ov-file#readme)
 
   > Rhie, A., Walenz, B.P., Koren, S. et al. 2020. Merqury: reference-free quality, completeness, and phasing assessment for genome assemblies. Genome Biol 21, 245. doi: <https://doi.org/10.1186/s13059-020-02134-9>
+
+- OrthoFinder, [GPL v3](https://github.com/davidemms/OrthoFinder/blob/master/License.md)
+
+  > Emms, D.M., Kelly, S. OrthoFinder: phylogenetic orthology inference for comparative genomics. Genome Biol 20, 238 (2019). doi: <a href="https://doi.org/10.1186/s13059-019-1832-y">10.1186/s13059-019-1832-y</a>
 
 ## Software packaging/containerisation tools
 

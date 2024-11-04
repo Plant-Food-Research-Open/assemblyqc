@@ -1,0 +1,33 @@
+<div id="tabcontent_ORTHOFINDER" class="tabcontent-ORTHOFINDER" style="display: block">
+  <div class="results-section">
+
+    <div class="section-para-wrapper">
+      <p class="section-para"><b>Species tree (rooted)</b></p>
+    </div>
+    <div class="image-wrapper" style="width: 60%;margin-left: auto;margin-right: auto;">
+      <img src="{{ all_stats_dicts['ORTHOFINDER']['speciestree_rooted'] }}" alt="" />
+    </div>
+
+    <div class="section-para-wrapper">
+      <p class="section-para"><b>General statistics</b></p>
+    </div>
+    <div class="table-outer">
+      <div class="table-wrapper">{{ all_stats_dicts['ORTHOFINDER']['general_stats_html'] }}</div>
+    </div>
+
+    <div class="section-para-wrapper">
+      <p class="section-para"><b>Genes per-species in orthogroup</b></p>
+    </div>
+    <div class="table-outer">
+      <div class="table-wrapper">{{ all_stats_dicts['ORTHOFINDER']['genes_per_species_html'] }}</div>
+    </div>
+
+    <div class="section-para-wrapper">
+      <p class="section-para"><b>Number of species in orthogroup</b></p>
+    </div>
+    <div class="table-outer">
+      <div class="table-wrapper">{{ all_stats_dicts['ORTHOFINDER']['num_species_orthogroup_html'] }}</div>
+    </div>
+
+  </div>
+</div>
