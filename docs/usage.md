@@ -65,7 +65,7 @@ BUSCO lineage databases are downloaded and updated by the BUSCO tool itself. A p
 
 ### Kraken 2
 
-Path to Kraken 2 database is provided by the `kraken2_db_path` parameter. This can be a URL to a public `.tar.gz` file such as `https://genome-idx.s3.amazonaws.com/kraken/k2_pluspfp_20240112.tar.gz`. The pipeline can download and extract the database. This is not the recommended practice owing to the size of the database. Rather, the database should be downloaded, extracted and stored in a read-only location. The path to that location can be provided by the `kraken2_db_path` parameter such as `/workspace/ComparativeDataSources/kraken2db/k2_pluspfp_20230314`.
+Path to Kraken 2 database is provided by the `kraken2_db_path` parameter. This can be a URL to a public `.tar.gz` file such as `https://genome-idx.s3.amazonaws.com/kraken/k2_pluspfp_20240112.tar.gz`. The pipeline can download and extract the database. This is not the recommended practice owing to the size of the database. Rather, the database should be downloaded, extracted and stored in a read-only location. The path to that location can be provided by the `kraken2_db_path` parameter such as `/workspace/ComparativeDataSources/kraken2db/k2_pluspfp_20240904`.
 
 ## Other parameters
 

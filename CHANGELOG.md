@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 10. Updated the tube map along with the tool list [#166](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/166)
 11. Added Orthofinder [#167](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/167)
 12. Changed order of tool options in the `nextflow.config` file
+13. Updated PFR's Kraken 2 database to `k2_pluspfp_20240904` [#170](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/170)
 
 ### `Fixed`
 

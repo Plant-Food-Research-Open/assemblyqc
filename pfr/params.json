@@ -21,7 +21,7 @@
     "busco_download_path": "/workspace/ComparativeDataSources/BUSCO/assemblyqc",
     "lai_skip": false,
     "kraken2_skip": false,
-    "kraken2_db_path": "/workspace/ComparativeDataSources/kraken2db/k2_pluspfp_20230314",
+    "kraken2_db_path": "/workspace/ComparativeDataSources/kraken2db/k2_pluspfp_20240904",
     "hic": null,
     "hic_skip_fastp": false,
     "hic_skip_fastqc": false,
