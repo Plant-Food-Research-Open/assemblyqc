@@ -17,6 +17,7 @@ nextflow run \
     -profile docker,test_full \
     -resume \
     $stub \
+    -c ../nxf-config/resources.config \
     --ncbi_fcs_gx_skip false \
     --ncbi_fcs_gx_db_path ../dbs/gxdb/test \
     --busco_download_path ../dbs/busco \
