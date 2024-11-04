@@ -12,26 +12,43 @@
 
 ## Introduction
 
-**plant-food-research-open/assemblyqc** is a [Nextflow](https://www.nextflow.io/docs/latest/index.html) pipeline which evaluates assembly quality with multiple QC tools and presents the results in a unified html report. The tools are shown in the [Pipeline Flowchart](#pipeline-flowchart) and their references are listed in [CITATIONS.md](./CITATIONS.md).
+**plant-food-research-open/assemblyqc** is a [Nextflow](https://www.nextflow.io/docs/latest/index.html) pipeline which evaluates assembly quality with multiple QC tools and presents the results in a unified html report. The tools are shown in the [Pipeline Flowchart](#pipeline-flowchart) and their references are listed in [CITATIONS.md](./CITATIONS.md). The pipeline includes skip flags to disable execution of many of it tools.
 
 ## Pipeline Flowchart
 
 <p align="center"><img src="docs/images/assemblyqc.png"></p>
 
-- [FASTA VALIDATOR](https://github.com/linsalrob/fasta_validator) + [SEQKIT RMDUP](https://github.com/shenwei356/seqkit): FASTA validation
-- [GENOMETOOLS GT GFF3VALIDATOR](https://genometools.org/tools/gt_gff3validator.html): GFF3 validation
-- [ASSEMBLATHON STATS](https://github.com/PlantandFoodResearch/assemblathon2-analysis/blob/a93cba25d847434f7eadc04e63b58c567c46a56d/assemblathon_stats.pl), [GFASTATS](https://github.com/vgl-hub/gfastats): Assembly statistics
-- [GENOMETOOLS GT STAT](https://genometools.org/tools/gt_stat.html): Annotation statistics
-- [NCBI FCS ADAPTOR](https://github.com/ncbi/fcs): Adaptor contamination pass/fail
-- [NCBI FCS GX](https://github.com/ncbi/fcs): Foreign organism contamination pass/fail
-- [BUSCO](https://gitlab.com/ezlab/busco): Gene-space completeness estimation
-- [TIDK](https://github.com/tolkit/telomeric-identifier): Telomere repeat identification
-- [LAI](https://github.com/oushujun/LTR_retriever/blob/master/LAI): Continuity of repetitive sequences
-- [KRAKEN2](https://github.com/DerrickWood/kraken2): Taxonomy classification
-- [HIC CONTACT MAP](https://github.com/igvteam/juicebox.js): Alignment and visualisation of HiC data
-- [MUMMER](https://github.com/mummer4/mummer) → [CIRCOS](http://circos.ca/documentation/) + [DOTPLOT](https://plotly.com) & [MINIMAP2](https://github.com/lh3/minimap2) → [PLOTSR](https://github.com/schneebergerlab/plotsr): Synteny analysis
-- [MERQURY](https://github.com/marbl/merqury): K-mer completeness, consensus quality and phasing assessment
-- [ORTHOFINDER](https://github.com/davidemms/OrthoFinder): Phylogenetic orthology inference for comparative genomics
+- `Assembly`
+  - [fasta_validator](https://github.com/linsalrob/fasta_validator) + [SeqKit rmdup](https://github.com/shenwei356/seqkit): FASTA validation
+  - [assemblathon_stats](https://github.com/PlantandFoodResearch/assemblathon2-analysis/blob/a93cba25d847434f7eadc04e63b58c567c46a56d/assemblathon_stats.pl), [gfastats](https://github.com/vgl-hub/gfastats): Assembly statistics
+  - [NCBI FCS-adaptor](https://github.com/ncbi/fcs): Adaptor contamination pass/fail
+  - [NCBI FCS-GX](https://github.com/ncbi/fcs): Foreign organism contamination pass/fail
+  - [tidk](https://github.com/tolkit/telomeric-identifier): Telomere repeat identification
+  - [BUSCO](https://gitlab.com/ezlab/busco): Gene-space completeness estimation
+  - [LAI](https://github.com/oushujun/LTR_retriever/blob/master/LAI): Continuity of repetitive sequences
+  - [Kraken 2](https://github.com/DerrickWood/kraken2), [Krona](https://github.com/marbl/Krona): Taxonomy classification
+  - `Alignment and visualisation of HiC data`
+    - [sra-tools](https://github.com/ncbi/sra-tools): HiC data download from SRA or use of local FASTQ files
+    - [fastp](https://github.com/OpenGene/fastp), [FastQC](https://github.com/s-andrews/FastQC): QC and trimming
+    - [SeqKit sort](https://github.com/shenwei356/seqkit): Alphanumeric sorting of FASTA by sequence ID
+    - [bwa-mem](https://github.com/lh3/bwa): HiC read alignment
+    - [samblaster](https://github.com/GregoryFaust/samblaster): Duplicate marking
+    - [hic_qc](https://github.com/phasegenomics/hic_qc): HiC read and alignment statistics
+    - [Matlock](https://github.com/phasegenomics/matlock): BAM to juicer conversion
+    - [3d-dna/visualize](https://github.com/aidenlab/3d-dna/tree/master/visualize): `.hic` file creation
+    - [juicebox.js](https://github.com/igvteam/juicebox.js): HiC contact map visualisation
+  - `K-mer completeness, consensus quality and phasing assessment`
+    - [sra-tools](https://github.com/ncbi/sra-tools): Assembly, maternal and paternal data download from SRA or use of local FASTQ files
+    - [Merqury hapmers](https://github.com/marbl/merqury/blob/master/trio/hapmers.sh): Hapmer generation if parental data is available
+    - [Merqury](https://github.com/marbl/merqury): Completeness, consensus quality and phasing assessment
+  - `Synteny analysis`
+    - [MUMmer](https://github.com/mummer4/mummer) → [Circos](http://circos.ca/documentation/) + [dotplot](https://plotly.com): One-to-all and all-to-all synteny analysis at the contig level
+    - [Minimap2](https://github.com/lh3/minimap2) → [Syri](https://github.com/schneebergerlab/syri)/[Plotsr](https://github.com/schneebergerlab/plotsr): One-one to chromosome synteny analysis at the chromosome level
+- `Annotation`
+  - [GenomeTools gt gff3validator](https://genometools.org/tools/gt_gff3validator.html) + [FASTA/GFF correspondence](subworkflows/gallvp/gff3_gt_gff3_gff3validator_stat/main.nf): GFF3 validation
+  - [GenomeTools gt stat](https://genometools.org/tools/gt_stat.html): Annotation statistics
+  - [GffRead](https://github.com/gpertea/gffread), [BUSCO](https://gitlab.com/ezlab/busco): Gene-space completeness estimation in annotation proteins
+  - [OrthoFinder](https://github.com/davidemms/OrthoFinder): Phylogenetic orthology inference for comparative genomics
 
 ## Usage
 
@@ -50,9 +67,9 @@ Now, you can run the pipeline using:
 ```bash
 nextflow run plant-food-research-open/assemblyqc \
   -revision <version> \
-   -profile <docker/singularity/.../institute> \
-   --input assemblysheet.csv \
-   --outdir <OUTDIR>
+  -profile <docker/singularity/.../institute> \
+  --input assemblysheet.csv \
+  --outdir <OUTDIR>
 ```
 
 > [!WARNING]

@@ -34,6 +34,15 @@ A Nextflow pipeline which evaluates assembly quality with multiple QC tools and 
 | `ncbi_fcs_gx_db_path`          | Path to NCBI FCS GX database. See: https://github.com/ncbi/fcs/wiki/FCS-GX            | `string`  |         |          |        |
 | `contamination_stops_pipeline` | Skip remaining QC steps for an assembly which has adaptor or GX contamination         | `boolean` | True    |          |        |
 
+## tidk options
+
+| Parameter             | Description                                                                                                | Type      | Default | Required | Hidden |
+| --------------------- | ---------------------------------------------------------------------------------------------------------- | --------- | ------- | -------- | ------ |
+| `tidk_skip`           | Skip telomere identification                                                                               | `boolean` | True    |          |        |
+| `tidk_repeat_seq`     | Telomere repeat sequence. Typical values for plant: TTTAGGG, fungus, vertebrates: TTAGGG and Insect: TTAGG | `string`  |         |          |        |
+| `tidk_filter_by_size` | Filter assembly sequences smaller than the specified length                                                | `boolean` |         |          |        |
+| `tidk_filter_size_bp` | Filter size in base-pairs                                                                                  | `integer` | 1000000 |          |        |
+
 ## BUSCO options
 
 | Parameter                | Description                                                                                                    | Type      | Default | Required | Hidden |
@@ -43,22 +52,13 @@ A Nextflow pipeline which evaluates assembly quality with multiple QC tools and 
 | `busco_lineage_datasets` | BUSCO lineages. It should be provided as a space-separated list of lineages: 'fungi_odb10 microsporidia_odb10' | `string`  |         |          |        |
 | `busco_download_path`    | Download path for BUSCO                                                                                        | `string`  |         |          |        |
 
-## TIDK options
-
-| Parameter             | Description                                                                                                | Type      | Default | Required | Hidden |
-| --------------------- | ---------------------------------------------------------------------------------------------------------- | --------- | ------- | -------- | ------ |
-| `tidk_skip`           | Skip telomere identification                                                                               | `boolean` | True    |          |        |
-| `tidk_repeat_seq`     | Telomere repeat sequence. Typical values for plant: TTTAGGG, fungus, vertebrates: TTAGGG and Insect: TTAGG | `string`  |         |          |        |
-| `tidk_filter_by_size` | Filter assembly sequences smaller than the specified length                                                | `boolean` |         |          |        |
-| `tidk_filter_size_bp` | Filter size in base-pairs                                                                                  | `integer` | 1000000 |          |        |
-
 ## LAI options
 
 | Parameter  | Description         | Type      | Default | Required | Hidden |
 | ---------- | ------------------- | --------- | ------- | -------- | ------ |
 | `lai_skip` | Skip LAI estimation | `boolean` | True    |          |        |
 
-## Kraken2 options
+## Kraken 2 options
 
 | Parameter         | Description           | Type      | Default | Required | Hidden |
 | ----------------- | --------------------- | --------- | ------- | -------- | ------ |
@@ -74,6 +74,13 @@ A Nextflow pipeline which evaluates assembly quality with multiple QC tools and 
 | `hic_skip_fastqc`       | Skip HiC read QC                                                                         | `boolean` |                                                   |          |        |
 | `hic_fastp_ext_args`    | Additional parameters for fastp trimming                                                 | `string`  | --qualified_quality_phred 20 --length_required 50 |          |        |
 | `hic_samtools_ext_args` | Additional parameters for samtools view command run after samblaster                     | `string`  | -F 3852                                           |          |        |
+
+## Merqury options
+
+| Parameter             | Description                      | Type      | Default | Required | Hidden |
+| --------------------- | -------------------------------- | --------- | ------- | -------- | ------ |
+| `merqury_skip`        | Skip merqury analysis            | `boolean` | True    |          |        |
+| `merqury_kmer_length` | kmer length for merqury analysis | `integer` | 21      |          |        |
 
 ## Synteny options
 
@@ -93,14 +100,7 @@ A Nextflow pipeline which evaluates assembly quality with multiple QC tools and 
 | `synteny_plotsr_seq_label`         | Sequence label prefix for plotsr synteny                                                                                                                                   | `string`  | Chr     |          |        |
 | `synteny_plotsr_assembly_order`    | The order in which the assemblies should be compared, provided as space separated string of assembly tags. If absent, assemblies are ordered by their tags alphabetically. | `string`  |         |          |        |
 
-## Merqury options
-
-| Parameter             | Description                      | Type      | Default | Required | Hidden |
-| --------------------- | -------------------------------- | --------- | ------- | -------- | ------ |
-| `merqury_skip`        | Skip merqury analysis            | `boolean` | True    |          |        |
-| `merqury_kmer_length` | kmer length for merqury analysis | `integer` | 21      |          |        |
-
-## Orthofinder options
+## OrthoFinder options
 
 | Parameter          | Description      | Type      | Default | Required | Hidden |
 | ------------------ | ---------------- | --------- | ------- | -------- | ------ |

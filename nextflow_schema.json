@@ -113,6 +113,37 @@
                 }
             }
         },
+        "tidk_options": {
+            "title": "tidk options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "tidk_skip": {
+                    "type": "boolean",
+                    "description": "Skip telomere identification",
+                    "default": true,
+                    "fa_icon": "fas fa-forward"
+                },
+                "tidk_repeat_seq": {
+                    "type": "string",
+                    "description": "Telomere repeat sequence. Typical values for plant: TTTAGGG, fungus, vertebrates: TTAGGG and Insect: TTAGG",
+                    "pattern": "^[ACGT]+$",
+                    "fa_icon": "fas fa-dna"
+                },
+                "tidk_filter_by_size": {
+                    "type": "boolean",
+                    "description": "Filter assembly sequences smaller than the specified length",
+                    "fa_icon": "fas fa-question-circle"
+                },
+                "tidk_filter_size_bp": {
+                    "type": "integer",
+                    "default": 1000000,
+                    "description": "Filter size in base-pairs",
+                    "fa_icon": "fas fa-ruler-horizontal"
+                }
+            }
+        },
         "busco_options": {
             "title": "BUSCO options",
             "type": "object",
@@ -145,37 +176,6 @@
                 }
             }
         },
-        "tidk_options": {
-            "title": "TIDK options",
-            "type": "object",
-            "description": "",
-            "default": "",
-            "properties": {
-                "tidk_skip": {
-                    "type": "boolean",
-                    "description": "Skip telomere identification",
-                    "default": true,
-                    "fa_icon": "fas fa-forward"
-                },
-                "tidk_repeat_seq": {
-                    "type": "string",
-                    "description": "Telomere repeat sequence. Typical values for plant: TTTAGGG, fungus, vertebrates: TTAGGG and Insect: TTAGG",
-                    "pattern": "^[ACGT]+$",
-                    "fa_icon": "fas fa-dna"
-                },
-                "tidk_filter_by_size": {
-                    "type": "boolean",
-                    "description": "Filter assembly sequences smaller than the specified length",
-                    "fa_icon": "fas fa-question-circle"
-                },
-                "tidk_filter_size_bp": {
-                    "type": "integer",
-                    "default": 1000000,
-                    "description": "Filter size in base-pairs",
-                    "fa_icon": "fas fa-ruler-horizontal"
-                }
-            }
-        },
         "lai_options": {
             "title": "LAI options",
             "type": "object",
@@ -191,7 +191,7 @@
             }
         },
         "kraken2_options": {
-            "title": "Kraken2 options",
+            "title": "Kraken 2 options",
             "type": "object",
             "description": "",
             "default": "",
@@ -243,6 +243,27 @@
                     "default": "-F 3852",
                     "fa_icon": "fas fa-terminal",
                     "description": "Additional parameters for samtools view command run after samblaster"
+                }
+            }
+        },
+        "merqury_options": {
+            "title": "Merqury options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "merqury_skip": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Skip merqury analysis",
+                    "fa_icon": "fas fa-forward"
+                },
+                "merqury_kmer_length": {
+                    "type": "integer",
+                    "default": 21,
+                    "description": "kmer length for merqury analysis",
+                    "minimum": 3,
+                    "fa_icon": "fas fa-ruler-horizontal"
                 }
             }
         },
@@ -333,29 +354,8 @@
                 }
             }
         },
-        "merqury_options": {
-            "title": "Merqury options",
-            "type": "object",
-            "description": "",
-            "default": "",
-            "properties": {
-                "merqury_skip": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Skip merqury analysis",
-                    "fa_icon": "fas fa-forward"
-                },
-                "merqury_kmer_length": {
-                    "type": "integer",
-                    "default": 21,
-                    "description": "kmer length for merqury analysis",
-                    "minimum": 3,
-                    "fa_icon": "fas fa-ruler-horizontal"
-                }
-            }
-        },
         "orthofinder_options": {
-            "title": "Orthofinder options",
+            "title": "OrthoFinder options",
             "type": "object",
             "description": "",
             "default": "",
@@ -466,10 +466,10 @@
             "$ref": "#/$defs/ncbi_fcs_options"
         },
         {
-            "$ref": "#/$defs/busco_options"
+            "$ref": "#/$defs/tidk_options"
         },
         {
-            "$ref": "#/$defs/tidk_options"
+            "$ref": "#/$defs/busco_options"
         },
         {
             "$ref": "#/$defs/lai_options"
@@ -481,10 +481,10 @@
             "$ref": "#/$defs/hic_options"
         },
         {
-            "$ref": "#/$defs/synteny_options"
+            "$ref": "#/$defs/merqury_options"
         },
         {
-            "$ref": "#/$defs/merqury_options"
+            "$ref": "#/$defs/synteny_options"
         },
         {
             "$ref": "#/$defs/orthofinder_options"
