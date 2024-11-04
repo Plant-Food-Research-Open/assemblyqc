@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 config_version=$(sed -n "/^\s*version\s*=\s*'/s/version//p" nextflow.config | tr -d "=[:space:]'")
 cff_version=$(sed -n '/^version: /s/version: //p' CITATION.cff | tr -d '[:space:]')
 
