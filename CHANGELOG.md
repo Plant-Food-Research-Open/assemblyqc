@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 1. Fixed a bug where Gene score distribution graph did not appear correctly [#125](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/125)
 2. Increased memory requirement for `DNADIFF` to avoid SLURM OOM kills with exit code 2 [#141](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/141)
 3. Documented the use explicit use of `-revision` parameter [#160](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/160)
+4. Now using `_JAVA_OPTIONS` in module `RUNASSEMBLYVISUALIZER` to avoid user preferences related errors
 
 ### `Dependencies`
 
