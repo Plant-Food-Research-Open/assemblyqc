@@ -21,7 +21,8 @@ process RUNASSEMBLYVISUALIZER {
     assembly_tag=\$(echo $sample_id_on_tag | sed 's/.*\\.on\\.//g')
     file_name="${agp_assembly_file}"
 
-    export _JAVA_OPTIONS="-Djava.util.prefs.userRoot=user_prefs -Xms${avail_mem}g -Xmx${avail_mem}g"
+    mkdir user_home
+    export _JAVA_OPTIONS="-Djava.util.prefs.userRoot=user_prefs -Duser.home=user_home -Xms${avail_mem}g -Xmx${avail_mem}g"
 
     /usr/src/3d-dna/visualize/run-assembly-visualizer.sh \\
         -p false \\
