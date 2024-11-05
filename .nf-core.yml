@@ -3,6 +3,7 @@ lint:
   actions_ci: false
   multiqc_config: false
   template_strings: false
+  included_configs: false
   files_exist:
     - conf/igenomes.config
     - conf/igenomes_ignored.config
