@@ -34,6 +34,7 @@ workflow FQ2HIC {
         1                           // min_trimmed_reads
     )
 
+    ch_fastp_log                    = FASTQ_FASTQC_UMITOOLS_FASTP.out.trim_log
     ch_trim_reads                   = FASTQ_FASTQC_UMITOOLS_FASTP.out.reads
     ch_versions                     = ch_versions.mix(FASTQ_FASTQC_UMITOOLS_FASTP.out.versions)
 
@@ -64,6 +65,7 @@ workflow FQ2HIC {
 
     HICQC ( ch_bam_and_ref.map { meta3, bam, fa -> [ meta3, bam ] } )
 
+    ch_hicqc_pdf                    = HICQC.out.pdf
     ch_versions                     = ch_versions.mix(HICQC.out.versions)
 
     // MODULE: MAKEAGPFROMFASTA | AGP2ASSEMBLY | ASSEMBLY2BEDPE
@@ -95,7 +97,10 @@ workflow FQ2HIC {
     ch_versions                     = ch_versions.mix(HIC2HTML.out.versions.first())
 
     emit:
+    fastp_log                       = ch_fastp_log
+    hicqc_pdf                       = ch_hicqc_pdf
     hic                             = ch_hic
     html                            = HIC2HTML.out.html
+    assembly                        = AGP2ASSEMBLY.out.assembly
     versions                        = ch_versions
 }

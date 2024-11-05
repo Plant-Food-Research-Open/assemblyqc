@@ -14,14 +14,21 @@ Or using [singularity](https://docs.sylabs.io/guides/3.0/user-guide/installation
 nextflow run plant-food-research-open/assemblyqc -r main -profile singularity,test --outdir results
 ```
 
-## Local Testing
+## nf-test and Continuous Integration (CI)
 
-The test sets included in this directory can be executed by first downloading the pipeline from GitHub and then executing the following command:
+The GitHub [CI action](../.github/workflows/ci.yml) included with the pipeline continuously tests the pipeline using [nf-test](https://www.nf-test.com). Many components included with the pipeline such as [minimap2/align](../modules/nf-core/minimap2/align) include their own [tests](../modules/nf-core/minimap2/align/tests/main.nf.test) with test data from nf-core.
+
+## Testing with a Large Dataset at Plant&Food
+
+Before each release, the functionality of the entire pipeline is tested with a large dataset on the on-prem SLURM-based HPC at The New Zealand Institute for Plant and Food Research.
+
+## Testing Merqury Datasets
+
+Three Merqury datasets are included here which can be tested by pointing to one of the parameters file.
 
 ```bash
-./main.nf -profile docker -params-file tests/minimal/params.json --outdir results
+./main.nf \
+  -profile <docker,singularity> \
+  -params-file tests/merqury/<mixed2x,phased2x,phased2x.mp>/params.json \
+  --outdir results
 ```
-
-## Continuous Integration (CI)
-
-The GitHub [CI action](../.github/workflows/ci.yml) included with the pipeline continuously tests the pipeline with the various test sets listed in this directory.

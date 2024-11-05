@@ -1,5 +1,13 @@
+bump_version: null
 lint:
+  actions_ci: false
+  multiqc_config: false
+  template_strings: false
+  included_configs: false
   files_exist:
+    - conf/igenomes.config
+    - conf/igenomes_ignored.config
+    - assets/multiqc_config.yml
     - CODE_OF_CONDUCT.md
     - assets/nf-core-assemblyqc_logo_light.png
     - docs/images/nf-core-assemblyqc_logo_light.png
@@ -7,21 +15,36 @@ lint:
     - .github/ISSUE_TEMPLATE/config.yml
     - .github/workflows/awstest.yml
     - .github/workflows/awsfulltest.yml
-    - assets/multiqc_config.yml
-    - conf/igenomes.config
   files_unchanged:
-    - docs/README.md
-    - .github/PULL_REQUEST_TEMPLATE.md
-    - .github/CONTRIBUTING.md
-    - .github/workflows/branch.yml
     - LICENSE
+    - .gitignore
+    - .github/CONTRIBUTING.md
+    - .github/PULL_REQUEST_TEMPLATE.md
+    - .github/workflows/branch.yml
+    - .github/workflows/linting.yml
+    - docs/README.md
   nextflow_config:
     - manifest.name
     - manifest.homePage
-  multiqc_config: False
-  template_strings: False
-nf_core_version: 2.14.1
+    - validation.help.beforeText
+    - validation.help.afterText
+    - validation.summary.beforeText
+    - validation.summary.afterText
+nf_core_version: 3.0.2
+org_path: null
 repository_type: pipeline
 template:
-  prefix: plant-food-research-open
-  skip: []
+  author: Usman Rashid, Ken Smith, Ross Crowhurst, Chen Wu, Marcus Davy
+  description: A NextFlow pipeline which evaluates assembly quality with multiple
+    QC tools and presents the results in a unified html report.
+  force: false
+  is_nfcore: false
+  name: assemblyqc
+  org: plant-food-research-open
+  outdir: .
+  skip_features:
+    - igenomes
+    - multiqc
+    - fastqc
+  version: 2.2.0dev
+update: null

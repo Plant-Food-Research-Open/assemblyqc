@@ -14,3 +14,4 @@ testing*
 # nf-test files
 .nf-test/
 .nf-test.log
+null/

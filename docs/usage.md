@@ -2,17 +2,17 @@
 
 - [Assemblysheet input](#assemblysheet-input)
 - [External databases](#external-databases)
-  - [NCBI FCS GX database](#ncbi-fcs-gx-database)
-  - [Kraken2](#kraken2)
+  - [NCBI FCS-GX database](#ncbi-fcs-gx-database)
   - [BUSCO](#busco)
+  - [Kraken 2](#kraken-2)
 - [Other parameters](#other-parameters)
   - [Assemblathon stats](#assemblathon-stats)
-  - [NCBI FCS GX](#ncbi-fcs-gx)
+  - [NCBI FCS-GX](#ncbi-fcs-gx)
+  - [tidk](#tidk)
   - [BUSCO](#busco-1)
-  - [TIDK](#tidk)
   - [HiC](#hic)
-  - [Synteny analysis](#synteny-analysis)
   - [Merqury K-mer analysis](#merqury-k-mer-analysis)
+  - [Synteny analysis](#synteny-analysis)
 - [Minimum System Requirements](#minimum-system-requirements)
 - [Running the pipeline](#running-the-pipeline)
   - [Updating the pipeline](#updating-the-pipeline)
@@ -26,7 +26,6 @@
   - [Custom Containers](#custom-containers)
   - [Custom Tool Arguments](#custom-tool-arguments)
   - [nf-core/configs](#nf-coreconfigs)
-- [Azure Resource Requests](#azure-resource-requests)
 - [Running in the background](#running-in-the-background)
 - [Nextflow memory requirements](#nextflow-memory-requirements)
 
@@ -44,9 +43,9 @@ See the [Merqury](#merqury-k-mer-analysis) section For description of assemblysh
 
 ## External databases
 
-### NCBI FCS GX database
+### NCBI FCS-GX database
 
-If NCBI FCS GX foreign organism contamination check is executed by setting `ncbi_fcs_gx_skip` to `false`, the path to the GX database must be provided with option `ncbi_fcs_gx_db_path`. The user must ensure that the database is correctly downloaded and placed in a location accessible to the pipeline. Setup instructions are available at <https://github.com/ncbi/fcs/wiki/FCS-GX>. The database path must contain following files:
+If NCBI FCS-GX foreign organism contamination check is executed by setting `ncbi_fcs_gx_skip` to `false`, the path to the GX database must be provided with option `ncbi_fcs_gx_db_path`. The user must ensure that the database is correctly downloaded and placed in a location accessible to the pipeline. Setup instructions are available at <https://github.com/ncbi/fcs/wiki/FCS-GX>. The database path must contain following files:
 
 ```bash
 all.assemblies.tsv
@@ -60,13 +59,13 @@ all.seq_info.tsv.gz
 all.taxa.tsv
 ```
 
-### Kraken2
-
-Path to Kraken2 database is provided by the `kraken2_db_path` parameter. This can be a URL to a public `.tar.gz` file such as `https://genome-idx.s3.amazonaws.com/kraken/k2_pluspfp_20240112.tar.gz`. The pipeline can download and extract the database. This is not the recommended practice owing to the size of the database. Rather, the database should be downloaded, extracted and stored in a read-only location. The path to that location can be provided by the `kraken2_db_path` parameter such as `/workspace/ComparativeDataSources/kraken2db/k2_pluspfp_20230314`.
-
 ### BUSCO
 
 BUSCO lineage databases are downloaded and updated by the BUSCO tool itself. A persistent location for the database can be provided by specifying `busco_download_path` parameter.
+
+### Kraken 2
+
+Path to Kraken 2 database is provided by the `kraken2_db_path` parameter. This can be a URL to a public `.tar.gz` file such as `https://genome-idx.s3.amazonaws.com/kraken/k2_pluspfp_20240112.tar.gz`. The pipeline can download and extract the database. This is not the recommended practice owing to the size of the database. Rather, the database should be downloaded, extracted and stored in a read-only location. The path to that location can be provided by the `kraken2_db_path` parameter such as `/workspace/ComparativeDataSources/kraken2db/k2_pluspfp_20240904`.
 
 ## Other parameters
 
@@ -76,34 +75,21 @@ This section provides additional information for parameters. It does not list al
 
 `assemblathon_stats_n_limit` is the number of 'N's for the unknown gap size. This number is used to split the scaffolds into contigs to compute contig-related stats. NCBI's recommendation for unknown gap size is 100 <https://www.ncbi.nlm.nih.gov/genbank/wgs_gapped/>.
 
-### NCBI FCS GX
+### NCBI FCS-GX
 
 - `ncbi_fcs_gx_tax_id` is the taxonomy ID for all the assemblies listed in the assemblysheet. A taxonomy ID can be obtained by searching a _Genus species_ at <https://www.ncbi.nlm.nih.gov/taxonomy>.
+
+### tidk
+
+- `tidk_repeat_seq`: The telomere search sequence. To select an appropriate sequence, see <https://github.com/tolkit/a-telomeric-repeat-database>. Commonly used sequences are TTTAGGG (Plant), TTAGGG (Fungus, Vertebrates) and TTAGG (Insect). Further reading: <https://pubmed.ncbi.nlm.nih.gov/32153618>
 
 ### BUSCO
 
 - `busco_lineage_datasets`: A space-separated list of BUSCO lineages. Any number of lineages can be specified such as "fungi_odb10 hypocreales_odb10". Each assembly is assessed against each of the listed lineage. To select a lineage, refer to <https://busco.ezlab.org/list_of_lineages.html>.
 
-### TIDK
-
-- `tidk_repeat_seq`: The telomere search sequence. To select an appropriate sequence, see <https://github.com/tolkit/a-telomeric-repeat-database>. Commonly used sequences are TTTAGGG (Plant), TTAGGG (Fungus, Vertebrates) and TTAGG (Insect). Further reading: <https://pubmed.ncbi.nlm.nih.gov/32153618>
-
 ### HiC
 
 - `hic`: Path to reads provided as a SRA ID or as a path to paired reads such as 'hic_reads{1,2}.fastq.gz'. These reads are applied to each assembly listed by `input`.
-
-### Synteny analysis
-
-- `synteny_xref_assemblies`: Similar to `--input`, this parameter also provides a CSV sheet listing external reference assemblies which are included in the synteny analysis but are not analysed by other QC tools. See the [example xrefsheet](../assets/xrefsheet.csv) included with the pipeline. Its fields are:
-
-  - `tag:` A unique tag which represents the reference assembly in the final report
-  - `fasta:` FASTA file
-  - `synteny_labels:` A two column tsv file listing fasta sequence ids (first column) and their labels for the synteny plots (second column)
-
-- `synteny_plotsr_assembly_order`: The order in which Minimap2 alignments are performed and, then, plotted by Plotsr. For assembly A, B and C; if the order is specified as 'B C A', then, two alignments are performed. First, C is aligned against B as reference. Second, A is aligned against C as reference. The order of these assemblies on the Plotsr figure is also 'B C A' so that B appears on top, C in the middle and A at the bottom. If this parameter is `null`, the assemblies are ordered alphabetically. All assemblies from `input` and `synteny_xref_assemblies` are included by default. If an assembly is missing from this list, that assembly is excluded from the analysis.
-
-> [!WARNING]
-> PLOTSR performs a sequence-wise (preferably chromosome-wise) synteny analysis. The order of the sequences for each assembly is inferred from its `synteny_labels` file and the order of sequences in the FASTA file is ignored. As all the assemblies are included in a single plot and the number of sequences from each assembly should be same, sequences after the common minimum number are excluded. Afterwards, the sequences are marked sequentially as `Chr1`, `Chr2`, `Chr3`,... If a label other than `Chr` is desirable, it can be configured with the `synteny_plotsr_seq_label` parameter.
 
 ### Merqury K-mer analysis
 
@@ -125,19 +111,32 @@ See following assemblysheet examples for MERQURY analysis.
 
 The data for these examples comes from: [umd.edu](https://obj.umiacs.umd.edu/marbl_publications/triobinning/index.html)
 
+### Synteny analysis
+
+- `synteny_xref_assemblies`: Similar to `--input`, this parameter also provides a CSV sheet listing external reference assemblies which are included in the synteny analysis but are not analysed by other QC tools. See the [example xrefsheet](../assets/xrefsheet.csv) included with the pipeline. Its fields are:
+
+  - `tag:` A unique tag which represents the reference assembly in the final report
+  - `fasta:` FASTA file
+  - `synteny_labels:` A two column tsv file listing fasta sequence ids (first column) and their labels for the synteny plots (second column)
+
+- `synteny_plotsr_assembly_order`: The order in which Minimap2 alignments are performed and, then, plotted by Plotsr. For assembly A, B and C; if the order is specified as 'B C A', then, two alignments are performed. First, C is aligned against B as reference. Second, A is aligned against C as reference. The order of these assemblies on the Plotsr figure is also 'B C A' so that B appears on top, C in the middle and A at the bottom. If this parameter is `null`, the assemblies are ordered alphabetically. All assemblies from `input` and `synteny_xref_assemblies` are included by default. If an assembly is missing from this list, that assembly is excluded from the analysis.
+
+> [!WARNING]
+> PLOTSR performs a sequence-wise (preferably chromosome-wise) synteny analysis. The order of the sequences for each assembly is inferred from its `synteny_labels` file and the order of sequences in the FASTA file is ignored. As all the assemblies are included in a single plot and the number of sequences from each assembly should be same, sequences after the common minimum number are excluded. Afterwards, the sequences are marked sequentially as `Chr1`, `Chr2`, `Chr3`,... If a label other than `Chr` is desirable, it can be configured with the `synteny_plotsr_seq_label` parameter.
+
 ## Minimum System Requirements
 
-All the modules have been tested to work on a single machine with 10 CPUs + 30 GBs of memory, except NCBI FCS GX and Kraken2. Their minimum requirements are:
+All the modules have been tested to work on a single machine with 10 CPUs + 32 GBs of memory, except NCBI FCS GX and Kraken2. Their minimum requirements are:
 
 - NCBI FCS GX: 1 CPU + 512 GBs memory
-- Kraken2: 1 CPU + 200 GBs memory
+- Kraken2: 1 CPU + 256 GBs memory
 
 ## Running the pipeline
 
 The typical command for running the pipeline is as follows:
 
 ```bash
-nextflow run plant-food-research-open/assemblyqc --input ./assemblysheet.csv --outdir ./results -profile docker
+nextflow run plant-food-research-open/assemblyqc -revision <version> --input ./assemblysheet.csv --outdir ./results -profile docker
 ```
 
 This will launch the pipeline with the `docker` configuration profile. See below for more information about profiles.
@@ -161,12 +160,12 @@ Pipeline settings can be provided in a `yaml` or `json` file via `-params-file <
 The above pipeline run specified with a params file in yaml format:
 
 ```bash
-nextflow run plant-food-research-open/assemblyqc -profile docker -params-file params.yaml
+nextflow run plant-food-research-open/assemblyqc -revision main -profile docker -params-file params.yaml
 ```
 
-with `params.yaml` containing:
+with:
 
-```yaml
+```yaml title="params.yaml"
 input: "./assemblysheet.csv"
 outdir: "./results/"
 ```
@@ -187,7 +186,7 @@ It is a good idea to specify a pipeline version when running the pipeline on you
 
 First, go to the [plant-food-research-open/assemblyqc releases page](https://github.com/plant-food-research-open/assemblyqc/releases) and find the latest pipeline version - numeric only (eg. `1.3.1`). Then specify this when running the pipeline with `-r` (one hyphen) - eg. `-r 1.3.1`. Of course, you can switch to another version by changing the number after the `-r` flag.
 
-This version number will be logged in reports when you run the pipeline, so that you'll know what you used when you look back in the future. For example, at the bottom of the MultiQC reports.
+This version number will be logged in reports when you run the pipeline, so that you'll know what you used when you look back in the future.
 
 To further assist in reproducbility, you can use share and re-use [parameter files](#running-the-pipeline) to repeat pipeline runs with the same settings without having to write out a command with every single parameter.
 
@@ -272,14 +271,6 @@ In most cases, you will only need to create a custom config as a one-off but if 
 See the main [Nextflow documentation](https://www.nextflow.io/docs/latest/config.html) for more information about creating your own configuration files.
 
 If you have any questions or issues please send us a message on [Slack](https://nf-co.re/join/slack) on the [`#configs` channel](https://nfcore.slack.com/channels/configs).
-
-## Azure Resource Requests
-
-To be used with the `azurebatch` profile by specifying the `-profile azurebatch`.
-We recommend providing a compute `params.vm_type` of `Standard_D16_v3` VMs by default but these options can be changed if required.
-
-Note that the choice of VM size depends on your quota and the overall workload during the analysis.
-For a thorough list, please refer the [Azure Sizes for virtual machines in Azure](https://docs.microsoft.com/en-us/azure/virtual-machines/sizes).
 
 ## Running in the background
 

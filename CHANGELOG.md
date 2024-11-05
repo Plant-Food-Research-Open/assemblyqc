@@ -3,6 +3,45 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.2.0 - [05-Nov-2024]
+
+### `Added`
+
+1. Added Gfastats [#126](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/126)
+2. Updated nf-core/template to 3.0.2 [#149](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/149)
+3. Updated `samtools faidx` to 1.21
+4. Now using nf-test for pipeline level testing [#153](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/153)
+5. Added `text/html` as content mime type for the report file [#146](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/146)
+6. Added a sequence labels table below the HiC contact map [#147](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/147)
+7. Added parameter `hic_samtools_ext_args` and set its default value to `-F 3852` [#159](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/159)
+8. Added the HiC QC report to the final report so that users don't have to navigate to the results folder [#162](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/162)
+9. Added the fastp log to the final report [#163](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/163)
+10. Updated the tube map along with the tool list [#166](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/166)
+11. Added Orthofinder [#167](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/167)
+12. Changed order of tool options in the `nextflow.config` file
+13. Updated PFR's Kraken 2 database to `k2_pluspfp_20240904` [#170](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/170)
+14. Increased memory requirement for Kraken 2 to `256.GB`
+
+### `Fixed`
+
+1. Fixed a bug where Gene score distribution graph did not appear correctly [#125](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/125)
+2. Increased memory requirement for `DNADIFF` to avoid SLURM OOM kills with exit code 2 [#141](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/141)
+3. Documented the use explicit use of `-revision` parameter [#160](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/160)
+4. Now using `_JAVA_OPTIONS` in module `RUNASSEMBLYVISUALIZER` to avoid user preferences related errors
+
+### `Dependencies`
+
+1. Nextflow!>=24.04.2
+2. nf-schema@2.1.1
+
+### `Deprecated`
+
+1. Reduced the GenomeTools stats figures to 300 DPI [#142](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/142)
+2. Now `synteny_mummer_min_bundle_size` is set to `1000000` by default [#142](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/142)
+3. `results` is not the default output directory anymore
+4. Removed a number of unnecessary parameters: `monochromeLogs`, `config_profile_contact`, `config_profile_url`, `validationFailUnrecognisedParams`, `validationLenientMode`, `validationSchemaIgnoreParams`, `validationShowHiddenParams` `validate_params`
+5. Resource parameters have been removed: `max_memory`, `max_cpus`, `max_time`
+
 ## v2.1.1 - [20-Sep-2024]
 
 ### `Added`

@@ -15,6 +15,7 @@ include { GFF3_GT_GFF3_GFF3VALIDATOR_STAT   } from '../subworkflows/gallvp/gff3_
 include { FCS_FCSADAPTOR                    } from '../modules/nf-core/fcs/fcsadaptor/main'
 include { NCBI_FCS_GX                       } from '../subworkflows/local/ncbi_fcs_gx'
 include { ASSEMBLATHON_STATS                } from '../modules/local/assemblathon_stats'
+include { GFASTATS                          } from '../modules/nf-core/gfastats/main'
 include { FASTA_GXF_BUSCO_PLOT              } from '../subworkflows/gallvp/fasta_gxf_busco_plot/main'
 include { FASTA_LTRRETRIEVER_LAI            } from '../subworkflows/gallvp/fasta_ltrretriever_lai/main'
 include { FASTA_KRAKEN2                     } from '../subworkflows/local/fasta_kraken2'
@@ -29,6 +30,8 @@ include { MERYL_COUNT as PAT_MERYL_COUNT    } from '../modules/nf-core/meryl/cou
 include { MERYL_UNIONSUM as PAT_UNIONSUM    } from '../modules/nf-core/meryl/unionsum/main'
 include { MERQURY_HAPMERS                   } from '../modules/nf-core/merqury/hapmers/main'
 include { MERQURY_MERQURY                   } from '../modules/nf-core/merqury/merqury/main'
+include { GFFREAD                           } from '../modules/nf-core/gffread/main'
+include { ORTHOFINDER                       } from '../modules/nf-core/orthofinder/main'
 include { CREATEREPORT                      } from '../modules/local/createreport'
 
 include { FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS as FETCHNGS  } from '../subworkflows/nf-core/fastq_download_prefetch_fasterqdump_sratools/main'
@@ -433,6 +436,27 @@ workflow ASSEMBLYQC {
     ch_assemblathon_stats                   = ASSEMBLATHON_STATS.out.stats
     ch_versions                             = ch_versions.mix(ASSEMBLATHON_STATS.out.versions.first())
 
+    // MODULE: GFASTATS
+    ch_gfastats_assembly                    = params.gfastats_skip
+                                            ? Channel.empty()
+                                            : ch_clean_assembly
+                                            | map { tag, fasta -> [ [ id: tag ], fasta ] }
+
+    GFASTATS(
+        ch_gfastats_assembly,
+        'gfa', // output format
+        '', // estimated genome size
+        '', // target specific sequence by header
+        [], // agp file
+        [], // include bed
+        [], // exclude bed
+        [] // instructions
+    )
+
+    ch_gfastats_stats                       = GFASTATS.out.assembly_summary
+                                            | map { tag, stats -> stats }
+    ch_versions                             = ch_versions.mix(GFASTATS.out.versions.first())
+
     // SUBWORKFLOW: FASTA_GXF_BUSCO_PLOT
     ch_busco_input_assembly                 = params.busco_skip
                                             ? Channel.empty()
@@ -568,7 +592,20 @@ workflow ASSEMBLYQC {
         params.hic_skip_fastqc
     )
 
+    ch_hic_fastp_log                        = FQ2HIC.out.fastp_log
+    ch_hicqc_pdf                            = FQ2HIC.out.hicqc_pdf
     ch_hic_html                             = FQ2HIC.out.html
+    ch_hic_assembly                         = FQ2HIC.out.assembly
+    ch_hic_report_files                     = ch_hic_html
+                                            | mix(
+                                                ch_hic_assembly.map { tag, assembly -> assembly }
+                                            )
+                                            | mix(
+                                                ch_hicqc_pdf.map { meta, pdf -> pdf }
+                                            )
+                                            | mix(
+                                                ch_hic_fastp_log.map { meta, log -> log }
+                                            )
     ch_versions                             = ch_versions.mix(FQ2HIC.out.versions)
 
     // SUBWORKFLOW: FASTA_SYNTENY
@@ -770,6 +807,38 @@ workflow ASSEMBLYQC {
                                             | flatMap { meta, data -> data }
     ch_versions                             = ch_versions.mix(MERQURY_MERQURY.out.versions.first())
 
+    // MODULE: GFFREAD
+    ch_gffread_inputs                       = params.orthofinder_skip
+                                            ? Channel.empty()
+                                            : ch_valid_gff3
+                                            | join(
+                                                ch_clean_assembly
+                                                | map { tag, fasta -> [ [ id: tag ], fasta ] }
+                                            )
+                                            | map { [ it ] }
+                                            | collect
+                                            | filter { it.size() > 1 }
+                                            | flatten
+                                            | buffer ( size: 3 )
+
+    GFFREAD(
+        ch_gffread_inputs.map { meta, gff, fasta -> [ meta, gff ] },
+        ch_gffread_inputs.map { meta, gff, fasta -> fasta }
+    )
+
+    ch_proteins_fasta                       = GFFREAD.out.gffread_fasta
+    ch_versions                             = ch_versions.mix(GFFREAD.out.versions.first())
+
+    // ORTHOFINDER
+    ORTHOFINDER(
+        ch_proteins_fasta.map { meta, fasta -> fasta }.collect().map { fastas -> [ [ id: 'assemblyqc' ], fastas ] },
+        [ [], [] ]
+    )
+
+    ch_orthofinder_outputs                  = ORTHOFINDER.out.orthofinder
+                                            | map { meta, dir -> dir }
+    ch_versions                             = ch_versions.mix(ORTHOFINDER.out.versions)
+
     // Collate and save software versions
     ch_versions                             = ch_versions
                                             | unique
@@ -793,15 +862,17 @@ workflow ASSEMBLYQC {
         ch_fcs_adaptor_report               .map { meta, file -> file }.collect().ifEmpty([]),
         ch_fcs_gx_report                    .mix(ch_fcs_gx_taxonomy_plot).map { meta, file -> file }.collect().ifEmpty([]),
         ch_assemblathon_stats               .collect().ifEmpty([]),
+        ch_gfastats_stats                   .collect().ifEmpty([]),
         ch_gt_stats                         .collect().ifEmpty([]),
         ch_busco_outputs                    .collect().ifEmpty([]),
         ch_busco_gff_outputs                .collect().ifEmpty([]),
         ch_tidk_outputs                     .collect().ifEmpty([]),
         ch_lai_outputs                      .collect().ifEmpty([]),
         ch_kraken2_plot                     .collect().ifEmpty([]),
-        ch_hic_html                         .collect().ifEmpty([]),
+        ch_hic_report_files                 .collect().ifEmpty([]),
         ch_synteny_outputs                  .collect().ifEmpty([]),
         ch_merqury_outputs                  .collect().ifEmpty([]),
+        ch_orthofinder_outputs              .collect().ifEmpty([]),
         ch_versions_yml,
         ch_params_as_json,
         ch_summary_params_as_json

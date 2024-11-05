@@ -1,10 +1,10 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://raw.githubusercontent.com/plant-food-research-open/assemblyqc/main/nextflow_schema.json",
     "title": "plant-food-research-open/assemblyqc pipeline parameters",
     "description": "A Nextflow pipeline which evaluates assembly quality with multiple QC tools and presents the results in a unified html report.",
     "type": "object",
-    "definitions": {
+    "$defs": {
         "input_output_options": {
             "title": "Input/output options",
             "type": "object",
@@ -25,8 +25,7 @@
                     "type": "string",
                     "format": "directory-path",
                     "description": "The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.",
-                    "fa_icon": "fas fa-folder-open",
-                    "default": "./results"
+                    "fa_icon": "fas fa-folder-open"
                 },
                 "email": {
                     "type": "string",
@@ -62,6 +61,12 @@
                     "default": 100,
                     "description": "The number of 'N's for the unknown gap size. NCBI recommendation is 100",
                     "fa_icon": "fas fa-ruler-horizontal"
+                },
+                "gfastats_skip": {
+                    "type": "boolean",
+                    "description": "Skip Gfastats",
+                    "default": true,
+                    "fa_icon": "fas fa-forward"
                 }
             }
         },
@@ -108,6 +113,37 @@
                 }
             }
         },
+        "tidk_options": {
+            "title": "tidk options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "tidk_skip": {
+                    "type": "boolean",
+                    "description": "Skip telomere identification",
+                    "default": true,
+                    "fa_icon": "fas fa-forward"
+                },
+                "tidk_repeat_seq": {
+                    "type": "string",
+                    "description": "Telomere repeat sequence. Typical values for plant: TTTAGGG, fungus, vertebrates: TTAGGG and Insect: TTAGG",
+                    "pattern": "^[ACGT]+$",
+                    "fa_icon": "fas fa-dna"
+                },
+                "tidk_filter_by_size": {
+                    "type": "boolean",
+                    "description": "Filter assembly sequences smaller than the specified length",
+                    "fa_icon": "fas fa-question-circle"
+                },
+                "tidk_filter_size_bp": {
+                    "type": "integer",
+                    "default": 1000000,
+                    "description": "Filter size in base-pairs",
+                    "fa_icon": "fas fa-ruler-horizontal"
+                }
+            }
+        },
         "busco_options": {
             "title": "BUSCO options",
             "type": "object",
@@ -140,37 +176,6 @@
                 }
             }
         },
-        "tidk_options": {
-            "title": "TIDK options",
-            "type": "object",
-            "description": "",
-            "default": "",
-            "properties": {
-                "tidk_skip": {
-                    "type": "boolean",
-                    "description": "Skip telomere identification",
-                    "default": true,
-                    "fa_icon": "fas fa-forward"
-                },
-                "tidk_repeat_seq": {
-                    "type": "string",
-                    "description": "Telomere repeat sequence. Typical values for plant: TTTAGGG, fungus, vertebrates: TTAGGG and Insect: TTAGG",
-                    "pattern": "^[ACGT]+$",
-                    "fa_icon": "fas fa-dna"
-                },
-                "tidk_filter_by_size": {
-                    "type": "boolean",
-                    "description": "Filter assembly sequences smaller than the specified length",
-                    "fa_icon": "fas fa-question-circle"
-                },
-                "tidk_filter_size_bp": {
-                    "type": "integer",
-                    "default": 1000000,
-                    "description": "Filter size in base-pairs",
-                    "fa_icon": "fas fa-ruler-horizontal"
-                }
-            }
-        },
         "lai_options": {
             "title": "LAI options",
             "type": "object",
@@ -186,7 +191,7 @@
             }
         },
         "kraken2_options": {
-            "title": "Kraken2 options",
+            "title": "Kraken 2 options",
             "type": "object",
             "description": "",
             "default": "",
@@ -214,7 +219,8 @@
                 "hic": {
                     "type": "string",
                     "description": "HiC reads path provided as a SRA ID or as paired reads such as 'hic_reads{1,2}.fastq.gz'",
-                    "pattern": "^SR\\w+$|^\\S+\\{1,2\\}[\\w\\.]*\\.f(ast)?q\\.gz$"
+                    "pattern": "^SR\\w+$|^\\S+\\{1,2\\}[\\w\\.]*\\.f(ast)?q\\.gz$",
+                    "fa_icon": "fas fa-copy"
                 },
                 "hic_skip_fastp": {
                     "type": "boolean",
@@ -231,6 +237,33 @@
                     "default": "--qualified_quality_phred 20 --length_required 50",
                     "description": "Additional parameters for fastp trimming",
                     "fa_icon": "fas fa-terminal"
+                },
+                "hic_samtools_ext_args": {
+                    "type": "string",
+                    "default": "-F 3852",
+                    "fa_icon": "fas fa-terminal",
+                    "description": "Additional parameters for samtools view command run after samblaster"
+                }
+            }
+        },
+        "merqury_options": {
+            "title": "Merqury options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "merqury_skip": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Skip merqury analysis",
+                    "fa_icon": "fas fa-forward"
+                },
+                "merqury_kmer_length": {
+                    "type": "integer",
+                    "default": 21,
+                    "description": "kmer length for merqury analysis",
+                    "minimum": 3,
+                    "fa_icon": "fas fa-ruler-horizontal"
                 }
             }
         },
@@ -292,7 +325,7 @@
                 },
                 "synteny_mummer_min_bundle_size": {
                     "type": "integer",
-                    "default": 1000,
+                    "default": 1000000,
                     "description": "After bundling, any Mummer alignment bundle smaller than this size is filtered out",
                     "fa_icon": "fas fa-ruler-horizontal"
                 },
@@ -321,56 +354,17 @@
                 }
             }
         },
-        "merqury_options": {
-            "title": "Merqury options",
+        "orthofinder_options": {
+            "title": "OrthoFinder options",
             "type": "object",
             "description": "",
             "default": "",
             "properties": {
-                "merqury_skip": {
+                "orthofinder_skip": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Skip merqury analysis",
-                    "fa_icon": "fas fa-forward"
-                },
-                "merqury_kmer_length": {
-                    "type": "integer",
-                    "default": 21,
-                    "description": "kmer length for merqury analysis",
-                    "minimum": 3,
-                    "fa_icon": "fas fa-ruler-horizontal"
-                }
-            }
-        },
-        "max_job_request_options": {
-            "title": "Max job request options",
-            "type": "object",
-            "fa_icon": "fab fa-acquisitions-incorporated",
-            "description": "Set the top limit for requested resources for any single job.",
-            "help_text": "If you are running on a smaller system, a pipeline step requesting more resources than are available may cause the Nextflow to stop the run with an error. These options allow you to cap the maximum resources requested by any single job so that the pipeline will run on your system.\n\nNote that you can not _increase_ the resources requested by any job using these options. For that you will need your own configuration file. See [the nf-core website](https://nf-co.re/usage/configuration) for details.",
-            "properties": {
-                "max_cpus": {
-                    "type": "integer",
-                    "description": "Maximum number of CPUs that can be requested for any single job.",
-                    "default": 16,
-                    "fa_icon": "fas fa-microchip",
-                    "hidden": true
-                },
-                "max_memory": {
-                    "type": "string",
-                    "description": "Maximum amount of memory that can be requested for any single job. Example: '8.GB'",
-                    "default": "512.GB",
-                    "fa_icon": "fas fa-memory",
-                    "pattern": "^\\d+(\\.\\d+)?\\.?\\s*(K|M|G|T)?B$",
-                    "hidden": true
-                },
-                "max_time": {
-                    "type": "string",
-                    "description": "Maximum amount of time that can be requested for any single job. Example: '1.day'",
-                    "default": "7.day",
-                    "fa_icon": "far fa-clock",
-                    "pattern": "^(\\d+\\.?\\s*(s|m|h|d|day)\\s*)+$",
-                    "hidden": true
+                    "fa_icon": "fas fa-forward",
+                    "description": "Skip orthofinder"
                 }
             }
         },
@@ -406,18 +400,6 @@
                     "description": "Institutional config description.",
                     "hidden": true,
                     "fa_icon": "fas fa-users-cog"
-                },
-                "config_profile_contact": {
-                    "type": "string",
-                    "description": "Institutional config contact information.",
-                    "hidden": true,
-                    "fa_icon": "fas fa-users-cog"
-                },
-                "config_profile_url": {
-                    "type": "string",
-                    "description": "Institutional config URL link.",
-                    "hidden": true,
-                    "fa_icon": "fas fa-users-cog"
                 }
             }
         },
@@ -428,12 +410,6 @@
             "description": "Less common options for the pipeline, typically set in a config file.",
             "help_text": "These options are common to all nf-core pipelines and allow you to customise some of the core preferences for how the pipeline runs.\n\nTypically these options would be set in a Nextflow config file loaded for all pipeline runs, such as `~/.nextflow/config`.",
             "properties": {
-                "help": {
-                    "type": "boolean",
-                    "description": "Display help text.",
-                    "fa_icon": "fas fa-question-circle",
-                    "hidden": true
-                },
                 "version": {
                     "type": "boolean",
                     "description": "Display version and exit.",
@@ -467,41 +443,10 @@
                     "fa_icon": "fas fa-palette",
                     "hidden": true
                 },
-                "monochromeLogs": {
-                    "type": "boolean",
-                    "fa_icon": "fas fa-palette",
-                    "description": "Do not use coloured log outputs.",
-                    "hidden": true
-                },
                 "hook_url": {
                     "type": "string",
                     "description": "Incoming hook URL for messaging service",
                     "fa_icon": "fas fa-people-group",
-                    "hidden": true
-                },
-                "validate_params": {
-                    "type": "boolean",
-                    "description": "Boolean whether to validate parameters against the schema at runtime",
-                    "default": true,
-                    "fa_icon": "fas fa-check-square",
-                    "hidden": true
-                },
-                "validationShowHiddenParams": {
-                    "type": "boolean",
-                    "fa_icon": "far fa-eye-slash",
-                    "description": "Show all params when using `--help`",
-                    "hidden": true
-                },
-                "validationFailUnrecognisedParams": {
-                    "type": "boolean",
-                    "fa_icon": "far fa-check-circle",
-                    "description": "Validation of parameters fails when an unrecognised parameter is found.",
-                    "hidden": true
-                },
-                "validationLenientMode": {
-                    "type": "boolean",
-                    "fa_icon": "far fa-check-circle",
-                    "description": "Validation of parameters in lenient more.",
                     "hidden": true
                 }
             }
@@ -509,46 +454,46 @@
     },
     "allOf": [
         {
-            "$ref": "#/definitions/input_output_options"
+            "$ref": "#/$defs/input_output_options"
         },
         {
-            "$ref": "#/definitions/validation_options"
+            "$ref": "#/$defs/validation_options"
         },
         {
-            "$ref": "#/definitions/general_stats_options"
+            "$ref": "#/$defs/general_stats_options"
         },
         {
-            "$ref": "#/definitions/ncbi_fcs_options"
+            "$ref": "#/$defs/ncbi_fcs_options"
         },
         {
-            "$ref": "#/definitions/busco_options"
+            "$ref": "#/$defs/tidk_options"
         },
         {
-            "$ref": "#/definitions/tidk_options"
+            "$ref": "#/$defs/busco_options"
         },
         {
-            "$ref": "#/definitions/lai_options"
+            "$ref": "#/$defs/lai_options"
         },
         {
-            "$ref": "#/definitions/kraken2_options"
+            "$ref": "#/$defs/kraken2_options"
         },
         {
-            "$ref": "#/definitions/hic_options"
+            "$ref": "#/$defs/hic_options"
         },
         {
-            "$ref": "#/definitions/synteny_options"
+            "$ref": "#/$defs/merqury_options"
         },
         {
-            "$ref": "#/definitions/merqury_options"
+            "$ref": "#/$defs/synteny_options"
         },
         {
-            "$ref": "#/definitions/max_job_request_options"
+            "$ref": "#/$defs/orthofinder_options"
         },
         {
-            "$ref": "#/definitions/institutional_config_options"
+            "$ref": "#/$defs/institutional_config_options"
         },
         {
-            "$ref": "#/definitions/generic_options"
+            "$ref": "#/$defs/generic_options"
         }
     ]
 }

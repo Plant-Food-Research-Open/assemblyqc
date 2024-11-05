@@ -10,6 +10,7 @@ process CREATEREPORT {
     path ncbi_fcs_adaptor_reports   , stageAs: 'ncbi_fcs_adaptor_reports/*'
     path fcs_gx_reports             , stageAs: 'fcs_gx_reports/*'
     path assemblathon_stats         , stageAs: 'assemblathon_stats/*'
+    path gfastats                   , stageAs: 'gfastats/*'
     path genometools_gt_stats       , stageAs: 'genometools_gt_stat/*'
     path busco_outputs              , stageAs: 'busco_outputs/*'
     path busco_gff_outputs          , stageAs: 'busco_gff_outputs/*'
@@ -19,6 +20,7 @@ process CREATEREPORT {
     path hic_outputs                , stageAs: 'hic_outputs/*'
     path synteny_outputs            , stageAs: 'synteny_outputs/*'
     path merqury_outputs            , stageAs: 'merqury_outputs/*'
+    path orthofinder_outputs        , stageAs: 'orthofinder_outputs/*'
     path versions
     val params_json
     val params_summary_json

@@ -96,7 +96,7 @@
                         "id": "test",
                         "single_end": false
                     },
-                    "test.fastp.json:md5,1e0f8e27e71728e2b63fc64086be95cd"
+                    "test.fastp.json:md5,63273f642b5a4495ce7ccba2d4419edf"
                 ]
             ],
             [
@@ -122,10 +122,10 @@
             ]
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "24.04.2"
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
         },
-        "timestamp": "2024-07-05T13:43:28.665779"
+        "timestamp": "2024-10-10T20:59:33.270219"
     },
     "test_fastp_paired_end_merged_adapterlist": {
         "content": [
@@ -135,7 +135,7 @@
                         "id": "test",
                         "single_end": false
                     },
-                    "test.fastp.json:md5,5914ca3f21ce162123a824e33e8564f6"
+                    "test.fastp.json:md5,7412a2cca178cc149757b229d2730d24"
                 ]
             ],
             [
@@ -167,10 +167,10 @@
             ]
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "24.04.2"
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
         },
-        "timestamp": "2024-07-05T13:44:18.210375"
+        "timestamp": "2024-10-10T21:00:25.951101"
     },
     "test_fastp_single_end_qc_only": {
         "content": [
@@ -180,7 +180,7 @@
                         "id": "test",
                         "single_end": true
                     },
-                    "test.fastp.json:md5,5cc5f01e449309e0e689ed6f51a2294a"
+                    "test.fastp.json:md5,8117ddbdb1ae856821eb66f40b14ba05"
                 ]
             ],
             [
@@ -206,10 +206,10 @@
             ]
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "24.04.2"
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
         },
-        "timestamp": "2024-07-05T13:44:27.380974"
+        "timestamp": "2024-10-10T21:00:36.271913"
     },
     "test_fastp_paired_end_trim_fail": {
         "content": [
@@ -247,7 +247,7 @@
                         "id": "test",
                         "single_end": false
                     },
-                    "test.fastp.json:md5,4c3268ddb50ea5b33125984776aa3519"
+                    "test.fastp.json:md5,5b7664268c0537423ffaa162701dae70"
                 ]
             ],
             [
@@ -255,10 +255,10 @@
             ]
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "24.04.2"
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
         },
-        "timestamp": "2024-07-05T13:43:58.749589"
+        "timestamp": "2024-10-10T21:00:04.189799"
     },
     "fastp - stub test_fastp_interleaved": {
         "content": [
@@ -708,7 +708,7 @@
                         "id": "test",
                         "single_end": false
                     },
-                    "test.fastp.json:md5,b712fd68ed0322f4bec49ff2a5237fcc"
+                    "test.fastp.json:md5,defba10ab9bb3e4235a86d90a51a2e79"
                 ]
             ],
             [
@@ -740,10 +740,10 @@
             ]
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "24.04.2"
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
         },
-        "timestamp": "2024-07-05T13:44:08.68476"
+        "timestamp": "2024-10-10T21:00:13.75505"
     },
     "test_fastp_paired_end - stub": {
         "content": [
@@ -860,7 +860,7 @@
                         "id": "test",
                         "single_end": true
                     },
-                    "test.fastp.json:md5,c852d7a6dba5819e4ac8d9673bedcacc"
+                    "test.fastp.json:md5,898dafe80449209d752985698a8cded0"
                 ]
             ],
             [
@@ -883,10 +883,10 @@
             ]
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "24.04.2"
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
         },
-        "timestamp": "2024-07-05T13:43:18.834322"
+        "timestamp": "2024-10-10T20:59:23.552733"
     },
     "test_fastp_single_end_trim_fail - stub": {
         "content": [
@@ -1145,7 +1145,7 @@
                         "id": "test",
                         "single_end": true
                     },
-                    "test.fastp.json:md5,b24e0624df5cc0b11cd5ba21b726fb22"
+                    "test.fastp.json:md5,d09c3ec938c4a7bd04bd6398f42fa9ca"
                 ]
             ],
             [
@@ -1153,10 +1153,10 @@
             ]
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "24.04.2"
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
         },
-        "timestamp": "2024-07-05T13:43:38.910832"
+        "timestamp": "2024-10-10T20:59:41.725562"
     },
     "test_fastp_single_end_trim_fail": {
         "content": [
@@ -1166,7 +1166,7 @@
                         "id": "test",
                         "single_end": true
                     },
-                    "test.fastp.json:md5,9a7ee180f000e8d00c7fb67f06293eb5"
+                    "test.fastp.json:md5,4415a44b64ff54a7a450b0acec32bc46"
                 ]
             ],
             [
@@ -1195,10 +1195,10 @@
             ]
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "24.04.2"
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
         },
-        "timestamp": "2024-07-05T13:43:48.22378"
+        "timestamp": "2024-10-10T20:59:52.36865"
     },
     "test_fastp_paired_end_qc_only": {
         "content": [
@@ -1208,7 +1208,7 @@
                         "id": "test",
                         "single_end": false
                     },
-                    "test.fastp.json:md5,623064a45912dac6f2b64e3f2e9901df"
+                    "test.fastp.json:md5,6ad01e6f6a98daf02410273af0b8ecea"
                 ]
             ],
             [
@@ -1234,10 +1234,10 @@
             ]
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "24.04.2"
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
         },
-        "timestamp": "2024-07-05T13:44:36.334938"
+        "timestamp": "2024-10-10T21:00:46.609595"
     },
     "test_fastp_paired_end_qc_only - stub": {
         "content": [

@@ -1,11 +1,12 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://raw.githubusercontent.com/plant-food-research-open/assemblyqc/main/assets/schema_xref_assemblies.json",
     "title": "plant-food-research-open/assemblyqc pipeline - params.synteny_xref_assemblies schema",
     "description": "Schema for the file provided with params.synteny_xref_assemblies",
     "type": "array",
     "items": {
         "type": "object",
+        "uniqueEntries": ["tag"],
         "properties": {
             "tag": {
                 "type": "string",

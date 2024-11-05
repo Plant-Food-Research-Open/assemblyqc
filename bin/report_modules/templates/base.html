@@ -32,6 +32,10 @@
     <button class="tablinks active" onclick="openTool(event, 'ASSEMBLATHON_STATS')">ASSEMBLATHON STATS</button>
     {% endif %}
 
+    {% if 'GFASTATS' in all_stats_dicts %}
+    <button class="tablinks active" onclick="openTool(event, 'GFASTATS')">GFASTATS</button>
+    {% endif %}
+
     {% if 'GENOMETOOLS_GT_STAT' in all_stats_dicts %}
     <button class="tablinks active" onclick="openTool(event, 'GENOMETOOLS_GT_STAT')">GENOMETOOLS GT STAT</button>
     {% endif %}
@@ -75,6 +79,11 @@
     {% if 'MERQURY' in all_stats_dicts %}
     <button class="tablinks" onclick="openTool(event, 'MERQURY')">MERQURY</button>
     {% endif %}
+
+    {% if 'ORTHOFINDER' in all_stats_dicts %}
+    <button class="tablinks" onclick="openTool(event, 'ORTHOFINDER')">ORTHOFINDER</button>
+    {% endif %}
+
   </div>
 
   {% include 'params/params.html' %}
@@ -98,6 +107,10 @@
 
   {% if 'ASSEMBLATHON_STATS' in all_stats_dicts %}
   {% include 'assemblathon_stats/assemblathon_stats.html' %}
+  {% endif %}
+
+  {% if 'GFASTATS' in all_stats_dicts %}
+  {% include 'gfastats/gfastats.html' %}
   {% endif %}
 
   {% if 'GENOMETOOLS_GT_STAT' in all_stats_dicts %}
@@ -143,6 +156,11 @@
   {% if 'MERQURY' in all_stats_dicts %}
   {% include 'merqury/merqury.html' %}
   {% endif %}
+
+  {% if 'ORTHOFINDER' in all_stats_dicts %}
+  {% include 'orthofinder/orthofinder.html' %}
+  {% endif %}
+
 </body>
 {% include 'js.html' %}
 

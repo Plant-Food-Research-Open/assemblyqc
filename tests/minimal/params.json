@@ -1,8 +1,0 @@
-{
-    "config_profile_name": "Test profile",
-    "config_profile_description": "Minimal test dataset to check pipeline function",
-    "input": "https://raw.githubusercontent.com/plant-food-research-open/assemblyqc/dev/assets/assemblysheetv2.csv",
-    "max_cpus": 2,
-    "max_memory": "6.GB",
-    "max_time": "6.h"
-}

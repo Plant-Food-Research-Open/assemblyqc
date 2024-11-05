@@ -22,7 +22,6 @@ def parse_genometools_gt_stat_folder(folder_name="genometools_gt_stat"):
     data = {"GENOMETOOLS_GT_STAT": []}
 
     for report_path in list_of_report_files:
-
         NUM_GROUPS = -1
         (
             report_table_dict,
@@ -35,7 +34,7 @@ def parse_genometools_gt_stat_folder(folder_name="genometools_gt_stat"):
         ) = extract_report_data(report_path, NUM_GROUPS)
 
         gene_length_distribution_graph = ""
-        if gene_length_distribution != []:
+        if len(gene_length_distribution) > 1:
             gene_length_distribution_graph = create_dist_graph(
                 gene_length_distribution,
                 "Length",
@@ -44,7 +43,7 @@ def parse_genometools_gt_stat_folder(folder_name="genometools_gt_stat"):
             )
 
         gene_score_distribution_graph = ""
-        if gene_score_distribution != []:
+        if len(gene_score_distribution) > 1:
             gene_score_distribution_graph = create_dist_graph(
                 gene_score_distribution,
                 "Score",
@@ -53,7 +52,7 @@ def parse_genometools_gt_stat_folder(folder_name="genometools_gt_stat"):
             )
 
         exon_length_distribution_graph = ""
-        if exon_length_distribution != []:
+        if len(exon_length_distribution) > 1:
             exon_length_distribution_graph = create_dist_graph(
                 exon_length_distribution,
                 "Length",
@@ -62,7 +61,7 @@ def parse_genometools_gt_stat_folder(folder_name="genometools_gt_stat"):
             )
 
         exon_number_distribution_graph = ""
-        if exon_number_distribution != []:
+        if len(exon_number_distribution) > 1:
             exon_number_distribution_graph = create_dist_graph(
                 exon_number_distribution,
                 "Number",
@@ -71,7 +70,7 @@ def parse_genometools_gt_stat_folder(folder_name="genometools_gt_stat"):
             )
 
         intron_length_distribution_graph = ""
-        if intron_length_distribution != []:
+        if len(intron_length_distribution) > 1:
             intron_length_distribution_graph = create_dist_graph(
                 intron_length_distribution,
                 "Length",
@@ -80,7 +79,7 @@ def parse_genometools_gt_stat_folder(folder_name="genometools_gt_stat"):
             )
 
         cds_length_distribution_graph = ""
-        if cds_length_distribution != []:
+        if len(cds_length_distribution) > 1:
             cds_length_distribution_graph = create_dist_graph(
                 cds_length_distribution,
                 "Length",
@@ -196,7 +195,6 @@ def extract_report_data(report_path, num_groups):
 
 
 def create_frequency_groups(data, num_groups):
-
     if num_groups == -1:
         sorted_data = sorted(data, key=lambda x: x[0])
         return [
@@ -282,7 +280,6 @@ def test_create_frequency_groups_repeat():
 
 
 def create_dist_graph(groups_dict, x_label, title, file_name):
-
     x_list = [i["stop"] for i in groups_dict]
     y_list = [i["freq"] for i in groups_dict]
     sum_y = float(sum(y_list))
@@ -299,43 +296,48 @@ def create_dist_graph(groups_dict, x_label, title, file_name):
     plt.gca().spines["top"].set_visible(False)
     plt.gca().spines["right"].set_visible(False)
 
-    min_x, min_y = (min(x_list), min(y_list))
-    x_anno_step = int(float(max(x_list)) * 0.1)
-    ax.annotate(
-        f"(<={min_x}, {round(min_y, 2)}%)",
-        xy=(min_x, min_y),
-        xytext=(min_x + x_anno_step, min_y + 10),
-        arrowprops=dict(color="red", arrowstyle="->, head_width=.15"),
-    )
+    if len(y_list) >= 10:
+        max_x = max(x_list)
+        min_x, min_y = (min(x_list), min(y_list))
+        x_anno_step = int(float(max(x_list)) * 0.1)
+        ax.annotate(
+            f"(<={min_x}, {round(min_y, 2)}%)",
+            xy=(min_x, min_y),
+            xytext=(min_x + x_anno_step, min_y + 10),
+            arrowprops=dict(color="red", arrowstyle="->, head_width=.15"),
+        )
 
-    near_50 = min([y for y in y_list if y >= 50.0])
-    min_x, min_y = (x_list[y_list.index(near_50)], near_50)
-    ax.annotate(
-        f"(<={min_x}, {round(min_y, 2)}%)",
-        xy=(min_x, min_y),
-        xytext=(min_x + x_anno_step, min_y),
-        arrowprops=dict(color="red", arrowstyle="->, head_width=.15"),
-    )
+        near_50 = min([y for y in y_list if y >= 50.0])
+        min_x, min_y = (x_list[y_list.index(near_50)], near_50)
+        ax.annotate(
+            f"(<={min_x}, {round(min_y, 2)}%)",
+            xy=(min_x, min_y),
+            xytext=(min_x + x_anno_step, min_y),
+            arrowprops=dict(color="red", arrowstyle="->, head_width=.15"),
+        )
 
-    near_90 = min([y for y in y_list if y >= 90.0])
-    min_x, min_y = (x_list[y_list.index(near_90)], near_90)
-    ax.annotate(
-        f"(<={min_x}, {round(min_y, 2)}%)",
-        xy=(min_x, min_y),
-        xytext=(min_x + x_anno_step, min_y - 10),
-        arrowprops=dict(color="red", arrowstyle="->, head_width=.15"),
-    )
+        near_90 = min([y for y in y_list if y >= 90.0])
+        min_x, min_y = (x_list[y_list.index(near_90)], near_90)
+        ax.annotate(
+            f"(<={min_x}, {round(min_y, 2)}%)",
+            xy=(min_x, min_y),
+            xytext=(min_x + x_anno_step, min_y - 10),
+            arrowprops=dict(color="red", arrowstyle="->, head_width=.15"),
+        )
 
-    near_3_sigma = min([y for y in y_list if y >= 99.7])
-    min_x, min_y = (x_list[y_list.index(near_3_sigma)], near_3_sigma)
-    ax.annotate(
-        f"(<={min_x}, {round(min_y, 2)}%)",
-        xy=(min_x, min_y),
-        xytext=(min_x + x_anno_step, min_y - 10),
-        arrowprops=dict(color="red", arrowstyle="->, head_width=.15"),
-    )
+        near_3_sigma = min([y for y in y_list if y >= 99.7])
+        min_x, min_y = (x_list[y_list.index(near_3_sigma)], near_3_sigma)
+        x_anno_step_updated = (
+            x_anno_step if ((min_x + 2 * x_anno_step) < max_x) else (-2 * x_anno_step)
+        )
+        ax.annotate(
+            f"(<={min_x}, {round(min_y, 2)}%)",
+            xy=(min_x, min_y),
+            xytext=(min_x + x_anno_step_updated, min_y - 10),
+            arrowprops=dict(color="red", arrowstyle="->, head_width=.15"),
+        )
 
-    plt.savefig(file_name, dpi=600)
+    plt.savefig(file_name, dpi=300)
 
     with open(file_name, "rb") as f:
         binary_fc = f.read()

@@ -1,0 +1,47 @@
+{
+    "tiny": {
+        "content": [
+            {
+                "successful tasks": 9,
+                "versions": {
+                    "ASSEMBLATHON_STATS": {
+                        "assemblathon_stats": "github/PlantandFoodResearch/assemblathon2-analysis/a93cba2"
+                    },
+                    "FASTAVALIDATOR": {
+                        "py_fasta_validator": 0.6
+                    },
+                    "GT_GFF3": {
+                        "genometools": "1.6.5"
+                    },
+                    "GT_GFF3VALIDATOR": {
+                        "genometools": "1.6.5"
+                    },
+                    "GT_STAT": {
+                        "genometools": "1.6.5"
+                    },
+                    "SAMTOOLS_FAIDX": {
+                        "samtools": 1.21
+                    },
+                    "SEQKIT_RMDUP": {
+                        "seqkit": "v2.8.0"
+                    },
+                    "TAG_ASSEMBLY": {
+                        "pigz": "2.3.4"
+                    },
+                    "Workflow": {
+                        "plant-food-research-open/assemblyqc": "v2.2.0"
+                    }
+                },
+                "stable paths": [
+                    "sarscov2_stats.csv:md5,9ec4147b73cae550a38337520fc028dd",
+                    "sarscov2.gt.stat.yml:md5,2504b472be03bdebaa033b0e507e4bfe"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
+        },
+        "timestamp": "2024-10-10T14:46:59.600343"
+    }
+}
