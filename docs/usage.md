@@ -65,7 +65,7 @@ BUSCO lineage databases are downloaded and updated by the BUSCO tool itself. A p
 
 ### Kraken 2
 
-Path to Kraken 2 database is provided by the `kraken2_db_path` parameter. This can be a URL to a public `.tar.gz` file such as `https://genome-idx.s3.amazonaws.com/kraken/k2_pluspfp_20240112.tar.gz`. The pipeline can download and extract the database. This is not the recommended practice owing to the size of the database. Rather, the database should be downloaded, extracted and stored in a read-only location. The path to that location can be provided by the `kraken2_db_path` parameter such as `/workspace/ComparativeDataSources/kraken2db/k2_pluspfp_20230314`.
+Path to Kraken 2 database is provided by the `kraken2_db_path` parameter. This can be a URL to a public `.tar.gz` file such as `https://genome-idx.s3.amazonaws.com/kraken/k2_pluspfp_20240112.tar.gz`. The pipeline can download and extract the database. This is not the recommended practice owing to the size of the database. Rather, the database should be downloaded, extracted and stored in a read-only location. The path to that location can be provided by the `kraken2_db_path` parameter such as `/workspace/ComparativeDataSources/kraken2db/k2_pluspfp_20240904`.
 
 ## Other parameters
 
@@ -129,7 +129,7 @@ The data for these examples comes from: [umd.edu](https://obj.umiacs.umd.edu/mar
 All the modules have been tested to work on a single machine with 10 CPUs + 32 GBs of memory, except NCBI FCS GX and Kraken2. Their minimum requirements are:
 
 - NCBI FCS GX: 1 CPU + 512 GBs memory
-- Kraken2: 1 CPU + 200 GBs memory
+- Kraken2: 1 CPU + 256 GBs memory
 
 ## Running the pipeline
 

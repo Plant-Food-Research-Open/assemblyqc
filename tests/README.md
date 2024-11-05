@@ -20,7 +20,7 @@ The GitHub [CI action](../.github/workflows/ci.yml) included with the pipeline c
 
 ## Testing with a Large Dataset at Plant&Food
 
-Before each release, the functionality of the entire pipeline is tested with a large dataset on the on-prem SLURM-based HPC at The New Zealand Institute of Plant and Food Research.
+Before each release, the functionality of the entire pipeline is tested with a large dataset on the on-prem SLURM-based HPC at The New Zealand Institute for Plant and Food Research.
 
 ## Testing Merqury Datasets
 

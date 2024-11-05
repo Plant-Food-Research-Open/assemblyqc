@@ -21,14 +21,10 @@ process RUNASSEMBLYVISUALIZER {
     assembly_tag=\$(echo $sample_id_on_tag | sed 's/.*\\.on\\.//g')
     file_name="${agp_assembly_file}"
 
-    cp -r /usr/src/3d-dna/ \\
-        3d-dna
+    mkdir user_home
+    export _JAVA_OPTIONS="-Djava.util.prefs.userRoot=user_prefs -Duser.home=user_home -Xms${avail_mem}g -Xmx${avail_mem}g"
 
-    sed -i \\
-        's/-Xms49152m -Xmx49152m/-Xms${avail_mem}g -Xmx${avail_mem}g/1' \\
-        3d-dna/visualize/juicebox_tools.sh
-
-    3d-dna/visualize/run-assembly-visualizer.sh \\
+    /usr/src/3d-dna/visualize/run-assembly-visualizer.sh \\
         -p false \\
         $agp_assembly_file $sorted_links_txt_file
 
@@ -42,7 +38,6 @@ process RUNASSEMBLYVISUALIZER {
 
     stub:
     if ( !task.memory ) { error '[RUNASSEMBLYVISUALIZER] Available memory not known. Specify process memory requirements to fix this.' }
-    def avail_mem = (task.memory.giga*0.8).intValue()
     """
     assembly_tag=\$(echo $sample_id_on_tag | sed 's/.*\\.on\\.//g')
     touch "\${assembly_tag}.hic"

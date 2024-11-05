@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v2.2.0dev - [04-Nov-2024]
+## v2.2.0 - [05-Nov-2024]
 
 ### `Added`
 
@@ -19,12 +19,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 10. Updated the tube map along with the tool list [#166](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/166)
 11. Added Orthofinder [#167](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/167)
 12. Changed order of tool options in the `nextflow.config` file
+13. Updated PFR's Kraken 2 database to `k2_pluspfp_20240904` [#170](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/170)
+14. Increased memory requirement for Kraken 2 to `256.GB`
 
 ### `Fixed`
 
 1. Fixed a bug where Gene score distribution graph did not appear correctly [#125](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/125)
 2. Increased memory requirement for `DNADIFF` to avoid SLURM OOM kills with exit code 2 [#141](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/141)
 3. Documented the use explicit use of `-revision` parameter [#160](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/160)
+4. Now using `_JAVA_OPTIONS` in module `RUNASSEMBLYVISUALIZER` to avoid user preferences related errors
 
 ### `Dependencies`
 
