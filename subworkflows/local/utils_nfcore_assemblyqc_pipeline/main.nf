@@ -2,8 +2,6 @@
 // Subworkflow with functionality specific to the plant-food-research-open/assemblyqc pipeline
 //
 
-import groovy.json.JsonOutput
-
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     IMPORT FUNCTIONS / MODULES / SUBWORKFLOWS
@@ -81,12 +79,12 @@ workflow PIPELINE_INITIALISATION {
                                             | collect
                                             | map { tags -> validateInputTags( tags ) }
                                             | combine ( ch_input.map { row -> [ row ] } )
-                                            | map { result, row -> row }
+                                            | map { _result, row -> row }
 
     ch_hic_reads                            = ! params.hic
                                             ? Channel.empty()
                                             : (
-                                                "$params.hic".find(/.*[\/].*\.(fastq|fq)\.gz/)
+                                                "$params.hic".find(/\S+\{1,2\}[\w\.]*\.f(ast)?q\.gz/)
                                                 ? Channel.fromFilePairs(params.hic, checkIfExists: true)
                                                 : Channel.of( [ params.hic, 'is_sra' ] )
                                             )
@@ -105,7 +103,7 @@ workflow PIPELINE_INITIALISATION {
                                             | collect
                                             | map { tags -> validateXrefAssemblies( tags ) }
                                             | combine ( ch_xref_assembly.map { row -> [ row ] } )
-                                            | map { result, row -> row }
+                                            | map { _result, row -> row }
                                             | map { tag, fa, labels ->
                                                 [ tag, file(fa, checkIfExists: true), file(labels, checkIfExists: true) ]
                                             }
@@ -275,7 +273,7 @@ def validateInputTags(assemblyTags) {
     assemblyTags.each { tag ->
         tagCounts[tag] = tagCounts.containsKey(tag) ? tagCounts[tag] + 1 : 1
     }
-    def repeatedTags = tagCounts.findAll { key, count -> count > 1 }.collect { key, count -> key }
+    def repeatedTags = tagCounts.findAll { _key, count -> count > 1 }.collect { key, _count -> key }
 
     if (repeatedTags.size() > 0) {
         error("Please check input assemblysheet -> Multiple assemblies have the same tags!: ${repeatedTags}")
@@ -290,7 +288,7 @@ def validateXrefAssemblies(xrefTags) {
     xrefTags.each { tag ->
         tagCounts[tag] = tagCounts.containsKey(tag) ? tagCounts[tag] + 1 : 1
     }
-    def repeatedTags = tagCounts.findAll { key, count -> count > 1 }.collect { key, count -> key }
+    def repeatedTags = tagCounts.findAll { _key, count -> count > 1 }.collect { key, _count -> key }
 
     if (repeatedTags.size() > 0) {
         error("Please check synteny_xref_assemblies -> Multiple xref assemblies have the same tags!: ${repeatedTags}")
@@ -300,7 +298,7 @@ def validateXrefAssemblies(xrefTags) {
 }
 
 def jsonifyParams(params) {
-    return JsonOutput.toJson(params).toString()
+    return groovy.json.JsonOutput.toJson(params).toString()
 }
 
 def jsonifySummaryParams(params) {
@@ -312,7 +310,7 @@ def jsonifySummaryParams(params) {
         }
     }
 
-    return JsonOutput.toJson(summary).toString()
+    return groovy.json.JsonOutput.toJson(summary).toString()
 }
 
 def extractReadsTuple(tag, reads_1, reads_2) {

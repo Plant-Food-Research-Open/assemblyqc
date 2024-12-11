@@ -3,6 +3,25 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.2.1 - [11-Dec-2024]
+
+### `Added`
+
+1. Added notes on HTTP(s) server on the HiC page and on the need to move dynamically loaded content when moving the report's HTML file [#183](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/183)
+
+### `Fixed`
+
+1. Fixed an issue where PLOTSR crashed due to a mismatch in the ordering of `syri.out` files when `synteny_plotsr_assembly_order` was not specified [#184](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/184)
+2. Fixed an issue where a path to HiC FastQ file pairs from the current directory were considered a SRR ID [#179](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/179)
+3. Fixed edges and input/output arrows in the flowchart [#178](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/178)
+
+### `Dependencies`
+
+1. Nextflow!>=24.04.2
+2. nf-schema@2.1.1
+
+### `Deprecated`
+
 ## v2.2.0 - [05-Nov-2024]
 
 ### `Added`

@@ -10,6 +10,7 @@
     <p class="section-para">
       <b>Version: {{ all_stats_dicts['VERSIONS']['MUMMER']['nucmer'] }} (MUMMER)</b>
     </p>
+
     <p class="section-para"><b>Notes:</b></p>
     <ul>
       <li>
@@ -17,7 +18,8 @@
         bundled together.
       </li>
       <li>
-        After bundling, any bundle smaller than {{ all_stats_dicts['PARAMS_DICT']['synteny_mummer_min_bundle_size'] }}bp has
+        After bundling, any bundle smaller than {{ all_stats_dicts['PARAMS_DICT']['synteny_mummer_min_bundle_size'] }}bp
+        has
         been filtered out.
       </li>
       <li>
@@ -26,5 +28,6 @@
       </li>
     </ul>
   </div>
+
   {% include 'synteny_dotplot/dropdown.html' %} {% include 'synteny_dotplot/report_contents.html' %}
 </div>

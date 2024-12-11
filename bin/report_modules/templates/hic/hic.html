@@ -8,24 +8,27 @@
     <p class="section-para"><b>References:</b></p>
 
     <p class="section-para">
-      <b>fastp</b> Chen, Yanqing Zhou, Yaru Chen, Jia Gu, fastp: an ultra-fast all-in-one FASTQ preprocessor, Bioinformatics,
+      <b>fastp</b> Chen, Yanqing Zhou, Yaru Chen, Jia Gu, fastp: an ultra-fast all-in-one FASTQ preprocessor,
+      Bioinformatics,
       Volume 34, Issue 17, September 2018, Pages i884–i890, <a href="https://doi.org/10.1093/bioinformatics/bty560"
         target="_blank">10.1093/bioinformatics/bty560</a>
     </p>
 
     <p class="section-para">
-      <b>BWA</b> Li, H. (2013). Aligning sequence reads, clone sequences and assembly contigs with BWA-MEM. arXiv preprint <a
-        href="https://arxiv.org/abs/1303.3997" target="_blank">arXiv: 1303.3997</a>.
+      <b>BWA</b> Li, H. (2013). Aligning sequence reads, clone sequences and assembly contigs with BWA-MEM. arXiv
+      preprint <a href="https://arxiv.org/abs/1303.3997" target="_blank">arXiv: 1303.3997</a>.
     </p>
 
     <p class="section-para">
-      <b>SAMBLASTER</b> Gregory G. Faust, Ira M. Hall, SAMBLASTER: fast duplicate marking and structural variant read extraction,
+      <b>SAMBLASTER</b> Gregory G. Faust, Ira M. Hall, SAMBLASTER: fast duplicate marking and structural variant read
+      extraction,
       Bioinformatics, Volume 30, Issue 17, September 2014, Pages 2503–2505, <a
         href="https://doi.org/10.1093/bioinformatics/btu314" target="_blank">10.1093/bioinformatics/btu314</a>
     </p>
 
     <p class="section-para">
-      <b>SAMtools</b> Petr Danecek, James K Bonfield, Jennifer Liddle, John Marshall, Valeriu Ohan, Martin O Pollard, Andrew Whitwham,
+      <b>SAMtools</b> Petr Danecek, James K Bonfield, Jennifer Liddle, John Marshall, Valeriu Ohan, Martin O Pollard,
+      Andrew Whitwham,
       Thomas Keane, Shane A McCarthy, Robert M Davies, Heng Li, Twelve years of SAMtools and BCFtools, GigaScience,
       Volume
       10, Issue 2, February 2021, giab008, <a href="https://doi.org/10.1093/gigascience/giab008"
@@ -33,13 +36,29 @@
     </p>
 
     <p class="section-para">
-      <b>Juicebox.js</b> Robinson JT, Turner D, Durand NC, Thorvaldsdóttir H, Mesirov JP, Aiden EL. Juicebox.js Provides a
+      <b>Juicebox.js</b> Robinson JT, Turner D, Durand NC, Thorvaldsdóttir H, Mesirov JP, Aiden EL. Juicebox.js Provides
+      a
       Cloud-Based Visualization System for Hi-C Data. Cell Syst. 2018 Feb 28;6(2):256-258.e1.
       <a href="https://doi.org/10.1016/j.cels.2018.01.001" target="_blank">10.1016/j.cels.2018.01.001</a>. Epub
       2018 Feb 7. PMID: 29428417; PMCID: PMC6047755.
     </p>
 
     <p class="section-para"><b>Version: {{ all_stats_dicts['VERSIONS']['JUICEBOX_JS'] }}</b></p>
+
+    <p class="section-para"><b>Notes:</b></p>
+    <ul>
+      <li>
+        The Hi-C contact map is only loaded when the report is opened through a HTTP(s) server and all the necessary
+        permissions are in place. The contact map '.hic' file is stored in the 'hic' folder under the output directory.
+        It can be visualized with <a href="https://github.com/aidenlab/Juicebox/wiki/Download">Juicebox</a>.
+      </li>
+      <li>
+        This report dynamically loads content from the 'hic' folder under the output directory including '*.hic',
+        '*.html', 'bedpe/' and 'hicqc/'. These files and folders should also be moved when moving the report's HTML
+        file.
+      </li>
+    </ul>
   </div>
+
   {% include 'hic/dropdown.html' %} {% include 'hic/report_contents.html' %}
 </div>
