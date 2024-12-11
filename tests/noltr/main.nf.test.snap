@@ -50,7 +50,7 @@
                         "seqkit": "v2.8.0"
                     },
                     "Workflow": {
-                        "plant-food-research-open/assemblyqc": "v2.2.0"
+                        "plant-food-research-open/assemblyqc": "v2.2.1"
                     }
                 },
                 "stable paths": [
