@@ -147,9 +147,12 @@ def parse_synteny_plotsr(folder_name="synteny_outputs"):
             "error_message": (
                 None
                 if error_comparisons == []
-                else "<b>Note:</b> Syri failed to detect structural rearrangements for following comparisons: "
+                else '<b style="color: red;">Error:</b> Syri failed to detect structural rearrangements for following comparisons: '
                 + ", ".join(
-                    [f"{target} with reference to {ref}" for (target, ref) in error_comparisons]
+                    [
+                        f"{target} with reference to {ref}"
+                        for (target, ref) in error_comparisons
+                    ]
                 )
                 + '. This may be due to known Syri limitations. See: <a href="https://github.com/schneebergerlab/syri/tree/ebd0f832e0df33398306f1b65f86801090c1ed49#current-limitations" target="_blank">GitHub/Syri/Limitations</a>'
             ),
