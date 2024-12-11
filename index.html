@@ -137,6 +137,7 @@
             width: 90%;
             min-width: 700px;
             margin: auto;
+            padding-bottom: 16px;
         }
 
         .dropdown select {
@@ -652,7 +653,7 @@
 <body>
   <div class="report-header-wrapper">
     <div class="report-header">
-      AssemblyQC v2.2.0
+      AssemblyQC v2.2.1
     </div>
   </div>
   <div class="tab" id="topNavBarButtons">
@@ -775,7 +776,7 @@
 <span class="w">    </span><span class="nt">&quot;synteny_xref_assemblies&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://raw.githubusercontent.com/plant-food-research-open/assemblyqc/dev/assets/xrefsheet.csv&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;config_profile_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Plant&amp;Food profile&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;config_profile_description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Plant&amp;Food profile using SLURM in combination with Apptainer&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;runName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;disturbed_lamarck&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;runName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;adoring_euler&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;containerEngine&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;apptainer&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;launchDir&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/powerplant/workspace/hrauxr/assemblyqc&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;workDir&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/powerplant/workspace/hrauxr/assemblyqc/work&quot;</span><span class="p">,</span>
@@ -830,7 +831,7 @@
 <span class="w">    </span><span class="nt">&quot;pandas&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2.1.1&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;perl&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;5.32.1&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;pigz&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.6</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;plant-food-research-open/assemblyqc&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;v2.2.0&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;plant-food-research-open/assemblyqc&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;v2.2.1&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;plotly&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;5.20.0&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;plotsr&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.1.1&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;py_fasta_validator&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.6</span><span class="p">,</span>
@@ -929,25 +930,29 @@
 
   
   <div id="NCBI_FCS_GX" class="tabcontent" style="display: none">
-    <div class="section-para-wrapper">
-        <p class="section-para">FCS-GX detects contamination from foreign organisms in genome sequences.</p>
-        <p class="section-para"><b>Reference:</b></p>
-        <p class="section-para">
-            Alexander Astashyn, Eric S Tvedte, Deacon Sweeney, Victor Sapojnikov, Nathan Bouk, Victor Joukov, Eyal
-            Mozes, Pooja K Strope, Pape M Sylla, Lukas Wagner, Shelby L Bidwell, Karen Clark, Emily W Davis, Brian
-            Smith-White, Wratko Hlavina, Kim D Pruitt, Valerie A Schneider, Terence D Murphy bioRxiv 2023.06.02.543519;
-            doi:
-            <a href="https://doi.org/10.1101/2023.06.02.543519" target="_blank">10.1101/2023.06.02.543519</a>, GitHub:
-            <a href="https://github.com/ncbi/fcs" target="_blank">https://github.com/ncbi/fcs</a>
-        </p>
-        <p class="section-para">
-            <b>Version: 0.5.4</b>
-        </p>
-        <p class="section-para">
-            <b>DB Version: 2023-01-24</b>
-        </p>
-    </div>
-    <div class="dropdown">
+  <div class="section-para-wrapper">
+    <p class="section-para">FCS-GX detects contamination from foreign organisms in genome sequences.</p>
+    <p class="section-para"><b>Reference:</b></p>
+    <p class="section-para">
+      Alexander Astashyn, Eric S Tvedte, Deacon Sweeney, Victor Sapojnikov, Nathan Bouk, Victor Joukov, Eyal
+      Mozes, Pooja K Strope, Pape M Sylla, Lukas Wagner, Shelby L Bidwell, Karen Clark, Emily W Davis, Brian
+      Smith-White, Wratko Hlavina, Kim D Pruitt, Valerie A Schneider, Terence D Murphy bioRxiv 2023.06.02.543519;
+      doi:
+      <a href="https://doi.org/10.1101/2023.06.02.543519" target="_blank">10.1101/2023.06.02.543519</a>, GitHub:
+      <a href="https://github.com/ncbi/fcs" target="_blank">https://github.com/ncbi/fcs</a>
+    </p>
+    <p class="section-para">
+      <b>Version: 0.5.4</b>
+    </p>
+    <p class="section-para">
+      <b>DB Version: 2023-01-24</b>
+    </p>
+
+    <p class="section-para"><b>Note:</b></p>
+    <p class="section-para">This report dynamically loads '*.fcs.gx.krona.html' files from the 'ncbi_fcs_gx' folder under the output
+      directory. These files should also be moved when moving the report's HTML file.</p>
+  </div>
+  <div class="dropdown">
     <div class="dropdown_content">
         <select id="selector_NCBI_FCS_GX" onchange="showContent('NCBI_FCS_GX')">
             <option value="summary_NCBI_FCS_GX">Summary</option>
@@ -958,7 +963,7 @@
         </select>
     </div>
 </div>
-    <div id="summary_NCBI_FCS_GX" class="tabcontent-NCBI_FCS_GX" style="display: block">
+  <div id="summary_NCBI_FCS_GX" class="tabcontent-NCBI_FCS_GX" style="display: block">
     <div class="results-section">
         <div class="section-heading-wrapper">
             <div class="section-heading">Summary</div>
@@ -990,7 +995,7 @@
         </div>
     </div>
 </div>
-    
+  
 <div
     id="tabcontent_NCBI_FCS_GX_FI1"
     class="tabcontent-NCBI_FCS_GX"
@@ -2042,18 +2047,23 @@
 
   
   <div id="KRAKEN2" class="tabcontent" style="display: none">
-    <div class="section-para-wrapper">
-        <p class="section-para">
-            Kraken2 assigns taxonomic labels to sequencing reads for metagenomics projects.
-        </p>
-        <p class="section-para"><b>Reference:</b></p>
-        <p class="section-para">
-            Wood, D.E., Lu, J. & Langmead, B. Improved metagenomic analysis with Kraken 2. Genome Biol 20, 257 (2019).
-            <a href="https://doi.org/10.1186/s13059-019-1891-0" target="_blank">10.1186/s13059-019-1891-0</a>
-        </p>
-        <p class="section-para"><b>Version: 2.1.2</b></p>
-    </div>
-    <div class="dropdown">
+  <div class="section-para-wrapper">
+    <p class="section-para">
+      Kraken2 assigns taxonomic labels to sequencing reads for metagenomics projects.
+    </p>
+    <p class="section-para"><b>Reference:</b></p>
+    <p class="section-para">
+      Wood, D.E., Lu, J. & Langmead, B. Improved metagenomic analysis with Kraken 2. Genome Biol 20, 257 (2019).
+      <a href="https://doi.org/10.1186/s13059-019-1891-0" target="_blank">10.1186/s13059-019-1891-0</a>
+    </p>
+    <p class="section-para"><b>Version: 2.1.2</b></p>
+
+    <p class="section-para"><b>Note:</b></p>
+    <p class="section-para">This report dynamically loads '*.kraken2.krona.html' files from the 'kraken2' folder under
+      the output directory. These files should also be moved when moving the report's HTML file.</p>
+
+  </div>
+  <div class="dropdown">
     <div class="dropdown_content">
         <select id="selector_KRAKEN2" onchange="showContent('KRAKEN2')">
               
@@ -2096,24 +2106,27 @@
     <p class="section-para"><b>References:</b></p>
 
     <p class="section-para">
-      <b>fastp</b> Chen, Yanqing Zhou, Yaru Chen, Jia Gu, fastp: an ultra-fast all-in-one FASTQ preprocessor, Bioinformatics,
+      <b>fastp</b> Chen, Yanqing Zhou, Yaru Chen, Jia Gu, fastp: an ultra-fast all-in-one FASTQ preprocessor,
+      Bioinformatics,
       Volume 34, Issue 17, September 2018, Pages i884–i890, <a href="https://doi.org/10.1093/bioinformatics/bty560"
         target="_blank">10.1093/bioinformatics/bty560</a>
     </p>
 
     <p class="section-para">
-      <b>BWA</b> Li, H. (2013). Aligning sequence reads, clone sequences and assembly contigs with BWA-MEM. arXiv preprint <a
-        href="https://arxiv.org/abs/1303.3997" target="_blank">arXiv: 1303.3997</a>.
+      <b>BWA</b> Li, H. (2013). Aligning sequence reads, clone sequences and assembly contigs with BWA-MEM. arXiv
+      preprint <a href="https://arxiv.org/abs/1303.3997" target="_blank">arXiv: 1303.3997</a>.
     </p>
 
     <p class="section-para">
-      <b>SAMBLASTER</b> Gregory G. Faust, Ira M. Hall, SAMBLASTER: fast duplicate marking and structural variant read extraction,
+      <b>SAMBLASTER</b> Gregory G. Faust, Ira M. Hall, SAMBLASTER: fast duplicate marking and structural variant read
+      extraction,
       Bioinformatics, Volume 30, Issue 17, September 2014, Pages 2503–2505, <a
         href="https://doi.org/10.1093/bioinformatics/btu314" target="_blank">10.1093/bioinformatics/btu314</a>
     </p>
 
     <p class="section-para">
-      <b>SAMtools</b> Petr Danecek, James K Bonfield, Jennifer Liddle, John Marshall, Valeriu Ohan, Martin O Pollard, Andrew Whitwham,
+      <b>SAMtools</b> Petr Danecek, James K Bonfield, Jennifer Liddle, John Marshall, Valeriu Ohan, Martin O Pollard,
+      Andrew Whitwham,
       Thomas Keane, Shane A McCarthy, Robert M Davies, Heng Li, Twelve years of SAMtools and BCFtools, GigaScience,
       Volume
       10, Issue 2, February 2021, giab008, <a href="https://doi.org/10.1093/gigascience/giab008"
@@ -2121,14 +2134,30 @@
     </p>
 
     <p class="section-para">
-      <b>Juicebox.js</b> Robinson JT, Turner D, Durand NC, Thorvaldsdóttir H, Mesirov JP, Aiden EL. Juicebox.js Provides a
+      <b>Juicebox.js</b> Robinson JT, Turner D, Durand NC, Thorvaldsdóttir H, Mesirov JP, Aiden EL. Juicebox.js Provides
+      a
       Cloud-Based Visualization System for Hi-C Data. Cell Syst. 2018 Feb 28;6(2):256-258.e1.
       <a href="https://doi.org/10.1016/j.cels.2018.01.001" target="_blank">10.1016/j.cels.2018.01.001</a>. Epub
       2018 Feb 7. PMID: 29428417; PMCID: PMC6047755.
     </p>
 
     <p class="section-para"><b>Version: 2.4.3</b></p>
+
+    <p class="section-para"><b>Notes:</b></p>
+    <ul>
+      <li>
+        The Hi-C contact map is only loaded when the report is opened through a HTTP(s) server and all the necessary
+        permissions are in place. The contact map '.hic' file is stored in the 'hic' folder under the output directory.
+        It can be visualized with <a href="https://github.com/aidenlab/Juicebox/wiki/Download">Juicebox</a>.
+      </li>
+      <li>
+        This report dynamically loads content from the 'hic' folder under the output directory including '*.hic',
+        '*.html', 'bedpe/' and 'hicqc/'. These files and folders should also be moved when moving the report's HTML
+        file.
+      </li>
+    </ul>
   </div>
+
   <div class="dropdown">
     <div class="dropdown_content">
         <select id="selector_HIC" onchange="showContent('HIC')">
@@ -2239,42 +2268,45 @@
 
   
   <div id="SYNTENY_CIRCOS" class="tabcontent" style="display: none">
-    <div class="section-para-wrapper">
-        <p class="section-para">
-            Circos facilitates the identification and analysis of similarities and differences arising from comparisons
-            of genomes. The genome-wide alignments are performed with MUMMER.
-        </p>
-        <p class="section-para"><b>References:</b></p>
-        <p class="section-para">
-            Krzywinski, M., Schein, J., Birol, I., Connors, J., Gascoyne, R., Horsman, D., ... & Marra, M. A. (2009).
-            Circos: an information aesthetic for comparative genomics. Genome research, 19(9), 1639-1645.
-            <a href="https://doi.org/10.1101/gr.092759.109" target="_blank">10.1101/gr.092759.109</a>
-        </p>
-        <p class="section-para">
-            Marçais G, Delcher AL, Phillippy AM, Coston R, Salzberg SL, Zimin A. MUMmer4: A fast and versatile genome
-            alignment system. PLoS Comput Biol. 2018 Jan 26;14(1):e1005944.
-            <a href="https://doi.org/10.1371/journal.pcbi.1005944" target="_blank">10.1371/journal.pcbi.1005944</a>
-        </p>
-        <p class="section-para">
-            <b
-                >Versions: v0.69-8 (CIRCOS), 4.0.0rc1 (MUMMER)</b
-            >
-        </p>
-        <p class="section-para"><b>Notes:</b></p>
-        <ul>
-          <li>
-            Alignments within a distance of 1000000bp have been
-            bundled together.
-          </li>
-          <li>
-            After bundling, any bundle smaller than 1000000bp has been filtered out.
-          </li>
-          <li>
-            The sequence labels shown on the plot are based on the labelling file provided to the pipeline. These labels may or may not be same as the sequence IDs in the corresponding FASTA files.
-          </li>
-        </ul>
-    </div>
-    <div class="dropdown">
+  <div class="section-para-wrapper">
+    <p class="section-para">
+      Circos facilitates the identification and analysis of similarities and differences arising from comparisons
+      of genomes. The genome-wide alignments are performed with MUMMER.
+    </p>
+    <p class="section-para"><b>References:</b></p>
+    <p class="section-para">
+      Krzywinski, M., Schein, J., Birol, I., Connors, J., Gascoyne, R., Horsman, D., ... & Marra, M. A. (2009).
+      Circos: an information aesthetic for comparative genomics. Genome research, 19(9), 1639-1645.
+      <a href="https://doi.org/10.1101/gr.092759.109" target="_blank">10.1101/gr.092759.109</a>
+    </p>
+    <p class="section-para">
+      Marçais G, Delcher AL, Phillippy AM, Coston R, Salzberg SL, Zimin A. MUMmer4: A fast and versatile genome
+      alignment system. PLoS Comput Biol. 2018 Jan 26;14(1):e1005944.
+      <a href="https://doi.org/10.1371/journal.pcbi.1005944" target="_blank">10.1371/journal.pcbi.1005944</a>
+    </p>
+    <p class="section-para">
+      <b>Versions: v0.69-8 (CIRCOS), 4.0.0rc1 (MUMMER)</b>
+    </p>
+
+    <p class="section-para"><b>Notes:</b></p>
+    <ul>
+      <li>
+        Alignments within a distance of 1000000bp have been
+        bundled together.
+      </li>
+      <li>
+        After bundling, any bundle smaller than 1000000bp
+        has been filtered out.
+      </li>
+      <li>
+        The sequence labels shown on the plot are based on the labelling file provided to the pipeline. These labels may
+        or may not be same as the sequence IDs in the corresponding FASTA files.
+      </li>
+    </ul>
+
+  </div>
+
+  <div class="dropdown">
     <div class="dropdown_content">
         <select id="selector_SYNTENY_CIRCOS" onchange="showContent('SYNTENY_CIRCOS')">
              
@@ -2336,6 +2368,7 @@
     <p class="section-para">
       <b>Version: 4.0.0rc1 (MUMMER)</b>
     </p>
+
     <p class="section-para"><b>Notes:</b></p>
     <ul>
       <li>
@@ -2343,7 +2376,8 @@
         bundled together.
       </li>
       <li>
-        After bundling, any bundle smaller than 1000000bp has
+        After bundling, any bundle smaller than 1000000bp
+        has
         been filtered out.
       </li>
       <li>
@@ -2352,6 +2386,7 @@
       </li>
     </ul>
   </div>
+
   <div class="dropdown">
   <div class="dropdown_content">
       <select id="selector_SYNTENY_DOTPLOT" onchange="showContent('SYNTENY_DOTPLOT')">
@@ -2431,13 +2466,18 @@
       <b>Versions: 1.1.1
         (PLOTSR), 1.7.0 (SYRI), 2.28-r1209 (MINIMAP2)</b>
     </p>
+
+    <p class="section-para"><b>Note:</b></p>
+    <p>This report dynamically loads '*.on.*.all/' folders from the 'synteny' folder under the output directory. These
+      folders should also be moved when moving the report's HTML file.</p>
+
   </div>
   <div id="tabcontent_SYNTENY_PLOTSR" class="tabcontent-SYNTENY_PLOTSR" style="display: block">
   <div class="results-section">
     
     <div class="section-para-wrapper">
       <p class="section-para">
-        <b>Note:</b> Syri failed to detect structural rearrangements for following comparisons: TT_2021a with reference to JAD. This may be due to known Syri limitations. See: <a href="https://github.com/schneebergerlab/syri/tree/ebd0f832e0df33398306f1b65f86801090c1ed49#current-limitations" target="_blank">GitHub/Syri/Limitations</a>
+        <b style="color: red;">Error:</b> Syri failed to detect structural rearrangements for following comparisons: TT_2021a with reference to JAD. This may be due to known Syri limitations. See: <a href="https://github.com/schneebergerlab/syri/tree/ebd0f832e0df33398306f1b65f86801090c1ed49#current-limitations" target="_blank">GitHub/Syri/Limitations</a>
       </p>
     </div>
     
