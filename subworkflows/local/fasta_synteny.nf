@@ -344,7 +344,7 @@ workflow FASTA_SYNTENY {
                                         | map { meta, syri, fastas ->
                                             def fasta_list          = fastas.flatten()
                                             def syri_tags           = syri.collect { it.name.replace('syri.out', '').split(/\.on\./).toList() }.flatten().unique()
-                                            def proposed_order      = plotsr_assembly_order ? plotsr_assembly_order.tokenize(' ') : syri_tags.sort(false)
+                                            def proposed_order      = plotsr_assembly_order ? plotsr_assembly_order.tokenize(' ') : syri_tags.sort(false) { it.toUpperCase() }
 
                                             def available_tags      = []
                                             proposed_order.each { tag -> if ( tag in syri_tags ) available_tags << tag }

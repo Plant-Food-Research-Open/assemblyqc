@@ -1,14 +1,23 @@
 <div id="KRAKEN2" class="tabcontent" style="display: none">
-    <div class="section-para-wrapper">
-        <p class="section-para">
-            Kraken2 assigns taxonomic labels to sequencing reads for metagenomics projects.
-        </p>
-        <p class="section-para"><b>Reference:</b></p>
-        <p class="section-para">
-            Wood, D.E., Lu, J. & Langmead, B. Improved metagenomic analysis with Kraken 2. Genome Biol 20, 257 (2019).
-            <a href="https://doi.org/10.1186/s13059-019-1891-0" target="_blank">10.1186/s13059-019-1891-0</a>
-        </p>
-        <p class="section-para"><b>Version: {{ all_stats_dicts['VERSIONS']['KRAKEN2']['kraken2'] }}</b></p>
-    </div>
-    {% include 'kraken2/dropdown.html' %} {% include 'kraken2/report_contents.html' %}
+  <div class="section-para-wrapper">
+    <p class="section-para">
+      Kraken2 assigns taxonomic labels to sequencing reads for metagenomics projects.
+    </p>
+    <p class="section-para"><b>Reference:</b></p>
+    <p class="section-para">
+      Wood, D.E., Lu, J. & Langmead, B. Improved metagenomic analysis with Kraken 2. Genome Biol 20, 257 (2019).
+      <a href="https://doi.org/10.1186/s13059-019-1891-0" target="_blank">10.1186/s13059-019-1891-0</a>
+    </p>
+    <p class="section-para"><b>Version: {{ all_stats_dicts['VERSIONS']['KRAKEN2']['kraken2'] }}</b></p>
+
+    <p class="section-para"><b>Note:</b></p>
+    <ul>
+      <li>
+        This report dynamically loads '*.kraken2.krona.html' files from the 'kraken2' folder under the output directory.
+        These files should also be moved when moving the report's HTML file.
+      </li>
+    </ul>
+
+  </div>
+  {% include 'kraken2/dropdown.html' %} {% include 'kraken2/report_contents.html' %}
 </div>
