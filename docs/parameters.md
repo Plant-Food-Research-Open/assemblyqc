@@ -131,3 +131,4 @@ Less common options for the pipeline, typically set in a config file.
 | `monochrome_logs`     | Do not use coloured log outputs.                                                                            | `boolean` |         |          | True   |
 | `hook_url`            | Incoming hook URL for messaging service                                                                     | `string`  |         |          | True   |
 | `trace_report_suffix` | Suffix to add to the trace report filename. Default is the date and time in the format yyyy-MM-dd_HH-mm-ss. | `string`  |         |          | True   |
+| `use_all_cpus`        | Use all the available CPUs for each task                                                                    | `boolean` |         |          |        |
