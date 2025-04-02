@@ -33,12 +33,16 @@ process SRATOOLS_FASTERQDUMP {
     } else if (certificate.toString().endsWith('.ngc')) {
         key_file += " --ngc ${certificate}"
     }
-    """
+    def use_all_cpus = task.ext.use_all_cpus ? 'yes' : 'no'
+	"""
+    n_proc=\$(nproc 2>/dev/null || < /proc/cpuinfo grep '^process' -c)
+    task_cpus=\$([ "$use_all_cpus" = "yes" ] && echo "\$n_proc" || echo "$task.cpus")
+
     export NCBI_SETTINGS="\$PWD/${ncbi_settings}"
 
     fasterq-dump \\
         $args \\
-        --threads $task.cpus \\
+        --threads \${task_cpus} \\
         --outfile $outfile \\
         ${key_file} \\
         ${sra}
@@ -48,7 +52,7 @@ process SRATOOLS_FASTERQDUMP {
     pigz \\
         $args2 \\
         --no-name \\
-        --processes $task.cpus \\
+        --processes \${task_cpus} \\
         *.fastq
 
     cat <<-END_VERSIONS > versions.yml
@@ -81,7 +85,7 @@ process SRATOOLS_FASTERQDUMP {
     echo \\
     "fasterq-dump \\
         $args \\
-        --threads $task.cpus \\
+        --threads \${task_cpus} \\
         --outfile $outfile \\
         ${key_file} \\
         ${sra}"
@@ -91,7 +95,7 @@ process SRATOOLS_FASTERQDUMP {
     pigz \\
         $args2 \\
         --no-name \\
-        --processes $task.cpus \\
+        --processes \${task_cpus} \\
         *.fastq
 
     cat <<-END_VERSIONS > versions.yml

@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v2.3.0dev - [12-March-2025]
+## v2.3.0dev - [02-April-2025]
 
 ### `Added`
 
@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 2. The minimum required Nextflow version is now 24.10.5
 3. Now the pipeline parameters are presented in separate sections on the PARAMS summary page in the report
 4. Added parameter `hic_alphanumeric_sort` to allow disabling of FASTA sorting by sequence labels
+5. Added parameter `use_all_cpus` to allow multithreaded tasks to consume all the CPUs available on a machine. This behavior is desirable on [MM Cloud](https://www.mmcloud.io) but highly undesirable on AWS Batch, SLURM, etc.
 
 ### `Fixed`
 

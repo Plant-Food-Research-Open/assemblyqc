@@ -37,7 +37,11 @@ process MERQURY_MERQURY {
     // def args = task.ext.args ?: ''
     prefix = task.ext.prefix ?: "${meta.id}"
     def VERSION = 1.3 // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
-    """
+    def use_all_cpus = task.ext.use_all_cpus ? 'yes' : 'no'
+	"""
+    n_proc=\$(nproc 2>/dev/null || < /proc/cpuinfo grep '^process' -c)
+    task_cpus=\$([ "$use_all_cpus" = "yes" ] && echo "\$n_proc" || echo "$task.cpus")
+
     # Nextflow changes the container --entrypoint to /bin/bash (container default entrypoint: /usr/local/env-execute)
     # Check for container variable initialisation script and source it.
     if [ -f "/usr/local/env-activate.sh" ]; then
@@ -46,7 +50,7 @@ process MERQURY_MERQURY {
         set -u
     fi
     # limit meryl to use the assigned number of cores.
-    export OMP_NUM_THREADS=$task.cpus
+    export OMP_NUM_THREADS=\${task_cpus}
 
     merqury.sh \\
         $meryl_db \\

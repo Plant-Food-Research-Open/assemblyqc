@@ -36,13 +36,17 @@ process FASTP {
     // Added soft-links to original fastqs for consistent naming in MultiQC
     // Use single ended for interleaved. Add --interleaved_in in config.
     if ( task.ext.args?.contains('--interleaved_in') ) {
-        """
+        def use_all_cpus = task.ext.use_all_cpus ? 'yes' : 'no'
+	"""
+    n_proc=\$(nproc 2>/dev/null || < /proc/cpuinfo grep '^process' -c)
+    task_cpus=\$([ "$use_all_cpus" = "yes" ] && echo "\$n_proc" || echo "$task.cpus")
+
         [ ! -f  ${prefix}.fastq.gz ] && ln -sf $reads ${prefix}.fastq.gz
 
         fastp \\
             --stdout \\
             --in1 ${prefix}.fastq.gz \\
-            --thread $task.cpus \\
+            --thread \${task_cpus} \\
             --json ${prefix}.fastp.json \\
             --html ${prefix}.fastp.html \\
             $adapter_list \\
@@ -63,7 +67,7 @@ process FASTP {
         fastp \\
             --in1 ${prefix}.fastq.gz \\
             $out_fq1 \\
-            --thread $task.cpus \\
+            --thread \${task_cpus} \\
             --json ${prefix}.fastp.json \\
             --html ${prefix}.fastp.html \\
             $adapter_list \\
@@ -91,7 +95,7 @@ process FASTP {
             $adapter_list \\
             $fail_fastq \\
             $merge_fastq \\
-            --thread $task.cpus \\
+            --thread \${task_cpus} \\
             --detect_adapter_for_pe \\
             $args \\
             2> >(tee ${prefix}.fastp.log >&2)

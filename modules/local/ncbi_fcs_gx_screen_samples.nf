@@ -22,8 +22,12 @@ process NCBI_FCS_GX_SCREEN_SAMPLES {
 
     script:
     def VERSION = '0.5.4'
+    def use_all_cpus = task.ext.use_all_cpus ? 'yes' : 'no'
     """
-    export GX_NUM_CORES=$task.cpus
+    n_proc=\$(nproc 2>/dev/null || < /proc/cpuinfo grep '^process' -c)
+    task_cpus=\$([ "$use_all_cpus" = "yes" ] && echo "\$n_proc" || echo "$task.cpus")
+
+    export GX_NUM_CORES=\${task_cpus}
 
     for sample_fasta in $samples;
     do

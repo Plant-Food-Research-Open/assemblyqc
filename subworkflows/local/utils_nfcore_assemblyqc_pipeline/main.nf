@@ -171,7 +171,7 @@ workflow PIPELINE_INITIALISATION {
     maternal_reads                          = ch_maternal_reads
     paternal_reads                          = ch_paternal_reads
     params_as_json                          = ch_params_as_json
-    summary_params_as_json                  = ch_summary_params_as_json | view
+    summary_params_as_json                  = ch_summary_params_as_json
     versions                                = ch_versions
 }
 

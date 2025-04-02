@@ -29,10 +29,14 @@ process SEQKIT_RMDUP {
     extension       = fastx.toString().endsWith('.gz') ? "${extension}.gz" : extension
     // SeqKit/rmdup takes care of compressing the output: https://bioinf.shenwei.me/seqkit/usage/#rmdup
     if("${prefix}.${extension}" == "$fastx") error "Input and output names are the same, use \"task.ext.prefix\" to disambiguate!"
-    """
+    def use_all_cpus = task.ext.use_all_cpus ? 'yes' : 'no'
+	"""
+    n_proc=\$(nproc 2>/dev/null || < /proc/cpuinfo grep '^process' -c)
+    task_cpus=\$([ "$use_all_cpus" = "yes" ] && echo "\$n_proc" || echo "$task.cpus")
+
     seqkit \\
         rmdup \\
-        --threads $task.cpus \\
+        --threads \${task_cpus} \\
         $args \\
         $fastx \\
         -o ${prefix}.${extension} \\

@@ -21,10 +21,14 @@ process MERYL_UNIONSUM {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
-    """
+    def use_all_cpus = task.ext.use_all_cpus ? 'yes' : 'no'
+	"""
+    n_proc=\$(nproc 2>/dev/null || < /proc/cpuinfo grep '^process' -c)
+    task_cpus=\$([ "$use_all_cpus" = "yes" ] && echo "\$n_proc" || echo "$task.cpus")
+
     meryl union-sum \\
         k=$kvalue \\
-        threads=$task.cpus \\
+        threads=\${task_cpus} \\
         memory=${task.memory.toGiga()} \\
         $args \\
         output ${prefix}.unionsum.meryl \\

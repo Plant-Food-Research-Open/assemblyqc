@@ -18,13 +18,17 @@ process KRAKEN2 {
     task.ext.when == null || task.ext.when
 
     script:
+    def use_all_cpus = task.ext.use_all_cpus ? 'yes' : 'no'
     """
+    n_proc=\$(nproc 2>/dev/null || < /proc/cpuinfo grep '^process' -c)
+    task_cpus=\$([ "$use_all_cpus" = "yes" ] && echo "\$n_proc" || echo "$task.cpus")
+
     kraken2 \\
         --output "${asm_tag}.kraken2.cut" \\
         --report "${asm_tag}.kraken2.report" \\
         --use-names \\
         --db $db_path \\
-        --threads ${task.cpus} \\
+        --threads \${task_cpus} \\
         $fasta_file > kraken2.log
 
     cat <<-END_VERSIONS > versions.yml

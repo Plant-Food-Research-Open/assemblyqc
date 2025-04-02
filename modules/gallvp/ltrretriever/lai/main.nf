@@ -27,12 +27,16 @@ process LTRRETRIEVER_LAI {
     def monoploid_param = monoploid_seqs    ? "-mono $monoploid_seqs"                       : ''
     def lai_output_name = monoploid_seqs    ? "${annotation_out}.${monoploid_seqs}.out.LAI" : "${annotation_out}.LAI"
     def VERSION         = 'beta3.2' // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
-    """
+    def use_all_cpus = task.ext.use_all_cpus ? 'yes' : 'no'
+	"""
+    n_proc=\$(nproc 2>/dev/null || < /proc/cpuinfo grep '^process' -c)
+    task_cpus=\$([ "$use_all_cpus" = "yes" ] && echo "\$n_proc" || echo "$task.cpus")
+
     LAI \\
         -genome $fasta \\
         -intact $pass_list \\
         -all $annotation_out \\
-        -t $task.cpus \\
+        -t \${task_cpus} \\
         $monoploid_param \\
         $args \\
         > >(tee "${prefix}.LAI.log") \\

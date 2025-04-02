@@ -24,12 +24,16 @@ process ORTHOFINDER {
     prefix = task.ext.prefix ?: "${meta.id}"
     def include_command = prior_run   ? "-b $prior_run" : ''
 
-    """
+    def use_all_cpus = task.ext.use_all_cpus ? 'yes' : 'no'
+	"""
+    n_proc=\$(nproc 2>/dev/null || < /proc/cpuinfo grep '^process' -c)
+    task_cpus=\$([ "$use_all_cpus" = "yes" ] && echo "\$n_proc" || echo "$task.cpus")
+
     mkdir temp_pickle
 
     orthofinder \\
-        -t $task.cpus \\
-        -a $task.cpus \\
+        -t \${task_cpus} \\
+        -a \${task_cpus} \\
         -p temp_pickle \\
         -f input \\
         -n $prefix \\

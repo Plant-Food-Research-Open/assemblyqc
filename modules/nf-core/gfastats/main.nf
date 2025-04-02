@@ -32,10 +32,14 @@ process GFASTATS {
     def ibed = include_bed ? "--include-bed $include_bed" : ""
     def ebed = exclude_bed ? "--exclude-bed $exclude_bed" : ""
     def sak  = instructions ? "--swiss-army-knife $instructions" : ""
-    """
+    def use_all_cpus = task.ext.use_all_cpus ? 'yes' : 'no'
+	"""
+    n_proc=\$(nproc 2>/dev/null || < /proc/cpuinfo grep '^process' -c)
+    task_cpus=\$([ "$use_all_cpus" = "yes" ] && echo "\$n_proc" || echo "$task.cpus")
+
     gfastats \\
         $args \\
-        --threads $task.cpus \\
+        --threads \${task_cpus} \\
         $agp \\
         $ibed \\
         $ebed \\

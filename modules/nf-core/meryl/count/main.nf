@@ -22,11 +22,15 @@ process MERYL_COUNT {
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
     def reduced_mem = task.memory.multiply(0.9).toGiga()
-    """
+    def use_all_cpus = task.ext.use_all_cpus ? 'yes' : 'no'
+	"""
+    n_proc=\$(nproc 2>/dev/null || < /proc/cpuinfo grep '^process' -c)
+    task_cpus=\$([ "$use_all_cpus" = "yes" ] && echo "\$n_proc" || echo "$task.cpus")
+
     for READ in ${reads}; do
         meryl count \\
             k=${kvalue} \\
-            threads=${task.cpus} \\
+            threads=\${task_cpus} \\
             memory=${reduced_mem} \\
             ${args} \\
             \$READ \\

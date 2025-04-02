@@ -45,7 +45,11 @@ process BUSCO_BUSCO {
         : "--lineage_dataset ${lineage}"
     def busco_lineage_dir = busco_lineages_path ? "--download_path ${busco_lineages_path}" : ''
     def clean_cmd = clean_intermediates ? 'rm -fr ./*-busco/*/auto_lineage ./*-busco/*/**/{miniprot,hmmer,.bbtools}_output' : ''
-    """
+    def use_all_cpus = task.ext.use_all_cpus ? 'yes' : 'no'
+	"""
+    n_proc=\$(nproc 2>/dev/null || < /proc/cpuinfo grep '^process' -c)
+    task_cpus=\$([ "$use_all_cpus" = "yes" ] && echo "\$n_proc" || echo "$task.cpus")
+
     # Nextflow changes the container --entrypoint to /bin/bash (container default entrypoint: /usr/local/env-execute)
     # Check for container variable initialisation script and source it.
     if [ -f "/usr/local/env-activate.sh" ]; then
@@ -77,7 +81,7 @@ process BUSCO_BUSCO {
     cd ..
 
     busco \\
-        --cpu $task.cpus \\
+        --cpu \${task_cpus} \\
         --in "\$INPUT_SEQS" \\
         --out ${prefix}-busco \\
         --mode $mode \\

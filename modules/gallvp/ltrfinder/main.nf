@@ -21,10 +21,14 @@ process LTRFINDER {
     script:
     def args            = task.ext.args ?: ''
     def prefix          = task.ext.prefix ?: "${meta.id}"
-    """
+    def use_all_cpus = task.ext.use_all_cpus ? 'yes' : 'no'
+	"""
+    n_proc=\$(nproc 2>/dev/null || < /proc/cpuinfo grep '^process' -c)
+    task_cpus=\$([ "$use_all_cpus" = "yes" ] && echo "\$n_proc" || echo "$task.cpus")
+
     LTR_FINDER_parallel \\
         -seq $fasta \\
-        -threads $task.cpus \\
+        -threads \${task_cpus} \\
         $args
 
     mv "${fasta}.finder.combine.scn"    "${prefix}.scn"

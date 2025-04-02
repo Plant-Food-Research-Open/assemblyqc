@@ -17,8 +17,12 @@ process JUICER_SORT {
     task.ext.when == null || task.ext.when
 
     script:
+    def use_all_cpus = task.ext.use_all_cpus ? 'yes' : 'no'
     """
-    sort --parallel=${task.cpus} \\
+    n_proc=\$(nproc 2>/dev/null || < /proc/cpuinfo grep '^process' -c)
+    task_cpus=\$([ "$use_all_cpus" = "yes" ] && echo "\$n_proc" || echo "$task.cpus")
+
+    sort --parallel=\${task_cpus} \\
         -k2,2 -k6,6 \\
         $out_links_txt \\
         > out.sorted.links.txt

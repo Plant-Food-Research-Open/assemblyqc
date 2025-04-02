@@ -41,7 +41,11 @@ process LTRRETRIEVER_LTRRETRIEVER {
     //
     // This copy with permissions logic can be removed once https://github.com/oushujun/LTR_retriever/issues/176
     // has been resolved.
-    """
+    def use_all_cpus = task.ext.use_all_cpus ? 'yes' : 'no'
+	"""
+    n_proc=\$(nproc 2>/dev/null || < /proc/cpuinfo grep '^process' -c)
+    task_cpus=\$([ "$use_all_cpus" = "yes" ] && echo "\$n_proc" || echo "$task.cpus")
+
     cp \\
         $genome \\
         $writable_genome
@@ -56,7 +60,7 @@ process LTRRETRIEVER_LTRRETRIEVER {
         $infinder \\
         $inmgescan \\
         $non_tgca_file \\
-        -threads $task.cpus \\
+        -threads \${task_cpus} \\
         $args \\
         &> >(tee "${prefix}.log" 2>&1) \\
         || echo "Errors from LTR_retriever printed to ${prefix}.log"

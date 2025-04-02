@@ -33,14 +33,18 @@ process FASTQC {
     // FastQC memory value allowed range (100 - 10000)
     def fastqc_memory = memory_in_mb > 10000 ? 10000 : (memory_in_mb < 100 ? 100 : memory_in_mb)
 
-    """
+    def use_all_cpus = task.ext.use_all_cpus ? 'yes' : 'no'
+	"""
+    n_proc=\$(nproc 2>/dev/null || < /proc/cpuinfo grep '^process' -c)
+    task_cpus=\$([ "$use_all_cpus" = "yes" ] && echo "\$n_proc" || echo "$task.cpus")
+
     printf "%s %s\\n" ${rename_to} | while read old_name new_name; do
         [ -f "\${new_name}" ] || ln -s \$old_name \$new_name
     done
 
     fastqc \\
         ${args} \\
-        --threads ${task.cpus} \\
+        --threads \${task_cpus} \\
         --memory ${fastqc_memory} \\
         ${renamed_files}
 

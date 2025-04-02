@@ -32,19 +32,23 @@ process MINIMAP2_ALIGN {
     def args4 = task.ext.args4 ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
     def bam_index = bam_index_extension ? "${prefix}.bam##idx##${prefix}.bam.${bam_index_extension} --write-index" : "${prefix}.bam"
-    def bam_output = bam_format ? "-a | samtools sort -@ ${task.cpus-1} -o ${bam_index} ${args2}" : "-o ${prefix}.paf"
+    def bam_output = bam_format ? "-a | samtools sort -@ \$((task_cpus-1)) -o ${bam_index} ${args2}" : "-o ${prefix}.paf"
     def cigar_paf = cigar_paf_format && !bam_format ? "-c" : ''
     def set_cigar_bam = cigar_bam && bam_format ? "-L" : ''
     def bam_input = "${reads.extension}".matches('sam|bam|cram')
-    def samtools_reset_fastq = bam_input ? "samtools reset --threads ${task.cpus-1} $args3 $reads | samtools fastq --threads ${task.cpus-1} $args4 |" : ''
+    def samtools_reset_fastq = bam_input ? "samtools reset --threads \$((task_cpus-1)) $args3 $reads | samtools fastq --threads \$((task_cpus-1)) $args4 |" : ''
     def query = bam_input ? "-" : reads
     def target = reference ?: (bam_input ? error("BAM input requires reference") : reads)
 
-    """
+    def use_all_cpus = task.ext.use_all_cpus ? 'yes' : 'no'
+	"""
+    n_proc=\$(nproc 2>/dev/null || < /proc/cpuinfo grep '^process' -c)
+    task_cpus=\$([ "$use_all_cpus" = "yes" ] && echo "\$n_proc" || echo "$task.cpus")
+
     $samtools_reset_fastq \\
     minimap2 \\
         $args \\
-        -t $task.cpus \\
+        -t \${task_cpus} \\
         $target \\
         $query \\
         $cigar_paf \\

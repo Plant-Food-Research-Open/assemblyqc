@@ -21,11 +21,15 @@ process LTRHARVEST {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
-    """
+    def use_all_cpus = task.ext.use_all_cpus ? 'yes' : 'no'
+	"""
+    n_proc=\$(nproc 2>/dev/null || < /proc/cpuinfo grep '^process' -c)
+    task_cpus=\$([ "$use_all_cpus" = "yes" ] && echo "\$n_proc" || echo "$task.cpus")
+
     LTR_HARVEST_parallel \\
         -seq $fasta \\
         $args \\
-        -threads $task.cpus
+        -threads \${task_cpus}
 
     mv "${fasta}.harvest.combine.gff3" \\
         "${prefix}.gff3"

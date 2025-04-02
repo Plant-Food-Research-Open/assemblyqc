@@ -460,6 +460,11 @@
                     "fa_icon": "far calendar",
                     "description": "Suffix to add to the trace report filename. Default is the date and time in the format yyyy-MM-dd_HH-mm-ss.",
                     "hidden": true
+                },
+                "use_all_cpus": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-microchip",
+                    "description": "Use all the available CPUs for each task"
                 }
             }
         }

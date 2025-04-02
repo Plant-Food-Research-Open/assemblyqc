@@ -35,15 +35,19 @@ process BWA_MEM {
                     "bam"
     def reference = fasta && extension=="cram"  ? "--reference ${fasta}" : ""
     if (!fasta && extension=="cram") error "Fasta reference is required for CRAM output"
-    """
+    def use_all_cpus = task.ext.use_all_cpus ? 'yes' : 'no'
+	"""
+    n_proc=\$(nproc 2>/dev/null || < /proc/cpuinfo grep '^process' -c)
+    task_cpus=\$([ "$use_all_cpus" = "yes" ] && echo "\$n_proc" || echo "$task.cpus")
+
     INDEX=`find -L ./ -name "*.amb" | sed 's/\\.amb\$//'`
 
     bwa mem \\
         $args \\
-        -t $task.cpus \\
+        -t \${task_cpus} \\
         \$INDEX \\
         $reads \\
-        | samtools $samtools_command $args2 ${reference} --threads $task.cpus -o ${prefix}.${extension} -
+        | samtools $samtools_command $args2 ${reference} --threads \${task_cpus} -o ${prefix}.${extension} -
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

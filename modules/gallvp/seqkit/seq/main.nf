@@ -29,10 +29,14 @@ process SEQKIT_SEQ {
     extension       = fastx.toString().endsWith('.gz') ? "${extension}.gz" : extension
     def call_gzip   = extension.endsWith('.gz') ? "| gzip -c $args2" : ''
     if("${prefix}.${extension}" == "$fastx") error "Input and output names are the same, use \"task.ext.prefix\" to disambiguate!"
-    """
+    def use_all_cpus = task.ext.use_all_cpus ? 'yes' : 'no'
+	"""
+    n_proc=\$(nproc 2>/dev/null || < /proc/cpuinfo grep '^process' -c)
+    task_cpus=\$([ "$use_all_cpus" = "yes" ] && echo "\$n_proc" || echo "$task.cpus")
+
     seqkit \\
         seq \\
-        --threads $task.cpus \\
+        --threads \${task_cpus} \\
         $args \\
         $fastx \\
         $call_gzip \\
