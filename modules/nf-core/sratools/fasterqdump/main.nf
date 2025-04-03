@@ -77,7 +77,11 @@ process SRATOOLS_FASTERQDUMP {
         key_file += " --ngc ${certificate}"
     }
     def touch_outfiles = meta.single_end ? "${prefix}.fastq" : "${prefix}_1.fastq ${prefix}_2.fastq"
-    """
+    def use_all_cpus = task.ext.use_all_cpus ? 'yes' : 'no'
+	"""
+    n_proc=\$(nproc 2>/dev/null || < /proc/cpuinfo grep '^process' -c)
+    task_cpus=\$([ "$use_all_cpus" = "yes" ] && echo "\$n_proc" || echo "$task.cpus")
+    
     touch $touch_outfiles
 
     export NCBI_SETTINGS="\$PWD/${ncbi_settings}"

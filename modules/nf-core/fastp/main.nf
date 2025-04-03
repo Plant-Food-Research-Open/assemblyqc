@@ -35,11 +35,11 @@ process FASTP {
     def out_fq2 = discard_trimmed_pass ?: "--out2 ${prefix}_2.fastp.fastq.gz"
     // Added soft-links to original fastqs for consistent naming in MultiQC
     // Use single ended for interleaved. Add --interleaved_in in config.
+    def use_all_cpus = task.ext.use_all_cpus ? 'yes' : 'no'
     if ( task.ext.args?.contains('--interleaved_in') ) {
-        def use_all_cpus = task.ext.use_all_cpus ? 'yes' : 'no'
-	"""
-    n_proc=\$(nproc 2>/dev/null || < /proc/cpuinfo grep '^process' -c)
-    task_cpus=\$([ "$use_all_cpus" = "yes" ] && echo "\$n_proc" || echo "$task.cpus")
+	    """
+        n_proc=\$(nproc 2>/dev/null || < /proc/cpuinfo grep '^process' -c)
+        task_cpus=\$([ "$use_all_cpus" = "yes" ] && echo "\$n_proc" || echo "$task.cpus")
 
         [ ! -f  ${prefix}.fastq.gz ] && ln -sf $reads ${prefix}.fastq.gz
 
@@ -62,6 +62,9 @@ process FASTP {
         """
     } else if (meta.single_end) {
         """
+        n_proc=\$(nproc 2>/dev/null || < /proc/cpuinfo grep '^process' -c)
+        task_cpus=\$([ "$use_all_cpus" = "yes" ] && echo "\$n_proc" || echo "$task.cpus")
+
         [ ! -f  ${prefix}.fastq.gz ] && ln -sf $reads ${prefix}.fastq.gz
 
         fastp \\
@@ -83,6 +86,9 @@ process FASTP {
     } else {
         def merge_fastq = save_merged ? "-m --merged_out ${prefix}.merged.fastq.gz" : ''
         """
+        n_proc=\$(nproc 2>/dev/null || < /proc/cpuinfo grep '^process' -c)
+        task_cpus=\$([ "$use_all_cpus" = "yes" ] && echo "\$n_proc" || echo "$task.cpus")
+
         [ ! -f  ${prefix}_1.fastq.gz ] && ln -sf ${reads[0]} ${prefix}_1.fastq.gz
         [ ! -f  ${prefix}_2.fastq.gz ] && ln -sf ${reads[1]} ${prefix}_2.fastq.gz
         fastp \\
