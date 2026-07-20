@@ -1,5 +1,5 @@
-include { BWA_INDEX         } from '../../../modules/nf-core/minibwa/index/main'
-include { BWA_MEM           } from '../../../modules/nf-core/minibwa/map/main'
+include { MINIBWA_INDEX     } from '../../../modules/nf-core/minibwa/index/main'
+include { MINIBWA_MAP       } from '../../../modules/nf-core/minibwa/map/main'
 include { SAMBLASTER        } from '../../../modules/gallvp/samblaster/main'
 
 workflow FASTQ_BWA_MEM_SAMBLASTER {
@@ -18,10 +18,10 @@ workflow FASTQ_BWA_MEM_SAMBLASTER {
                                 no: !index
                             }
 
-    // MODULE: BWA_INDEX
-    BWA_INDEX ( ch_has_index.no.map { meta2, fasta, _index -> [ meta2, fasta ] } )
+    // MODULE: MINIBWA_INDEX
+    MINIBWA_INDEX ( ch_has_index.no.map { meta2, fasta, _index -> [ meta2, fasta ] } )
 
-    ch_bwa_index            = BWA_INDEX.out.index
+    ch_bwa_index            = MINIBWA_INDEX.out.index
                             | mix(
                                 ch_has_index.yes
                                 | map { meta2, _fasta, index ->
@@ -29,9 +29,9 @@ workflow FASTQ_BWA_MEM_SAMBLASTER {
                                 }
                             )
 
-    ch_versions             = ch_versions.mix(BWA_INDEX.out.versions.first())
+    ch_versions             = ch_versions.mix(MINIBWA_INDEX.out.versions_minibwa.first())
 
-    // MODULE: BWA_MEM
+    // MODULE: MINIBWA_MAP
     ch_mem_inputs           = ch_fastq
                             | combine(
                                 ch_bwa_index
@@ -40,16 +40,17 @@ workflow FASTQ_BWA_MEM_SAMBLASTER {
                                 [ meta + [ ref_id: meta2.id ], fq, index ]
                             }
 
-    BWA_MEM(
+    MINIBWA_MAP(
         ch_mem_inputs.map { meta, fq, _index -> [ meta, fq ] },
         ch_mem_inputs.map { _meta, _fq, index -> [ [], index ] },
         [ [], [] ],
         val_sort_bam
     )
 
-    ch_mem_bam              = BWA_MEM.out.bam
-    ch_versions             = ch_versions.mix(BWA_MEM.out.versions.first())
-
+    ch_mem_bam              = MINIBWA_MAP.out.aligned
+    ch_versions             = ch_versions.mix(MINIBWA_MAP.out.versions_minibwa.first())
+    ch_versions             = ch_versions.mix(MINIBWA_MAP.out.versions_samtools.first())
+    
     // MODULE: SAMBLASTER
     SAMBLASTER ( ch_mem_bam )
 
