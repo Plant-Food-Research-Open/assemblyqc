@@ -15,16 +15,6 @@
                         "git_sha": "24e1e41036efe2bfec933c389021c7d9b3e9936a",
                         "installed_by": ["fasta_bedtools_makewindows_nuc"]
                     },
-                    "bwa/index": {
-                        "branch": "main",
-                        "git_sha": "f0a8febe769ae3e58740973a5cb984e6a6cd89d7",
-                        "installed_by": ["fastq_bwa_mem_samblaster"]
-                    },
-                    "bwa/mem": {
-                        "branch": "main",
-                        "git_sha": "f0a8febe769ae3e58740973a5cb984e6a6cd89d7",
-                        "installed_by": ["fastq_bwa_mem_samblaster"]
-                    },
                     "cat/cat": {
                         "branch": "main",
                         "git_sha": "5d2d4b9090a66560be9aff2e2bb8219045b62d6c",
@@ -316,12 +306,12 @@
                     "minibwa/index": {
                         "branch": "master",
                         "git_sha": "838d07c09dfac095defc7b39c6b56ca9741ee517",
-                        "installed_by": ["modules"]
+                        "installed_by": ["fastq_bwa_mem_samblaster"]
                     },
                     "minibwa/map": {
                         "branch": "master",
                         "git_sha": "838d07c09dfac095defc7b39c6b56ca9741ee517",
-                        "installed_by": ["modules"]
+                        "installed_by": ["fastq_bwa_mem_samblaster"]
                     },
                     "minimap2/align": {
                         "branch": "master",
