@@ -4,8 +4,8 @@ process HAPHIC_REFSORT {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/haphic:1.0.7--hdfd78af_0':
-        'biocontainers/haphic:1.0.7--hdfd78af_0' }"
+        'docker://gallvp/haphic:1.0.7--hdfd78af_0':
+        'docker.io/gallvp/haphic:1.0.7--hdfd78af_0' }"
 
     input:
     tuple val(meta), path(agp)
