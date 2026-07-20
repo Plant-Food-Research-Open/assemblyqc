@@ -1,5 +1,5 @@
-include { BWA_INDEX         } from '../../../modules/gallvp/bwa/index/main'
-include { BWA_MEM           } from '../../../modules/gallvp/bwa/mem/main'
+include { BWA_INDEX         } from '../../../modules/nf-core/minibwa/index/main'
+include { BWA_MEM           } from '../../../modules/nf-core/minibwa/map/main'
 include { SAMBLASTER        } from '../../../modules/gallvp/samblaster/main'
 
 workflow FASTQ_BWA_MEM_SAMBLASTER {
