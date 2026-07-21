@@ -1,9 +1,13 @@
+include { MINIBWA_INDEX     } from '../../../modules/nf-core/minibwa/index/main'
+include { MINIBWA_MAP       } from '../../../modules/nf-core/minibwa/map/main'
+include { SAMBLASTER        } from '../../../modules/gallvp/samblaster/main'
+
 workflow FASTQ_BWA_MEM_SAMBLASTER {
 
     take:
-    ch_fastq
-    ch_reference
-    val_sort_bam
+    ch_fastq                // channel: [ val(meta), [ fq ] ]
+    ch_reference            // channel: [ val(meta2), fasta, index ]; fasta | index
+    val_sort_bam            // boolean: true|false
 
     main:
     ch_versions             = Channel.empty()
@@ -20,13 +24,18 @@ workflow FASTQ_BWA_MEM_SAMBLASTER {
     ch_bwa_index            = MINIBWA_INDEX.out.index
                             | mix(
                                 ch_has_index.yes
-                                | map { meta2, _fasta, index -> [ meta2, index ] }
+                                | map { meta2, _fasta, index ->
+                                    [ meta2, index ]
+                                }
                             )
 
+    ch_versions             = ch_versions.mix(MINIBWA_INDEX.out.versions_minibwa.first())
 
     // MODULE: MINIBWA_MAP
     ch_mem_inputs           = ch_fastq
-                            | combine(ch_bwa_index)
+                            | combine(
+                                ch_bwa_index
+                            )
                             | map { meta, fq, meta2, index ->
                                 [ meta + [ ref_id: meta2.id ], fq, index ]
                             }
@@ -39,20 +48,14 @@ workflow FASTQ_BWA_MEM_SAMBLASTER {
     )
 
     ch_mem_bam              = MINIBWA_MAP.out.aligned
-<<<<<<< HEAD
-=======
     ch_versions             = ch_versions.mix(MINIBWA_MAP.out.versions_minibwa.first())
-    ch_versions             = ch_versions.mix(MINIBWA_MAP.out.versions_samtools.first())
     
     // MODULE: SAMBLASTER
     SAMBLASTER ( ch_mem_bam )
->>>>>>> parent of 63c9691 (versions fix)
 
-    // MODULE: SAMBLASTER 
-    SAMBLASTER ( ch_mem_bam )
     ch_versions             = ch_versions.mix(SAMBLASTER.out.versions.first())
 
     emit:
-    bam                     = SAMBLASTER.out.bam
-    versions                = ch_versions    // channel: [ versions.yml ] — old-style only, from SAMBLASTER
+    bam                     = SAMBLASTER.out.bam    // channel: [ val(meta), bam ]
+    versions                = ch_versions           // channel: [ versions.yml ]
 }
