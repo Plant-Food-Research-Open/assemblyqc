@@ -306,12 +306,12 @@
                     "minibwa/index": {
                         "branch": "master",
                         "git_sha": "838d07c09dfac095defc7b39c6b56ca9741ee517",
-                        "installed_by": ["fastq_bwa_mem_samblaster"]
+                        "installed_by": ["modules"]
                     },
                     "minibwa/map": {
                         "branch": "master",
                         "git_sha": "838d07c09dfac095defc7b39c6b56ca9741ee517",
-                        "installed_by": ["fastq_bwa_mem_samblaster"]
+                        "installed_by": ["modules"]
                     },
                     "minimap2/align": {
                         "branch": "master",
