@@ -29,7 +29,7 @@ workflow FASTQ_BWA_MEM_SAMBLASTER {
                                 }
                             )
 
-    ch_versions             = ch_versions.mix(MINIBWA_INDEX.out.versions_minibwa.first())
+    // ch_versions             = ch_versions.mix(MINIBWA_INDEX.out.versions_minibwa.first())
 
     // MODULE: MINIBWA_MAP
     ch_mem_inputs           = ch_fastq
@@ -48,7 +48,7 @@ workflow FASTQ_BWA_MEM_SAMBLASTER {
     )
 
     ch_mem_bam              = MINIBWA_MAP.out.aligned
-    ch_versions             = ch_versions.mix(MINIBWA_MAP.out.versions_minibwa.first())
+    // ch_versions             = ch_versions.mix(MINIBWA_MAP.out.versions_minibwa.first())
     
     // MODULE: SAMBLASTER
     SAMBLASTER ( ch_mem_bam )
