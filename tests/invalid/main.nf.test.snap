@@ -35,7 +35,7 @@
                         "pigz": "2.3.4"
                     },
                     "Workflow": {
-                        "plant-food-research-open/assemblyqc": "v3.0.1"
+                        "plant-food-research-open/assemblyqc": "v3.1.0"
                     }
                 },
                 "stable paths": [
