@@ -5,6 +5,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## v3.1.0dev - [23-July-2026]
 
+### `Added`
+
+1. Updated nf-core pipeline template to 4.0.2
+
+### `Dependencies`
+
+1. Nextflow!>=24.10.5
+2. nf-schema@2.5.1
+
 ## v3.0.1 - [14-Oct-2025]
 
 ### `Added`
@@ -18,7 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Dependencies`
 
-1. Nextflow!>=24.10.5
+1. Nextflow!>=25.10.4
 2. nf-schema@2.4.2
 
 ## v3.0.0 - [22-Sep-2025]

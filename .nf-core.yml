@@ -1,8 +1,5 @@
 lint:
-  multiqc_config: false
-  template_strings: false
   actions_nf_test: false
-  included_configs: false
   files_exist:
     - conf/igenomes.config
     - conf/igenomes_ignored.config
@@ -23,6 +20,8 @@ lint:
     - .github/workflows/branch.yml
     - .github/workflows/linting.yml
     - docs/README.md
+  included_configs: false
+  multiqc_config: false
   nextflow_config:
     - manifest.name
     - manifest.homePage
@@ -33,7 +32,8 @@ lint:
   nf_test_content:
     - tests/default.nf.test
     - tests/nextflow.config
-nf_core_version: 3.3.2
+  template_strings: false
+nf_core_version: 4.0.2
 repository_type: pipeline
 template:
   author: Usman Rashid, Ken Smith, Ross Crowhurst, Chen Wu, Marcus Davy
