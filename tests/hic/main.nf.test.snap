@@ -63,7 +63,7 @@
                         "pigz": "2.3.4"
                     },
                     "Workflow": {
-                        "plant-food-research-open/assemblyqc": "v3.1.0"
+                        "plant-food-research-open/assemblyqc": "v3.1.0dev"
                     },
                     "YAHS_JUICERPRE": {
                         "yahs": "1.2.2"
@@ -169,7 +169,7 @@
                         "pigz": "2.3.4"
                     },
                     "Workflow": {
-                        "plant-food-research-open/assemblyqc": "v3.1.0"
+                        "plant-food-research-open/assemblyqc": "v3.1.0dev"
                     },
                     "YAHS_JUICERPRE": {
                         "yahs": "1.2.2"

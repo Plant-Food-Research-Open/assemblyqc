@@ -153,10 +153,10 @@
             },
             "url": [
                 "https://github.com/plant-food-research-open/assemblyqc",
-                "https://nf-co.re/plant-food-research-open/assemblyqc/3.1.0/"
+                "https://nf-co.re/plant-food-research-open/assemblyqc/3.1.0dev/"
             ],
             "version": [
-                "3.1.0"
+                "3.1.0dev"
             ]
         },
         {
