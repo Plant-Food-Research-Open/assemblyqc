@@ -20,6 +20,7 @@ lint:
     - .github/workflows/branch.yml
     - .github/workflows/linting.yml
     - docs/README.md
+  included_configs: false
   multiqc_config: false
   nextflow_config:
     - manifest.name
@@ -32,7 +33,7 @@ lint:
     - tests/default.nf.test
     - tests/nextflow.config
   template_strings: false
-nf_core_version: 3.3.2
+nf_core_version: 4.0.2
 repository_type: pipeline
 template:
   author: Usman Rashid, Ken Smith, Ross Crowhurst, Chen Wu, Marcus Davy
@@ -47,4 +48,4 @@ template:
     - igenomes
     - multiqc
     - fastqc
-  version: 3.0.0dev
+  version: 3.1.0
