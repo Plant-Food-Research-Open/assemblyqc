@@ -15,3 +15,4 @@ testing*
 .nf-test/
 .nf-test.log
 null/
+.lineage/
