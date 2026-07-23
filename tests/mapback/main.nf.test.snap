@@ -51,7 +51,7 @@
                         "samtools": "1.16.1"
                     },
                     "Workflow": {
-                        "plant-food-research-open/assemblyqc": "v3.0.0"
+                        "plant-food-research-open/assemblyqc": "v3.1.0dev"
                     }
                 },
                 "stable paths": [

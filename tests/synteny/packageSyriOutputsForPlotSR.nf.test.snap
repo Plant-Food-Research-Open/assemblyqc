@@ -1,0 +1,84 @@
+{
+    "gddh13_v1p1 - FujiA - FujiB - PbDS - PcKFL - null": {
+        "content": [
+            {
+                "id": "plotsr"
+            },
+            [
+                "FujiB.on.FujiAsyri.out"
+            ],
+            [
+                "FujiA.plotsr.fasta",
+                "FujiB.plotsr.fasta"
+            ],
+            "#file\tname\nFujiA\nFujiB"
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.04.8"
+        },
+        "timestamp": "2025-10-17T11:51:25.665918"
+    },
+    "FI1 - JAD - TT_2021a - null": {
+        "content": [
+            {
+                "id": "plotsr"
+            },
+            [
+                "JAD.on.FI1syri.out"
+            ],
+            [
+                "FI1.plotsr.fasta",
+                "JAD.plotsr.fasta"
+            ],
+            "#file\tname\nFI1\nJAD"
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.04.8"
+        },
+        "timestamp": "2025-10-17T12:07:02.170384"
+    },
+    "gddh13_v1p1 - FujiA - FujiB - PbDS - PcKFL": {
+        "content": [
+            {
+                "id": "plotsr"
+            },
+            [
+                "FujiA.on.gddh13_v1p1syri.out",
+                "FujiB.on.FujiAsyri.out"
+            ],
+            [
+                "gddh13_v1p1.plotsr.fasta",
+                "FujiA.plotsr.fasta",
+                "FujiB.plotsr.fasta"
+            ],
+            "#file\tname\ngddh13_v1p1\nFujiA\nFujiB"
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.04.8"
+        },
+        "timestamp": "2025-10-17T11:51:22.18351"
+    },
+    "FI1 - JAD - TT_2021a": {
+        "content": [
+            {
+                "id": "plotsr"
+            },
+            [
+                "JAD.on.FI1syri.out"
+            ],
+            [
+                "FI1.plotsr.fasta",
+                "JAD.plotsr.fasta"
+            ],
+            "#file\tname\nFI1\nJAD"
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.8"
+        },
+        "timestamp": "2025-10-13T11:51:10.498346"
+    }
+}

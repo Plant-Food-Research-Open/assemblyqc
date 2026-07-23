@@ -3,6 +3,33 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v3.1.0dev - [23-July-2026]
+
+### `Added`
+
+1. Updated nf-core pipeline template to 4.0.2
+
+### `Dependencies`
+
+1. Nextflow!>=24.10.5
+2. nf-schema@2.5.1
+
+## v3.0.1 - [14-Oct-2025]
+
+### `Added`
+
+1. Added disk cleanup to nf-test GitHub CI action to avoid the runner running out of disk space for `full - stub` runs
+
+### `Fixed`
+
+1. Fixed an issue in Synteny workflow which caused a pipeline crash when Syri failed for one of the synteny combinations [#315](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/315)
+2. Fixed an issue which cause parameter validation to fail for `hic_map_combinations` when `hic` parameter was set to `null` [#317](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/317)
+
+### `Dependencies`
+
+1. Nextflow!>=25.10.4
+2. nf-schema@2.4.2
+
 ## v3.0.0 - [22-Sep-2025]
 
 ### `Added`

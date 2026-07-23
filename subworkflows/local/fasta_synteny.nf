@@ -341,30 +341,7 @@ workflow FASTA_SYNTENY {
                                             ]
                                         }
                                         | groupTuple
-                                        | map { meta, syri, fastas ->
-                                            def fasta_list          = fastas.flatten()
-                                            def syri_tags           = syri.collect { it.name.replace('syri.out', '').split(/\.on\./).toList() }.flatten().unique()
-                                            def proposed_order      = plotsr_assembly_order ? plotsr_assembly_order.tokenize(' ') : syri_tags.sort(false) { it.toUpperCase() }
-
-                                            def available_tags      = []
-                                            proposed_order.each { tag -> if ( tag in syri_tags ) available_tags << tag }
-
-                                            def ordered_fa          = []
-                                            available_tags.each { tag -> ordered_fa << ( fasta_list.find { it.baseName == "${tag}.plotsr" } ) }
-
-                                            def ordered_syri_tags   = []
-                                            available_tags.eachWithIndex { tag, index -> if ( index > 0 ) { ordered_syri_tags << "${tag}.on.${available_tags[index-1]}" } }
-
-                                            def ordered_syri        = []
-                                            ordered_syri_tags.each { tag -> ordered_syri << ( syri.find { it.baseName == "${tag}syri" } ) }
-
-                                            [
-                                                meta,
-                                                ordered_syri,
-                                                ordered_fa,
-                                                "#file\tname\n" + ordered_fa.collect { it.baseName.replace('.plotsr', '') }.join('\n')
-                                            ]
-                                        }
+                                        | map { meta, syri, fastas -> packageSyriOutputsForPlotSR ( meta, syri, fastas, plotsr_assembly_order ) }
 
     PLOTSR(
         ch_plotsr_inputs.map { meta, syri, _fastas, _txt -> [ meta, syri ] },
@@ -429,4 +406,56 @@ def extractBundleTag(filePath) {
         // This branch should not execut unless the upstream logic is flawed
         error "Error: Failed to parse the sequence tag from file name: ${filePath.getName()}"
     }
+}
+
+def packageSyriOutputsForPlotSR(meta, syri, fastas, plotsr_assembly_order) {
+    def fasta_list          = fastas.flatten()
+
+    // Iteration 1: Find available Syri tags from Syri outputs and order Syri.out files by their tags alphabetically or
+    // in accordance with the order listed in `plotsr_assembly_order`
+    def syri_tags           = syri.collect { it.name.replace('syri.out', '').split(/\.on\./).toList() }.flatten().unique()
+    def proposed_order      = plotsr_assembly_order ? plotsr_assembly_order.tokenize(' ') : syri_tags.sort(false) { it.toUpperCase() }
+
+    def available_tags      = []
+    proposed_order.each { tag -> if ( tag in syri_tags ) available_tags << tag }
+
+    if ( proposed_order.size() != available_tags.size() ) {
+        log.warn (
+            "Plotsr combinations involving ${proposed_order - available_tags} will be skipped" +
+            " as Syri failed to find synteny for their combinations."
+        )
+    }
+
+    def ordered_syri_tags   = []
+    available_tags.eachWithIndex { tag, index -> if ( index > 0 ) { ordered_syri_tags << "${tag}.on.${available_tags[index-1]}" } }
+
+    def ordered_syri        = []
+    ordered_syri_tags.each { tag -> ordered_syri << ( syri.find { it.baseName == "${tag}syri" } ) }
+    def first_null_tag_idx  = ordered_syri.findIndexOf { it == null }
+
+    // Remove all Syri files for combinations at and after the first null as Plotsr cannot handle skipped combinations
+    if ( first_null_tag_idx >= 0 ) {
+        ordered_syri        = ordered_syri[0..<first_null_tag_idx]
+        log.warn (
+            "Plotsr combinations from ${ordered_syri_tags} including and all after ${ordered_syri_tags[first_null_tag_idx]} will be skipped" +
+            " as Syri failed to find synteny for it."
+        )
+    }
+
+    // Iteration 2: Find available Syri tags from filtered `ordered_syri` to ensure that only those tags are
+    // retained for which there is at least one Syri file
+    syri_tags               = ordered_syri.collect { it.name.replace('syri.out', '').split(/\.on\./).toList() }.flatten().unique()
+    proposed_order          = plotsr_assembly_order ? plotsr_assembly_order.tokenize(' ') : syri_tags.sort(false) { it.toUpperCase() }
+    available_tags          = []
+    proposed_order.each { tag -> if ( tag in syri_tags ) available_tags << tag }
+
+    def ordered_fa          = []
+    available_tags.each { tag -> ordered_fa << ( fasta_list.find { it.baseName == "${tag}.plotsr" } ) }
+
+    [
+        meta,
+        ordered_syri,
+        ordered_fa,
+        "#file\tname\n" + ordered_fa.collect { it.baseName.replace('.plotsr', '') }.join('\n')
+    ]
 }

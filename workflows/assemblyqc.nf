@@ -63,7 +63,7 @@ workflow ASSEMBLYQC {
     main:
 
     // Versions
-    ch_versions                             = Channel.empty()
+    ch_versions                             = channel.empty()
 
     // Input channels
     ch_target_assemby_branch                = ch_input
@@ -148,7 +148,7 @@ workflow ASSEMBLYQC {
 
     // MODULE: SEQKIT_RMDUP
     ch_seqkit_rmdup_input                   = ! params.check_sequence_duplicates
-                                            ? Channel.empty()
+                                            ? channel.empty()
                                             : ch_falint_assembly
     SEQKIT_RMDUP ( ch_seqkit_rmdup_input )
 
@@ -199,7 +199,7 @@ workflow ASSEMBLYQC {
 
     // MODULE: FCS_FCSADAPTOR
     ch_fcs_adaptor_input                    = params.ncbi_fcs_adaptor_skip
-                                            ? Channel.empty()
+                                            ? channel.empty()
                                             : ch_valid_target_assembly
 
     FCS_FCSADAPTOR(
@@ -244,7 +244,7 @@ workflow ASSEMBLYQC {
 
     // SUBWORKFLOW: NCBI_FCS_GX
     ch_fcs_gx_input_assembly                = params.ncbi_fcs_gx_skip
-                                            ? Channel.empty()
+                                            ? channel.empty()
                                             : ch_valid_target_assembly
                                             | map { meta, fa -> [ meta.id, fa ] }
 
@@ -315,7 +315,7 @@ workflow ASSEMBLYQC {
     // Prepare channels for FETCHNGS
     // HiC
     ch_hic_input_assembly                   = ! params.hic
-                                            ? Channel.empty()
+                                            ? channel.empty()
                                             : ch_clean_assembly
                                             | map { tag, fa -> [ [ id: tag ], fa ] }
 
@@ -330,7 +330,7 @@ workflow ASSEMBLYQC {
 
     // Mapback reads
     ch_mapback_input_assembly               = params.mapback_skip
-                                            ? Channel.empty()
+                                            ? channel.empty()
                                             : ch_clean_assembly
                                             | map { tag, fa -> [ [ id: tag ], fa ] }
 
@@ -481,7 +481,7 @@ workflow ASSEMBLYQC {
 
     // MODULE: GFASTATS
     ch_gfastats_assembly                    = params.gfastats_skip
-                                            ? Channel.empty()
+                                            ? channel.empty()
                                             : ch_clean_assembly
                                             | map { tag, fasta -> [ [ id: tag ], fasta ] }
 
@@ -502,7 +502,7 @@ workflow ASSEMBLYQC {
 
     // SUBWORKFLOW: FASTA_GXF_BUSCO_PLOT
     ch_busco_input_assembly                 = params.busco_skip
-                                            ? Channel.empty()
+                                            ? channel.empty()
                                             : ch_clean_assembly
                                             | map { tag, fasta -> [ [ id: tag ], fasta ] }
 
@@ -551,11 +551,11 @@ workflow ASSEMBLYQC {
 
     // SUBWORKFLOW: FASTA_EXPLORE_SEARCH_PLOT_TIDK
     ch_tidk_inputs                          = params.tidk_skip
-                                            ? Channel.empty()
+                                            ? channel.empty()
                                             : ch_clean_assembly
                                             | map { tag, fa -> [ [ id: tag ], fa ] }
                                             | combine(
-                                                Channel.of(params.tidk_repeat_seq)
+                                                channel.of(params.tidk_repeat_seq)
                                             )
 
     FASTA_EXPLORE_SEARCH_PLOT_TIDK(
@@ -568,7 +568,7 @@ workflow ASSEMBLYQC {
                                             | mix(FASTA_EXPLORE_SEARCH_PLOT_TIDK.out.aposteriori_sequence)
                                             | map { _meta, file -> file }
                                             | mix(
-                                                Channel.of("$params.tidk_repeat_seq")
+                                                channel.of("$params.tidk_repeat_seq")
                                                 | collectFile(name: 'a_priori.sequence', newLine: true)
                                             )
 
@@ -576,7 +576,7 @@ workflow ASSEMBLYQC {
 
     // SUBWORKFLOW: FASTA_LTRRETRIEVER_LAI
     ch_lai_inputs                           = params.lai_skip
-                                            ? Channel.empty()
+                                            ? channel.empty()
                                             : ch_clean_assembly
                                             | join(
                                                 ch_mono_ids
@@ -612,12 +612,12 @@ workflow ASSEMBLYQC {
 
     // SUBWORKFLOW: FASTA_KRAKEN2
     ch_kraken2_input_assembly               = params.kraken2_skip
-                                            ? Channel.empty()
+                                            ? channel.empty()
                                             : ch_clean_assembly
 
     ch_kraken2_db_path                      = params.kraken2_skip
-                                            ? Channel.empty()
-                                            : Channel.of(file(params.kraken2_db_path, checkIfExists:true))
+                                            ? channel.empty()
+                                            : channel.of(file(params.kraken2_db_path, checkIfExists:true))
     FASTA_KRAKEN2(
         ch_kraken2_input_assembly,
         ch_kraken2_db_path
@@ -856,7 +856,7 @@ workflow ASSEMBLYQC {
 
     // MODULE: GFFREAD
     ch_gffread_inputs                       = params.orthofinder_skip
-                                            ? Channel.empty()
+                                            ? channel.empty()
                                             : ch_valid_gff3
                                             | join(
                                                 ch_clean_assembly
@@ -925,7 +925,7 @@ workflow ASSEMBLYQC {
 
     FASTA_BEDTOOLS_MAKEWINDOWS_NUC (
         params.mapback_skip
-        ? Channel.empty()
+        ? channel.empty()
         : ch_mapback_assembly_input
     )
 
@@ -938,7 +938,7 @@ workflow ASSEMBLYQC {
 
     // MODULE: SAMTOOLS_SORT | CLAIR3
     ch_clair3_input                         = params.mapback_variants_skip
-                                            ? Channel.empty()
+                                            ? channel.empty()
                                             : FASTA_FASTQ_WINNOWMAP_COVERAGE.out.bam
                                             | join(
                                                 ch_mapback_assembly_input
@@ -1033,13 +1033,30 @@ workflow ASSEMBLYQC {
                                                 if ( yml ) { yml }
                                             }
 
-    ch_versions_yml                         = softwareVersionsToYAML(ch_versions)
+    ch_topic_versions                       = channel.topic("versions")
+                                            | distinct()
+                                            | branch { entry ->
+                                                versions_file: entry instanceof Path
+                                                versions_tuple: true
+                                            }
+
+    ch_topic_versions_string                = ch_topic_versions.versions_tuple
+                                            | map { process, tool, version ->
+                                                [ process[process.lastIndexOf(':')+1..-1], "  ${tool}: ${version}" ]
+                                            }
+                                            | groupTuple(by:0)
+                                            | map { process, tool_versions ->
+                                                tool_versions.unique().sort()
+                                                "${process}:\n${tool_versions.join('\n')}"
+                                            }
+
+    ch_collated_versions                    = softwareVersionsToYAML(ch_versions.mix(ch_topic_versions.versions_file))
+                                            | mix(ch_topic_versions_string)
                                             | collectFile(
                                                 storeDir: "${params.outdir}/pipeline_info",
                                                 name: 'software_versions.yml',
                                                 sort: true,
-                                                newLine: true,
-                                                cache: false
+                                                newLine: true
                                             )
 
     ch_params_as_json_stored                = ch_params_as_json
@@ -1077,10 +1094,13 @@ workflow ASSEMBLYQC {
         ch_merqury_outputs                  .collect().ifEmpty([]),
         ch_orthofinder_outputs              .collect().ifEmpty([]),
         ch_mapback_outputs                  .collect().ifEmpty([]),
-        ch_versions_yml,
+        ch_collated_versions,
         ch_params_as_json_stored,
         ch_summary_params_as_json_stored
     )
+
+    emit:
+    versions       = ch_versions                 // channel: [ path(versions.yml) ]
 }
 
 /*

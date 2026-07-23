@@ -1,0 +1,130 @@
+nextflow_function {
+
+    name "packageSyriOutputsForPlotSR"
+    script "../../subworkflows/local/fasta_synteny.nf"
+    function "packageSyriOutputsForPlotSR"
+
+    test("FI1 - JAD - TT_2021a") {
+        when {
+            function {
+                """
+                input[0] = [ id: 'plotsr' ]
+                input[1] = [ file('JAD.on.FI1syri.out') ]
+                input[2] = [
+                    [ file('JAD.plotsr.fasta'), file('FI1.plotsr.fasta') ]
+                ]
+                input[3] = 'FI1 JAD TT_2021a'
+                """
+            }
+        }
+
+        then {
+            assert function.success
+            assert function.result
+            assert snapshot (
+                function.result[0],
+                function.result[1].collect { file(it).name },
+                function.result[2].collect { file(it).name },
+                function.result[3],
+            ).match()
+        }
+    }
+
+    test("FI1 - JAD - TT_2021a - null") {
+        when {
+            function {
+                """
+                input[0] = [ id: 'plotsr' ]
+                input[1] = [ file('JAD.on.FI1syri.out') ]
+                input[2] = [
+                    [ file('JAD.plotsr.fasta'), file('FI1.plotsr.fasta') ]
+                ]
+                input[3] = null
+                """
+            }
+        }
+
+        then {
+            assert function.success
+            assert function.result
+            assert snapshot (
+                function.result[0],
+                function.result[1].collect { file(it).name },
+                function.result[2].collect { file(it).name },
+                function.result[3],
+            ).match()
+        }
+    }
+
+    test("gddh13_v1p1 - FujiA - FujiB - PbDS - PcKFL") {
+        when {
+            function {
+                """
+                input[0] = [ id: 'plotsr' ]
+                input[1] = [
+                    file('FujiA.on.gddh13_v1p1syri.out'), file('FujiB.on.FujiAsyri.out'), file('PcKFL.on.PbDSsyri.out')
+                ]
+                input[2] = [
+                    [
+                        file('FujiA.plotsr.fasta'), file('gddh13_v1p1.plotsr.fasta')
+                    ],
+                    [
+                        file('FujiB.plotsr.fasta'), file('FujiA.plotsr.fasta')
+                    ],
+                    [
+                        file('PcKFL.plotsr.fasta'), file('PbDS.plotsr.fasta')
+                    ]
+                ]
+                input[3] = 'gddh13_v1p1 FujiA FujiB PbDS PcKFL'
+                """
+            }
+        }
+
+        then {
+            assert function.success
+            assert function.result
+            assert snapshot (
+                function.result[0],
+                function.result[1].collect { file(it).name },
+                function.result[2].collect { file(it).name },
+                function.result[3],
+            ).match()
+        }
+    }
+
+    test("gddh13_v1p1 - FujiA - FujiB - PbDS - PcKFL - null") {
+        when {
+            function {
+                """
+                input[0] = [ id: 'plotsr' ]
+                input[1] = [
+                    file('FujiA.on.gddh13_v1p1syri.out'), file('FujiB.on.FujiAsyri.out'), file('PcKFL.on.PbDSsyri.out')
+                ]
+                input[2] = [
+                    [
+                        file('FujiA.plotsr.fasta'), file('gddh13_v1p1.plotsr.fasta')
+                    ],
+                    [
+                        file('FujiB.plotsr.fasta'), file('FujiA.plotsr.fasta')
+                    ],
+                    [
+                        file('PcKFL.plotsr.fasta'), file('PbDS.plotsr.fasta')
+                    ]
+                ]
+                input[3] = null
+                """
+            }
+        }
+
+        then {
+            assert function.success
+            assert function.result
+            assert snapshot (
+                function.result[0],
+                function.result[1].collect { file(it).name },
+                function.result[2].collect { file(it).name },
+                function.result[3],
+            ).match()
+        }
+    }
+}
