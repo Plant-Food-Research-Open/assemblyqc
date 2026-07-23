@@ -1,6 +1,6 @@
 tag,fasta,gff3
-FI1,https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/814/445/GCA_003814445.1_ASM381444v1/GCA_003814445.1_ASM381444v1_genomic.fna.gz,https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/814/445/GCA_003814445.1_ASM381444v1/GCA_003814445.1_ASM381444v1_genomic.gff.gz
-TT_2021a,https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/021/950/295/GCA_021950295.1_ASM2195029v1/GCA_021950295.1_ASM2195029v1_genomic.fna.gz,https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/814/445/GCA_003814445.1_ASM381444v1/GCA_003814445.1_ASM381444v1_genomic.gff.gz
+FI1,https://raw.githubusercontent.com/Plant-Food-Research-Open/assemblyqc/refs/heads/ncbi/ftp/tests/ncbi_ftp/GCA_003814445.1_ASM381444v1_genomic.fna.gz,https://raw.githubusercontent.com/Plant-Food-Research-Open/assemblyqc/refs/heads/ncbi/ftp/tests/ncbi_ftp/GCA_003814445.1_ASM381444v1_genomic.gff.gz
+TT_2021a,https://raw.githubusercontent.com/Plant-Food-Research-Open/assemblyqc/refs/heads/ncbi/ftp/tests/ncbi_ftp/GCA_021950295.1_ASM2195029v1_genomic.fna.gz,https://raw.githubusercontent.com/Plant-Food-Research-Open/assemblyqc/refs/heads/ncbi/ftp/tests/ncbi_ftp/GCA_003814445.1_ASM381444v1_genomic.gff.gz
 MISC,https://raw.githubusercontent.com/plant-food-research-open/assemblyqc/5c5aa00a120e18979105aed0aad271ff836e0b02/tests/invalid/invalid.fsa.gz
 DUPSEQ,https://raw.githubusercontent.com/plant-food-research-open/assemblyqc/5c5aa00a120e18979105aed0aad271ff836e0b02/tests/invalid/dupseq.fsa.gz
 ALL_NSs,https://raw.githubusercontent.com/plant-food-research-open/assemblyqc/5c5aa00a120e18979105aed0aad271ff836e0b02/tests/invalid/all_Ns.fa.gz
