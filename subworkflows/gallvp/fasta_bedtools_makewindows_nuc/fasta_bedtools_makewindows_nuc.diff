@@ -3,16 +3,14 @@ Changes in component 'gallvp/fasta_bedtools_makewindows_nuc'
 Changes in 'fasta_bedtools_makewindows_nuc/main.nf':
 --- subworkflows/gallvp/fasta_bedtools_makewindows_nuc/main.nf
 +++ subworkflows/gallvp/fasta_bedtools_makewindows_nuc/main.nf
-@@ -67,6 +67,8 @@
-     ch_versions                     = ch_versions.mix(BEDTOOLS_NUC.out.versions.first())
+@@ -59,5 +59,7 @@
+     )
  
      emit:
 -    nuc                             = BEDTOOLS_NUC.out.bed  // channel: [ val(meta2), bed ]
--    versions                        = ch_versions           // channel: [ versions.yml ]
 +    fai                             = SAMTOOLS_FAIDX.out.fai    // channel: [ val(meta), fai ]
 +    bed                             = ch_intervals_bed          // channel: [ val(meta), bed ]
 +    nuc                             = BEDTOOLS_NUC.out.bed      // channel: [ val(meta2), bed ]
-+    versions                        = ch_versions               // channel: [ versions.yml ]
  }
 
 'subworkflows/gallvp/fasta_bedtools_makewindows_nuc/tests/main.nf.test.snap' is unchanged

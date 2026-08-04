@@ -1,62 +1,65 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
 name: "juiceboxscripts_makeagpfromfasta"
 description: Converts a FASTA file to an AGP file
 keywords:
-  - genomics
-  - fasta
-  - agp
-  - convert
+    - genomics
+    - fasta
+    - agp
+    - convert
 tools:
-  - "juiceboxscripts":
-      description: "A collection of scripts for working with Hi-C data, Juicebox, and
-        other genomic file formats"
-      homepage: "https://github.com/phasegenomics/juicebox_scripts"
-      documentation: "https://github.com/phasegenomics/juicebox_scripts"
-      tool_dev_url: "https://github.com/phasegenomics/juicebox_scripts"
-      licence: ["GNU GPL v3"]
-      identifier: ""
-
+    - "juiceboxscripts":
+          description: "A collection of scripts for working with Hi-C data, Juicebox, and
+              other genomic file formats"
+          homepage: "https://github.com/phasegenomics/juicebox_scripts"
+          documentation: "https://github.com/phasegenomics/juicebox_scripts"
+          tool_dev_url: "https://github.com/phasegenomics/juicebox_scripts"
+          licence:
+              - "GNU GPL v3"
+          identifier: ""
 input:
-  - - meta:
-        type: map
-        description: |
-          Groovy Map containing sample information
-          e.g. `[ id:'sample1' ]`
-
-    - fasta:
-        type: file
-        description: Input fasta file
-        pattern: "*.{fasta,fna}"
-        ontologies:
-          - edam: "http://edamontology.org/format_2572" # BAM
-          - edam: "http://edamontology.org/format_2573" # CRAM
-          - edam: "http://edamontology.org/format_3462" # SAM
-
-output:
-  agp:
     - - meta:
-          type: map
-          description: |
-            Groovy Map containing sample information
-            e.g. `[ id:'sample1' ]`
-      - "*.agp":
-          type: file
-          description: Output agp file
-          pattern: "*.{agp}"
-          ontologies:
-            - edam: "http://edamontology.org/format_2572" # BAM
-            - edam: "http://edamontology.org/format_2573" # CRAM
-            - edam: "http://edamontology.org/format_3462" # SAM
-
-  versions:
-    - versions.yml:
-        type: file
-        description: File containing software versions
-        pattern: "versions.yml"
-
-        ontologies:
-          - edam: http://edamontology.org/format_3750 # YAML
+            type: map
+            description: |
+                Groovy Map containing sample information
+                e.g. `[ id:'sample1' ]`
+      - fasta:
+            type: file
+            description: Input fasta file
+            pattern: "*.{fasta,fna}"
+            ontologies:
+                - edam: "http://edamontology.org/format_2572"
+                - edam: "http://edamontology.org/format_2573"
+                - edam: "http://edamontology.org/format_3462"
+output:
+    agp:
+        - - meta:
+                type: map
+                description: |
+                    Groovy Map containing sample information
+                    e.g. `[ id:'sample1' ]`
+          - "*.agp":
+                type: file
+                description: Output agp file
+                pattern: "*.{agp}"
+                ontologies:
+                    - edam: "http://edamontology.org/format_2572"
+                    - edam: "http://edamontology.org/format_2573"
+                    - edam: "http://edamontology.org/format_3462"
+    versions_js:
+        - versions.yml:
+              type: file
+              description: File containing software versions
+              pattern: "versions.yml"
+              ontologies:
+                  - edam: http://edamontology.org/format_3750
+topics:
+    versions:
+        - versions.yml:
+              type: file
+              description: File containing software versions
+              pattern: "versions.yml"
+              ontologies:
+                  - edam: http://edamontology.org/format_3750
 authors:
-  - "@GallVp"
+    - "@GallVp"
 maintainers:
-  - "@GallVp"
+    - "@GallVp"

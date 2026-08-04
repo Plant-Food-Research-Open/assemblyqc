@@ -2,66 +2,66 @@
 name: "bam_fasta_yahs_juicer_pre_hictk_load"
 description: Takes a BAM and a FASTA to create a HiC file
 keywords:
-  - bam
-  - fasta
-  - hic
+    - bam
+    - fasta
+    - hic
 components:
-  - samtools/faidx
-  - juiceboxscripts/makeagpfromfasta
-  - custom/yahsjuicerpre2tracks
-  - custom/yahsjuicerpre2pairs
-  - hictk/load
-  - hictk/zoomify
-  - yahs/juicerpre
+    - samtools/faidx
+    - juiceboxscripts/makeagpfromfasta
+    - custom/yahsjuicerpre2tracks
+    - custom/yahsjuicerpre2pairs
+    - hictk/load
+    - hictk/zoomify
+    - yahs/juicerpre
 input:
-  - ch_bam:
-      type: file
-      description: |
-        The input channel containing the BAM file
-        Structure: [ val(meta), path(bam) ]
-      pattern: "*.{bam}"
-  - ch_fasta:
-      type: file
-      description: |
-        The input channel containing the FASTA file
-        Structure: [ val(meta2), path(fasta) ]
-      pattern: "*.{fasta}"
-  - val_assembly_mode:
-      type: Boolean
-      description: |
-        Turn on/off assembly mode '-a' for YAHS_JUICERPRE
+    - ch_bam:
+          type: file
+          description: |
+              The input channel containing the BAM file
+              Structure: [ val(meta), path(bam) ]
+          pattern: "*.{bam}"
+    - ch_fasta:
+          type: file
+          description: |
+              The input channel containing the FASTA file
+              Structure: [ val(meta2), path(fasta) ]
+          pattern: "*.{fasta}"
+    - val_assembly_mode:
+          type: Boolean
+          description: |
+              Turn on/off assembly mode '-a' for YAHS_JUICERPRE
 output:
-  - versions:
-      type: file
-      description: |
-        File containing software versions
-        Structure: [ path(versions.yml) ]
-      pattern: "versions.yml"
-  - hic:
-      type: file
-      description: |
-        The output channel containing the HiC file
-        Structure: [ val(meta), path(fasta) ]
-      pattern: "*.{hic}"
-  - assembly:
-      type: file
-      description: |
-        The output channel containing the assembly file
-        Structure: [ val(meta), path(assembly) ]
-      pattern: "*.{assembly}"
-  - bedpe:
-      type: file
-      description: |
-        The output channel containing the assembly bedpe
-        Structure: [ val(meta), path(assembly) ]
-      pattern: "*.{bedpe}"
-  - bed:
-      type: file
-      description: |
-        The output channel containing the assembly bed file
-        Structure: [ val(meta), path(assembly) ]
-      pattern: "*.{bed}"
+    - versions:
+          type: file
+          description: |
+              File containing software versions
+              Structure: [ path(versions.yml) ]
+          pattern: "versions.yml"
+    - hic:
+          type: file
+          description: |
+              The output channel containing the HiC file
+              Structure: [ val(meta), path(fasta) ]
+          pattern: "*.{hic}"
+    - assembly:
+          type: file
+          description: |
+              The output channel containing the assembly file
+              Structure: [ val(meta), path(assembly) ]
+          pattern: "*.{assembly}"
+    - bedpe:
+          type: file
+          description: |
+              The output channel containing the assembly bedpe
+              Structure: [ val(meta), path(assembly) ]
+          pattern: "*.{bedpe}"
+    - bed:
+          type: file
+          description: |
+              The output channel containing the assembly bed file
+              Structure: [ val(meta), path(assembly) ]
+          pattern: "*.{bed}"
 authors:
-  - "@GallVp"
+    - "@GallVp"
 maintainers:
-  - "@GallVp"
+    - "@GallVp"

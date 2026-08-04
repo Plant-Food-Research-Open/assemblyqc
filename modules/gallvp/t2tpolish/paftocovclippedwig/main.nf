@@ -3,7 +3,7 @@ process T2TPOLISH_PAFTOCOVCLIPPEDWIG {
     label 'process_single'
 
     // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
-    container "ghcr.io/gallvp/t2t-polish:sha-f780afa"
+    container "quay.io/gallvp/t2t-polish:sha-f780afa"
 
     input:
     tuple val(meta), path(paf)
@@ -14,7 +14,7 @@ process T2TPOLISH_PAFTOCOVCLIPPEDWIG {
     tuple val(meta), path("*.clip_abs.wig"), emit: clip_abs
     tuple val(meta), path("*.clip_norm.wig"), emit: clip_norm
     tuple val(meta), path("*.cov.wig"), emit: cov
-    path "versions.yml", emit: versions
+    path "versions.yml"           , emit: versions_t2tpolish, topic: versions
 
     when:
     task.ext.when == null || task.ext.when

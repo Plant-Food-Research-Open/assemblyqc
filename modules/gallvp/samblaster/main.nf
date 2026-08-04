@@ -3,16 +3,16 @@ process SAMBLASTER {
     label 'process_low'
 
     conda "${moduleDir}/environment.yml"
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+    container "${ workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/mulled-v2-19fa9f1a5c3966b63a24166365e81da35738c5ab:60ebac4ad9c6530c0d7bf6844f52ec6916e1e0b1-0' :
-        'biocontainers/mulled-v2-19fa9f1a5c3966b63a24166365e81da35738c5ab:60ebac4ad9c6530c0d7bf6844f52ec6916e1e0b1-0' }"
+        'quay.io/biocontainers/mulled-v2-19fa9f1a5c3966b63a24166365e81da35738c5ab:60ebac4ad9c6530c0d7bf6844f52ec6916e1e0b1-0' }"
 
     input:
     tuple val(meta), path(bam)
 
     output:
     tuple val(meta), path("*.bam"), emit: bam
-    path "versions.yml"           , emit: versions
+    path "versions.yml"           , emit: versions_samblaster, topic: versions
 
     when:
     task.ext.when == null || task.ext.when

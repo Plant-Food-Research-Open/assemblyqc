@@ -12,7 +12,11 @@
                     ]
                 ],
                 "1": [
-                    "versions.yml:md5,96b37693dc6798f1f28345f0da558100"
+                    [
+                        "HICTK_LOAD",
+                        "hictk",
+                        "hictk-v2.2.0-bioconda"
+                    ]
                 ],
                 "hic": [
                     [
@@ -23,16 +27,20 @@
                         "test.hic:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
-                "versions": [
-                    "versions.yml:md5,96b37693dc6798f1f28345f0da558100"
+                "versions_hictk": [
+                    [
+                        "HICTK_LOAD",
+                        "hictk",
+                        "hictk-v2.2.0-bioconda"
+                    ]
                 ]
             }
         ],
+        "timestamp": "2026-07-29T13:49:38.529015",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.6"
-        },
-        "timestamp": "2025-08-11T19:28:55.863048"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
     },
     "hongyang - hic": {
         "content": [
@@ -43,11 +51,15 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test.hic:md5,257ba7c7202e68112c26ca5bbc71f601"
+                        "test.hic:md5,751629b0c0ec9358b76b97f9b25b43b3"
                     ]
                 ],
                 "1": [
-                    "versions.yml:md5,96b37693dc6798f1f28345f0da558100"
+                    [
+                        "HICTK_LOAD",
+                        "hictk",
+                        "hictk-v2.2.0-bioconda"
+                    ]
                 ],
                 "hic": [
                     [
@@ -55,18 +67,22 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test.hic:md5,257ba7c7202e68112c26ca5bbc71f601"
+                        "test.hic:md5,751629b0c0ec9358b76b97f9b25b43b3"
                     ]
                 ],
-                "versions": [
-                    "versions.yml:md5,96b37693dc6798f1f28345f0da558100"
+                "versions_hictk": [
+                    [
+                        "HICTK_LOAD",
+                        "hictk",
+                        "hictk-v2.2.0-bioconda"
+                    ]
                 ]
             }
         ],
+        "timestamp": "2026-07-29T13:49:27.202436",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.6"
-        },
-        "timestamp": "2025-08-11T19:23:56.653416"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
     }
 }

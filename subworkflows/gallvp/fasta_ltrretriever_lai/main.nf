@@ -3,7 +3,7 @@ include { CUSTOM_SHORTENFASTAIDS        } from '../../../modules/gallvp/custom/s
 include { LTRHARVEST                    } from '../../../modules/gallvp/ltrharvest/main'
 include { LTRFINDER                     } from '../../../modules/gallvp/ltrfinder/main'
 include { LTRRETRIEVER_LTRRETRIEVER     } from '../../../modules/gallvp/ltrretriever/ltrretriever/main'
-include { CAT_CAT                       } from '../../../modules/gallvp/cat/cat/main'
+include { FIND_CONCATENATE              } from '../../../modules/gallvp/find/concatenate/main'
 include { LTRRETRIEVER_LAI              } from '../../../modules/gallvp/ltrretriever/lai/main'
 include { CUSTOM_RESTOREGFFIDS          } from '../../../modules/gallvp/custom/restoregffids/main'
 
@@ -17,10 +17,9 @@ workflow FASTA_LTRRETRIEVER_LAI {
     skip_lai                        // val(true|false)
 
     main:
-    ch_versions                     = Channel.empty()
 
     // Prapre input channels
-    ch_monoploid_seqs_plain         = ( ch_monoploid_seqs ?: Channel.empty() )
+    ch_monoploid_seqs_plain         = ( ch_monoploid_seqs ?: channel.empty() )
                                     | filter { meta2, seqs -> seqs }
                                     // Cater to channel: [ meta2, [] ]
                                     | map { meta2, seqs -> [ meta2.id, seqs ] }
@@ -30,7 +29,6 @@ workflow FASTA_LTRRETRIEVER_LAI {
     UNMASK_IF_ANY ( ch_fasta )
 
     ch_unmasked_fasta               = UNMASK_IF_ANY.out.fastx
-    ch_versions                     = ch_versions.mix(UNMASK_IF_ANY.out.versions.first())
 
     // MOUDLE: CUSTOM_SHORTENFASTAIDS
     CUSTOM_SHORTENFASTAIDS ( ch_unmasked_fasta )
@@ -54,8 +52,6 @@ workflow FASTA_LTRRETRIEVER_LAI {
                                         )
                                         | map { meta, tsv, fasta -> [ meta, fasta ] }
                                     )
-
-    ch_versions                     = ch_versions.mix(CUSTOM_SHORTENFASTAIDS.out.versions.first())
 
     // collectFile: Map monoploid seqs to short IDs
     ch_short_monoploid_seqs         = ch_short_ids_tsv
@@ -81,23 +77,20 @@ workflow FASTA_LTRRETRIEVER_LAI {
     LTRHARVEST ( ch_short_ids_fasta )
 
     ch_ltrharvest_scn               = LTRHARVEST.out.scn
-    ch_versions                     = ch_versions.mix(LTRHARVEST.out.versions.first())
 
     // MODULE: LTRFINDER
     LTRFINDER ( ch_short_ids_fasta )
 
     ch_ltrfinder_scn                = LTRFINDER.out.scn
-    ch_versions                     = ch_versions.mix(LTRFINDER.out.versions.first())
 
-    // MODULE: CAT_CAT
+    // MODULE: FIND_CONCATENATE
     ch_cat_cat_inputs               = ch_ltrharvest_scn
                                     | join(ch_ltrfinder_scn)
                                     | map { meta, harvested, found -> [ meta, [ harvested, found ] ] }
 
-    CAT_CAT ( ch_cat_cat_inputs )
+    FIND_CONCATENATE ( ch_cat_cat_inputs )
 
-    ch_ltr_candidates               = CAT_CAT.out.file_out
-    ch_versions                     = ch_versions.mix(CAT_CAT.out.versions.first())
+    ch_ltr_candidates               = FIND_CONCATENATE.out.file_out
 
     // MODULE: LTRRETRIEVER_LTRRETRIEVER
     ch_ltrretriever_inputs          = ch_short_ids_fasta.join(ch_ltr_candidates)
@@ -116,7 +109,6 @@ workflow FASTA_LTRRETRIEVER_LAI {
     ch_pass_out                     = ch_pass_list.join(ch_annotation_out)
     ch_annotation_gff               = LTRRETRIEVER_LTRRETRIEVER.out.annotation_gff
     ch_ltrlib                       = LTRRETRIEVER_LTRRETRIEVER.out.ltrlib
-    ch_versions                     = ch_versions.mix(LTRRETRIEVER_LTRRETRIEVER.out.versions.first())
 
     // MODULE: LTRRETRIEVER_LAI
     ch_short_ids_fasta_mono         = ch_short_ids_fasta
@@ -135,7 +127,7 @@ workflow FASTA_LTRRETRIEVER_LAI {
                                     | map { meta, fasta, seqs -> [ meta, fasta, seqs ?: [] ] }
 
     ch_lai_inputs                   = skip_lai
-                                    ? Channel.empty()
+                                    ? channel.empty()
                                     : ch_short_ids_fasta_mono
                                     | join(
                                         ch_pass_out
@@ -152,7 +144,6 @@ workflow FASTA_LTRRETRIEVER_LAI {
 
     ch_lai_log                      = LTRRETRIEVER_LAI.out.log
     ch_lai_out                      = LTRRETRIEVER_LAI.out.lai_out
-    ch_versions                     = ch_versions.mix(LTRRETRIEVER_LAI.out.versions.first())
 
     // MODULE: CUSTOM_RESTOREGFFIDS
     ch_gff_tsv_branch               = ch_annotation_gff.join(ch_short_ids_tsv)
@@ -170,15 +161,12 @@ workflow FASTA_LTRRETRIEVER_LAI {
                                     | map { meta, gff, tsv -> [ meta, gff ] }
                                     | mix(CUSTOM_RESTOREGFFIDS.out.restored_ids_gff3)
 
-    ch_versions                     = ch_versions.mix(CUSTOM_RESTOREGFFIDS.out.versions.first())
-
     emit:
     ltrretriever_log                = ch_ltrretriever_log   // channel: [ val(meta), fasta ]
     ltrlib                          = ch_ltrlib             // channel: [ val(meta), fasta ]
     annotation_gff                  = ch_restored_gff       // channel: [ val(meta), gff ]
     lai_log                         = ch_lai_log            // channel: [ val(meta), log ]
     lai_out                         = ch_lai_out            // channel: [ val(meta), out ]
-    versions                        = ch_versions           // channel: [ versions.yml ]
 }
 
 

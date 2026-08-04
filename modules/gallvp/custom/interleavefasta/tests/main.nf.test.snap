@@ -21,16 +21,16 @@
                         "test.fasta:md5,3a3fbf038c4084fe2a6ca6881b040fa0"
                     ]
                 ],
-                "versions": [
+                "versions_python": [
                     "versions.yml:md5,d068b70bd89339c1cf161f53f987eb6b"
                 ]
             }
         ],
+        "timestamp": "2026-07-27T11:50:01.038033",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.4"
-        },
-        "timestamp": "2025-07-01T12:16:57.180531"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
     },
     "interleavefasta - empty input": {
         "content": [
@@ -54,16 +54,16 @@
                         "test.fasta:md5,0ede8d9587873eb05c2c2b17f63e31f4"
                     ]
                 ],
-                "versions": [
+                "versions_python": [
                     "versions.yml:md5,d068b70bd89339c1cf161f53f987eb6b"
                 ]
             }
         ],
+        "timestamp": "2026-07-27T11:50:05.177125",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.4"
-        },
-        "timestamp": "2025-07-01T12:18:13.300382"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
     },
     "interleavefasta - id collision triggers prefix": {
         "content": [
@@ -87,16 +87,16 @@
                         "test.fasta:md5,ef386ed4c8f37fda8ded4124250e2dd5"
                     ]
                 ],
-                "versions": [
+                "versions_python": [
                     "versions.yml:md5,d068b70bd89339c1cf161f53f987eb6b"
                 ]
             }
         ],
+        "timestamp": "2026-07-27T11:50:09.278338",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.4"
-        },
-        "timestamp": "2025-07-01T12:19:20.624811"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
     },
     "interleavefasta - five files": {
         "content": [
@@ -120,15 +120,15 @@
                         "test.fasta:md5,351155e045aaf4e93cdf2481b9392047"
                     ]
                 ],
-                "versions": [
+                "versions_python": [
                     "versions.yml:md5,d068b70bd89339c1cf161f53f987eb6b"
                 ]
             }
         ],
+        "timestamp": "2026-07-27T11:50:13.888061",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.6"
-        },
-        "timestamp": "2025-07-10T14:12:56.718248"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
     }
 }

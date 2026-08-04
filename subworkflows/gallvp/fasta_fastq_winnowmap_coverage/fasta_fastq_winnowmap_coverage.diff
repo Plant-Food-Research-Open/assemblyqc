@@ -3,13 +3,12 @@ Changes in component 'gallvp/fasta_fastq_winnowmap_coverage'
 Changes in 'fasta_fastq_winnowmap_coverage/main.nf':
 --- subworkflows/gallvp/fasta_fastq_winnowmap_coverage/main.nf
 +++ subworkflows/gallvp/fasta_fastq_winnowmap_coverage/main.nf
-@@ -72,6 +72,7 @@
+@@ -63,5 +63,6 @@
  
  
      emit:
 +    bam                                 = WINNOWMAP.out.bam                     // channel: [ val(meta), bam ]
      wig                                 = T2TPOLISH_PAFTOCOVCLIPPEDWIG.out.cov  // channel: [ val(meta), wig ]
-     versions                            = ch_versions                           // channel: [ versions.yml ]
  }
 
 'subworkflows/gallvp/fasta_fastq_winnowmap_coverage/tests/main.nf.test.snap' is unchanged

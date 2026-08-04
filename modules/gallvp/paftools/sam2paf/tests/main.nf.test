@@ -16,9 +16,10 @@ nextflow_process {
             process {
                 """
                 input[0] = [
-                    [id:'test'],
-                    file(params.modules_testdata_base_path + 'genomics/homo_sapiens/scramble/test.bam', checkIfExists: true)
-                ]
+				    [id:'test'],
+				    file(params.modules_testdata_base_path + 'genomics/homo_sapiens/scramble/test.bam', checkIfExists: true)
+				]
+
                 """
             }
         }
@@ -37,9 +38,9 @@ nextflow_process {
             process {
                 """
                 input[0] = [
-                    [id:'test'],
-                    file(params.modules_testdata_base_path + 'genomics/homo_sapiens/scramble/test.bam', checkIfExists: true)
-                ]
+				    [id:'test'],
+				    file(params.modules_testdata_base_path + 'genomics/homo_sapiens/scramble/test.bam', checkIfExists: true)
+				]
 
                 """
             }

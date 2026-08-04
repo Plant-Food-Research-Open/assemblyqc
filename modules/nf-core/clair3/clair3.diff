@@ -1,43 +1,37 @@
 Changes in component 'nf-core/clair3'
-Changes in 'clair3/environment.yml':
---- modules/nf-core/clair3/environment.yml
-+++ modules/nf-core/clair3/environment.yml
-@@ -4,4 +4,4 @@
-   - conda-forge
-   - bioconda
- dependencies:
--  - "bioconda::clair3=1.0.10"
-+  - "bioconda::clair3=1.2.0"
-
+'modules/nf-core/clair3/environment.yml' is unchanged
 'modules/nf-core/clair3/meta.yml' is unchanged
 Changes in 'clair3/main.nf':
 --- modules/nf-core/clair3/main.nf
 +++ modules/nf-core/clair3/main.nf
-@@ -4,8 +4,8 @@
- 
-     conda "${moduleDir}/environment.yml"
-     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
--        'https://depot.galaxyproject.org/singularity/clair3:1.0.10--py39hd649744_1':
--        'biocontainers/clair3:1.0.10--py39hd649744_1' }"
-+        'https://depot.galaxyproject.org/singularity/clair3:1.2.0--py310h779eee5_0':
-+        'biocontainers/clair3:1.2.0--py310h779eee5_0' }"
- 
-     input:
-     tuple val(meta), path(bam), path(bai), val(packaged_model), path(user_model), val(platform)
-@@ -13,8 +13,10 @@
+@@ -13,12 +13,14 @@
      tuple val(meta3), path(index)
  
      output:
--    tuple val(meta), path("*merge_output.vcf.gz"),            emit: vcf
--    tuple val(meta), path("*merge_output.vcf.gz.tbi"),        emit: tbi
-+    tuple val(meta), path("*merge_output.vcf.gz"),            emit: vcf, optional: true
-+    tuple val(meta), path("*merge_output.vcf.gz.tbi"),        emit: tbi, optional: true
-+    tuple val(meta), path("*pileup.vcf.gz"),                  emit: pileup_vcf, optional: true
-+    tuple val(meta), path("*pileup.vcf.gz.tbi"),              emit: pileup_tbi, optional: true
-     tuple val(meta), path("*phased_merge_output.vcf.gz"),     emit: phased_vcf, optional: true
-     tuple val(meta), path("*phased_merge_output.vcf.gz.tbi"), emit: phased_tbi, optional: true
-     path "versions.yml",                                      emit: versions
+-    tuple val(meta), path("${prefix}merge_output.vcf.gz"),            emit: vcf
+-    tuple val(meta), path("${prefix}merge_output.vcf.gz.tbi"),        emit: tbi
++    tuple val(meta), path("${prefix}merge_output.vcf.gz"),            emit: vcf, optional: true
++    tuple val(meta), path("${prefix}merge_output.vcf.gz.tbi"),        emit: tbi, optional: true
+     tuple val(meta), path("${prefix}phased_merge_output.vcf.gz"),     emit: phased_vcf, optional: true
+     tuple val(meta), path("${prefix}phased_merge_output.vcf.gz.tbi"), emit: phased_tbi, optional: true
+     tuple val(meta), path("${prefix}merge_output.gvcf.gz"),           emit: gvcf, optional: true
+     tuple val(meta), path("${prefix}merge_output.gvcf.gz.tbi"),       emit: gtbi, optional: true
++    tuple val(meta), path("${prefix}pileup.vcf.gz"),                  emit: pileup_vcf, optional: true
++    tuple val(meta), path("${prefix}pileup.vcf.gz.tbi"),              emit: pileup_tbi, optional: true
+     tuple val("${task.process}"), val('clair3'), eval('run_clair3.sh --version | sed "s/^Clair3 v//"'), emit: versions_clair3, topic: versions
+ 
+ 
+@@ -57,6 +59,8 @@
+             merge_output.vcf.gz.tbi \
+             phased_merge_output.vcf.gz \
+             phased_merge_output.vcf.gz.tbi \
++            pileup.vcf.gz \
++            pileup.vcf.gz.tbi \
+             merge_output.gvcf.gz \
+             merge_output.gvcf.gz.tbi; do
+     if [ -e "\$file" ]; then
 
 'modules/nf-core/clair3/tests/main.nf.test.snap' is unchanged
+'modules/nf-core/clair3/tests/nextflow.config' is unchanged
 'modules/nf-core/clair3/tests/main.nf.test' is unchanged
 ************************************************************

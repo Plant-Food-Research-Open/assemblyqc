@@ -20,17 +20,16 @@ workflow FQ2HIC {
     hic_assembly_mode               // val: true|false
 
     main:
-    ch_versions                     = Channel.empty()
+    ch_versions                     = channel.empty()
 
     // SUBWORKFLOW: FASTQ_FASTQC_UMITOOLS_FASTP
     FASTQ_FASTQC_UMITOOLS_FASTP(
-        reads,
+        reads.map { meta, fq -> [ meta, fq, [] ] }, // [] adapter fasta
         hic_skip_fastqc,
         false,                      // with_umi
         true,                       // skip_umi_extract
         0,                          // umi_discard_read
         hic_skip_fastp,
-        [],                         // adapter_fasta
         true,                       // save_trimmed_fail
         false,                      // save_merged
         1                           // min_trimmed_reads
@@ -38,7 +37,6 @@ workflow FQ2HIC {
 
     ch_fastp_log                    = FASTQ_FASTQC_UMITOOLS_FASTP.out.trim_log
     ch_trim_reads                   = FASTQ_FASTQC_UMITOOLS_FASTP.out.reads
-    ch_versions                     = ch_versions.mix(FASTQ_FASTQC_UMITOOLS_FASTP.out.versions)
 
     // SUBWORKFLOW: FASTA_SEQKIT_REFSORT
     FASTA_SEQKIT_REFSORT (
@@ -49,7 +47,6 @@ workflow FQ2HIC {
     )
 
     ch_sorted_ref                   = FASTA_SEQKIT_REFSORT.out.fasta
-    ch_versions                     = ch_versions.mix(FASTA_SEQKIT_REFSORT.out.versions)
 
     // SUBWORKFLOW: FASTQ_BWA_MEM_SAMBLASTER
     val_sort_bam = true
@@ -60,7 +57,6 @@ workflow FQ2HIC {
     )
 
     ch_bam                          = FASTQ_BWA_MEM_SAMBLASTER.out.bam
-    ch_versions                     = ch_versions.mix(FASTQ_BWA_MEM_SAMBLASTER.out.versions)
 
     // MODULE: HICQC
     ch_bam_and_ref                  = ch_bam
@@ -75,7 +71,6 @@ workflow FQ2HIC {
     HICQC ( ch_bam_and_ref.map { meta3, bam, _fa -> [ meta3, bam ] } )
 
     ch_hicqc_pdf                    = HICQC.out.pdf
-    ch_versions                     = ch_versions.mix(HICQC.out.versions)
 
     // SUBWORKFLOW: BAM_FASTA_YAHS_JUICER_PRE_HICTK_LOAD
     BAM_FASTA_YAHS_JUICER_PRE_HICTK_LOAD (
@@ -85,7 +80,6 @@ workflow FQ2HIC {
     )
 
     ch_hic                          = BAM_FASTA_YAHS_JUICER_PRE_HICTK_LOAD.out.hic
-    ch_versions                     = ch_versions.mix(BAM_FASTA_YAHS_JUICER_PRE_HICTK_LOAD.out.versions)
 
     // MODULE: HIC2HTML
     HIC2HTML (

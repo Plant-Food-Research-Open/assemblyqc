@@ -37,16 +37,16 @@
                         "test.short.ids.tsv:md5,8762f2bffbdff75c2812bad72ba52bba"
                     ]
                 ],
-                "versions": [
+                "versions_python": [
                     "versions.yml:md5,e5704a53ebea373dac3a93ae800d48ba"
                 ]
             }
         ],
+        "timestamp": "2026-07-28T14:41:33.24249",
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "23.10.1"
-        },
-        "timestamp": "2023-12-07T13:33:05.523745"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
     },
     "stub": {
         "content": [
@@ -76,16 +76,16 @@
                         "test.short.ids.tsv:md5,fcf920d9a7b57a1e3c29a9e88673330f"
                     ]
                 ],
-                "versions": [
+                "versions_python": [
                     "versions.yml:md5,e5704a53ebea373dac3a93ae800d48ba"
                 ]
             }
         ],
+        "timestamp": "2026-07-28T14:41:42.066227",
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "24.04.2"
-        },
-        "timestamp": "2024-06-04T13:58:30.161542"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
     },
     "homo_sapiens-genome_fasta-no_change": {
         "content": [
@@ -115,16 +115,16 @@
                         "test.short.ids.tsv:md5,642382addc4beba37088b1ebe09d38cf"
                     ]
                 ],
-                "versions": [
+                "versions_python": [
                     "versions.yml:md5,e5704a53ebea373dac3a93ae800d48ba"
                 ]
             }
         ],
+        "timestamp": "2026-07-28T14:41:07.404919",
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "24.04.1"
-        },
-        "timestamp": "2024-06-02T20:54:17.945233"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
     },
     "homo_sapiens-genome2_fasta-length_change": {
         "content": [
@@ -164,16 +164,16 @@
                         "test.short.ids.tsv:md5,99c0f2a529cb595b2d8530024ed2880e"
                     ]
                 ],
-                "versions": [
+                "versions_python": [
                     "versions.yml:md5,e5704a53ebea373dac3a93ae800d48ba"
                 ]
             }
         ],
+        "timestamp": "2026-07-28T14:41:24.735848",
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "23.10.1"
-        },
-        "timestamp": "2023-12-07T13:33:01.924483"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
     },
     "sarscov2-genome_fasta-pattern_change": {
         "content": [
@@ -213,15 +213,15 @@
                         "test.short.ids.tsv:md5,d7a2af88e8549586e5616bff6a88bd71"
                     ]
                 ],
-                "versions": [
+                "versions_python": [
                     "versions.yml:md5,e5704a53ebea373dac3a93ae800d48ba"
                 ]
             }
         ],
+        "timestamp": "2026-07-28T14:41:14.587936",
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "23.10.1"
-        },
-        "timestamp": "2023-12-07T13:32:58.12885"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
     }
 }

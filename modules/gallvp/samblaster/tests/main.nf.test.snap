@@ -23,16 +23,16 @@
                         "test.bam:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
-                "versions": [
+                "versions_samblaster": [
                     "versions.yml:md5,8a70467f2dfc2e0d8e81787223d2fc77"
                 ]
             }
         ],
+        "timestamp": "2026-07-29T08:58:38.908328",
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "23.10.1"
-        },
-        "timestamp": "2024-02-26T14:04:42.510824"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
     },
     "homo_sapiens-test_paired_end_umi_unsorted_bam": {
         "content": [
@@ -42,10 +42,10 @@
                 "versions.yml:md5,8a70467f2dfc2e0d8e81787223d2fc77"
             ]
         ],
+        "timestamp": "2026-07-29T09:00:46.169714",
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "24.04.3"
-        },
-        "timestamp": "2024-07-29T20:15:04.264504"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
     }
 }

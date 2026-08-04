@@ -1,55 +1,63 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
 name: "custom_yahsjuicerpre2pairs"
 description: Converts a YaHS juicer pre TSV file into a pairs file
 keywords:
-  - genomics
-  - YaHS
-  - hic
-  - pairs
+    - genomics
+    - YaHS
+    - hic
+    - pairs
 tools:
-  - "biopython":
-      description: |
-        Biopython is a set of freely available tools for biological computation written in Python by
-        an international team of developers.
-      homepage: "https://biopython.org"
-      documentation: "https://biopython.org/wiki/Documentation"
-      tool_dev_url: "https://github.com/biopython/biopython"
-      doi: "10.1093/bioinformatics/btp163"
-      licence: ["MIT"]
-      identifier: ""
-input:
-  - - meta:
-        type: map
-        description: |
-          Groovy Map containing sample information
-          e.g. `[ id:'test' ]`
-    - tsv:
-        type: file
-        description: Input TSV
-        ontologies: []
-  - sizes:
-      type: file
-      description: TSV with contig IDs and sizes
-      ontologies: []
-output:
-  pairs:
-    - - meta:
-          type: map
+    - "biopython":
           description: |
-            Groovy Map containing sample information
-            e.g. `[ id:'test' ]`
-      - "*.pairs":
+              Biopython is a set of freely available tools for biological computation written in Python by
+              an international team of developers.
+          homepage: "https://biopython.org"
+          documentation: "https://biopython.org/wiki/Documentation"
+          tool_dev_url: "https://github.com/biopython/biopython"
+          doi: "10.1093/bioinformatics/btp163"
+          licence:
+              - "MIT"
+          identifier: ""
+input:
+    - - meta:
+            type: map
+            description: |
+                Groovy Map containing sample information
+                e.g. `[ id:'test' ]`
+      - tsv:
+            type: file
+            description: Input TSV
+            ontologies: []
+    - sizes:
           type: file
-          description: Output pairs file
+          description: TSV with contig IDs and sizes
           ontologies: []
-  versions:
-    - versions.yml:
-        type: file
-        description: File containing software versions
-        pattern: "versions.yml"
-        ontologies:
-          - edam: http://edamontology.org/format_3750 # YAML
+output:
+    pairs:
+        - - meta:
+                type: map
+                description: |
+                    Groovy Map containing sample information
+                    e.g. `[ id:'test' ]`
+          - "*.pairs":
+                type: file
+                description: Output pairs file
+                ontologies: []
+    versions_python:
+        - versions.yml:
+              type: file
+              description: File containing software versions
+              pattern: "versions.yml"
+              ontologies:
+                  - edam: http://edamontology.org/format_3750
+topics:
+    versions:
+        - versions.yml:
+              type: file
+              description: File containing software versions
+              pattern: "versions.yml"
+              ontologies:
+                  - edam: http://edamontology.org/format_3750
 authors:
-  - "@GallVp"
+    - "@GallVp"
 maintainers:
-  - "@GallVp"
+    - "@GallVp"

@@ -41,16 +41,16 @@
                         "test.fasta:md5,bcc14495671d77033b36be11fc20652c"
                     ]
                 ],
-                "versions": [
+                "versions_haphic": [
                     "versions.yml:md5,7a386c0c393a7ffdbc237e422e32bd59"
                 ]
             }
         ],
+        "timestamp": "2026-07-28T15:49:49.15378",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.2"
-        },
-        "timestamp": "2025-06-19T10:01:30.647079"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
     },
     "hongyang - hic - fasta": {
         "content": [
@@ -82,15 +82,15 @@
                 "fasta": [
                     
                 ],
-                "versions": [
+                "versions_haphic": [
                     "versions.yml:md5,7a386c0c393a7ffdbc237e422e32bd59"
                 ]
             }
         ],
+        "timestamp": "2026-07-28T15:49:35.291742",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.2"
-        },
-        "timestamp": "2025-06-19T10:01:20.254858"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
     }
 }

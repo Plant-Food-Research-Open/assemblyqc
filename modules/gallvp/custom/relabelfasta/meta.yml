@@ -1,63 +1,71 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
 name: "custom_relabelfasta"
 description: |
-  Relabels IDs in a fasta file based on a TSV label list
-  consisting of original (first column) and new IDs (second column)
+    Relabels IDs in a fasta file based on a TSV label list
+    consisting of original (first column) and new IDs (second column)
 keywords:
-  - genomics
-  - fasta
-  - relabel
-  - id
-  - rename
-  - sequence
+    - genomics
+    - fasta
+    - relabel
+    - id
+    - rename
+    - sequence
 tools:
-  - "python":
-      description: |
-        Python is a programming language that lets you work quickly
-        and integrate systems more effectively
-      homepage: "https://www.python.org"
-      documentation: "https://docs.python.org/3/"
-      tool_dev_url: "https://github.com/python/cpython"
-      licence: ["MIT"]
-      identifier: ""
-input:
-  - - meta:
-        type: map
-        description: |
-          Groovy Map containing sample information
-          e.g. `[ id:'sample1' ]`
-    - fasta:
-        type: file
-        description: Input fasta file
-        pattern: "*.fasta"
-        ontologies: []
-  - labels:
-      type: file
-      description: |
-        A TSV file with original (first column) and new ids (second column)
-      pattern: "*.tsv"
-      ontologies:
-        - edam: http://edamontology.org/format_3475 # TSV
-output:
-  fasta:
-    - - meta:
-          type: map
+    - "python":
           description: |
-            Groovy Map containing sample information
-            e.g. `[ id:'sample1' ]`
-      - "*.fasta":
+              Python is a programming language that lets you work quickly
+              and integrate systems more effectively
+          homepage: "https://www.python.org"
+          documentation: "https://docs.python.org/3/"
+          tool_dev_url: "https://github.com/python/cpython"
+          licence:
+              - "MIT"
+          identifier: ""
+input:
+    - - meta:
+            type: map
+            description: |
+                Groovy Map containing sample information
+                e.g. `[ id:'sample1' ]`
+      - fasta:
+            type: file
+            description: Input fasta file
+            pattern: "*.fasta"
+            ontologies: []
+    - labels:
           type: file
-          description: Output fasta file
-          pattern: "*.fasta"
-          ontologies: []
-  versions:
-    - versions.yml:
-        type: file
-        description: File containing software versions
-        pattern: "versions.yml"
-        ontologies:
-          - edam: http://edamontology.org/format_3750 # YAML
+          description: |
+              A TSV file with original (first column) and new ids (second column)
+          pattern: "*.tsv"
+          ontologies:
+              - edam: http://edamontology.org/format_3475
+output:
+    fasta:
+        - - meta:
+                type: map
+                description: |
+                    Groovy Map containing sample information
+                    e.g. `[ id:'sample1' ]`
+          - "*.fasta":
+                type: file
+                description: Output fasta file
+                pattern: "*.fasta"
+                ontologies: []
+    versions_python:
+        - versions.yml:
+              type: file
+              description: File containing software versions
+              pattern: "versions.yml"
+              ontologies:
+                  - edam: http://edamontology.org/format_3750
+topics:
+    versions:
+        - versions.yml:
+              type: file
+              description: File containing software versions
+              pattern: "versions.yml"
+              ontologies:
+                  - edam: http://edamontology.org/format_3750
 authors:
-  - "@GallVp"
+    - "@GallVp"
 maintainers:
-  - "@GallVp"
+    - "@GallVp"

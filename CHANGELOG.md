@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v3.1.0dev - [23-July-2026]
+## v3.1.0dev - [04-Aug-2026]
 
 ### `Added`
 
@@ -13,6 +13,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 1. Nextflow!>=24.10.5
 2. nf-schema@2.5.1
+
+### `Tool Updates`
+
+| Tool          | Old Version        | New Version  |
+| ------------- | ------------------ | ------------ |
+| htslib        | 1.21               | 1.24         |
+| samtools      | 1.21               | 1.24         |
+| pigz          | 2.6                | 2.8          |
+| python        | 3.10.2             | 3.9.18       |
+| hictk         | 2.1.4              | 2.2.0        |
+| ltr_retriever | 2.9.9              | 3.0.5        |
+| minimap2      | 2.29               | 2.30         |
+| seqkit        | 2.9.0              | 2.13.0       |
+| busco         | 5.8.3              | 6.1.0        |
+| clair3        | 1.2.0              | v2.0.0       |
+| sra-tools     | 3.1.0              | 3.2.1        |
+| fastp         | 0.24.0             | 1.3.6        |
+| gfastats      | 1.3.10             | 1.3.11       |
+| orthofinder   | 2.5.5              | 3.1.3        |
+| curl          | 8.5.0              | 8.14.1       |
+| tidk          | 0.2.41             | 0.2.7        |
+| umi_tools     | 1.1.5              | 1.1.6        |
+| bwa           | 0.7.18-r1243-dirty | 0.7.19-r1273 |
 
 ## v3.0.1 - [14-Oct-2025]
 

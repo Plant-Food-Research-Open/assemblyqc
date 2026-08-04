@@ -29,8 +29,7 @@ nextflow_process {
                 { assert snapshot(
                     file(process.out.skipped_trims[0][1]).name,
                     process.out.adaptor_report,
-                    process.out.pipeline_args,
-                    process.out.versions,
+                    process.out.pipeline_args
                     ).match()
                 },
                 { assert path(process.out.log[0][1]).text.contains('[step all_cleaned_fasta] completed success') }

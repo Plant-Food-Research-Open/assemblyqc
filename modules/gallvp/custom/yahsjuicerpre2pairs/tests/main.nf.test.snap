@@ -23,16 +23,16 @@
                         "test.pairs:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
-                "versions": [
+                "versions_python": [
                     "versions.yml:md5,97550bee345676889335aa7c6e2a550b"
                 ]
             }
         ],
+        "timestamp": "2026-07-28T15:45:34.856497",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.6"
-        },
-        "timestamp": "2025-08-11T11:25:00.293571"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
     },
     "hongyang - hic": {
         "content": [
@@ -58,15 +58,15 @@
                         "test.pairs:md5,fdd4d0b11d1655f8fd99539cd31592c6"
                     ]
                 ],
-                "versions": [
+                "versions_python": [
                     "versions.yml:md5,97550bee345676889335aa7c6e2a550b"
                 ]
             }
         ],
+        "timestamp": "2026-07-28T15:45:24.168913",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.6"
-        },
-        "timestamp": "2025-08-11T11:08:15.931302"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
     }
 }
