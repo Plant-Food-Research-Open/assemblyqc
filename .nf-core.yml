@@ -33,7 +33,7 @@ lint:
     - tests/default.nf.test
     - tests/nextflow.config
   template_strings: false
-nf_core_version: 4.0.2
+nf_core_version: 4.1.0
 repository_type: pipeline
 template:
   author: Usman Rashid, Ken Smith, Ross Crowhurst, Chen Wu, Marcus Davy
@@ -48,4 +48,4 @@ template:
     - igenomes
     - multiqc
     - fastqc
-  version: 3.1.0
+  version: 3.1.0dev
