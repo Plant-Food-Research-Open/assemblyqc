@@ -79,7 +79,7 @@
                     "HY.hic:md5,0799e4d205fe7fdc52dbd69f794b4b2c",
                     "HY.html:md5,740524f1f7418441c520b1f41aaf7961",
                     "HY.scale:md5,b026324c6904b2a9cb4b88d6d61c81d1",
-                    "HYh1h2_Chr01_6000000_6015000.R.fastp.json:md5,1490e3926c85c5adfb8b89f27282f041"
+                    "HYh1h2_Chr01_6000000_6015000.R.fastp.json:md5,f4a551a73cf1cd0fb03d403aad8d48ad"
                 ],
                 "stable names": [
                     "assemblathon_stats",
@@ -105,7 +105,7 @@
                 ]
             }
         ],
-        "timestamp": "2026-08-04T10:02:34.809659",
+        "timestamp": "2026-08-04T18:09:20.145905",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.6"
@@ -183,7 +183,7 @@
                     "HY_stats.csv:md5,fc61def49f669e7b3f885bf2555bcd46",
                     "HY.hic:md5,01cc315606b8f2c31a50e91a469eb8cf",
                     "HY.html:md5,af19faee0793bb615a2830166743cb91",
-                    "HYh1h2_Chr01_6000000_6015000.R.fastp.json:md5,1490e3926c85c5adfb8b89f27282f041"
+                    "HYh1h2_Chr01_6000000_6015000.R.fastp.json:md5,f4a551a73cf1cd0fb03d403aad8d48ad"
                 ],
                 "stable names": [
                     "assemblathon_stats",
@@ -205,7 +205,7 @@
                 ]
             }
         ],
-        "timestamp": "2026-08-04T10:01:56.071339",
+        "timestamp": "2026-08-04T18:08:42.420094",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.6"

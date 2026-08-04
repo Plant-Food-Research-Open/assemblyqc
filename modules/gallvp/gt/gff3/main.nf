@@ -48,7 +48,5 @@ process GT_GFF3 {
 
     """
     touch ${prefix}.gt.gff3
-    touch ${prefix}.error.log
-    touch gt_gff3.stderr
     """
 }

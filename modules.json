@@ -63,7 +63,8 @@
                     "gt/gff3": {
                         "branch": "main",
                         "git_sha": "5a0a31a8270e5430a7b8a885c6f905af66eb81d2",
-                        "installed_by": ["gff3_gt_gff3_gff3validator_stat", "modules"]
+                        "installed_by": ["gff3_gt_gff3_gff3validator_stat", "modules"],
+                        "patch": "modules/gallvp/gt/gff3/gt-gff3.diff"
                     },
                     "gt/gff3validator": {
                         "branch": "main",
