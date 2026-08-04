@@ -23,16 +23,16 @@
                         "test.agp:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
-                "versions": [
+                "versions_js": [
                     "versions.yml:md5,999a69e2270bed19914bb031bef66e12"
                 ]
             }
         ],
+        "timestamp": "2026-07-29T08:23:14.095229",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "24.10.6"
-        },
-        "timestamp": "2025-05-19T13:58:56.593979"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
     },
     "sarscov2 - fasta": {
         "content": [
@@ -58,15 +58,15 @@
                         "test.agp:md5,bb14c5d35ad337501d6a1aa51d4688cb"
                     ]
                 ],
-                "versions": [
+                "versions_js": [
                     "versions.yml:md5,999a69e2270bed19914bb031bef66e12"
                 ]
             }
         ],
+        "timestamp": "2026-07-29T08:23:08.457837",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "24.10.6"
-        },
-        "timestamp": "2025-05-19T13:58:52.749741"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
     }
 }

@@ -21,7 +21,7 @@ nextflow_workflow {
             script "../../../../modules/gallvp/gunzip/main.nf"
             process {
                 """
-                input[0] = Channel.of(
+                input[0] = channel.of(
                     [
                         [ id: 'query' ],
                         file('https://github.com/Plant-Food-Research-Open/assemblyqc/raw/4f9fba392cf7212d61c6245fd72339e09164ce44/tests/hic/testdata/HYh1h2_Chr01_6000000_6015000.fasta.gz')

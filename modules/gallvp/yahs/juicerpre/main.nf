@@ -5,7 +5,7 @@ process YAHS_JUICERPRE {
     conda "${moduleDir}/environment.yml"
     container "${workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container
         ? 'https://depot.galaxyproject.org/singularity/yahs:1.2.2--h577a1d6_1'
-        : 'biocontainers/yahs:1.2.2--h577a1d6_1'}"
+        : 'quay.io/biocontainers/yahs:1.2.2--h577a1d6_1'}"
 
     input:
     tuple val(meta), path(bam_or_bin)
@@ -19,7 +19,7 @@ process YAHS_JUICERPRE {
     tuple val(meta), path("*.liftover.agp"), emit: liftover_agp, optional: true
     tuple val(meta), path("*.sizes"), emit: sizes, optional: true
     tuple val(meta), path("*.scale"), emit: scale, optional: true
-    path "versions.yml", emit: versions
+    tuple val("${task.process}"), val('yahs'), eval("yahs --version"), topic: versions, emit: versions_yahs
 
     when:
     task.ext.when == null || task.ext.when
@@ -40,11 +40,6 @@ process YAHS_JUICERPRE {
 
     ${sizes_cmd}
     ${scale_cmd}
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        yahs: \$(yahs --version)
-    END_VERSIONS
     """
 
     stub:
@@ -63,10 +58,5 @@ process YAHS_JUICERPRE {
     ${touch_liftover_agp}
     ${touch_sizes}
     ${touch_scale}
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        yahs: \$(yahs --version)
-    END_VERSIONS
     """
 }

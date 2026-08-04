@@ -8,7 +8,7 @@ include { softwareVersionsToYAML            } from '../subworkflows/nf-core/util
 
 include { GUNZIP as GUNZIP_FASTA            } from '../modules/nf-core/gunzip/main'
 include { GUNZIP as GUNZIP_GFF3             } from '../modules/nf-core/gunzip/main'
-include { FALINT                            } from '../modules/gallvp/falint/main'
+include { FALINT                            } from '../modules/nf-core/falint/main'
 include { SEQKIT_RMDUP                      } from '../modules/nf-core/seqkit/rmdup/main'
 include { FASTA_EXPLORE_SEARCH_PLOT_TIDK    } from '../subworkflows/nf-core/fasta_explore_search_plot_tidk/main'
 include { GFF3_GT_GFF3_GFF3VALIDATOR_STAT   } from '../subworkflows/gallvp/gff3_gt_gff3_gff3validator_stat/main'
@@ -20,7 +20,7 @@ include { FASTA_GXF_BUSCO_PLOT              } from '../subworkflows/nf-core/fast
 include { FASTA_LTRRETRIEVER_LAI            } from '../subworkflows/gallvp/fasta_ltrretriever_lai/main'
 include { FASTA_KRAKEN2                     } from '../subworkflows/local/fasta_kraken2'
 include { FQ2HIC                            } from '../subworkflows/local/fq2hic'
-include { CAT_CAT as TAG_ASSEMBLY           } from '../modules/gallvp/cat/cat/main'
+include { FIND_CONCATENATE as TAG_ASSEMBLY  } from '../modules/gallvp/find/concatenate/main'
 include { FASTA_SYNTENY                     } from '../subworkflows/local/fasta_synteny'
 include { MERYL_COUNT                       } from '../modules/nf-core/meryl/count/main'
 include { MERYL_UNIONSUM                    } from '../modules/nf-core/meryl/unionsum/main'
@@ -122,14 +122,12 @@ workflow ASSEMBLYQC {
     GUNZIP_FASTA ( ch_target_assemby_branch.gz )
 
     ch_target_assembly                      = GUNZIP_FASTA.out.gunzip.mix(ch_target_assemby_branch.rest)
-    ch_versions                             = ch_versions.mix(GUNZIP_FASTA.out.versions.first())
 
 
     // MODULE: GUNZIP as GUNZIP_GFF3
     GUNZIP_GFF3 ( ch_assemby_gff3_branch.gz )
 
     ch_assembly_gff3                        = GUNZIP_GFF3.out.gunzip.mix(ch_assemby_gff3_branch.rest)
-    ch_versions                             = ch_versions.mix(GUNZIP_GFF3.out.versions.first())
 
     // MODULE: FALINT
     FALINT ( ch_target_assembly )
@@ -143,8 +141,6 @@ workflow ASSEMBLYQC {
 
                                                 error_log
                                             }
-
-    ch_versions                             = ch_versions.mix(FALINT.out.versions.first())
 
     // MODULE: SEQKIT_RMDUP
     ch_seqkit_rmdup_input                   = ! params.check_sequence_duplicates
@@ -176,7 +172,6 @@ workflow ASSEMBLYQC {
                                                     error_log
                                                 }
                                             )
-    ch_versions                             = ch_versions.mix(SEQKIT_RMDUP.out.versions.first())
 
     // SUBWORKFLOW: GFF3_GT_GFF3_GFF3VALIDATOR_STAT
     GFF3_GT_GFF3_GFF3VALIDATOR_STAT (
@@ -194,8 +189,6 @@ workflow ASSEMBLYQC {
 
     ch_gt_stats                             = GFF3_GT_GFF3_GFF3VALIDATOR_STAT.out.gff3_stats
                                             | map { _meta, yml -> yml }
-
-    ch_versions                             = ch_versions.mix(GFF3_GT_GFF3_GFF3VALIDATOR_STAT.out.versions)
 
     // MODULE: FCS_FCSADAPTOR
     ch_fcs_adaptor_input                    = params.ncbi_fcs_adaptor_skip
@@ -239,8 +232,6 @@ workflow ASSEMBLYQC {
                                                     [ meta, fa ]
                                                 }
                                             )
-
-    ch_versions                             = ch_versions.mix(FCS_FCSADAPTOR.out.versions.first())
 
     // SUBWORKFLOW: NCBI_FCS_GX
     ch_fcs_gx_input_assembly                = params.ncbi_fcs_gx_skip
@@ -304,13 +295,12 @@ workflow ASSEMBLYQC {
                                                 [ tag, fa ]
                                             }
 
-    // MODULE: CAT_CAT as TAG_ASSEMBLY
+    // MODULE: FIND_CONCATENATE as TAG_ASSEMBLY
     TAG_ASSEMBLY (
         ch_clean_assembly.map { tag, fa -> [ [ id: tag ], fa ] }
     )
 
     ch_clean_assembly_tagged                = TAG_ASSEMBLY.out.file_out
-    ch_versions                             = ch_versions.mix(TAG_ASSEMBLY.out.versions)
 
     // Prepare channels for FETCHNGS
     // HiC
@@ -468,7 +458,6 @@ workflow ASSEMBLYQC {
                                                 paternal:   meta.type == 'paternal'
                                                 mapback:    meta.type == 'mapback'
                                             }
-    ch_versions                             = ch_versions.mix(FETCHNGS.out.versions)
 
     // MODULE: ASSEMBLATHON_STATS
     ASSEMBLATHON_STATS(
@@ -498,7 +487,6 @@ workflow ASSEMBLYQC {
 
     ch_gfastats_stats                       = GFASTATS.out.assembly_summary
                                             | map { _tag, stats -> stats }
-    ch_versions                             = ch_versions.mix(GFASTATS.out.versions.first())
 
     // SUBWORKFLOW: FASTA_GXF_BUSCO_PLOT
     ch_busco_input_assembly                 = params.busco_skip
@@ -547,8 +535,6 @@ workflow ASSEMBLYQC {
                                             | mix(ch_busco_gff_plot)
                                             | collect
 
-    ch_versions                             = ch_versions.mix(FASTA_GXF_BUSCO_PLOT.out.versions)
-
     // SUBWORKFLOW: FASTA_EXPLORE_SEARCH_PLOT_TIDK
     ch_tidk_inputs                          = params.tidk_skip
                                             ? channel.empty()
@@ -571,8 +557,6 @@ workflow ASSEMBLYQC {
                                                 channel.of("$params.tidk_repeat_seq")
                                                 | collectFile(name: 'a_priori.sequence', newLine: true)
                                             )
-
-    ch_versions                             = ch_versions.mix(FASTA_EXPLORE_SEARCH_PLOT_TIDK.out.versions)
 
     // SUBWORKFLOW: FASTA_LTRRETRIEVER_LAI
     ch_lai_inputs                           = params.lai_skip
@@ -607,8 +591,6 @@ workflow ASSEMBLYQC {
                                                 FASTA_LTRRETRIEVER_LAI.out.ltrretriever_log
                                                 | map { _meta, log -> log }
                                             )
-
-    ch_versions                             = ch_versions.mix(FASTA_LTRRETRIEVER_LAI.out.versions)
 
     // SUBWORKFLOW: FASTA_KRAKEN2
     ch_kraken2_input_assembly               = params.kraken2_skip
@@ -689,7 +671,6 @@ workflow ASSEMBLYQC {
     )
 
     ch_reads_meryl                          = MERYL_COUNT.out.meryl_db
-    ch_versions                             = ch_versions.mix(MERYL_COUNT.out.versions.first())
 
     // MODULE: MERYL_UNIONSUM
     ch_reads_meryl_branch                   = ch_reads_meryl
@@ -704,7 +685,6 @@ workflow ASSEMBLYQC {
 
     ch_reads_union_meryl                    = MERYL_UNIONSUM.out.meryl_db
                                             | mix(ch_reads_meryl_branch.single)
-    ch_versions                             = ch_versions.mix(MERYL_UNIONSUM.out.versions.first())
 
     // MODULE: MERYL_COUNT as MAT_MERYL_COUNT
     ch_maternal_reads_files                 = ch_fetchngs.maternal
@@ -723,7 +703,6 @@ workflow ASSEMBLYQC {
                                                 | map { meta, _fq -> [ [ id: meta.id ], meta ] }
                                             )
                                             | map { _meta, meryl, meta2 -> [ meta2, meryl ] }
-    ch_versions                             = ch_versions.mix(MAT_MERYL_COUNT.out.versions.first())
 
     // MODULE: MAT_UNIONSUM
     ch_maternal_meryl_branch                = ch_maternal_meryl
@@ -738,7 +717,6 @@ workflow ASSEMBLYQC {
 
     ch_maternal_union_meryl                 = MAT_UNIONSUM.out.meryl_db
                                             | mix(ch_maternal_meryl_branch.single)
-    ch_versions                             = ch_versions.mix(MAT_UNIONSUM.out.versions.first())
 
     // MODULE: MERYL_COUNT as PAT_MERYL_COUNT
     ch_paternal_reads_files                 = ch_fetchngs.paternal
@@ -756,7 +734,6 @@ workflow ASSEMBLYQC {
                                                 | map { meta, _fq -> [ [ id: meta.id ], meta ] }
                                             )
                                             | map { _meta, meryl, meta2 -> [ meta2, meryl ] }
-    ch_versions                             = ch_versions.mix(PAT_MERYL_COUNT.out.versions.first())
 
     // MODULE: PAT_UNIONSUM
     ch_paternal_meryl_branch                = ch_paternal_meryl
@@ -771,7 +748,6 @@ workflow ASSEMBLYQC {
 
     ch_paternal_union_meryl                 = PAT_UNIONSUM.out.meryl_db
                                             | mix(ch_paternal_meryl_branch.single)
-    ch_versions                             = ch_versions.mix(PAT_UNIONSUM.out.versions.first())
 
     // MODULE: MERQURY_HAPMERS
     ch_all_assemblies_with_parents          = ch_maternal_union_meryl
@@ -813,7 +789,6 @@ workflow ASSEMBLYQC {
 
     ch_parental_hapmers                     = MERQURY_HAPMERS.out.mat_hapmer_meryl
                                             | join(MERQURY_HAPMERS.out.pat_hapmer_meryl)
-    ch_versions                             = ch_versions.mix(MERQURY_HAPMERS.out.versions.first())
 
     // Prepare group meryl dbs
     ch_meryl_all                            = ch_group_meryl
@@ -852,7 +827,6 @@ workflow ASSEMBLYQC {
                                             | mix(ch_merqury_spectra_asm_fl_png)
                                             | mix(ch_hapmers_blob_png)
                                             | flatMap { _meta, data -> data }
-    ch_versions                             = ch_versions.mix(MERQURY_MERQURY.out.versions.first())
 
     // MODULE: GFFREAD
     ch_gffread_inputs                       = params.orthofinder_skip
@@ -874,7 +848,6 @@ workflow ASSEMBLYQC {
     )
 
     ch_proteins_fasta                       = GFFREAD.out.gffread_fasta
-    ch_versions                             = ch_versions.mix(GFFREAD.out.versions.first())
 
     // ORTHOFINDER
     ORTHOFINDER(
@@ -884,7 +857,6 @@ workflow ASSEMBLYQC {
 
     ch_orthofinder_outputs                  = ORTHOFINDER.out.orthofinder
                                             | map { _meta, dir -> dir }
-    ch_versions                             = ch_versions.mix(ORTHOFINDER.out.versions)
 
     // MAPBACK
     ch_mapback_reads_input                  = ch_fetchngs.mapback.mix(ch_mapback_reads_branch.rest)
@@ -921,7 +893,6 @@ workflow ASSEMBLYQC {
     )
 
     ch_mapback_outputs                      = FASTA_FASTQ_WINNOWMAP_COVERAGE.out.wig.map { _meta, wig -> wig }
-    ch_versions                             = ch_versions.mix(FASTA_FASTQ_WINNOWMAP_COVERAGE.out.versions)
 
     FASTA_BEDTOOLS_MAKEWINDOWS_NUC (
         params.mapback_skip
@@ -934,7 +905,6 @@ workflow ASSEMBLYQC {
                                                 FASTA_BEDTOOLS_MAKEWINDOWS_NUC.out.nuc
                                                 | map { _meta, nuc -> nuc }
                                             )
-    ch_versions                             = ch_versions.mix(FASTA_BEDTOOLS_MAKEWINDOWS_NUC.out.versions)
 
     // MODULE: SAMTOOLS_SORT | CLAIR3
     ch_clair3_input                         = params.mapback_variants_skip
@@ -972,7 +942,7 @@ workflow ASSEMBLYQC {
 
     SAMTOOLS_SORT (
         ch_clair3_input.map { meta, bam, _fasta -> [ meta, bam ] },
-        [ [], []],
+        [ [], [], []], // val(meta2), path(fasta), path(fai)
         'bai', // index_format
     )
 
@@ -981,7 +951,7 @@ workflow ASSEMBLYQC {
                                                 SAMTOOLS_SORT.out.bam
                                             )
                                             | join(
-                                                SAMTOOLS_SORT.out.bai
+                                                SAMTOOLS_SORT.out.index // bai
                                             )
                                             | join(
                                                 FASTA_BEDTOOLS_MAKEWINDOWS_NUC.out.fai
@@ -1000,10 +970,6 @@ workflow ASSEMBLYQC {
         ch_clair3_sorted_input.fasta,
         ch_clair3_sorted_input.fai
     )
-
-    ch_versions                             = ch_versions
-                                            | mix(SAMTOOLS_SORT.out.versions.first())
-                                            | mix(CLAIR3.out.versions.first())
 
     // MODULE: EXTRACTHETSTATS
     ch_extracthetstats_inputs               = CLAIR3.out.pileup_vcf

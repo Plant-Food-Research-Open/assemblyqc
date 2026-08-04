@@ -5,14 +5,14 @@ process JUICEBOXSCRIPTS_MAKEAGPFROMFASTA {
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/juicebox_scripts:0.1.0gita7ae991--hdfd78af_0':
-        'biocontainers/juicebox_scripts:0.1.0gita7ae991--hdfd78af_0' }"
+        'quay.io/biocontainers/juicebox_scripts:0.1.0gita7ae991--hdfd78af_0' }"
 
     input:
     tuple val(meta), path(fasta)
 
     output:
     tuple val(meta), path("*.agp")  , emit: agp
-    path "versions.yml"             , emit: versions
+    path "versions.yml"                 , emit: versions_js, topic: versions
 
     when:
     task.ext.when == null || task.ext.when

@@ -59,16 +59,16 @@
                         "test.cov.wig:md5,dd02a0f4e4fe110158367a7c7d0f665c"
                     ]
                 ],
-                "versions": [
+                "versions_t2tpolish": [
                     "versions.yml:md5,d5c9ffc91212d148d659ef46f9310241"
                 ]
             }
         ],
+        "timestamp": "2026-07-29T09:06:17.524492",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.6"
-        },
-        "timestamp": "2025-07-29T13:56:33.494577"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
     },
     "sarscov2 - genome - paf - stub": {
         "content": [
@@ -130,15 +130,15 @@
                         "test.cov.wig:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
-                "versions": [
+                "versions_t2tpolish": [
                     "versions.yml:md5,d5c9ffc91212d148d659ef46f9310241"
                 ]
             }
         ],
+        "timestamp": "2026-07-29T09:06:22.537782",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.6"
-        },
-        "timestamp": "2025-07-29T13:56:37.274895"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
     }
 }

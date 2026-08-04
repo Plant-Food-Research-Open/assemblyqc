@@ -16,10 +16,6 @@
                         "test.error.log:md5,c096494c3cd02864eb54434c294ba382"
                     ]
                 ],
-                "3": [
-                    "versions.yml:md5,0cb9519e626e5128d8495cf29b7d59ff",
-                    "versions.yml:md5,2f7fe3865b17dd2edde1881a95930174"
-                ],
                 "gff3_stats": [
                     
                 ],
@@ -33,35 +29,27 @@
                 ],
                 "valid_gff3": [
                     
-                ],
-                "versions": [
-                    "versions.yml:md5,0cb9519e626e5128d8495cf29b7d59ff",
-                    "versions.yml:md5,2f7fe3865b17dd2edde1881a95930174"
                 ]
             }
         ],
+        "timestamp": "2026-07-29T11:02:10.437607",
         "meta": {
-            "nf-test": "0.9.0",
-            "nextflow": "24.04.4"
-        },
-        "timestamp": "2024-09-25T11:11:44.756433"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
     },
     "sarscov2-genome_gff3-test_fasta-correspondence_fail-out_of_bounds": {
         "content": [
             [
                 
             ],
-            [
-                "versions.yml:md5,0cb9519e626e5128d8495cf29b7d59ff",
-                "versions.yml:md5,2f7fe3865b17dd2edde1881a95930174",
-                "versions.yml:md5,c89b081a13c68acc5326e43ca9104344"
-            ]
+            null
         ],
+        "timestamp": "2026-07-29T11:03:24.967065",
         "meta": {
-            "nf-test": "0.9.0",
-            "nextflow": "24.04.4"
-        },
-        "timestamp": "2024-09-25T11:11:57.27286"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
     },
     "sarscov2 - fasta - circular_region - pass": {
         "content": [
@@ -85,12 +73,6 @@
                 "2": [
                     
                 ],
-                "3": [
-                    "versions.yml:md5,0cb9519e626e5128d8495cf29b7d59ff",
-                    "versions.yml:md5,2f7fe3865b17dd2edde1881a95930174",
-                    "versions.yml:md5,80555fe6e28e9564cb534f5478842286",
-                    "versions.yml:md5,c89b081a13c68acc5326e43ca9104344"
-                ],
                 "gff3_stats": [
                     [
                         {
@@ -109,37 +91,27 @@
                         },
                         "test.gt.gff3:md5,b3bb01b18b8eeac28922ab55c5c6c939"
                     ]
-                ],
-                "versions": [
-                    "versions.yml:md5,0cb9519e626e5128d8495cf29b7d59ff",
-                    "versions.yml:md5,2f7fe3865b17dd2edde1881a95930174",
-                    "versions.yml:md5,80555fe6e28e9564cb534f5478842286",
-                    "versions.yml:md5,c89b081a13c68acc5326e43ca9104344"
                 ]
             }
         ],
+        "timestamp": "2026-07-29T11:04:04.426015",
         "meta": {
-            "nf-test": "0.9.0",
-            "nextflow": "24.04.4"
-        },
-        "timestamp": "2024-09-25T11:12:04.099852"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
     },
     "sarscov2-genome_gff3-homo_sapiens-genome_fasta-correspondence_fail": {
         "content": [
             [
                 
             ],
-            [
-                "versions.yml:md5,0cb9519e626e5128d8495cf29b7d59ff",
-                "versions.yml:md5,2f7fe3865b17dd2edde1881a95930174",
-                "versions.yml:md5,c89b081a13c68acc5326e43ca9104344"
-            ]
+            null
         ],
+        "timestamp": "2026-07-29T11:02:43.801221",
         "meta": {
-            "nf-test": "0.9.0",
-            "nextflow": "24.04.4"
-        },
-        "timestamp": "2024-09-25T11:11:50.869233"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
     },
     "sarscov2-genome_gff3-all_pass": {
         "content": [
@@ -163,12 +135,6 @@
                 "2": [
                     
                 ],
-                "3": [
-                    "versions.yml:md5,0cb9519e626e5128d8495cf29b7d59ff",
-                    "versions.yml:md5,2f7fe3865b17dd2edde1881a95930174",
-                    "versions.yml:md5,80555fe6e28e9564cb534f5478842286",
-                    "versions.yml:md5,c89b081a13c68acc5326e43ca9104344"
-                ],
                 "gff3_stats": [
                     [
                         {
@@ -187,19 +153,13 @@
                         },
                         "test.gt.gff3:md5,2ae900237ace415557b8735fac088b85"
                     ]
-                ],
-                "versions": [
-                    "versions.yml:md5,0cb9519e626e5128d8495cf29b7d59ff",
-                    "versions.yml:md5,2f7fe3865b17dd2edde1881a95930174",
-                    "versions.yml:md5,80555fe6e28e9564cb534f5478842286",
-                    "versions.yml:md5,c89b081a13c68acc5326e43ca9104344"
                 ]
             }
         ],
+        "timestamp": "2026-07-29T11:01:52.092499",
         "meta": {
-            "nf-test": "0.9.0",
-            "nextflow": "24.04.4"
-        },
-        "timestamp": "2024-09-25T11:11:39.62609"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
     }
 }

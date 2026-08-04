@@ -1,81 +1,86 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
 name: "t2tpolish_paftocovclippedwig"
 description: Generate coverage (read counts), absolute and normalized counts of
-  clipped and total read tracks in every span bp; if the soft-clipped or
-  hard-clipped bases are over min-clipped.
+    clipped and total read tracks in every span bp; if the soft-clipped or
+    hard-clipped bases are over min-clipped.
 keywords:
-  - genomics
-  - paf
-  - wiggle
-  - coverage
+    - genomics
+    - paf
+    - wiggle
+    - coverage
 tools:
-  - "t2tpolish":
-      description: Evaluation and polishing workflows for T2T genome assemblies
-      homepage: https://github.com/arangrhie/T2T-Polish
-      documentation: https://github.com/arangrhie/T2T-Polish
-      tool_dev_url: https://github.com/arangrhie/T2T-Polish
-      doi: "10.1038/s41592-022-01440-3"
-      licence: ["United States Government Work"]
-      identifier: ""
-
+    - "t2tpolish":
+          description: Evaluation and polishing workflows for T2T genome assemblies
+          homepage: https://github.com/arangrhie/T2T-Polish
+          documentation: https://github.com/arangrhie/T2T-Polish
+          tool_dev_url: https://github.com/arangrhie/T2T-Polish
+          doi: "10.1038/s41592-022-01440-3"
+          licence:
+              - "United States Government Work"
+          identifier: ""
 input:
-  - - meta:
-        type: map
-        description: |
-          Groovy Map containing sample information
-          e.g. `[ id:'sample1' ]`
-    - paf:
-        type: file
-        description: PAF
-        pattern: "*.{paf}"
-
-        ontologies: []
-  - name:
-      type: string
-      description: Name of the track in the output WIG file
-  - span:
-      type: integer
-      description: Span and step
+    - - meta:
+            type: map
+            description: |
+                Groovy Map containing sample information
+                e.g. `[ id:'sample1' ]`
+      - paf:
+            type: file
+            description: PAF
+            pattern: "*.{paf}"
+            ontologies: []
+    - name:
+          type: string
+          description: Name of the track in the output WIG file
+    - span:
+          type: integer
+          description: Span and step
 output:
-  clip_abs:
-    - - meta:
-          type: map
-          description: |
-            Groovy Map containing sample information
-            e.g. `[ id:'sample1' ]`
-      - "*.clip_abs.wig":
-          type: file
-          description: Clipped read counts
-          ontologies: []
-  clip_norm:
-    - - meta:
-          type: map
-          description: |
-            Groovy Map containing sample information
-            e.g. `[ id:'sample1' ]`
-      - "*.clip_norm.wig":
-          type: file
-          description: clipped read counts normalized by total reads
-          ontologies: []
-  cov:
-    - - meta:
-          type: map
-          description: |
-            Groovy Map containing sample information
-            e.g. `[ id:'sample1' ]`
-      - "*.cov.wig":
-          type: file
-          description: Coverage wiggle file
-          ontologies: []
-  versions:
-    - versions.yml:
-        type: file
-        description: File containing software versions
-        pattern: "versions.yml"
-        ontologies:
-          - edam: "http://edamontology.org/format_3750" # YAML
-
+    clip_abs:
+        - - meta:
+                type: map
+                description: |
+                    Groovy Map containing sample information
+                    e.g. `[ id:'sample1' ]`
+          - "*.clip_abs.wig":
+                type: file
+                description: Clipped read counts
+                ontologies: []
+    clip_norm:
+        - - meta:
+                type: map
+                description: |
+                    Groovy Map containing sample information
+                    e.g. `[ id:'sample1' ]`
+          - "*.clip_norm.wig":
+                type: file
+                description: clipped read counts normalized by total reads
+                ontologies: []
+    cov:
+        - - meta:
+                type: map
+                description: |
+                    Groovy Map containing sample information
+                    e.g. `[ id:'sample1' ]`
+          - "*.cov.wig":
+                type: file
+                description: Coverage wiggle file
+                ontologies: []
+    versions_t2tpolish:
+        - versions.yml:
+              type: file
+              description: File containing software versions
+              pattern: "versions.yml"
+              ontologies:
+                  - edam: "http://edamontology.org/format_3750"
+topics:
+    versions:
+        - versions.yml:
+              type: file
+              description: File containing software versions
+              pattern: "versions.yml"
+              ontologies:
+                  - edam: "http://edamontology.org/format_3750"
 authors:
-  - "@GallVp"
+    - "@GallVp"
 maintainers:
-  - "@GallVp"
+    - "@GallVp"

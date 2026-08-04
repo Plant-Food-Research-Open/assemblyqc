@@ -15,11 +15,8 @@ workflow FASTA_FASTQ_WINNOWMAP_COVERAGE {
 
     main:
 
-    ch_versions                         = Channel.empty()
-
     // MODULE: MERYL_COUNT
     MERYL_COUNT ( ch_fastq, val_k ?: 15 )
-    ch_versions                         = ch_versions.mix(MERYL_COUNT.out.versions.first())
 
     // MODULE: WINNOWMAP
     ch_win_inputs                       = ch_fastq
@@ -46,14 +43,10 @@ workflow FASTA_FASTQ_WINNOWMAP_COVERAGE {
         false, // sort_bam
     )
 
-    ch_versions                         = ch_versions.mix(WINNOWMAP.out.versions.first())
-
     // MODULE: PAFTOOLS_SAM2PAF
     PAFTOOLS_SAM2PAF (
         WINNOWMAP.out.bam
     )
-
-    ch_versions                         = ch_versions.mix(PAFTOOLS_SAM2PAF.out.versions.first())
 
     // MODULE: T2TPOLISH_PAFTOCOVCLIPPEDWIG
     ch_t2t_inputs                       = PAFTOOLS_SAM2PAF.out.paf
@@ -68,11 +61,8 @@ workflow FASTA_FASTQ_WINNOWMAP_COVERAGE {
         ch_t2t_inputs.span
     )
 
-    ch_versions                         = ch_versions.mix(T2TPOLISH_PAFTOCOVCLIPPEDWIG.out.versions.first())
-
 
     emit:
     bam                                 = WINNOWMAP.out.bam                     // channel: [ val(meta), bam ]
     wig                                 = T2TPOLISH_PAFTOCOVCLIPPEDWIG.out.cov  // channel: [ val(meta), wig ]
-    versions                            = ch_versions                           // channel: [ versions.yml ]
 }

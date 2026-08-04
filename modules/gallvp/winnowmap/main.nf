@@ -2,7 +2,7 @@ process WINNOWMAP {
     tag "${meta.id}"
     label 'process_high'
 
-    container "ghcr.io/gallvp/winnowmap:sha-bb3c814"
+    container "quay.io/gallvp/winnowmap:sha-bb3c814"
 
     input:
     tuple val(meta), path(reads)
@@ -19,7 +19,7 @@ process WINNOWMAP {
     tuple val(meta), path("*.paf"), optional: true, emit: paf
     tuple val(meta), path("*.bam"), optional: true, emit: bam
     tuple val(meta), path("*.bam.${bam_index_extension}"), optional: true, emit: index
-    path "versions.yml", emit: versions
+    path "versions.yml" , emit: versions_winnowmap, topic: versions
 
     when:
     task.ext.when == null || task.ext.when

@@ -1,39 +1,39 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
 name: "fasta_seqkit_refsort"
 description: |
-  Sort input fasta(s) by alpha numeric order of their sequences IDs, create pairs of fastas, sort query fasta with respect to
-  reference fasta using HapHiC refsort and finally create an interleaved fasta for each pair
+    Sort input fasta(s) by alpha numeric order of their sequences IDs, create pairs of fastas, sort query fasta with respect to
+    reference fasta using HapHiC refsort and finally create an interleaved fasta for each pair
 keywords:
-  - sort
-  - fasta
-  - interleave
+    - sort
+    - fasta
+    - interleave
 components:
-  - haphic/refsort
-  - juiceboxscripts/makeagpfromfasta
-  - minimap2/align
-  - seqkit/sort
-  - custom/interleavefasta
+    - haphic/refsort
+    - juiceboxscripts/makeagpfromfasta
+    - minimap2/align
+    - seqkit/sort
+    - custom/interleavefasta
 input:
-  - ch_fasta:
-      type: file
-      description: |
-        The input channel containing the Fasta files
-        Structure: [ val(meta), path(fasta) ]
-      pattern: "*.{fasta}"
+    - ch_fasta:
+          type: file
+          description: |
+              The input channel containing the Fasta files
+              Structure: [ val(meta), path(fasta) ]
+          pattern: "*.{fasta}"
 output:
-  - fasta:
-      type: file
-      description: |
-        Channel containing Fasta files
-        Structure: [ val(meta), path(fasta) ]
-      pattern: "*.fasta"
-  - versions:
-      type: file
-      description: |
-        File containing software versions
-        Structure: [ path(versions.yml) ]
-      pattern: "versions.yml"
+    - fasta:
+          type: file
+          description: |
+              Channel containing Fasta files
+              Structure: [ val(meta), path(fasta) ]
+          pattern: "*.fasta"
+    - versions:
+          type: file
+          description: |
+              File containing software versions
+              Structure: [ path(versions.yml) ]
+          pattern: "versions.yml"
 authors:
-  - "@GallVp"
+    - "@GallVp"
 maintainers:
-  - "@GallVp"
+    - "@GallVp"

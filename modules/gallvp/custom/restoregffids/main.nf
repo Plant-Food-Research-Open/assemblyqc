@@ -5,7 +5,7 @@ process CUSTOM_RESTOREGFFIDS {
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/python:3.10.2':
-        'biocontainers/python:3.10.2' }"
+        'quay.io/biocontainers/python:3.10.2' }"
 
     input:
     tuple val(meta), path(gff3)
@@ -13,7 +13,7 @@ process CUSTOM_RESTOREGFFIDS {
 
     output:
     tuple val(meta), path("*.restored.ids.gff3")    , emit: restored_ids_gff3
-    path "versions.yml"                             , emit: versions
+    path "versions.yml"                             , emit: versions_python, topic: versions
 
     when:
     task.ext.when == null || task.ext.when

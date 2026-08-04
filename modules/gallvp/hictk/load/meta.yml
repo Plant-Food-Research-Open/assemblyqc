@@ -1,54 +1,66 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
 name: "hictk_load"
 description: Converts an interactions file into a hic file
 keywords:
-  - genomics
-  - hic
-  - 4dn
-  - pairs
+    - genomics
+    - hic
+    - 4dn
+    - pairs
 tools:
-  - "hictk":
-      description: "Blazing fast toolkit to work with .hic and .cool files"
-      homepage: "https://github.com/paulsengroup/hictk#readme"
-      documentation: "https://github.com/paulsengroup/hictk#readme"
-      tool_dev_url: "https://github.com/paulsengroup/hictk"
-      doi: "10.1093/bioinformatics/btae408"
-      licence: ["MIT"]
-      identifier: biotools:hictk
-
+    - "hictk":
+          description: "Blazing fast toolkit to work with .hic and .cool files"
+          homepage: "https://github.com/paulsengroup/hictk#readme"
+          documentation: "https://github.com/paulsengroup/hictk#readme"
+          tool_dev_url: "https://github.com/paulsengroup/hictk"
+          doi: "10.1093/bioinformatics/btae408"
+          licence:
+              - "MIT"
+          identifier: biotools:hictk
 input:
-  - - meta:
-        type: map
-        description: |
-          Groovy Map containing sample information
-          e.g. `[ id:'sample1' ]`
-    - interactions:
-        type: file
-        description: Interactions file in TSV format
-        ontologies: []
-  - format:
-      type: string
-      description: Format of the input interactions file
-output:
-  hic:
     - - meta:
-          type: map
-          description: |
-            Groovy Map containing sample information
-            e.g. `[ id:'sample1' ]`
-      - "*.hic":
-          type: file
-          description: Output hic file
-          ontologies: []
-  versions:
-    - versions.yml:
-        type: file
-        description: File containing software versions
-        pattern: "versions.yml"
-
-        ontologies:
-          - edam: http://edamontology.org/format_3750 # YAML
+            type: map
+            description: |
+                Groovy Map containing sample information
+                e.g. `[ id:'sample1' ]`
+      - interactions:
+            type: file
+            description: Interactions file in TSV format
+            ontologies: []
+    - format:
+          type: string
+          description: Format of the input interactions file
+output:
+    hic:
+        - - meta:
+                type: map
+                description: |
+                    Groovy Map containing sample information
+                    e.g. `[ id:'sample1' ]`
+          - "*.hic":
+                type: file
+                description: Output hic file
+                ontologies: []
+    versions_hictk:
+        - - ${task.process}:
+                type: string
+                description: The name of the process
+          - hictk:
+                type: string
+                description: The name of the tool
+          - hictk --version:
+                type: eval
+                description: The expression to obtain the version of the tool
+topics:
+    versions:
+        - - ${task.process}:
+                type: string
+                description: The name of the process
+          - hictk:
+                type: string
+                description: The name of the tool
+          - hictk --version:
+                type: eval
+                description: The expression to obtain the version of the tool
 authors:
-  - "@GallVp"
+    - "@GallVp"
 maintainers:
-  - "@GallVp"
+    - "@GallVp"

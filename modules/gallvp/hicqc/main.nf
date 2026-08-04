@@ -2,7 +2,7 @@ process HICQC {
     tag "$meta.id"
     label 'process_single'
 
-    container "ghcr.io/gallvp/hic_qc:v1.3.1"
+    container 'quay.io/gallvp/hic_qc:v1.3.1'
 
     input:
     tuple val(meta), path(bam)
@@ -10,7 +10,7 @@ process HICQC {
     output:
     tuple val(meta), path("*.pdf")  , emit: pdf
     tuple val(meta), path("*.html") , emit: html
-    path "versions.yml"             , emit: versions
+    tuple val("${task.process}"), val('hic_qc.py'), eval("hic_qc --version"), topic: versions, emit: versions_hic_qc
 
     when:
     task.ext.when == null || task.ext.when
@@ -29,21 +29,11 @@ process HICQC {
         $args \\
         -b $bam \\
         --outfile_prefix "$prefix"
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        hic_qc.py: \$(hic_qc --version)
-    END_VERSIONS
     """
 
     stub:
     """
     touch "${meta.id}.pdf"
     touch "${meta.id}.html"
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        hic_qc.py: \$(hic_qc --version)
-    END_VERSIONS
     """
 }

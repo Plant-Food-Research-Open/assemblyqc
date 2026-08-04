@@ -80,7 +80,7 @@ nextflow_process {
         when {
             process {
                 """
-                input[0] = Channel.of('>Chr1 This is a test comment', 'AGCTAGCT')
+                input[0] = channel.of('>Chr1 This is a test comment', 'AGCTAGCT')
                 | collectFile(name: 'sample.fasta', newLine: true)
                 | map { file -> [ [ id:'test' ], file ] }
                 """

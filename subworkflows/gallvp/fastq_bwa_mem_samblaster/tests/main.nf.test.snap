@@ -8,13 +8,8 @@
                             "id": "test",
                             "ref_id": "genome"
                         },
-                        "test.on.genome.samblaster.bam:md5,4a4a0e197330b995c468baf6ef0d24f1"
+                        "test.on.genome.samblaster.bam:md5,31fea2696f629694469680e2d012d971"
                     ]
-                ],
-                "1": [
-                    "versions.yml:md5,3a9621342701375a0a827f0828040467",
-                    "versions.yml:md5,3b59736950270bca59c29afeb5289b4f",
-                    "versions.yml:md5,80949a94ee1be8238b1c79d89ed9fa83"
                 ],
                 "bam": [
                     [
@@ -22,21 +17,16 @@
                             "id": "test",
                             "ref_id": "genome"
                         },
-                        "test.on.genome.samblaster.bam:md5,4a4a0e197330b995c468baf6ef0d24f1"
+                        "test.on.genome.samblaster.bam:md5,31fea2696f629694469680e2d012d971"
                     ]
-                ],
-                "versions": [
-                    "versions.yml:md5,3a9621342701375a0a827f0828040467",
-                    "versions.yml:md5,3b59736950270bca59c29afeb5289b4f",
-                    "versions.yml:md5,80949a94ee1be8238b1c79d89ed9fa83"
                 ]
             }
         ],
+        "timestamp": "2026-07-29T10:58:54.062418",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.2"
-        },
-        "timestamp": "2025-06-06T15:24:53.268679"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
     },
     "sarscov2-fq-gz-stub": {
         "content": [
@@ -50,11 +40,6 @@
                         "test.on.genome.samblaster.bam:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
-                "1": [
-                    "versions.yml:md5,3a9621342701375a0a827f0828040467",
-                    "versions.yml:md5,3b59736950270bca59c29afeb5289b4f",
-                    "versions.yml:md5,80949a94ee1be8238b1c79d89ed9fa83"
-                ],
                 "bam": [
                     [
                         {
@@ -63,18 +48,13 @@
                         },
                         "test.on.genome.samblaster.bam:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
-                ],
-                "versions": [
-                    "versions.yml:md5,3a9621342701375a0a827f0828040467",
-                    "versions.yml:md5,3b59736950270bca59c29afeb5289b4f",
-                    "versions.yml:md5,80949a94ee1be8238b1c79d89ed9fa83"
                 ]
             }
         ],
+        "timestamp": "2026-07-29T10:59:35.270841",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "24.10.5"
-        },
-        "timestamp": "2025-04-11T11:48:32.207804"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
     }
 }

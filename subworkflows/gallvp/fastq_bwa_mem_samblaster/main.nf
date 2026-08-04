@@ -10,7 +10,6 @@ workflow FASTQ_BWA_MEM_SAMBLASTER {
     val_sort_bam            // boolean: true|false
 
     main:
-    ch_versions             = Channel.empty()
 
     ch_has_index            = ch_reference
                             | branch { _meta2, _fasta, index ->
@@ -29,8 +28,6 @@ workflow FASTQ_BWA_MEM_SAMBLASTER {
                                 }
                             )
 
-    ch_versions             = ch_versions.mix(BWA_INDEX.out.versions.first())
-
     // MODULE: BWA_MEM
     ch_mem_inputs           = ch_fastq
                             | combine(
@@ -48,14 +45,10 @@ workflow FASTQ_BWA_MEM_SAMBLASTER {
     )
 
     ch_mem_bam              = BWA_MEM.out.bam
-    ch_versions             = ch_versions.mix(BWA_MEM.out.versions.first())
 
     // MODULE: SAMBLASTER
     SAMBLASTER ( ch_mem_bam )
 
-    ch_versions             = ch_versions.mix(SAMBLASTER.out.versions.first())
-
     emit:
     bam                     = SAMBLASTER.out.bam    // channel: [ val(meta), bam ]
-    versions                = ch_versions           // channel: [ versions.yml ]
 }

@@ -1,65 +1,75 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
 name: "hicqc"
 description: A (very) simple script to QC Hi-C data
 keywords:
-  - genomics
-  - bam
-  - hic
-  - qc
+    - genomics
+    - bam
+    - hic
+    - qc
 tools:
-  - "hicqc":
-      description: "A (very) simple script to QC Hi-C data"
-      homepage: "https://github.com/phasegenomics/hic_qc"
-      documentation: "https://github.com/phasegenomics/hic_qc"
-      tool_dev_url: "https://github.com/gallvp/hic_qc"
-      licence: ["GNU GPL v3"]
-      identifier: ""
-
+    - "hicqc":
+          description: "A (very) simple script to QC Hi-C data"
+          homepage: "https://github.com/phasegenomics/hic_qc"
+          documentation: "https://github.com/phasegenomics/hic_qc"
+          tool_dev_url: "https://github.com/gallvp/hic_qc"
+          licence:
+              - "GNU GPL v3"
+          identifier: ""
 input:
-  - - meta:
-        type: map
-        description: |
-          Groovy Map containing sample information
-          e.g. `[ id:'sample1' ]`
-    - bam:
-        type: file
-        description: BAM file
-        pattern: "*.{bam}"
-
-        ontologies: []
+    - - meta:
+            type: map
+            description: |
+                Groovy Map containing sample information
+                e.g. `[ id:'sample1' ]`
+      - bam:
+            type: file
+            description: BAM file
+            pattern: "*.{bam}"
+            ontologies: []
 output:
-  pdf:
-    - - meta:
-          type: map
-          description: |
-            Groovy Map containing sample information
-            e.g. `[ id:'sample1' ]`
-      - "*.pdf":
-          type: file
-          description: PDF report
-          pattern: "*.{pdf}"
-          ontologies: []
-  html:
-    - - meta:
-          type: map
-          description: |
-            Groovy Map containing sample information
-            e.g. `[ id:'sample1' ]`
-      - "*.html":
-          type: file
-          description: HTML report
-          pattern: "*.{html}"
-
-          ontologies: []
-  versions:
-    - versions.yml:
-        type: file
-        description: File containing software versions
-        pattern: "versions.yml"
-
-        ontologies:
-          - edam: http://edamontology.org/format_3750 # YAML
+    pdf:
+        - - meta:
+                type: map
+                description: |
+                    Groovy Map containing sample information
+                    e.g. `[ id:'sample1' ]`
+          - "*.pdf":
+                type: file
+                description: PDF report
+                pattern: "*.{pdf}"
+                ontologies: []
+    html:
+        - - meta:
+                type: map
+                description: |
+                    Groovy Map containing sample information
+                    e.g. `[ id:'sample1' ]`
+          - "*.html":
+                type: file
+                description: HTML report
+                pattern: "*.{html}"
+                ontologies: []
+    versions_hic_qc:
+        - - ${task.process}:
+                type: string
+                description: The name of the process
+          - hic_qc.py:
+                type: string
+                description: The name of the tool
+          - hic_qc --version:
+                type: eval
+                description: The expression to obtain the version of the tool
+topics:
+    versions:
+        - - ${task.process}:
+                type: string
+                description: The name of the process
+          - hic_qc.py:
+                type: string
+                description: The name of the tool
+          - hic_qc --version:
+                type: eval
+                description: The expression to obtain the version of the tool
 authors:
-  - "@GallVp"
+    - "@GallVp"
 maintainers:
-  - "@GallVp"
+    - "@GallVp"
