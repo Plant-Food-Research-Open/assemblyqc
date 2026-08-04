@@ -410,7 +410,8 @@
                     "utils_nextflow_pipeline": {
                         "branch": "master",
                         "git_sha": "c2b22d85f30a706a3073387f30380704fcae013b",
-                        "installed_by": ["subworkflows"]
+                        "installed_by": ["subworkflows"],
+                        "patch": "subworkflows/nf-core/utils_nextflow_pipeline/utils_nextflow_pipeline.diff"
                     },
                     "utils_nfcore_pipeline": {
                         "branch": "master",
