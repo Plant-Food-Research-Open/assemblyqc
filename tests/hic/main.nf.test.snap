@@ -7,13 +7,6 @@
                     "ASSEMBLATHON_STATS": {
                         "assemblathon_stats": "github/PlantandFoodResearch/assemblathon2-analysis/a93cba2"
                     },
-                    "BWA_INDEX": {
-                        "bwa": "0.7.19-r1273"
-                    },
-                    "BWA_MEM": {
-                        "bwa": "0.7.19-r1273",
-                        "samtools": "1.22.1"
-                    },
                     "CUSTOM_YAHSJUICERPRE2PAIRS": {
                         "python": "3.8.13",
                         "biopython": 1.75
@@ -46,6 +39,13 @@
                     "JUICEBOXSCRIPTS_MAKEAGPFROMFASTA": {
                         "juicebox_scripts": "0.1.0"
                     },
+                    "MINIBWA_INDEX": {
+                        "minibwa": 0.2
+                    },
+                    "MINIBWA_MAP": {
+                        "minibwa": 0.2,
+                        "samtools": "1.23.1"
+                    },
                     "SAMBLASTER": {
                         "samblaster": "0.1.26",
                         "samtools": "1.19.2"
@@ -76,7 +76,7 @@
                     "HY.assembly:md5,72dfdabd22760a91b81ed4241807a0e7",
                     "HY.bed:md5,bc903fc7f717a627853e93ff6c2dfcb3",
                     "HY.bedpe:md5,a4ec178eaaa2e96b724f927ce9678b5a",
-                    "HY.hic:md5,0799e4d205fe7fdc52dbd69f794b4b2c",
+                    "HY.hic:md5,0f783478ebd757553f76a0e47f7a89c7",
                     "HY.html:md5,740524f1f7418441c520b1f41aaf7961",
                     "HY.scale:md5,b026324c6904b2a9cb4b88d6d61c81d1",
                     "HYh1h2_Chr01_6000000_6015000.R.fastp.json:md5,f4a551a73cf1cd0fb03d403aad8d48ad"
@@ -105,7 +105,7 @@
                 ]
             }
         ],
-        "timestamp": "2026-08-04T18:09:20.145905",
+        "timestamp": "2026-08-04T21:19:09.180958",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.6"
@@ -118,13 +118,6 @@
                 "versions": {
                     "ASSEMBLATHON_STATS": {
                         "assemblathon_stats": "github/PlantandFoodResearch/assemblathon2-analysis/a93cba2"
-                    },
-                    "BWA_INDEX": {
-                        "bwa": "0.7.19-r1273"
-                    },
-                    "BWA_MEM": {
-                        "bwa": "0.7.19-r1273",
-                        "samtools": "1.22.1"
                     },
                     "CUSTOM_YAHSJUICERPRE2PAIRS": {
                         "python": "3.8.13",
@@ -154,6 +147,13 @@
                     "JUICEBOXSCRIPTS_MAKEAGPFROMFASTA": {
                         "juicebox_scripts": "0.1.0"
                     },
+                    "MINIBWA_INDEX": {
+                        "minibwa": 0.2
+                    },
+                    "MINIBWA_MAP": {
+                        "minibwa": 0.2,
+                        "samtools": "1.23.1"
+                    },
                     "SAMBLASTER": {
                         "samblaster": "0.1.26",
                         "samtools": "1.19.2"
@@ -181,7 +181,7 @@
                 },
                 "stable paths": [
                     "HY_stats.csv:md5,fc61def49f669e7b3f885bf2555bcd46",
-                    "HY.hic:md5,01cc315606b8f2c31a50e91a469eb8cf",
+                    "HY.hic:md5,dd874deeaec4cbdce8d5da1828fbc93e",
                     "HY.html:md5,af19faee0793bb615a2830166743cb91",
                     "HYh1h2_Chr01_6000000_6015000.R.fastp.json:md5,f4a551a73cf1cd0fb03d403aad8d48ad"
                 ],
@@ -205,7 +205,7 @@
                 ]
             }
         ],
-        "timestamp": "2026-08-04T18:08:42.420094",
+        "timestamp": "2026-08-04T21:18:33.084755",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.6"

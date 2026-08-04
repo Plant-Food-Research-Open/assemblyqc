@@ -100,6 +100,10 @@
 
   > <https://github.com/phasegenomics/juicebox_scripts/commit/a7ae9915401eb677b8058b0118011ce440999bc0>
 
+- minibwa, [MIT](https://github.com/lh3/minibwa/blob/master/LICENSE.txt)
+
+  > Li, Heng, and Nils Homer. "Fast genomic read alignment with minibwa." arXiv preprint arXiv:2606.15357 (2026), <https://doi.org/10.48550/arXiv.2606.15357>
+
 - bwa-mem, [GPL v3](https://github.com/lh3/bwa/blob/master/COPYING)
 
   > Li H. 2013. Aligning sequence reads, clone sequences and assembly contigs with BWA-MEM. <https://doi.org/10.48550/arXiv.1303.3997>

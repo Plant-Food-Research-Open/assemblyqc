@@ -16,13 +16,6 @@
                     "BUSCO_ASSEMBLY": {
                         "busco": "6.1.0"
                     },
-                    "BWA_INDEX": {
-                        "bwa": "0.7.19-r1273"
-                    },
-                    "BWA_MEM": {
-                        "bwa": "0.7.19-r1273",
-                        "samtools": "1.22.1"
-                    },
                     "CIRCOS": {
                         "circos": "v0.69-8",
                         "perl": 5.032001
@@ -150,6 +143,13 @@
                     },
                     "MERYL_UNIONSUM": {
                         "meryl": "1.4.1"
+                    },
+                    "MINIBWA_INDEX": {
+                        "minibwa": 0.2
+                    },
+                    "MINIBWA_MAP": {
+                        "minibwa": 0.2,
+                        "samtools": "1.23.1"
                     },
                     "MINIMAP2_ALIGN": {
                         "minimap2": "2.30-r1287"
@@ -305,7 +305,7 @@
                 ]
             }
         ],
-        "timestamp": "2026-08-04T16:00:37.532361",
+        "timestamp": "2026-08-04T21:26:32.175539",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.6"

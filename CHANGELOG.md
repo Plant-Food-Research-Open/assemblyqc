@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Added`
 
 1. Updated nf-core pipeline template to 4.1.0
+2. Added sub workflow `fastq_minibwa_map_samblaster` and parameter `--hic_use_minibwa` set to `true` by default [#324](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/324)
 
 ### `Dependencies`
 

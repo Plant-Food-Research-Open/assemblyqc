@@ -279,6 +279,12 @@
                     "fa_icon": "fas fa-question-circle",
                     "description": "To set or not to set the assembly mode for YAHS juicer pre stage",
                     "default": true
+                },
+                "hic_use_minibwa": {
+                    "type": "boolean",
+                    "default": true,
+                    "fa_icon": "fas fa-question-circle",
+                    "description": "Use minibwa/map instead of bwa-mem"
                 }
             }
         },
