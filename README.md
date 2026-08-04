@@ -34,7 +34,7 @@
     - [fastp](https://github.com/OpenGene/fastp), [FastQC](https://github.com/s-andrews/FastQC): Read QC and trimming
     - [SeqKit sort](https://github.com/shenwei356/seqkit): Alphanumeric sorting of FASTA by sequence ID
     - [HapHiC refsort](https://github.com/zengxiaofei/HapHiC): Reference-based sorting of FASTA
-    - [bwa-mem](https://github.com/lh3/bwa): HiC read alignment
+    - [minibwa](https://github.com/lh3/minibwa) OR [bwa-mem](https://github.com/lh3/bwa): HiC read alignment
     - [samblaster](https://github.com/GregoryFaust/samblaster): Duplicate marking
     - [hic_qc](https://github.com/phasegenomics/hic_qc): HiC read and alignment statistics
     - [YaHS juicer pre](https://github.com/c-zhou/yahs): BAM to juicer conversion
@@ -125,6 +125,7 @@ The pipeline uses nf-core modules contributed by following authors:
 <a href="https://github.com/fellen31"><img src="https://github.com/fellen31.png" width="50" height="50"></a>
 <a href="https://github.com/ewels"><img src="https://github.com/ewels.png" width="50" height="50"></a>
 <a href="https://github.com/nvnieuwk"><img src="https://github.com/nvnieuwk.png" width="50" height="50"></a>
+<a href="https://github.com/nh13"><img src="https://github.com/nh13.png" width="50" height="50"></a>
 <a href="https://github.com/grst"><img src="https://github.com/grst.png" width="50" height="50"></a>
 <a href="https://github.com/adamrtalbot"><img src="https://github.com/adamrtalbot.png" width="50" height="50"></a>
 <a href="https://github.com/robsyme"><img src="https://github.com/robsyme.png" width="50" height="50"></a>
@@ -138,14 +139,16 @@ The pipeline uses nf-core modules contributed by following authors:
 <a href="https://github.com/kevbrick"><img src="https://github.com/kevbrick.png" width="50" height="50"></a>
 <a href="https://github.com/jvhagey"><img src="https://github.com/jvhagey.png" width="50" height="50"></a>
 <a href="https://github.com/jeremy1805"><img src="https://github.com/jeremy1805.png" width="50" height="50"></a>
-<a href="https://github.com/friederikehanssen"><img src="https://github.com/friederikehanssen.png" width="50" height="50"></a>
 <a href="https://github.com/felixkrueger"><img src="https://github.com/felixkrueger.png" width="50" height="50"></a>
-<a href="https://github.com/erikrikarddaniel"><img src="https://github.com/erikrikarddaniel.png" width="50" height="50"></a>
 <a href="https://github.com/edmundmiller"><img src="https://github.com/edmundmiller.png" width="50" height="50"></a>
 <a href="https://github.com/dlbpointon"><img src="https://github.com/dlbpointon.png" width="50" height="50"></a>
+<a href="https://github.com/dialvarezs"><img src="https://github.com/dialvarezs.png" width="50" height="50"></a>
 <a href="https://github.com/d4straub"><img src="https://github.com/d4straub.png" width="50" height="50"></a>
+<a href="https://github.com/chriswyatt1"><img src="https://github.com/chriswyatt1.png" width="50" height="50"></a>
 <a href="https://github.com/charles-plessy"><img src="https://github.com/charles-plessy.png" width="50" height="50"></a>
+<a href="https://github.com/biowilko"><img src="https://github.com/biowilko.png" width="50" height="50"></a>
 <a href="https://github.com/fernandoduartef"><img src="https://github.com/fernandoduartef.png" width="50" height="50"></a>
+<a href="https://github.com/eit-maxlcummins"><img src="https://github.com/eit-maxlcummins.png" width="50" height="50"></a>
 
 ## Contributions and Support
 

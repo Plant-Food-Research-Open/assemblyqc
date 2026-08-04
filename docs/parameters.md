@@ -80,6 +80,7 @@ A Nextflow pipeline which evaluates assembly quality with multiple QC tools and 
 | `hic_refsort`           | Apply HapHic refsort to query fasta in paired HiC map combinations                                                                              | `boolean` | True                                              |          |        |
 | `hic_mapq`              | HiC MAPQ threshold to apply at the YAHS juicer pre stage                                                                                        | `integer` | 1                                                 |          |        |
 | `hic_assembly_mode`     | To set or not to set the assembly mode for YAHS juicer pre stage                                                                                | `boolean` | True                                              |          |        |
+| `hic_use_minibwa`       | Use minibwa/map instead of bwa-mem                                                                                                              | `boolean` | True                                              |          |        |
 
 ## Merqury options
 

@@ -1,6 +1,7 @@
 include { FASTQ_FASTQC_UMITOOLS_FASTP   } from '../nf-core/fastq_fastqc_umitools_fastp/main'
 
 include { FASTQ_BWA_MEM_SAMBLASTER      } from '../gallvp/fastq_bwa_mem_samblaster/main'
+include { FASTQ_MINIBWA_MAP_SAMBLASTER  } from '../gallvp/fastq_minibwa_map_samblaster/main'
 include { HICQC                         } from '../../modules/gallvp/hicqc'
 
 include { FASTA_SEQKIT_REFSORT          } from '../gallvp/fasta_seqkit_refsort/main'
@@ -18,6 +19,7 @@ workflow FQ2HIC {
     hic_alphanumeric_sort           // val: true|false
     hic_refsort                     // val: true|false
     hic_assembly_mode               // val: true|false
+    val_use_minibwa                 // val: true|false
 
     main:
     ch_versions                     = channel.empty()
@@ -51,12 +53,20 @@ workflow FQ2HIC {
     // SUBWORKFLOW: FASTQ_BWA_MEM_SAMBLASTER
     val_sort_bam = true
     FASTQ_BWA_MEM_SAMBLASTER(
-        ch_trim_reads,
-        ch_sorted_ref.map { meta2, fa -> [ meta2, fa, [] ] },
+        val_use_minibwa ? channel.empty() : ch_trim_reads,
+        val_use_minibwa ? channel.empty() : ch_sorted_ref.map { meta2, fa -> [ meta2, fa, [] ] },
+        val_sort_bam
+    )
+
+    // SUBWORKFLOW: FASTQ_MINIBWA_MAP_SAMBLASTER
+    FASTQ_MINIBWA_MAP_SAMBLASTER(
+        val_use_minibwa ? ch_trim_reads : channel.empty(),
+        val_use_minibwa ? ch_sorted_ref.map { meta2, fa -> [ meta2, fa, [] ] } : channel.empty(),
         val_sort_bam
     )
 
     ch_bam                          = FASTQ_BWA_MEM_SAMBLASTER.out.bam
+                                    | mix(FASTQ_MINIBWA_MAP_SAMBLASTER.out.bam)
 
     // MODULE: HICQC
     ch_bam_and_ref                  = ch_bam

@@ -1,0 +1,81 @@
+nextflow_workflow {
+
+    name "Test Subworkflow FASTQ_MINIBWA_MAP_SAMBLASTER"
+    script "../main.nf"
+    workflow "FASTQ_MINIBWA_MAP_SAMBLASTER"
+    config './nextflow.config'
+
+    tag "subworkflows"
+    tag "subworkflows_gallvp"
+    tag "subworkflows/fastq_minibwa_map_samblaster"
+    tag "samtools"
+    tag "samtools/sort"
+    tag "samtools/index"
+    tag "samblaster"
+    tag "minibwa"
+    tag "minibwa/index"
+    tag "minibwa/map"
+
+
+    test("sarscov2-fq-gz") {
+
+        when {
+            workflow {
+                """
+                input[0] = channel.of(
+                    [
+                        [ id:'test' ],
+                        [
+                            file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
+                            file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true)
+                        ]
+                    ]
+                )
+                input[1] = channel.of(
+                    [ [ id: 'genome' ], file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/genome.fasta', checkIfExists: true), [] ]
+                )
+                input[2] = true
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot(workflow.out).match()}
+            )
+        }
+    }
+
+    test("sarscov2-fq-gz-stub") {
+
+        options '-stub'
+
+        when {
+            workflow {
+                """
+                input[0] = channel.of(
+                    [
+                        [ id:'test' ],
+                        [
+                            file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
+                            file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true)
+                        ]
+                    ]
+                )
+                input[1] = channel.of(
+                    [ [ id: 'genome' ], file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/genome.fasta', checkIfExists: true), [] ]
+                )
+                input[2] = true
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot(workflow.out).match()}
+            )
+        }
+    }
+}

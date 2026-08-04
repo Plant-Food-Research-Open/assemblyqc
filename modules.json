@@ -135,6 +135,16 @@
                         "git_sha": "5a0a31a8270e5430a7b8a885c6f905af66eb81d2",
                         "installed_by": ["fasta_fastq_winnowmap_coverage", "modules"]
                     },
+                    "minibwa/index": {
+                        "branch": "main",
+                        "git_sha": "8c73e45dc550a904d75736993aea373fe9de1214",
+                        "installed_by": ["fastq_minibwa_map_samblaster"]
+                    },
+                    "minibwa/map": {
+                        "branch": "main",
+                        "git_sha": "8c73e45dc550a904d75736993aea373fe9de1214",
+                        "installed_by": ["fastq_minibwa_map_samblaster"]
+                    },
                     "minimap2/align": {
                         "branch": "main",
                         "git_sha": "5a0a31a8270e5430a7b8a885c6f905af66eb81d2",
@@ -153,7 +163,7 @@
                     "samblaster": {
                         "branch": "main",
                         "git_sha": "e8d1b37905cbe1a1a113ed01b8f4d280643fff2b",
-                        "installed_by": ["fastq_bwa_mem_samblaster", "modules"]
+                        "installed_by": ["fastq_bwa_mem_samblaster", "fastq_minibwa_map_samblaster", "modules"]
                     },
                     "samtools/faidx": {
                         "branch": "main",
@@ -230,6 +240,11 @@
                     "fastq_bwa_mem_samblaster": {
                         "branch": "main",
                         "git_sha": "e8d1b37905cbe1a1a113ed01b8f4d280643fff2b",
+                        "installed_by": ["subworkflows"]
+                    },
+                    "fastq_minibwa_map_samblaster": {
+                        "branch": "main",
+                        "git_sha": "8c73e45dc550a904d75736993aea373fe9de1214",
                         "installed_by": ["subworkflows"]
                     },
                     "gff3_gt_gff3_gff3validator_stat": {
