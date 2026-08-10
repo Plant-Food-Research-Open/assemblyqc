@@ -333,7 +333,7 @@ def validateInputParameters() {
     }
 }
 
-def validateInputTags(assemblyTags, hicCombinations) {
+def validateInputTags(List<String> assemblyTags, String hicCombinations) {
 
     def tagCounts = [:]
     assemblyTags.each { tag ->
@@ -347,9 +347,23 @@ def validateInputTags(assemblyTags, hicCombinations) {
 
     def hicTags = hicCombinations != null ? hicCombinations.tokenize(' ').collect { it.tokenize(':') }.flatten() : []
 
-    hicTags.each {
-        if ( it !in assemblyTags ) {
-            error("Please check input hic_map_combinations -> $it was not found in the assemblysheet!")
+    hicTags.each { hicTag ->
+        if ( hicTag !in assemblyTags ) {
+            error("Please check input hic_map_combinations -> $hicTag was not found in the assemblysheet!")
+        }
+    }
+
+    // Make sure that all hic combinations are unique
+    def hicCombinationsUnique = hicCombinations != null ? hicCombinations.tokenize(' ').unique() : []
+    if ( hicCombinationsUnique.size() != hicCombinations.tokenize(' ').size() ) {
+        error("Please check input hic_map_combinations -> Some combinations are repeated!")
+    }
+
+    // Make sure that no hic combination is self-referential
+    hicCombinationsUnique.each { hicCombination ->
+        def hicCombinationTags = hicCombination.tokenize(':')
+        if ( hicCombinationTags.size() != hicCombinationTags.unique().size() ) {
+            error("Please check input hic_map_combinations -> ${hicCombination} combination is self-referential!")
         }
     }
 
