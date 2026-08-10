@@ -302,23 +302,23 @@ workflow FASTA_SYNTENY {
     MINIMAP2_ALIGN(
         ch_minimap_inputs.map { meta, tfa, _rfa -> [ meta, tfa ] },
         ch_minimap_inputs.map { meta, _tfa, rfa -> [ meta, rfa ] },
-        true,   // bam_format
+        false,   // bam_format
         'bai',  // bam_index_extension
-        false,  // cigar_paf_format
+        true,  // cigar_paf_format
         false   // cigar_bam
     )
 
-    ch_minimap2_bam                     = MINIMAP2_ALIGN.out.bam
+    ch_minimap2_paf                     = MINIMAP2_ALIGN.out.paf
 
     // MODULE: SYRI
-    ch_syri_inputs                      = ch_minimap2_bam
+    ch_syri_inputs                      = ch_minimap2_paf
                                         | join(ch_minimap_inputs)
 
     SYRI(
-        ch_syri_inputs.map { meta, bam, _tfa, _rfa -> [ meta, bam ] },
+        ch_syri_inputs.map { meta, paf, _tfa, _rfa -> [ meta, paf ] },
         ch_syri_inputs.map { _meta, _bam, tfa, _rfa -> tfa },
         ch_syri_inputs.map { _meta, _bam, _tfa, rfa -> rfa },
-        'B' // BAM
+        'P' // PAF
     )
 
     ch_syri                             = SYRI.out.syri
