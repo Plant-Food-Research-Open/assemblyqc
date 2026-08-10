@@ -13,7 +13,7 @@ workflow FQ2HIC {
     take:
     reads                           // [ val(meta), [ fq ] ]
     ch_ref                          // [ val(meta2), fa ]
-    hic_map_combinations            // val: null|[]|"tag1 tag2:tag3"
+    hic_map_combinations            // val: null|[]|"tag1 tag2:tag3"|""
     hic_skip_fastp                  // val: true|false
     hic_skip_fastqc                 // val: true|false
     hic_alphanumeric_sort           // val: true|false
@@ -41,9 +41,16 @@ workflow FQ2HIC {
     ch_trim_reads                   = FASTQ_FASTQC_UMITOOLS_FASTP.out.reads
 
     // SUBWORKFLOW: FASTA_SEQKIT_REFSORT
+    val_hic_map_combinations_es     = ( hic_map_combinations instanceof String )
+                                    ? (
+                                        hic_map_combinations.strip() == ""
+                                        ? null
+                                        : hic_map_combinations
+                                    )
+                                    : hic_map_combinations
     FASTA_SEQKIT_REFSORT (
         ch_ref,
-        hic_map_combinations,
+        val_hic_map_combinations_es,
         hic_alphanumeric_sort,
         hic_refsort
     )
