@@ -345,7 +345,7 @@ def validateInputTags(List<String> assemblyTags, String hicCombinations) {
         error("Please check input assemblysheet -> Multiple assemblies have the same tags!: ${repeatedTags}")
     }
 
-    def hicTags = hicCombinations != null ? hicCombinations.tokenize(' ').collect { it.tokenize(':') }.flatten() : []
+    def hicTags = hicCombinations != null ? hicCombinations.tokenize(' ').collect { combination -> combination.tokenize(':') }.flatten() : []
 
     hicTags.each { hicTag ->
         if ( hicTag !in assemblyTags ) {
@@ -353,8 +353,12 @@ def validateInputTags(List<String> assemblyTags, String hicCombinations) {
         }
     }
 
+    if ( hicCombinations == null || hicCombinations == "" ) {
+        return true
+    }
+
     // Make sure that all hic combinations are unique
-    def hicCombinationsUnique = hicCombinations != null ? hicCombinations.tokenize(' ').unique() : []
+    def hicCombinationsUnique = hicCombinations.tokenize(' ').unique()
     if ( hicCombinationsUnique.size() != hicCombinations.tokenize(' ').size() ) {
         error("Please check input hic_map_combinations -> Some combinations are repeated!")
     }
