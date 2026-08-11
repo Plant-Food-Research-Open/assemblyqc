@@ -15,10 +15,12 @@ process MUMMER {
     task.ext.when == null || task.ext.when
 
     script:
+    def args = task.ext.args ?: ''
     """
     nucmer \
         --mum \\
         -t ${task.cpus} \\
+        ${args} \\
         -p "${target}.on.${reference}" \\
         $ref_fasta \\
         $target_fasta
