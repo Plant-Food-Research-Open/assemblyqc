@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v3.1.0dev - [10-Aug-2026]
+## v3.1.0dev - [11-Aug-2026]
 
 ### `Added`
 
@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Fixed`
 
 1. Fixed an issue where `--hic_map_combinations` parameter set to "" was not being interpreted as `null` and resulted in no HiC maps being generated [#321](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/321)
+2. Fixed an issue where `--hic_map_combinations` parameter was not being validated correctly and allowed self-referential combinations to be specified [#318](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/318)
 
 ### `Dependencies`
 
