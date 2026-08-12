@@ -616,5 +616,10 @@
         {
             "$ref": "#/$defs/generic_options"
         }
-    ]
+    ],
+    "properties": {
+        "synteny_mummer_extra_args": {
+            "type": "string"
+        }
+    }
 }
