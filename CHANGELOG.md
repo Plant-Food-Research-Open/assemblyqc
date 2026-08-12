@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 4. Dynamic memory allocation for assemblathon based on genome size [#329](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/329)
 5. Dynamic memory allocation for minimap2 based on genome size [#337](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/337)
 6. Added `synteny_minimap2_extra_args` with default of `-x asm5 --eqx -I100G` for minimap2 [#337](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/337)
-7. Added ext.args option to MUMMER module. [#338](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/338)
+7. Added `synteny_mummer_extra_args` with default of `` for mummer module. [#338](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/338)
 
 ### `Fixed`
 
