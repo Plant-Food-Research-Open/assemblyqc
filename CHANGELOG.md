@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 2. Added sub workflow `fastq_minibwa_map_samblaster` and parameter `--hic_use_minibwa` set to `true` by default [#324](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/324)
 3. Changed SYRI workflow to use `.paf` files instead of `.bam` files [#333](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/333)
 4. Dynamic memory allocation for assemblathon based on genome size [#329](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/329)
+5. Dynamic memory allocation for minimap2 based on genome size [#337](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/337)
+6. Added `synteny_minimap2_extra_args` with default of `-x asm5 --eqx -I100G` for minimap2 [#337](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/337)
+7. Added ext.args option to MUMMER module [#338](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/338)
 
 ### `Fixed`
 
