@@ -95,11 +95,18 @@ workflow PIPELINE_INITIALISATION {
 
     // Function: validateInputTags
     ch_input_validated                      = ch_input
-                                            | map { row -> row[0] }
+                                            | map { row -> [ id: row[0], hic_fq_1: row[11] ? file(row[11]).name : null ] }
                                             | collect
-                                            | map { tags ->
+                                            | map { tagsAndHicFq1s ->
+
+                                                def tags = tagsAndHicFq1s.collect { mp -> mp.id }
                                                 validateInputTags(
                                                     tags,
+                                                    params.hic ? params.hic_map_combinations : null
+                                                )
+
+                                                validateHiCAssemblyWiseReads(
+                                                    tagsAndHicFq1s,
                                                     params.hic ? params.hic_map_combinations : null
                                                 )
                                             }
@@ -488,4 +495,25 @@ def validateAndNormaliseReadsTuple ( fid, metas, reads, readsType ) {
         [ id:groupID, single_end:false, is_sra:false, type: readsType, assemblies:tags ],
         reads.first().collect { file(it, checkIfExists: true) }
     ]
+}
+
+def validateHiCAssemblyWiseReads(List<Map<String, String>> tagsAndHicFq1s, String hic_map_combinations) {
+
+    if (hic_map_combinations == null || hic_map_combinations == "") {
+        return true
+    }
+
+    hic_map_combinations
+    .tokenize(' ')
+    .findAll { combination -> combination.contains(':') }
+    .each { combination ->
+        def hicTags = combination.tokenize(':')
+        def hicFq1s = tagsAndHicFq1s.findAll { mp -> hicTags.contains(mp.id) }.collect { mp -> mp.hic_fq_1 }
+
+        if ( hicFq1s.unique().size() != 1 ) {
+            error("Please check input assemblysheet and hic_map_combinations parameter -> Following assemblies have different hic_reads_1: ${hicTags} although they are in the same hic_map_combinations group ${combination}")
+        }
+    }
+
+    return true
 }

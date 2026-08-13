@@ -1,0 +1,659 @@
+{
+    "hic - HY1 HY2 - hic param - combination - pass": {
+        "content": [
+            {
+                "successful tasks": 56,
+                "versions": {
+                    "ASSEMBLATHON_STATS": {
+                        "assemblathon_stats": "github/PlantandFoodResearch/assemblathon2-analysis/a93cba2"
+                    },
+                    "CUSTOM_INTERLEAVEFASTA": {
+                        "python": "3.8.13",
+                        "biopython": 1.75
+                    },
+                    "CUSTOM_YAHSJUICERPRE2PAIRS": {
+                        "python": "3.8.13",
+                        "biopython": 1.75
+                    },
+                    "CUSTOM_YAHSJUICERPRE2TRACKS": {
+                        "python": "3.8.13",
+                        "biopython": 1.75
+                    },
+                    "FALINT": {
+                        "falint": "1.2.0"
+                    },
+                    "FASTP": {
+                        "fastp": "1.3.6"
+                    },
+                    "GUNZIP_FASTA": {
+                        "gunzip": 1.13
+                    },
+                    "HAPHIC_REFSORT": {
+                        "haphic": "1.0.7"
+                    },
+                    "HIC2HTML": {
+                        "python": "3.11.3"
+                    },
+                    "HICQC": {
+                        "hic_qc.py": "1.3.1"
+                    },
+                    "HICTK_LOAD": {
+                        "hictk": "hictk-v2.2.0-bioconda"
+                    },
+                    "HICTK_ZOOMIFY": {
+                        "hictk": "hictk-v2.2.0-bioconda"
+                    },
+                    "JUICEBOXSCRIPTS_MAKEAGPFROMFASTA": {
+                        "juicebox_scripts": "0.1.0"
+                    },
+                    "MINIBWA_INDEX": {
+                        "minibwa": 0.2
+                    },
+                    "MINIBWA_MAP": {
+                        "minibwa": 0.2,
+                        "samtools": "1.23.1"
+                    },
+                    "MINIMAP2_ALIGN": {
+                        "minimap2": "2.30-r1287"
+                    },
+                    "SAMBLASTER": {
+                        "samblaster": "0.1.26",
+                        "samtools": "1.19.2"
+                    },
+                    "SAMTOOLS_FAIDX": {
+                        "samtools": 1.24
+                    },
+                    "SEQKIT_RMDUP": {
+                        "seqkit": "2.13.0"
+                    },
+                    "SEQKIT_SORT": {
+                        "seqkit": "2.13.0"
+                    },
+                    "TAG_ASSEMBLY": {
+                        "coreutils": 9.4,
+                        "find": "4.6.0",
+                        "pigz": 2.8
+                    },
+                    "Workflow": {
+                        "plant-food-research-open/assemblyqc": "v3.1.0dev"
+                    },
+                    "YAHS_JUICERPRE": {
+                        "yahs": "1.2.2"
+                    }
+                },
+                "stable paths": [
+                    "HY1_stats.csv:md5,a2d7d0d413e429768e205f989bbc0d79",
+                    "HY2_stats.csv:md5,2ce660c4126e2af31d8e666a26148bb3",
+                    "HY1.assembly:md5,20b8ee2bb5f0d1d210fbb00863688494",
+                    "HY1.bed:md5,f9275f95ed97c1c9a3d1c53b92313fd1",
+                    "HY1.bedpe:md5,faa8b08c43e7da684c3a7da05789b46f",
+                    "HY1.hic:md5,f1fb58397088cce4ab2052a16258db3f",
+                    "HY1.html:md5,ce4a5d4c3201449cd74e54b663563cec",
+                    "HY1.scale:md5,b026324c6904b2a9cb4b88d6d61c81d1",
+                    "HY1_HY2.assembly:md5,72dfdabd22760a91b81ed4241807a0e7",
+                    "HY1_HY2.bed:md5,bc903fc7f717a627853e93ff6c2dfcb3",
+                    "HY1_HY2.bedpe:md5,a4ec178eaaa2e96b724f927ce9678b5a",
+                    "HY1_HY2.hic:md5,0f783478ebd757553f76a0e47f7a89c7",
+                    "HY1_HY2.html:md5,7a9f132529cdaca03d301e5ff28dd0f0",
+                    "HY1_HY2.scale:md5,b026324c6904b2a9cb4b88d6d61c81d1",
+                    "HY2.assembly:md5,d60f503cedf3daf230832330b0290c5b",
+                    "HY2.bed:md5,4790891301aa8cad351402de353a1d29",
+                    "HY2.bedpe:md5,e81ed18405b358bbb5fbe4d356d2c0ae",
+                    "HY2.hic:md5,7bed3e157ea3bf16737632845eac7882",
+                    "HY2.html:md5,25313b68c4aabc315f0eb6d5e6d4c645",
+                    "HY2.scale:md5,b026324c6904b2a9cb4b88d6d61c81d1",
+                    "HiC.R.fastp.json:md5,7a169bd3c70f7207d0b4aadf824ac8bb"
+                ],
+                "stable names": [
+                    "assemblathon_stats",
+                    "assemblathon_stats/HY1_stats.csv",
+                    "assemblathon_stats/HY2_stats.csv",
+                    "hic",
+                    "hic/HY1.assembly",
+                    "hic/HY1.bed",
+                    "hic/HY1.bedpe",
+                    "hic/HY1.hic",
+                    "hic/HY1.html",
+                    "hic/HY1.scale",
+                    "hic/HY1_HY2.assembly",
+                    "hic/HY1_HY2.bed",
+                    "hic/HY1_HY2.bedpe",
+                    "hic/HY1_HY2.hic",
+                    "hic/HY1_HY2.html",
+                    "hic/HY1_HY2.scale",
+                    "hic/HY2.assembly",
+                    "hic/HY2.bed",
+                    "hic/HY2.bedpe",
+                    "hic/HY2.hic",
+                    "hic/HY2.html",
+                    "hic/HY2.scale",
+                    "hic/fastp",
+                    "hic/fastp/HiC.R.fastp.html",
+                    "hic/fastp/HiC.R.fastp.json",
+                    "hic/fastp/HiC.R.fastp.log",
+                    "hic/hicqc",
+                    "hic/hicqc/HY1_HY2_qc_report.pdf",
+                    "hic/hicqc/HY1_qc_report.pdf",
+                    "hic/hicqc/HY2_qc_report.pdf",
+                    "pipeline_info",
+                    "report.html",
+                    "report.json",
+                    "synteny",
+                    "synteny/plotsr"
+                ]
+            }
+        ],
+        "timestamp": "2026-08-13T20:20:10.474073",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    },
+    "hic - HY1 HY2 - samplesheet - test": {
+        "content": [
+            {
+                "successful tasks": 31,
+                "versions": {
+                    "ASSEMBLATHON_STATS": {
+                        "assemblathon_stats": "github/PlantandFoodResearch/assemblathon2-analysis/a93cba2"
+                    },
+                    "CUSTOM_YAHSJUICERPRE2PAIRS": {
+                        "python": "3.8.13",
+                        "biopython": 1.75
+                    },
+                    "CUSTOM_YAHSJUICERPRE2TRACKS": {
+                        "python": "3.8.13",
+                        "biopython": 1.75
+                    },
+                    "FALINT": {
+                        "falint": "1.2.0"
+                    },
+                    "FASTP": {
+                        "fastp": "1.3.6"
+                    },
+                    "GUNZIP_FASTA": {
+                        "gunzip": 1.13
+                    },
+                    "HIC2HTML": {
+                        "python": "3.11.3"
+                    },
+                    "HICQC": {
+                        "hic_qc.py": "1.3.1"
+                    },
+                    "HICTK_LOAD": {
+                        "hictk": "hictk-v2.2.0-bioconda"
+                    },
+                    "HICTK_ZOOMIFY": {
+                        "hictk": "hictk-v2.2.0-bioconda"
+                    },
+                    "JUICEBOXSCRIPTS_MAKEAGPFROMFASTA": {
+                        "juicebox_scripts": "0.1.0"
+                    },
+                    "MINIBWA_INDEX": {
+                        "minibwa": 0.2
+                    },
+                    "MINIBWA_MAP": {
+                        "minibwa": 0.2,
+                        "samtools": "1.23.1"
+                    },
+                    "SAMBLASTER": {
+                        "samblaster": "0.1.26",
+                        "samtools": "1.19.2"
+                    },
+                    "SAMTOOLS_FAIDX": {
+                        "samtools": 1.24
+                    },
+                    "SEQKIT_RMDUP": {
+                        "seqkit": "2.13.0"
+                    },
+                    "SEQKIT_SORT": {
+                        "seqkit": "2.13.0"
+                    },
+                    "TAG_ASSEMBLY": {
+                        "coreutils": 9.4,
+                        "find": "4.6.0",
+                        "pigz": 2.8
+                    },
+                    "Workflow": {
+                        "plant-food-research-open/assemblyqc": "v3.1.0dev"
+                    },
+                    "YAHS_JUICERPRE": {
+                        "yahs": "1.2.2"
+                    }
+                },
+                "stable paths": [
+                    "HY1_stats.csv:md5,fc61def49f669e7b3f885bf2555bcd46",
+                    "HY2_stats.csv:md5,fc61def49f669e7b3f885bf2555bcd46",
+                    "HY1.assembly:md5,72dfdabd22760a91b81ed4241807a0e7",
+                    "HY1.bed:md5,bc903fc7f717a627853e93ff6c2dfcb3",
+                    "HY1.bedpe:md5,a4ec178eaaa2e96b724f927ce9678b5a",
+                    "HY1.hic:md5,0f783478ebd757553f76a0e47f7a89c7",
+                    "HY1.html:md5,ce4a5d4c3201449cd74e54b663563cec",
+                    "HY1.scale:md5,b026324c6904b2a9cb4b88d6d61c81d1",
+                    "HYh1h2_Chr01_6000000_6015000.fastp.json:md5,e5d0f275bd99def229d2015c00204aa0"
+                ],
+                "stable names": [
+                    "assemblathon_stats",
+                    "assemblathon_stats/HY1_stats.csv",
+                    "assemblathon_stats/HY2_stats.csv",
+                    "hic",
+                    "hic/HY1.assembly",
+                    "hic/HY1.bed",
+                    "hic/HY1.bedpe",
+                    "hic/HY1.hic",
+                    "hic/HY1.html",
+                    "hic/HY1.scale",
+                    "hic/fastp",
+                    "hic/fastp/HYh1h2_Chr01_6000000_6015000.fastp.html",
+                    "hic/fastp/HYh1h2_Chr01_6000000_6015000.fastp.json",
+                    "hic/fastp/HYh1h2_Chr01_6000000_6015000.fastp.log",
+                    "hic/hicqc",
+                    "hic/hicqc/HY1_qc_report.pdf",
+                    "pipeline_info",
+                    "report.html",
+                    "report.json",
+                    "synteny",
+                    "synteny/plotsr"
+                ]
+            }
+        ],
+        "timestamp": "2026-08-14T11:53:04.814837",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    },
+    "hic - HY - samplesheet - test": {
+        "content": [
+            {
+                "successful tasks": 21,
+                "versions": {
+                    "ASSEMBLATHON_STATS": {
+                        "assemblathon_stats": "github/PlantandFoodResearch/assemblathon2-analysis/a93cba2"
+                    },
+                    "CUSTOM_YAHSJUICERPRE2PAIRS": {
+                        "python": "3.8.13",
+                        "biopython": 1.75
+                    },
+                    "CUSTOM_YAHSJUICERPRE2TRACKS": {
+                        "python": "3.8.13",
+                        "biopython": 1.75
+                    },
+                    "FALINT": {
+                        "falint": "1.2.0"
+                    },
+                    "FASTP": {
+                        "fastp": "1.3.6"
+                    },
+                    "GUNZIP_FASTA": {
+                        "gunzip": 1.13
+                    },
+                    "HIC2HTML": {
+                        "python": "3.11.3"
+                    },
+                    "HICQC": {
+                        "hic_qc.py": "1.3.1"
+                    },
+                    "HICTK_LOAD": {
+                        "hictk": "hictk-v2.2.0-bioconda"
+                    },
+                    "HICTK_ZOOMIFY": {
+                        "hictk": "hictk-v2.2.0-bioconda"
+                    },
+                    "JUICEBOXSCRIPTS_MAKEAGPFROMFASTA": {
+                        "juicebox_scripts": "0.1.0"
+                    },
+                    "MINIBWA_INDEX": {
+                        "minibwa": 0.2
+                    },
+                    "MINIBWA_MAP": {
+                        "minibwa": 0.2,
+                        "samtools": "1.23.1"
+                    },
+                    "SAMBLASTER": {
+                        "samblaster": "0.1.26",
+                        "samtools": "1.19.2"
+                    },
+                    "SAMTOOLS_FAIDX": {
+                        "samtools": 1.24
+                    },
+                    "SEQKIT_RMDUP": {
+                        "seqkit": "2.13.0"
+                    },
+                    "SEQKIT_SORT": {
+                        "seqkit": "2.13.0"
+                    },
+                    "TAG_ASSEMBLY": {
+                        "coreutils": 9.4,
+                        "find": "4.6.0",
+                        "pigz": 2.8
+                    },
+                    "Workflow": {
+                        "plant-food-research-open/assemblyqc": "v3.1.0dev"
+                    },
+                    "YAHS_JUICERPRE": {
+                        "yahs": "1.2.2"
+                    }
+                },
+                "stable paths": [
+                    "HY_stats.csv:md5,fc61def49f669e7b3f885bf2555bcd46",
+                    "HY.assembly:md5,72dfdabd22760a91b81ed4241807a0e7",
+                    "HY.bed:md5,bc903fc7f717a627853e93ff6c2dfcb3",
+                    "HY.bedpe:md5,a4ec178eaaa2e96b724f927ce9678b5a",
+                    "HY.hic:md5,0f783478ebd757553f76a0e47f7a89c7",
+                    "HY.html:md5,740524f1f7418441c520b1f41aaf7961",
+                    "HY.scale:md5,b026324c6904b2a9cb4b88d6d61c81d1",
+                    "HYh1h2_Chr01_6000000_6015000.fastp.json:md5,e5d0f275bd99def229d2015c00204aa0"
+                ],
+                "stable names": [
+                    "assemblathon_stats",
+                    "assemblathon_stats/HY_stats.csv",
+                    "hic",
+                    "hic/HY.assembly",
+                    "hic/HY.bed",
+                    "hic/HY.bedpe",
+                    "hic/HY.hic",
+                    "hic/HY.html",
+                    "hic/HY.scale",
+                    "hic/fastp",
+                    "hic/fastp/HYh1h2_Chr01_6000000_6015000.fastp.html",
+                    "hic/fastp/HYh1h2_Chr01_6000000_6015000.fastp.json",
+                    "hic/fastp/HYh1h2_Chr01_6000000_6015000.fastp.log",
+                    "hic/hicqc",
+                    "hic/hicqc/HY_qc_report.pdf",
+                    "pipeline_info",
+                    "report.html",
+                    "report.json",
+                    "synteny",
+                    "synteny/plotsr"
+                ]
+            }
+        ],
+        "timestamp": "2026-08-14T11:52:31.691107",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    },
+    "hic - HY1 HY2 - hic param - samplesheet - test": {
+        "content": [
+            {
+                "successful tasks": 41,
+                "versions": {
+                    "ASSEMBLATHON_STATS": {
+                        "assemblathon_stats": "github/PlantandFoodResearch/assemblathon2-analysis/a93cba2"
+                    },
+                    "CUSTOM_YAHSJUICERPRE2PAIRS": {
+                        "python": "3.8.13",
+                        "biopython": 1.75
+                    },
+                    "CUSTOM_YAHSJUICERPRE2TRACKS": {
+                        "python": "3.8.13",
+                        "biopython": 1.75
+                    },
+                    "FALINT": {
+                        "falint": "1.2.0"
+                    },
+                    "FASTP": {
+                        "fastp": "1.3.6"
+                    },
+                    "GUNZIP_FASTA": {
+                        "gunzip": 1.13
+                    },
+                    "HIC2HTML": {
+                        "python": "3.11.3"
+                    },
+                    "HICQC": {
+                        "hic_qc.py": "1.3.1"
+                    },
+                    "HICTK_LOAD": {
+                        "hictk": "hictk-v2.2.0-bioconda"
+                    },
+                    "HICTK_ZOOMIFY": {
+                        "hictk": "hictk-v2.2.0-bioconda"
+                    },
+                    "JUICEBOXSCRIPTS_MAKEAGPFROMFASTA": {
+                        "juicebox_scripts": "0.1.0"
+                    },
+                    "MINIBWA_INDEX": {
+                        "minibwa": 0.2
+                    },
+                    "MINIBWA_MAP": {
+                        "minibwa": 0.2,
+                        "samtools": "1.23.1"
+                    },
+                    "SAMBLASTER": {
+                        "samblaster": "0.1.26",
+                        "samtools": "1.19.2"
+                    },
+                    "SAMTOOLS_FAIDX": {
+                        "samtools": 1.24
+                    },
+                    "SEQKIT_RMDUP": {
+                        "seqkit": "2.13.0"
+                    },
+                    "SEQKIT_SORT": {
+                        "seqkit": "2.13.0"
+                    },
+                    "TAG_ASSEMBLY": {
+                        "coreutils": 9.4,
+                        "find": "4.6.0",
+                        "pigz": 2.8
+                    },
+                    "Workflow": {
+                        "plant-food-research-open/assemblyqc": "v3.1.0dev"
+                    },
+                    "YAHS_JUICERPRE": {
+                        "yahs": "1.2.2"
+                    }
+                },
+                "stable paths": [
+                    "HY1_stats.csv:md5,fc61def49f669e7b3f885bf2555bcd46",
+                    "HY2_stats.csv:md5,fc61def49f669e7b3f885bf2555bcd46",
+                    "HY1.assembly:md5,72dfdabd22760a91b81ed4241807a0e7",
+                    "HY1.bed:md5,bc903fc7f717a627853e93ff6c2dfcb3",
+                    "HY1.bedpe:md5,a4ec178eaaa2e96b724f927ce9678b5a",
+                    "HY1.hic:md5,0f783478ebd757553f76a0e47f7a89c7",
+                    "HY1.html:md5,ce4a5d4c3201449cd74e54b663563cec",
+                    "HY1.scale:md5,b026324c6904b2a9cb4b88d6d61c81d1",
+                    "HY2.assembly:md5,72dfdabd22760a91b81ed4241807a0e7",
+                    "HY2.bed:md5,bc903fc7f717a627853e93ff6c2dfcb3",
+                    "HY2.bedpe:md5,a4ec178eaaa2e96b724f927ce9678b5a",
+                    "HY2.hic:md5,0f783478ebd757553f76a0e47f7a89c7",
+                    "HY2.html:md5,25313b68c4aabc315f0eb6d5e6d4c645",
+                    "HY2.scale:md5,b026324c6904b2a9cb4b88d6d61c81d1",
+                    "HYh1h2_Chr01_6000000_6015000.fastp.json:md5,e5d0f275bd99def229d2015c00204aa0",
+                    "HiC.R.fastp.json:md5,7a169bd3c70f7207d0b4aadf824ac8bb"
+                ],
+                "stable names": [
+                    "assemblathon_stats",
+                    "assemblathon_stats/HY1_stats.csv",
+                    "assemblathon_stats/HY2_stats.csv",
+                    "hic",
+                    "hic/HY1.assembly",
+                    "hic/HY1.bed",
+                    "hic/HY1.bedpe",
+                    "hic/HY1.hic",
+                    "hic/HY1.html",
+                    "hic/HY1.scale",
+                    "hic/HY2.assembly",
+                    "hic/HY2.bed",
+                    "hic/HY2.bedpe",
+                    "hic/HY2.hic",
+                    "hic/HY2.html",
+                    "hic/HY2.scale",
+                    "hic/fastp",
+                    "hic/fastp/HYh1h2_Chr01_6000000_6015000.fastp.html",
+                    "hic/fastp/HYh1h2_Chr01_6000000_6015000.fastp.json",
+                    "hic/fastp/HYh1h2_Chr01_6000000_6015000.fastp.log",
+                    "hic/fastp/HiC.R.fastp.html",
+                    "hic/fastp/HiC.R.fastp.json",
+                    "hic/fastp/HiC.R.fastp.log",
+                    "hic/hicqc",
+                    "hic/hicqc/HY1_qc_report.pdf",
+                    "hic/hicqc/HY2_qc_report.pdf",
+                    "pipeline_info",
+                    "report.html",
+                    "report.json",
+                    "synteny",
+                    "synteny/plotsr"
+                ]
+            }
+        ],
+        "timestamp": "2026-08-14T11:53:43.342891",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    },
+    "hic - HY1 HY2 - samplesheet - combination - pass": {
+        "content": [
+            {
+                "successful tasks": 56,
+                "versions": {
+                    "ASSEMBLATHON_STATS": {
+                        "assemblathon_stats": "github/PlantandFoodResearch/assemblathon2-analysis/a93cba2"
+                    },
+                    "CUSTOM_INTERLEAVEFASTA": {
+                        "python": "3.8.13",
+                        "biopython": 1.75
+                    },
+                    "CUSTOM_YAHSJUICERPRE2PAIRS": {
+                        "python": "3.8.13",
+                        "biopython": 1.75
+                    },
+                    "CUSTOM_YAHSJUICERPRE2TRACKS": {
+                        "python": "3.8.13",
+                        "biopython": 1.75
+                    },
+                    "FALINT": {
+                        "falint": "1.2.0"
+                    },
+                    "FASTP": {
+                        "fastp": "1.3.6"
+                    },
+                    "GUNZIP_FASTA": {
+                        "gunzip": 1.13
+                    },
+                    "HAPHIC_REFSORT": {
+                        "haphic": "1.0.7"
+                    },
+                    "HIC2HTML": {
+                        "python": "3.11.3"
+                    },
+                    "HICQC": {
+                        "hic_qc.py": "1.3.1"
+                    },
+                    "HICTK_LOAD": {
+                        "hictk": "hictk-v2.2.0-bioconda"
+                    },
+                    "HICTK_ZOOMIFY": {
+                        "hictk": "hictk-v2.2.0-bioconda"
+                    },
+                    "JUICEBOXSCRIPTS_MAKEAGPFROMFASTA": {
+                        "juicebox_scripts": "0.1.0"
+                    },
+                    "MINIBWA_INDEX": {
+                        "minibwa": 0.2
+                    },
+                    "MINIBWA_MAP": {
+                        "minibwa": 0.2,
+                        "samtools": "1.23.1"
+                    },
+                    "MINIMAP2_ALIGN": {
+                        "minimap2": "2.30-r1287"
+                    },
+                    "SAMBLASTER": {
+                        "samblaster": "0.1.26",
+                        "samtools": "1.19.2"
+                    },
+                    "SAMTOOLS_FAIDX": {
+                        "samtools": 1.24
+                    },
+                    "SEQKIT_RMDUP": {
+                        "seqkit": "2.13.0"
+                    },
+                    "SEQKIT_SORT": {
+                        "seqkit": "2.13.0"
+                    },
+                    "TAG_ASSEMBLY": {
+                        "coreutils": 9.4,
+                        "find": "4.6.0",
+                        "pigz": 2.8
+                    },
+                    "Workflow": {
+                        "plant-food-research-open/assemblyqc": "v3.1.0dev"
+                    },
+                    "YAHS_JUICERPRE": {
+                        "yahs": "1.2.2"
+                    }
+                },
+                "stable paths": [
+                    "HY1_stats.csv:md5,a2d7d0d413e429768e205f989bbc0d79",
+                    "HY2_stats.csv:md5,2ce660c4126e2af31d8e666a26148bb3",
+                    "HY1.assembly:md5,20b8ee2bb5f0d1d210fbb00863688494",
+                    "HY1.bed:md5,f9275f95ed97c1c9a3d1c53b92313fd1",
+                    "HY1.bedpe:md5,faa8b08c43e7da684c3a7da05789b46f",
+                    "HY1.hic:md5,f1fb58397088cce4ab2052a16258db3f",
+                    "HY1.html:md5,ce4a5d4c3201449cd74e54b663563cec",
+                    "HY1.scale:md5,b026324c6904b2a9cb4b88d6d61c81d1",
+                    "HY1_HY2.assembly:md5,72dfdabd22760a91b81ed4241807a0e7",
+                    "HY1_HY2.bed:md5,bc903fc7f717a627853e93ff6c2dfcb3",
+                    "HY1_HY2.bedpe:md5,a4ec178eaaa2e96b724f927ce9678b5a",
+                    "HY1_HY2.hic:md5,0f783478ebd757553f76a0e47f7a89c7",
+                    "HY1_HY2.html:md5,7a9f132529cdaca03d301e5ff28dd0f0",
+                    "HY1_HY2.scale:md5,b026324c6904b2a9cb4b88d6d61c81d1",
+                    "HY2.assembly:md5,d60f503cedf3daf230832330b0290c5b",
+                    "HY2.bed:md5,4790891301aa8cad351402de353a1d29",
+                    "HY2.bedpe:md5,e81ed18405b358bbb5fbe4d356d2c0ae",
+                    "HY2.hic:md5,7bed3e157ea3bf16737632845eac7882",
+                    "HY2.html:md5,25313b68c4aabc315f0eb6d5e6d4c645",
+                    "HY2.scale:md5,b026324c6904b2a9cb4b88d6d61c81d1",
+                    "HYh1h2_Chr01_6000000_6015000.fastp.json:md5,e5d0f275bd99def229d2015c00204aa0"
+                ],
+                "stable names": [
+                    "assemblathon_stats",
+                    "assemblathon_stats/HY1_stats.csv",
+                    "assemblathon_stats/HY2_stats.csv",
+                    "hic",
+                    "hic/HY1.assembly",
+                    "hic/HY1.bed",
+                    "hic/HY1.bedpe",
+                    "hic/HY1.hic",
+                    "hic/HY1.html",
+                    "hic/HY1.scale",
+                    "hic/HY1_HY2.assembly",
+                    "hic/HY1_HY2.bed",
+                    "hic/HY1_HY2.bedpe",
+                    "hic/HY1_HY2.hic",
+                    "hic/HY1_HY2.html",
+                    "hic/HY1_HY2.scale",
+                    "hic/HY2.assembly",
+                    "hic/HY2.bed",
+                    "hic/HY2.bedpe",
+                    "hic/HY2.hic",
+                    "hic/HY2.html",
+                    "hic/HY2.scale",
+                    "hic/fastp",
+                    "hic/fastp/HYh1h2_Chr01_6000000_6015000.fastp.html",
+                    "hic/fastp/HYh1h2_Chr01_6000000_6015000.fastp.json",
+                    "hic/fastp/HYh1h2_Chr01_6000000_6015000.fastp.log",
+                    "hic/hicqc",
+                    "hic/hicqc/HY1_HY2_qc_report.pdf",
+                    "hic/hicqc/HY1_qc_report.pdf",
+                    "hic/hicqc/HY2_qc_report.pdf",
+                    "pipeline_info",
+                    "report.html",
+                    "report.json",
+                    "synteny",
+                    "synteny/plotsr"
+                ]
+            }
+        ],
+        "timestamp": "2026-08-14T11:49:50.587065",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    }
+}

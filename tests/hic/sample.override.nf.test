@@ -1,0 +1,376 @@
+nextflow_pipeline {
+
+    name "Test with hic param & samplesheet override"
+    script "main.nf"
+
+    test("hic - HY - samplesheet - test") {
+
+        def samplesheet_path = "$metaDir" + '/samplesheet.csv'
+        def samplesheet_text = """\
+            tag, fasta                                                                                                                                                       , hic_reads_1                                                                                                                                                    , hic_reads_2
+            HY , https://github.com/Plant-Food-Research-Open/assemblyqc/raw/eef371b57bda38fb0ff8167f7a547325c8211c3f/tests/hic/testdata/HYh1h2_Chr01_6000000_6015000.fasta.gz, https://github.com/Plant-Food-Research-Open/assemblyqc/raw/4f9fba392cf7212d61c6245fd72339e09164ce44/tests/hic/testdata/HYh1h2_Chr01_6000000_6015000.R1.fastq.gz, https://github.com/Plant-Food-Research-Open/assemblyqc/raw/4f9fba392cf7212d61c6245fd72339e09164ce44/tests/hic/testdata/HYh1h2_Chr01_6000000_6015000.R2.fastq.gz
+            """.stripIndent()
+
+        setup {
+            (new File(samplesheet_path)).text = samplesheet_text
+        }
+
+        when {
+            params {
+                input               = samplesheet_path
+                outdir              = "$outputDir"
+            }
+        }
+
+        then {
+            def stable_path = getAllFilesFromDir(
+                params.outdir,
+                false,
+                [
+                    'pipeline_info/*.{html,json,txt,yml}',
+                    'hic/fastp/*.fastq.gz',
+                    'hic/fastp/*.html',
+                    'hic/fastp/*.log',
+                    'hic/hicqc/*.pdf',
+                    'report.{html,json}'
+                ],
+                null,
+                ['**']
+            )
+
+            def stable_name = getAllFilesFromDir(
+                params.outdir,
+                true,
+                [
+                    'pipeline_info/*.{html,json,txt,yml}'
+                ],
+                null,
+                ['**']
+            )
+
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot(
+                    [
+                        'successful tasks': workflow.trace.succeeded().size(),
+                        'versions': removeNextflowVersion("$outputDir/pipeline_info/software_versions.yml"),
+                        'stable paths': stable_path,
+                        'stable names': getRelativePath(stable_name, outputDir),
+                    ]
+                ).match() }
+            )
+        }
+
+    }
+
+    test("hic - HY1 HY2 - samplesheet - test") {
+
+        def samplesheet_path = "$metaDir" + '/samplesheet.csv'
+        def samplesheet_text = """\
+            tag, fasta                                                                                                                                                       , hic_reads_1                                                                                                                                                    , hic_reads_2
+            HY1 , https://github.com/Plant-Food-Research-Open/assemblyqc/raw/eef371b57bda38fb0ff8167f7a547325c8211c3f/tests/hic/testdata/HYh1h2_Chr01_6000000_6015000.fasta.gz, https://github.com/Plant-Food-Research-Open/assemblyqc/raw/4f9fba392cf7212d61c6245fd72339e09164ce44/tests/hic/testdata/HYh1h2_Chr01_6000000_6015000.R1.fastq.gz, https://github.com/Plant-Food-Research-Open/assemblyqc/raw/4f9fba392cf7212d61c6245fd72339e09164ce44/tests/hic/testdata/HYh1h2_Chr01_6000000_6015000.R2.fastq.gz
+            HY2 , https://github.com/Plant-Food-Research-Open/assemblyqc/raw/eef371b57bda38fb0ff8167f7a547325c8211c3f/tests/hic/testdata/HYh1h2_Chr01_6000000_6015000.fasta.gz
+            """.stripIndent()
+
+        setup {
+            (new File(samplesheet_path)).text = samplesheet_text
+        }
+
+        when {
+            params {
+                input               = samplesheet_path
+                outdir              = "$outputDir"
+            }
+        }
+
+        then {
+            def stable_path = getAllFilesFromDir(
+                params.outdir,
+                false,
+                [
+                    'pipeline_info/*.{html,json,txt,yml}',
+                    'hic/fastp/*.fastq.gz',
+                    'hic/fastp/*.html',
+                    'hic/fastp/*.log',
+                    'hic/hicqc/*.pdf',
+                    'report.{html,json}'
+                ],
+                null,
+                ['**']
+            )
+
+            def stable_name = getAllFilesFromDir(
+                params.outdir,
+                true,
+                [
+                    'pipeline_info/*.{html,json,txt,yml}'
+                ],
+                null,
+                ['**']
+            )
+
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot(
+                    [
+                        'successful tasks': workflow.trace.succeeded().size(),
+                        'versions': removeNextflowVersion("$outputDir/pipeline_info/software_versions.yml"),
+                        'stable paths': stable_path,
+                        'stable names': getRelativePath(stable_name, outputDir),
+                    ]
+                ).match() }
+            )
+        }
+
+    }
+
+    test("hic - HY1 HY2 - hic param - samplesheet - test") {
+
+        def samplesheet_path = "$metaDir" + '/samplesheet.csv'
+        def samplesheet_text = """\
+            tag, fasta                                                                                                                                                       , hic_reads_1                                                                                                                                                    , hic_reads_2
+            HY1 , https://github.com/Plant-Food-Research-Open/assemblyqc/raw/eef371b57bda38fb0ff8167f7a547325c8211c3f/tests/hic/testdata/HYh1h2_Chr01_6000000_6015000.fasta.gz, https://github.com/Plant-Food-Research-Open/assemblyqc/raw/4f9fba392cf7212d61c6245fd72339e09164ce44/tests/hic/testdata/HYh1h2_Chr01_6000000_6015000.R1.fastq.gz, https://github.com/Plant-Food-Research-Open/assemblyqc/raw/4f9fba392cf7212d61c6245fd72339e09164ce44/tests/hic/testdata/HYh1h2_Chr01_6000000_6015000.R2.fastq.gz
+            HY2 , https://github.com/Plant-Food-Research-Open/assemblyqc/raw/eef371b57bda38fb0ff8167f7a547325c8211c3f/tests/hic/testdata/HYh1h2_Chr01_6000000_6015000.fasta.gz
+            """.stripIndent()
+
+        def hicParam = "${metaDir}" + '/HiC.R{1,2}.fastq.gz'
+
+        setup {
+            (new File(samplesheet_path)).text = samplesheet_text
+            java.nio.file.Files.copy(
+                path("$baseDir/tests/hic/testdata/HYh1h2_Chr01_6000000_6015000.R1.fastq.gz"),
+                path("${metaDir}/HiC.R1.fastq.gz")
+            )
+            java.nio.file.Files.copy(
+                path("$baseDir/tests/hic/testdata/HYh1h2_Chr01_6000000_6015000.R2.fastq.gz"),
+                path("${metaDir}/HiC.R2.fastq.gz")
+            )
+        }
+
+        when {
+            params {
+                input               = samplesheet_path
+                hic                 = hicParam
+                outdir              = "$outputDir"
+            }
+        }
+
+        then {
+            def stable_path = getAllFilesFromDir(
+                params.outdir,
+                false,
+                [
+                    'pipeline_info/*.{html,json,txt,yml}',
+                    'hic/fastp/*.fastq.gz',
+                    'hic/fastp/*.html',
+                    'hic/fastp/*.log',
+                    'hic/hicqc/*.pdf',
+                    'report.{html,json}'
+                ],
+                null,
+                ['**']
+            )
+
+            def stable_name = getAllFilesFromDir(
+                params.outdir,
+                true,
+                [
+                    'pipeline_info/*.{html,json,txt,yml}'
+                ],
+                null,
+                ['**']
+            )
+
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot(
+                    [
+                        'successful tasks': workflow.trace.succeeded().size(),
+                        'versions': removeNextflowVersion("$outputDir/pipeline_info/software_versions.yml"),
+                        'stable paths': stable_path,
+                        'stable names': getRelativePath(stable_name, outputDir),
+                    ]
+                ).match() }
+            )
+        }
+
+    }
+
+    test("hic - HY1 HY2 - hic param - samplesheet - combination - fail") {
+
+        def samplesheet_path = "$metaDir" + '/samplesheet.csv'
+        def samplesheet_text = """\
+            tag, fasta                                                                                                                                                       , hic_reads_1                                                                                                                                                    , hic_reads_2
+            HY1 , https://github.com/Plant-Food-Research-Open/assemblyqc/raw/eef371b57bda38fb0ff8167f7a547325c8211c3f/tests/hic/testdata/HYh1h2_Chr01_6000000_6015000.fasta.gz, https://github.com/Plant-Food-Research-Open/assemblyqc/raw/4f9fba392cf7212d61c6245fd72339e09164ce44/tests/hic/testdata/HYh1h2_Chr01_6000000_6015000.R1.fastq.gz, https://github.com/Plant-Food-Research-Open/assemblyqc/raw/4f9fba392cf7212d61c6245fd72339e09164ce44/tests/hic/testdata/HYh1h2_Chr01_6000000_6015000.R2.fastq.gz
+            HY2 , https://github.com/Plant-Food-Research-Open/assemblyqc/raw/eef371b57bda38fb0ff8167f7a547325c8211c3f/tests/hic/testdata/HYh1h2_Chr01_6000000_6015000.fasta.gz
+            """.stripIndent()
+
+        def hicParam = "${metaDir}" + '/HiC.R{1,2}.fastq.gz'
+
+        setup {
+            (new File(samplesheet_path)).text = samplesheet_text
+            java.nio.file.Files.copy(
+                path("$baseDir/tests/hic/testdata/HYh1h2_Chr01_6000000_6015000.R1.fastq.gz"),
+                path("${metaDir}/HiC.R1.fastq.gz")
+            )
+            java.nio.file.Files.copy(
+                path("$baseDir/tests/hic/testdata/HYh1h2_Chr01_6000000_6015000.R2.fastq.gz"),
+                path("${metaDir}/HiC.R2.fastq.gz")
+            )
+        }
+
+        when {
+            params {
+                input               = samplesheet_path
+                hic                 = hicParam
+                hic_map_combinations= 'HY1:HY2'
+                outdir              = "$outputDir"
+            }
+        }
+
+        then {
+
+
+            assertAll(
+                { assert ! workflow.success }
+            )
+        }
+
+    }
+
+    test("hic - HY1 HY2 - hic param - combination - pass") {
+
+        def samplesheet_path = "$metaDir" + '/samplesheet.csv'
+        def samplesheet_text = """\
+            tag, fasta
+            HY1 , ${baseDir}/tests/hic/testdata/HYh1_Chr01_6000000_6015000.fasta.gz
+            HY2 , ${baseDir}/tests/hic/testdata/HYh2_Chr01_6000000_6015000.fasta.gz
+            """.stripIndent()
+
+        def hicParam = "${metaDir}" + '/HiC.R{1,2}.fastq.gz'
+
+        setup {
+            (new File(samplesheet_path)).text = samplesheet_text
+            java.nio.file.Files.copy(
+                path("$baseDir/tests/hic/testdata/HYh1h2_Chr01_6000000_6015000.R1.fastq.gz"),
+                path("${metaDir}/HiC.R1.fastq.gz")
+            )
+            java.nio.file.Files.copy(
+                path("$baseDir/tests/hic/testdata/HYh1h2_Chr01_6000000_6015000.R2.fastq.gz"),
+                path("${metaDir}/HiC.R2.fastq.gz")
+            )
+        }
+
+        when {
+            params {
+                input               = samplesheet_path
+                hic                 = hicParam
+                hic_map_combinations= 'HY1 HY2 HY1:HY2'
+                outdir              = "$outputDir"
+            }
+        }
+
+        then {
+            def stable_path = getAllFilesFromDir(
+                params.outdir,
+                false,
+                [
+                    'pipeline_info/*.{html,json,txt,yml}',
+                    'hic/fastp/*.fastq.gz',
+                    'hic/fastp/*.html',
+                    'hic/fastp/*.log',
+                    'hic/hicqc/*.pdf',
+                    'report.{html,json}'
+                ],
+                null,
+                ['**']
+            )
+
+            def stable_name = getAllFilesFromDir(
+                params.outdir,
+                true,
+                [
+                    'pipeline_info/*.{html,json,txt,yml}'
+                ],
+                null,
+                ['**']
+            )
+
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot(
+                    [
+                        'successful tasks': workflow.trace.succeeded().size(),
+                        'versions': removeNextflowVersion("$outputDir/pipeline_info/software_versions.yml"),
+                        'stable paths': stable_path,
+                        'stable names': getRelativePath(stable_name, outputDir),
+                    ]
+                ).match() }
+            )
+        }
+
+    }
+
+    test("hic - HY1 HY2 - samplesheet - combination - pass") {
+
+        def samplesheet_path = "$metaDir" + '/samplesheet.csv'
+        def samplesheet_text = """\
+            tag, fasta,                                                              hic_reads_1                                                                                                                                                    , hic_reads_2
+            HY1 , ${baseDir}/tests/hic/testdata/HYh1_Chr01_6000000_6015000.fasta.gz, https://github.com/Plant-Food-Research-Open/assemblyqc/raw/4f9fba392cf7212d61c6245fd72339e09164ce44/tests/hic/testdata/HYh1h2_Chr01_6000000_6015000.R1.fastq.gz, https://github.com/Plant-Food-Research-Open/assemblyqc/raw/4f9fba392cf7212d61c6245fd72339e09164ce44/tests/hic/testdata/HYh1h2_Chr01_6000000_6015000.R2.fastq.gz
+            HY2 , ${baseDir}/tests/hic/testdata/HYh2_Chr01_6000000_6015000.fasta.gz, https://github.com/Plant-Food-Research-Open/assemblyqc/raw/4f9fba392cf7212d61c6245fd72339e09164ce44/tests/hic/testdata/HYh1h2_Chr01_6000000_6015000.R1.fastq.gz, https://github.com/Plant-Food-Research-Open/assemblyqc/raw/4f9fba392cf7212d61c6245fd72339e09164ce44/tests/hic/testdata/HYh1h2_Chr01_6000000_6015000.R2.fastq.gz
+            """.stripIndent()
+
+        setup {
+            (new File(samplesheet_path)).text = samplesheet_text
+        }
+
+        when {
+            params {
+                input               = samplesheet_path
+                hic_map_combinations= 'HY1 HY2 HY1:HY2'
+                outdir              = "$outputDir"
+            }
+        }
+
+        then {
+            def stable_path = getAllFilesFromDir(
+                params.outdir,
+                false,
+                [
+                    'pipeline_info/*.{html,json,txt,yml}',
+                    'hic/fastp/*.fastq.gz',
+                    'hic/fastp/*.html',
+                    'hic/fastp/*.log',
+                    'hic/hicqc/*.pdf',
+                    'report.{html,json}'
+                ],
+                null,
+                ['**']
+            )
+
+            def stable_name = getAllFilesFromDir(
+                params.outdir,
+                true,
+                [
+                    'pipeline_info/*.{html,json,txt,yml}'
+                ],
+                null,
+                ['**']
+            )
+
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot(
+                    [
+                        'successful tasks': workflow.trace.succeeded().size(),
+                        'versions': removeNextflowVersion("$outputDir/pipeline_info/software_versions.yml"),
+                        'stable paths': stable_path,
+                        'stable names': getRelativePath(stable_name, outputDir),
+                    ]
+                ).match() }
+            )
+        }
+
+    }
+
+}
