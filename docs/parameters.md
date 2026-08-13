@@ -1,33 +1,3 @@
-DEBUG Popen(['git', 'version'], cwd=/Users/hrauxr/Projects/assemblyqc, stdin=None, shell=False, universal_newlines=False) cmd.py:1270
-DEBUG Popen(['git', 'version'], cwd=/Users/hrauxr/Projects/assemblyqc, stdin=None, shell=False, universal_newlines=False) cmd.py:1270
-DEBUG Path exists: nextflow_schema.json. Assuming local pipeline directory or schema schema.py:127
-DEBUG Got '.' as path utils.py:509
-DEBUG No config cache found utils.py:553
-DEBUG Running command: nextflow config -o json . utils.py:609
-DEBUG Config section: params utils.py:570
-DEBUG Config section: process utils.py:570
-DEBUG Config section: aws utils.py:570
-DEBUG Config section: outputDir utils.py:570
-DEBUG Config section: workflow utils.py:570
-DEBUG Config section: apptainer utils.py:570
-DEBUG Config section: docker utils.py:570
-DEBUG Config section: podman utils.py:570
-DEBUG Config section: singularity utils.py:570
-DEBUG Config section: charliecloud utils.py:570
-DEBUG Config section: env utils.py:570
-DEBUG Config section: nextflow utils.py:570
-DEBUG Config section: timeline utils.py:570
-DEBUG Config section: report utils.py:570
-DEBUG Config section: trace utils.py:570
-DEBUG Config section: dag utils.py:570
-DEBUG Config section: manifest utils.py:570
-DEBUG Config section: plugins utils.py:570
-DEBUG Saving config cache: /Users/hrauxr/.nextflow/nf-core/wf-config-cache-8fb5f1c7e15c60c219a2ace50.json utils.py:596
-DEBUG Ignoring parameters: ['help', 'helpFull', 'showHidden', 'trace_report_suffix'] schema.py:112
-DEBUG JSON file loaded: nextflow_schema.json schema.py:192
-DEBUG sys.platform='darwin', git_executable='git' util.py:494
-DEBUG prettier.................................................................Passed lint_utils.py:168
-
 # plant-food-research-open/assemblyqc pipeline parameters
 
 A Nextflow pipeline which evaluates assembly quality with multiple QC tools and presents the results in a unified html report.
