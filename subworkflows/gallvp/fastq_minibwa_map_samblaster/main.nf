@@ -29,17 +29,44 @@ workflow FASTQ_MINIBWA_MAP_SAMBLASTER {
                             )
 
     // MODULE: MINIBWA_MAP
-    ch_map_inputs           = ch_fastq
+    ch_mem_inputs           = ch_fastq
                             | combine(
                                 ch_minibwa_index
                             )
                             | map { meta, fq, meta2, index ->
-                                [ meta + [ ref_id: meta2.id ], fq, index ]
+                                [ meta + [ ref_id: meta2.id, comb: meta2.comb ], fq, index ]
+                            }
+                            | map { meta, fq, index ->
+                                [ meta.ref_id, meta, fq, index ]
+                            }
+                            | groupTuple()
+                            | map { ref_id, metas, fq_list, indices ->
+                                def index = indices.first() // all are same
+
+                                def possibleMetas = metas.withIndex().findAll { meta, _i ->
+                                    ( ref_id in meta.ref_tags )
+                                    || ( meta.ref_tags.size() == 0 )
+                                    || ( meta.comb.tokenize(':').first() in meta.ref_tags )
+                                    // allow combinations.
+                                    // All assemblies of the combination have the same HiC reads
+                                }
+
+                                if ( possibleMetas.size() < 1 ) {
+                                    return null
+                                }
+                                
+                                if ( possibleMetas.size() == 1 ) {
+                                    def idx = possibleMetas.first()[1]
+                                    return [ possibleMetas.first().first(), fq_list[idx], index ]
+                                }
+
+                                def idx = possibleMetas.findAll { meta, _i -> meta.ref_tags.size() != 0 }.first()[1] // Override the default reads
+                                return [ possibleMetas[idx].first(), fq_list[idx], index ]
                             }
 
     MINIBWA_MAP(
-        ch_map_inputs.map { meta, fq, _index -> [ meta, fq ] },
-        ch_map_inputs.map { _meta, _fq, index -> [ [], index ] },
+        ch_mem_inputs.map { meta, fq, _index -> [ meta, fq ] },
+        ch_mem_inputs.map { _meta, _fq, index -> [ [], index ] },
         [ [], [] ],
         val_sort_bam
     )

@@ -1,6 +1,6 @@
 nextflow_function {
 
-    name "checkHiCParam"
+    name "validateInputTags"
     script "../../subworkflows/local/utils_nfcore_assemblyqc_pipeline/main.nf"
     function "validateInputTags"
 

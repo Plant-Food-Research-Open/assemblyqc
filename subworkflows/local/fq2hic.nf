@@ -1,13 +1,13 @@
-include { FASTQ_FASTQC_UMITOOLS_FASTP   } from '../nf-core/fastq_fastqc_umitools_fastp/main'
+include { FASTQ_FASTQC_UMITOOLS_FASTP           } from '../nf-core/fastq_fastqc_umitools_fastp/main'
 
-include { FASTQ_BWA_MEM_SAMBLASTER      } from '../gallvp/fastq_bwa_mem_samblaster/main'
-include { FASTQ_MINIBWA_MAP_SAMBLASTER  } from '../gallvp/fastq_minibwa_map_samblaster/main'
-include { HICQC                         } from '../../modules/gallvp/hicqc'
+include { FASTQ_BWA_MEM_SAMBLASTER              } from '../gallvp/fastq_bwa_mem_samblaster/main'
+include { FASTQ_MINIBWA_MAP_SAMBLASTER          } from '../gallvp/fastq_minibwa_map_samblaster/main'
+include { HICQC                                 } from '../../modules/gallvp/hicqc'
 
-include { FASTA_SEQKIT_REFSORT          } from '../gallvp/fasta_seqkit_refsort/main'
-include { BAM_FASTA_YAHS_JUICER_PRE_HICTK_LOAD } from '../gallvp/bam_fasta_yahs_juicer_pre_hictk_load/main'
+include { FASTA_SEQKIT_REFSORT                  } from '../gallvp/fasta_seqkit_refsort/main'
+include { BAM_FASTA_YAHS_JUICER_PRE_HICTK_LOAD  } from '../gallvp/bam_fasta_yahs_juicer_pre_hictk_load/main'
 
-include { HIC2HTML                      } from '../../modules/local/hic2html'
+include { HIC2HTML                              } from '../../modules/local/hic2html'
 
 workflow FQ2HIC {
     take:

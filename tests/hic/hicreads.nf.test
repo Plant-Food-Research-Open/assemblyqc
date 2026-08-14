@@ -1,0 +1,101 @@
+nextflow_function {
+
+    name "validateHiCAssemblyWiseReads"
+    script "../../subworkflows/local/utils_nfcore_assemblyqc_pipeline/main.nf"
+    function "validateHiCAssemblyWiseReads"
+
+    test("HY -- HY -- pass") {
+        when {
+            function {
+                """
+                input[0] = [ [ id: "HY", hic_fq_1: "hic_read_1.fastq.gz" ] ]
+                input[1] = "HY"
+                """
+            }
+        }
+
+        then {
+            assert function.success
+            assert function.result
+        }
+    }
+
+    test("HY -- null -- pass") {
+        when {
+            function {
+                """
+                input[0] = [ [ id: "HY", hic_fq_1: "hic_read_1.fastq.gz" ] ]
+                input[1] = null
+                """
+            }
+        }
+
+        then {
+            assert function.success
+            assert function.result
+        }
+    }
+
+    test("HY -- null, null -- pass") {
+        when {
+            function {
+                """
+                input[0] = [ [ id: "HY", hic_fq_1: null ] ]
+                input[1] = null
+                """
+            }
+        }
+
+        then {
+            assert function.success
+            assert function.result
+        }
+    }
+
+    test("HY1 HY2 -- null -- pass") {
+        when {
+            function {
+                """
+                input[0] = [ [ id: "HY1", hic_fq_1: "hic_read_1.fastq.gz" ], [ id: "HY2", hic_fq_1: "hic_read_2.fastq.gz" ] ]
+                input[1] = null
+                """
+            }
+        }
+
+        then {
+            assert function.success
+            assert function.result
+        }
+    }
+
+    test("HY1 HY2 -- HY1:HY2 -- fail") {
+        when {
+            function {
+                """
+                input[0] = [ [ id: "HY1", hic_fq_1: "hic_read_1.fastq.gz" ], [ id: "HY2", hic_fq_1: "hic_read_2.fastq.gz" ] ]
+                input[1] = "HY1:HY2"
+                """
+            }
+        }
+
+        then {
+            assert ! function.success
+        }
+    }
+
+    test("HY1 HY2 -- HY1:HY2 -- pass") {
+        when {
+            function {
+                """
+                input[0] = [ [ id: "HY1", hic_fq_1: "hic_read_1.fastq.gz" ], [ id: "HY2", hic_fq_1: "hic_read_1.fastq.gz" ] ]
+                input[1] = "HY1:HY2"
+                """
+            }
+        }
+
+        then {
+            assert function.success
+            assert function.result
+        }
+    }
+}

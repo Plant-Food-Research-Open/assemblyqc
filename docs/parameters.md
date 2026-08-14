@@ -91,23 +91,22 @@ A Nextflow pipeline which evaluates assembly quality with multiple QC tools and 
 
 ## Synteny options
 
-| Parameter                          | Description                                                                                                                                           | Type      | Default                | Required | Hidden |
-| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | ---------------------- | -------- | ------ |
-| `synteny_skip`                     | Skip synteny analysis                                                                                                                                 | `boolean` | True                   |          |        |
-| `synteny_mummer_skip`              | Skip Mummer-based synteny analysis                                                                                                                    | `boolean` | True                   |          |        |
-| `synteny_plotsr_skip`              | Skip plotsr-based synteny analysis                                                                                                                    | `boolean` | True                   |          |        |
-| `synteny_xref_assemblies`          | Reference assemblies for synteny analysis                                                                                                             | `string`  |                        |          |        |
-| `synteny_between_input_assemblies` | Create syntenic plots between each pair of input assemblies                                                                                           | `boolean` | True                   |          |        |
-| `synteny_mummer_plot_type`         | Synteny plot type from Mummer alignments (accepted: `both`\|`dotplot`\|`circos`)                                                                      | `string`  | both                   |          |        |
-| `synteny_mummer_m2m_align`         | Include Mummer alignment blocks with many-to-many mappings                                                                                            | `boolean` |                        |          |        |
-| `synteny_mummer_max_gap`           | Mummer alignments within this distance are bundled together                                                                                           | `integer` | 1000000                |          |        |
-| `synteny_mummer_min_bundle_size`   | After bundling, any Mummer alignment bundle smaller than this size is filtered out                                                                    | `integer` | 1000000                |          |        |
-| `synteny_mummer_extra_args`        | Arguments to pass to mummer during synteny mapping                                                                                                    | `string`  | ''                     |          |        |
-| `synteny_minimap2_extra_args`      | Arguments to pass to minimap2 during synteny mapping                                                                                                  | `string`  | '-x asm5 --eqx -I100G' |          |        |
-| `synteny_plot_1_vs_all`            | Create a separate synteny plot for each contig of the target assembly versus all contigs of the reference assembly. This only applies to Mummer plots | `boolean` |                        |          |        |
-| `synteny_color_by_contig`          | Mummer synteny plots are colored by contig. Otherwise, they are colored by bundle size                                                                | `boolean` | True                   |          |        |
-| `synteny_plotsr_seq_label`         | Sequence label prefix for plotsr synteny                                                                                                              | `string`  | Chr                    |          |        |
-| `synteny_plotsr_assembly_order`    | The order of comparison as space separated string of assembly tags. If absent, assemblies are ordered by their tags alphabetically.                   | `string`  |                        |          |        |
+| Parameter                          | Description                                                                                                                                           | Type      | Default              | Required | Hidden |
+| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | -------------------- | -------- | ------ |
+| `synteny_skip`                     | Skip synteny analysis                                                                                                                                 | `boolean` | True                 |          |        |
+| `synteny_mummer_skip`              | Skip Mummer-based synteny analysis                                                                                                                    | `boolean` | True                 |          |        |
+| `synteny_plotsr_skip`              | Skip plotsr-based synteny analysis                                                                                                                    | `boolean` | True                 |          |        |
+| `synteny_xref_assemblies`          | Reference assemblies for synteny analysis                                                                                                             | `string`  |                      |          |        |
+| `synteny_between_input_assemblies` | Create syntenic plots between each pair of input assemblies                                                                                           | `boolean` | True                 |          |        |
+| `synteny_mummer_plot_type`         | Synteny plot type from Mummer alignments (accepted: `both`\|`dotplot`\|`circos`)                                                                      | `string`  | both                 |          |        |
+| `synteny_mummer_m2m_align`         | Include Mummer alignment blocks with many-to-many mappings                                                                                            | `boolean` |                      |          |        |
+| `synteny_mummer_max_gap`           | Mummer alignments within this distance are bundled together                                                                                           | `integer` | 1000000              |          |        |
+| `synteny_mummer_min_bundle_size`   | After bundling, any Mummer alignment bundle smaller than this size is filtered out                                                                    | `integer` | 1000000              |          |        |
+| `synteny_minimap2_extra_args`      | Arguments to pass to minimap2 during synteny                                                                                                          | `string`  | -x asm5 --eqx -I100G |          |        |
+| `synteny_plot_1_vs_all`            | Create a separate synteny plot for each contig of the target assembly versus all contigs of the reference assembly. This only applies to Mummer plots | `boolean` |                      |          |        |
+| `synteny_color_by_contig`          | Mummer synteny plots are colored by contig. Otherwise, they are colored by bundle size                                                                | `boolean` | True                 |          |        |
+| `synteny_plotsr_seq_label`         | Sequence label prefix for plotsr synteny                                                                                                              | `string`  | Chr                  |          |        |
+| `synteny_plotsr_assembly_order`    | The order of comparison as space separated string of assembly tags. If absent, assemblies are ordered by their tags alphabetically.                   | `string`  |                      |          |        |
 
 ## OrthoFinder options
 
@@ -154,3 +153,9 @@ Less common options for the pipeline, typically set in a config file.
 | `help`                         | Display the help message.                                                                                                          | `['boolean', 'string']` |                                                          |          |        |
 | `help_full`                    | Display the full detailed help message.                                                                                            | `boolean`               |                                                          |          |        |
 | `show_hidden`                  | Display hidden parameters in the help message (only works when --help or --help_full are provided).                                | `boolean`               |                                                          |          |        |
+
+## Other parameters
+
+| Parameter                   | Description | Type     | Default | Required | Hidden |
+| --------------------------- | ----------- | -------- | ------- | -------- | ------ |
+| `synteny_mummer_extra_args` |             | `string` |         |          |        |

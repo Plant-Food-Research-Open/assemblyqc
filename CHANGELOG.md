@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v3.1.0dev - [11-Aug-2026]
+## v3.1.0dev - [14-Aug-2026]
 
 ### `Added`
 
@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 5. Dynamic memory allocation for minimap2 based on genome size [#337](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/337)
 6. Added `synteny_minimap2_extra_args` with default of `-x asm5 --eqx -I100G` for minimap2 [#337](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/337)
 7. Added `synteny_mummer_extra_args` with default of `` for mummer module. [#338](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/338)
+8. Now sample specific HiC reads can be provided via the samples sheet `hic_reads_1` and `hic_reads_2` columns [#320](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/320)
 
 ### `Fixed`
 

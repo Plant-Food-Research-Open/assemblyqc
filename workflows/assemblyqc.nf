@@ -304,13 +304,13 @@ workflow ASSEMBLYQC {
 
     // Prepare channels for FETCHNGS
     // HiC
-    ch_hic_input_assembly                   = ! params.hic
+    ch_hic_input_assembly_hic_trigger       = ! params.hic
                                             ? channel.empty()
                                             : ch_clean_assembly
                                             | map { tag, fa -> [ [ id: tag ], fa ] }
 
     ch_hic_reads_branch                     = ch_hic_reads
-                                            | combine(ch_hic_input_assembly.first())
+                                            | combine(ch_hic_input_assembly_hic_trigger.first())
                                             // Wait till first clean assembly arrives
                                             | map { meta, fq, _meta2, _fasta -> [ meta, fq ] }
                                             | branch { meta, _fq ->
@@ -609,11 +609,61 @@ workflow ASSEMBLYQC {
     ch_versions                             = ch_versions.mix(FASTA_KRAKEN2.out.versions)
 
     // SUBWORKFLOW: FQ2HIC
-    ch_hic_read_files                       = ch_fetchngs.hic
-                                            | mix(ch_hic_reads_branch.rest)
+    ch_hic_read_files                       = ( ch_fetchngs.hic.mix(ch_hic_reads_branch.rest) )
+                                            | map { meta, fq ->
+                                                [
+                                                    [
+                                                        id: meta.id,
+                                                        single_end: meta.single_end,
+                                                        ref_tags: [] // This applies to all the assemblies
+                                                    ],
+                                                    fq
+                                                ]
+                                            }
+                                            | mix (
+                                                ch_input
+                                                | map { input_data ->
+                                                    def tag         = input_data[0]
+                                                    def hic_fq_1    = input_data[11]
+                                                    def hic_fq_2    = input_data[12]
+
+                                                    hic_fq_1
+                                                    ? [
+                                                        file(hic_fq_1).simpleName,
+                                                        [
+                                                            id: file(hic_fq_1).simpleName,
+                                                            single_end: false,
+                                                            ref_tags: [ tag ] // This applies to the specific assembly
+                                                        ],
+                                                        [ file(hic_fq_1, checkIfExists: true), file(hic_fq_2, checkIfExists: true) ]
+                                                    ]
+                                                    : null
+                                                }
+                                                | groupTuple ()
+                                                | map { id, metas, fqs ->
+
+                                                    [
+                                                        [
+                                                            id: id,
+                                                            single_end: false,
+                                                            ref_tags: metas.collect { meta -> meta.ref_tags }.flatten()
+                                                        ],
+                                                        fqs.first()
+                                                    ]
+                                                }
+                                            )
+
+    ch_hic_input_assembly_reads_trigger     = ch_clean_assembly
+                                            // Make sure there is at least 1 set of files
+                                            | combine(ch_hic_read_files.first())
+                                            | map { tag, fa, _meta2, _fq ->
+                                                [ [ id: tag ], fa ]
+                                            }
+    ch_hic_read_files.first()
+
     FQ2HIC(
         ch_hic_read_files,
-        ch_hic_input_assembly,
+        ch_hic_input_assembly_reads_trigger,
         params.hic_map_combinations,
         params.hic_skip_fastp,
         params.hic_skip_fastqc,
