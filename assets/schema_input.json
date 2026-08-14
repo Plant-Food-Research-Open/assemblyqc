@@ -161,7 +161,8 @@
             "maternal_reads_2": ["maternal_reads_1"],
             "paternal_reads_1": ["reads_1", "maternal_reads_1"],
             "paternal_reads_2": ["paternal_reads_1"],
-            "hic_reads_2": ["hic_reads_1"]
+            "hic_reads_2": ["hic_reads_1"],
+            "hic_reads_1": ["hic_reads_2"]
         }
     }
 }
