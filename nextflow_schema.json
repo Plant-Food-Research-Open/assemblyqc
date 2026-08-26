@@ -371,11 +371,16 @@
                     "description": "After bundling, any Mummer alignment bundle smaller than this size is filtered out",
                     "fa_icon": "fas fa-ruler-horizontal"
                 },
+                "synteny_mummer_extra_args": {
+                    "type": "string",
+                    "fa_icon": "fas fa-terminal",
+                    "description": "Arguments to pass to mummer during synteny"
+                },
                 "synteny_minimap2_extra_args": {
                     "type": "string",
                     "default": "-x asm5 --eqx -I100G",
                     "description": "Arguments to pass to minimap2 during synteny",
-                    "fa_icon": "fas fa-chart-line"
+                    "fa_icon": "fas fa-terminal"
                 },
                 "synteny_plot_1_vs_all": {
                     "type": "boolean",
@@ -616,10 +621,5 @@
         {
             "$ref": "#/$defs/generic_options"
         }
-    ],
-    "properties": {
-        "synteny_mummer_extra_args": {
-            "type": "string"
-        }
-    }
+    ]
 }
