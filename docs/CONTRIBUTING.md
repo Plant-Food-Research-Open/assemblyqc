@@ -159,4 +159,10 @@ If you update images or graphics, follow the nf-core [style guidelines](https://
 
 ## Pipeline specific contribution guidelines
 
-<!-- TODO nf-core: Add any pipeline specific contribution guidelines here, such as coding styles, procedures, checklists etc. -->
+Before a release, following check must be completed.
+
+- [ ] The pipeline flowchart is up to date.
+- [ ] The list of contributors on the README is up to date. A new list can be obtained with `./.github/contributors.sh`.
+- [ ] The updated tools are listed under `Tool Updates` on the `CHANGELOG.md`. A new table can be obtained with `.github/module_updates_list.py`. Some of the updated tools may be missed by the script.
+- [ ] The `test_full` test runs successfully on powerPlant. Submitted with `sbatch ./pfr_assemblyqc -t`.
+- [ ] The PFR test runs successfully on powerPlant. Submitted with `sbatch ./pfr_assemblyqc`.
