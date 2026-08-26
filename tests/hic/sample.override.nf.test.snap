@@ -75,7 +75,7 @@
                         "pigz": 2.8
                     },
                     "Workflow": {
-                        "plant-food-research-open/assemblyqc": "v3.1.0dev"
+                        "plant-food-research-open/assemblyqc": "v3.1.0"
                     },
                     "YAHS_JUICERPRE": {
                         "yahs": "1.2.2"
@@ -215,7 +215,7 @@
                         "pigz": 2.8
                     },
                     "Workflow": {
-                        "plant-food-research-open/assemblyqc": "v3.1.0dev"
+                        "plant-food-research-open/assemblyqc": "v3.1.0"
                     },
                     "YAHS_JUICERPRE": {
                         "yahs": "1.2.2"
@@ -329,7 +329,7 @@
                         "pigz": 2.8
                     },
                     "Workflow": {
-                        "plant-food-research-open/assemblyqc": "v3.1.0dev"
+                        "plant-food-research-open/assemblyqc": "v3.1.0"
                     },
                     "YAHS_JUICERPRE": {
                         "yahs": "1.2.2"
@@ -441,7 +441,7 @@
                         "pigz": 2.8
                     },
                     "Workflow": {
-                        "plant-food-research-open/assemblyqc": "v3.1.0dev"
+                        "plant-food-research-open/assemblyqc": "v3.1.0"
                     },
                     "YAHS_JUICERPRE": {
                         "yahs": "1.2.2"
@@ -582,7 +582,7 @@
                         "pigz": 2.8
                     },
                     "Workflow": {
-                        "plant-food-research-open/assemblyqc": "v3.1.0dev"
+                        "plant-food-research-open/assemblyqc": "v3.1.0"
                     },
                     "YAHS_JUICERPRE": {
                         "yahs": "1.2.2"
