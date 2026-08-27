@@ -85,7 +85,7 @@ workflow FASTA_GXF_BUSCO_PLOT {
                                                 | map { meta, txt ->
                                                     def lineage_name = meta.lineage - ~/'_odb[0-9]+$'/
                                                     [
-                                                        "short_summary.specific.${meta.lineage}.${meta.id}_${lineage_name}.json",
+                                                        "short_summary.specific.${meta.lineage}.${meta.id}_${lineage_name}.txt",
                                                         txt.text
                                                     ]
                                                 }
@@ -165,7 +165,7 @@ workflow FASTA_GXF_BUSCO_PLOT {
                                                 | map { meta, txt ->
                                                     def lineage_name = meta.lineage - ~/'_odb[0-9]+$'/
                                                     [
-                                                        "short_summary.specific.${meta.lineage}.${meta.id}_${lineage_name}.proteins.json",
+                                                        "short_summary.specific.${meta.lineage}.${meta.id}_${lineage_name}.proteins.txt",
                                                         txt.text
                                                     ]
                                                 }
