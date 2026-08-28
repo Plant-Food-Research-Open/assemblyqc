@@ -2,6 +2,8 @@
 
 import json
 import logging
+import re
+from pathlib import Path
 
 import yaml
 from report_modules.parsers.assemblathon_stats_parser import (
@@ -33,9 +35,20 @@ from report_modules.report_printer import ReportPrinter
 logging.basicConfig(level=logging.INFO, force=True)
 
 if __name__ == "__main__":
+    project_dir = "/".join(__file__.split("/")[0:-1])
+    juicebox_js_template = Path(
+        f"{project_dir}/report_modules/templates/hic/hic_html_template.html"
+    ).read_text()
+    juicebox_js_ver_search = re.search(r"juicebox\.js@([^/]+)", juicebox_js_template)
+    juicebox_js_ver = (
+        juicebox_js_ver_search.group(1)
+        if juicebox_js_ver_search is not None
+        else "Failed to parse the version"
+    )
+
     params_dict, params_table = parse_params_json("params.json")
     params_summary_dict, params_summary_table = parse_params_json("summary_params.json")
-    tools_dict, tools_table = parse_tools_yaml()
+    tools_dict, tools_table = parse_tools_yaml(juicebox_js_ver)
 
     data_from_tools: dict | dict[str, list] = {}
 
@@ -79,7 +92,7 @@ if __name__ == "__main__":
         "TOOLS_TABLE": tools_table,
         "VERSIONS": {
             **versions_from_ch_versions,
-            "JUICEBOX_JS": "2.4.3",
+            "JUICEBOX_JS": juicebox_js_ver,
         },
         **data_from_tools,
     }
