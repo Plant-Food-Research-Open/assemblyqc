@@ -126,6 +126,32 @@
                         "maxLength": 0
                     }
                 ]
+            },
+            "hic_reads_1": {
+                "errorMessage": "hic_reads_1 should be a FASTQ file path without spaces and must have extension '.f(astq|q)' or '.f(astq|q).gz'",
+                "anyOf": [
+                    {
+                        "type": "string",
+                        "pattern": "^\\S+\\.f(astq|q)(\\.gz)?$"
+                    },
+                    {
+                        "type": "string",
+                        "maxLength": 0
+                    }
+                ]
+            },
+            "hic_reads_2": {
+                "errorMessage": "FASTQ file path cannot contain spaces and must have extension '.f(astq|q)' or '.f(astq|q).gz'",
+                "anyOf": [
+                    {
+                        "type": "string",
+                        "pattern": "^\\S+\\.f(astq|q)(\\.gz)?$"
+                    },
+                    {
+                        "type": "string",
+                        "maxLength": 0
+                    }
+                ]
             }
         },
         "required": ["tag", "fasta"],
@@ -134,7 +160,9 @@
             "maternal_reads_1": ["reads_1", "paternal_reads_1"],
             "maternal_reads_2": ["maternal_reads_1"],
             "paternal_reads_1": ["reads_1", "maternal_reads_1"],
-            "paternal_reads_2": ["paternal_reads_1"]
+            "paternal_reads_2": ["paternal_reads_1"],
+            "hic_reads_2": ["hic_reads_1"],
+            "hic_reads_1": ["hic_reads_2"]
         }
     }
 }

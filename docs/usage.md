@@ -89,7 +89,7 @@ This section provides additional information for parameters. It does not list al
 
 ### HiC
 
-- `hic`: Path to reads provided as a SRA ID or as a path to paired reads such as 'hic_reads{1,2}.fastq.gz'. These reads are applied to each assembly listed by `input`.
+- `hic`: Path to reads provided as a SRA ID or as a path to paired reads such as 'hic_reads{1,2}.fastq.gz'. These reads are applied to each assembly listed by `input` unless the `hic_reads_1` and `hic_reads_2` columns are provided in the assemblysheet. If these columns are provided, the reads listed in the assemblysheet are applied to the corresponding assembly. Thus, the sample sheet reads override the `hic` parameter. The `hic` reads are applied to all the assemblies for which no sample sheet reads are provided. If `hic` is not provided, the pipeline will skip HiC map construction for all assemblies.
 - `hic_map_combinations`: Space separated tags denoting assemblies and assembly combinations for HiC map construction. For example, if it is set to `tag1 tag2:tag3`, two HiC maps are produced. One for the assembly represented by `tag1` in the assemblysheet. A separate combined map for `tag2:tag3` assemblies from the assemblysheet. If `hic_refsort` is set to `true`, the `tag2` assembly contigs are sorted to match the order of the `tag3` assembly. This sorting is performed with [HapHiC/refsort](https://github.com/zengxiaofei/HapHiC/tree/f9b0334f50b8f1be6e74db2d8e56d7ab6ad07743#order-and-orient-whole-scaffolds-using-a-reference-genome) which is useful for identify phasing errors in multi-haplotype assemblies.
 - `hic_alphanumeric_sort`: If set to `true`, the pipeline sorts the contigs of each assembly with respect to their IDs in alphanumeric sort order so that contigs such as Chr1, Chr2, etc. appear in a _nice_ order on the map. This sorting is achieved with [SeqKit/sort](https://bioinf.shenwei.me/seqkit/usage/#sort) and it is independent of the sorting performed by [HapHiC/refsort](https://github.com/zengxiaofei/HapHiC/tree/f9b0334f50b8f1be6e74db2d8e56d7ab6ad07743#order-and-orient-whole-scaffolds-using-a-reference-genome). These two sorts can be independently enabled or disabled. When both are enabled, which is the default behavior, the alphanumeric sorting is performed first on each assembly.
 
@@ -156,7 +156,7 @@ If you wish to repeatedly use the same parameters for multiple runs, rather than
 Pipeline settings can be provided in a `yaml` or `json` file via `-params-file <file>`.
 
 > [!WARNING]
-> Do not use `-c <file>` to specify parameters as this will result in errors. Custom config files specified with `-c` must only be used for [tuning process resource specifications](https://nf-co.re/docs/usage/configuration#tuning-workflow-resources), other infrastructural tweaks (such as output directories), or module arguments (args).
+> Do not use `-c <file>` to specify parameters as this will result in errors. Custom config files specified with `-c` must only be used for [tuning process resource specifications](https://nf-co.re/docs/running/run-pipelines#configuring-pipelines), other infrastructural tweaks (such as output directories), or module arguments (args).
 
 The above pipeline run specified with a params file in yaml format:
 
@@ -227,11 +227,11 @@ If `-profile` is not specified, the pipeline will run locally and expect all sof
 - `shifter`
   - A generic configuration profile to be used with [Shifter](https://nersc.gitlab.io/development/shifter/how-to-use/)
 - `charliecloud`
-  - A generic configuration profile to be used with [Charliecloud](https://hpc.github.io/charliecloud/)
+  - A generic configuration profile to be used with [Charliecloud](https://charliecloud.io/)
 - `apptainer`
   - A generic configuration profile to be used with [Apptainer](https://apptainer.org/)
 - `wave`
-  - A generic configuration profile to enable [Wave](https://seqera.io/wave/) containers. Use together with one of the above (requires Nextflow ` 24.03.0-edge` or later).
+  - A generic configuration profile to enable [Wave](https://seqera.io/wave/) containers. Use together with one of the above (requires Nextflow `24.03.0-edge` or later).
 - `conda`
   - A generic configuration profile to be used with [Conda](https://conda.io/docs/). Please only use Conda as a last resort i.e. when it's not possible to run the pipeline with Docker, Singularity, Podman, Shifter, Charliecloud, or Apptainer.
 
@@ -251,19 +251,19 @@ Specify the path to a specific config file (this is a core Nextflow command). Se
 
 Whilst the default requirements set within the pipeline will hopefully work for most people and with most input data, you may find that you want to customise the compute resources that the pipeline requests. Each step in the pipeline has a default set of requirements for number of CPUs, memory and time. For most of the pipeline steps, if the job exits with any of the error codes specified [here](https://github.com/nf-core/rnaseq/blob/4c27ef5610c87db00c3c5a3eed10b1d161abf575/conf/base.config#L18) it will automatically be resubmitted with higher resources request (2 x original, then 3 x original). If it still fails after the third attempt then the pipeline execution is stopped.
 
-To change the resource requests, please see the [max resources](https://nf-co.re/docs/usage/configuration#max-resources) and [tuning workflow resources](https://nf-co.re/docs/usage/configuration#tuning-workflow-resources) section of the nf-core website.
+To change the resource requests, please see the [max resources](https://nf-co.re/docs/running/configuration/nextflow-for-your-system#set-max-resources) and [customise process resources](https://nf-co.re/docs/running/configuration/nextflow-for-your-system#customize-process-resources) section of the nf-core website.
 
 ### Custom Containers
 
 In some cases, you may wish to change the container or conda environment used by a pipeline steps for a particular tool. By default, nf-core pipelines use containers and software from the [biocontainers](https://biocontainers.pro/) or [bioconda](https://bioconda.github.io/) projects. However, in some cases the pipeline specified version maybe out of date.
 
-To use a different container from the default container or conda environment specified in a pipeline, please see the [updating tool versions](https://nf-co.re/docs/usage/configuration#updating-tool-versions) section of the nf-core website.
+To use a different container from the default container or conda environment specified in a pipeline, please see the [updating tool versions](https://nf-co.re/docs/running/configuration/nextflow-for-your-system#update-tool-versions) section of the nf-core website.
 
 ### Custom Tool Arguments
 
 A pipeline might not always support every possible argument or option of a particular tool used in pipeline. Fortunately, nf-core pipelines provide some freedom to users to insert additional parameters that the pipeline does not include by default.
 
-To learn how to provide additional arguments to a particular tool of the pipeline, please see the [customising tool arguments](https://nf-co.re/docs/usage/configuration#customising-tool-arguments) section of the nf-core website.
+To learn how to provide additional arguments to a particular tool of the pipeline, please see the [customising tool arguments](https://nf-co.re/docs/running/configuration/nextflow-for-your-system#modifying-tool-arguments) section of the nf-core website.
 
 ### nf-core/configs
 

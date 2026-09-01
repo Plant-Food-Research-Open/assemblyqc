@@ -3,6 +3,54 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v3.1.0 - [01-Sep-2026]
+
+### `Added`
+
+1. Updated nf-core pipeline template to 4.1.0
+2. Added sub workflow `fastq_minibwa_map_samblaster` and parameter `--hic_use_minibwa` set to `true` by default [#324](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/324)
+3. Changed SYRI workflow to use `.paf` files instead of `.bam` files [#333](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/333)
+4. Dynamic memory allocation for assemblathon based on genome size [#329](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/329)
+5. Dynamic memory allocation for minimap2 based on genome size [#337](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/337)
+6. Added `synteny_minimap2_extra_args` with default of `-x asm5 --eqx -I100G` for minimap2 [#337](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/337)
+7. Added `synteny_mummer_extra_args` with default of `` for mummer module. [#338](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/338)
+8. Now sample specific HiC reads can be provided via the samples sheet `hic_reads_1` and `hic_reads_2` columns [#320](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/320)
+
+### `Fixed`
+
+1. Fixed an issue where `--hic_map_combinations` parameter set to "" was not being interpreted as `null` and resulted in no HiC maps being generated [#321](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/321)
+2. Fixed an issue where `--hic_map_combinations` parameter was not being validated correctly and allowed self-referential combinations to be specified [#318](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/318)
+3. Fixed an issue where the `juicebox.js` version was not being parsed from its specification and was out of sync.
+4. Fixed a bug where only a single randomly selected version of a multi-version tool was shown in the report.
+
+### `Dependencies`
+
+1. Nextflow!>=25.10.4
+2. nf-schema@2.5.1
+
+### `Tool Updates`
+
+| Tool          | Old Version        | New Version  |
+| ------------- | ------------------ | ------------ |
+| htslib        | 1.21               | 1.24         |
+| samtools      | 1.21               | 1.24         |
+| pigz          | 2.6                | 2.8          |
+| python        | 3.10.2             | 3.9.18       |
+| hictk         | 2.1.4              | 2.2.0        |
+| ltr_retriever | 2.9.9              | 3.0.5        |
+| minimap2      | 2.29               | 2.30         |
+| seqkit        | 2.9.0              | 2.13.0       |
+| busco         | 5.8.3              | 6.1.0        |
+| clair3        | 1.2.0              | v2.0.0       |
+| sra-tools     | 3.1.0              | 3.2.1        |
+| fastp         | 0.24.0             | 1.3.6        |
+| gfastats      | 1.3.10             | 1.3.11       |
+| orthofinder   | 2.5.5              | 3.1.3        |
+| curl          | 8.5.0              | 8.14.1       |
+| tidk          | 0.2.41             | 0.2.7        |
+| umi_tools     | 1.1.5              | 1.1.6        |
+| bwa           | 0.7.18-r1243-dirty | 0.7.19-r1273 |
+
 ## v3.0.1 - [14-Oct-2025]
 
 ### `Added`
@@ -16,7 +64,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Dependencies`
 
-1. Nextflow!>=24.10.5
+1. Nextflow!>=25.10.4
 2. nf-schema@2.4.2
 
 ## v3.0.0 - [22-Sep-2025]

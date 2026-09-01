@@ -1,0 +1,60 @@
+{
+    "sarscov2-fq-gz": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test",
+                            "ref_id": "genome"
+                        },
+                        "test.on.genome.samblaster.bam:md5,76fbe1ef7a590a01cbe1244c2e582660"
+                    ]
+                ],
+                "bam": [
+                    [
+                        {
+                            "id": "test",
+                            "ref_id": "genome"
+                        },
+                        "test.on.genome.samblaster.bam:md5,76fbe1ef7a590a01cbe1244c2e582660"
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2026-08-04T20:44:11.141016",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    },
+    "sarscov2-fq-gz-stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test",
+                            "ref_id": "genome"
+                        },
+                        "test.on.genome.samblaster.bam:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "bam": [
+                    [
+                        {
+                            "id": "test",
+                            "ref_id": "genome"
+                        },
+                        "test.on.genome.samblaster.bam:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2026-08-04T20:44:19.543308",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    }
+}

@@ -1,2 +1,2 @@
 seqkit/seq:
-  - "modules/nf-core/seqkit/seq/**"
+    - "modules/nf-core/seqkit/seq/**"

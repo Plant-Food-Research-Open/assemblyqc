@@ -279,6 +279,12 @@
                     "fa_icon": "fas fa-question-circle",
                     "description": "To set or not to set the assembly mode for YAHS juicer pre stage",
                     "default": true
+                },
+                "hic_use_minibwa": {
+                    "type": "boolean",
+                    "default": true,
+                    "fa_icon": "fas fa-question-circle",
+                    "description": "Use minibwa/map instead of bwa-mem"
                 }
             }
         },
@@ -364,6 +370,17 @@
                     "default": 1000000,
                     "description": "After bundling, any Mummer alignment bundle smaller than this size is filtered out",
                     "fa_icon": "fas fa-ruler-horizontal"
+                },
+                "synteny_mummer_extra_args": {
+                    "type": "string",
+                    "fa_icon": "fas fa-terminal",
+                    "description": "Arguments to pass to mummer during synteny"
+                },
+                "synteny_minimap2_extra_args": {
+                    "type": "string",
+                    "default": "-x asm5 --eqx -I100G",
+                    "description": "Arguments to pass to minimap2 during synteny",
+                    "fa_icon": "fas fa-terminal"
                 },
                 "synteny_plot_1_vs_all": {
                     "type": "boolean",
@@ -523,10 +540,18 @@
                     "fa_icon": "fas fa-palette",
                     "hidden": true
                 },
-                "hook_url": {
+                "validate_params": {
+                    "type": "boolean",
+                    "description": "Boolean whether to validate parameters against the schema at runtime",
+                    "default": true,
+                    "fa_icon": "fas fa-check-square",
+                    "hidden": true
+                },
+                "pipelines_testdata_base_path": {
                     "type": "string",
-                    "description": "Incoming hook URL for messaging service",
-                    "fa_icon": "fas fa-people-group",
+                    "fa_icon": "far fa-check-circle",
+                    "description": "Base URL or local path to location of pipeline test dataset files",
+                    "default": "https://raw.githubusercontent.com/nf-core/test-datasets/",
                     "hidden": true
                 },
                 "trace_report_suffix": {
@@ -534,6 +559,18 @@
                     "fa_icon": "far calendar",
                     "description": "Suffix to add to the trace report filename. Default is the date and time in the format yyyy-MM-dd_HH-mm-ss.",
                     "hidden": true
+                },
+                "help": {
+                    "type": ["boolean", "string"],
+                    "description": "Display the help message."
+                },
+                "help_full": {
+                    "type": "boolean",
+                    "description": "Display the full detailed help message."
+                },
+                "show_hidden": {
+                    "type": "boolean",
+                    "description": "Display hidden parameters in the help message (only works when --help or --help_full are provided)."
                 }
             }
         }

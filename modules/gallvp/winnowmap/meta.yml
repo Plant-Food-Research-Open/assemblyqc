@@ -1,123 +1,131 @@
 name: "winnowmap"
 description: Long read / genome alignment software
 keywords:
-  - align
-  - fasta
-  - fastq
-  - genome
-  - paf
-  - reference
+    - align
+    - fasta
+    - fastq
+    - genome
+    - paf
+    - reference
 tools:
-  - "winnowmap":
-      description: "Winnowmap is a long-read mapping algorithm optimized for mapping
-        ONT and PacBio reads to repetitive reference sequences."
-      homepage: "https://github.com/marbl/Winnowmap"
-      documentation: "https://github.com/marbl/Winnowmap"
-      tool_dev_url: "https://github.com/marbl/Winnowmap"
-      doi: "10.1038/s41592-022-01457-8"
-      licence: ["LicenseRef-Public-Domain AND MIT"]
-      identifier: biotools:winnowmap
-
+    - "winnowmap":
+          description: "Winnowmap is a long-read mapping algorithm optimized for mapping
+              ONT and PacBio reads to repetitive reference sequences."
+          homepage: "https://github.com/marbl/Winnowmap"
+          documentation: "https://github.com/marbl/Winnowmap"
+          tool_dev_url: "https://github.com/marbl/Winnowmap"
+          doi: "10.1038/s41592-022-01457-8"
+          licence:
+              - "LicenseRef-Public-Domain AND MIT"
+          identifier: biotools:winnowmap
 input:
-  - - meta:
-        type: map
-        description: |
-          Groovy Map containing sample information
-          e.g. [ id:'test', single_end:false ]
-    - reads:
-        type: file
-        description: |
-          List of input FASTA or FASTQ files of size 1 and 2 for single-end
-          and paired-end data, respectively.
-        ontologies: []
-  - - meta2:
-        type: map
-        description: |
-          Groovy Map containing reference information
-          e.g. [ id:'test_ref']
-    - reference:
-        type: file
-        description: |
-          Reference database in FASTA format.
-        ontologies: []
-  - - meta3:
-        type: map
-        description: |
-          Groovy Map containing reference information
-          e.g. [ id:'test_ref']
-    - merylDB:
-        type: directory
-        description: |
-          Reference meryl database
-        ontologies: []
-  - meryl_distinct:
-      type: float
-      description: k-mer frequency
-  - bam_format:
-      type: boolean
-      description: Specify that output should be in BAM format
-  - bam_index_extension:
-      type: string
-      description: BAM alignment index extension (e.g. "bai")
-  - cigar_paf_format:
-      type: boolean
-      description: Specify that output CIGAR should be in PAF format
-  - cigar_bam:
-      type: boolean
-      description: |
-        Write CIGAR with >65535 ops at the CG tag. This is recommended when
-        doing XYZ (https://github.com/lh3/minimap2#working-with-65535-cigar-operations)
-  - sort_bam:
-      type: boolean
-      description: |
-        To sort or not to sort the output bam
+    - - meta:
+            type: map
+            description: |
+                Groovy Map containing sample information
+                e.g. [ id:'test', single_end:false ]
+      - reads:
+            type: file
+            description: |
+                List of input FASTA or FASTQ files of size 1 and 2 for single-end
+                and paired-end data, respectively.
+            ontologies: []
+    - - meta2:
+            type: map
+            description: |
+                Groovy Map containing reference information
+                e.g. [ id:'test_ref']
+      - reference:
+            type: file
+            description: |
+                Reference database in FASTA format.
+            ontologies: []
+    - - meta3:
+            type: map
+            description: |
+                Groovy Map containing reference information
+                e.g. [ id:'test_ref']
+      - merylDB:
+            type: directory
+            description: |
+                Reference meryl database
+            ontologies: []
+    - meryl_distinct:
+          type: float
+          description: k-mer frequency
+    - bam_format:
+          type: boolean
+          description: Specify that output should be in BAM format
+    - bam_index_extension:
+          type: string
+          description: BAM alignment index extension (e.g. "bai")
+    - cigar_paf_format:
+          type: boolean
+          description: Specify that output CIGAR should be in PAF format
+    - cigar_bam:
+          type: boolean
+          description: |
+              Write CIGAR with >65535 ops at the CG tag. This is recommended when
+              doing XYZ (https://github.com/lh3/minimap2#working-with-65535-cigar-operations)
+    - sort_bam:
+          type: boolean
+          description: |
+              To sort or not to sort the output bam
 output:
-  paf:
-    - - meta:
-          type: map
-          description: |
-            Groovy Map containing sample information
-            e.g. [ id:'test', single_end:false ]
-      - "*.paf":
-          type: file
-          description: Alignment in PAF format
-          pattern: "*.paf"
-          ontologies: []
-  bam:
-    - - meta:
-          type: map
-          description: |
-            Groovy Map containing sample information
-            e.g. [ id:'test', single_end:false ]
-      - "*.bam":
-          type: file
-          description: Alignment in BAM format
-          pattern: "*.bam"
-          ontologies: []
-  index:
-    - - meta:
-          type: map
-          description: |
-            Groovy Map containing sample information
-            e.g. [ id:'test', single_end:false ]
-      - "*.bam.${bam_index_extension}":
-          type: file
-          description: BAM alignment index
-          pattern: "*.bam.*"
-          ontologies: []
-  versions:
-    - versions.yml:
-        type: file
-        description: File containing software versions
-        pattern: "versions.yml"
-        ontologies:
-          - edam: http://edamontology.org/format_3750 # YAML
+    paf:
+        - - meta:
+                type: map
+                description: |
+                    Groovy Map containing sample information
+                    e.g. [ id:'test', single_end:false ]
+          - "*.paf":
+                type: file
+                description: Alignment in PAF format
+                pattern: "*.paf"
+                ontologies: []
+    bam:
+        - - meta:
+                type: map
+                description: |
+                    Groovy Map containing sample information
+                    e.g. [ id:'test', single_end:false ]
+          - "*.bam":
+                type: file
+                description: Alignment in BAM format
+                pattern: "*.bam"
+                ontologies: []
+    index:
+        - - meta:
+                type: map
+                description: |
+                    Groovy Map containing sample information
+                    e.g. [ id:'test', single_end:false ]
+          - "*.bam.${bam_index_extension}":
+                type: file
+                description: BAM alignment index
+                pattern: "*.bam.*"
+                ontologies: []
+    versions_winnowmap:
+        - versions.yml:
+              type: file
+              description: File containing software versions
+              pattern: "versions.yml"
+              ontologies:
+                  - edam: http://edamontology.org/format_3750
+topics:
+    versions:
+        - versions.yml:
+              type: file
+              description: File containing software versions
+              pattern: "versions.yml"
+              ontologies:
+                  - edam: http://edamontology.org/format_3750
 authors:
-  - "@heuermh"
-  - "@sofstam"
-  - "@sateeshperi"
-  - "@jfy133"
-  - "@fellen31"
-  - "@GallVp"
+    - "@heuermh"
+    - "@sofstam"
+    - "@sateeshperi"
+    - "@jfy133"
+    - "@fellen31"
+    - "@GallVp"
 maintainers:
-  - "@GallVp"
+    - "@GallVp"

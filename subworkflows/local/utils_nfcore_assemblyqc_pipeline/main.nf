@@ -11,9 +11,9 @@
 include { UTILS_NFSCHEMA_PLUGIN     } from '../../nf-core/utils_nfschema_plugin'
 include { paramsSummaryMap          } from 'plugin/nf-schema'
 include { samplesheetToList         } from 'plugin/nf-schema'
+include { paramsHelp                } from 'plugin/nf-schema'
 include { completionEmail           } from '../../nf-core/utils_nfcore_pipeline'
 include { completionSummary         } from '../../nf-core/utils_nfcore_pipeline'
-include { imNotification            } from '../../nf-core/utils_nfcore_pipeline'
 include { UTILS_NFCORE_PIPELINE     } from '../../nf-core/utils_nfcore_pipeline'
 include { UTILS_NEXTFLOW_PIPELINE   } from '../../nf-core/utils_nextflow_pipeline'
 
@@ -30,12 +30,16 @@ workflow PIPELINE_INITIALISATION {
     monochrome_logs   // boolean: Do not use coloured log outputs
     nextflow_cli_args //   array: List of positional nextflow CLI args
     outdir            //  string: The output directory where the results will be saved
-    input             //  string: Path to input assemblysheet
+    input             //  string: Path to input samplesheet
+    help              // boolean: Display help message and exit
+    help_full         // boolean: Show the full help message
+    show_hidden       // boolean: Show hidden parameters in the help message
+    validate_params   // boolean: Validate parameters and exit
 
     main:
 
-    ch_versions     = Channel.empty()
-    summary_params  = paramsSummaryMap(workflow, parameters_schema: "nextflow_schema.json")
+    ch_versions       = channel.empty()
+    summary_params    = paramsSummaryMap(workflow, parameters_schema: "nextflow_schema.json")
 
     //
     // Print version and exit if required and dump pipeline parameters to JSON file
@@ -50,10 +54,26 @@ workflow PIPELINE_INITIALISATION {
     //
     // Validate parameters and generate parameter summary to stdout
     //
+
+    def before_text = ""
+    def after_text = ""
+    if (monochrome_logs) {
+        before_text = before_text.replaceAll(/\033\[[0-9;]*m/, '')
+    }
+
+    command = "nextflow run ${workflow.manifest.name} -profile <docker/singularity/.../institute> --input samplesheet.csv --outdir <OUTDIR>"
+
     UTILS_NFSCHEMA_PLUGIN (
         workflow,
-        true, // validate params
-        null // schema path: nextflow_schema
+        validate_params,
+        null,
+        help,
+        help_full,
+        show_hidden,
+        before_text,
+        after_text,
+        command,
+        false
     )
 
     //
@@ -71,15 +91,22 @@ workflow PIPELINE_INITIALISATION {
     // Initialise input channels
     //
 
-    ch_input                                = Channel.fromList (samplesheetToList(input, "assets/schema_input.json"))
+    ch_input                                = channel.fromList (samplesheetToList(input, "assets/schema_input.json"))
 
     // Function: validateInputTags
     ch_input_validated                      = ch_input
-                                            | map { row -> row[0] }
+                                            | map { row -> [ id: row[0], hic_fq_1: row[11] ? file(row[11]).name : null ] }
                                             | collect
-                                            | map { tags ->
+                                            | map { tagsAndHicFq1s ->
+
+                                                def tags = tagsAndHicFq1s.collect { mp -> mp.id }
                                                 validateInputTags(
                                                     tags,
+                                                    params.hic ? params.hic_map_combinations : null
+                                                )
+
+                                                validateHiCAssemblyWiseReads(
+                                                    tagsAndHicFq1s,
                                                     params.hic ? params.hic_map_combinations : null
                                                 )
                                             }
@@ -87,11 +114,11 @@ workflow PIPELINE_INITIALISATION {
                                             | map { _result, row -> row }
 
     ch_hic_reads                            = ! params.hic
-                                            ? Channel.empty()
+                                            ? channel.empty()
                                             : (
                                                 "$params.hic".find(/\S+\{1,2\}[\w\.]*\.f(ast)?q\.gz/)
-                                                ? Channel.fromFilePairs(params.hic, checkIfExists: true)
-                                                : Channel.of( [ params.hic, 'is_sra' ] )
+                                                ? channel.fromFilePairs(params.hic, checkIfExists: true)
+                                                : channel.of( [ params.hic, 'is_sra' ] )
                                             )
                                             | map { sample, fq ->
                                                 "$fq" != 'is_sra'
@@ -100,8 +127,8 @@ workflow PIPELINE_INITIALISATION {
                                             }
 
     ch_xref_assembly                        = params.synteny_skip || ! params.synteny_xref_assemblies
-                                            ? Channel.empty()
-                                            : Channel.fromList(samplesheetToList(params.synteny_xref_assemblies, "assets/schema_xref_assemblies.json"))
+                                            ? channel.empty()
+                                            : channel.fromList(samplesheetToList(params.synteny_xref_assemblies, "assets/schema_xref_assemblies.json"))
 
     ch_xref_assembly_validated              = ch_xref_assembly
                                             | map { row -> row[0] }
@@ -114,7 +141,7 @@ workflow PIPELINE_INITIALISATION {
                                             }
 
     ch_merqury_reads                        = params.merqury_skip
-                                            ? Channel.empty()
+                                            ? channel.empty()
                                             : ch_input_validated
                                             | map { input_data ->
                                                 def tag     = input_data[0]
@@ -131,7 +158,7 @@ workflow PIPELINE_INITIALISATION {
                                             }
 
     ch_maternal_reads                       = params.merqury_skip
-                                            ? Channel.empty()
+                                            ? channel.empty()
                                             : ch_input_validated
                                             | map { input_data ->
                                                 def tag                 = input_data[0]
@@ -148,7 +175,7 @@ workflow PIPELINE_INITIALISATION {
                                             }
 
     ch_paternal_reads                       = params.merqury_skip
-                                            ? Channel.empty()
+                                            ? channel.empty()
                                             : ch_input_validated
                                             | map { input_data ->
                                                 def tag                 = input_data[0]
@@ -164,7 +191,7 @@ workflow PIPELINE_INITIALISATION {
                                                 validateAndNormaliseReadsTuple ( fid, metas, m_reads, 'paternal' )
                                             }
     ch_mapback_reads                        = params.mapback_skip
-                                            ? Channel.empty()
+                                            ? channel.empty()
                                             : ch_input_validated
                                             | map { input_data ->
                                                 def tag     = input_data[0]
@@ -209,8 +236,8 @@ workflow PIPELINE_INITIALISATION {
 
 
     // Initialise parameter channels
-    ch_params_as_json                       = Channel.of ( jsonifyParams ( params ) )
-    ch_summary_params_as_json               = Channel.of ( jsonifySummaryParams ( summary_params ) )
+    ch_params_as_json                       = channel.of ( jsonifyParams ( params ) )
+    ch_summary_params_as_json               = channel.of ( jsonifySummaryParams ( summary_params ) )
 
     emit:
     input                                   = ch_input_validated
@@ -239,7 +266,6 @@ workflow PIPELINE_COMPLETION {
     plaintext_email // boolean: Send plain-text email instead of HTML
     outdir          //    path: Path to output directory where results will be published
     monochrome_logs // boolean: Disable ANSI colour codes in log output
-    hook_url        //  string: hook URL for notifications
 
     main:
     summary_params = paramsSummaryMap(workflow, parameters_schema: "nextflow_schema.json")
@@ -261,13 +287,11 @@ workflow PIPELINE_COMPLETION {
         }
 
         completionSummary(monochrome_logs)
-        if (hook_url) {
-            imNotification(summary_params, hook_url)
-        }
+
     }
 
     workflow.onError {
-        log.error "Pipeline failed. Please refer to troubleshooting docs: https://nf-co.re/docs/usage/troubleshooting"
+        log.error "Pipeline failed. Please refer to troubleshooting docs for common issues: https://nf-co.re/docs/running/troubleshooting"
     }
 }
 
@@ -316,7 +340,7 @@ def validateInputParameters() {
     }
 }
 
-def validateInputTags(assemblyTags, hicCombinations) {
+def validateInputTags(List<String> assemblyTags, String hicCombinations) {
 
     def tagCounts = [:]
     assemblyTags.each { tag ->
@@ -328,11 +352,29 @@ def validateInputTags(assemblyTags, hicCombinations) {
         error("Please check input assemblysheet -> Multiple assemblies have the same tags!: ${repeatedTags}")
     }
 
-    def hicTags = hicCombinations != null ? hicCombinations.tokenize(' ').collect { it.tokenize(':') }.flatten() : []
+    def hicTags = hicCombinations != null ? hicCombinations.tokenize(' ').collect { combination -> combination.tokenize(':') }.flatten() : []
 
-    hicTags.each {
-        if ( it !in assemblyTags ) {
-            error("Please check input hic_map_combinations -> $it was not found in the assemblysheet!")
+    hicTags.each { hicTag ->
+        if ( hicTag !in assemblyTags ) {
+            error("Please check input hic_map_combinations -> $hicTag was not found in the assemblysheet!")
+        }
+    }
+
+    if ( hicCombinations == null || hicCombinations == "" ) {
+        return true
+    }
+
+    // Make sure that all hic combinations are unique
+    def hicCombinationsUnique = hicCombinations.tokenize(' ').unique()
+    if ( hicCombinationsUnique.size() != hicCombinations.tokenize(' ').size() ) {
+        error("Please check input hic_map_combinations -> Some combinations are repeated!")
+    }
+
+    // Make sure that no hic combination is self-referential
+    hicCombinationsUnique.each { hicCombination ->
+        def hicCombinationTags = hicCombination.tokenize(':')
+        if ( hicCombinationTags.size() != hicCombinationTags.unique().size() ) {
+            error("Please check input hic_map_combinations -> ${hicCombination} combination is self-referential!")
         }
     }
 
@@ -453,4 +495,25 @@ def validateAndNormaliseReadsTuple ( fid, metas, reads, readsType ) {
         [ id:groupID, single_end:false, is_sra:false, type: readsType, assemblies:tags ],
         reads.first().collect { file(it, checkIfExists: true) }
     ]
+}
+
+def validateHiCAssemblyWiseReads(List<Map<String, String>> tagsAndHicFq1s, String hic_map_combinations) {
+
+    if (hic_map_combinations == null || hic_map_combinations == "") {
+        return true
+    }
+
+    hic_map_combinations
+    .tokenize(' ')
+    .findAll { combination -> combination.contains(':') }
+    .each { combination ->
+        def hicTags = combination.tokenize(':')
+        def hicFq1s = tagsAndHicFq1s.findAll { mp -> hicTags.contains(mp.id) }.collect { mp -> mp.hic_fq_1 }
+
+        if ( hicFq1s.unique().size() != 1 ) {
+            error("Please check input assemblysheet and hic_map_combinations parameter -> Following assemblies have different hic_reads_1: ${hicTags} although they are in the same hic_map_combinations group ${combination}")
+        }
+    }
+
+    return true
 }

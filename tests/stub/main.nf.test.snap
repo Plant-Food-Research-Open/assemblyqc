@@ -11,20 +11,10 @@
                         "python": "3.11.3"
                     },
                     "BUSCO_ANNOTATION": {
-                        "busco": "5.8.3"
+                        "busco": "6.1.0"
                     },
                     "BUSCO_ASSEMBLY": {
-                        "busco": "5.8.3"
-                    },
-                    "BWA_INDEX": {
-                        "bwa": "0.7.18-r1243-dirty"
-                    },
-                    "BWA_MEM": {
-                        "bwa": "0.7.18-r1243-dirty",
-                        "samtools": 1.21
-                    },
-                    "CAT_CAT": {
-                        "pigz": "2.3.4"
+                        "busco": "6.1.0"
                     },
                     "CIRCOS": {
                         "circos": "v0.69-8",
@@ -43,7 +33,7 @@
                         "biopython": 1.75
                     },
                     "CUSTOM_SRATOOLSNCBISETTINGS": {
-                        "sratools": "3.0.8"
+                        "sratools": "3.2.1"
                     },
                     "CUSTOM_YAHSJUICERPRE2PAIRS": {
                         "python": "3.8.13",
@@ -60,19 +50,24 @@
                         "gffread": "0.12.7"
                     },
                     "FALINT": {
-                        "fa-lint": "1.2.0"
+                        "falint": "1.2.0"
                     },
                     "FASTQC_RAW": {
                         "fastqc": "0.12.1"
                     },
                     "FCS_FCSADAPTOR": {
-                        "FCS-adaptor": "0.5.0"
+                        "fcsadaptor": "0.5.0"
                     },
                     "FILTERSORTFASTA": {
                         "samtools": "1.16.1"
                     },
                     "FILTER_BY_LENGTH": {
-                        "seqkit": "v2.9.0"
+                        "seqkit": "2.13.0"
+                    },
+                    "FIND_CONCATENATE": {
+                        "coreutils": 9.4,
+                        "find": "4.6.0",
+                        "pigz": 2.8
                     },
                     "GENERATEKARYOTYPE": {
                         "awk": "1.3.4 20200120",
@@ -83,7 +78,7 @@
                         "samtools": "1.16.1"
                     },
                     "GFASTATS": {
-                        "gfastats": "1.3.10"
+                        "gfastats": "1.3.11"
                     },
                     "GT_GFF3": {
                         "genometools": "1.6.5"
@@ -107,10 +102,10 @@
                         "hic_qc.py": "1.3.1"
                     },
                     "HICTK_LOAD": {
-                        "hictk": "hictk-v2.1.4-bioconda"
+                        "hictk": "hictk-v2.2.0-bioconda"
                     },
                     "HICTK_ZOOMIFY": {
-                        "hictk": "hictk-v2.1.4-bioconda"
+                        "hictk": "hictk-v2.2.0-bioconda"
                     },
                     "JUICEBOXSCRIPTS_MAKEAGPFROMFASTA": {
                         "juicebox_scripts": "0.1.0"
@@ -127,30 +122,37 @@
                         "plotly": "5.20.0"
                     },
                     "LTRFINDER": {
-                        "LTR_FINDER_parallel": "v1.1",
-                        "ltr_finder": "v1.07"
+                        "LTR_FINDER_parallel": 1.1,
+                        "ltr_finder": 1.07
                     },
                     "LTRHARVEST": {
-                        "LTR_HARVEST_parallel": "v1.1",
+                        "LTR_HARVEST_parallel": 1.1,
                         "genometools": "1.6.5"
                     },
                     "LTRRETRIEVER_LAI": {
                         "lai": "beta3.2"
                     },
                     "LTRRETRIEVER_LTRRETRIEVER": {
-                        "LTR_retriever": "v2.9.9"
+                        "LTR_retriever": "3.0.5"
                     },
                     "MERQURY_MERQURY": {
                         "merqury": 1.3
                     },
                     "MERYL_COUNT": {
-                        "meryl": "5f3f1eb8c2392656d591a47a872c2efd3706e3ac"
+                        "meryl": "1.4.1"
                     },
                     "MERYL_UNIONSUM": {
                         "meryl": "1.4.1"
                     },
+                    "MINIBWA_INDEX": {
+                        "minibwa": 0.2
+                    },
+                    "MINIBWA_MAP": {
+                        "minibwa": 0.2,
+                        "samtools": "1.23.1"
+                    },
                     "MINIMAP2_ALIGN": {
-                        "minimap2": "2.29-r1283"
+                        "minimap2": "2.30-r1287"
                     },
                     "MUMMER": {
                         "nucmer": "4.0.0rc1"
@@ -178,57 +180,59 @@
                         "samtools": "1.19.2"
                     },
                     "SAMTOOLS_FAIDX": {
-                        "samtools": 1.21
+                        "samtools": 1.24
                     },
                     "SEQKIT_RMDUP": {
-                        "seqkit": "v2.9.0"
+                        "seqkit": "2.13.0"
                     },
                     "SEQKIT_SORT": {
-                        "seqkit": "v2.9.0"
+                        "seqkit": "2.13.0"
                     },
                     "SORT_BY_LENGTH": {
-                        "seqkit": "v2.9.0"
+                        "seqkit": "2.13.0"
                     },
                     "SPLITBUNDLEFILE": {
                         "awk": "1.3.4 20200120"
                     },
                     "SRATOOLS_FASTERQDUMP": {
-                        "sratools": "3.0.8",
-                        "pigz": 2.6
+                        "pigz": 2.8,
+                        "sratools": "3.2.1"
                     },
                     "SRATOOLS_PREFETCH": {
-                        "sratools": "3.1.0",
-                        "curl": "8.5.0"
+                        "curl": "8.14.1",
+                        "sratools": "3.2.1"
                     },
                     "SYRI": {
                         "syri": "1.7.0"
                     },
                     "TAG_ASSEMBLY": {
-                        "pigz": "2.3.4"
+                        "coreutils": 9.4,
+                        "find": "4.6.0",
+                        "pigz": 2.8
                     },
                     "TIDK_EXPLORE": {
-                        "tidk": "0.2.41"
+                        "tidk": "0.2.7"
                     },
                     "TIDK_PLOT_APOSTERIORI": {
-                        "tidk": "0.2.41"
+                        "tidk": "0.2.7"
                     },
                     "TIDK_PLOT_APRIORI": {
-                        "tidk": "0.2.41"
+                        "tidk": "0.2.7"
                     },
                     "TIDK_SEARCH_APOSTERIORI": {
-                        "tidk": "0.2.41"
+                        "tidk": "0.2.7"
                     },
                     "TIDK_SEARCH_APRIORI": {
-                        "tidk": "0.2.41"
+                        "tidk": "0.2.7"
                     },
                     "UNMASK_IF_ANY": {
-                        "seqkit": "v2.9.0"
+                        "seqkit": "2.13.0"
                     },
                     "UNTAR": {
                         "untar": 1.34
                     },
                     "Workflow": {
-                        "plant-food-research-open/assemblyqc": "v3.0.1"
+                        "plant-food-research-open/assemblyqc": "v3.1.0"
                     },
                     "YAHS_JUICERPRE": {
                         "yahs": "1.2.2"
@@ -301,10 +305,10 @@
                 ]
             }
         ],
+        "timestamp": "2026-08-04T21:26:32.175539",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.6"
-        },
-        "timestamp": "2025-08-15T18:40:22.418377"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
     }
 }

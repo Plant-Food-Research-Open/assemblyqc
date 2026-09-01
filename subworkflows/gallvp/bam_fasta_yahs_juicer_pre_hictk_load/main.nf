@@ -15,24 +15,21 @@ workflow BAM_FASTA_YAHS_JUICER_PRE_HICTK_LOAD {
     val_assembly_mode                       // true|false
 
     main:
-    ch_versions                             = Channel.empty()
 
     // MODULE: SAMTOOLS_FAIDX
-    SAMTOOLS_FAIDX ( ch_fasta,
-        [ [] , []],
+    SAMTOOLS_FAIDX (
+        ch_fasta.map { meta, fasta -> [ meta, fasta, [] ] },
         true // get_sizes
     )
 
     ch_fasta_fai                            = ch_fasta
                                             | join(SAMTOOLS_FAIDX.out.fai)
-    ch_versions                             = ch_versions.mix(SAMTOOLS_FAIDX.out.versions.first())
 
     // MODULE: JUICEBOXSCRIPTS_MAKEAGPFROMFASTA
     JUICEBOXSCRIPTS_MAKEAGPFROMFASTA ( ch_fasta )
 
     ch_fasta_fai_agp                        = ch_fasta_fai
                                             | join(JUICEBOXSCRIPTS_MAKEAGPFROMFASTA.out.agp)
-    ch_versions                             = ch_versions.mix(JUICEBOXSCRIPTS_MAKEAGPFROMFASTA.out.versions.first())
 
     // MODULE: YAHS_JUICERPRE
     ch_yahs_juicerpre_inputs                = ch_bam
@@ -56,8 +53,6 @@ workflow BAM_FASTA_YAHS_JUICER_PRE_HICTK_LOAD {
         ch_yahs_juicerpre_inputs.agp,
         ch_yahs_juicerpre_inputs.fai
     )
-
-    ch_versions                             = ch_versions.mix(YAHS_JUICERPRE.out.versions.first())
 
     // MODULE: CUSTOM_YAHSJUICERPRE2PAIRS
     ch_yahsjuicerpre2pairs_in               = val_assembly_mode
@@ -86,22 +81,16 @@ workflow BAM_FASTA_YAHS_JUICER_PRE_HICTK_LOAD {
         ch_yahsjuicerpre2pairs_in.sizes
     )
 
-    ch_versions                             = ch_versions.mix(CUSTOM_YAHSJUICERPRE2PAIRS.out.versions.first())
-
     // MODULE: HICTK_LOAD
     HICTK_LOAD (
         CUSTOM_YAHSJUICERPRE2PAIRS.out.pairs,
         '4dn' // format
     )
 
-    ch_versions                             = ch_versions.mix(HICTK_LOAD.out.versions.first())
-
     // MODULE: HICTK_ZOOMIFY
     HICTK_ZOOMIFY (
         HICTK_LOAD.out.hic
     )
-
-    ch_versions                             = ch_versions.mix(HICTK_ZOOMIFY.out.versions.first())
 
     // MODULES: CUSTOM_ASSEMBLY2BEDPE
     ch_tracks_input                         = YAHS_JUICERPRE.out.liftover_agp
@@ -117,14 +106,10 @@ workflow BAM_FASTA_YAHS_JUICER_PRE_HICTK_LOAD {
         ch_tracks_input.scale
     )
 
-    ch_versions                             = ch_versions
-                                            | mix(CUSTOM_YAHSJUICERPRE2TRACKS.out.versions.first())
-
     emit:
     hic                                     = HICTK_ZOOMIFY.out.hic                     // channel: [ meta, hic ]
     scale                                   = YAHS_JUICERPRE.out.scale                  // channel: [ meta, scale ]
     assembly                                = CUSTOM_YAHSJUICERPRE2TRACKS.out.assembly  // channel: [ meta, assembly ]
     bedpe                                   = CUSTOM_YAHSJUICERPRE2TRACKS.out.bedpe     // channel: [ meta, bedpe ]
     bed                                     = CUSTOM_YAHSJUICERPRE2TRACKS.out.bed       // channel: [ meta, bed ]
-    versions                                = ch_versions                               // channel: [ versions.yml ]
 }

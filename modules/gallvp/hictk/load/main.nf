@@ -4,8 +4,8 @@ process HICTK_LOAD {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/hictk:2.1.4--h061aaa5_0':
-        'biocontainers/hictk:2.1.4--h061aaa5_0' }"
+        'https://depot.galaxyproject.org/singularity/hictk:2.2.0--h75fee6f_0':
+        'quay.io/biocontainers/hictk:2.2.0--h75fee6f_0' }"
 
     input:
     tuple val(meta), path(interactions)
@@ -13,7 +13,7 @@ process HICTK_LOAD {
 
     output:
     tuple val(meta), path("*.hic"), emit: hic
-    path "versions.yml"           , emit: versions
+    tuple val("${task.process}"), val('hictk'), eval("hictk --version"), topic: versions, emit: versions_hictk
 
     when:
     task.ext.when == null || task.ext.when
@@ -30,11 +30,6 @@ process HICTK_LOAD {
         --tmpdir ./ \\
         $interactions \\
         ${prefix}.hic
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        hictk: \$(hictk --version)
-    END_VERSIONS
     """
 
     stub:
@@ -44,10 +39,5 @@ process HICTK_LOAD {
     echo $args
 
     touch ${prefix}.hic
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        hictk: \$(hictk --version)
-    END_VERSIONS
     """
 }

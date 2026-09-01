@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
+name: "fastq_minibwa_map_samblaster"
+description: Index fasta if needed, map reads with BWA MEM and filter with
+    samblaster
+keywords:
+    - sort
+    - bam
+    - sam
+    - cram
+components:
+    - minibwa/index
+    - minibwa/map
+    - samblaster
+input:
+    - ch_fastq:
+          description: ""
+    - ch_reference:
+          description: ""
+    - val_sort_bam:
+          description: ""
+output:
+    - bam:
+          type: file
+          description: |
+              Channel containing BAM files
+              Structure: [ val(meta), path(bam) ]
+          pattern: "*.bam"
+authors:
+    - "@GallVp"
+maintainers:
+    - "@GallVp"

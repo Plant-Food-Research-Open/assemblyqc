@@ -14,21 +14,18 @@ workflow FASTA_SEQKIT_REFSORT {
 
     main:
 
-    ch_versions                             = Channel.empty()
-
     // MODULE: SEQKIT_SORT; ext.args = '--ignore-case --natural-order'
-    SEQKIT_SORT ( val_alphanumeric_sort ? ch_fasta : Channel.empty() )
+    SEQKIT_SORT ( val_alphanumeric_sort ? ch_fasta : channel.empty() )
 
     ch_sorted_fasta                         = val_alphanumeric_sort
                                             ? SEQKIT_SORT.out.fastx
                                             : ch_fasta
-    ch_versions                             = ch_versions.mix(SEQKIT_SORT.out.versions.first())
 
     // Channels: ch_grouped_fastas, ch_single_fasta, ch_paired_fastas, ch_minimap_inputs
     ch_combinations                         = ( val_fasta_combinations == null || val_fasta_combinations == [] )
                                             ? ch_fasta
                                             | map { meta, _fasta -> meta.id }
-                                            : Channel.of(
+                                            : channel.of(
                                                 val_fasta_combinations.tokenize( ' ' )
                                             )
                                             | flatten
@@ -85,7 +82,7 @@ workflow FASTA_SEQKIT_REFSORT {
     // MODULE: MINIMAP2_ALIGN; ext.args = -x asm5 --secondary=no
     ch_minimap_inputs                       = val_refsort
                                             ? ch_paired_fastas
-                                            : Channel.empty()
+                                            : channel.empty()
     MINIMAP2_ALIGN (
         ch_minimap_inputs.map { meta2, fastas -> [ meta2, fastas.first() ] },
         ch_minimap_inputs.map { meta2, fastas -> [ meta2, fastas.last() ] },
@@ -97,7 +94,6 @@ workflow FASTA_SEQKIT_REFSORT {
 
     ch_minimap_inputs_paf                   = ch_minimap_inputs
                                             | join(MINIMAP2_ALIGN.out.paf)
-    ch_versions                             = ch_versions.mix(MINIMAP2_ALIGN.out.versions.first())
 
     // JUICEBOXSCRIPTS_MAKEAGPFROMFASTA
     JUICEBOXSCRIPTS_MAKEAGPFROMFASTA (
@@ -108,7 +104,6 @@ workflow FASTA_SEQKIT_REFSORT {
                                             | join(
                                                 JUICEBOXSCRIPTS_MAKEAGPFROMFASTA.out.agp
                                             )
-    ch_versions                             = ch_versions.mix(JUICEBOXSCRIPTS_MAKEAGPFROMFASTA.out.versions.first())
 
     // MODULE: HAPHIC_REFSORT
     ch_refsort_inputs                       = ch_minimap_inputs_paf_agp
@@ -126,7 +121,6 @@ workflow FASTA_SEQKIT_REFSORT {
 
     ch_minimap_inputs_refsort_fasta         = ch_minimap_inputs
                                             | join ( HAPHIC_REFSORT.out.fasta )
-    ch_versions                             = ch_versions.mix(HAPHIC_REFSORT.out.versions.first())
 
     // Channel: ch_refsort_pairs
     ch_refsort_pairs                        = val_refsort
@@ -170,10 +164,8 @@ workflow FASTA_SEQKIT_REFSORT {
     )
 
     ch_interleaved_fasta                    = CUSTOM_INTERLEAVEFASTA.out.fasta
-    ch_versions                             = ch_versions.mix(CUSTOM_INTERLEAVEFASTA.out.versions.first())
 
     emit:
     fasta                                   = ch_interleaved_fasta
                                             | mix ( ch_single_fasta )   // channel: [ meta3, fasta ]; meta3 ~ [ id, comb ]
-    versions                                = ch_versions               // channel: [ versions.yml ]
 }

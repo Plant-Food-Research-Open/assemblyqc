@@ -1,2 +1,2 @@
 ltrretriever/lai:
-  - "modules/nf-core/ltrretriever/lai/**"
+    - "modules/nf-core/ltrretriever/lai/**"

@@ -1,13 +1,12 @@
 # plant-food-research-open/assemblyqc
 
+[![Open in GitHub Codespaces](https://img.shields.io/badge/Open_In_GitHub_Codespaces-black?labelColor=grey&logo=github)](https://github.com/codespaces/new/plant-food-research-open/assemblyqc)
 [![GitHub Actions CI Status](https://github.com/plant-food-research-open/assemblyqc/actions/workflows/nf-test.yml/badge.svg)](https://github.com/plant-food-research-open/assemblyqc/actions/workflows/nf-test.yml)
-[![GitHub Actions Linting Status](https://github.com/plant-food-research-open/assemblyqc/actions/workflows/linting.yml/badge.svg)](https://github.com/plant-food-research-open/assemblyqc/actions/workflows/linting.yml)
-[![Cite Article](http://img.shields.io/badge/DOI-10.1093/bioinformatics/btae477-1073c8?labelColor=000000)](https://doi.org/10.1093/bioinformatics/btae477)
-
+[![GitHub Actions Linting Status](https://github.com/plant-food-research-open/assemblyqc/actions/workflows/linting.yml/badge.svg)](https://github.com/plant-food-research-open/assemblyqc/actions/workflows/linting.yml)[![Cite Article](http://img.shields.io/badge/DOI-10.1093/bioinformatics/btae477-1073c8?labelColor=000000)](https://doi.org/10.1093/bioinformatics/btae477)
 [![nf-test](https://img.shields.io/badge/unit_tests-nf--test-337ab7.svg)](https://www.nf-test.com)
-[![Nextflow](https://img.shields.io/badge/version-%E2%89%A524.10.5-green?style=flat&logo=nextflow&logoColor=white&color=%230DC09D&link=https%3A%2F%2Fnextflow.io)](https://www.nextflow.io/)
-[![nf-core template version](https://img.shields.io/badge/nf--core_template-3.3.2-green?style=flat&logo=nfcore&logoColor=white&color=%2324B064&link=https%3A%2F%2Fnf-co.re)](https://github.com/nf-core/tools/releases/tag/3.3.2)
 
+[![Nextflow](https://img.shields.io/badge/version-%E2%89%A525.10.4-green?style=flat&logo=nextflow&logoColor=white&color=%230DC09D&link=https%3A%2F%2Fnextflow.io)](https://www.nextflow.io/)
+[![nf-core template version](https://img.shields.io/badge/nf--core_template-4.1.0-green?style=flat&logo=nfcore&logoColor=white&color=%2324B064&link=https%3A%2F%2Fnf-co.re)](https://github.com/nf-core/tools/releases/tag/4.1.0)
 [![run with conda ❌](http://img.shields.io/badge/run%20with-conda%20❌-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
 [![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
@@ -35,7 +34,7 @@
     - [fastp](https://github.com/OpenGene/fastp), [FastQC](https://github.com/s-andrews/FastQC): Read QC and trimming
     - [SeqKit sort](https://github.com/shenwei356/seqkit): Alphanumeric sorting of FASTA by sequence ID
     - [HapHiC refsort](https://github.com/zengxiaofei/HapHiC): Reference-based sorting of FASTA
-    - [bwa-mem](https://github.com/lh3/bwa): HiC read alignment
+    - [minibwa](https://github.com/lh3/minibwa) OR [bwa-mem](https://github.com/lh3/bwa): HiC read alignment
     - [samblaster](https://github.com/GregoryFaust/samblaster): Duplicate marking
     - [hic_qc](https://github.com/phasegenomics/hic_qc): HiC read and alignment statistics
     - [YaHS juicer pre](https://github.com/c-zhou/yahs): BAM to juicer conversion
@@ -65,7 +64,7 @@
 Refer to [usage](./docs/usage.md), [parameters](./docs/parameters.md) and [output](./docs/output.md) documents for details.
 
 > [!NOTE]
-> If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
+> If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/get_started/environment_setup/overview) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/get_started/run-your-first-pipeline) with `-profile test` before running the workflow on actual data.
 
 Prepare an `assemblysheet.csv` file with following columns representing target assemblies and associated meta-data.
 
@@ -83,7 +82,7 @@ nextflow run plant-food-research-open/assemblyqc \
 ```
 
 > [!WARNING]
-> Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_; see [docs](https://nf-co.re/docs/usage/getting_started/configuration#custom-configuration-files).
+> Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_; see [docs](https://nf-co.re/docs/running/run-pipelines#using-parameter-files).
 
 ### Plant&Food Users
 
@@ -126,6 +125,7 @@ The pipeline uses nf-core modules contributed by following authors:
 <a href="https://github.com/fellen31"><img src="https://github.com/fellen31.png" width="50" height="50"></a>
 <a href="https://github.com/ewels"><img src="https://github.com/ewels.png" width="50" height="50"></a>
 <a href="https://github.com/nvnieuwk"><img src="https://github.com/nvnieuwk.png" width="50" height="50"></a>
+<a href="https://github.com/nh13"><img src="https://github.com/nh13.png" width="50" height="50"></a>
 <a href="https://github.com/grst"><img src="https://github.com/grst.png" width="50" height="50"></a>
 <a href="https://github.com/adamrtalbot"><img src="https://github.com/adamrtalbot.png" width="50" height="50"></a>
 <a href="https://github.com/robsyme"><img src="https://github.com/robsyme.png" width="50" height="50"></a>
@@ -139,18 +139,20 @@ The pipeline uses nf-core modules contributed by following authors:
 <a href="https://github.com/kevbrick"><img src="https://github.com/kevbrick.png" width="50" height="50"></a>
 <a href="https://github.com/jvhagey"><img src="https://github.com/jvhagey.png" width="50" height="50"></a>
 <a href="https://github.com/jeremy1805"><img src="https://github.com/jeremy1805.png" width="50" height="50"></a>
-<a href="https://github.com/friederikehanssen"><img src="https://github.com/friederikehanssen.png" width="50" height="50"></a>
 <a href="https://github.com/felixkrueger"><img src="https://github.com/felixkrueger.png" width="50" height="50"></a>
-<a href="https://github.com/erikrikarddaniel"><img src="https://github.com/erikrikarddaniel.png" width="50" height="50"></a>
 <a href="https://github.com/edmundmiller"><img src="https://github.com/edmundmiller.png" width="50" height="50"></a>
 <a href="https://github.com/dlbpointon"><img src="https://github.com/dlbpointon.png" width="50" height="50"></a>
+<a href="https://github.com/dialvarezs"><img src="https://github.com/dialvarezs.png" width="50" height="50"></a>
 <a href="https://github.com/d4straub"><img src="https://github.com/d4straub.png" width="50" height="50"></a>
+<a href="https://github.com/chriswyatt1"><img src="https://github.com/chriswyatt1.png" width="50" height="50"></a>
 <a href="https://github.com/charles-plessy"><img src="https://github.com/charles-plessy.png" width="50" height="50"></a>
+<a href="https://github.com/biowilko"><img src="https://github.com/biowilko.png" width="50" height="50"></a>
 <a href="https://github.com/fernandoduartef"><img src="https://github.com/fernandoduartef.png" width="50" height="50"></a>
+<a href="https://github.com/eit-maxlcummins"><img src="https://github.com/eit-maxlcummins.png" width="50" height="50"></a>
 
 ## Contributions and Support
 
-If you would like to contribute to this pipeline, please see the [contributing guidelines](.github/CONTRIBUTING.md).
+If you would like to contribute to this pipeline, please see the [contributing guidelines](docs/CONTRIBUTING.md).
 
 ## Citations
 

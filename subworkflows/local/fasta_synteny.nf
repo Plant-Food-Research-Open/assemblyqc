@@ -18,9 +18,9 @@ include { PLOTSR                        } from '../../modules/gallvp/plotsr/main
 
 workflow FASTA_SYNTENY {
     take:
-    ch_fasta                            // Channel: [ tag, fa ]
-    ch_labels                           // Channel: [ tag, txt ]
-    ch_xref_fasta_labels                // Channel: [ tag2, fa, txt ]
+    ch_fasta                            // channel: [ tag, fa ]
+    ch_labels                           // channel: [ tag, txt ]
+    ch_xref_fasta_labels                // channel: [ tag2, fa, txt ]
     between_input_assemblies            // val(true|false)
     mummer_m2m_align                    // val(true|false)
     mummer_max_gap                      // val(Integer)
@@ -34,7 +34,7 @@ workflow FASTA_SYNTENY {
     plotsr_assembly_order               // val(String)
 
     main:
-    ch_versions                         = Channel.empty()
+    ch_versions                         = channel.empty()
 
     ch_fasta_labels                     = ch_fasta
                                         | join(
@@ -42,7 +42,7 @@ workflow FASTA_SYNTENY {
                                         )
 
     ch_input_combination                = ! between_input_assemblies
-                                        ? Channel.empty()
+                                        ? channel.empty()
                                         : ch_fasta_labels
                                         | map { [it] }
                                         | collect
@@ -77,7 +77,7 @@ workflow FASTA_SYNTENY {
                                         }
 
     ch_combination                      = mummer_skip
-                                        ? Channel.empty()
+                                        ? channel.empty()
                                         : ch_input_combination
                                         | mix(
                                             ch_fasta_labels
@@ -90,8 +90,6 @@ workflow FASTA_SYNTENY {
                                         | map { target_tag, _target_fa, target_txt, xref_tag, _xref_fa, xref_txt ->
                                             [ "${target_tag}.on.${xref_tag}", target_txt, xref_txt ]
                                         }
-
-    ch_versions                         = ch_versions.mix(GUNZIP_FASTA.out.versions.first())
 
     // MODULE: FILTERSORTFASTA
     FILTERSORTFASTA ( ch_combination )
@@ -196,7 +194,7 @@ workflow FASTA_SYNTENY {
                                             [ "${target_on_xref}.${seq_tag}", txt ]
                                         }
                                         | join(GENERATEKARYOTYPE.out.karyotype)
-                                        : Channel.empty()
+                                        : channel.empty()
     CIRCOS ( ch_circos_inputs )
 
     ch_versions                         = ch_versions.mix(CIRCOS.out.versions.first())
@@ -209,7 +207,7 @@ workflow FASTA_SYNTENY {
                                         }
                                         | join(GENERATEKARYOTYPE.out.karyotype_ref)
                                         | join(GENERATEKARYOTYPE.out.karyotype_target)
-                                        : Channel.empty()
+                                        : channel.empty()
 
     LINEARSYNTENY ( ch_linear_synteny_inputs )
 
@@ -217,7 +215,7 @@ workflow FASTA_SYNTENY {
 
     // Create chr label lists
     ch_assembly_labels                  = plotsr_skip
-                                        ? Channel.empty()
+                                        ? channel.empty()
                                         : ch_fasta_labels
                                         | mix(ch_xref_ungz_fa_labels)
 
@@ -265,7 +263,6 @@ workflow FASTA_SYNTENY {
     )
 
     ch_plotsr_assembly                  = CUSTOM_RELABELFASTA.out.fasta
-    ch_versions                         = ch_versions.mix(CUSTOM_RELABELFASTA.out.versions.first())
 
     // MODULE: MINIMAP2_ALIGN
     ch_minimap_inputs                   = ch_plotsr_assembly
@@ -305,24 +302,23 @@ workflow FASTA_SYNTENY {
     MINIMAP2_ALIGN(
         ch_minimap_inputs.map { meta, tfa, _rfa -> [ meta, tfa ] },
         ch_minimap_inputs.map { meta, _tfa, rfa -> [ meta, rfa ] },
-        true,   // bam_format
+        false,   // bam_format
         'bai',  // bam_index_extension
-        false,  // cigar_paf_format
+        true,  // cigar_paf_format
         false   // cigar_bam
     )
 
-    ch_minimap2_bam                     = MINIMAP2_ALIGN.out.bam
-    ch_versions                         = ch_versions.mix(MINIMAP2_ALIGN.out.versions.first())
+    ch_minimap2_paf                     = MINIMAP2_ALIGN.out.paf
 
     // MODULE: SYRI
-    ch_syri_inputs                      = ch_minimap2_bam
+    ch_syri_inputs                      = ch_minimap2_paf
                                         | join(ch_minimap_inputs)
 
     SYRI(
-        ch_syri_inputs.map { meta, bam, _tfa, _rfa -> [ meta, bam ] },
+        ch_syri_inputs.map { meta, paf, _tfa, _rfa -> [ meta, paf ] },
         ch_syri_inputs.map { _meta, _bam, tfa, _rfa -> tfa },
         ch_syri_inputs.map { _meta, _bam, _tfa, rfa -> rfa },
-        'B' // BAM
+        'P' // PAF
     )
 
     ch_syri                             = SYRI.out.syri

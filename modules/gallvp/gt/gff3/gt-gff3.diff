@@ -1,0 +1,20 @@
+Changes in component 'gallvp/gt/gff3'
+'modules/gallvp/gt/gff3/environment.yml' is unchanged
+'modules/gallvp/gt/gff3/meta.yml' is unchanged
+Changes in 'gt/gff3/main.nf':
+--- modules/gallvp/gt/gff3/main.nf
++++ modules/gallvp/gt/gff3/main.nf
+@@ -48,7 +48,5 @@
+ 
+     """
+     touch ${prefix}.gt.gff3
+-    touch ${prefix}.error.log
+-    touch gt_gff3.stderr
+     """
+ }
+
+'modules/gallvp/gt/gff3/tests/main.nf.test.snap' is unchanged
+'modules/gallvp/gt/gff3/tests/tags.yml' is unchanged
+'modules/gallvp/gt/gff3/tests/nextflow.config' is unchanged
+'modules/gallvp/gt/gff3/tests/main.nf.test' is unchanged
+************************************************************

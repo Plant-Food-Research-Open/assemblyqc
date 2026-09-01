@@ -2,30 +2,30 @@
 name: "fasta_bedtools_makewindows_nuc"
 description: Take a fasta and compute GC content
 keywords:
-  - fasta
-  - bed
-  - GC
+    - fasta
+    - bed
+    - GC
 components:
-  - samtools/faidx
-  - bedtools/makewindows
-  - bedtools/nuc
+    - samtools/faidx
+    - bedtools/makewindows
+    - bedtools/nuc
 input:
-  - ch_fasta:
-      type: file
-      pattern: "*.fasta"
-      description: Input fasta file
+    - ch_fasta:
+          type: file
+          pattern: "*.fasta"
+          description: Input fasta file
 output:
-  - versions:
-      type: file
-      description: |
-        File containing software versions
-        Structure: [ path(versions.yml) ]
-      pattern: "versions.yml"
-  - nuc:
-      type: file
-      description: BED file with GC and other stats
-      pattern: "*.bed"
+    - versions:
+          type: file
+          description: |
+              File containing software versions
+              Structure: [ path(versions.yml) ]
+          pattern: "versions.yml"
+    - nuc:
+          type: file
+          description: BED file with GC and other stats
+          pattern: "*.bed"
 authors:
-  - "@GallVp"
+    - "@GallVp"
 maintainers:
-  - "@GallVp"
+    - "@GallVp"

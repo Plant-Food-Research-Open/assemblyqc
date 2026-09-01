@@ -1,0 +1,70 @@
+nextflow_function {
+
+    name "validateInputTags"
+    script "../../subworkflows/local/utils_nfcore_assemblyqc_pipeline/main.nf"
+    function "validateInputTags"
+
+    test("HY -- HY -- pass") {
+        when {
+            function {
+                """
+                input[0] = [ "HY" ]
+                input[1] = "HY"
+                """
+            }
+        }
+
+        then {
+            assert function.success
+            assert function.result
+        }
+    }
+
+    test("HY1 HY2 -- HY1 HY1:HY2 -- pass") {
+        when {
+            function {
+                """
+                input[0] = [ "HY1", "HY2" ]
+                input[1] = "HY1 HY1:HY2"
+                """
+            }
+        }
+
+        then {
+            assert function.success
+            assert function.result
+        }
+    }
+
+    test("HY -- HY HY -- fail") {
+        when {
+            function {
+                """
+                input[0] = [ "HY" ]
+                input[1] = "HY HY"
+                """
+            }
+        }
+
+        then {
+            assert ! function.success
+            assert 'Please check input hic_map_combinations -> Some combinations are repeated!' in function.stdout
+        }
+    }
+
+    test("HY -- HY:HY -- fail") {
+        when {
+            function {
+                """
+                input[0] = [ "HY" ]
+                input[1] = "HY:HY"
+                """
+            }
+        }
+
+        then {
+            assert ! function.success
+            assert 'Please check input hic_map_combinations -> HY:HY combination is self-referential!' in function.stdout
+        }
+    }
+}

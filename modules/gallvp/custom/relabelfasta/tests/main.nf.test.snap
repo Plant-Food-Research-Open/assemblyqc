@@ -21,16 +21,16 @@
                         "test.fasta:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
-                "versions": [
+                "versions_python": [
                     "versions.yml:md5,d2052e0039190dca1b50700028ef14c3"
                 ]
             }
         ],
+        "timestamp": "2026-07-28T14:26:14.669657",
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "24.04.1"
-        },
-        "timestamp": "2024-05-25T13:40:44.896721"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
     },
     "sarscov2 - fasta": {
         "content": [
@@ -54,15 +54,15 @@
                         "test.fasta:md5,393572534251b71ec74fbe3b1a31a709"
                     ]
                 ],
-                "versions": [
+                "versions_python": [
                     "versions.yml:md5,d2052e0039190dca1b50700028ef14c3"
                 ]
             }
         ],
+        "timestamp": "2026-07-28T14:25:46.72341",
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "24.04.1"
-        },
-        "timestamp": "2024-05-25T13:38:20.323976"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
     }
 }

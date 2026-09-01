@@ -2,38 +2,38 @@
 name: "fasta_fastq_winnowmap_coverage"
 description: Takes a genome in Fasta and reads in Fastq to map them to the genome and output a wiggle coverage file
 keywords:
-  - genomics
-  - fasta
-  - fastq
-  - map
-  - coverage
+    - genomics
+    - fasta
+    - fastq
+    - map
+    - coverage
 components:
-  - meryl/count
-  - paftools/sam2paf
-  - t2tpolish/paftocovclippedwig
-  - winnowmap
+    - meryl/count
+    - paftools/sam2paf
+    - t2tpolish/paftocovclippedwig
+    - winnowmap
 input:
-  - ch_fasta:
-      description: Genome in Fasta format
-  - ch_fastq:
-      description: Reads in Fastq format
-  - val_k:
-      description: kmer length as an integer
-  - val_meryl_distinct:
-      description: Percentile for meryl distinct operation
-  - val_coverage_span:
-      description: Coverage span
+    - ch_fasta:
+          description: Genome in Fasta format
+    - ch_fastq:
+          description: Reads in Fastq format
+    - val_k:
+          description: kmer length as an integer
+    - val_meryl_distinct:
+          description: Percentile for meryl distinct operation
+    - val_coverage_span:
+          description: Coverage span
 output:
-  - versions:
-      type: file
-      description: |
-        File containing software versions
-        Structure: [ path(versions.yml) ]
-      pattern: "versions.yml"
-  - wig:
-      type: file
-      description: Coverage wiggle file
+    - versions:
+          type: file
+          description: |
+              File containing software versions
+              Structure: [ path(versions.yml) ]
+          pattern: "versions.yml"
+    - wig:
+          type: file
+          description: Coverage wiggle file
 authors:
-  - "@GallVp"
+    - "@GallVp"
 maintainers:
-  - "@GallVp"
+    - "@GallVp"

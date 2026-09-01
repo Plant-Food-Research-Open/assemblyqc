@@ -10,6 +10,7 @@ nextflow_pipeline {
                 input               = "$baseDir/tests/hic/assemblysheet.csv"
                 hic                 = "$baseDir/tests/hic/testdata/HYh1h2_Chr01_6000000_6015000.R{1,2}.fastq.gz"
                 hic_assembly_mode   = false
+                hic_map_combinations= ""
                 outdir              = "$outputDir"
             }
         }
@@ -62,6 +63,7 @@ nextflow_pipeline {
                 input               = "$baseDir/tests/hic/assemblysheet.csv"
                 hic                 = "$baseDir/tests/hic/testdata/HYh1h2_Chr01_6000000_6015000.R{1,2}.fastq.gz"
                 hic_assembly_mode   = true
+                hic_map_combinations= ""
                 outdir              = "$outputDir"
             }
         }

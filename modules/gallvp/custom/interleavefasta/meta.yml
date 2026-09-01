@@ -1,64 +1,68 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
 name: "custom_interleavefasta"
 description: Interleaves two FASTA files, optionally prefixing IDs if there are
-  collisions, and outputs a single interleaved FASTA file.
+    collisions, and outputs a single interleaved FASTA file.
 keywords:
-  - fasta
-  - interleave
-  - sequence
-  - genomics
-  - merge
-  - biopython
-  - custom
-  - utility
+    - fasta
+    - interleave
+    - sequence
+    - genomics
+    - merge
+    - biopython
+    - custom
+    - utility
 tools:
-  - "python":
-      description: |
-        Python is a programming language that lets you work quickly
-        and integrate systems more effectively
-      homepage: "https://www.python.org"
-      documentation: "https://docs.python.org/3/"
-      tool_dev_url: "https://github.com/python/cpython"
-      licence: ["MIT"]
-      identifier: ""
-
-input:
-  - - meta:
-        type: map
-        description: |
-          Groovy Map containing sample information
-          e.g. `[ id:'sample1' ]`
-    - fastas:
-        type: list
-        description: A list of fasta files
-
-  - fasta_prefixes:
-      type: string
-      description: A space separated list of prefixes to add to IDs from the
-        second FASTA file if there are collisions
-
-output:
-  fasta:
-    - - meta:
-          type: map
+    - "python":
           description: |
-            Groovy Map containing sample information
-            e.g. `[ id:'sample1' ]`
-      - "*.fasta":
-          type: file
-          description: Interleaved FASTA file
-          pattern: "*.fasta"
-          ontologies:
-            - edam: "http://edamontology.org/format_1929" # FASTA
-  versions:
-    - versions.yml:
-        type: file
-        description: File containing software versions
-        pattern: "versions.yml"
-
-        ontologies:
-          - edam: http://edamontology.org/format_3750 # YAML
+              Python is a programming language that lets you work quickly
+              and integrate systems more effectively
+          homepage: "https://www.python.org"
+          documentation: "https://docs.python.org/3/"
+          tool_dev_url: "https://github.com/python/cpython"
+          licence:
+              - "MIT"
+          identifier: ""
+input:
+    - - meta:
+            type: map
+            description: |
+                Groovy Map containing sample information
+                e.g. `[ id:'sample1' ]`
+      - fastas:
+            type: list
+            description: A list of fasta files
+    - fasta_prefixes:
+          type: string
+          description: A space separated list of prefixes to add to IDs from the
+              second FASTA file if there are collisions
+output:
+    fasta:
+        - - meta:
+                type: map
+                description: |
+                    Groovy Map containing sample information
+                    e.g. `[ id:'sample1' ]`
+          - "*.fasta":
+                type: file
+                description: Interleaved FASTA file
+                pattern: "*.fasta"
+                ontologies:
+                    - edam: "http://edamontology.org/format_1929"
+    versions_python:
+        - versions.yml:
+              type: file
+              description: File containing software versions
+              pattern: "versions.yml"
+              ontologies:
+                  - edam: http://edamontology.org/format_3750
+topics:
+    versions:
+        - versions.yml:
+              type: file
+              description: File containing software versions
+              pattern: "versions.yml"
+              ontologies:
+                  - edam: http://edamontology.org/format_3750
 authors:
-  - "@GallVp"
+    - "@GallVp"
 maintainers:
-  - "@GallVp"
+    - "@GallVp"

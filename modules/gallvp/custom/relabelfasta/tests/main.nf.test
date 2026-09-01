@@ -17,7 +17,7 @@ nextflow_process {
                     [ id:'test' ], // meta map
                     file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/genome.fasta', checkIfExists: true)
                 ]
-                input[1] = Channel.of('MT192765.1\tChr1').collectFile(name: 'id_map.tsv', newLine: true)
+                input[1] = channel.of('MT192765.1\tChr1').collectFile(name: 'id_map.tsv', newLine: true)
                 """
             }
         }
@@ -40,7 +40,7 @@ nextflow_process {
                     [ id:'test' ], // meta map
                     file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/genome.fasta', checkIfExists: true)
                 ]
-                input[1] = Channel.of('MT192765.1\\tChr1\\nMT19276\\tChr1').collectFile(name: 'id_map.tsv', newLine: true)
+                input[1] = channel.of('MT192765.1\\tChr1\\nMT19276\\tChr1').collectFile(name: 'id_map.tsv', newLine: true)
                 """
             }
         }
@@ -63,7 +63,7 @@ nextflow_process {
                     [ id:'test' ], // meta map
                     file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/genome.fasta', checkIfExists: true)
                 ]
-                input[1] = Channel.of('MT192765.1\\tChr1\\nMT192765.1\\tChr1').collectFile(name: 'id_map.tsv', newLine: true)
+                input[1] = channel.of('MT192765.1\\tChr1\\nMT192765.1\\tChr1').collectFile(name: 'id_map.tsv', newLine: true)
                 """
             }
         }
@@ -86,7 +86,7 @@ nextflow_process {
                     [ id:'test' ], // meta map
                     file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/genome.fasta', checkIfExists: true)
                 ]
-                input[1] = Channel.of('MT192765.1\\tChr1\\nMT192765.1').collectFile(name: 'id_map.tsv', newLine: true)
+                input[1] = channel.of('MT192765.1\\tChr1\\nMT192765.1').collectFile(name: 'id_map.tsv', newLine: true)
                 """
             }
         }
@@ -109,7 +109,7 @@ nextflow_process {
                     [ id:'test' ], // meta map
                     file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/genome.fasta', checkIfExists: true)
                 ]
-                input[1] = Channel.of('MT192765.1\\tChr1\\nMT192765.2\\tChr2').collectFile(name: 'id_map.tsv', newLine: true)
+                input[1] = channel.of('MT192765.1\\tChr1\\nMT192765.2\\tChr2').collectFile(name: 'id_map.tsv', newLine: true)
                 """
             }
         }
@@ -135,7 +135,7 @@ nextflow_process {
                     [ id:'test' ], // meta map
                     file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/genome.fasta', checkIfExists: true)
                 ]
-                input[1] = Channel.of('MT192765.1\tChr1').collectFile(name: 'id_map.tsv', newLine: true)
+                input[1] = channel.of('MT192765.1\tChr1').collectFile(name: 'id_map.tsv', newLine: true)
                 """
             }
         }

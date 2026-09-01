@@ -33,9 +33,8 @@ workflow FASTA_KRAKEN2 {
     // MODULE: KRAKEN2_KRONA_PLOT
     KRAKEN2_KRONA_PLOT ( KRAKEN2.out.report )
 
-    ch_versions                 = Channel.empty()
+    ch_versions                 = channel.empty()
                                 | mix(KRAKEN2.out.versions.first())
-                                | mix(UNTAR.out.versions.first())
                                 | mix(KRAKEN2_KRONA_PLOT.out.versions.first())
 
     emit:

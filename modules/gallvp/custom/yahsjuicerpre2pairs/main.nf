@@ -5,7 +5,7 @@ process CUSTOM_YAHSJUICERPRE2PAIRS {
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/biopython:1.75':
-        'biocontainers/biopython:1.75' }"
+        'quay.io/biocontainers/biopython:1.75' }"
 
     input:
     tuple val(meta), path(tsv)
@@ -13,7 +13,7 @@ process CUSTOM_YAHSJUICERPRE2PAIRS {
 
     output:
     tuple val(meta), path("*.pairs")    , emit: pairs
-    path "versions.yml"                 , emit: versions
+    path "versions.yml"                         , emit: versions_python, topic: versions
 
     when:
     task.ext.when == null || task.ext.when

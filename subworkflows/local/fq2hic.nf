@@ -1,36 +1,37 @@
-include { FASTQ_FASTQC_UMITOOLS_FASTP   } from '../nf-core/fastq_fastqc_umitools_fastp/main'
+include { FASTQ_FASTQC_UMITOOLS_FASTP           } from '../nf-core/fastq_fastqc_umitools_fastp/main'
 
-include { FASTQ_BWA_MEM_SAMBLASTER      } from '../gallvp/fastq_bwa_mem_samblaster/main'
-include { HICQC                         } from '../../modules/gallvp/hicqc'
+include { FASTQ_BWA_MEM_SAMBLASTER              } from '../gallvp/fastq_bwa_mem_samblaster/main'
+include { FASTQ_MINIBWA_MAP_SAMBLASTER          } from '../gallvp/fastq_minibwa_map_samblaster/main'
+include { HICQC                                 } from '../../modules/gallvp/hicqc'
 
-include { FASTA_SEQKIT_REFSORT          } from '../gallvp/fasta_seqkit_refsort/main'
-include { BAM_FASTA_YAHS_JUICER_PRE_HICTK_LOAD } from '../gallvp/bam_fasta_yahs_juicer_pre_hictk_load/main'
+include { FASTA_SEQKIT_REFSORT                  } from '../gallvp/fasta_seqkit_refsort/main'
+include { BAM_FASTA_YAHS_JUICER_PRE_HICTK_LOAD  } from '../gallvp/bam_fasta_yahs_juicer_pre_hictk_load/main'
 
-include { HIC2HTML                      } from '../../modules/local/hic2html'
+include { HIC2HTML                              } from '../../modules/local/hic2html'
 
 workflow FQ2HIC {
     take:
     reads                           // [ val(meta), [ fq ] ]
     ch_ref                          // [ val(meta2), fa ]
-    hic_map_combinations            // val: null|[]|"tag1 tag2:tag3"
+    hic_map_combinations            // val: null|[]|"tag1 tag2:tag3"|""
     hic_skip_fastp                  // val: true|false
     hic_skip_fastqc                 // val: true|false
     hic_alphanumeric_sort           // val: true|false
     hic_refsort                     // val: true|false
     hic_assembly_mode               // val: true|false
+    val_use_minibwa                 // val: true|false
 
     main:
-    ch_versions                     = Channel.empty()
+    ch_versions                     = channel.empty()
 
     // SUBWORKFLOW: FASTQ_FASTQC_UMITOOLS_FASTP
     FASTQ_FASTQC_UMITOOLS_FASTP(
-        reads,
+        reads.map { meta, fq -> [ meta, fq, [] ] }, // [] adapter fasta
         hic_skip_fastqc,
         false,                      // with_umi
         true,                       // skip_umi_extract
         0,                          // umi_discard_read
         hic_skip_fastp,
-        [],                         // adapter_fasta
         true,                       // save_trimmed_fail
         false,                      // save_merged
         1                           // min_trimmed_reads
@@ -38,29 +39,41 @@ workflow FQ2HIC {
 
     ch_fastp_log                    = FASTQ_FASTQC_UMITOOLS_FASTP.out.trim_log
     ch_trim_reads                   = FASTQ_FASTQC_UMITOOLS_FASTP.out.reads
-    ch_versions                     = ch_versions.mix(FASTQ_FASTQC_UMITOOLS_FASTP.out.versions)
 
     // SUBWORKFLOW: FASTA_SEQKIT_REFSORT
+    val_hic_map_combinations_es     = ( hic_map_combinations instanceof String )
+                                    ? (
+                                        hic_map_combinations.strip() == ""
+                                        ? null
+                                        : hic_map_combinations
+                                    )
+                                    : hic_map_combinations
     FASTA_SEQKIT_REFSORT (
         ch_ref,
-        hic_map_combinations,
+        val_hic_map_combinations_es,
         hic_alphanumeric_sort,
         hic_refsort
     )
 
     ch_sorted_ref                   = FASTA_SEQKIT_REFSORT.out.fasta
-    ch_versions                     = ch_versions.mix(FASTA_SEQKIT_REFSORT.out.versions)
 
     // SUBWORKFLOW: FASTQ_BWA_MEM_SAMBLASTER
     val_sort_bam = true
     FASTQ_BWA_MEM_SAMBLASTER(
-        ch_trim_reads,
-        ch_sorted_ref.map { meta2, fa -> [ meta2, fa, [] ] },
+        val_use_minibwa ? channel.empty() : ch_trim_reads,
+        val_use_minibwa ? channel.empty() : ch_sorted_ref.map { meta2, fa -> [ meta2, fa, [] ] },
+        val_sort_bam
+    )
+
+    // SUBWORKFLOW: FASTQ_MINIBWA_MAP_SAMBLASTER
+    FASTQ_MINIBWA_MAP_SAMBLASTER(
+        val_use_minibwa ? ch_trim_reads : channel.empty(),
+        val_use_minibwa ? ch_sorted_ref.map { meta2, fa -> [ meta2, fa, [] ] } : channel.empty(),
         val_sort_bam
     )
 
     ch_bam                          = FASTQ_BWA_MEM_SAMBLASTER.out.bam
-    ch_versions                     = ch_versions.mix(FASTQ_BWA_MEM_SAMBLASTER.out.versions)
+                                    | mix(FASTQ_MINIBWA_MAP_SAMBLASTER.out.bam)
 
     // MODULE: HICQC
     ch_bam_and_ref                  = ch_bam
@@ -75,7 +88,6 @@ workflow FQ2HIC {
     HICQC ( ch_bam_and_ref.map { meta3, bam, _fa -> [ meta3, bam ] } )
 
     ch_hicqc_pdf                    = HICQC.out.pdf
-    ch_versions                     = ch_versions.mix(HICQC.out.versions)
 
     // SUBWORKFLOW: BAM_FASTA_YAHS_JUICER_PRE_HICTK_LOAD
     BAM_FASTA_YAHS_JUICER_PRE_HICTK_LOAD (
@@ -85,7 +97,6 @@ workflow FQ2HIC {
     )
 
     ch_hic                          = BAM_FASTA_YAHS_JUICER_PRE_HICTK_LOAD.out.hic
-    ch_versions                     = ch_versions.mix(BAM_FASTA_YAHS_JUICER_PRE_HICTK_LOAD.out.versions)
 
     // MODULE: HIC2HTML
     HIC2HTML (

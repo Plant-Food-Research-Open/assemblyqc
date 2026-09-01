@@ -1,2 +1,2 @@
 gunzip:
-  - modules/nf-core/gunzip/**
+    - modules/nf-core/gunzip/**

@@ -9,7 +9,7 @@ workflow NCBI_FCS_GX {
     tax_id                  // val: Integer
 
     main:
-    ch_versions             = Channel.empty()
+    ch_versions             = channel.empty()
 
     // MODULE: NCBI_FCS_GX_SETUP_SAMPLE
     NCBI_FCS_GX_SETUP_SAMPLE ( tuple_of_tag_file )
@@ -24,8 +24,8 @@ workflow NCBI_FCS_GX {
 
     // MODULE: NCBI_FCS_GX_SCREEN_SAMPLES
     ch_db                   = ! db_path
-                            ? Channel.empty()
-                            : Channel.of( file(db_path, checkIfExists:true) )
+                            ? channel.empty()
+                            : channel.of( file(db_path, checkIfExists:true) )
 
     NCBI_FCS_GX_SCREEN_SAMPLES(
         ch_all_samples,
