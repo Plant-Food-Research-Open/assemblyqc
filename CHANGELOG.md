@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v3.1.0 - [28-Aug-2026]
+## v3.1.0 - [01-Sep-2026]
 
 ### `Added`
 
@@ -25,7 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Dependencies`
 
-1. Nextflow!>=24.10.5
+1. Nextflow!>=25.10.4
 2. nf-schema@2.5.1
 
 ### `Tool Updates`
