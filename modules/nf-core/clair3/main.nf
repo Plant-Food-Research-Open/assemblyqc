@@ -30,7 +30,7 @@ process CLAIR3 {
     script:
     def model = ""
     if (!user_model) {
-        if (workflow.containerEngine in ['singularity', 'docker', 'podman']) {
+        if (workflow.containerEngine in ['singularity', 'docker', 'podman', 'apptainer']) {
             model = "/opt/models/${packaged_model}"
         } else {
             error "Clair3 packaged models are only available in Docker/Singularity/Podman containers. Please use one of these profiles or provide a user_model instead."
