@@ -20,7 +20,7 @@ nextflow_workflow {
                 """
                 input[0] = channel.of(
                     [
-                        [ id:'test' ],
+                        [ id:'test', ref_tags: [] ],
                         [
                             file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
                             file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true)
@@ -28,7 +28,7 @@ nextflow_workflow {
                     ]
                 )
                 input[1] = channel.of(
-                    [ [ id: 'genome' ], file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/genome.fasta', checkIfExists: true), [] ]
+                    [ [ id: 'genome', comb: 'genome' ], file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/genome.fasta', checkIfExists: true), [] ]
                 )
                 input[2] = true
                 """
@@ -52,7 +52,7 @@ nextflow_workflow {
                 """
                 input[0] = channel.of(
                     [
-                        [ id:'test' ],
+                        [ id:'test', ref_tags: [] ],
                         [
                             file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
                             file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true)
@@ -60,7 +60,7 @@ nextflow_workflow {
                     ]
                 )
                 input[1] = channel.of(
-                    [ [ id: 'genome' ], file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/genome.fasta', checkIfExists: true), [] ]
+                    [ [ id: 'genome', comb: 'genome' ], file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/genome.fasta', checkIfExists: true), [] ]
                 )
                 input[2] = true
                 """

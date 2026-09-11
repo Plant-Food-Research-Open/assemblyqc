@@ -6,23 +6,31 @@
                     [
                         {
                             "id": "test",
-                            "ref_id": "genome"
+                            "ref_tags": [
+                                
+                            ],
+                            "ref_id": "genome",
+                            "comb": "genome"
                         },
-                        "test.on.genome.samblaster.bam:md5,76fbe1ef7a590a01cbe1244c2e582660"
+                        "test.on.genome.samblaster.bam:md5,50f4576cab37243f31e19216ea795bfd"
                     ]
                 ],
                 "bam": [
                     [
                         {
                             "id": "test",
-                            "ref_id": "genome"
+                            "ref_tags": [
+                                
+                            ],
+                            "ref_id": "genome",
+                            "comb": "genome"
                         },
-                        "test.on.genome.samblaster.bam:md5,76fbe1ef7a590a01cbe1244c2e582660"
+                        "test.on.genome.samblaster.bam:md5,50f4576cab37243f31e19216ea795bfd"
                     ]
                 ]
             }
         ],
-        "timestamp": "2026-08-04T20:44:11.141016",
+        "timestamp": "2026-09-11T19:29:42.914678",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.6"
@@ -35,7 +43,11 @@
                     [
                         {
                             "id": "test",
-                            "ref_id": "genome"
+                            "ref_tags": [
+                                
+                            ],
+                            "ref_id": "genome",
+                            "comb": "genome"
                         },
                         "test.on.genome.samblaster.bam:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
@@ -44,14 +56,18 @@
                     [
                         {
                             "id": "test",
-                            "ref_id": "genome"
+                            "ref_tags": [
+                                
+                            ],
+                            "ref_id": "genome",
+                            "comb": "genome"
                         },
                         "test.on.genome.samblaster.bam:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ]
             }
         ],
-        "timestamp": "2026-08-04T20:44:19.543308",
+        "timestamp": "2026-09-11T19:29:51.585019",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.6"
