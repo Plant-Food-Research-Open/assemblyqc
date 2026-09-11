@@ -63,7 +63,24 @@ nextflow_workflow {
                 { assert workflow.out.assembly_short_summaries_json != null },
                 { assert workflow.out.assembly_short_summaries_txt != null },
                 { assert workflow.out.annotation_short_summaries_json != null },
-                { assert workflow.out.annotation_short_summaries_txt != null }
+                { assert workflow.out.annotation_short_summaries_txt != null },
+
+                // Regression check for the '_odb[0-9]+$' lineage-suffix regex (GH-351):
+                // the stray literal quotes in the old pattern meant it never matched,
+                // so file names collected for BUSCO_PLOT kept the full '<lineage>_odbNN'
+                // suffix appended to the sample id instead of stripping it.
+                {
+                    def assembly_names = workflow.out.assembly_plot_summary_json.collect { file(it).getName() }
+                    assert assembly_names.any { it.endsWith('_bacteria.txt') }
+                    assert assembly_names.any { it.endsWith('_archaea.txt') }
+                    assert assembly_names.every { !it.contains('_bacteria_odb') && !it.contains('_archaea_odb') }
+                },
+                {
+                    def annotation_names = workflow.out.annotation_plot_summary_json.collect { file(it).getName() }
+                    assert annotation_names.any { it.endsWith('_bacteria.proteins.txt') }
+                    assert annotation_names.any { it.endsWith('_archaea.proteins.txt') }
+                    assert annotation_names.every { !it.contains('_bacteria_odb') && !it.contains('_archaea_odb') }
+                }
             )
         }
     }
