@@ -1,20 +1,20 @@
-include { GUNZIP as GUNZIP_FASTA        } from '../../modules/nf-core/gunzip/main'
-include { FILTERSORTFASTA               } from '../../modules/local/filtersortfasta'
-include { MUMMER                        } from '../../modules/local/mummer'
-include { GETFASTALENGTH                } from '../../modules/local/getfastalength'
-include { DNADIFF                       } from '../../modules/local/dnadiff'
-include { BUNDLELINKS                   } from '../../modules/local/bundlelinks'
-include { COLOURBUNDLELINKS             } from '../../modules/local/colourbundlelinks'
-include { RELABELBUNDLELINKS            } from '../../modules/local/relabelbundlelinks'
-include { SPLITBUNDLEFILE               } from '../../modules/local/splitbundlefile'
-include { RELABELFASTALENGTH            } from '../../modules/local/relabelfastalength'
-include { GENERATEKARYOTYPE             } from '../../modules/local/generatekaryotype'
-include { CIRCOS                        } from '../../modules/local/circos'
-include { LINEARSYNTENY                 } from '../../modules/local/linearsynteny'
-include { CUSTOM_RELABELFASTA           } from '../../modules/gallvp/custom/relabelfasta/main'
-include { MINIMAP2_ALIGN                } from '../../modules/nf-core/minimap2/align/main'
-include { SYRI                          } from '../../modules/gallvp/syri/main'
-include { PLOTSR                        } from '../../modules/gallvp/plotsr/main'
+include { GUNZIP as GUNZIP_FASTA        } from '../../../modules/nf-core/gunzip/main'
+include { FILTERSORTFASTA               } from '../../../modules/local/filtersortfasta'
+include { MUMMER                        } from '../../../modules/local/mummer'
+include { GETFASTALENGTH                } from '../../../modules/local/getfastalength'
+include { DNADIFF                       } from '../../../modules/local/dnadiff'
+include { BUNDLELINKS                   } from '../../../modules/local/bundlelinks'
+include { COLOURBUNDLELINKS             } from '../../../modules/local/colourbundlelinks'
+include { RELABELBUNDLELINKS            } from '../../../modules/local/relabelbundlelinks'
+include { SPLITBUNDLEFILE               } from '../../../modules/local/splitbundlefile'
+include { RELABELFASTALENGTH            } from '../../../modules/local/relabelfastalength'
+include { GENERATEKARYOTYPE             } from '../../../modules/local/generatekaryotype'
+include { CIRCOS                        } from '../../../modules/local/circos'
+include { LINEARSYNTENY                 } from '../../../modules/local/linearsynteny'
+include { CUSTOM_RELABELFASTA           } from '../../../modules/gallvp/custom/relabelfasta/main'
+include { MINIMAP2_ALIGN                } from '../../../modules/nf-core/minimap2/align/main'
+include { SYRI                          } from '../../../modules/gallvp/syri/main'
+include { PLOTSR                        } from '../../../modules/gallvp/plotsr/main'
 
 workflow FASTA_SYNTENY {
     take:
@@ -353,12 +353,16 @@ workflow FASTA_SYNTENY {
     ch_plotsr_png                       = PLOTSR.out.png
     ch_versions                         = ch_versions.mix(PLOTSR.out.versions.first())
 
-    emit:
-    png                                 = CIRCOS.out.png_file
+    ch_png                              = CIRCOS.out.png_file
                                         | mix( ch_plotsr_png.map { _meta, png -> png } )
+    ch_syri_fail_log_only               = ch_syri_fail_log.map { _meta, log -> log }
+    ch_plotsr_labels_only                = ch_plotsr_formatted_labels.map { _tag, labels -> labels }
+
+    emit:
+    png                                 = ch_png
     html                                = LINEARSYNTENY.out.html
-    syri_fail_log                       = ch_syri_fail_log.map { _meta, log -> log }
-    plotsr_labels                       = ch_plotsr_formatted_labels.map { _tag, labels -> labels }
+    syri_fail_log                       = ch_syri_fail_log_only
+    plotsr_labels                       = ch_plotsr_labels_only
     versions                            = ch_versions
 }
 

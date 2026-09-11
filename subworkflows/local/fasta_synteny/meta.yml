@@ -1,0 +1,110 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
+name: "FASTA_SYNTENY"
+description: Compute pairwise synteny between assemblies with MUMmer and/or minimap2+SyRI, and plot the results with Circos, a linear synteny plot and PlotSR
+keywords:
+  - synteny
+  - mummer
+  - syri
+  - plotsr
+  - circos
+components:
+  - gunzip
+  - filtersortfasta
+  - mummer
+  - getfastalength
+  - dnadiff
+  - bundlelinks
+  - colourbundlelinks
+  - relabelbundlelinks
+  - splitbundlefile
+  - relabelfastalength
+  - generatekaryotype
+  - circos
+  - linearsynteny
+  - custom/relabelfasta
+  - minimap2/align
+  - syri
+  - plotsr
+input:
+  - ch_fasta:
+      type: file
+      description: |
+        Tuple of [ tag, fasta ]
+  - ch_labels:
+      type: file
+      description: |
+        Tuple of [ tag, sequence labels file ]
+  - ch_xref_fasta_labels:
+      type: file
+      description: |
+        Tuple of [ tag2, xref fasta, xref sequence labels file ]
+  - between_input_assemblies:
+      type: boolean
+      description: |
+        Compute synteny between all combinations of the input assemblies
+  - mummer_m2m_align:
+      type: boolean
+      description: |
+        Use many-to-many alignment for MUMmer/dnadiff
+  - mummer_max_gap:
+      type: integer
+      description: |
+        Maximum gap allowed when bundling MUMmer links
+  - mummer_min_bundle_size:
+      type: integer
+      description: |
+        Minimum bundle size for MUMmer links
+  - plot_1_vs_all:
+      type: boolean
+      description: |
+        Plot each target sequence against all reference sequences in a single plot
+  - color_by_contig:
+      type: boolean
+      description: |
+        Color bundled links by contig instead of by reference chromosome
+  - mummer_plot_type:
+      type: string
+      description: |
+        Type of MUMmer synteny plot to generate: linear|circos|both
+  - mummer_skip:
+      type: boolean
+      description: |
+        Skip MUMmer based synteny analysis
+  - plotsr_seq_label:
+      type: string
+      description: |
+        Prefix used to label sequences in the PlotSR plot
+  - plotsr_skip:
+      type: boolean
+      description: |
+        Skip minimap2+SyRI+PlotSR based synteny analysis
+  - plotsr_assembly_order:
+      type: string
+      description: |
+        Space separated list of assembly tags defining the order of assemblies in the PlotSR plot
+output:
+  - png:
+      type: file
+      description: |
+        Circos and PlotSR synteny plots as png files
+  - html:
+      type: file
+      description: |
+        Linear synteny plots as html files
+  - syri_fail_log:
+      type: file
+      description: |
+        Log file listing SyRI failures
+  - plotsr_labels:
+      type: file
+      description: |
+        Sequence label files used by PlotSR
+  - versions:
+      type: file
+      description: |
+        File containing software versions
+      pattern: "versions.yml"
+authors:
+  - "@GallVp"
+maintainers:
+  - "@GallVp"

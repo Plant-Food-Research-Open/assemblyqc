@@ -1,0 +1,83 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
+name: "FQ2HIC"
+description: Map Hi-C reads to an assembly, generate a Hi-C contact map and QC plots
+keywords:
+  - hic
+  - mapping
+  - juicer
+  - yahs
+components:
+  - hicqc
+  - hic2html
+  - fastq_fastqc_umitools_fastp
+  - fastq_bwa_mem_samblaster
+  - fastq_minibwa_map_samblaster
+  - fasta_seqkit_refsort
+  - bam_fasta_yahs_juicer_pre_hictk_load
+input:
+  - reads:
+      type: file
+      description: |
+        Tuple of [ val(meta), [ fq ] ]
+  - ch_ref:
+      type: file
+      description: |
+        Tuple of [ val(meta2), fa ]
+  - hic_map_combinations:
+      type: string
+      description: |
+        Combinations of assembly tags to map Hi-C reads against, e.g. "tag1 tag2:tag3"
+  - hic_skip_fastp:
+      type: boolean
+      description: |
+        Skip fastp trimming of Hi-C reads
+  - hic_skip_fastqc:
+      type: boolean
+      description: |
+        Skip FastQC of Hi-C reads
+  - hic_alphanumeric_sort:
+      type: boolean
+      description: |
+        Sort reference sequences alphanumerically before mapping
+  - hic_refsort:
+      type: boolean
+      description: |
+        Sort reference sequences before mapping
+  - hic_assembly_mode:
+      type: boolean
+      description: |
+        Run in assembly mode
+  - val_use_minibwa:
+      type: boolean
+      description: |
+        Use minibwa instead of bwa-mem for read mapping
+output:
+  - fastp_log:
+      type: file
+      description: |
+        Fastp trimming log
+  - hicqc_pdf:
+      type: file
+      description: |
+        Hi-C QC report as a pdf file
+  - hic:
+      type: file
+      description: |
+        Hi-C contact map files
+  - scale:
+      type: value
+      description: |
+        Scale of the Hi-C contact map
+  - html:
+      type: file
+      description: |
+        Hi-C QC report as an html file
+  - versions:
+      type: file
+      description: |
+        File containing software versions
+      pattern: "versions.yml"
+authors:
+  - "@GallVp"
+maintainers:
+  - "@GallVp"
