@@ -1,7 +1,7 @@
 nextflow_process {
 
     name "Test Process GENERATEKARYOTYPE"
-    script "../../../../modules/local/generatekaryotype.nf"
+    script "../../../../modules/local/generatekaryotype/main.nf"
     process "GENERATEKARYOTYPE"
 
     tag "modules"
