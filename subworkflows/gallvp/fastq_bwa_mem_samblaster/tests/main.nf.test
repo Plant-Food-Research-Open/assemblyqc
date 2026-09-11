@@ -20,7 +20,7 @@ nextflow_workflow {
                 """
                 input[0] = channel.of(
                     [
-                        [ id:'test' ],
+                        [ id:'test', ref_tags: [] ],
                         [
                             file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
                             file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true)
@@ -28,7 +28,7 @@ nextflow_workflow {
                     ]
                 )
                 input[1] = channel.of(
-                    [ [ id: 'genome' ], file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/genome.fasta', checkIfExists: true), [] ]
+                    [ [ id: 'genome', comb: 'genome' ], file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/genome.fasta', checkIfExists: true), [] ]
                 )
                 input[2] = true
                 """
@@ -52,7 +52,7 @@ nextflow_workflow {
                 """
                 input[0] = channel.of(
                     [
-                        [ id:'test' ],
+                        [ id:'test', ref_tags: [] ],
                         [
                             file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
                             file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true)
@@ -60,7 +60,7 @@ nextflow_workflow {
                     ]
                 )
                 input[1] = channel.of(
-                    [ [ id: 'genome' ], file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/genome.fasta', checkIfExists: true), [] ]
+                    [ [ id: 'genome', comb: 'genome' ], file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/genome.fasta', checkIfExists: true), [] ]
                 )
                 input[2] = true
                 """
@@ -71,6 +71,89 @@ nextflow_workflow {
             assertAll(
                 { assert workflow.success},
                 { assert snapshot(workflow.out).match()}
+            )
+        }
+    }
+
+    // Regression test for https://github.com/Plant-Food-Research-Open/assemblyqc/issues/349
+    //
+    // When more than one HiC-fastq meta can be matched to a reference assembly (one
+    // generic meta with empty ref_tags, plus one or more tagged metas), the subworkflow
+    // must pick the fastq reads that actually belong to the meta it selects. A prior bug
+    // indexed into the filtered `possibleMetas` list using an index computed against the
+    // original, unfiltered list, which mispaired reads with the wrong meta whenever the
+    // filtering step actually dropped an element ahead of the match.
+    //
+    // Fastq metas below are combined against two reference assemblies:
+    //  - 'test_other'   is only tagged for 'assemblyB' and is emitted first, so it
+    //                    occupies index 0 in the original (unfiltered) per-assembly lists.
+    //  - 'test_hic_a'   is tagged for 'assemblyA' and occupies index 1.
+    //  - 'test_generic' has no tags (matches every assembly) and occupies index 2.
+    //
+    // For 'assemblyA', 'test_other' does not match and is filtered out, so
+    // `possibleMetas` only contains ('test_hic_a', 1) and ('test_generic', 2) - the
+    // filtered list's positions (0, 1) no longer line up with the original indices (1, 2).
+    // The subworkflow must still select 'test_hic_a' (the tagged match) paired with its
+    // own fastq files, not 'test_generic' paired with 'test_hic_a' fastq files.
+    test("hic-reads-are-paired-with-correct-assembly") {
+
+        options '-stub'
+
+        when {
+            workflow {
+                """
+                input[0] = channel.of(
+                    [
+                        [ id: 'test_other', ref_tags: ['assemblyB'] ],
+                        [
+                            file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
+                            file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true)
+                        ]
+                    ],
+                    [
+                        [ id: 'test_hic_a', ref_tags: ['assemblyA'] ],
+                        [
+                            file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
+                            file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true)
+                        ]
+                    ],
+                    [
+                        [ id: 'test_generic', ref_tags: [] ],
+                        [
+                            file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
+                            file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true)
+                        ]
+                    ]
+                )
+                input[1] = channel.of(
+                    [ [ id: 'assemblyA', comb: 'assemblyA' ], file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/genome.fasta', checkIfExists: true), [] ],
+                    [ [ id: 'assemblyB', comb: 'assemblyB' ], file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/genome.fasta', checkIfExists: true), [] ]
+                )
+                input[2] = true
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert workflow.out.bam.size() == 2 },
+                {
+                    def ids = workflow.out.bam.collect { meta, _bam -> meta.id }.toSet()
+                    // 'test_generic' must never be selected for 'assemblyA': it would mean
+                    // the wrong meta/fastq pairing bug has resurfaced.
+                    assert ids == ['test_hic_a', 'test_other'] as Set
+                },
+                {
+                    def bam_a = workflow.out.bam.find { meta, _bam -> meta.ref_id == 'assemblyA' }
+                    assert bam_a[0].id == 'test_hic_a'
+                    assert bam_a[1].toString().contains('test_hic_a.on.assemblyA')
+                },
+                {
+                    def bam_b = workflow.out.bam.find { meta, _bam -> meta.ref_id == 'assemblyB' }
+                    assert bam_b[0].id == 'test_other'
+                    assert bam_b[1].toString().contains('test_other.on.assemblyB')
+                }
             )
         }
     }
