@@ -94,12 +94,14 @@
                     "hictk/load": {
                         "branch": "main",
                         "git_sha": "b4b51b962eadba88a9aecde0275db793c43cc1e4",
-                        "installed_by": ["bam_fasta_yahs_juicer_pre_hictk_load", "modules"]
+                        "installed_by": ["bam_fasta_yahs_juicer_pre_hictk_load", "modules"],
+                        "patch": "modules/gallvp/hictk/load/hictk-load.diff"
                     },
                     "hictk/zoomify": {
                         "branch": "main",
                         "git_sha": "b4b51b962eadba88a9aecde0275db793c43cc1e4",
-                        "installed_by": ["bam_fasta_yahs_juicer_pre_hictk_load", "modules"]
+                        "installed_by": ["bam_fasta_yahs_juicer_pre_hictk_load", "modules"],
+                        "patch": "modules/gallvp/hictk/zoomify/hictk-zoomify.diff"
                     },
                     "juiceboxscripts/makeagpfromfasta": {
                         "branch": "main",
@@ -158,7 +160,8 @@
                     "plotsr": {
                         "branch": "main",
                         "git_sha": "2af875f77d318445f12125e1a8aefdada60ecf6b",
-                        "installed_by": ["modules"]
+                        "installed_by": ["modules"],
+                        "patch": "modules/gallvp/plotsr/plotsr.diff"
                     },
                     "samblaster": {
                         "branch": "main",
@@ -189,7 +192,8 @@
                     "syri": {
                         "branch": "main",
                         "git_sha": "2af875f77d318445f12125e1a8aefdada60ecf6b",
-                        "installed_by": ["modules"]
+                        "installed_by": ["modules"],
+                        "patch": "modules/gallvp/syri/syri.diff"
                     },
                     "t2tpolish/paftocovclippedwig": {
                         "branch": "main",
@@ -204,7 +208,8 @@
                     "yahs/juicerpre": {
                         "branch": "main",
                         "git_sha": "e8d1b37905cbe1a1a113ed01b8f4d280643fff2b",
-                        "installed_by": ["bam_fasta_yahs_juicer_pre_hictk_load", "modules"]
+                        "installed_by": ["bam_fasta_yahs_juicer_pre_hictk_load", "modules"],
+                        "patch": "modules/gallvp/yahs/juicerpre/yahs-juicerpre.diff"
                     }
                 }
             },

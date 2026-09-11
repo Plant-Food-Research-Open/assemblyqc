@@ -1,0 +1,20 @@
+Changes in component 'gallvp/syri'
+'modules/gallvp/syri/environment.yml' is unchanged
+'modules/gallvp/syri/meta.yml' is unchanged
+Changes in 'syri/main.nf':
+--- modules/gallvp/syri/main.nf
++++ modules/gallvp/syri/main.nf
+@@ -3,7 +3,7 @@
+     label 'process_single'
+ 
+     conda "${moduleDir}/environment.yml"
+-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
++    container "${ workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container ?
+         'https://depot.galaxyproject.org/singularity/syri:1.7.0--py310hdbdd923_0':
+         'biocontainers/syri:1.7.0--py310hdbdd923_0' }"
+ 
+
+'modules/gallvp/syri/tests/main.nf.test.snap' is unchanged
+'modules/gallvp/syri/tests/nextflow.config' is unchanged
+'modules/gallvp/syri/tests/main.nf.test' is unchanged
+************************************************************
