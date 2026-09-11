@@ -153,6 +153,25 @@ If you use a new feature from core Nextflow, bump the minimum required Nextflow 
 nf-core pipelines bump-version --nextflow . <min_nf_version>
 ```
 
+#### Pipeline version bumping
+
+To bump the pipeline's own version (for example, opening the next `dev` cycle after a release, e.g. `3.1.0` → `3.2.0dev`), use:
+
+```bash
+nf-core pipelines bump-version <new_version>
+```
+
+This updates `nextflow.config`, `.nf-core.yml`, `CITATION.cff`, and `ro-crate-metadata.json`, and the `.github/version_checks.sh` pre-commit hook enforces that `nextflow.config`'s `manifest.version` and `CITATION.cff`'s `version` stay in sync.
+
+> [!IMPORTANT]
+> Several full-pipeline nf-test snapshots (`tests/*/main.nf.test.snap`) embed the pipeline version as a literal string under `Workflow.workflow.manifest.version` (e.g. `"plant-food-research-open/assemblyqc": "v3.1.0"`). A version bump alone will not update these and CI will fail its snapshot assertions on the affected tests. After bumping, find and update them, e.g.:
+>
+> ```bash
+> grep -rl '"plant-food-research-open/assemblyqc": "v<old_version>"' tests --include='*.snap'
+> ```
+>
+> and replace the version string in each (a `sed`/find-and-replace or `nf-test test <path> --update-snapshots` per affected test both work — check that only the version line changes before committing).
+
 #### Images and figures guidelines
 
 If you update images or graphics, follow the nf-core [style guidelines](https://nf-co.re/docs/community/brand/workflow-schematics).
