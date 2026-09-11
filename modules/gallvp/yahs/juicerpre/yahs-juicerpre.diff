@@ -1,0 +1,20 @@
+Changes in component 'gallvp/yahs/juicerpre'
+'modules/gallvp/yahs/juicerpre/environment.yml' is unchanged
+'modules/gallvp/yahs/juicerpre/meta.yml' is unchanged
+Changes in 'yahs/juicerpre/main.nf':
+--- modules/gallvp/yahs/juicerpre/main.nf
++++ modules/gallvp/yahs/juicerpre/main.nf
+@@ -3,7 +3,7 @@
+     label 'process_single'
+ 
+     conda "${moduleDir}/environment.yml"
+-    container "${workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container
++    container "${workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container
+         ? 'https://depot.galaxyproject.org/singularity/yahs:1.2.2--h577a1d6_1'
+         : 'quay.io/biocontainers/yahs:1.2.2--h577a1d6_1'}"
+ 
+
+'modules/gallvp/yahs/juicerpre/tests/main.nf.test.snap' is unchanged
+'modules/gallvp/yahs/juicerpre/tests/nextflow.config' is unchanged
+'modules/gallvp/yahs/juicerpre/tests/main.nf.test' is unchanged
+************************************************************

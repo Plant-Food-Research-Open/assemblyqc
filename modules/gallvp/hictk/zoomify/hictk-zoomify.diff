@@ -1,0 +1,20 @@
+Changes in component 'gallvp/hictk/zoomify'
+'modules/gallvp/hictk/zoomify/environment.yml' is unchanged
+'modules/gallvp/hictk/zoomify/meta.yml' is unchanged
+Changes in 'hictk/zoomify/main.nf':
+--- modules/gallvp/hictk/zoomify/main.nf
++++ modules/gallvp/hictk/zoomify/main.nf
+@@ -3,7 +3,7 @@
+     label 'process_medium'
+ 
+     conda "${moduleDir}/environment.yml"
+-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
++    container "${ workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container ?
+         'https://depot.galaxyproject.org/singularity/hictk:2.2.0--h75fee6f_0':
+         'quay.io/biocontainers/hictk:2.2.0--h75fee6f_0' }"
+ 
+
+'modules/gallvp/hictk/zoomify/tests/main.nf.test.snap' is unchanged
+'modules/gallvp/hictk/zoomify/tests/nextflow.config' is unchanged
+'modules/gallvp/hictk/zoomify/tests/main.nf.test' is unchanged
+************************************************************

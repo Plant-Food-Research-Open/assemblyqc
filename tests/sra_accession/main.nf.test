@@ -1,0 +1,48 @@
+nextflow_pipeline {
+
+    name "Test broadened SRA/ENA/DDBJ accession pattern in schema_input.json (GH-351)"
+    script "main.nf"
+
+    // assets/schema_input.json used to only accept 'SR\w+' style accessions for reads_1,
+    // rejecting valid ENA (ERR/ERX) and DDBJ (DRR/DRX) run/experiment accessions even
+    // though the sra-tools fetch path can otherwise handle them. This test uses an ERR
+    // accession to lock in the broadened '^[SED]R[RXPS]\w+$' pattern (in both
+    // assets/schema_input.json and the is_sra detection regex in
+    // subworkflows/local/utils_nfcore_assemblyqc_pipeline/main.nf). Run with -stub so
+    // FETCHNGS (nf-core/sratools) and downstream tools only touch stub outputs instead
+    // of performing a real network fetch.
+    //
+    // reads_1 is routed via merqury_skip = false: Mapback explicitly rejects SRA reads
+    // ("SRA reads are not supported for Mapback profile creation"), so merqury is the
+    // input path that actually exercises FETCHNGS for a plain reads_1 SRA/ENA/DDBJ id.
+    //
+    // Note: MERQURY_MERQURY itself currently fails to finalise in -stub mode for an
+    // unrelated, pre-existing reason ('Unexpected path value' in its publishDir
+    // closure) that reproduces identically on the unmodified tests/stub/main.nf.test
+    // fixture (which already uses a plain SRR accession) -- i.e. it is not introduced
+    // by this fix and is orthogonal to the schema/is_sra regex change under test. So
+    // this test does not assert overall workflow.success; it asserts that the
+    // ERR1234567 accession was correctly recognised as an SRA id and successfully
+    // fetched via SRATOOLS_PREFETCH/SRATOOLS_FASTERQDUMP before that unrelated
+    // failure occurs further downstream.
+    test("ena accession - ERR - stub") {
+
+        options '-stub'
+
+        when {
+            params {
+                input           = "$baseDir/tests/sra_accession/assemblysheet.csv"
+                merqury_skip    = false
+                outdir          = "$outputDir"
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.trace.succeeded().any { it.name.contains('SRATOOLS_PREFETCH') && it.name.contains('ERR1234567') } },
+                { assert workflow.trace.succeeded().any { it.name.contains('SRATOOLS_FASTERQDUMP') && it.name.contains('ERR1234567') } }
+            )
+        }
+    }
+
+}

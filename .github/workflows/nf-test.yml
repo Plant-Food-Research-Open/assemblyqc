@@ -21,6 +21,7 @@ env:
   NXF_ANSI_LOG: false
   NXF_SINGULARITY_CACHEDIR: ${{ github.workspace }}/.singularity
   NXF_SINGULARITY_LIBRARYDIR: ${{ github.workspace }}/.singularity
+  NXF_APPTAINER_CACHEDIR: ${{ github.workspace }}/.singularity
 
 jobs:
   nf-test-changes:
@@ -64,15 +65,17 @@ jobs:
       fail-fast: false
       matrix:
         shard: ${{ fromJson(needs.nf-test-changes.outputs.shard) }}
-        profile: [docker, singularity]
+        profile: [docker, singularity, apptainer]
         isMain:
           - ${{ github.base_ref == 'master' || github.base_ref == 'main' }}
-        # Exclude conda and singularity on dev
+        # Exclude conda, singularity and apptainer on dev
         exclude:
           - isMain: false
             profile: "conda"
           - isMain: false
             profile: "singularity"
+          - isMain: false
+            profile: "apptainer"
         NXF_VER:
           - "25.10.4"
           - "latest-everything"
