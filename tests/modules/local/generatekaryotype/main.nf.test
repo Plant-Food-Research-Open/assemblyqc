@@ -1,0 +1,80 @@
+nextflow_process {
+
+    name "Test Process GENERATEKARYOTYPE"
+    script "../../../../modules/local/generatekaryotype.nf"
+    process "GENERATEKARYOTYPE"
+
+    tag "modules"
+    tag "modules_local"
+    tag "generatekaryotype"
+
+    test("target_on_ref - non-empty ref_seqs - should emit all outputs") {
+
+        when {
+            process {
+                """
+                input[0] = [
+                    'target_on_ref',
+                    'all',
+                    file("\$baseDir/tests/modules/local/generatekaryotype/testdata/split.bundle.txt", checkIfExists: true),
+                    file("\$baseDir/tests/modules/local/generatekaryotype/testdata/target.seq.lengths.tsv", checkIfExists: true),
+                    file("\$baseDir/tests/modules/local/generatekaryotype/testdata/ref.seq.lengths.tsv", checkIfExists: true)
+                ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert process.out.karyotype.size() == 1 },
+                { assert process.out.karyotype_ref.size() == 1 },
+                { assert process.out.karyotype_target.size() == 1 },
+                { assert process.out.versions.size() == 1 },
+                { assert path(process.out.karyotype[0][1]).text.contains('chrA') },
+                { assert path(process.out.karyotype_ref[0][1]).text.contains('chrA') },
+                { assert path(process.out.karyotype_target[0][1]).text.contains('chr1') },
+                { assert snapshot(
+                    process.out.karyotype.collect { it[0] },
+                    file(process.out.karyotype[0][1]).name,
+                    file(process.out.karyotype_ref[0][1]).name,
+                    file(process.out.karyotype_target[0][1]).name
+                    ).match()
+                }
+            )
+        }
+
+    }
+
+    test("target_on_ref - empty ref_seqs - should still emit all declared outputs") {
+
+        when {
+            process {
+                """
+                input[0] = [
+                    'target_on_ref',
+                    'all',
+                    file("\$baseDir/tests/modules/local/generatekaryotype/testdata/empty.split.bundle.txt", checkIfExists: true),
+                    file("\$baseDir/tests/modules/local/generatekaryotype/testdata/target.seq.lengths.tsv", checkIfExists: true),
+                    file("\$baseDir/tests/modules/local/generatekaryotype/testdata/ref.seq.lengths.tsv", checkIfExists: true)
+                ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert process.out.karyotype.size() == 1 },
+                { assert process.out.karyotype_ref.size() == 1 },
+                { assert process.out.karyotype_target.size() == 1 },
+                { assert process.out.versions.size() == 1 },
+                { assert path(process.out.karyotype[0][1]).text.isEmpty() },
+                { assert path(process.out.karyotype_ref[0][1]).text.isEmpty() },
+                { assert path(process.out.karyotype_target[0][1]).text.isEmpty() }
+            )
+        }
+
+    }
+
+}

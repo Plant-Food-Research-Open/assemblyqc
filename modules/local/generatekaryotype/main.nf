@@ -32,6 +32,8 @@ process GENERATEKARYOTYPE {
 
     if [ \${#ref_seqs[@]} -eq 0 ]; then
         touch "${target_on_ref}.${seq_tag}.karyotype"
+        touch karyotype_ref.tsv
+        touch karyotype_target.tsv
         exit 0
     fi
 
