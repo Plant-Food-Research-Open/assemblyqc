@@ -54,7 +54,7 @@
                 "anyOf": [
                     {
                         "type": "string",
-                        "pattern": "^SR\\w+$|^\\S+\\.f(a|asta|as|sa|na|astq|q)(\\.gz)?$"
+                        "pattern": "^[SED]R[RXPS]\\w+$|^\\S+\\.f(a|asta|as|sa|na|astq|q)(\\.gz)?$"
                     },
                     {
                         "type": "string",
@@ -80,7 +80,7 @@
                 "anyOf": [
                     {
                         "type": "string",
-                        "pattern": "^SR\\w+$|^\\S+\\.f(a|asta|as|sa|na|astq|q)(\\.gz)?$"
+                        "pattern": "^[SED]R[RXPS]\\w+$|^\\S+\\.f(a|asta|as|sa|na|astq|q)(\\.gz)?$"
                     },
                     {
                         "type": "string",
@@ -106,7 +106,7 @@
                 "anyOf": [
                     {
                         "type": "string",
-                        "pattern": "^SR\\w+$|^\\S+\\.f(a|asta|as|sa|na|astq|q)(\\.gz)?$"
+                        "pattern": "^[SED]R[RXPS]\\w+$|^\\S+\\.f(a|asta|as|sa|na|astq|q)(\\.gz)?$"
                     },
                     {
                         "type": "string",

@@ -429,7 +429,7 @@ def extractReadsTuple(tag, reads_1, reads_2) {
         ]
     }
 
-    if ( "$reads_1".find(/^SRR[0-9]*$/) ) {
+    if ( "$reads_1".find(/^[SED]R[RXPS]\w+$/) ) {
         return [
             [ fid: "$reads_1" ],
             [

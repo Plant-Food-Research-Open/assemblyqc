@@ -224,7 +224,7 @@
                 "hic": {
                     "type": "string",
                     "description": "HiC reads path provided as a SRA ID or as paired reads such as 'hic_reads{1,2}.fastq.gz'",
-                    "pattern": "^SR\\w+$|^\\S+\\{1,2\\}[\\w\\.]*\\.f(ast)?q\\.gz$",
+                    "pattern": "^[SED]R[RXPS]\\w+$|^\\S+\\{1,2\\}[\\w\\.]*\\.f(ast)?q\\.gz$",
                     "fa_icon": "fas fa-copy"
                 },
                 "hic_skip_fastp": {
