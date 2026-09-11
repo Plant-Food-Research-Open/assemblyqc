@@ -36,6 +36,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 2. Fixed an issue where `--hic_map_combinations` parameter was not being validated correctly and allowed self-referential combinations to be specified [#318](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/318)
 3. Fixed an issue where the `juicebox.js` version was not being parsed from its specification and was out of sync.
 4. Fixed a bug where only a single randomly selected version of a multi-version tool was shown in the report.
+5. Fixed an issue where `clair3` did not work with the apptainer container engine [#345](https://github.com/Plant-Food-Research-Open/assemblyqc/pull/345)
+6. Reverted to `busco/generate_plot.py` to preserve plot labels [#344](https://github.com/Plant-Food-Research-Open/assemblyqc/pull/344)
 
 ### `Dependencies`
 
@@ -43,6 +45,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 2. nf-schema@2.5.1
 
 ### `Tool Updates`
+
+Versions below show what each tool was updated _to_ as part of this release, not a strictly increasing history across releases; a tool can show a lower "New Version" than a previous release if it had been bumped ahead of the pipeline's other dependencies and is now being aligned/pinned back (e.g. `python` and `tidk` below).
 
 | Tool          | Old Version        | New Version  |
 | ------------- | ------------------ | ------------ |
