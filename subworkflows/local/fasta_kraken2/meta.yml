@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
+name: "FASTA_KRAKEN2"
+description: Screen assembled sequences against a Kraken2 database and plot the taxonomic composition with Krona
+keywords:
+  - kraken2
+  - krona
+  - taxonomy
+  - contamination
+components:
+  - untar
+  - kraken2
+  - kraken2/krona/plot
+input:
+  - tuple_of_hap_file:
+      type: list
+      description: |
+        List of [ tag, fasta ]
+  - db_path:
+      type: file
+      description: |
+        Channel of paths to the Kraken2 database, either a directory or a `.tar.gz` archive
+output:
+  - plot:
+      type: file
+      description: |
+        Krona taxonomy plot as an html file
+  - versions:
+      type: file
+      description: |
+        File containing software versions
+      pattern: "versions.yml"
+authors:
+  - "@GallVp"
+maintainers:
+  - "@GallVp"

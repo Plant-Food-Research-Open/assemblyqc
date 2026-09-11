@@ -1,6 +1,6 @@
-include { NCBI_FCS_GX_SETUP_SAMPLE      } from '../../modules/local/ncbi_fcs_gx_setup_sample'
-include { NCBI_FCS_GX_SCREEN_SAMPLES    } from '../../modules/local/ncbi_fcs_gx_screen_samples'
-include { NCBI_FCS_GX_KRONA_PLOT        } from '../../modules/local/ncbi_fcs_gx_krona_plot'
+include { NCBI_FCS_GX_SETUP_SAMPLE      } from '../../../modules/local/ncbi_fcs_gx_setup_sample'
+include { NCBI_FCS_GX_SCREEN_SAMPLES    } from '../../../modules/local/ncbi_fcs_gx_screen_samples'
+include { NCBI_FCS_GX_KRONA_PLOT        } from '../../../modules/local/ncbi_fcs_gx_krona_plot'
 
 workflow NCBI_FCS_GX {
     take:

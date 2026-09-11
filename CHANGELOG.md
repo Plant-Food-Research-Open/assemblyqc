@@ -3,6 +3,20 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v3.2.0dev - [unreleased]
+
+### `Added`
+
+### `Fixed`
+
+1. Fixed nf-core lint warnings: restructured local modules/subworkflows into the `TOOL/main.nf` layout, added missing subworkflow `meta.yml` files, removed an unused import and a stale module patch [#360](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/360)
+
+### `Dependencies`
+
+1. Updated `umitools/extract`, `fastq_fastqc_umitools_fastp`, `fasta_explore_search_plot_tidk`, `fastq_download_prefetch_fasterqdump_sratools`, `utils_nextflow_pipeline` and `utils_nfcore_pipeline` to their latest versions [#360](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/360)
+
+### `Deprecated`
+
 ## v3.1.0 - [01-Sep-2026]
 
 ### `Added`
