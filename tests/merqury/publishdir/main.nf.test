@@ -1,0 +1,39 @@
+nextflow_pipeline {
+
+    name "Test MERQURY_MERQURY publishDir path resolution"
+    script "main.nf"
+
+    test("merqury - publishdir - stub") {
+
+        options '-stub'
+
+        when {
+            params {
+                input               = "$baseDir/tests/merqury/publishdir/assemblysheet.csv"
+                merqury_skip        = false
+                merqury_kmer_length = 21
+                outdir              = "$outputDir"
+            }
+        }
+
+        then {
+            def merqury_outdir = "${params.outdir}/merqury/FI1"
+
+            assertAll(
+                { assert workflow.success },
+                // GH-347 regression check: conf/modules.config previously set
+                // MERQURY_MERQURY's publishDir path to a doubled closure
+                // ( { { "..." } } ), which Nextflow resolves to a Closure
+                // object/empty path instead of a String, breaking publishing.
+                // These assertions confirm the path resolves to the expected
+                // real directory instead.
+                { assert file(merqury_outdir).exists() },
+                { assert file(merqury_outdir).isDirectory() },
+                { assert file("${merqury_outdir}/FI1.qv").exists() },
+                { assert file("${merqury_outdir}/FI1.completeness.stats").exists() }
+            )
+        }
+
+    }
+
+}
