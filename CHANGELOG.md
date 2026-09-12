@@ -3,17 +3,27 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v3.2.0dev - [unreleased]
+## v3.2.0 - [12-Sep-2026]
 
 ### `Added`
 
+1. Added `apptainer` coverage to the nf-test CI matrix [#351](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/351)
+
 ### `Fixed`
 
-1. Fixed nf-core lint warnings: restructured local modules/subworkflows into the `TOOL/main.nf` layout, added missing subworkflow `meta.yml` files, removed an unused import and a stale module patch [#360](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/360)
+1. Fixed nf-core lint warnings: restructured local modules/subworkflows into the `TOOL/main.nf` layout, added missing subworkflow `meta.yml` files, removed an unused import, a stale module patch, and updated `umitools/extract`, `fastq_fastqc_umitools_fastp`, `fasta_explore_search_plot_tidk`, `fastq_download_prefetch_fasterqdump_sratools`, `utils_nextflow_pipeline` and `utils_nfcore_pipeline` to their latest versions [#360](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/360)
+2. Fixed `GENERATEKARYOTYPE` failing with missing output files when a synteny combination had no matching reference sequences [#348](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/348)
+3. Fixed a doubled closure in `MERQURY_MERQURY`'s `publishDir` path that crashed the pipeline whenever Merqury was enabled [#347](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/347)
+4. Fixed a wrong-index bug that could mispair HiC reads with the wrong reference assembly [#349](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/349)
+5. Removed a dead duplicate `FASTP` `withName` config block in `conf/modules.config` that had no effect [#350](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/350)
+6. Fixed inconsistent Apptainer container-engine detection across modules and subworkflows [#351](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/351)
+7. Fixed a regex bug that prevented BUSCO lineage suffixes from being stripped in report labels [#351](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/351)
+8. Broadened the SRA accession pattern to accept ENA (`ERR`/`ERX`) and DDBJ (`DRR`/`DRX`) accessions [#351](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/351)
 
 ### `Dependencies`
 
-1. Updated `umitools/extract`, `fastq_fastqc_umitools_fastp`, `fasta_explore_search_plot_tidk`, `fastq_download_prefetch_fasterqdump_sratools`, `utils_nextflow_pipeline` and `utils_nfcore_pipeline` to their latest versions [#360](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/360)
+1. Nextflow!>=25.10.4
+2. nf-schema@2.5.1
 
 ### `Deprecated`
 
@@ -36,6 +46,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 2. Fixed an issue where `--hic_map_combinations` parameter was not being validated correctly and allowed self-referential combinations to be specified [#318](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/318)
 3. Fixed an issue where the `juicebox.js` version was not being parsed from its specification and was out of sync.
 4. Fixed a bug where only a single randomly selected version of a multi-version tool was shown in the report.
+5. Fixed an issue where `clair3` did not work with the apptainer container engine [#345](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/345)
+6. Reverted to `busco/generate_plot.py` to preserve plot labels [#344](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/344)
 
 ### `Dependencies`
 
@@ -43,6 +55,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 2. nf-schema@2.5.1
 
 ### `Tool Updates`
+
+Versions below show what each tool was updated _to_ as part of this release, not a strictly increasing history across releases: a "New Version" can read lower than a previous release either because a different module now pins the underlying tool (e.g. `python`) or because the tool's own upstream versioning isn't strictly increasing (e.g. `tidk`).
 
 | Tool          | Old Version        | New Version  |
 | ------------- | ------------------ | ------------ |
