@@ -25,8 +25,15 @@ jobs:
       - name: Check out pipeline code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
+      # Pinned below latest-stable: nextflow-io/nextflow#7474 breaks `nextflow config -o json`
+      # (used by nf-core pipelines lint) for any publishDir path closure referencing a task
+      # variable inside a list-wrapped publishDir, on Nextflow 26.04.0-26.04.6. Fixed upstream
+      # (nextflow-io/nextflow#7375, backported in #7554) but not yet in a released stable
+      # version. Revert to latest-stable once a stable release includes the backport.
       - name: Install Nextflow
         uses: nf-core/setup-nextflow@893c28b667aedeba26e37f296d260ccc5bc4d914 # v3
+        with:
+          version: "25.10.7"
 
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
         with:
