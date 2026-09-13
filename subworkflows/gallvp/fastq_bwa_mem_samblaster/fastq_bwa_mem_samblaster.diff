@@ -3,7 +3,7 @@ Changes in component 'gallvp/fastq_bwa_mem_samblaster'
 Changes in 'fastq_bwa_mem_samblaster/main.nf':
 --- subworkflows/gallvp/fastq_bwa_mem_samblaster/main.nf
 +++ subworkflows/gallvp/fastq_bwa_mem_samblaster/main.nf
-@@ -34,7 +34,34 @@
+@@ -34,7 +34,35 @@
                                  ch_bwa_index
                              )
                              | map { meta, fq, meta2, index ->
@@ -34,8 +34,9 @@ Changes in 'fastq_bwa_mem_samblaster/main.nf':
 +                                    return [ possibleMetas.first().first(), fq_list[idx], index ]
 +                                }
 +
-+                                def idx = possibleMetas.findAll { meta, _i -> meta.ref_tags.size() != 0 }.first()[1] // Override the default reads
-+                                return [ possibleMetas[idx].first(), fq_list[idx], index ]
++                                def match = possibleMetas.findAll { meta, _i -> meta.ref_tags.size() != 0 }.first() // Override the default reads
++                                def idx = match[1]
++                                return [ match[0], fq_list[idx], index ]
                              }
  
      BWA_MEM(

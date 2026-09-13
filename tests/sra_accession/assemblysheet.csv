@@ -1,0 +1,2 @@
+tag,fasta,reads_1
+bacteroides_fragilis,https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/prokaryotes/bacteroides_fragilis/genome/genome.fna.gz,ERR1234567

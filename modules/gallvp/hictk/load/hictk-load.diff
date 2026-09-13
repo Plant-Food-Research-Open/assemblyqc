@@ -1,0 +1,20 @@
+Changes in component 'gallvp/hictk/load'
+'modules/gallvp/hictk/load/environment.yml' is unchanged
+'modules/gallvp/hictk/load/meta.yml' is unchanged
+Changes in 'hictk/load/main.nf':
+--- modules/gallvp/hictk/load/main.nf
++++ modules/gallvp/hictk/load/main.nf
+@@ -3,7 +3,7 @@
+     label 'process_medium'
+ 
+     conda "${moduleDir}/environment.yml"
+-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
++    container "${ workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container ?
+         'https://depot.galaxyproject.org/singularity/hictk:2.2.0--h75fee6f_0':
+         'quay.io/biocontainers/hictk:2.2.0--h75fee6f_0' }"
+ 
+
+'modules/gallvp/hictk/load/tests/main.nf.test.snap' is unchanged
+'modules/gallvp/hictk/load/tests/nextflow.config' is unchanged
+'modules/gallvp/hictk/load/tests/main.nf.test' is unchanged
+************************************************************

@@ -1,0 +1,2 @@
+chrA 100 200 chr1 100 200 black
+chrB 300 400 chr2 300 400 black

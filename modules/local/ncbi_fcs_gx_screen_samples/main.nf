@@ -3,7 +3,7 @@ process NCBI_FCS_GX_SCREEN_SAMPLES {
     label 'process_high'
 
     conda "bioconda::ncbi-fcs-gx=0.5.5"
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+    container "${ workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/ncbi-fcs-gx:0.5.5--h9948957_0':
         'biocontainers/ncbi-fcs-gx:0.5.5--h9948957_0' }"
 

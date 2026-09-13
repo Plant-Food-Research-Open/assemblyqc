@@ -1,0 +1,20 @@
+Changes in component 'gallvp/plotsr'
+'modules/gallvp/plotsr/environment.yml' is unchanged
+'modules/gallvp/plotsr/meta.yml' is unchanged
+Changes in 'plotsr/main.nf':
+--- modules/gallvp/plotsr/main.nf
++++ modules/gallvp/plotsr/main.nf
+@@ -3,7 +3,7 @@
+     label 'process_single'
+ 
+     conda "${moduleDir}/environment.yml"
+-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
++    container "${ workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container ?
+         'https://depot.galaxyproject.org/singularity/plotsr:1.1.1--pyh7cba7a3_0':
+         'biocontainers/plotsr:1.1.1--pyh7cba7a3_0' }"
+ 
+
+'modules/gallvp/plotsr/tests/main.nf.test.snap' is unchanged
+'modules/gallvp/plotsr/tests/nextflow.config' is unchanged
+'modules/gallvp/plotsr/tests/main.nf.test' is unchanged
+************************************************************

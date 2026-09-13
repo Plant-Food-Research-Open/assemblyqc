@@ -2,7 +2,7 @@ process GENERATEKARYOTYPE {
     tag "${target_on_ref}.${seq_tag}"
     label 'process_single'
 
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+    container "${ workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/ubuntu:20.04':
         'nf-core/ubuntu:20.04' }"
 
@@ -32,6 +32,8 @@ process GENERATEKARYOTYPE {
 
     if [ \${#ref_seqs[@]} -eq 0 ]; then
         touch "${target_on_ref}.${seq_tag}.karyotype"
+        touch karyotype_ref.tsv
+        touch karyotype_target.tsv
         exit 0
     fi
 

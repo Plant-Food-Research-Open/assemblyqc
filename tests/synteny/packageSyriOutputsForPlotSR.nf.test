@@ -1,7 +1,7 @@
 nextflow_function {
 
     name "packageSyriOutputsForPlotSR"
-    script "../../subworkflows/local/fasta_synteny.nf"
+    script "../../subworkflows/local/fasta_synteny/main.nf"
     function "packageSyriOutputsForPlotSR"
 
     test("FI1 - JAD - TT_2021a") {

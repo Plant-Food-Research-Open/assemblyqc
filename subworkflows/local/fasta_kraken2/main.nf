@@ -1,6 +1,6 @@
-include { UNTAR                 } from '../../modules/nf-core/untar/main'
-include { KRAKEN2               } from '../../modules/local/kraken2'
-include { KRAKEN2_KRONA_PLOT    } from '../../modules/local/kraken2_krona_plot'
+include { UNTAR                 } from '../../../modules/nf-core/untar/main'
+include { KRAKEN2               } from '../../../modules/local/kraken2'
+include { KRAKEN2_KRONA_PLOT    } from '../../../modules/local/kraken2_krona_plot'
 
 workflow FASTA_KRAKEN2 {
     take:

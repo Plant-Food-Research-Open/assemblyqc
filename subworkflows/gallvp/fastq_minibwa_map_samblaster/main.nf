@@ -60,8 +60,9 @@ workflow FASTQ_MINIBWA_MAP_SAMBLASTER {
                                     return [ possibleMetas.first().first(), fq_list[idx], index ]
                                 }
 
-                                def idx = possibleMetas.findAll { meta, _i -> meta.ref_tags.size() != 0 }.first()[1] // Override the default reads
-                                return [ possibleMetas[idx].first(), fq_list[idx], index ]
+                                def match = possibleMetas.findAll { meta, _i -> meta.ref_tags.size() != 0 }.first() // Override the default reads
+                                def idx = match[1]
+                                return [ match[0], fq_list[idx], index ]
                             }
 
     MINIBWA_MAP(

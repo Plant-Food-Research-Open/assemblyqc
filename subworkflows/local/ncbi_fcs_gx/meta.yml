@@ -1,0 +1,47 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
+name: "NCBI_FCS_GX"
+description: Screen assembled sequences for foreign organism contamination with NCBI FCS GX and plot the results with Krona
+keywords:
+  - ncbi
+  - fcs-gx
+  - contamination
+  - taxonomy
+components:
+  - ncbi/fcs/gx/setup/sample
+  - ncbi/fcs/gx/screen/samples
+  - ncbi/fcs/gx/krona/plot
+input:
+  - tuple_of_tag_file:
+      type: list
+      description: |
+        List of [ tag, fasta ]
+  - db_path:
+      type: string
+      description: |
+        Path to the NCBI FCS GX database directory
+  - tax_id:
+      type: integer
+      description: |
+        NCBI taxonomy ID of the assembled organism
+output:
+  - gx_report:
+      type: file
+      description: |
+        Tuple of [ tag, fcs_gx_report ]
+  - gx_taxonomy:
+      type: file
+      description: |
+        Tuple of [ tag, fcs_gx_taxonomy ]
+  - gx_taxonomy_plot:
+      type: file
+      description: |
+        Tuple of [ meta, krona html plot ]
+  - versions:
+      type: file
+      description: |
+        File containing software versions
+      pattern: "versions.yml"
+authors:
+  - "@GallVp"
+maintainers:
+  - "@GallVp"

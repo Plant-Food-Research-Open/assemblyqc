@@ -11,7 +11,6 @@
 include { UTILS_NFSCHEMA_PLUGIN     } from '../../nf-core/utils_nfschema_plugin'
 include { paramsSummaryMap          } from 'plugin/nf-schema'
 include { samplesheetToList         } from 'plugin/nf-schema'
-include { paramsHelp                } from 'plugin/nf-schema'
 include { completionEmail           } from '../../nf-core/utils_nfcore_pipeline'
 include { completionSummary         } from '../../nf-core/utils_nfcore_pipeline'
 include { UTILS_NFCORE_PIPELINE     } from '../../nf-core/utils_nfcore_pipeline'
@@ -429,7 +428,7 @@ def extractReadsTuple(tag, reads_1, reads_2) {
         ]
     }
 
-    if ( "$reads_1".find(/^SRR[0-9]*$/) ) {
+    if ( "$reads_1".find(/^[SED]R[RXPS]\w+$/) ) {
         return [
             [ fid: "$reads_1" ],
             [
