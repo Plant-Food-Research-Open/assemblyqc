@@ -164,7 +164,9 @@ nf-core pipelines bump-version <new_version>
 This updates `nextflow.config`, `.nf-core.yml`, `CITATION.cff`, and `ro-crate-metadata.json`, and the `.github/version_checks.sh` pre-commit hook enforces that `nextflow.config`'s `manifest.version` and `CITATION.cff`'s `version` stay in sync.
 
 > [!IMPORTANT]
-> Several full-pipeline nf-test snapshots (`tests/*/main.nf.test.snap`) embed the pipeline version as a literal string under `Workflow.workflow.manifest.version` (e.g. `"plant-food-research-open/assemblyqc": "v3.1.0"`). A version bump alone will not update these and CI will fail its snapshot assertions on the affected tests. After bumping, find and update them, e.g.:
+> Several full-pipeline nf-test snapshots (`tests/*/main.nf.test.snap`) embed the pipeline version as a literal string under `Workflow.workflow.manifest.version` (e.g. `"plant-food-research-open/assemblyqc": "v3.1.0"`). A version bump alone will not update these and CI will fail its snapshot assertions on the affected tests.
+>
+> **The snapshot update is not a follow-up task — it must land in the same commit as the version bump.** Find and replace them before committing:
 >
 > ```bash
 > grep -rl '"plant-food-research-open/assemblyqc": "v<old_version>"' tests --include='*.snap'
