@@ -31,6 +31,7 @@ include { MERYL_UNIONSUM as PAT_UNIONSUM    } from '../modules/nf-core/meryl/uni
 include { MERQURY_HAPMERS                   } from '../modules/nf-core/merqury/hapmers/main'
 include { MERQURY_MERQURY                   } from '../modules/nf-core/merqury/merqury/main'
 include { GFFREAD                           } from '../modules/nf-core/gffread/main'
+include { GFFREAD as GFFREAD_CDS            } from '../modules/nf-core/gffread/main'
 include { ORTHOFINDER                       } from '../modules/nf-core/orthofinder/main'
 include { PSAURON                           } from '../modules/gallvp/psauron/main'
 include { FASTA_FASTQ_WINNOWMAP_COVERAGE    } from '../subworkflows/gallvp/fasta_fastq_winnowmap_coverage/main'
@@ -881,7 +882,7 @@ workflow ASSEMBLYQC {
                                             | flatMap { _meta, data -> data }
 
     // MODULE: GFFREAD
-    ch_gffread_inputs                       = params.orthofinder_skip && params.psauron_skip
+    ch_gffread_inputs                       = params.orthofinder_skip
                                             ? channel.empty()
                                             : ch_valid_gff3
                                             | join(
@@ -902,24 +903,32 @@ workflow ASSEMBLYQC {
     ch_proteins_fasta                       = GFFREAD.out.gffread_fasta
 
     // ORTHOFINDER
-    ch_orthofinder_proteins_fasta           = params.orthofinder_skip
-                                            ? channel.empty()
-                                            : ch_proteins_fasta
-
     ORTHOFINDER(
-        ch_orthofinder_proteins_fasta.map { _meta, fasta -> fasta }.collect().map { fastas -> [ [ id: 'assemblyqc' ], fastas ] },
+        ch_proteins_fasta.map { _meta, fasta -> fasta }.collect().map { fastas -> [ [ id: 'assemblyqc' ], fastas ] },
         [ [], [] ]
     )
 
     ch_orthofinder_outputs                  = ORTHOFINDER.out.orthofinder
                                             | map { _meta, dir -> dir }
 
-    // MODULE: PSAURON
-    ch_psauron_proteins_fasta               = params.psauron_skip
+    // MODULE: GFFREAD_CDS
+    ch_gffread_cds_inputs                   = params.psauron_skip
                                             ? channel.empty()
-                                            : ch_proteins_fasta
+                                            : ch_valid_gff3
+                                            | join(
+                                                ch_clean_assembly
+                                                | map { tag, fasta -> [ [ id: tag ], fasta ] }
+                                            )
 
-    PSAURON ( ch_psauron_proteins_fasta )
+    GFFREAD_CDS(
+        ch_gffread_cds_inputs.map { meta, gff, _fasta -> [ meta, gff ] },
+        ch_gffread_cds_inputs.map { _meta, _gff, fasta -> fasta }
+    )
+
+    ch_cds_fasta                            = GFFREAD_CDS.out.gffread_fasta
+
+    // MODULE: PSAURON
+    PSAURON ( ch_cds_fasta )
 
     ch_psauron_outputs                      = PSAURON.out.csv
                                             | join(ch_valid_gff3)

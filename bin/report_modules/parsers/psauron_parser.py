@@ -31,9 +31,13 @@ def _build_id_to_chr(gff3_path):
 def _iter_psauron_rows(csv_path):
     """Yield (gene_id, passed, score) for each gene scored by PSAURON.
 
-    PSAURON's protein-mode CSV starts with two free-text lines (the invoked
-    command, and the overall "psauron score"), followed by a header row and
-    then one row per scored gene: description, psauron_is_protein, score.
+    PSAURON is run on the spliced CDS nucleotide FASTA (all reading frames,
+    for higher accuracy than protein-mode scoring). Its CSV output starts
+    with a few free-text lines (the invoked command, the overall "psauron
+    score", and a note about alternate frames), followed by a header row
+    and then one row per scored gene: description, psauron_is_protein,
+    in_frame_score, plus additional alternate-frame score columns that are
+    not needed here.
     """
     with open(csv_path) as csv_file:
         lines = csv_file.readlines()
