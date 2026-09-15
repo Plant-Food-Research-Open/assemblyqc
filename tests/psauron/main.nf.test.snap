@@ -1,0 +1,82 @@
+{
+    "psauron": {
+        "content": [
+            {
+                "successful tasks": 13,
+                "versions": {
+                    "ASSEMBLATHON_STATS": {
+                        "assemblathon_stats": "github/PlantandFoodResearch/assemblathon2-analysis/a93cba2"
+                    },
+                    "FALINT": {
+                        "falint": "1.2.0"
+                    },
+                    "GFFREAD_CDS": {
+                        "gffread": "0.12.7"
+                    },
+                    "GT_GFF3": {
+                        "genometools": "1.6.5"
+                    },
+                    "GT_GFF3VALIDATOR": {
+                        "genometools": "1.6.5"
+                    },
+                    "GT_STAT": {
+                        "genometools": "1.6.5"
+                    },
+                    "GUNZIP_FASTA": {
+                        "gunzip": 1.13
+                    },
+                    "GUNZIP_GFF3": {
+                        "gunzip": 1.13
+                    },
+                    "PSAURON": {
+                        "psauron": "1.1.3"
+                    },
+                    "SAMTOOLS_FAIDX": {
+                        "samtools": 1.24
+                    },
+                    "SEQKIT_RMDUP": {
+                        "seqkit": "2.13.0"
+                    },
+                    "TAG_ASSEMBLY": {
+                        "coreutils": 9.4,
+                        "find": "4.6.0",
+                        "pigz": 2.8
+                    },
+                    "Workflow": {
+                        "plant-food-research-open/assemblyqc": "v4.0.0dev"
+                    }
+                },
+                "stable paths": [
+                    "genitalium_stats.csv:md5,04ef67d681fba6ca05df4171f888424a",
+                    "genitalium.gt.stat.yml:md5,e8bb4d24bee4cecd9de60cf9e979f0f2"
+                ],
+                "psauron genome total": {
+                    "mean": 0.962,
+                    "sd": 0.128,
+                    "median": 0.997,
+                    "iqr": 0.01,
+                    "passed": 509,
+                    "total": 524,
+                    "pct_passed": 97.1
+                },
+                "psauron chromosomes": [
+                    {
+                        "chr": "NC_000908.2",
+                        "mean": 0.962,
+                        "sd": 0.128,
+                        "median": 0.997,
+                        "iqr": 0.01,
+                        "passed": 509,
+                        "total": 524,
+                        "pct_passed": 97.1
+                    }
+                ]
+            }
+        ],
+        "timestamp": "2026-09-15T15:59:14.741592",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    }
+}

@@ -27,6 +27,7 @@ from report_modules.parsers.ncbi_fcs_adaptor_parser import parse_ncbi_fcs_adapto
 from report_modules.parsers.ncbi_fcs_gx_parser import parse_ncbi_fcs_gx_folder
 from report_modules.parsers.orthofinder_parser import parse_orthofinder_folder
 from report_modules.parsers.params_parser import parse_params_json
+from report_modules.parsers.psauron_parser import parse_psauron_folder
 from report_modules.parsers.synteny_parser import parse_synteny_folder
 from report_modules.parsers.tidk_parser import parse_tidk_folder
 from report_modules.parsers.tools_parser import parse_tools_yaml
@@ -71,6 +72,7 @@ if __name__ == "__main__":
     data_from_tools = {**data_from_tools, **parse_synteny_folder()}
     data_from_tools = {**data_from_tools, **parse_merqury_folder()}
     data_from_tools = {**data_from_tools, **parse_orthofinder_folder()}
+    data_from_tools = {**data_from_tools, **parse_psauron_folder()}
     data_from_tools = {
         **data_from_tools,
         **parse_mapback_folder(

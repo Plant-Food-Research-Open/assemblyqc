@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Added`
 
+1. Added PSAURON for alignment-free scoring of protein-coding gene-model precision, reported per chromosome and per genome in the AssemblyQC report [#364](https://github.com/Plant-Food-Research-Open/assemblyqc/issues/364)
+
 ### `Fixed`
 
 ### `Dependencies`

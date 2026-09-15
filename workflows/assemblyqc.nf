@@ -31,7 +31,9 @@ include { MERYL_UNIONSUM as PAT_UNIONSUM    } from '../modules/nf-core/meryl/uni
 include { MERQURY_HAPMERS                   } from '../modules/nf-core/merqury/hapmers/main'
 include { MERQURY_MERQURY                   } from '../modules/nf-core/merqury/merqury/main'
 include { GFFREAD                           } from '../modules/nf-core/gffread/main'
+include { GFFREAD as GFFREAD_CDS            } from '../modules/nf-core/gffread/main'
 include { ORTHOFINDER                       } from '../modules/nf-core/orthofinder/main'
+include { PSAURON                           } from '../modules/gallvp/psauron/main'
 include { FASTA_FASTQ_WINNOWMAP_COVERAGE    } from '../subworkflows/gallvp/fasta_fastq_winnowmap_coverage/main'
 include { FASTA_BEDTOOLS_MAKEWINDOWS_NUC    } from '../subworkflows/gallvp/fasta_bedtools_makewindows_nuc/main'
 include { SAMTOOLS_SORT                     } from '../modules/nf-core/samtools/sort/main'
@@ -909,6 +911,29 @@ workflow ASSEMBLYQC {
     ch_orthofinder_outputs                  = ORTHOFINDER.out.orthofinder
                                             | map { _meta, dir -> dir }
 
+    // MODULE: GFFREAD_CDS
+    ch_gffread_cds_inputs                   = params.psauron_skip
+                                            ? channel.empty()
+                                            : ch_valid_gff3
+                                            | join(
+                                                ch_clean_assembly
+                                                | map { tag, fasta -> [ [ id: tag ], fasta ] }
+                                            )
+
+    GFFREAD_CDS(
+        ch_gffread_cds_inputs.map { meta, gff, _fasta -> [ meta, gff ] },
+        ch_gffread_cds_inputs.map { _meta, _gff, fasta -> fasta }
+    )
+
+    ch_cds_fasta                            = GFFREAD_CDS.out.gffread_fasta
+
+    // MODULE: PSAURON
+    PSAURON ( ch_cds_fasta )
+
+    ch_psauron_outputs                      = PSAURON.out.csv
+                                            | join(ch_valid_gff3)
+                                            | flatMap { _meta, csv, gff3 -> [ csv, gff3 ] }
+
     // MAPBACK
     ch_mapback_reads_input                  = ch_fetchngs.mapback.mix(ch_mapback_reads_branch.rest)
     ch_mapback_assembly_input               = ch_mapback_reads_input
@@ -1110,6 +1135,7 @@ workflow ASSEMBLYQC {
         ch_synteny_outputs                  .collect().ifEmpty([]),
         ch_merqury_outputs                  .collect().ifEmpty([]),
         ch_orthofinder_outputs              .collect().ifEmpty([]),
+        ch_psauron_outputs                  .collect().ifEmpty([]),
         ch_mapback_outputs                  .collect().ifEmpty([]),
         ch_collated_versions,
         ch_params_as_json_stored,

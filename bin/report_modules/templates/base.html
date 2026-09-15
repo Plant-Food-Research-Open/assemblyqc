@@ -84,6 +84,10 @@
     <button class="tablinks" onclick="openTool(event, 'ORTHOFINDER')">ORTHOFINDER</button>
     {% endif %}
 
+    {% if 'PSAURON' in all_stats_dicts %}
+    <button class="tablinks" onclick="openTool(event, 'PSAURON')">PSAURON</button>
+    {% endif %}
+
     {% if 'MAPBACK' in all_stats_dicts %}
     <button class="tablinks" onclick="openTool(event, 'MAPBACK')">MAPBACK</button>
     {% endif %}
@@ -163,6 +167,10 @@
 
   {% if 'ORTHOFINDER' in all_stats_dicts %}
   {% include 'orthofinder/orthofinder.html' %}
+  {% endif %}
+
+  {% if 'PSAURON' in all_stats_dicts %}
+  {% include 'psauron/psauron.html' %}
   {% endif %}
 
   {% if 'MAPBACK' in all_stats_dicts %}

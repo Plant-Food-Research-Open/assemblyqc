@@ -1,0 +1,19 @@
+<div id="PSAURON" class="tabcontent" style="display: none">
+    <div class="section-para-wrapper">
+        <p class="section-para">
+            PSAURON assesses the quality of protein-coding gene annotation from CDS or protein FASTA sequences using
+            an alignment-free machine learning model, flagging gene models that are unlikely to be protein-coding.
+        </p>
+        <p class="section-para"><b>Reference:</b></p>
+        <p class="section-para">
+            M. J. Sommer, A. V. Zimin, S. L. Salzberg, PSAURON: a tool for assessing protein annotation across a
+            broad range of species. NAR Genom. Bioinform. 7, lqae189 (2025).
+            <a href="https://academic.oup.com/nargab/article/7/1/lqae189/7944703" target="_blank"
+                >academic.oup.com/nargab/article/7/1/lqae189/7944703</a
+            >
+        </p>
+        <p class="section-para"><b>Version: {{ all_stats_dicts['VERSIONS']['PSAURON']['psauron'] }}</b></p>
+    </div>
+    {% include 'psauron/dropdown.html' %} {% include 'psauron/summary_contents.html' %} {% include
+    'psauron/report_contents.html' %}
+</div>

@@ -1,0 +1,72 @@
+name: "psauron"
+description: Assess the quality of protein-coding gene annotation from CDS or protein FASTA sequences
+keywords:
+    - gene annotation
+    - coding potential
+    - quality control
+    - machine learning
+    - genomics
+tools:
+    - "psauron":
+          description: "PSAURON: a machine learning model for rapid assessment of protein coding gene annotation"
+          homepage: "https://github.com/salzberg-lab/PSAURON"
+          documentation: "https://github.com/salzberg-lab/PSAURON"
+          tool_dev_url: "https://github.com/salzberg-lab/PSAURON"
+          doi: "no DOI available"
+          licence:
+              - "MIT License"
+          identifier: ""
+
+input:
+    - - meta:
+            type: map
+            description: |
+                Groovy Map containing sample information
+                e.g. `[ id:'sample1' ]`
+      - fasta:
+            type: file
+            description: FASTA file containing spliced CDS nucleotide sequences, or protein sequences when `task.ext.args` includes `-p`/`--protein`
+            pattern: "*.{fasta,fa,fna,faa,fasta.gz,fa.gz,fna.gz,faa.gz}"
+            ontologies:
+                - edam: "http://edamontology.org/format_1929" # FASTA
+
+output:
+    csv:
+        - - meta:
+                type: map
+                description: |
+                    Groovy Map containing sample information
+                    e.g. `[ id:'sample1' ]`
+          - "*.csv":
+                type: file
+                description: CSV file containing PSAURON coding-potential scores for each input sequence
+                pattern: "*.csv"
+                ontologies:
+                    - edam: "http://edamontology.org/format_3752" # CSV
+    versions_psauron:
+        - - ${task.process}:
+                type: string
+                description: The name of the process
+          - psauron:
+                type: string
+                description: The name of the tool
+          - python3 -c "import psauron; print(psauron.__version__)":
+                type: eval
+                description: The expression to obtain the version of the tool
+
+topics:
+    versions:
+        - - ${task.process}:
+                type: string
+                description: The name of the process
+          - psauron:
+                type: string
+                description: The name of the tool
+          - python3 -c "import psauron; print(psauron.__version__)":
+                type: eval
+                description: The expression to obtain the version of the tool
+
+authors:
+    - "@usman-rashid"
+maintainers:
+    - "@usman-rashid"

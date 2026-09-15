@@ -27,6 +27,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 - [Mapback](#mapback)
 - [GenomeTools gt stat](#genometools-gt-stat)
 - [OrthoFinder](#orthofinder)
+- [PSAURON](#psauron)
 - [Pipeline information](#pipeline-information)
 
 ### Format validation
@@ -297,6 +298,21 @@ GenomeTools `gt stat` tool calculates a basic set of statistics about features c
 If more than one assemblies are included along with their annotations, OrthoFinder is executed on the annotation proteins to perform a phylogenetic orthology inference for comparative genomics.
 
 <div align="center"><img src="images/orthofinder.png" alt="AssemblyQC - OrthoFinder species tree" width="50%"><hr><em>AssemblyQC -  OrthoFinder species tree</em></div>
+
+### PSAURON
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `psauron/*.csv`: PSAURON coding-potential scores for each gene, per assembly.
+
+</details>
+
+If a GFF3 annotation is provided, PSAURON scores the protein-coding potential of each annotated gene model from its
+spliced CDS nucleotide sequence (scored across all reading frames, for higher accuracy than protein-mode scoring),
+without requiring RNA-seq evidence. The report summarises PSAURON's scores as mean ± SD and median ± IQR,
+alongside the number/percentage of genes passing the coding-potential call, per chromosome and for the whole
+genome.
 
 ### Pipeline information
 

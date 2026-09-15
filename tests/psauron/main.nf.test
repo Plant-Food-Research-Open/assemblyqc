@@ -1,0 +1,38 @@
+nextflow_pipeline {
+
+    name "Test psauron"
+    script "main.nf"
+
+    test("psauron") {
+
+        when {
+            params {
+                input               = "$baseDir/tests/psauron/assemblysheet.csv"
+                psauron_skip        = false
+                outdir              = "$outputDir"
+            }
+        }
+
+        then {
+            def stable_path = getAllFilesFromDir(params.outdir, false, ['pipeline_info/*.{html,json,txt,yml}', 'report.{html,json}', 'psauron/**'], null, ['**'])
+            def report_json = (Map) new groovy.json.JsonSlurper().parseText(file("$outputDir/report.json").text)
+            def psauron_genome_total = report_json['PSAURON'][0]['genome_total']
+            def psauron_chromosomes = report_json['PSAURON'][0]['chromosomes']
+
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot(
+                    [
+                        'successful tasks': workflow.trace.succeeded().size(),
+                        'versions': removeNextflowVersion("$outputDir/pipeline_info/software_versions.yml"),
+                        'stable paths': stable_path,
+                        'psauron genome total': psauron_genome_total,
+                        'psauron chromosomes': psauron_chromosomes
+                    ]
+                ).match() }
+            )
+        }
+
+    }
+
+}

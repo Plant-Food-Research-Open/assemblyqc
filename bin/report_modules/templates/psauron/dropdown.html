@@ -1,0 +1,12 @@
+<div class="dropdown">
+    <div class="dropdown_content">
+        <select id="selector_PSAURON" onchange="showContent('PSAURON')">
+            <option value="summary_PSAURON">Summary</option>
+            {% for item in range(all_stats_dicts["PSAURON"]|length) %}
+            <option value="{{ all_stats_dicts['PSAURON'][item]['hap'] }}">
+                {{ all_stats_dicts['PSAURON'][item]['hap_display'] }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
