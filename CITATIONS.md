@@ -148,6 +148,10 @@
 
   > Emms, D.M., Kelly, S. OrthoFinder: phylogenetic orthology inference for comparative genomics. Genome Biol 20, 238 (2019). doi: <a href="https://doi.org/10.1186/s13059-019-1832-y">10.1186/s13059-019-1832-y</a>
 
+- PSAURON, [MIT](https://github.com/salzberg-lab/PSAURON/blob/main/LICENSE)
+
+  > M. J. Sommer, A. V. Zimin, S. L. Salzberg, PSAURON: a tool for assessing protein annotation across a broad range of species. NAR Genom. Bioinform. 7, lqae189 (2025). doi: <a href="https://doi.org/10.1093/nargab/lqae189">10.1093/nargab/lqae189</a>
+
 - Winnowmap, [LicenseRef-Public-Domain](https://github.com/marbl/Winnowmap/blob/master/LICENSE)
 
   > Chirag Jain, Arang Rhie, Nancy Hansen, Sergey Koren and Adam Phillippy. "Long-read mapping to repetitive reference sequences using Winnowmap2". Nature Methods, 2022. doi: <a href="https://doi.org/10.1038/s41592-022-01457-8">10.1038/s41592-022-01457-8</a>
