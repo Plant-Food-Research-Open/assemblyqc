@@ -421,6 +421,20 @@
                 }
             }
         },
+        "psauron_options": {
+            "title": "PSAURON options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "psauron_skip": {
+                    "type": "boolean",
+                    "default": true,
+                    "fa_icon": "fas fa-forward",
+                    "description": "Skip PSAURON"
+                }
+            }
+        },
         "mapback_profile_options": {
             "title": "Mapback profile options",
             "type": "object",
@@ -611,6 +625,9 @@
         },
         {
             "$ref": "#/$defs/orthofinder_options"
+        },
+        {
+            "$ref": "#/$defs/psauron_options"
         },
         {
             "$ref": "#/$defs/mapback_profile_options"

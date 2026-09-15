@@ -21,6 +21,7 @@ process CREATEREPORT {
     path synteny_outputs            , stageAs: 'synteny_outputs/*'
     path merqury_outputs            , stageAs: 'merqury_outputs/*'
     path orthofinder_outputs        , stageAs: 'orthofinder_outputs/*'
+    path psauron_outputs            , stageAs: 'psauron_outputs/*'
     path mapback_outputs            , stageAs: 'mapback_outputs/*'
     path versions
     path params_as_json_stored

@@ -32,6 +32,7 @@ include { MERQURY_HAPMERS                   } from '../modules/nf-core/merqury/h
 include { MERQURY_MERQURY                   } from '../modules/nf-core/merqury/merqury/main'
 include { GFFREAD                           } from '../modules/nf-core/gffread/main'
 include { ORTHOFINDER                       } from '../modules/nf-core/orthofinder/main'
+include { PSAURON                           } from '../modules/gallvp/psauron/main'
 include { FASTA_FASTQ_WINNOWMAP_COVERAGE    } from '../subworkflows/gallvp/fasta_fastq_winnowmap_coverage/main'
 include { FASTA_BEDTOOLS_MAKEWINDOWS_NUC    } from '../subworkflows/gallvp/fasta_bedtools_makewindows_nuc/main'
 include { SAMTOOLS_SORT                     } from '../modules/nf-core/samtools/sort/main'
@@ -880,7 +881,7 @@ workflow ASSEMBLYQC {
                                             | flatMap { _meta, data -> data }
 
     // MODULE: GFFREAD
-    ch_gffread_inputs                       = params.orthofinder_skip
+    ch_gffread_inputs                       = params.orthofinder_skip && params.psauron_skip
                                             ? channel.empty()
                                             : ch_valid_gff3
                                             | join(
@@ -901,13 +902,28 @@ workflow ASSEMBLYQC {
     ch_proteins_fasta                       = GFFREAD.out.gffread_fasta
 
     // ORTHOFINDER
+    ch_orthofinder_proteins_fasta           = params.orthofinder_skip
+                                            ? channel.empty()
+                                            : ch_proteins_fasta
+
     ORTHOFINDER(
-        ch_proteins_fasta.map { _meta, fasta -> fasta }.collect().map { fastas -> [ [ id: 'assemblyqc' ], fastas ] },
+        ch_orthofinder_proteins_fasta.map { _meta, fasta -> fasta }.collect().map { fastas -> [ [ id: 'assemblyqc' ], fastas ] },
         [ [], [] ]
     )
 
     ch_orthofinder_outputs                  = ORTHOFINDER.out.orthofinder
                                             | map { _meta, dir -> dir }
+
+    // MODULE: PSAURON
+    ch_psauron_proteins_fasta               = params.psauron_skip
+                                            ? channel.empty()
+                                            : ch_proteins_fasta
+
+    PSAURON ( ch_psauron_proteins_fasta )
+
+    ch_psauron_outputs                      = PSAURON.out.csv
+                                            | join(ch_valid_gff3)
+                                            | flatMap { _meta, csv, gff3 -> [ csv, gff3 ] }
 
     // MAPBACK
     ch_mapback_reads_input                  = ch_fetchngs.mapback.mix(ch_mapback_reads_branch.rest)
@@ -1110,6 +1126,7 @@ workflow ASSEMBLYQC {
         ch_synteny_outputs                  .collect().ifEmpty([]),
         ch_merqury_outputs                  .collect().ifEmpty([]),
         ch_orthofinder_outputs              .collect().ifEmpty([]),
+        ch_psauron_outputs                  .collect().ifEmpty([]),
         ch_mapback_outputs                  .collect().ifEmpty([]),
         ch_collated_versions,
         ch_params_as_json_stored,

@@ -1,0 +1,2 @@
+tag,fasta,gff3
+genitalium,https://raw.githubusercontent.com/Plant-Food-Research-Open/assemblyqc/refs/heads/ncbi/ftp/tests/ncbi_ftp/GCF_000027325.1_ASM2732v1_genomic.fna.gz,https://raw.githubusercontent.com/Plant-Food-Research-Open/assemblyqc/refs/heads/ncbi/ftp/tests/ncbi_ftp/GCF_000027325.1_ASM2732v1_genomic.gff.gz

@@ -163,6 +163,11 @@
                         "installed_by": ["modules"],
                         "patch": "modules/gallvp/plotsr/plotsr.diff"
                     },
+                    "psauron": {
+                        "branch": "main",
+                        "git_sha": "066db1f7d511744247b3000115b9188ca8317021",
+                        "installed_by": ["modules"]
+                    },
                     "samblaster": {
                         "branch": "main",
                         "git_sha": "e8d1b37905cbe1a1a113ed01b8f4d280643fff2b",

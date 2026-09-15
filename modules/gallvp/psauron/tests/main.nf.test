@@ -1,0 +1,129 @@
+nextflow_process {
+
+    name "Test Process PSAURON"
+    script "../main.nf"
+    config "./nextflow.config"
+    process "PSAURON"
+
+    tag "modules"
+    tag "modules_gallvp"
+    tag "psauron"
+
+    test("sarscov2 - transcriptome fasta") {
+
+        when {
+            params {
+                module_args = '-c'
+            }
+            process {
+                """
+                input[0] = [
+                    [ id:'test' ],
+                    file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/transcriptome.fasta', checkIfExists: true)
+                ]
+                """
+            }
+        }
+
+        then {
+            def lines = path(process.out.csv[0][1]).text.readLines()
+            def header = lines.findIndexOf { it.contains("psauron_is_protein") }
+            assertAll(
+                { assert process.success },
+                // psauron's csv is prefixed with free-text log lines before the header, and the
+                // per-frame score columns carry floating-point rounding that differs by build
+                // (conda vs container), so only the stable description/call columns are snapshotted
+                { assert snapshot(
+                    lines[(header + 1)..-1].collect { it.tokenize(",")[0..1] },
+                    process.out.findAll { key, val -> key.startsWith("versions") }
+                ).match() }
+            )
+        }
+
+    }
+
+    test("sarscov2 - transcriptome fasta - stub") {
+
+        options "-stub"
+
+        when {
+            params {
+                module_args = '-c'
+            }
+            process {
+                """
+                input[0] = [
+                    [ id:'test' ],
+                    file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/transcriptome.fasta', checkIfExists: true)
+                ]
+                """
+            }
+        }
+
+        then {
+            assert process.success
+            assertAll(
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+    test("sarscov2 - proteome fasta - protein") {
+
+        when {
+            params {
+                module_args = '-c -p'
+            }
+            process {
+                """
+                input[0] = [
+                    [ id:'test' ],
+                    file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/proteome.fasta', checkIfExists: true)
+                ]
+                """
+            }
+        }
+
+        then {
+            def lines = path(process.out.csv[0][1]).text.readLines()
+            def header = lines.findIndexOf { it.contains("psauron_is_protein") }
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    lines[(header + 1)..-1].collect { it.tokenize(",")[0..1] },
+                    process.out.findAll { key, val -> key.startsWith("versions") }
+                ).match() }
+            )
+        }
+
+    }
+
+    test("sarscov2 - proteome fasta - protein - stub") {
+
+        options "-stub"
+
+        when {
+            params {
+                module_args = '-c -p'
+            }
+            process {
+                """
+                input[0] = [
+                    [ id:'test' ],
+                    file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/proteome.fasta', checkIfExists: true)
+                ]
+                """
+            }
+        }
+
+        then {
+            assert process.success
+            assertAll(
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+}

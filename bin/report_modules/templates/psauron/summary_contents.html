@@ -1,0 +1,40 @@
+<div id="summary_PSAURON" class="tabcontent-PSAURON" style="display: block">
+    <div class="results-section">
+        <div class="section-heading-wrapper">
+            <div class="section-heading">Summary</div>
+        </div>
+
+        <div class="table-outer">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="text-align: left">Assembly</th>
+                            <th>Mean score</th>
+                            <th>Min score</th>
+                            <th>Max score</th>
+                            <th>Passed</th>
+                            <th>Failed</th>
+                            <th>Total genes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in range(all_stats_dicts["PSAURON"]|length) %}
+                        <tr>
+                            <td style="text-align: left; font-size: 16px">
+                                {{ all_stats_dicts['PSAURON'][item]['hap'] }}
+                            </td>
+                            <td>{{ all_stats_dicts['PSAURON'][item]['genome_total']['mean'] }}</td>
+                            <td>{{ all_stats_dicts['PSAURON'][item]['genome_total']['min'] }}</td>
+                            <td>{{ all_stats_dicts['PSAURON'][item]['genome_total']['max'] }}</td>
+                            <td>{{ all_stats_dicts['PSAURON'][item]['genome_total']['passed'] }}</td>
+                            <td>{{ all_stats_dicts['PSAURON'][item]['genome_total']['failed'] }}</td>
+                            <td>{{ all_stats_dicts['PSAURON'][item]['genome_total']['total'] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

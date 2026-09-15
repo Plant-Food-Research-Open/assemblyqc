@@ -58,6 +58,7 @@
   - [GenomeTools gt stat](https://genometools.org/tools/gt_stat.html): Annotation statistics
   - [GffRead](https://github.com/gpertea/gffread), [BUSCO](https://gitlab.com/ezlab/busco): Gene-space completeness estimation in annotation proteins
   - [OrthoFinder](https://github.com/davidemms/OrthoFinder): Phylogenetic orthology inference for comparative genomics
+  - [GffRead](https://github.com/gpertea/gffread), [PSAURON](https://github.com/salzberg-lab/PSAURON): Alignment-free protein-coding gene-model precision scoring
 
 ## Usage
 

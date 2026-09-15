@@ -115,6 +115,12 @@ A Nextflow pipeline which evaluates assembly quality with multiple QC tools and 
 | ------------------ | ---------------- | --------- | ------- | -------- | ------ |
 | `orthofinder_skip` | Skip orthofinder | `boolean` | True    |          |        |
 
+## PSAURON options
+
+| Parameter      | Description  | Type      | Default | Required | Hidden |
+| -------------- | ------------ | --------- | ------- | -------- | ------ |
+| `psauron_skip` | Skip PSAURON | `boolean` | True    |          |        |
+
 ## Mapback profile options
 
 | Parameter                   | Description                                                                            | Type      | Default | Required | Hidden |
