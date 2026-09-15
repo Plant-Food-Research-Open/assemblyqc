@@ -10,26 +10,22 @@
                     <thead>
                         <tr>
                             <th style="text-align: left">Assembly</th>
-                            <th>Mean score</th>
-                            <th>Min score</th>
-                            <th>Max score</th>
-                            <th>Passed</th>
-                            <th>Failed</th>
-                            <th>Total genes</th>
+                            <th>Score (mean &plusmn; SD / median &plusmn; IQR)</th>
+                            <th>Passed/Total (%)</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for item in range(all_stats_dicts["PSAURON"]|length) %}
+                        {% set total = all_stats_dicts['PSAURON'][item]['genome_total'] %}
                         <tr>
                             <td style="text-align: left; font-size: 16px">
                                 {{ all_stats_dicts['PSAURON'][item]['hap'] }}
                             </td>
-                            <td>{{ all_stats_dicts['PSAURON'][item]['genome_total']['mean'] }}</td>
-                            <td>{{ all_stats_dicts['PSAURON'][item]['genome_total']['min'] }}</td>
-                            <td>{{ all_stats_dicts['PSAURON'][item]['genome_total']['max'] }}</td>
-                            <td>{{ all_stats_dicts['PSAURON'][item]['genome_total']['passed'] }}</td>
-                            <td>{{ all_stats_dicts['PSAURON'][item]['genome_total']['failed'] }}</td>
-                            <td>{{ all_stats_dicts['PSAURON'][item]['genome_total']['total'] }}</td>
+                            <td>
+                                {{ total['mean'] }} &plusmn; {{ total['sd'] }}<br />
+                                {{ total['median'] }} &plusmn; {{ total['iqr'] }}
+                            </td>
+                            <td>{{ total['passed'] }}/{{ total['total'] }} ({{ total['pct_passed'] }}%)</td>
                         </tr>
                         {% endfor %}
                     </tbody>

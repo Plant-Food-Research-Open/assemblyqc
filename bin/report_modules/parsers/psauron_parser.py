@@ -61,13 +61,31 @@ def _summarise(scores, passed_flags):
     total = len(scores)
     passed = sum(1 for is_pass in passed_flags if is_pass)
 
+    if total == 0:
+        return {
+            "mean": 0,
+            "sd": 0,
+            "median": 0,
+            "iqr": 0,
+            "passed": 0,
+            "total": 0,
+            "pct_passed": 0,
+        }
+
+    q1, _, q3 = (
+        statistics.quantiles(scores, n=4)
+        if total > 1
+        else (scores[0], scores[0], scores[0])
+    )
+
     return {
-        "mean": round(statistics.mean(scores), 3) if total else 0,
-        "min": round(min(scores), 3) if total else 0,
-        "max": round(max(scores), 3) if total else 0,
+        "mean": round(statistics.mean(scores), 3),
+        "sd": round(statistics.stdev(scores), 3) if total > 1 else 0,
+        "median": round(statistics.median(scores), 3),
+        "iqr": round(q3 - q1, 3),
         "passed": passed,
-        "failed": total - passed,
         "total": total,
+        "pct_passed": round(100 * passed / total, 1),
     }
 
 

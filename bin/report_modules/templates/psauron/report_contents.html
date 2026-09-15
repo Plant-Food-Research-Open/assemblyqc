@@ -15,34 +15,29 @@
                     <thead>
                         <tr>
                             <th style="text-align: left">Chromosome</th>
-                            <th>Mean score</th>
-                            <th>Min score</th>
-                            <th>Max score</th>
-                            <th>Passed</th>
-                            <th>Failed</th>
-                            <th>Total genes</th>
+                            <th>Score (mean &plusmn; SD / median &plusmn; IQR)</th>
+                            <th>Passed/Total (%)</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for chr_item in all_stats_dicts['PSAURON'][item]['chromosomes'] %}
                         <tr>
                             <td style="text-align: left">{{ chr_item['chr'] }}</td>
-                            <td>{{ chr_item['mean'] }}</td>
-                            <td>{{ chr_item['min'] }}</td>
-                            <td>{{ chr_item['max'] }}</td>
-                            <td>{{ chr_item['passed'] }}</td>
-                            <td>{{ chr_item['failed'] }}</td>
-                            <td>{{ chr_item['total'] }}</td>
+                            <td>
+                                {{ chr_item['mean'] }} &plusmn; {{ chr_item['sd'] }}<br />
+                                {{ chr_item['median'] }} &plusmn; {{ chr_item['iqr'] }}
+                            </td>
+                            <td>{{ chr_item['passed'] }}/{{ chr_item['total'] }} ({{ chr_item['pct_passed'] }}%)</td>
                         </tr>
                         {% endfor %}
+                        {% set total = all_stats_dicts['PSAURON'][item]['genome_total'] %}
                         <tr>
                             <td style="text-align: left"><b>Genome total</b></td>
-                            <td><b>{{ all_stats_dicts['PSAURON'][item]['genome_total']['mean'] }}</b></td>
-                            <td><b>{{ all_stats_dicts['PSAURON'][item]['genome_total']['min'] }}</b></td>
-                            <td><b>{{ all_stats_dicts['PSAURON'][item]['genome_total']['max'] }}</b></td>
-                            <td><b>{{ all_stats_dicts['PSAURON'][item]['genome_total']['passed'] }}</b></td>
-                            <td><b>{{ all_stats_dicts['PSAURON'][item]['genome_total']['failed'] }}</b></td>
-                            <td><b>{{ all_stats_dicts['PSAURON'][item]['genome_total']['total'] }}</b></td>
+                            <td>
+                                <b>{{ total['mean'] }} &plusmn; {{ total['sd'] }}<br />
+                                {{ total['median'] }} &plusmn; {{ total['iqr'] }}</b>
+                            </td>
+                            <td><b>{{ total['passed'] }}/{{ total['total'] }} ({{ total['pct_passed'] }}%)</b></td>
                         </tr>
                     </tbody>
                 </table>

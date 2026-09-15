@@ -310,8 +310,9 @@ If more than one assemblies are included along with their annotations, OrthoFind
 
 If a GFF3 annotation is provided, PSAURON scores the protein-coding potential of each annotated gene model from its
 spliced CDS nucleotide sequence (scored across all reading frames, for higher accuracy than protein-mode scoring),
-without requiring RNA-seq evidence. The report summarises PSAURON's scores as mean, min and max, alongside the
-number of genes passing/failing the coding-potential call, per chromosome and for the whole genome.
+without requiring RNA-seq evidence. The report summarises PSAURON's scores as mean ± SD and median ± IQR,
+alongside the number/percentage of genes passing the coding-potential call, per chromosome and for the whole
+genome.
 
 ### Pipeline information
 
